@@ -31,6 +31,7 @@ Because the service is uniform rather than tier-differentiated, onboarding a new
 
 ## ICP signal worth acting on
 The highest-value, lowest-price-sensitivity buyers are busy, senior professionals — executives, people managing their own P&L or team, with real disposable income and limited patience for hand-holding. That profile matches the actual service well: structured, autonomous, weekly cadence, not same-day. It also matches Iván's own positioning as an operator and athlete. Worth reflecting in website copy and targeting rather than a generic "for all runners" pitch — the generic pitch competes on the $60–100 Latin American baseline; a professional-athlete pitch competes on value instead of price.
+Validated by reviews: adaptation-to-schedule/travel is the most-mentioned theme (15/38 written reviews), and athletes independently cite the proactive weekly check-in as the differentiator. See `social-proof-and-reviews.md`.
 
 ## Draft product ladder
 *(See `growth-roadmap.md` for the infrastructure behind each row.)*
@@ -42,4 +43,58 @@ The highest-value, lowest-price-sensitivity buyers are busy, senior professional
 | AI Coach *(proposed)* | TBD, likely $25–40/mo | AI-guided self-coaching on Iván's own methodology | Not built |
 | 1:1 coaching | $75–149/mo | Weekly check-in, on-request adjustments/analysis, WhatsApp | Live — price set by segment, see above |
 
-**Open decision:** does Private-channel pricing move to the $149 anchor to make the coach-hire split work, or stay in its current $89–109 range? This needs an answer before the coach-hire model can launch — see `growth-roadmap.md`.
+# Pricing policy — decided July 2026
+
+## The decision
+
+**$149/month is the single list price for 1:1 coaching, on both channels, for all athletes (single-sport and multisport), shown publicly on the website.**
+
+| Channel | Athlete pays | Commission | Iván nets | Coach-hire 50/50 split |
+|---|---|---|---|---|
+| CoachMatch | $149 | 20% (TrainingPeaks) | $119.20 | n/a — cannot be delegated |
+| Private | $149 | 3.5% (TP Payments) | $143.79 | $71.89 / $71.89 — viable |
+
+The same athlete is worth **$24.59/month more on Private**. Private is therefore the priority acquisition channel; the website, lead magnets, and referrals all feed it. CoachMatch stays as-is ("pick Bronze, I'll give you Gold service level" against TP's public $149/$229/$359 ladder — $149 reads as the cheap option there).
+
+## Rules
+
+1. **One public price.** The website shows $149. No lower price is ever listed anywhere.
+2. **Discounts are private exceptions, not tiers.** Purchasing-power adjustments (LatAm) and the referral-source rate are negotiated case-by-case, unlisted, never advertised. The list price does not move.
+3. **No single/multisport price split.** Discontinued.
+4. **No formal service tiers.** One uniform service (weekly check-in, on-request adjustments/analysis, WhatsApp). The $75 monthly-check-in athlete remains a one-off exception, not a product.
+5. **Legacy rates are grandfathered — until a pause.** Existing athletes at $74.50/$89/$99 keep their rate for as long as they stay continuously active. An athlete who pauses returns at $149. **No exceptions** — this rule is the migration mechanism and only works if it's absolute.
+
+## Why $149 Private (not $120)
+
+$120 was derived by matching net income across channels ($115.80 ≈ $119.20). Wrong invariant — athletes never see the commission. What matters:
+
+- Private leads (referrals, website, Instagram) are warmer than CoachMatch leads; the highest-trust channel should not carry the lowest price.
+- Coach-hire economics: viable at $149 ($71.89/side), non-viable at $120 ($57.90/side). The program launches this year, so the price must support it now.
+- Validation: the last 7 CoachMatch sign-ups all converted at $149.
+
+## Execution notes
+
+- $149 converts only with active pipeline discipline (follow-ups, 1–2 extra messages, the Gold-service framing). March 2026's zero-conversion month was price + passive follow-up combined; the price alone was not the problem.
+- Current legacy book (July 2026): 6 @ $74.50, 5 @ $89, 17 @ $99 (CoachMatch); 5 privates at $75–109. Left alone — attrition and the pause rule converge the base to $149 over time.
+
+## Starting fee — Private channel
+
+New Private athletes pay a $50 one-time starting fee in month one (nets $48.25 after 3.5%), covering setup: onboarding, testing, studying the athlete, building the first plan.
+
+- A promo code exists to waive the fee — this is a deliberate closing lever for negotiation, not a discount on the monthly price. Concede the fee, never the $149.
+- Already validated: charged successfully a couple of times before being formalized.
+- CoachMatch has no equivalent; this is a Private-channel tool only.
+
+
+## All-Access subscription pricing
+
+Two live products, priced by market purchasing power:
+
+| Edition | Price/mo | TP Payments 3.5% | Premium fee | Iván nets | Effective take |
+|---|---|---|---|---|---|
+| Spanish / English | $39.99 | −$1.40 | −$9.00 | $29.59 | 26.0% |
+| Portuguese | $29.99 | −$1.05 | −$9.00 | $19.94 | 33.5% |
+
+The Portuguese discount is historical (weak BRL made USD pricing feel expensive). Because the $9 TrainingPeaks Premium fee is fixed, lower prices carry disproportionately worse margins — any future All-Access pricing decision should account for that floor. At 2 subscribers, the constraint is distribution, not price: this product is built, recurring, near-zero marginal effort, and unpromoted.
+
+

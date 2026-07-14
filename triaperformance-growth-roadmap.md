@@ -8,7 +8,7 @@ See `business-overview.md` for numbers and `pricing-and-positioning.md` for how 
 
 ### 2. Growth infrastructure
 
-**Website** — being rebuilt from scratch off HubSpot. Requirements: self-manageable with AI (Iván builds, edits, and hosts it himself, with Claude and Hermes doing the heavy lifting), multi-language from the start (Spanish/English/Portuguese — prioritized because it drives traffic to the existing 300 plans), supports a paywall, and hosts the tools library plus a gear/affiliate page. Likely architecture: a code-based site — not a no-code builder like Webflow or Framer, since those live behind a proprietary editor that isn't directly AI-editable — in a git repo, hosted either on the same Hostinger VPS that already runs Hermes, or on Vercel/Netlify via git push.
+**Website** — being rebuilt from scratch off HubSpot. Requirements: self-manageable with AI (Iván builds, edits, and hosts it himself, with Claude and Hermes doing the heavy lifting), multi-language from the start (Spanish/English/Portuguese — prioritized because it drives traffic to the existing 300 plans), supports a paywall, and hosts the tools library plus a gear/affiliate page. Likely architecture: a code-based site — not a no-code builder like Webflow or Framer, since those live behind a proprietary editor that isn't directly AI-editable — in a git repo, hosted either on the same Hostinger VPS that already runs Hermes, or on Vercel/Netlify via git push. And a per-page, per-language testimonials section sourced from `social-proof-and-reviews.md` (English/Portuguese pages currently blocked on review inventory: 3 EN / 0 PT).
 
 **CRM / lead pipeline** — currently: TrainingPeaks emails a CoachMatch lead → a Claude scheduled task creates a HubSpot contact → a HubSpot workflow sends a 3-email sequence → manual WhatsApp follow-up. Needs a new home before HubSpot access ends. Whatever replaces it should also track lead volume and conversion by month and price point — that data doesn't exist today and is needed to actually evaluate pricing decisions rather than guessing.
 
@@ -17,6 +17,7 @@ See `business-overview.md` for numbers and `pricing-and-positioning.md` for how 
 **Paywall** — build against the existing Stripe account (already used for TP Payments, under KOCH Ventures LLC, with a Mercury bank account behind it). Stripe Checkout plus a simple entitlement check is enough; no need for a third-party membership platform.
 
 **Social/content agent** — research topics, draft posts, publish after approval. Feeds the lead magnets and Plans-focused SEO content specifically.
+First recurring job: the 10 never-posted GBP reviews (see `social-proof-and-reviews.md`) — one testimonial post/week ≈ 2.5 months of zero-creation content.
 
 **Hermes (VPS agent)** — Nous Research's open-source, self-hosted agent, already running on a Hostinger VPS and connected to Telegram. Has file and terminal access, browser automation, cron scheduling, and persistent memory. The plan is to use it as the operational layer for the website once it exists: drafting content, updating pages, running scheduled checks (e.g. a weekly SEO review), all reachable and approvable from Telegram. Keep its command-approval mode on "ask" (not "off") for anything touching the live site. Build this in alongside the website rather than after it — it's meant to run the system, not bolt onto a finished one.
 
@@ -32,7 +33,7 @@ Applies to the Private channel only — CoachMatch cannot be delegated. Because 
 - **Payout mechanics** — does TP Payments support a split payout to a second person, or does Iván collect the full amount and pay the coach separately?
 - **Fit and framing** — be upfront with Private leads about who they'd actually be working with, rather than a bait-and-switch after signup.
 - **Context handoff quality** — entirely dependent on pillar 3 above being genuinely good.
-- **Pricing** — the ~$72/$72 split only works at the $149 price point; Private pricing likely needs to move there from its current $89–109 range.
+- **Pricing** — decided July 2026: $149 for all new sign-ups in both channels (see pricing-and-positioning.md). The ~$72/$72 split works from day one. Gate cleared.
 
 ### 5. Guardrails
 Not "don't grow" — "don't let growth quietly become a second full-time job."
@@ -51,11 +52,11 @@ Positioning: likely $25–40/month, sitting below 1:1 coaching. A genuine new to
 2. WhatsApp context tool — small, parallel, a quick win.
 3. Hermes threaded into the website build from the start, not bolted on after.
 4. Athlete context system (Terra API evaluation + the TrainingPeaks side) — once the website exists to plug into.
-5. Coach-hire and AI Coach — both depend on the work above (context system, methodology write-up, respectively).
+5. Coach-hire depends on the athlete context system; AI Coach depends on the methodology write-up.
 
 ## What's still needed from Iván
 - **Coaching philosophy and methodology** — the actual frameworks (periodization approach, how fueling strategy is structured, what makes the coaching distinct) aren't written down anywhere yet. This is the single biggest gap in this knowledge base — it feeds athlete-facing copy, the website's voice, and the AI Coach product directly.
 - **Complete current asset inventory** — confirm the full list of tools/artifacts already built beyond the yin yoga and kettlebell routines, and confirm how All-Access is currently signed up for.
 - **Brand voice and visual direction** for the website — or a decision to have Claude propose a first draft to react to instead.
 - **Domain and hosting decision** — existing domain or a new one, same-VPS-as-Hermes or a separate host.
-- **Private-channel pricing decision** — hold at $89–109, or move to the $149 anchor to make the coach-hire economics work.
+
