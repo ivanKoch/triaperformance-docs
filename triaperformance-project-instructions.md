@@ -28,8 +28,8 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 - `business-overview.md` — revenue streams, current numbers, existing assets, current infrastructure.
 - `pricing-and-positioning.md` — how pricing actually works, who buys at which price point.
 - `growth-roadmap.md` — the five growth pillars, tech stack decisions, sequencing, open questions.
+- `social-proof-and-reviews.md` — review inventory, quote bank, review-generation playbook, deployment status.
+- `methodology.md` — coaching methodology: testing protocols, zones, periodization, weekly decision loop, adjustment rules, fueling, race execution, communication voice, AI Coach red lines, worked athlete cases.
 
 ## Conversation modes
 Open new conversations with a frame when it helps: "act as a growth strategist," "you're building the website," "help me draft this athlete message," "let's work on pricing." The context above and the knowledge base load automatically either way — the frame just narrows the lens.
-
-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

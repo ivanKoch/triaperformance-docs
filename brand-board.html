@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Triaperformance — Brand Board v1</title>
+<style>
+  :root{
+    --blue:#004aad; --blue-deep:#003a89; --ink:#1e2019; --white:#ffffff;
+    --wash:#edf3fb; --slate:#565a52; --mist:#e4e6e1;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;color:var(--ink);background:var(--white);line-height:1.6}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+  section{padding:72px 0;border-bottom:1px solid var(--mist)}
+  .eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:16px}
+  h2{font-size:36px;font-weight:700;letter-spacing:-.01em;margin-bottom:32px}
+  .note{font-size:14px;color:var(--slate);max-width:65ch}
+
+  /* header */
+  header{padding:40px 0}
+  .logo{font-size:22px;font-weight:700;color:var(--blue);letter-spacing:-.01em}
+
+  /* palette */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+  .swatch{border:1px solid var(--mist);border-radius:8px;overflow:hidden}
+  .chip{height:96px}
+  .swatch dl{padding:12px 14px;font-size:14px}
+  .swatch dt{font-weight:700}
+  .swatch dd{color:var(--slate)}
+
+  /* type */
+  .t-display{font-size:56px;font-weight:700;letter-spacing:-.02em;line-height:1.05;margin-bottom:24px}
+  .t-h2{font-size:36px;font-weight:700;letter-spacing:-.01em;margin-bottom:24px}
+  .t-h3{font-size:22px;font-weight:700;margin-bottom:24px}
+  .t-body{font-size:17px;max-width:65ch;margin-bottom:24px}
+  .t-small{font-size:14px;color:var(--slate)}
+
+  /* buttons */
+  .row{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .btn{display:inline-block;padding:16px 28px;border-radius:4px;font-size:16px;font-weight:700;text-decoration:none;cursor:pointer;border:none}
+  .btn-primary{background:var(--blue);color:#fff}
+  .btn-primary:hover{background:var(--blue-deep)}
+  .btn-secondary{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+
+  /* cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+  .card{background:#fff;border:1px solid var(--mist);border-radius:8px;padding:32px;transition:box-shadow .15s}
+  .card:hover{box-shadow:0 1px 3px rgba(30,32,25,.08)}
+  .card .price{font-size:40px;font-weight:700;letter-spacing:-.02em}
+  .card .per{font-size:14px;color:var(--slate)}
+  .card ul{list-style:none;margin:20px 0;font-size:15px}
+  .card li{padding:6px 0;border-bottom:1px solid var(--mist)}
+  .card li:last-child{border:none}
+
+  /* hero mock */
+  .hero-mock{background:var(--wash);border-radius:8px;padding:96px 64px;text-align:left}
+  .hero-mock h1{font-size:56px;font-weight:700;letter-spacing:-.02em;line-height:1.05;max-width:14ch;margin-bottom:24px}
+  .hero-mock p{font-size:17px;color:var(--slate);max-width:48ch;margin-bottom:36px}
+
+  /* blue section mock */
+  .cta-mock{background:var(--blue);border-radius:8px;padding:72px 64px;color:#fff;margin-top:24px}
+  .cta-mock h3{font-size:36px;font-weight:700;letter-spacing:-.01em;margin-bottom:12px}
+  .cta-mock p{opacity:.85;margin-bottom:28px;max-width:52ch}
+  .cta-mock .btn{background:#fff;color:var(--blue)}
+
+  /* testimonial */
+  blockquote{font-size:17px;max-width:60ch}
+  blockquote footer{font-size:14px;color:var(--slate);margin-top:8px}
+
+  /* logo demo */
+  .logo-demo{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .logo-demo>div{border-radius:8px;padding:56px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;letter-spacing:-.01em}
+  .on-white{border:1px solid var(--mist);color:var(--blue)}
+  .on-blue{background:var(--blue);color:#fff}
+  @media(max-width:640px){.t-display,.hero-mock h1{font-size:36px}.logo-demo{grid-template-columns:1fr}.hero-mock,.cta-mock{padding:48px 28px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo">Triaperformance</div>
+    <p class="note">Brand board v1 — react to this, we adjust, then it becomes the website's stylesheet.</p>
+  </header>
+
+  <section>
+    <p class="eyebrow">01 — Logo</p>
+    <h2>Wordmark, two states only</h2>
+    <div class="logo-demo">
+      <div class="on-white">Triaperformance</div>
+      <div class="on-blue">Triaperformance</div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">02 — Color</p>
+    <h2>White-first, one blue</h2>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#004aad"></div><dl><dt>TP Blue</dt><dd>#004aad</dd></dl></div>
+      <div class="swatch"><div class="chip" style="background:#1e2019"></div><dl><dt>Ink</dt><dd>#1e2019</dd></dl></div>
+      <div class="swatch"><div class="chip" style="background:#ffffff;border-bottom:1px solid #e4e6e1"></div><dl><dt>White</dt><dd>#ffffff</dd></dl></div>
+      <div class="swatch"><div class="chip" style="background:#edf3fb"></div><dl><dt>Blue Wash</dt><dd>#edf3fb</dd></dl></div>
+      <div class="swatch"><div class="chip" style="background:#565a52"></div><dl><dt>Slate</dt><dd>#565a52</dd></dl></div>
+      <div class="swatch"><div class="chip" style="background:#e4e6e1"></div><dl><dt>Mist</dt><dd>#e4e6e1</dd></dl></div>
+      <div class="swatch"><div class="chip" style="background:#003a89"></div><dl><dt>Blue Deep</dt><dd>#003a89 · hover</dd></dl></div>
+    </div>
+    <p class="note" style="margin-top:24px">Rule: a viewport is ~90% white/ink, ~10% blue. Blue is the accent, never the theme.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">03 — Typography</p>
+    <h2>Helvetica, two weights</h2>
+    <div class="t-display">Eleva tu performance</div>
+    <div class="t-h2">Coaching basado en datos — H2, 36px</div>
+    <div class="t-h3">Planes de entrenamiento — H3, 22px</div>
+    <p class="t-body">Body 17px — Coaching individualizado para corredores, ciclistas y triatletas. Ciencia del entrenamiento probada, atención personalizada, resultados medibles. Máximo 65 caracteres por línea.</p>
+    <p class="t-small">Small 14px — captions y meta en Slate.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">04 — Buttons</p>
+    <h2>One primary CTA per section</h2>
+    <div class="row">
+      <a class="btn btn-primary">Unirme al equipo</a>
+      <a class="btn btn-secondary">Descargar la guía gratis</a>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">05 — Cards</p>
+    <h2>Plans, quiet chrome</h2>
+    <div class="cards">
+      <div class="card">
+        <h3 class="t-h3" style="margin-bottom:8px">Performance</h3>
+        <span class="price">$149</span> <span class="per">/ mes</span>
+        <ul>
+          <li>Running · Ciclismo · Triatlón</li>
+          <li>Zonas: modelo clásico (% FTP)</li>
+          <li>Comunicación ilimitada</li>
+          <li>Análisis mensual</li>
+        </ul>
+        <a class="btn btn-primary" style="width:100%;text-align:center">Unirme al equipo</a>
+      </div>
+      <div class="card">
+        <h3 class="t-h3" style="margin-bottom:8px">WKO5</h3>
+        <span class="price">$229</span> <span class="per">/ mes</span>
+        <ul>
+          <li>Requiere sensor de potencia</li>
+          <li>Zonas: WKO5 iLevels</li>
+          <li>Comunicación ilimitada</li>
+          <li>Análisis semanal</li>
+        </ul>
+        <a class="btn btn-secondary" style="width:100%;text-align:center;display:block">Unirme al equipo</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">06 — Testimonials</p>
+    <h2>No card chrome, just words</h2>
+    <blockquote>
+      “Iván fue clave en el logro de mi objetivo, con su apoyo logré correr un 42k en menos de 3 horas.”
+      <footer>Luis C. — México</footer>
+    </blockquote>
+  </section>
+
+  <section style="border:none">
+    <p class="eyebrow">07 — In practice</p>
+    <h2>Hero + closing CTA, assembled</h2>
+    <div class="hero-mock">
+      <h1>Eleva tu performance</h1>
+      <p>Coaching y planes de entrenamiento basados en datos para corredores, ciclistas y triatletas.</p>
+      <div class="row">
+        <a class="btn btn-primary">Empezar ahora</a>
+        <a class="btn btn-secondary">Ver planes</a>
+      </div>
+    </div>
+    <div class="cta-mock">
+      <h3>Descarga la guía de zonas de entrenamiento</h3>
+      <p>Gratis. El punto de partida de todo plan bien construido.</p>
+      <a class="btn">Descargar la guía</a>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
