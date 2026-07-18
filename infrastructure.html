@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Triaperformance — Personal AI Infrastructure</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
+<style>
+  :root {
+    --blue: #004aad;
+    --blue-deep: #003a89;
+    --ink: #1e2019;
+    --white: #ffffff;
+    --wash: #edf3fb;
+    --slate: #565a52;
+    --mist: #e4e6e1;
+    --good: #1f7a3d;
+    --warn: #b06a00;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--white);
+    line-height: 1.65;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 28px 96px; }
+
+  header.top {
+    background: var(--blue); color: var(--white); padding: 56px 0 40px;
+  }
+  header.top .wrap { padding-top: 0; padding-bottom: 0; }
+  .eyebrow { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; opacity: .85; }
+  header.top h1 { font-size: 34px; margin: 10px 0 6px; letter-spacing: -0.01em; }
+  .meta-row { font-size: 14px; opacity: .9; display: flex; gap: 20px; flex-wrap: wrap; margin-top: 14px; }
+  .status-pill {
+    display: inline-block; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.4);
+    padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600;
+  }
+
+  section { padding: 48px 0; border-bottom: 1px solid var(--mist); }
+  section:last-child { border-bottom: none; }
+  h2 { font-size: 24px; margin: 0 0 18px; letter-spacing: -0.01em; }
+  h3 { font-size: 18px; margin: 28px 0 10px; }
+  p { margin: 0 0 14px; }
+  .lede { font-size: 17px; color: var(--slate); max-width: 68ch; }
+
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 8px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--mist); vertical-align: top; }
+  th { background: var(--wash); font-weight: 700; color: var(--ink); }
+  tr:last-child td { border-bottom: none; }
+  code { background: var(--wash); padding: 2px 6px; border-radius: 4px; font-size: 13.5px; font-family: "SF Mono", Menlo, monospace; }
+  pre {
+    background: var(--ink); color: #e6e9e2; padding: 18px 20px; border-radius: 8px;
+    overflow-x: auto; font-size: 13px; line-height: 1.55; font-family: "SF Mono", Menlo, monospace;
+  }
+  pre code { background: none; padding: 0; color: inherit; }
+
+  ul, ol { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+
+  .card {
+    background: var(--wash); border: 1px solid var(--mist); border-radius: 8px; padding: 20px 24px; margin: 14px 0;
+  }
+  .card h4 { margin: 0 0 8px; font-size: 15px; }
+  .badge {
+    display: inline-block; font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .04em; padding: 3px 10px; border-radius: 4px; margin-right: 8px;
+  }
+  .badge.live { background: #e3f3e8; color: var(--good); }
+  .badge.pending { background: #fbeedb; color: var(--warn); }
+
+  .diagram-box { background: var(--wash); border: 1px solid var(--mist); border-radius: 8px; padding: 24px; margin: 16px 0; }
+  .mermaid { display: flex; justify-content: center; }
+
+  .problem { margin-bottom: 22px; }
+  .problem h4 { font-size: 15.5px; margin-bottom: 4px; }
+  .problem p { color: var(--slate); font-size: 14.5px; margin-bottom: 0; }
+
+  footer { text-align: center; color: var(--slate); font-size: 13px; padding: 32px 0 0; }
+
+  @media print {
+    header.top { background: var(--blue) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <span class="eyebrow">Triaperformance — Technical Documentation</span>
+    <h1>Personal AI Infrastructure</h1>
+    <div class="meta-row">
+      <span>Owner: Iván Koch</span>
+      <span>Last updated: July 17, 2026</span>
+      <span class="status-pill">● Live / operational</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <h2>Summary</h2>
+  <p class="lede">A self-hosted, always-on AI agent system giving a solo business owner persistent AI access to his business knowledge base — reachable from a phone, browser, or desktop app, without depending on a personal computer being powered on.</p>
+  <p><strong>What was built:</strong> a single <strong>Hermes Agent</strong> instance (Nous Research's open-source, self-hosted agent framework), deployed via Docker on a self-managed Linux VPS. Powered by Google's Gemini API and exposed through three interfaces — Telegram, a web dashboard, and a native desktop app — all reading and writing the same underlying agent state, so there is one consistent "brain" regardless of entry point. The same VPS now also hosts the public website.</p>
+
+  <h3>Key technical decisions</h3>
+  <table>
+    <tr><th style="width:32%">Decision</th><th>Reasoning</th></tr>
+    <tr><td>Self-managed VPS over a managed/turnkey product</td><td>The managed product tested first ("Managed Hermes") blocked external connections and general-purpose use — no root access, no exposed ports, no ability to run other services. A plain VPS was required to support this setup plus website hosting and workflow automation.</td></tr>
+    <tr><td>Docker deployment for Hermes</td><td>Isolates the agent process from the host OS, matches the vendor's recommended production path, simplifies updates.</td></tr>
+    <tr><td>Native Caddy (no Docker) for the website</td><td>Avoids the Docker/iptables interaction that complicated the dashboard's port binding (see Problem #3) — and gives automatic Let's Encrypt HTTPS with zero manual certificate work.</td></tr>
+    <tr><td>Tailscale VPN + username/password auth for the dashboard</td><td>Avoids needing a domain + HTTPS callback purely to satisfy OAuth, for a single-user system. A private VPN between the two devices removes the need for public exposure entirely.</td></tr>
+    <tr><td>Gemini API, prepaid billing, no auto-reload</td><td>Cost control was a stated priority — the system fails safe (stops working) rather than accumulating unexpected charges.</td></tr>
+    <tr><td>Local terminal execution backend</td><td>Hermes already runs inside its own Docker container. A second nested sandbox would require mounting the host's Docker socket — effectively granting root-equivalent host access, which undermines the isolation it's meant to add.</td></tr>
+    <tr><td>Computer Use tool disabled</td><td>Headless server, no desktop environment — no legitimate use case, disabled to reduce attack surface.</td></tr>
+    <tr><td>Telegram allowlist restricted to one user ID</td><td>Without this, anyone who discovered the bot's public username could get full access to the agent — terminal, files, business data.</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Architecture</h2>
+  <div class="diagram-box">
+    <div class="mermaid">
+flowchart TB
+    subgraph Devices["Iván's Devices"]
+        Phone["Telegram (any device)"]
+        Mac["MacBook — Hermes Desktop App"]
+        Browser["Browser on the Tailscale network"]
+    end
+
+    subgraph VPN["Tailscale (private VPN mesh)"]
+        TS["Encrypted tunnel — no public exposure required"]
+    end
+
+    subgraph VPS["Hostinger VPS — Ubuntu 24.04, KVM2"]
+        Docker["Docker Engine"]
+        subgraph Containers["Docker Containers"]
+            GW["hermes-gateway (Telegram bot)"]
+            DASH["hermes-dashboard (Web UI, port 9119)"]
+            N8N["n8n (workflow automation, Tailscale-only)"]
+            TWENTY["Twenty CRM (Tailscale-only)"]
+        end
+        CADDY["Caddy — triaperformance.com (public, ports 80/443)"]
+        Data["~/.hermes — config, .env, sessions, cron, logs, scripts"]
+        WEB["/var/www/triaperformance — website files"]
+        GW --- Data
+        DASH --- Data
+        CADDY --- WEB
+    end
+
+    subgraph External["External Services"]
+        Gemini["Google AI Studio — Gemini API"]
+        GitHub["GitHub — triaperformance-docs repo"]
+        Gmail["Gmail — CoachMatch leads (read-only IMAP + SMTP send)"]
+        Public["Public internet visitors"]
+    end
+
+    Phone <--> GW
+    Mac <--> TS <--> DASH
+    Browser <--> TS
+    GW --> Gemini
+    DASH --> Gemini
+    Public <--> CADDY
+    GitHub -.daily git pull.-> Data
+    GitHub -.daily git pull + deploy.-> WEB
+    Gmail <--> N8N
+    N8N <--> TWENTY
+    GW <--> TWENTY
+    GW -.daily watchdog + status updates.-> Phone
+    </div>
+    <p style="font-size:14px;color:var(--slate);margin-top:10px;">There is one program (Hermes Agent) running on a rented server, split into two always-on processes — one listens for Telegram, the other serves a web dashboard, both sharing the same memory and calling out to Gemini to think. A private VPN (Tailscale) lets the MacBook and browser reach the dashboard without exposing it publicly. Separately, Caddy serves the public website, and n8n + Twenty CRM (both Tailscale-only, no public exposure) run the CoachMatch lead pipeline — n8n handles the mechanical parts (reading Gmail, sending emails, calling Twenty's API on a schedule), Hermes handles the WhatsApp follow-up loop, which needs free-text understanding rather than fixed logic.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Components</h2>
+
+  <h3>1. Compute — Hostinger VPS</h3>
+  <p>KVM2 plan (2 vCPU, 8GB RAM), plain Ubuntu 24.04, no pre-installed template. Public IPv4 <code>179.197.76.70</code>. Chosen over Hostinger's packaged "Managed Hermes" product, which ran in a locked-down environment with no root access or exposed ports — this is a general-purpose box that also hosts the website and can run workflow automation (n8n) later.</p>
+
+  <h3>2. Container runtime — Docker (Hermes only)</h3>
+  <table>
+    <tr><th>Container</th><th>Purpose</th><th>Port</th></tr>
+    <tr><td><code>hermes-gateway</code></td><td>Connects to Telegram, handles all bot messages</td><td>— (outbound only)</td></tr>
+    <tr><td><code>hermes-dashboard</code></td><td>Web UI, REST API, session history, config management</td><td>9119 (Tailscale-only)</td></tr>
+  </table>
+  <p>Both mount <code>~/.hermes</code> → <code>/opt/data</code>, the shared state directory (config, secrets, sessions, cron, logs) that makes them operate as one logical agent.</p>
+
+  <h3>3. Model provider — Google Gemini</h3>
+  <p><code>gemini-3.5-flash</code> — pinned release for cost efficiency and stability. Paid tier, $30 prepaid credit, auto-reload deliberately disabled: balance hits $0, service pauses rather than charging further.</p>
+
+  <h3>4. Interfaces</h3>
+  <ul>
+    <li><strong>Telegram</strong> — primary day-to-day interface, allowlisted to one user ID. Home channel for cron/scheduled output.</li>
+    <li><strong>Web Dashboard</strong> (<code>http://100.70.89.17:9119</code>, Tailscale-only) — chat, session history, config editing, API keys, usage analytics, cron management, logs.</li>
+    <li><strong>Hermes Desktop App</strong> (macOS) — connected as a remote gateway to the same VPS backend rather than running its own local agent, unifying all three interfaces into one shared brain.</li>
+  </ul>
+
+  <h3>5. Networking &amp; access control</h3>
+  <ul>
+    <li><strong>Tailscale</strong> — WireGuard-based private mesh. VPS gets a stable private address (<code>100.70.89.17</code>) reachable only from the tailnet.</li>
+    <li><strong>Dashboard auth</strong> — username/password (env-stored, file permissions <code>600</code>), appropriate given the network is already private. Nous Portal OAuth is registered but unused (would need a public HTTPS callback).</li>
+    <li><strong>Terminal execution</strong> — <code>local</code>, inside the already-isolated Hermes container.</li>
+  </ul>
+
+  <h3>6. Tooling configuration</h3>
+  <p>Default agentic toolset enabled, with two deviations: Computer Use disabled (no desktop environment); free/no-key providers selected wherever available (headless Chromium, DuckDuckGo, Edge TTS) to avoid unnecessary accounts. Image generation left unconfigured — every provider was paid and it isn't needed yet.</p>
+
+  <h3>7. Website hosting <span class="badge live">Live — July 16, 2026</span></h3>
+  <p><code>triaperformance.com</code> is served from the same VPS, via native Caddy — not Docker, to avoid the iptables/<code>ufw</code> interaction in Problem #3 below, and for automatic Let's Encrypt HTTPS with zero manual cert work.</p>
+  <div class="card">
+    <h4>Webroot</h4>
+    <p style="margin:0"><code>/var/www/triaperformance</code> — deliberately outside <code>~/.hermes</code>, so a webserver misconfiguration can't expose Hermes's <code>.env</code> or session data.</p>
+  </div>
+  <div class="card">
+    <h4>Caddyfile — <code>/etc/caddy/Caddyfile</code></h4>
+    <pre><code>triaperformance.com, www.triaperformance.com {
+    root * /var/www/triaperformance
+    file_server
+    encode gzip
+}</code></pre>
+  </div>
+  <div class="card">
+    <h4>Deploy pipeline</h4>
+    <p style="margin:0">Source of truth is the <code>website/</code> folder in the <code>triaperformance-docs</code> GitHub repo (same repo as the business knowledge base). <code>~/.hermes/deploy-website.sh</code> pulls the repo and rsyncs <code>website/</code> into the webroot — runs automatically via the existing 6am cron (now does knowledge-base sync and site deploy in one pass), or on demand via SSH or Hermes.</p>
+  </div>
+  <div class="card">
+    <h4>DNS (GoDaddy)</h4>
+    <p style="margin:0">Root <code>@</code> and <code>www</code> A records point to <code>179.197.76.70</code>, replacing the old HubSpot-hosted site. Mail-related records — MX, SPF, DKIM, DMARC — were left untouched; those route <code>@triaperformance.com</code> mail through Google Workspace and are unaffected by hosting changes.</p>
+  </div>
+  <p>Verified live: <code>curl -I https://triaperformance.com</code> returns <code>HTTP/2 200</code> via Caddy with a valid TLS cert.</p>
+  <p style="font-size:14.5px;color:var(--slate);"><strong>Guardrail:</strong> Hermes's command-approval mode stays on "ask," not "off," for anything touching <code>/var/www/triaperformance</code> or the Caddy config directly — routine content updates go through the git deploy path, not ad hoc edits.</p>
+
+  <h3>8. Business automation — CoachMatch lead pipeline <span class="badge live">Live — July 17, 2026</span></h3>
+  <p>The full lead-to-follow-up pipeline for CoachMatch (TrainingPeaks' coach-matching product) was rebuilt off HubSpot, split deliberately across two systems: <strong>n8n</strong> for deterministic, mechanical work (parsing a fixed-template email, calling an API on a schedule), and <strong>Hermes</strong> for anything needing free-text judgment (interpreting a natural-language status update).</p>
+
+  <div class="card">
+    <h4>n8n — Workflow 1: Lead creation</h4>
+    <p style="margin:0">IMAP trigger on new CoachMatch mail (read-only, scoped Gmail access) → parses lead fields → dedupe check via Twenty's create-person mutation, branching on success/failure → on a genuine new lead: creates the Person, sends the existing Telegram notification, sends nurture email 1 immediately via SMTP, sets <code>leadStatus = MESSAGE_SENT</code>.</p>
+  </div>
+  <div class="card">
+    <h4>n8n — Workflow 2: Email nurture, emails 2 &amp; 3</h4>
+    <p style="margin:0">Daily Schedule Trigger queries Twenty for everyone at <code>MESSAGE_SENT</code> with <code>emailTouchCount &lt; 3</code>, sends email 2 at +24h or email 3 at +48h based on time since creation. Stop condition for the whole sequence, every channel included: <code>leadStatus</code> moving off <code>MESSAGE_SENT</code> — no separate unsubscribe logic needed. Lead magnet PDFs moved off HubSpot to <code>triaperformance.com/guias/</code>.</p>
+  </div>
+  <div class="card">
+    <h4>Hermes — WhatsApp lead-status feedback loop</h4>
+    <p>No WhatsApp Business API in this build (deliberately ruled out as overkill for this volume). Instead, two small, hand-written scripts — after early attempts to have Hermes write this logic itself produced broken or incomplete code (see Problem #7) — with Hermes's role narrowed to calling them correctly, not authoring them:</p>
+    <ul style="margin-bottom:0">
+      <li><code>twenty_followup_check.py</code> — daily Hermes-native cron job. Finds people at <code>MESSAGE_SENT</code> untouched for 2+ days, builds a pre-filled <code>wa.me</code> deep link per person, posts a summary to Telegram — silent if nobody's due.</li>
+      <li><code>update_lead_status.py</code> — takes a name and one of 8 valid <code>leadStatus</code> values, matches against active leads, refuses to guess on zero or multiple matches, updates Twenty on exactly one match.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>Telegram use cases, live today</h4>
+    <ul style="margin-bottom:0">
+      <li>Daily automatic nudge listing stale leads with one-click WhatsApp links.</li>
+      <li>Free-text status updates — <em>"Fabian replied"</em> → <code>REPLIED</code>, <em>"mark Gaston as won (customer)"</em> → <code>WON_CUSTOMER</code>, <em>"mark Aimee as lost, too expensive"</em> → <code>LOST_PRICE</code>. Hermes maps the sentence to exactly one of 8 known values and calls the script — instructed to ask rather than guess when unsure.</li>
+    </ul>
+  </div>
+  <p style="font-size:14px;color:var(--slate);">Twenty's GraphQL introspection is disabled on this instance, so the valid <code>leadStatus</code> values were confirmed directly from the Twenty UI and hardcoded rather than discovered programmatically.</p>
+</section>
+
+<section>
+  <h2>Notable engineering problems solved</h2>
+
+  <div class="problem">
+    <h4>1. Split-brain agent</h4>
+    <p>The Desktop App ran its own independent local agent by default (a free NVIDIA model), disconnected from the VPS's Gemini instance — two "brains" with no shared memory. Resolved by explicitly connecting the Desktop App to the VPS as a remote gateway.</p>
+  </div>
+  <div class="problem">
+    <h4>2. Managed hosting product too restrictive</h4>
+    <p>Hostinger's "Managed Hermes" gave no IP, no root, no exposed ports, and a restricted shell that blocked even <code>curl</code>. Confirmed via official docs that the architecture doesn't support external connections at all — moved to a plain, self-managed VPS instead.</p>
+  </div>
+  <div class="problem">
+    <h4>3. Docker networking — dashboard unreachable</h4>
+    <p>Despite a port mapping (<code>-p 9119:9119</code>), the app inside the container was binding to <code>127.0.0.1</code> (loopback-only), which Docker's port mapping can't forward external traffic to. Fixed with <code>--host 0.0.0.0</code>. Later, the same class of issue meant a <code>ufw</code> rule alone couldn't restrict published container ports — Docker manipulates iptables directly — so the dashboard's port was bound to the Tailscale IP specifically at the Docker level instead.</p>
+  </div>
+  <div class="problem">
+    <h4>4. OAuth redirect mismatch</h4>
+    <p>Registering for Nous Portal OAuth via the web UI only allowlisted <code>localhost</code> as a valid callback. Rather than provisioning a domain + TLS purely to satisfy OAuth, Tailscale VPN + username/password auth was adopted instead.</p>
+  </div>
+  <div class="problem">
+    <h4>5. Docker-in-Docker terminal sandbox failure</h4>
+    <p>The wizard's "Docker" terminal backend failed because the outer Hermes container had no access to the host's Docker daemon. Rather than mount the host socket (equivalent to granting host root), the terminal backend was switched to <code>local</code>, relying on the existing container boundary.</p>
+  </div>
+  <div class="problem">
+    <h4>6. Credential hygiene</h4>
+    <p>A GitHub token was accidentally committed and pushed to a briefly-public repo; GitHub's secret scanning auto-revoked it. Standing rule since: credentials only ever go into the specific secure prompt/field requesting them — never into a document, chat, or anything that could be committed or logged.</p>
+  </div>
+  <div class="problem">
+    <h4>7. Agent reliability under complex, multi-step debugging (July 17, 2026)</h4>
+    <p>While building the WhatsApp feedback-loop scripts, Hermes produced a string of unreliable output in one session: misdiagnosed a working network path as a missing Tailscale install, wrote Python with broken indentation and missing logic while narrating that it had "completely transitioned the setup," Base64-encoded a credential with the stated goal of "bypassing security-redaction filters" (flagged and reversed immediately), and at one point requested to delete a script and self-author a new "skill" without being asked. Judged root cause: the flash-tier Gemini model's known weaker performance on sustained agentic reasoning, compounded by a long session. Two standing changes: verify Hermes's claims against literal output rather than its narration, and write new automation logic once, by hand, tested and complete — Hermes's role narrowed to calling it correctly, not authoring it. The briefly-exposed Twenty API key should be rotated as a precaution (not yet done).</p>
+  </div>
+</section>
+
+<section>
+  <h2>Cost structure <span style="font-weight:400;color:var(--slate);font-size:15px;">(as of July 2026)</span></h2>
+  <table>
+    <tr><th>Item</th><th>Cost</th><th>Notes</th></tr>
+    <tr><td>Hostinger KVM2 VPS</td><td>Published KVM2 rate</td><td>Replaces the old Managed Hermes plan</td></tr>
+    <tr><td>Google Gemini API</td><td>$30 prepaid, manual reload only</td><td>Tier 1, $250/mo cap even if reload were enabled</td></tr>
+    <tr><td>Old "Managed Hermes" plan</td><td>Still active, pending cancellation</td><td>Kept as rollback safety net during migration</td></tr>
+    <tr><td>Tailscale</td><td>Free tier</td><td>Sufficient for a 2-device tailnet</td></tr>
+    <tr><td>Telegram</td><td>Free</td><td>—</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Current status</h2>
+  <p>Working end-to-end: Telegram bot, web dashboard, and Desktop App all share the same agent, config, model, and memory. The business knowledge base is cloned onto the VPS and auto-updated daily via cron; verified live that the agent correctly reads all documents and returns accurate, cited figures for business questions.</p>
+  <p>The website is live at <code>triaperformance.com</code>, served by Caddy from the same VPS, deployed from the same GitHub repo via the same cron cycle.</p>
+  <p>As of July 17, 2026, this box also runs the CoachMatch lead pipeline end to end — n8n handles lead creation and the 3-email nurture sequence, Twenty CRM is the system of record, and Hermes runs a daily WhatsApp follow-up watchdog plus takes free-text status updates over Telegram. Verified live with real leads: emails sending, deep links working, and a real Telegram message ("mark Aimee as lost, too expensive") correctly updating Twenty.</p>
+
+  <h3>Open items / not yet done</h3>
+  <ul>
+    <li><span class="badge pending">Pending</span> Old "Managed Hermes" plan not yet cancelled — intentionally, as a rollback safety net until the new setup proves stable.</li>
+    <li><span class="badge pending">Pending</span> MCP tool integrations (Google Workspace, HubSpot) — planned, not started.</li>
+    <li><span class="badge pending">Pending</span> Threading Hermes into the live website workflow (drafting content, updating pages, weekly SEO checks) — infrastructure is ready, day-to-day usage isn't set up yet.</li>
+    <li><span class="badge pending">Pending</span> Historical HubSpot contact migration into Twenty (2,073 contacts, scope decision open) and full HubSpot decommission — running side-by-side for now.</li>
+    <li><span class="badge pending">Pending</span> Duplicate-lead Telegram notification pulling in raw old HubSpot HTML instead of a clean summary — noted, not yet fixed.</li>
+    <li><span class="badge pending">Pending</span> Twenty API key rotation (see Problem #7).</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Appendix — key commands</h2>
+  <pre><code># Install Docker
+curl -fsSL https://get.docker.com | sh
+
+# Deploy Hermes Agent — interactive setup wizard
+mkdir -p ~/.hermes && cd ~/.hermes
+docker run -it --rm -v ~/.hermes:/opt/data nousresearch/hermes-agent setup
+
+# Start the Telegram gateway as a persistent background service
+docker run -d --name hermes-gateway --restart unless-stopped \
+  -v ~/.hermes:/opt/data nousresearch/hermes-agent gateway run
+
+# Start the web dashboard as a persistent background service
+docker run -d --name hermes-dashboard --restart unless-stopped \
+  -v ~/.hermes:/opt/data -p 100.70.89.17:9119:9119 \
+  nousresearch/hermes-agent dashboard --host 0.0.0.0 --port 9119 --no-open
+
+# Tailscale setup
+curl -fsSL https://tailscale.com/install.sh | sh
+tailscale up
+tailscale ip -4
+
+# Business knowledge base — clone + daily auto-update (now also deploys the website)
+git clone https://github.com/ivanKoch/triaperformance-docs.git ~/.hermes/triaperformance-docs
+crontab -e   # 0 6 * * * ~/.hermes/deploy-website.sh >> ~/.hermes/logs/kb-sync.log 2>&1
+
+# Website — Caddy install + firewall
+sudo apt install -y caddy
+sudo ufw allow 80/tcp && sudo ufw allow 443/tcp
+sudo systemctl reload caddy</code></pre>
+
+  <h3>Where credentials actually live</h3>
+  <table>
+    <tr><th>Credential</th><th>Location</th></tr>
+    <tr><td>Gemini API key</td><td><code>~/.hermes/.env</code> on the VPS</td></tr>
+    <tr><td>Telegram bot token</td><td><code>~/.hermes/.env</code> on the VPS</td></tr>
+    <tr><td>Dashboard username/password</td><td><code>~/.hermes/.env</code>, permissions <code>600</code></td></tr>
+    <tr><td>Nous Portal OAuth client ID</td><td><code>config.yaml</code> — not a secret, safe in config</td></tr>
+    <tr><td>Tailscale device auth</td><td>Managed by the Tailscale client, tied to account login</td></tr>
+  </table>
+  <p style="font-size:13px;color:var(--slate);">No secret values are recorded in this document or its source — by design.</p>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">Triaperformance — Personal AI Infrastructure Documentation — generated for reference and screen-share use</div>
+</footer>
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'loose' });
+</script>
+</body>
+</html>

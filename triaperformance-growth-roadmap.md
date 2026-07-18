@@ -33,6 +33,12 @@ Whatever replaces it tracks lead volume and conversion by month and price point 
 
 **Tools library** — calculators and routines (carb-loading calculator, pace converter, threshold calculator, hip activation routine, yin yoga and kettlebell routines already built), built as Claude artifacts, migrated onto the new website. Claude-hosted artifact links are free and public by default with no gating mechanism — paywalling requires moving the code onto the owned site behind real auth. Natural to bundle behind All-Access rather than sell individually, which also gives All-Access a reason to grow past its current 2 subscribers.
 
+**Plans catalog & plan-matching (added July 2026)** — Iván maintains a spreadsheet of all ~300 marketplace plans with per-plan parameters: duration in weeks, language, sport, difficulty, race distance, URL, etc. Exported as a CSV and dropped into the repo, this becomes the data source for a real Plans page — replacing the current placeholder in `brand-guidelines.md`'s page inventory ("links out to the 300 TrainingPeaks plans") with an actual dynamic, filterable catalog rendered from the CSV. Two matching layers, not mutually exclusive, sequenced by effort:
+1. **Filter/dropdown controls** over the CSV's own variables (sport, race distance, duration, difficulty, language) — low effort, ships first, no AI dependency.
+2. **AI plan-matching assistant** — a plain-language ask ("I want to run a marathon in 4 hours, I have 6 hours a week available") returns a recommended plan from the catalog. Same "Claude in artifacts calling the Anthropic API" pattern already scoped for the AI Coach product below, but scoped down to one-shot catalog matching rather than an ongoing coaching relationship — no adjustment logic, no red-line/medical scope to manage, much smaller build than the AI Coach.
+
+Each plan page redirects to its TrainingPeaks purchase URL for now, same as today; managing pricing/checkout directly on the owned site is a later step, dependent on the paywall work below.
+
 **Paywall** — build against the existing Stripe account (already used for TP Payments, under KOCH Ventures LLC, with a Mercury bank account behind it). Stripe Checkout plus a simple entitlement check is enough; no need for a third-party membership platform.
 
 **Social/content agent** — research topics, draft posts, publish after approval. Feeds the lead magnets and Plans-focused SEO content specifically.
@@ -66,7 +72,7 @@ Not "don't grow" — "don't let growth quietly become a second full-time job."
 ## New product idea: AI Coach
 A real gap in the current ladder, between static Plans and human coaching: an AI-guided self-coaching product built on Iván's actual methodology — training frameworks, fueling strategy, coaching judgment — encoded as a system prompt and knowledge base an athlete chats against, not a generic AI wrapper. Realistic build path: the "Claude in artifacts" capability (an artifact that calls the Anthropic API directly, using Iván's own encoded methodology as the system prompt) makes this a buildable real product, not just a concept.
 
-Positioning: likely $25–40/month, sitting below 1:1 coaching. A genuine new top-of-funnel — athletes who'd never pay $75–149 might pay this, with some fraction upgrading to real coaching later. Open questions: exact pricing, liability/disclaimer scope, and how much this risks pulling from paid coaching versus adding a genuinely new segment. The prerequisite work — actually documenting Iván's coaching methodology and frameworks — doesn't exist as a written document yet. See below.
+Positioning: likely $25–40/month, sitting below 1:1 coaching. A genuine new top-of-funnel — athletes who'd never pay $75–149 might pay this, with some fraction upgrading to real coaching later. Open questions: exact pricing, liability/disclaimer scope, and how much this risks pulling from paid coaching versus adding a genuinely new segment. The prerequisite work — actually documenting Iván's coaching methodology and frameworks — is now done, see `methodology.md`.
 
 ## Parking lot: solo monetization ideas beyond the current build (July 16, 2026)
 A thought-experiment brainstorm — what else is viable as a solo operation (post-second-coach-hire), directly or indirectly monetizing this same AI infrastructure. Not sequenced into the roadmap yet; revisit once the current build (website, CRM, AI Coach) lands. Two items below are prioritized to start ASAP per Iván.
@@ -78,7 +84,7 @@ A thought-experiment brainstorm — what else is viable as a solo operation (pos
 **★ PRIORITY — start ASAP: Terra API integration, personal use first.** Iván is already using this Claude subscription as his own personal AI coach with good results, but isn't syncing his own training data via Terra yet. Plan: build it for himself first (self-test, prove the data pipeline and AI Coach quality with real synced data), then productize into the race-report / readiness-score ideas above once proven.
 
 **License the infrastructure itself, not just the coaching:**
-- White-label the AI Coach chatbot (once the methodology doc exists) to other solo coaches, each running their own branded version. Comps checked: white-label coaching-app tooling runs $150–599/mo for less differentiated products (MyPTHub, FitFocus) — even $50–100/mo per coach is a real SaaS line and directly monetizes the Hermes/Claude build work already underway.
+- White-label the AI Coach chatbot (methodology doc now done, see `methodology.md`) to other solo coaches, each running their own branded version. Comps checked: white-label coaching-app tooling runs $150–599/mo for less differentiated products (MyPTHub, FitFocus) — even $50–100/mo per coach is a real SaaS line and directly monetizes the Hermes/Claude build work already underway.
 - Sell the deploy blueprint (git → Caddy → Stripe → auto-updating multi-language site) as a one-time $1–3k productized setup for other coaches stuck on expensive no-code builders.
 
 **Content/authority plays — real money, but genuinely time-costly, not calendar-free:**
@@ -90,15 +96,75 @@ A thought-experiment brainstorm — what else is viable as a solo operation (pos
 - Merch / physical fulfillment — skip, doesn't leverage anything already built.
 
 ## Sequencing (draft, not fixed — revisit as priorities shift)
-1. Website + paywall + multi-language. No hard deadline, but every month on the old site is foregone Private-channel and lead-magnet traffic.
+1. Website content build-out + Plans catalog (CSV-driven) + paywall + multi-language. Website hosting itself is done (live on the VPS); this is now about real pages, not migration.
 2. WhatsApp context tool — small, parallel, a quick win.
 3. Hermes itself is live and ready (see pillar 2) — thread it into the website build from the start rather than bolting on after.
-4. Athlete context system (Terra API evaluation + the TrainingPeaks side) — once the website exists to plug into.
-5. Coach-hire depends on the athlete context system; AI Coach depends on the methodology write-up.
+4. CRM cutover — historical-contact scope decision, then full HubSpot decommission.
+5. Athlete context system (Terra API evaluation + the TrainingPeaks side) — once the website exists to plug into.
+6. Coach-hire depends on the athlete context system; AI Coach depends on the methodology write-up (now done, see `methodology.md`) plus product/pricing decisions.
 
 ## What's still needed from Iván
-- **Coaching philosophy and methodology** — the actual frameworks (periodization approach, how fueling strategy is structured, what makes the coaching distinct) aren't written down anywhere yet. This is the single biggest gap in this knowledge base — it feeds athlete-facing copy, the website's voice, and the AI Coach product directly.
 - **Complete current asset inventory** — confirm the full list of tools/artifacts already built beyond the yin yoga and kettlebell routines, and confirm how All-Access is currently signed up for.
-- **Brand voice and visual direction** for the website — or a decision to have Claude propose a first draft to react to instead.
-- **Domain and hosting decision** — existing domain or a new one, same-VPS-as-Hermes or a separate host.
+- **Plans CSV** — export the plans spreadsheet and drop it into the repo (or upload here) to unblock the Plans catalog build.
+- **Domain and hosting decision** — resolved: `triaperformance.com` on the Hermes VPS.
 
+
+# Growth Roadmap Addition — Training Plan Storefront ("Vidriera")
+
+*Merge this section into `growth-roadmap.md` (triaperformance-docs repo). Written Jul 18, 2026, from the full analysis of all-time TP sales, the 407-plan inventory, and 12 months of pixel view data. Full numbers in `plan-storefront-project-brief.md`.*
+
+---
+
+# Growth Roadmap Addition — Training Plan Storefront ("Vidriera")
+
+*Merge this section into `growth-roadmap.md` (triaperformance-docs repo). Written Jul 18, 2026, from the full analysis of all-time TP sales, the 407-plan inventory, and 12 months of pixel view data. Full numbers in `plan-storefront-project-brief.md`.*
+
+---
+
+## New initiative: Training Plan Storefront (vidriera + AI plan picker)
+
+### Why this, why now (evidence)
+
+- Training plans are the purest expression of the core philosophy: $300–800/month with **zero hours spent since Jan 13, 2026**. T12M: $8,814 gross / $6,018 earnings, growing +11% YoY on price, not volume.
+- The constraint is discovery, not product: median plan gets **27 views/year** on TP; view→purchase conversion is 1.19%; only 1 published plan got zero views. TP lists everything, pushes nothing.
+- TP marketplace crowding measured from sequential plan IDs: **~80,000 new plans/year (~220/day)**. Our 394 plans are 0.16% of new supply. Discovery inside TP is unwinnable (EN especially: 80/20 Endurance, MyProPlan with ~900 EN plans and 100k+ sold — authority + reviews + early entry).
+- Therefore: win discovery on owned ground (Google → our site → pre-sold click to TP), win conversion with better plan pages. ES/PT long-tail SEO is today what EN TP was years ago — a blue ocean. 57% of our revenue is already Spanish.
+
+### Decisions taken (Jul 2026)
+
+1. **Option A first (redirect to TP)**: site showcases plans, redirects to TP checkout. Stays 100% passive. TP's 29.4% take on current volume (~$2.6k/yr) is not worth destroying passivity + becoming merchant of record (VAT/tax, refunds, support).
+2. **B-lite approved as premium layer**: "Plan + 20-min onboarding call" (apply plan to calendar, answer doubts, set thresholds) sold direct on top sellers only. Pricing: **flat +$50 USD** preferred over 2x (plan prices range $24–80; 2x underprices the call on cheap plans). Doubles as coaching-funnel touchpoint.
+3. **Full direct checkout deferred behind a trigger**: revisit when site-attributed TP sales exceed ~$1k/month sustained. Pilot on top-20 sellers with freelancer doing the apply step, or via merchant-of-record (Paddle/Lemon Squeezy) to keep tax outsourced.
+4. **Email capture is non-negotiable and ships in Phase 1** ("Option C"). Zero marketing opt-ins across 499 all-time sales. The list is the compounding asset; the 30% margin is not.
+5. **Never hand-edit TP listings in bulk again.** Site DB = source of truth; TP = dumb mirror. Enrichment effort goes only into the ~100 plans with proven views/sales; the long tail gets auto-generated pages.
+
+6. **All-Access is the storefront's flagship upsell.** The $39.99/mo subscription (all plans, unlimited swaps, TP Premium included, guides/PDFs; ES + EN products exist) is the only recurring passive product in the portfolio and has had zero distribution — 2 subscribers today means untested, not failed. Any subscriber staying 2+ months beats a median plan sale ($48, 8% repeat rate); realistic tenure of a race-prep cycle (3–4 months) triples revenue per customer. Laddered offer on every plan page and AI-picker result: plan ($X one-time) / plan + 20-min call (+$50) / All-Access ($39.99/mo). Segment the push: subscription pitch for marathon/tri/HYROX/multi-goal athletes; clean one-time sale for first-timer 5k/8-week buyers. Every future artifact (race-ready calculator, carb loader, guides) launches inside All-Access first — the subscription is the monetization wrapper for assets already planned, and the accumulating bundle is the moat plan-only competitors (MyProPlan, 80/20) don't have. "Training journeys" (weight-loss → 5k → 10k → 21k plan progressions) are pure curation and attack between-race churn. **Verify with TP account manager: rev share on All-Access vs the 30% plan take, and whether subscriber count/churn is reportable monthly.**
+
+### Build phases
+
+**Phase 1 — Storefront core (Ideas 1+2)**
+- Upload plan_performance.csv → table on Hostinger VPS; one dynamic plan-view template renders all 394 plans.
+- Facet filters: sport, distance, difficulty, weeks, language, features (strength/power/HR/pace, weight-loss).
+- Email capture (lead magnet / "email me this plan") BEFORE the TP redirect; all redirects carry UTM + plan_id.
+- All-Access promo module on every plan page ("why buy 1 plan…" with the $15/mo-plan + $21/mo-Premium vs $39.99 math) + dedicated landing page per language.
+- SEO: hub pages by intent per language (ES first), hreflang, Product schema with prices + review stars from the social-proof quote bank.
+- Fix the Cloud Run tracking pixel (died ~Jun 30, 2026 — likely ignored billing emails). It is the only funnel instrument.
+
+**Phase 2 — Discovery & conversion (Idea 3 + listing fixes)**
+- AI plan picker: cheap model parses intent → facets → ranked plans ("run a fast 10k in 8 weeks"). At 394 plans, no vector DB needed; cost is negligible. Doubles as email-capture mechanism.
+- Fix EN Cycling + EN Triathlon TP listings: together 24% of all views converting at 0.5% vs 1.2% catalog average ≈ **~$1,500/yr recoverable with zero new plans**. Copy the ES tri positioning that converts at 1.8%.
+- Race+year SEO landing pages (Boston/Berlin/Valencia 2027…) backed by evergreen plans — kills the annual 99-plan rebuild treadmill; the website page carries the year, the plan doesn't.
+
+**Phase 3 — Monetization upgrades (trigger-based)**
+- B-lite premium bundle (+$50 call) on top-10 sellers.
+- Direct checkout pilot if trigger hit (see decision 3).
+
+### Sequencing notes (fits existing roadmap dependencies)
+
+- This initiative **is the start of the website rebuild** that gates the tools-library migration — same VPS, same stack; the plan storefront is the first vertical slice.
+- Catalog data model needs two new fields per plan before the AI picker is good: 2–3 sentence goal description + target weekly hours. Only needed for the ~100 proven plans.
+- Catalog priorities from the data: finish HYROX EN backlog first (EN = 60% of HYROX revenue, accelerating), then weight-loss ES (best-selling concept, only 20% of its units are ES). Stop building Portuguese until distribution exists. Stop building race-year-stamped marathon plans.
+
+### KPIs
+
+- Site sessions by language; email opt-ins/week; UTM-attributed TP plan views and sales; view→sale conversion site-referred vs TP-native (target ≥2% site-referred); B-lite attach rate; freelancer minutes/sale if piloted.

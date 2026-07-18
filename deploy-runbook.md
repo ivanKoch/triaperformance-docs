@@ -4,12 +4,29 @@ Domain: `triaperformance.com` · VPS: `179.197.76.70` (same box as Hermes)
 
 ## 1. GoDaddy DNS (do this first — propagation takes time, let it run in the background)
 
-1. Log into GoDaddy → **My Products** → find `triaperformance.com` → **DNS** → **DNS Management**.
-2. Delete/replace any existing A or CNAME record on `@` that points at the old HubSpot hosting.
-3. Add/edit:
-   - Type `A`, Name `@`, Value `179.197.76.70`, TTL default (1 hour or less).
-   - Type `A`, Name `www`, Value `179.197.76.70`, TTL default.
-4. Save. Propagation is often fast but can take up to a few hours — proceed to step 2 while it settles.
+Based on the actual exported zone file (`triaperformance.com.txt`, pulled 2026-07-16). Only two records are touched — everything email-related is left completely alone, since MX/SPF/DKIM/DMARC are a separate system from A/CNAME hosting records and changing hosting records cannot affect mail delivery.
+
+**Delete these 3 records** (all HubSpot website hosting — being replaced):
+- `A` — Name `@` — Value `199.60.103.177`
+- `A` — Name `@` — Value `199.60.103.77`
+- `CNAME` — Name `www` — Value `7203776.group26.sites.hubspot.net.` (must be deleted, not edited — a name can't hold both a CNAME and an A record at once)
+
+**Add these 2 records** (point both root and www at the VPS):
+- `A` — Name `@` — Value `179.197.76.70` — TTL 1 hour
+- `A` — Name `www` — Value `179.197.76.70` — TTL 1 hour
+
+**Do not touch — these keep your Gmail/Google Workspace email working:**
+- All 5 `MX` records (`aspmx.l.google.com` + `alt1-4.aspmx.l.google.com`) — this is what actually routes your mail to Gmail. Completely separate from website hosting; nothing above affects it.
+- `TXT` `@` → `v=spf1 include:dc-aa8e722993._spfm... include:7203776.spf02.hubspotemail.net ~all` — SPF, authorizes both Google and HubSpot to send as you. Still needed if HubSpot keeps sending the CoachMatch nurture emails.
+- `TXT` `dc-aa8e722993._spfm` → `v=spf1 include:_spf.google.com ~all` — part of the same SPF chain above.
+- `TXT` `_dmarc` → `v=DMARC1; p=none;` — DMARC policy.
+- `CNAME` `hs1-7203776._domainkey` and `hs2-7203776._domainkey` — HubSpot's DKIM signing keys, still needed for the same reason as the SPF include.
+- `TXT` `@` → `google-site-verification=...` — Search Console/Workspace verification.
+- `NS` records, `SOA`, `_domainconnect` CNAME — leave as-is, unrelated.
+
+**One thing to note, not urgent:** there's an existing `A` record `n8n` → `100.70.89.17` — that's the VPS's private Tailscale address, not a public IP, so this record currently doesn't resolve to anything reachable from outside your tailnet. Harmless to leave for now; flag if you actually want `n8n.triaperformance.com` publicly reachable later.
+
+Save changes. Propagation is often fast but can take up to a few hours — proceed to step 2 while it settles.
 
 ## 2. VPS setup (SSH in as usual, run in order)
 
