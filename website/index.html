@@ -43,11 +43,20 @@
   }
   .nav-cta:hover { background: var(--blue-deep); }
 
-  /* Hero — full blue section (brand guideline: one allowed per page) */
+  /* Hero — full-bleed photo section (brand guideline: one allowed per page).
+     Ink overlay at 35-50% opacity per guideline §6 when text sits on a photo. */
   .hero {
-    background: var(--blue); color: var(--white); text-align: center;
+    position: relative;
+    background: var(--ink) url("images/hero.jpg") center center / cover no-repeat;
+    color: var(--white); text-align: center;
     padding: 128px 0;
   }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: var(--ink); opacity: 0.45;
+  }
+  .hero .wrap { position: relative; z-index: 1; }
   @media (max-width: 640px) { .hero { padding: 80px 0; } }
   .label {
     font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
@@ -138,6 +147,42 @@
     border-top: 1px solid var(--mist);
   }
   footer a { color: var(--slate); }
+
+  /* Contact form — brand guideline §7: single column, Mist borders, 4px radius, labels above fields */
+  .contact-form {
+    max-width: 480px; margin: 0 auto; text-align: left;
+  }
+  .contact-form .field { margin-bottom: 20px; }
+  .contact-form label {
+    display: block; font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px;
+  }
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    width: 100%; border: 1px solid var(--mist); border-radius: 4px;
+    padding: 12px 14px; font-size: 16px; font-family: inherit; color: var(--ink);
+    background: var(--white);
+  }
+  .contact-form input:focus,
+  .contact-form select:focus,
+  .contact-form textarea:focus {
+    outline: none; border-color: var(--blue);
+  }
+  .contact-form textarea { resize: vertical; min-height: 96px; }
+  .contact-form .btn-primary {
+    background: var(--blue); color: var(--white); border: none; width: 100%;
+    font-size: 16px; cursor: pointer;
+  }
+  .contact-form .btn-primary:hover { background: var(--blue-deep); }
+  .contact-form .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+  .form-status {
+    margin-top: 16px; font-size: 15px; text-align: center; display: none;
+  }
+  .form-status.success { color: #1a7a3c; display: block; }
+  .form-status.error { color: #b3261e; display: block; }
+  .contact-divider {
+    text-align: center; color: var(--slate); font-size: 14px; margin: 32px 0;
+  }
 </style>
 </head>
 <body>
@@ -238,12 +283,98 @@
 <!-- LEAD MAGNET CTA -->
 <section class="cta-final" id="contacto">
   <div class="wrap">
-    <span class="label">Empezá gratis</span>
-    <h2>Guía de zonas de entrenamiento</h2>
-    <p>Descargá la guía gratuita y empezá a entrenar en las zonas correctas esta semana.</p>
-    <a href="https://wa.me/message" class="btn-primary">Escribir por WhatsApp</a>
+    <span class="label">Empezá ahora</span>
+    <h2>Contanos tu objetivo</h2>
+    <p>Dejanos tus datos y te contactamos en menos de 24 horas. Sin compromiso.</p>
+
+    <form class="contact-form" id="contact-form">
+      <div class="field">
+        <label for="cf-name">Nombre</label>
+        <input type="text" id="cf-name" name="name" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="cf-email">Email</label>
+        <input type="email" id="cf-email" name="email" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="cf-phone">WhatsApp</label>
+        <input type="tel" id="cf-phone" name="phone" required autocomplete="tel" placeholder="+54 9 11 1234 5678">
+      </div>
+      <div class="field">
+        <label for="cf-sport">Deporte</label>
+        <select id="cf-sport" name="sport" required>
+          <option value="">Seleccioná una opción</option>
+          <option value="Triatlón">Triatlón</option>
+          <option value="Running">Running</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="cf-message">Contanos tu objetivo</label>
+        <textarea id="cf-message" name="message" placeholder="Ej: quiero correr mi primer 21k en noviembre"></textarea>
+      </div>
+      <button type="submit" class="btn-primary" id="cf-submit">Enviar</button>
+      <p class="form-status" id="cf-status"></p>
+    </form>
+
+    <p class="contact-divider">o si preferís, escribinos directo</p>
+    <a href="https://wa.me/message" class="btn-secondary" style="color:var(--blue); border-color:var(--blue);">Escribir por WhatsApp</a>
   </div>
 </section>
+
+<script>
+(function () {
+  // Same-origin path — proxied by Caddy to the internal n8n webhook.
+  // See contact-form-pipeline-runbook.md, Step 3, for the Caddy config that makes this path work.
+  var ENDPOINT = "/api/contact-form";
+
+  var form = document.getElementById("contact-form");
+  var status = document.getElementById("cf-status");
+  var submitBtn = document.getElementById("cf-submit");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    status.className = "form-status";
+    status.textContent = "";
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando...";
+
+    var payload = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      sport: form.sport.value,
+      message: form.message.value.trim(),
+      source: "website_contact_form",
+      page_url: window.location.href,
+      submitted_at: new Date().toISOString()
+    };
+
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("bad_status");
+        return res.json().catch(function () { return {}; });
+      })
+      .then(function () {
+        status.className = "form-status success";
+        status.textContent = "¡Gracias! Te contactamos en menos de 24 horas.";
+        form.reset();
+      })
+      .catch(function () {
+        status.className = "form-status error";
+        status.textContent = "Algo salió mal. Escribinos por WhatsApp mientras lo resolvemos.";
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar";
+      });
+  });
+})();
+</script>
 
 <footer>
   <div class="wrap">

@@ -1,0 +1,239 @@
+{
+  "name": "Website Contact Form -> Twenty + Email + Telegram",
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "nodes": [
+    {
+      "id": "sticky-readme",
+      "name": "READ ME BEFORE ACTIVATING",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-200, -260],
+      "parameters": {
+        "width": 620,
+        "height": 300,
+        "content": "## Before you activate this workflow\n\n1. Create/confirm credentials in n8n: \n   - HTTP Header Auth credential named `Twenty API` (header `Authorization: Bearer <TWENTY_API_KEY>`).\n   - SMTP credential (reuse the same one Workflow 1 / the CoachMatch pipeline already uses for coach@triaperformance.com).\n   - Telegram API credential (reuse the existing bot).\n2. Fields marked `CONFIRM_` in the 'Build Twenty payload' node are custom-field API slugs I couldn't verify (Twenty introspection is disabled on this instance). Open Twenty > Settings > Data Model, find the real slugs, and fix the field names there before the first real submission.\n3. Set `TWENTY_BASE_URL` and `TELEGRAM_CHAT_ID` in the 'Config' node.\n4. Test with the built-in 'Listen for Test Event' before switching this Active."
+      }
+    },
+    {
+      "id": "webhook-trigger",
+      "name": "Webhook - Contact Form",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-200, 60],
+      "webhookId": "contact-form",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "contact-form",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [40, 60],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "1", "name": "TWENTY_BASE_URL", "type": "string", "value": "http://100.70.89.17:3000" },
+            { "id": "2", "name": "TELEGRAM_CHAT_ID", "type": "string", "value": "REPLACE_WITH_IVAN_CHAT_ID" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "check-duplicate",
+      "name": "Check Twenty for existing Person",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [280, 60],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.TWENTY_BASE_URL }}/rest/people",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "filter", "value": "=emails.primaryEmail[eq]:{{ $('Webhook - Contact Form').item.json.body.email }}" }
+          ]
+        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": { "response": { "response": { "neverError": true } } }
+      },
+      "credentials": {
+        "httpHeaderAuth": { "id": "REPLACE_ME", "name": "Twenty API" }
+      }
+    },
+    {
+      "id": "is-duplicate",
+      "name": "Already exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [520, 60],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.data && $json.data.people && $json.data.people.length }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "build-payload",
+      "name": "Build Twenty payload",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [760, 180],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "1", "name": "name.firstName", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.name.split(' ')[0] }}" },
+            { "id": "2", "name": "name.lastName", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.name.split(' ').slice(1).join(' ') || '-' }}" },
+            { "id": "3", "name": "emails.primaryEmail", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.email }}" },
+            { "id": "4", "name": "phones.primaryPhoneNumber", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.phone }}" },
+            { "id": "5", "name": "CONFIRM_sportPrimary", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.sport }}" },
+            { "id": "6", "name": "CONFIRM_leadNotes", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.message }}" },
+            { "id": "7", "name": "CONFIRM_campaignAttribution", "type": "string", "value": "Website Contact Form" },
+            { "id": "8", "name": "CONFIRM_leadStatus", "type": "string", "value": "NEW" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "create-person",
+      "name": "Create Person in Twenty",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1000, 180],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": { "id": "REPLACE_ME", "name": "Twenty API" }
+      }
+    },
+    {
+      "id": "send-confirmation-email",
+      "name": "Send confirmation email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1240, 180],
+      "parameters": {
+        "fromEmail": "coach@triaperformance.com",
+        "toEmail": "={{ $('Webhook - Contact Form').item.json.body.email }}",
+        "subject": "Recibimos tu mensaje - Triaperformance",
+        "emailFormat": "text",
+        "text": "=Hola {{ $('Webhook - Contact Form').item.json.body.name.split(' ')[0] }},\n\nGracias por escribirnos. Recibimos tu consulta sobre {{ $('Webhook - Contact Form').item.json.body.sport }} y te vamos a contactar por WhatsApp en menos de 24 horas.\n\nMientras tanto, mira esta guia gratuita de zonas de entrenamiento: https://triaperformance.com/guias/zonas-de-entrenamiento.pdf\n\nIvan Koch - Triaperformance"
+      },
+      "credentials": {
+        "smtp": { "id": "REPLACE_ME", "name": "Gmail SMTP" }
+      }
+    },
+    {
+      "id": "mark-message-sent",
+      "name": "Set leadStatus = MESSAGE_SENT",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1480, 180],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people/{{ $('Create Person in Twenty').item.json.data.createPerson.id }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ CONFIRM_leadStatus: 'MESSAGE_SENT', CONFIRM_emailTouchCount: 1, CONFIRM_lastTouchpoint: new Date().toISOString() }) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": { "id": "REPLACE_ME", "name": "Twenty API" }
+      }
+    },
+    {
+      "id": "telegram-notify",
+      "name": "Telegram notify Ivan",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1720, 180],
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=Nuevo lead del sitio web\nNombre: {{ $('Webhook - Contact Form').item.json.body.name }}\nDeporte: {{ $('Webhook - Contact Form').item.json.body.sport }}\nMensaje: {{ $('Webhook - Contact Form').item.json.body.message }}\nWhatsApp: https://wa.me/{{ $('Webhook - Contact Form').item.json.body.phone.replace(/[^0-9]/g, '') }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": { "id": "REPLACE_ME", "name": "Telegram bot" }
+      }
+    },
+    {
+      "id": "respond-success",
+      "name": "Respond success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [1960, 180],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}"
+      }
+    },
+    {
+      "id": "already-exists-telegram",
+      "name": "Telegram notify (duplicate)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [760, -60],
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=Lead del sitio web ya existia en Twenty (posible repeat contact): {{ $('Webhook - Contact Form').item.json.body.email }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": { "id": "REPLACE_ME", "name": "Telegram bot" }
+      }
+    },
+    {
+      "id": "respond-success-dup",
+      "name": "Respond success (duplicate)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [1000, -60],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook - Contact Form": { "main": [[{ "node": "Config", "type": "main", "index": 0 }]] },
+    "Config": { "main": [[{ "node": "Check Twenty for existing Person", "type": "main", "index": 0 }]] },
+    "Check Twenty for existing Person": { "main": [[{ "node": "Already exists?", "type": "main", "index": 0 }]] },
+    "Already exists?": {
+      "main": [
+        [{ "node": "Telegram notify (duplicate)", "type": "main", "index": 0 }],
+        [{ "node": "Build Twenty payload", "type": "main", "index": 0 }]
+      ]
+    },
+    "Telegram notify (duplicate)": { "main": [[{ "node": "Respond success (duplicate)", "type": "main", "index": 0 }]] },
+    "Build Twenty payload": { "main": [[{ "node": "Create Person in Twenty", "type": "main", "index": 0 }]] },
+    "Create Person in Twenty": { "main": [[{ "node": "Send confirmation email", "type": "main", "index": 0 }]] },
+    "Send confirmation email": { "main": [[{ "node": "Set leadStatus = MESSAGE_SENT", "type": "main", "index": 0 }]] },
+    "Set leadStatus = MESSAGE_SENT": { "main": [[{ "node": "Telegram notify Ivan", "type": "main", "index": 0 }]] },
+    "Telegram notify Ivan": { "main": [[{ "node": "Respond success", "type": "main", "index": 0 }]] }
+  }
+}
