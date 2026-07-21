@@ -307,6 +307,18 @@ flowchart TB
     <p style="margin:0"><strong>Bing Webmaster Tools</strong> and <strong>Ahrefs Webmaster Tools</strong> — both added via "Import from Google Search Console," no new DNS or file-upload work, piggyback on the existing GSC domain verification. Same caveat as the GA4/GSC link: Search Console data doesn't flow into GA4's or BigQuery's dataset, it's reporting-level only.</p>
   </div>
   <p style="font-size:14px;color:var(--slate);">Not actioned, deliberately: <strong>Rich Results Test</strong> needs no account — it's a URL-paste validator for once plan pages ship with Product schema (Phase 1/2 SEO work, not built yet). <strong>Umami</strong> stays parked, only worth adding if GA4's UI becomes a friction point.</p>
+
+  <h3>10. Storefront data pipeline — plan catalog + weekly-breakdown crawl <span class="badge live">Live — July 21, 2026</span></h3>
+  <p>New <code>storefront</code> database on the same <code>analytics-postgres</code> container (own lane, no new infra) — logically separate from the marketing-analytics <code>analytics</code> database on that instance.</p>
+  <div class="card">
+    <h4><code>plans_raw</code></h4>
+    <p style="margin:0">Full inventory CSV loaded as an all-text staging table (source data has known issues that would break type constraints). 407 rows loaded, cleaned to <strong>386</strong> — removed 13 "Not built" placeholder rows and 8 rows with <code>link = "Expired"</code>. 4 known duplicate <code>plan_id</code>s left as-is, no dedup applied yet.</p>
+  </div>
+  <div class="card">
+    <h4><code>plan_weekly_breakdown</code></h4>
+    <p style="margin:0">Data TrainingPeaks calculates from each plan's structured workouts but never exposed in the CSV — workouts/week, weekly average duration, longest workout, per activity per plan. Crawled via <code>web_fetch</code> against all 330 published plan pages (confirmed server-rendered, no JS needed, across every sport type). Two crawl waves (6 then 2 parallel agents) both tripped TrainingPeaks' rate-limiting. Result: <strong>190 of 330 plans captured</strong> (468 activity rows), 10 dead links, 130 not yet attempted — paused deliberately, resumable without redoing completed plans.</p>
+  </div>
+  <p style="font-size:14px;color:var(--slate);">Separately found: 6 plans marked published in the inventory 404 on TrainingPeaks (434680, 443810, 443812, 443815, 443816, 491765) — not yet resolved. Source files in the repo: <code>data/training_plans_inventory.csv</code>, <code>data/plan_weekly_breakdown.csv</code>, <code>data/plan_weekly_breakdown_errors.csv</code>.</p>
 </section>
 
 <section>
@@ -374,6 +386,9 @@ flowchart TB
     <li><span class="badge pending">Pending</span> Duplicate-lead Telegram notification pulling in raw old HubSpot HTML instead of a clean summary — noted, not yet fixed.</li>
     <li><span class="badge pending">Pending</span> Twenty API key rotation (see Problem #7).</li>
     <li><span class="badge pending">Pending</span> <code>plan-tracker-bigquery</code> Cloud Run service is on a decommissioned Python 3.9 runtime — doesn't block current serving, but blocks any future redeploy until migrated. Source location not yet confirmed.</li>
+    <li><span class="badge pending">Pending</span> Storefront crawl: 130 of 330 plans still uncrawled, paused on TrainingPeaks rate-limiting (§10) — resume more conservatively paced.</li>
+    <li><span class="badge pending">Pending</span> 6 plans marked published 404 on TrainingPeaks (§10) — needs a manual check.</li>
+    <li><span class="badge pending">Pending</span> <code>plans_raw</code> still has 4 known duplicate <code>plan_id</code>s — no dedup applied yet.</li>
   </ul>
 </section>
 

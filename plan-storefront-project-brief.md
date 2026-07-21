@@ -49,7 +49,7 @@
 ## 3. Build plan
 
 ### Phase 1 — Storefront core
-1. Load `plan_performance.csv` into a table on the Hostinger VPS.
+1. ~~Load `plan_performance.csv` into a table on the Hostinger VPS.~~ **Done Jul 21, 2026** — see `ai-infrastructure-documentation.md` §10 for the full pipeline. Short version: new `storefront` database on the existing `analytics-postgres` container, table `plans_raw` (386 rows after removing 13 "Not built" + 8 "Expired" placeholders) plus a new `plan_weekly_breakdown` table holding data TP calculates but never exposed in the CSV — workouts/week, weekly average duration, longest workout, per activity per plan. Crawled from 190 of 330 published plan pages so far (130 remain, paused on TrainingPeaks rate-limiting, resumable). 6 published plans have dead links (404) independent of the cleanup above — flagged for a manual TP check, not yet resolved.
 2. One dynamic plan-view template renders all plans (description HTML already exists per plan; enrich top 100 first). Cross-sell block: "athletes also bought" + same-collection plans.
 3. Facet filters: sport, distance, difficulty, weeks, language, pace/HR/power, strength included, weight-loss.
 4. Email capture before every TP redirect; UTM + plan_id on every outbound link.
@@ -68,9 +68,10 @@
 
 ### Data model gaps to fill (top ~100 plans only)
 - 2–3 sentence goal description (what athlete, what outcome).
-- Target weekly hours / volume range.
-- Fix 4 duplicate plan_ids in inventory: 439394, 439396, 439397 (Boston 2026 EN double-listed), 612974 (Lima ES/PT rows).
-- 13 "not built" plans = HYROX EN/PT + WL ES — build HYROX EN first (EN is 60% of HYROX revenue), then WL ES.
+- Target weekly hours / volume range — **partially unlocked Jul 21, 2026:** `plan_weekly_breakdown` now gives real workouts/week + durations per plan (190/330 so far), a stronger source for this than a manually-written range.
+- Fix 4 duplicate plan_ids in inventory: 439394, 439396, 439397 (Boston 2026 EN double-listed), 612974 (Lima ES/PT rows). **Still open** — `plans_raw` kept these as-is (all-text staging table, no dedup logic applied yet).
+- 13 "not built" plans = HYROX EN/PT + WL ES — build HYROX EN first (EN is 60% of HYROX revenue), then WL ES. **Removed from `plans_raw`** as of the Jul 21 cleanup (they were placeholder rows, not real catalog entries) — the build priority itself is unchanged, still HYROX EN then WL ES.
+- New gap found during the crawl: 6 plans marked `is_published = TRUE` in the inventory return a 404 on TrainingPeaks (434680, 443810, 443812, 443815, 443816, 491765 — mostly the ultra-marathon plans). Needs a manual check on whether TP quietly unpublished them.
 
 ## 4. KPIs
 Site sessions by language · email opt-ins/week · UTM-attributed TP views & sales · site-referred conversion (target ≥2% vs 1.19% TP-native) · B-lite attach rate · revenue per view · **All-Access subscribers, monthly churn, avg tenure (breakeven vs plan sale ≈ 2 months)**.

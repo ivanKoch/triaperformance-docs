@@ -223,6 +223,20 @@ Purpose: this VPS copy is now the durable backup of the pixel data, independent 
 
 Two items from the same tooling review deliberately not actioned: Rich Results Test (search.google.com/test/rich-results) needs no account and nothing to set up — it's a URL-paste validator to use once plan pages ship with Product schema (Phase 1/2 storefront SEO work, not built yet). Umami (self-hosted analytics) stays parked — only worth adding if GA4's own UI becomes a friction point, per the original call.
 
+## 10. Storefront data pipeline — plan catalog + weekly-breakdown crawl (July 21, 2026)
+
+**Why.** The storefront brief (`plan-storefront-project-brief.md`) calls for loading the plans inventory onto the VPS as Phase 1 step 1. Separately, Iván noticed TrainingPeaks' own plan pages render a stats table — "Average Weekly Breakdown" (workouts/week, weekly average duration, longest workout, per activity) — that TP calculates from the actual structured workouts and was never in the manually-maintained inventory CSV. Both landed in the same piece of work.
+
+**New database, same container.** Rather than stand up new infrastructure, added a `storefront` database to the existing `analytics-postgres` container (same VPS, same "own lane" container as the pixel-tracking data — see §9), keeping it logically separate from the marketing-analytics `analytics` database on that same instance. Two tables:
+- `plans_raw` — the full inventory CSV (`data/training_plans_inventory.csv` in the repo), loaded as an all-text staging table on purpose, since the source data has known issues (see cleanup below) that would break type constraints on a typed load. 407 rows loaded, cleaned to **386** by removing 13 "Not built" placeholder rows (plan_id literally `"Not built"`) and 8 rows with `link = "Expired"` (no overlap between the two groups). Duplicate `plan_id`s (439394, 439396, 439397, 612974 — already known, see storefront brief) were left as-is; no dedup logic applied yet.
+- `plan_weekly_breakdown` — tidy format (one row per activity per plan: `plan_id`, `activity_type`, `weekly_count`, `weekly_avg`, `weekly_avg_unit`, `longest_workout`, `longest_workout_unit`). Units are mixed by design (duration `HH:MM:SS` for most activities, meters for swim, occasionally miles) so the value columns are text, not numeric.
+
+**The crawl.** 330 of 407 plans are published with a working link — those were the crawl targets, using `mcp__workspace__web_fetch` against each plan's live TrainingPeaks page (confirmed via manual samples across every sport type — running, cycling, swimming, strength, triathlon, duathlon — that the stats table is server-rendered and parses cleanly with plain fetches, no JS rendering needed). First attempt used 6 parallel subagents and tripped TrainingPeaks' bot/rate-limit detection partway through; a second attempt with 2 parallel agents also hit it, plus an unrelated bash-tool hang. Net result after both waves: **190 of 330 plans successfully captured** (468 activity rows), **10 genuinely dead links** (mostly 404s on ultra-marathon plans, 2 with a literal `"Expired"` link value, 2 more that use non-standard mile-based units the parser doesn't yet handle), **130 plans not yet attempted** — paused deliberately rather than continuing to fight the rate limit; resumable later without redoing the 200 already-attempted plans (`data/plan_weekly_breakdown_errors.csv` has the exact list and reasons).
+
+**Separately found, not yet fixed:** 6 plans marked `is_published = TRUE` in the inventory return a 404 on TrainingPeaks (434680, 443810, 443812, 443815, 443816, 491765) — different from the "Expired"/"Not built" rows above, these look like TP-side unpublishing that never made it back into the inventory CSV. Needs a manual check.
+
+**Source files, repo:** `data/training_plans_inventory.csv`, `data/plan_weekly_breakdown.csv`, `data/plan_weekly_breakdown_errors.csv`.
+
 ## Open items / not yet done
 
 - Old "Managed Hermes" plan not yet cancelled (intentionally — waiting for the new setup to prove stable over a few days first).
@@ -232,6 +246,9 @@ Two items from the same tooling review deliberately not actioned: Rich Results T
 - A duplicate-lead Telegram notification was observed pulling in raw old HubSpot email HTML instead of a clean summary — noted, not yet fixed.
 - Twenty API key rotation recommended (see Problem #7) — not yet done.
 - `plan-tracker-bigquery` Cloud Run service is on a decommissioned Python 3.9 runtime — doesn't block current serving, but will block any future redeploy until migrated. Source code location for this service isn't confirmed anywhere in this documentation; needs tracking down before it can be fixed.
+- Storefront crawl (§10): 130 of 330 plans still uncrawled, paused on TrainingPeaks rate-limiting — resume later, more conservatively paced (1 agent, no parallelism) than either of the two attempts so far.
+- 6 plans marked published in the inventory return a 404 on TrainingPeaks (§10) — needs a manual check on whether they were quietly unpublished.
+- `plans_raw` still has 4 known duplicate `plan_id`s (439394, 439396, 439397, 612974) — no dedup logic applied during the Jul 21 cleanup, only the "Not built"/"Expired" rows were removed.
 
 ---
 

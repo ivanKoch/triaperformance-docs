@@ -145,7 +145,7 @@ A thought-experiment brainstorm — what else is viable as a solo operation (pos
 ### Build phases
 
 **Phase 1 — Storefront core (Ideas 1+2)**
-- Upload plan_performance.csv → table on Hostinger VPS; one dynamic plan-view template renders all 394 plans.
+- ~~Upload plan_performance.csv → table on Hostinger VPS~~ **Done Jul 21, 2026** — `storefront` database on the existing `analytics-postgres` container, `plans_raw` (386 rows, cleaned) + new `plan_weekly_breakdown` table (TP's per-plan workout stats, never in the CSV before — 190/330 plans crawled so far). Full detail: `ai-infrastructure-documentation.md` §10, `plan-storefront-project-brief.md`. One dynamic plan-view template renders all 394 plans — still ahead.
 - Facet filters: sport, distance, difficulty, weeks, language, features (strength/power/HR/pace, weight-loss).
 - Email capture (lead magnet / "email me this plan") BEFORE the TP redirect; all redirects carry UTM + plan_id.
 - All-Access promo module on every plan page ("why buy 1 plan…" with the $15/mo-plan + $21/mo-Premium vs $39.99 math) + dedicated landing page per language.
