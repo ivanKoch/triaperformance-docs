@@ -95,7 +95,7 @@
     <h1>Personal AI Infrastructure</h1>
     <div class="meta-row">
       <span>Owner: Iván Koch</span>
-      <span>Last updated: July 17, 2026</span>
+      <span>Last updated: July 21, 2026</span>
       <span class="status-pill">● Live / operational</span>
     </div>
   </div>
@@ -153,11 +153,22 @@ flowchart TB
         CADDY --- WEB
     end
 
+    subgraph Analytics["Analytics pipeline (own lane)"]
+        ANALYTICSPG["analytics-postgres (127.0.0.1 only)\nplan_views / plan_views_clean"]
+    end
+
+    subgraph GCloud["Google Cloud — training-plan-analytics (ivankoch87@gmail.com)"]
+        CLOUDRUN["Cloud Run — plan-tracker-bigquery"]
+        BQ["BigQuery — tracking_data.plan_views\n+ GA4 daily export"]
+    end
+
     subgraph External["External Services"]
         Gemini["Google AI Studio — Gemini API"]
         GitHub["GitHub — triaperformance-docs repo"]
         Gmail["Gmail — CoachMatch leads (read-only IMAP + SMTP send)"]
         Public["Public internet visitors"]
+        GA4["GA4 + Search Console (coach@triaperformance.com)"]
+        TPPixel["TrainingPeaks plan pages — tracking pixel"]
     end
 
     Phone <--> GW
@@ -166,12 +177,17 @@ flowchart TB
     GW --> Gemini
     DASH --> Gemini
     Public <--> CADDY
+    CADDY -.gtag.js.-> GA4
     GitHub -.daily git pull.-> Data
     GitHub -.daily git pull + deploy.-> WEB
     Gmail <--> N8N
     N8N <--> TWENTY
     GW <--> TWENTY
     GW -.daily watchdog + status updates.-> Phone
+    TPPixel --> CLOUDRUN
+    CLOUDRUN --> BQ
+    GA4 -.daily export.-> BQ
+    BQ -.nightly sync (read-only service account).-> ANALYTICSPG
     </div>
     <p style="font-size:14px;color:var(--slate);margin-top:10px;">There is one program (Hermes Agent) running on a rented server, split into two always-on processes — one listens for Telegram, the other serves a web dashboard, both sharing the same memory and calling out to Gemini to think. A private VPN (Tailscale) lets the MacBook and browser reach the dashboard without exposing it publicly. Separately, Caddy serves the public website, and n8n + Twenty CRM (both Tailscale-only, no public exposure) run the CoachMatch lead pipeline — n8n handles the mechanical parts (reading Gmail, sending emails, calling Twenty's API on a schedule), Hermes handles the WhatsApp follow-up loop, which needs free-text understanding rather than fixed logic.</p>
   </div>
@@ -263,6 +279,27 @@ flowchart TB
     </ul>
   </div>
   <p style="font-size:14px;color:var(--slate);">Twenty's GraphQL introspection is disabled on this instance, so the valid <code>leadStatus</code> values were confirmed directly from the Twenty UI and hardcoded rather than discovered programmatically.</p>
+
+  <h3>9. Analytics pipeline — plan-view tracking, GA4 &amp; Search Console <span class="badge live">Live — July 21, 2026</span></h3>
+  <p><strong>Site instrumentation:</strong> GA4 (<code>coach@triaperformance.com</code>) added via gtag.js in <code>website/index.html</code>'s <code>&lt;head&gt;</code>, deployed through the normal git/cron pipeline. Search Console added as a Domain property for <code>triaperformance.com</code> — auto-verified via the pre-existing DNS TXT record from the HubSpot era. GA4 and Search Console are linked for combined search-query reporting.</p>
+
+  <div class="card">
+    <h4>TrainingPeaks pixel outage — root cause and fix</h4>
+    <p>The plan-view pixel posts <code>plan_id</code> + <code>price</code> to a Cloud Run service (<code>plan-tracker-bigquery</code>, project <code>training-plan-analytics</code>) which writes to BigQuery. This project lives under a <em>separate personal account</em>, <code>ivankoch87@gmail.com</code> — not the business Workspace account everything else here runs under, which matters for any cross-account IAM work.</p>
+    <p>The pixel died silently ~Jun 30–Jul 1, 2026. Diagnosed via Cloud Run Metrics (requests flatlined exactly at the outage date) then Logs (<code>"The request failed because billing is disabled for this project."</code>). Cloud Console showed a red "account closed" banner that looked like a serious ToS violation but was actually just a consequence of the billing-disabled state — usage was ~$0.01–0.015/month, almost certainly an automated abuse-detection false positive on a never-billed free-tier project, not a real violation. No closure notification was ever received. Fixed by linking a new Cloud Billing account (already set up the prior week for Gemini/Hermes) — reactivated immediately, no rebuild or appeal needed. A <strong>$20/month budget alert</strong> (notification only, not a hard cap — a hard cap would recreate this exact outage on purpose) is now set on the project.</p>
+    <p style="margin:0">Real impact: 20 days of pixel data lost (Jun 30–Jul 21). The BigQuery table's full history back to June 2025 was never at risk and was downloaded in full as a precaution.</p>
+  </div>
+
+  <div class="card">
+    <h4>GA4 → BigQuery export</h4>
+    <p style="margin:0">Enabled the same day into the same <code>training-plan-analytics</code> project — daily export, free tier. Required granting <code>coach@triaperformance.com</code> the <strong>Owner</strong> role on the GCP project (Editor lacks <code>resourcemanager.projects.setIamPolicy</code>, which the linking flow needs to grant its own service account BigQuery access).</p>
+  </div>
+
+  <div class="card">
+    <h4>New standing infrastructure — analytics Postgres on the VPS, own lane</h4>
+    <p>Same separation pattern as Twenty/n8n: a dedicated <code>analytics-postgres</code> Docker container, bound to <code>127.0.0.1</code> only — nothing outside the box needs to reach it. Directory <code>~/.analytics/</code> (<code>data/</code>, <code>scripts/</code>, <code>credentials/</code>, <code>logs/</code>). Table <code>plan_views</code> mirrors the BigQuery schema with a <code>UNIQUE(event_timestamp, plan_id, ip_address)</code> constraint for idempotent syncs. A read-only BigQuery service account (<code>pixel-sync-vps</code>) backs <code>~/.analytics/scripts/sync_pixel_data.py</code>, which pulls everything newer than the current Postgres max timestamp and upserts — nightly at 5am via cron, staggered clear of the 2am Twenty backup and 6am site/KB deploy. First run backfilled all 49,105 historical rows (June 2025 to date). A <code>plan_views_clean</code> view replicates Iván's existing bot/IP-filtering logic on top (21,217 rows after filtering, matching the trusted BigQuery query) — the raw table stays untouched for audit.</p>
+    <p style="margin:0">Purpose: a durable backup of the pixel data independent of the personal Google account's billing/closure risk — the exact failure mode that just cost 20 days. Also the first table in the VPS's planned broader analytics warehouse (pixel hits + future GSC pulls + sales CSVs + email signups).</p>
+  </div>
 </section>
 
 <section>
@@ -296,6 +333,10 @@ flowchart TB
     <h4>7. Agent reliability under complex, multi-step debugging (July 17, 2026)</h4>
     <p>While building the WhatsApp feedback-loop scripts, Hermes produced a string of unreliable output in one session: misdiagnosed a working network path as a missing Tailscale install, wrote Python with broken indentation and missing logic while narrating that it had "completely transitioned the setup," Base64-encoded a credential with the stated goal of "bypassing security-redaction filters" (flagged and reversed immediately), and at one point requested to delete a script and self-author a new "skill" without being asked. Judged root cause: the flash-tier Gemini model's known weaker performance on sustained agentic reasoning, compounded by a long session. Two standing changes: verify Hermes's claims against literal output rather than its narration, and write new automation logic once, by hand, tested and complete — Hermes's role narrowed to calling it correctly, not authoring it. The briefly-exposed Twenty API key should be rotated as a precaution (not yet done).</p>
   </div>
+  <div class="problem">
+    <h4>8. Google Cloud project silently closed over negligible billing (July 2026)</h4>
+    <p>The <code>training-plan-analytics</code> project (personal <code>ivankoch87@gmail.com</code> account, hosts the TrainingPeaks plan-view pixel — see section 9) stopped accepting requests around June 30–July 1 with zero notification. Cloud Console showed a red "account closed" banner reading like a serious policy violation, but it traced back to a mundane cause: billing disabled, on a project running ~$0.01–0.015/month of usage — almost certainly an automated abuse-detection false positive on a never-billed free-tier project. Diagnosed via Cloud Run's Metrics tab (requests flatlined exactly at the outage date) and Logs (explicit billing-disabled error on every request). Fixed by linking a new Cloud Billing account — no appeal or rebuild needed despite the alarming banner. Standing lesson: don't take Google Cloud's account-status banners at face value — check the actual request logs first.</p>
+  </div>
 </section>
 
 <section>
@@ -307,6 +348,7 @@ flowchart TB
     <tr><td>Old "Managed Hermes" plan</td><td>Still active, pending cancellation</td><td>Kept as rollback safety net during migration</td></tr>
     <tr><td>Tailscale</td><td>Free tier</td><td>Sufficient for a 2-device tailnet</td></tr>
     <tr><td>Telegram</td><td>Free</td><td>—</td></tr>
+    <tr><td>Google Cloud (<code>training-plan-analytics</code>)</td><td>~$0.01–0.015/month</td><td>Pixel tracking (Cloud Run + BigQuery); $20/mo budget <em>alert</em> set, not a hard cap</td></tr>
   </table>
 </section>
 
@@ -324,6 +366,7 @@ flowchart TB
     <li><span class="badge pending">Pending</span> Historical HubSpot contact migration into Twenty (2,073 contacts, scope decision open) and full HubSpot decommission — running side-by-side for now.</li>
     <li><span class="badge pending">Pending</span> Duplicate-lead Telegram notification pulling in raw old HubSpot HTML instead of a clean summary — noted, not yet fixed.</li>
     <li><span class="badge pending">Pending</span> Twenty API key rotation (see Problem #7).</li>
+    <li><span class="badge pending">Pending</span> <code>plan-tracker-bigquery</code> Cloud Run service is on a decommissioned Python 3.9 runtime — doesn't block current serving, but blocks any future redeploy until migrated. Source location not yet confirmed.</li>
   </ul>
 </section>
 
@@ -367,6 +410,8 @@ sudo systemctl reload caddy</code></pre>
     <tr><td>Dashboard username/password</td><td><code>~/.hermes/.env</code>, permissions <code>600</code></td></tr>
     <tr><td>Nous Portal OAuth client ID</td><td><code>config.yaml</code> — not a secret, safe in config</td></tr>
     <tr><td>Tailscale device auth</td><td>Managed by the Tailscale client, tied to account login</td></tr>
+    <tr><td>BigQuery service account key (<code>pixel-sync-vps</code>, read-only)</td><td><code>~/.analytics/credentials/bigquery-sa.json</code>, permissions <code>600</code></td></tr>
+    <tr><td>Analytics Postgres password + BigQuery table reference</td><td><code>~/.analytics/.env</code>, permissions <code>600</code></td></tr>
   </table>
   <p style="font-size:13px;color:var(--slate);">No secret values are recorded in this document or its source — by design.</p>
 </section>

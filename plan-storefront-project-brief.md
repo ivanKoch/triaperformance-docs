@@ -25,6 +25,8 @@
 
 **Price elasticity is mild:** $46–60 plans earn $0.66/view vs $0.38 for ≤$30. Premium pricing wins per eyeball.
 
+**Instrumentation update (Jul 21, 2026):** GA4 and Google Search Console are now live on the site and linked to each other; GA4's BigQuery export is also enabled. The plan-view tracking pixel (item 6 in Phase 1 below) is fixed and now backed up nightly into a dedicated Postgres instance on the VPS, independent of the Google account it runs under — see `ai-infrastructure-documentation.md` §9 for the full incident and fix.
+
 ## 2. Strategy decided
 
 **Option A now — showcase + redirect to TP.** Keeps 100% passivity. TP's 30% on current volume (~$2.6k/yr) is not worth becoming merchant of record (VAT/tax compliance, refunds, chargebacks, support). Site's job #1 is traffic volume, not margin recovery.
@@ -53,7 +55,7 @@
 4. Email capture before every TP redirect; UTM + plan_id on every outbound link.
 4b. All-Access promo module on plan pages + dedicated landing page per language (ES/EN).
 5. SEO foundation: language sections with hreflang (ES first — 57% of revenue, least competition); intent hub pages ("plan medio maratón intermedio 12 semanas"); Product schema with price + review stars from the social-proof quote bank. Plan pages are conversion destinations; hub pages are the door — 394 thin pages alone won't rank.
-6. **Fix the Cloud Run tracking pixel** (died ~Jun 30, 2026; check ignored Google Cloud emails — likely billing/deactivation). Only funnel instrument we have.
+6. ~~**Fix the Cloud Run tracking pixel**~~ — **done July 21, 2026.** Root cause wasn't ignored emails; the personal Google Cloud account's billing lapsed into a full account-closed state with zero notification sent. Fixed by linking a new billing account. 20 days of data lost (Jun 30–Jul 21); full history back to June 2025 was intact throughout. Now synced nightly into VPS Postgres as a standing backup — still the only funnel instrument we have, but no longer a single point of failure on that account.
 
 ### Phase 2 — Discovery & conversion
 1. AI plan picker: user types "quiero correr un 10k rápido en 8 semanas" → cheap LLM (Haiku-class) parses intent → facets → ranked 2–3 plans. No vector DB needed at 394 plans; cost is fractions of a cent/query. Doubles as email capture ("send my recommendation to my inbox").
@@ -74,7 +76,7 @@
 Site sessions by language · email opt-ins/week · UTM-attributed TP views & sales · site-referred conversion (target ≥2% vs 1.19% TP-native) · B-lite attach rate · revenue per view · **All-Access subscribers, monthly churn, avg tenure (breakeven vs plan sale ≈ 2 months)**.
 
 ## 5. Open questions
-- VPS stack choice for the storefront (aligns with existing Hermes/Hostinger setup; the storefront is the first vertical slice of the broader website rebuild that gates the tools-library migration).
+- VPS stack choice for the storefront (aligns with existing Hermes/Hostinger setup; the storefront is the first vertical slice of the broader website rebuild that gates the tools-library migration). **Partially answered Jul 21, 2026:** a dedicated Postgres container (`analytics-postgres`, own lane like Twenty/Hermes) now exists on the VPS for pixel-tracking data — reuse this same pattern (new DB or new schema in the same instance) for `plan_performance.csv` rather than introducing a second stack.
 - Review display: TP reviews can't be exported cleanly — decide how to source/verify testimonials per plan (social-proof quote bank exists).
 - Whether the AI picker should also quote B-lite ("add a 20-min coach call for $50") at recommendation time — likely yes, zero marginal cost.
 - Domain/URL structure for three languages (subfolders /es /en /pt recommended for consolidated authority).
