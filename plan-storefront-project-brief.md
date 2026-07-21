@@ -25,7 +25,7 @@
 
 **Price elasticity is mild:** $46–60 plans earn $0.66/view vs $0.38 for ≤$30. Premium pricing wins per eyeball.
 
-**Instrumentation update (Jul 21, 2026):** GA4 and Google Search Console are now live on the site and linked to each other; GA4's BigQuery export is also enabled. The plan-view tracking pixel (item 6 in Phase 1 below) is fixed and now backed up nightly into a dedicated Postgres instance on the VPS, independent of the Google account it runs under — see `ai-infrastructure-documentation.md` §9 for the full incident and fix.
+**Instrumentation update (Jul 21, 2026):** GA4 and Google Search Console are now live on the site and linked to each other; GA4's BigQuery export is also enabled. The plan-view tracking pixel (item 6 in Phase 1 below) is fixed and now backed up nightly into a dedicated Postgres instance on the VPS, independent of the Google account it runs under — see `ai-infrastructure-documentation.md` §9 for the full incident and fix. Also added: Microsoft Clarity (session recordings — directly useful once plan pages exist, for watching real sessions to debug why a given page isn't converting), Bing Webmaster Tools, and Ahrefs Webmaster Tools (both via one-click GSC import). Still to use, not yet actionable: Rich Results Test, to validate the Product schema markup called for in Phase 1's SEO step below once plan pages actually ship it.
 
 ## 2. Strategy decided
 

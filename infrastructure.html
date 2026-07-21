@@ -280,7 +280,7 @@ flowchart TB
   </div>
   <p style="font-size:14px;color:var(--slate);">Twenty's GraphQL introspection is disabled on this instance, so the valid <code>leadStatus</code> values were confirmed directly from the Twenty UI and hardcoded rather than discovered programmatically.</p>
 
-  <h3>9. Analytics pipeline — plan-view tracking, GA4 &amp; Search Console <span class="badge live">Live — July 21, 2026</span></h3>
+  <h3>9. Analytics pipeline — plan-view tracking, GA4, Search Console &amp; site tools <span class="badge live">Live — July 21, 2026</span></h3>
   <p><strong>Site instrumentation:</strong> GA4 (<code>coach@triaperformance.com</code>) added via gtag.js in <code>website/index.html</code>'s <code>&lt;head&gt;</code>, deployed through the normal git/cron pipeline. Search Console added as a Domain property for <code>triaperformance.com</code> — auto-verified via the pre-existing DNS TXT record from the HubSpot era. GA4 and Search Console are linked for combined search-query reporting.</p>
 
   <div class="card">
@@ -300,6 +300,13 @@ flowchart TB
     <p>Same separation pattern as Twenty/n8n: a dedicated <code>analytics-postgres</code> Docker container, bound to <code>127.0.0.1</code> only — nothing outside the box needs to reach it. Directory <code>~/.analytics/</code> (<code>data/</code>, <code>scripts/</code>, <code>credentials/</code>, <code>logs/</code>). Table <code>plan_views</code> mirrors the BigQuery schema with a <code>UNIQUE(event_timestamp, plan_id, ip_address)</code> constraint for idempotent syncs. A read-only BigQuery service account (<code>pixel-sync-vps</code>) backs <code>~/.analytics/scripts/sync_pixel_data.py</code>, which pulls everything newer than the current Postgres max timestamp and upserts — nightly at 5am via cron, staggered clear of the 2am Twenty backup and 6am site/KB deploy. First run backfilled all 49,105 historical rows (June 2025 to date). A <code>plan_views_clean</code> view replicates Iván's existing bot/IP-filtering logic on top (21,217 rows after filtering, matching the trusted BigQuery query) — the raw table stays untouched for audit.</p>
     <p style="margin:0">Purpose: a durable backup of the pixel data independent of the personal Google account's billing/closure risk — the exact failure mode that just cost 20 days. Also the first table in the VPS's planned broader analytics warehouse (pixel hits + future GSC pulls + sales CSVs + email signups).</p>
   </div>
+
+  <div class="card">
+    <h4>Site-verification tools, same day</h4>
+    <p><strong>Microsoft Clarity</strong> (heatmaps + session recordings) — manual script tag in <code>website/index.html</code>'s <code>&lt;head&gt;</code> alongside GA4 (project ID <code>xq3g7pvr9i</code>). Connected to the GA4 property (Clarity Settings → Integrations) so recordings can be filtered by GA4 traffic-source/segment — a reporting-level correlation only, not a raw-data feed; Clarity's recordings live solely inside its own platform.</p>
+    <p style="margin:0"><strong>Bing Webmaster Tools</strong> and <strong>Ahrefs Webmaster Tools</strong> — both added via "Import from Google Search Console," no new DNS or file-upload work, piggyback on the existing GSC domain verification. Same caveat as the GA4/GSC link: Search Console data doesn't flow into GA4's or BigQuery's dataset, it's reporting-level only.</p>
+  </div>
+  <p style="font-size:14px;color:var(--slate);">Not actioned, deliberately: <strong>Rich Results Test</strong> needs no account — it's a URL-paste validator for once plan pages ship with Product schema (Phase 1/2 SEO work, not built yet). <strong>Umami</strong> stays parked, only worth adding if GA4's UI becomes a friction point.</p>
 </section>
 
 <section>
