@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T69KEHW59J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T69KEHW59J');
+</script>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xq3g7pvr9i");
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planes de Entrenamiento de Running — 5K, 10K, 21K y Maratón | Triaperformance</title>
+<meta name="description" content="Planes de running basados en datos para 5K, 10K, media maratón y maratón. Estructura profesional por nivel, testing incluido, en TrainingPeaks.">
+<link rel="canonical" href="https://triaperformance.com/planes/running/">
+<style>
+  :root {
+    --blue: #004aad;
+    --blue-deep: #003a89;
+    --ink: #1e2019;
+    --white: #ffffff;
+    --wash: #edf3fb;
+    --slate: #565a52;
+    --mist: #e4e6e1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--white);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 96px 0; }
+  @media (max-width: 640px) { section { padding: 64px 0; } }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 0;
+  }
+  .logo { font-weight: 700; font-size: 20px; color: var(--blue); letter-spacing: -0.01em; text-decoration: none; }
+  nav a {
+    color: var(--ink); text-decoration: none; font-size: 15px; margin-left: 32px;
+  }
+  nav a:hover { color: var(--blue); }
+  .nav-cta {
+    background: var(--blue); color: var(--white) !important; padding: 10px 20px;
+    border-radius: 4px; font-weight: 700;
+  }
+  .nav-cta:hover { background: var(--blue-deep); }
+  .lang-switch { margin-left: 32px; font-size: 14px; }
+  .lang-switch a { margin-left: 0; }
+  .lang-switch .sep { color: var(--mist); margin: 0 4px; }
+  .lang-active { color: var(--blue); font-weight: 700; }
+
+  .label {
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--blue); margin-bottom: 16px; display: block;
+  }
+
+  /* Intro hero — no photo, plain text hero for hub pages (no image asset for this yet) */
+  .intro-hero { background: var(--wash); }
+  .intro-hero h1 {
+    font-size: 44px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;
+    margin-bottom: 20px; max-width: 720px;
+  }
+  @media (max-width: 640px) { .intro-hero h1 { font-size: 30px; } }
+  .intro-hero p { font-size: 18px; color: var(--slate); max-width: 640px; margin-bottom: 32px; }
+  .breadcrumb { font-size: 14px; color: var(--slate); margin-bottom: 24px; }
+  .breadcrumb a { color: var(--slate); }
+  .breadcrumb a:hover { color: var(--blue); }
+
+  h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 12px; }
+  @media (max-width: 640px) { h2 { font-size: 26px; } }
+  .section-intro { color: var(--slate); font-size: 16px; max-width: 65ch; margin-bottom: 40px; }
+
+  .distance-section:nth-child(even) { background: var(--wash); }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 800px) { .grid-3 { grid-template-columns: 1fr; } }
+  .plan-card {
+    background: var(--white); border: 1px solid var(--mist); border-radius: 8px;
+    padding: 28px; transition: box-shadow 0.15s; display: flex; flex-direction: column;
+  }
+  .plan-card:hover { box-shadow: 0 1px 3px rgba(30,32,25,.08); }
+  .plan-level {
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--blue); margin-bottom: 10px;
+  }
+  .plan-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; line-height: 1.35; }
+  .plan-meta { color: var(--slate); font-size: 14px; margin-bottom: 18px; }
+  .plan-card .btn-primary { margin-top: auto; text-align: center; }
+
+  .btn-primary {
+    display: inline-block; background: var(--blue); color: var(--white);
+    padding: 12px 24px; border-radius: 4px; font-weight: 700; text-decoration: none;
+    font-size: 15px;
+  }
+  .btn-primary:hover { background: var(--blue-deep); }
+  .btn-secondary {
+    display: inline-block; background: transparent; color: var(--blue);
+    border: 1.5px solid var(--blue); padding: 12px 24px; border-radius: 4px;
+    font-weight: 700; text-decoration: none; font-size: 15px;
+  }
+  .btn-secondary:hover { background: var(--wash); }
+
+  .cta-final { background: var(--ink); color: var(--white); text-align: center; }
+  .cta-final .label { color: var(--white); opacity: 0.85; }
+  .cta-final h2 { margin-bottom: 16px; }
+  .cta-final p { color: var(--white); opacity: 0.85; max-width: 560px; margin: 0 auto 32px; font-size: 17px; }
+  .cta-final .btn-primary { background: var(--white); color: var(--blue); }
+  .cta-final .btn-primary:hover { background: var(--wash); }
+
+  footer {
+    padding: 48px 0; text-align: center; color: var(--slate); font-size: 14px;
+    border-top: 1px solid var(--mist);
+  }
+  footer a { color: var(--slate); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <a href="/" class="logo">Triaperformance</a>
+    <nav>
+      <a href="/#planes">Planes</a>
+      <a href="/#coaching">Coaching</a>
+      <a href="/#contacto" class="nav-cta">Contacto</a>
+      <span class="lang-switch"><a href="/" class="lang-active">ES</a><span class="sep">·</span><a href="/en/">EN</a><span class="sep">·</span><a href="/pt/">PT</a></span>
+    </nav>
+  </header>
+</div>
+
+<!-- INTRO -->
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/">Inicio</a> / <a href="/#planes">Planes</a> / Running</p>
+    <span class="label">Planes de Running</span>
+    <h1>Planes de entrenamiento de running, por distancia y nivel</h1>
+    <p>De 5K a maratón, con estructura profesional y testing incluido — no plantillas genéricas. Cada plan define tus zonas correctas, mide el progreso semana a semana, y se ajusta según tu nivel real, no según el calendario.</p>
+    <a href="#5k" class="btn-primary">Ver planes</a>
+  </div>
+</section>
+
+<!-- 5K -->
+<section class="distance-section" id="5k">
+  <div class="wrap">
+    <h2>Planes de 5K</h2>
+    <p class="section-intro">Ideal si estás empezando a correr en serio, volviendo de una pausa, o querés bajar tu marca en la distancia más corta antes de escalar a 10K o 21K. 8 semanas, estructura polarizada 80/20.</p>
+    <div class="grid-3">
+      <div class="plan-card">
+        <span class="plan-level">Principiante</span>
+        <h3>Plan 8 Semanas: 5 km base (Principiantes)</h3>
+        <p class="plan-meta">8 semanas · $39.99 · Sistema polarizado 80/20</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/5km/tp-390919/5-km-para-principiantes-sistema-polarizado-80-20-soporte-por-mail-ilimitado" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Intermedio</span>
+        <h3>Plan 8 Semanas: 5 km build (Intermedios)</h3>
+        <p class="plan-meta">8 semanas · $40.00 · Sistema polarizado 80/20</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/5km/tp-391449/5-km-para-intermedios-sistema-polarizado-80-20-soporte-por-mail-ilimitado" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Avanzado</span>
+        <h3>Plan 8 Semanas: 5 km peak (Avanzados)</h3>
+        <p class="plan-meta">8 semanas · $40.00 · Sistema polarizado 80/20</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/5km/tp-391452/5-km-para-avanzados-sistema-polarizado-80-20-soporte-por-mail-ilimitado" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10K -->
+<section class="distance-section" id="10k">
+  <div class="wrap">
+    <h2>Planes de 10K</h2>
+    <p class="section-intro">El siguiente paso natural después de 5K, o tu primer objetivo si ya corrés de forma recreativa. Volumen moderado, foco en economía de carrera y ritmo sostenido.</p>
+    <div class="grid-3">
+      <div class="plan-card">
+        <span class="plan-level">Principiante</span>
+        <h3>Plan 8 Semanas: 10 km Base (Principiante)</h3>
+        <p class="plan-meta">8 semanas · $24.99 · Sistema polarizado 80/20</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/10km/tp-391110/10-km-para-principiantes-sistema-polarizado-80-20-soporte-por-mail-ilimitado" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Intermedio</span>
+        <h3>Plan 12 Semanas: 10 km (Intermedios)</h3>
+        <p class="plan-meta">12 semanas · $39.99 · Sistema polarizado 80/20</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/10km/tp-391113/10-km-para-principiantes-extendido-sistema-polarizado-80-20-soporte-por-mail-ili" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Avanzado</span>
+        <h3>Plan 12 Semanas: 10 km (Avanzados)</h3>
+        <p class="plan-meta">12 semanas · $39.99 · Sistema polarizado 80/20</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/10km/tp-437866/10-km-para-avanzados-12-semanas-sistema-polarizado-80-20-soporte-por-mail-ilimit" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 21K -->
+<section class="distance-section" id="21k">
+  <div class="wrap">
+    <h2>Planes de 21K / Media Maratón</h2>
+    <p class="section-intro">La distancia donde más se nota la diferencia entre entrenar con estructura y entrenar por intuición. 12 a 16 semanas de base aeróbica progresiva antes del pico de carrera.</p>
+    <div class="grid-3">
+      <div class="plan-card">
+        <span class="plan-level">Principiante</span>
+        <h3>Plan 16 Semanas: 21 km Base (Principiantes)</h3>
+        <p class="plan-meta">16 semanas · $59.99 · Polarizado a piramidal</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-415231/21-km-para-principiantes-sistema-polarizado-80-20-soporte-por-mail-ilimitado" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Intermedio</span>
+        <h3>Plan 16 Semanas: 21 km Build (Intermedios)</h3>
+        <p class="plan-meta">16 semanas · $59.99 · Polarizado a piramidal</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-439917/21-km-para-intermedios-sistema-polarizado-80-20-soporte-por-mail-ilimitado" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Avanzado</span>
+        <h3>Plan 12 Semanas: 21 km Peak (Avanzado)</h3>
+        <p class="plan-meta">12 semanas · $49.99 · Polarizado a piramidal</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-415245/21km-para-avanzados-sistema-polarizado-a-piramidal" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 42K -->
+<section class="distance-section" id="42k">
+  <div class="wrap">
+    <h2>Planes de Maratón (42K)</h2>
+    <p class="section-intro">Estructura por ritmo (zonas de pace), pensada para volumen semanal creciente y control de fatiga en las semanas de mayor carga. Elegí el plan según tu volumen semanal actual, no según la fecha de una carrera puntual.</p>
+    <div class="grid-3">
+      <div class="plan-card">
+        <span class="plan-level">Principiante · &lt;90 km/sem</span>
+        <h3>Plan 12 Semanas: Maratón Base (Por Ritmo)</h3>
+        <p class="plan-meta">12 semanas · $49.99 · Zonas por ritmo</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/marathon/tp-476495/maraton-12-semanas-hasta-90-km-semanales-zonas-por-ritmo-pace" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Intermedio · 90–110 km/sem</span>
+        <h3>Plan 12 Semanas: Maratón Build (Por Ritmo)</h3>
+        <p class="plan-meta">12 semanas · $49.99 · Zonas por ritmo</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/marathon/tp-476494/maraton-12-semanas-entre-90-y-110-km-semanales-zonas-por-ritmo-pace" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Avanzado · &gt;110 km/sem</span>
+        <h3>Plan 18 Semanas: Maratón Peak (Por Ritmo)</h3>
+        <p class="plan-meta">18 semanas · $64.00 · Zonas por ritmo</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/marathon/tp-476496/maraton-18-semanas-entre-110-y-135-km-semanales-zonas-por-ritmo-pace" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA: coaching 1:1 as the alternative to a self-guided plan -->
+<section class="cta-final">
+  <div class="wrap">
+    <span class="label">¿Preferís acompañamiento semanal?</span>
+    <h2>Coaching 1:1 en vez de un plan autoguiado</h2>
+    <p>Si querés testing personalizado, ajustes semanales y feedback directo en vez de seguir un plan fijo, el coaching 1:1 puede ser mejor opción para vos.</p>
+    <a href="/#contacto" class="btn-primary">Contanos tu objetivo</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Triaperformance © 2026 — <a href="mailto:coach@triaperformance.com">coach@triaperformance.com</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
