@@ -239,6 +239,16 @@ Two items from the same tooling review deliberately not actioned: Rich Results T
 
 **Source files, repo:** `data/training_plans_inventory.csv`, `data/plan_weekly_breakdown.csv`, `data/plan_weekly_breakdown_errors.csv`.
 
+## 11. Website contact form → Twenty + email + Telegram (live as of July 22, 2026)
+
+The last piece of the CoachMatch-pattern lead pipeline (§8) now also covers direct website leads. `website/index.html`'s contact form (name, email, WhatsApp, sport dropdown, goal) posts to same-origin `/api/contact-form`, which Caddy proxies internally to n8n. Full build is documented in `contact-form-pipeline-runbook.md`; short version:
+
+- **Caddy** needed a `rewrite * /webhook/contact-form` inside the `route /api/contact-form` block before the `reverse_proxy` line — n8n always serves webhooks under a `webhook/` prefix internally, so proxying the raw path unchanged 404s at the Express layer even though the proxy itself is working.
+- **n8n workflow** (`automation/contact-form-workflow.json`): dedupe check by email → create Person in Twenty → confirmation email → Telegram notification → `leadStatus = MESSAGE_SENT`, feeding into the same daily nurture workflow and Hermes WhatsApp watchdog a CoachMatch lead uses — no separate nurture logic needed.
+- **Real Twenty Person schema, confirmed by reading back a live API response** (rather than guessed from the original HubSpot migration audit in `growth-roadmap.md`): the field is `sport` (not `sportPrimary`/`sport__all_`), and there's no `campaign_attribution` field — `leadSource` fills that role, and turned out to also be an enum (confirmed value: `WEBSITE_FORM`). `sport` itself is an enum too: `RUNNING`, `CYCLING`, `SWIMMING`, `TRIATHLON`, `DUATHLON` (all caps).
+- **n8n's generic "HTTP Header Auth" credential type doesn't prepend `Bearer ` automatically** — cost real debugging time, since the saved value is masked afterward with no way to re-confirm it visually. Worth remembering for any future n8n + Twenty credential setup.
+- Confirmed working with a real production form submission on `triaperformance.com`.
+
 ## Open items / not yet done
 
 - Old "Managed Hermes" plan not yet cancelled (intentionally — waiting for the new setup to prove stable over a few days first).

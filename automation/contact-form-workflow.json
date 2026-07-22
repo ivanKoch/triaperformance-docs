@@ -1,6 +1,6 @@
 {
   "name": "Website Contact Form -> Twenty + Email + Telegram",
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
@@ -105,7 +105,7 @@
             { "id": "4", "name": "phones.primaryPhoneNumber", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.phone }}" },
             { "id": "5", "name": "sport", "type": "string", "value": "={{ ({ 'Running': 'RUNNING', 'Ciclismo': 'CYCLING', 'Duatlón': 'DUATHLON', 'Triatlón': 'TRIATHLON' })[$('Webhook - Contact Form').item.json.body.sport] || $('Webhook - Contact Form').item.json.body.sport }}" },
             { "id": "6", "name": "leadNotes", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.message }}" },
-            { "id": "7", "name": "leadSource", "type": "string", "value": "Website Contact Form" },
+            { "id": "7", "name": "leadSource", "type": "string", "value": "WEBSITE_FORM" },
             { "id": "8", "name": "leadStatus", "type": "string", "value": "NEW" }
           ]
         }

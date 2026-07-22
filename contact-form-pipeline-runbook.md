@@ -1,8 +1,10 @@
 # Website Contact Form -> Twenty + Email + Telegram — Deploy Runbook
 
+**Status: LIVE as of July 22, 2026.** Built, deployed, debugged, and confirmed working end-to-end with a real production submission through `triaperformance.com`. Everything below is now the accurate record of what's actually running, not a plan.
+
 Built to reuse the exact CoachMatch pipeline pattern (see `ai-infrastructure-documentation.md` §8): dedupe check against Twenty by email -> create Person -> immediate confirmation email -> Telegram notification -> same `leadStatus = MESSAGE_SENT` handoff into the existing daily nurture workflow (emails 2/3) and the existing Hermes WhatsApp watchdog. A form lead now flows through the identical downstream machinery a CoachMatch lead does — no new nurture logic needed.
 
-Source differs from CoachMatch on purpose: `campaign_attribution = "Website Contact Form"`, so the two lead sources stay distinguishable in reporting (this was flagged as a gap in the growth roadmap's HubSpot audit).
+Source differs from CoachMatch on purpose: `leadSource = "WEBSITE_FORM"`, so the two lead sources stay distinguishable in reporting (this was flagged as a gap in the growth roadmap's HubSpot audit, originally planned as `campaign_attribution` — Twenty's actual schema calls it `leadSource` instead, and it turned out to be an enum, confirmed value `WEBSITE_FORM`).
 
 Deliverables already committed to the repo:
 - `website/index.html` — the form itself (name, email, WhatsApp phone, sport, goal/message), posts to same-origin `/api/contact-form`.
@@ -68,12 +70,19 @@ Test: `curl -I https://triaperformance.com/api/contact-form` should reach n8n (l
 
 Set the n8n workflow to Inactive, or remove the `/api/contact-form` route from the Caddyfile and reload Caddy — the form on the site will show its generic error message ("Escribinos por WhatsApp mientras lo resolvemos") and visitors still have the WhatsApp fallback link.
 
-## Known gaps / things to double check
+## Confirmed live schema and gotchas (from real debugging, July 22, 2026)
 
-- Guessed n8n's default port (`5678`) for the Caddy proxy target — confirm against the actual docker-compose/port mapping used when n8n was deployed.
-- Guessed Twenty's REST endpoint shape (`POST/GET/PATCH /rest/people`, filter syntax `emails.primaryEmail[eq]:value`) from Twenty's public API docs — not verified against this specific instance. First test in Step 2.6 will catch any mismatch quickly (n8n shows the raw HTTP error).
-- Phone numbers are sent as typed (no country-code normalization) — the WhatsApp deep link in the Telegram message just strips non-digits, so ask leads to include their country code in the field (placeholder text already hints `+54 9 11...`).
-- **Sport dropdown mapping — resolved and confirmed live Jul 22, 2026.** The form's `Deporte` field has 4 options shown in Spanish: `Running`, `Ciclismo`, `Duatlón`, `Triatlón`. These map to Twenty's real `sport` field (not `sportPrimary` — that name never existed; confirmed by inspecting a live Create Person API response, which echoes every field on the Person object). `sport` is an enum; Twenty's actual valid values, confirmed directly from a validation error message, are `RUNNING`, `CYCLING`, `SWIMMING`, `TRIATHLON`, `DUATHLON` (all caps — a mixed-case value like `Cycling` is rejected). The **Build Twenty payload** node's `sport` field expression maps Spanish label → correct enum value; confirmation email and Telegram still show the original Spanish word for readability. `SWIMMING` has no corresponding dropdown option (not offered on the form) — harmless, just not currently reachable from the site.
-- **Field name corrections, confirmed live Jul 22, 2026** (same method — read back from a real Create Person response rather than guessed): `CONFIRM_sportPrimary` → `sport`, `CONFIRM_leadNotes` → `leadNotes`, `CONFIRM_leadStatus` → `leadStatus`. `CONFIRM_campaignAttribution` had no matching field at all — Twenty's schema has `leadSource` instead (free-text, not an enum — a plain string like `"Website Contact Form"` was accepted without error). All four are fixed in `automation/contact-form-workflow.json` and live in the running n8n workflow.
+- **Ports, confirmed via `docker ps` on the VPS:** n8n at `100.70.89.17:5678`, Twenty at `100.70.89.17:3000`. No longer a guess.
+- **Twenty's REST endpoint shape, confirmed working:** `POST/GET/PATCH /rest/people`, filter syntax `emails.primaryEmail[eq]:value` — matches what was guessed from public docs.
+- **Real Person schema fields, confirmed by inspecting a live Create Person API response** (which echoes every field on the object): `sport`, `leadNotes`, `leadSource`, `leadStatus`, `athleteLevel`, `customerType`, `preferredLanguage`, `excludeFromSequence`, `coach`, `lastTouchpoint`, `emailTouchCount`, `whatsappTouchCount`, `signUpDate`, `purchaseDate`, `churnDate`, `companyId`, `planPurchasedId`, `planPurchased` — a single flat `sport` field, not the `sportPrimary`/`sport__all_` split originally planned during the HubSpot migration audit.
+- **`sport` is an enum**, confirmed valid values from a validation error message: `RUNNING`, `CYCLING`, `SWIMMING`, `TRIATHLON`, `DUATHLON` (all caps — mixed case like `Cycling` is rejected). The form's Spanish dropdown (`Running`/`Ciclismo`/`Duatlón`/`Triatlón`) is mapped to these in the **Build Twenty payload** node; confirmation email and Telegram still show the Spanish word for readability. `SWIMMING` has no dropdown option — harmless, just not reachable from the site.
+- **`leadSource` is also an enum, not free text** (the original plan called this `campaign_attribution`; Twenty's schema has no such field). Confirmed working value: `WEBSITE_FORM`.
+- **`leadStatus`, `emailTouchCount`, `lastTouchpoint`** — all confirmed correct exactly as originally named, no change needed.
 - **n8n credential gotcha:** n8n's generic "HTTP Header Auth" credential type does not add the `Bearer ` prefix automatically — the Header Value field must contain the literal text `Bearer <key>` (word, space, key), typed in full. Easy to miss since n8n masks the saved value afterward with no way to visually re-confirm it; if in doubt, retype it from scratch rather than trust the masked field.
 - **Verifying a Twenty API key independently of n8n:** `curl -i -X POST http://100.70.89.17:3000/rest/people -H "Authorization: Bearer <key>" -H "Content-Type: application/json" -d '{"name":{"firstName":"Test"},"emails":{"primaryEmail":"<unique>@example.com"}}'` — expect `201 Created`. A `401` means the key/header is wrong; a `400 "duplicate entry"` actually means auth succeeded (Twenty got far enough to check for an existing email) — don't mistake that for an auth failure.
+- **Caddy needed a path rewrite, not just a proxy.** n8n always serves webhooks under a `webhook/` prefix internally — the route block needs `rewrite * /webhook/contact-form` before the `reverse_proxy` line, or every request 404s at the Express layer with "Cannot POST /api/contact-form" even though Caddy is routing correctly.
+
+## Still open
+
+- Phone numbers are sent as typed (no country-code normalization) — the WhatsApp deep link in the Telegram message just strips non-digits, so ask leads to include their country code in the field (placeholder text already hints `+54 9 11...`).
+- Test Persons created during debugging (Curl Test, Curl2, Formulario Prueba, etc.) are real records in Twenty — clean up if desired, not urgent.
