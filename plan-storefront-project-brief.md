@@ -69,8 +69,8 @@
 ### Data model gaps to fill (top ~100 plans only)
 - 2–3 sentence goal description (what athlete, what outcome).
 - Target weekly hours / volume range — **partially unlocked Jul 21, 2026:** `plan_weekly_breakdown` now gives real workouts/week + durations per plan (190/330 so far), a stronger source for this than a manually-written range.
-- Fix 4 duplicate plan_ids in inventory: 439394, 439396, 439397 (Boston 2026 EN double-listed), 612974 (Lima ES/PT rows). **Still open** — `plans_raw` kept these as-is (all-text staging table, no dedup logic applied yet).
-- 13 "not built" plans = HYROX EN/PT + WL ES — build HYROX EN first (EN is 60% of HYROX revenue), then WL ES. **Removed from `plans_raw`** as of the Jul 21 cleanup (they were placeholder rows, not real catalog entries) — the build priority itself is unchanged, still HYROX EN then WL ES.
+- ~~Fix 4 duplicate plan_ids in inventory~~ — **done July 22, 2026.** 439394/439396/439397 (Boston) turned out to be stale rows with `link = "Expired"`, already removed in the July 21 Postgres cleanup and now synced back to the source CSV. 612974 (Lima) wasn't actually a duplicate — a copy-paste error had the Portuguese row's `plan_id` set to the Spanish row's ID instead of its own; corrected to `612836` (its real link's ID). `plans_raw` and `data/training_plans_inventory.csv` both now at 381 rows, zero duplicate `plan_id`s.
+- 13 "not built" plans (HYROX EN/PT + WL ES) — **decision July 22, 2026: not building these.** Removed from `plans_raw` (July 21) and now from the source CSV too (July 22). Dropped as a to-do.
 - New gap found during the crawl: 6 plans marked `is_published = TRUE` in the inventory return a 404 on TrainingPeaks (434680, 443810, 443812, 443815, 443816, 491765 — mostly the ultra-marathon plans). Needs a manual check on whether TP quietly unpublished them.
 
 ## 4. KPIs
