@@ -103,7 +103,7 @@
             { "id": "2", "name": "name.lastName", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.name.split(' ').slice(1).join(' ') || '-' }}" },
             { "id": "3", "name": "emails.primaryEmail", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.email }}" },
             { "id": "4", "name": "phones.primaryPhoneNumber", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.phone }}" },
-            { "id": "5", "name": "CONFIRM_sportPrimary", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.sport }}" },
+            { "id": "5", "name": "CONFIRM_sportPrimary", "type": "string", "value": "={{ ({ 'Running': 'Running', 'Ciclismo': 'Cycling', 'Duatlón': 'Duathlon', 'Triatlón': 'Triathlon' })[$('Webhook - Contact Form').item.json.body.sport] || $('Webhook - Contact Form').item.json.body.sport }}" },
             { "id": "6", "name": "CONFIRM_leadNotes", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.message }}" },
             { "id": "7", "name": "CONFIRM_campaignAttribution", "type": "string", "value": "Website Contact Form" },
             { "id": "8", "name": "CONFIRM_leadStatus", "type": "string", "value": "NEW" }
