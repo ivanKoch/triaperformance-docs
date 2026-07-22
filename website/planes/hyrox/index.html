@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T69KEHW59J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T69KEHW59J');
+</script>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xq3g7pvr9i");
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planes de Entrenamiento HYROX — Running y Fuerza | Triaperformance</title>
+<meta name="description" content="Planes de entrenamiento para HYROX: preparación de running por nivel, o running + fuerza integrada (Full Prep). Estructura profesional, en TrainingPeaks.">
+<link rel="canonical" href="https://triaperformance.com/planes/hyrox/">
+<style>
+  :root {
+    --blue: #004aad;
+    --blue-deep: #003a89;
+    --ink: #1e2019;
+    --white: #ffffff;
+    --wash: #edf3fb;
+    --slate: #565a52;
+    --mist: #e4e6e1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--white);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 96px 0; }
+  @media (max-width: 640px) { section { padding: 64px 0; } }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 0;
+  }
+  .logo { font-weight: 700; font-size: 20px; color: var(--blue); letter-spacing: -0.01em; text-decoration: none; }
+  nav a {
+    color: var(--ink); text-decoration: none; font-size: 15px; margin-left: 32px;
+  }
+  nav a:hover { color: var(--blue); }
+  .nav-cta {
+    background: var(--blue); color: var(--white) !important; padding: 10px 20px;
+    border-radius: 4px; font-weight: 700;
+  }
+  .nav-cta:hover { background: var(--blue-deep); }
+  .lang-switch { margin-left: 32px; font-size: 14px; }
+  .lang-switch a { margin-left: 0; }
+  .lang-switch .sep { color: var(--mist); margin: 0 4px; }
+  .lang-active { color: var(--blue); font-weight: 700; }
+
+  .label {
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--blue); margin-bottom: 16px; display: block;
+  }
+
+  .intro-hero { background: var(--wash); }
+  .intro-hero h1 {
+    font-size: 44px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;
+    margin-bottom: 20px; max-width: 720px;
+  }
+  @media (max-width: 640px) { .intro-hero h1 { font-size: 30px; } }
+  .intro-hero p { font-size: 18px; color: var(--slate); max-width: 640px; margin-bottom: 20px; }
+  .intro-hero p:last-of-type { margin-bottom: 32px; }
+  .breadcrumb { font-size: 14px; color: var(--slate); margin-bottom: 24px; }
+  .breadcrumb a { color: var(--slate); }
+  .breadcrumb a:hover { color: var(--blue); }
+
+  h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 12px; }
+  @media (max-width: 640px) { h2 { font-size: 26px; } }
+  .section-intro { color: var(--slate); font-size: 16px; max-width: 65ch; margin-bottom: 40px; }
+
+  .distance-section:nth-child(even) { background: var(--wash); }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 800px) { .grid-3 { grid-template-columns: 1fr; } }
+  .plan-card {
+    background: var(--white); border: 1px solid var(--mist); border-radius: 8px;
+    padding: 28px; transition: box-shadow 0.15s; display: flex; flex-direction: column;
+  }
+  .plan-card:hover { box-shadow: 0 1px 3px rgba(30,32,25,.08); }
+  .plan-level {
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--blue); margin-bottom: 10px;
+  }
+  .plan-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; line-height: 1.35; }
+  .plan-meta { color: var(--slate); font-size: 14px; margin-bottom: 6px; }
+  .plan-strength { color: var(--slate); font-size: 14px; margin-bottom: 18px; }
+  .plan-strength.has-gym::before { content: "＋ "; color: var(--blue); font-weight: 700; }
+  .plan-card .btn-primary { margin-top: auto; text-align: center; }
+
+  .btn-primary {
+    display: inline-block; background: var(--blue); color: var(--white);
+    padding: 12px 24px; border-radius: 4px; font-weight: 700; text-decoration: none;
+    font-size: 15px;
+  }
+  .btn-primary:hover { background: var(--blue-deep); }
+
+  .cta-final { background: var(--ink); color: var(--white); text-align: center; }
+  .cta-final .label { color: var(--white); opacity: 0.85; }
+  .cta-final h2 { margin-bottom: 16px; }
+  .cta-final p { color: var(--white); opacity: 0.85; max-width: 560px; margin: 0 auto 32px; font-size: 17px; }
+  .cta-final .btn-primary { background: var(--white); color: var(--blue); }
+  .cta-final .btn-primary:hover { background: var(--wash); }
+
+  footer {
+    padding: 48px 0; text-align: center; color: var(--slate); font-size: 14px;
+    border-top: 1px solid var(--mist);
+  }
+  footer a { color: var(--slate); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <a href="/" class="logo">Triaperformance</a>
+    <nav>
+      <a href="/#planes">Planes</a>
+      <a href="/#coaching">Coaching</a>
+      <a href="/#contacto" class="nav-cta">Contacto</a>
+      <span class="lang-switch"><a href="/" class="lang-active">ES</a><span class="sep">·</span><a href="/en/">EN</a><span class="sep">·</span><a href="/pt/">PT</a></span>
+    </nav>
+  </header>
+</div>
+
+<!-- INTRO -->
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/">Inicio</a> / <a href="/#planes">Planes</a> / HYROX</p>
+    <span class="label">Planes HYROX</span>
+    <h1>Planes de entrenamiento para HYROX</h1>
+    <p>Dos formas de prepararte: solo la parte de running (si ya entrenás fuerza por tu cuenta), o un plan completo que integra running y fuerza en un solo calendario. Estructura por nivel, no genérica.</p>
+    <a href="#running" class="btn-primary">Ver planes</a>
+  </div>
+</section>
+
+<!-- RUNNING ONLY -->
+<section class="distance-section" id="running">
+  <div class="wrap">
+    <h2>Planes de Running para HYROX</h2>
+    <p class="section-intro">13 semanas enfocadas en la parte de carrera de HYROX (los tramos de running entre estaciones). Sin rutina de gimnasio incluida — pensado para quien ya entrena fuerza por su cuenta o en su box.</p>
+    <div class="grid-3">
+      <div class="plan-card">
+        <span class="plan-level">Principiante</span>
+        <h3>Preparación HYROX Run (Principiante)</h3>
+        <p class="plan-meta">13 semanas · $49.99</p>
+        <p class="plan-strength">Sin rutina de gimnasio</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/10km/tp-561957/hyrox-domina-los-8x1000-corriendo-plan-de-12-semanas-para-principiantes-corre-3x" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Intermedio</span>
+        <h3>Preparación HYROX Run (Intermedio)</h3>
+        <p class="plan-meta">13 semanas · $49.99</p>
+        <p class="plan-strength">Sin rutina de gimnasio</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/10km/tp-562094/hyrox-domina-los-8x1000-corriendo-plan-de-12-semanas-para-intermedios-corre-4x-p" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Avanzado</span>
+        <h3>Preparación HYROX Run (Avanzado)</h3>
+        <p class="plan-meta">13 semanas · $49.99</p>
+        <p class="plan-strength">Sin rutina de gimnasio</p>
+        <a href="https://www.trainingpeaks.com/training-plans/running/10km/tp-562095/hyrox-corre-los-8x1000-como-elite-plan-de-12-semanas-para-avanzados-corre-5x-por" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL PREP -->
+<section class="distance-section" id="full-prep">
+  <div class="wrap">
+    <h2>Planes de Running y Fuerza para HYROX (Full Prep)</h2>
+    <p class="section-intro">16 semanas, running y fuerza integrados en un solo calendario. Ideal si preferís seguir un único plan en vez de coordinar carrera y gimnasio por separado.</p>
+    <div class="grid-3">
+      <div class="plan-card">
+        <span class="plan-level">Principiante</span>
+        <h3>HYROX Full Prep — Tu Primera Meta</h3>
+        <p class="plan-meta">16 semanas · $59.99</p>
+        <p class="plan-strength has-gym">Running + fuerza progresiva</p>
+        <a href="https://www.trainingpeaks.com/training-plans/other/tp-612081/16-semanas-hyrox-full-prep-principiante-tu-primera-meta-running-fuerza-progresiv" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Intermedio</span>
+        <h3>HYROX Full Prep — Intermedio</h3>
+        <p class="plan-meta">16 semanas · $59.99</p>
+        <p class="plan-strength has-gym">Running + fuerza integrada</p>
+        <a href="https://www.trainingpeaks.com/training-plans/other/tp-611863/16-semanas-hyrox-full-prep-intermedio-running-fuerza-integrada" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+      <div class="plan-card">
+        <span class="plan-level">Avanzado</span>
+        <h3>HYROX Avanzados — Volumen y Carga</h3>
+        <p class="plan-meta">16 semanas · $59.99</p>
+        <p class="plan-strength has-gym">Running + fuerza máxima y potencia</p>
+        <a href="https://www.trainingpeaks.com/training-plans/other/tp-612084/16-semanas-hyrox-avanzados-running-volumen-y-carga-fuerza-maxima-potencia" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-final">
+  <div class="wrap">
+    <span class="label">¿Preferís acompañamiento semanal?</span>
+    <h2>Coaching 1:1 en vez de un plan autoguiado</h2>
+    <p>Si querés testing personalizado, ajustes semanales y feedback directo en vez de seguir un plan fijo, el coaching 1:1 puede ser mejor opción para vos.</p>
+    <a href="/#contacto" class="btn-primary">Contanos tu objetivo</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Triaperformance © 2026 — <a href="mailto:coach@triaperformance.com">coach@triaperformance.com</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
