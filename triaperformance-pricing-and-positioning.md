@@ -97,4 +97,16 @@ Two live products, priced by market purchasing power:
 
 The Portuguese discount is historical (weak BRL made USD pricing feel expensive). Because the $9 TrainingPeaks Premium fee is fixed, lower prices carry disproportionately worse margins — any future All-Access pricing decision should account for that floor. At 2 subscribers, the constraint is distribution, not price: this product is built, recurring, near-zero marginal effort, and unpromoted.
 
+**Checkout links (added Jul 2026, for website CTA buttons):**
+
+| Language | Checkout URL | Product name (as set in TP Payments) | Price | Subscribers | Renameable? |
+|---|---|---|---|---|---|
+| Spanish | https://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd4edb446f3 | "Suscripción Triaperformance - Todos los planes y guías + Training Peaks Premium" | $39.99 | 2 | No — existing subscribers, can't rename |
+| English | https://checkout.trainingpeaks.com/product/7127a1e4-f736-45b7-b98d-1bbe468d950a | "FULL ACCESS: All training plans and guides + Training Peaks Premium" | $39.99 | 0 | Yes — no subscribers yet, open to a better name if proposed |
+| Portuguese | https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a | "Acesso Total: Planos de Treino (Corrida + Ciclismo + Triatlo)" | $29.99 | 1 | No — existing subscriber |
+
+Subscription flow: athlete pays via TrainingPeaks Payments checkout → TP links them to Iván's coach profile, grants TrainingPeaks Premium, and grants access to the plans Iván has selected into the offering (not the entire catalog — exact scope not yet documented, flagged as a to-do). Same product-in-TP-Payments mechanism as the 1:1 coaching plans, just a different product.
+
+**Value framing (from Iván, Jul 2026):** TP Premium alone runs $19.95/mo (monthly), $16.33/mo (quarterly), $11.25/mo (annual). A consistent, single-goal athlete on annual Premium + one $50 plan every ~12 weeks (~$17/mo amortized) is already near the $39.99 All-Access price on their own — so the subscription's real edge is for anyone *not* that profile: multi-sport athletes, athletes switching goals mid-cycle (e.g. a fast 5K then a 10K a few months later), or anyone still on monthly Premium pricing. Worked example: 3 months of monthly Premium ($19.95×3 = $59.85) + a 5K plan ($40) + a 10K plan ($50) = $149.85 over 3 months (~$50/mo) — well above All-Access's flat $39.99/mo, which also includes free plan-swapping. Do not claim the entire catalog is included in marketing copy — Iván confirmed most but not all plans are in the offering; exact list pending.
+
 
