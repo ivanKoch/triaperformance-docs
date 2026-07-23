@@ -117,6 +117,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [1000, 180],
+      "onError": "continueErrorOutput",
       "parameters": {
         "method": "POST",
         "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people",
@@ -128,6 +129,96 @@
       },
       "credentials": {
         "httpHeaderAuth": { "id": "REPLACE_ME", "name": "Twenty API" }
+      }
+    },
+    {
+      "id": "is-phone-error",
+      "name": "Is phone error?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1000, 380],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ JSON.stringify($json) }}",
+              "rightValue": "INVALID_PHONE_NUMBER",
+              "operator": { "type": "string", "operation": "contains" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "build-payload-no-phone",
+      "name": "Build Twenty payload (no phone)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1240, 320],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "1", "name": "name.firstName", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.name.split(' ')[0] }}" },
+            { "id": "2", "name": "name.lastName", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.name.split(' ').slice(1).join(' ') || '-' }}" },
+            { "id": "3", "name": "emails.primaryEmail", "type": "string", "value": "={{ $('Webhook - Contact Form').item.json.body.email }}" },
+            { "id": "4", "name": "sport", "type": "string", "value": "={{ ({ 'Running': 'RUNNING', 'Ciclismo': 'CYCLING', 'Duatlón': 'DUATHLON', 'Triatlón': 'TRIATHLON' })[$('Webhook - Contact Form').item.json.body.sport] || $('Webhook - Contact Form').item.json.body.sport }}" },
+            { "id": "6", "name": "leadNotes", "type": "string", "value": "={{ ($('Webhook - Contact Form').item.json.body.message || '') + '\\n\\n[Teléfono provisto no válido, no se guardó: ' + $('Webhook - Contact Form').item.json.body.phone + ']' }}" },
+            { "id": "7", "name": "leadSource", "type": "string", "value": "WEBSITE_FORM" },
+            { "id": "8", "name": "leadStatus", "type": "string", "value": "NEW" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "create-person-no-phone",
+      "name": "Create Person in Twenty (no phone)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1480, 320],
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": { "id": "REPLACE_ME", "name": "Twenty API" }
+      }
+    },
+    {
+      "id": "person-created",
+      "name": "Person Created",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1240, 180],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "1", "name": "personId", "type": "string", "value": "={{ $json.data.createPerson.id }}" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "twenty-error-alert",
+      "name": "Telegram alert - Twenty error",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1240, 460],
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=⚠️ No se pudo crear el lead en Twenty (error no relacionado al teléfono). Revisar manualmente.\nNombre: {{ $('Webhook - Contact Form').item.json.body.name }}\nEmail: {{ $('Webhook - Contact Form').item.json.body.email }}\nTeléfono: {{ $('Webhook - Contact Form').item.json.body.phone }}\nDeporte: {{ $('Webhook - Contact Form').item.json.body.sport }}\nMensaje: {{ $('Webhook - Contact Form').item.json.body.message }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": { "id": "REPLACE_ME", "name": "Telegram bot" }
       }
     },
     {
@@ -155,7 +246,7 @@
       "position": [1480, 180],
       "parameters": {
         "method": "PATCH",
-        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people/{{ $('Create Person in Twenty').item.json.data.createPerson.id }}",
+        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people/{{ $('Person Created').item.json.personId }}",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ leadStatus: 'MESSAGE_SENT', emailTouchCount: 1, lastTouchpoint: new Date().toISOString() }) }}",
@@ -231,7 +322,27 @@
     },
     "Telegram notify (duplicate)": { "main": [[{ "node": "Respond success (duplicate)", "type": "main", "index": 0 }]] },
     "Build Twenty payload": { "main": [[{ "node": "Create Person in Twenty", "type": "main", "index": 0 }]] },
-    "Create Person in Twenty": { "main": [[{ "node": "Send confirmation email", "type": "main", "index": 0 }]] },
+    "Create Person in Twenty": {
+      "main": [
+        [{ "node": "Person Created", "type": "main", "index": 0 }],
+        [{ "node": "Is phone error?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Is phone error?": {
+      "main": [
+        [{ "node": "Build Twenty payload (no phone)", "type": "main", "index": 0 }],
+        [{ "node": "Telegram alert - Twenty error", "type": "main", "index": 0 }]
+      ]
+    },
+    "Build Twenty payload (no phone)": { "main": [[{ "node": "Create Person in Twenty (no phone)", "type": "main", "index": 0 }]] },
+    "Create Person in Twenty (no phone)": {
+      "main": [
+        [{ "node": "Person Created", "type": "main", "index": 0 }],
+        [{ "node": "Telegram alert - Twenty error", "type": "main", "index": 0 }]
+      ]
+    },
+    "Telegram alert - Twenty error": { "main": [[{ "node": "Respond success", "type": "main", "index": 0 }]] },
+    "Person Created": { "main": [[{ "node": "Send confirmation email", "type": "main", "index": 0 }]] },
     "Send confirmation email": { "main": [[{ "node": "Set leadStatus = MESSAGE_SENT", "type": "main", "index": 0 }]] },
     "Set leadStatus = MESSAGE_SENT": { "main": [[{ "node": "Telegram notify Ivan", "type": "main", "index": 0 }]] },
     "Telegram notify Ivan": { "main": [[{ "node": "Respond success", "type": "main", "index": 0 }]] }

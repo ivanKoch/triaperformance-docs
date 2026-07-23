@@ -211,6 +211,9 @@
     outline: none; border-color: var(--blue);
   }
   .contact-form textarea { resize: vertical; min-height: 96px; }
+  .contact-form .phone-row { display: flex; gap: 8px; }
+  .contact-form .phone-row select { flex: 0 0 128px; }
+  .contact-form .phone-row input { flex: 1; }
   .contact-form .btn-primary {
     background: var(--blue); color: var(--white); border: none; width: 100%;
     font-size: 16px; cursor: pointer;
@@ -359,7 +362,22 @@
       </div>
       <div class="field">
         <label for="cf-phone">WhatsApp</label>
-        <input type="tel" id="cf-phone" name="phone" required autocomplete="tel" placeholder="+54 9 11 1234 5678">
+        <div class="phone-row">
+          <select id="cf-phone-country" name="phone_country">
+            <option value="54" selected>🇦🇷 +54</option>
+            <option value="34">🇪🇸 +34</option>
+            <option value="52">🇲🇽 +52</option>
+            <option value="57">🇨🇴 +57</option>
+            <option value="56">🇨🇱 +56</option>
+            <option value="598">🇺🇾 +598</option>
+            <option value="51">🇵🇪 +51</option>
+            <option value="1">🇺🇸 +1</option>
+            <option value="55">🇧🇷 +55</option>
+            <option value="351">🇵🇹 +351</option>
+            <option value="">Otro (escribí + código)</option>
+          </select>
+          <input type="tel" id="cf-phone" name="phone" required autocomplete="tel" placeholder="11 1234 5678">
+        </div>
       </div>
       <div class="field">
         <label for="cf-sport">Deporte</label>
@@ -404,7 +422,11 @@
     var payload = {
       name: form.name.value.trim(),
       email: form.email.value.trim(),
-      phone: form.phone.value.trim(),
+      phone: (function () {
+        var cc = form.phone_country.value;
+        var local = form.phone.value.trim().replace(/^0+/, "").replace(/[^\d\s]/g, "");
+        return cc ? ("+" + cc + " " + local) : form.phone.value.trim();
+      })(),
       sport: form.sport.value,
       message: form.message.value.trim(),
       source: "website_contact_form",
