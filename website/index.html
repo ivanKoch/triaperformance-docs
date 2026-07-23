@@ -380,7 +380,7 @@
     </form>
 
     <p class="contact-divider">o si preferís, escribinos directo</p>
-    <a href="https://wa.me/573105437088" class="btn-secondary" style="color:var(--blue); border-color:var(--blue);">Escribir por WhatsApp</a>
+    <a href="https://wa.me/573105437088" target="_blank" rel="noopener" class="btn-secondary" style="color:var(--blue); border-color:var(--blue);">Escribir por WhatsApp</a>
   </div>
 </section>
 
@@ -425,6 +425,7 @@
       .then(function () {
         status.className = "form-status success";
         status.textContent = "¡Gracias! Te contactamos en menos de 24 horas.";
+        if (window.gtag) gtag('event', 'generate_lead', { form_id: 'contact-form', sport: payload.sport, page_path: window.location.pathname });
         form.reset();
       })
       .catch(function () {
@@ -444,6 +445,28 @@
     <p>Triaperformance © 2026 — <a href="mailto:coach@triaperformance.com">coach@triaperformance.com</a></p>
   </div>
 </footer>
+
+<script>
+(function () {
+  function track(name, params) { if (window.gtag) gtag('event', name, params || {}); }
+  document.addEventListener('click', function (e) {
+    var tpLink = e.target.closest('a[href*="trainingpeaks.com"]');
+    if (tpLink) {
+      var isCheckout = tpLink.href.indexOf('checkout.trainingpeaks.com') !== -1;
+      if (isCheckout) {
+        track('begin_checkout', { currency: 'USD', value: 39.99, link_url: tpLink.href, page_path: location.pathname });
+      } else {
+        var card = tpLink.closest('.plan-card');
+        var planName = card ? (card.querySelector('h3') || {}).textContent : document.title;
+        track('select_plan', { plan_name: planName ? planName.trim() : '', link_url: tpLink.href, page_path: location.pathname });
+      }
+      return;
+    }
+    var waLink = e.target.closest('a[href*="wa.me"]');
+    if (waLink) { track('whatsapp_click', { page_path: location.pathname }); }
+  });
+})();
+</script>
 
 </body>
 </html>

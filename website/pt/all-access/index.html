@@ -295,5 +295,27 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  function track(name, params) { if (window.gtag) gtag('event', name, params || {}); }
+  document.addEventListener('click', function (e) {
+    var tpLink = e.target.closest('a[href*="trainingpeaks.com"]');
+    if (tpLink) {
+      var isCheckout = tpLink.href.indexOf('checkout.trainingpeaks.com') !== -1;
+      if (isCheckout) {
+        track('begin_checkout', { currency: 'USD', value: 39.99, link_url: tpLink.href, page_path: location.pathname });
+      } else {
+        var card = tpLink.closest('.plan-card');
+        var planName = card ? (card.querySelector('h3') || {}).textContent : document.title;
+        track('select_plan', { plan_name: planName ? planName.trim() : '', link_url: tpLink.href, page_path: location.pathname });
+      }
+      return;
+    }
+    var waLink = e.target.closest('a[href*="wa.me"]');
+    if (waLink) { track('whatsapp_click', { page_path: location.pathname }); }
+  });
+})();
+</script>
+
 </body>
 </html>
