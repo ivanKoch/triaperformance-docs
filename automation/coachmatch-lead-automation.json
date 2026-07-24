@@ -1,0 +1,509 @@
+{
+  "name": "CoachMatch Lead Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b0715a84-595e-423a-948f-14bc5efd68de",
+      "name": "Email Trigger (IMAP)",
+      "credentials": {
+        "imap": {
+          "id": "xG2Iu8qvkR9XVFuA",
+          "name": "IMAP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a1b2c3d4-1111-4222-8333-444455556666",
+              "leftValue": "={{ $json.subject }}",
+              "rightValue": "Coach Match",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        104,
+        0
+      ],
+      "id": "f1e2d3c4-2222-4333-8444-555566667777",
+      "name": "Is CoachMatch email?"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parses the structured TrainingPeaks CoachMatch email body\nconst results = [];\n\n// Fixes a confirmed UTF-8-read-as-Latin-1 encoding bug from the IMAP source\n// (e.g. \"JosuÃ©\" -> \"Josué\"). Safe no-op on text that doesn't have the issue.\nconst fixEncoding = (str) => {\n  try {\n    return Buffer.from(str, 'latin1').toString('utf8');\n  } catch (e) {\n    return str;\n  }\n};\n\nfor (const item of $input.all()) {\n  const body = fixEncoding(item.json.textPlain || '');\n\n  // Captures multi-line wrapped values, stopping at the next blank line\n  // (field boundary) or end of string -- not just the next line break.\n  const extract = (label) => {\n    const re = new RegExp(label + '\\\\s*:?\\\\s*([\\\\s\\\\S]+?)(?:\\\\r?\\\\n\\\\s*\\\\r?\\\\n|$)', 'i');\n    const match = body.match(re);\n    return match ? match[1].replace(/\\r?\\n/g, ' ').replace(/\\s+/g, ' ').trim() : '';\n  };\n\n  const fullName = extract('Athlete Name');\n  const nameParts = fullName.split(/\\s+/);\n  const lastname = nameParts.pop() || '';\n  const firstname = nameParts.join(' ');\n\n  const location = extract('Location');\n  const [city, state, country] = location.split(',').map(s => (s || '').trim());\n\n  results.push({\n    json: {\n      firstname,\n      lastname,\n      email: extract('Email'),\n      phone_raw: extract('Phone'),\n      city: city || '',\n      state: state || '',\n      country: country || '',\n      sport_raw: extract('What are you training for\\\\?'),\n      athlete_level_raw: extract('Ability Level'),\n      lead_notes: extract('Please give us more details about what you are looking for in a coach:'),\n      source_subject: item.json.subject,\n      source_date: item.json.date,\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "ee967baf-3fdf-41b6-bcfc-82767b536c6b",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Maps raw parsed fields to Twenty-CRM-ready values\n\nconst countryCallingCodes = {\n  'argentina': '54', 'bolivia': '591', 'brazil': '55', 'chile': '56',\n  'colombia': '57', 'costa rica': '506', 'cuba': '53',\n  'dominican republic': '1', 'ecuador': '593', 'el salvador': '503',\n  'guatemala': '502', 'honduras': '504', 'mexico': '52', 'nicaragua': '505',\n  'panama': '507', 'paraguay': '595', 'peru': '51', 'puerto rico': '1',\n  'spain': '34', 'united states': '1', 'usa': '1', 'uruguay': '598',\n  'venezuela': '58', 'canada': '1'\n};\n\nconst countryIso = {\n  'argentina': 'AR', 'bolivia': 'BO', 'brazil': 'BR', 'chile': 'CL',\n  'colombia': 'CO', 'costa rica': 'CR', 'cuba': 'CU',\n  'dominican republic': 'DO', 'ecuador': 'EC', 'el salvador': 'SV',\n  'guatemala': 'GT', 'honduras': 'HN', 'mexico': 'MX', 'nicaragua': 'NI',\n  'panama': 'PA', 'paraguay': 'PY', 'peru': 'PE', 'puerto rico': 'PR',\n  'spain': 'ES', 'united states': 'US', 'usa': 'US', 'uruguay': 'UY',\n  'venezuela': 'VE', 'canada': 'CA'\n};\n\nconst sportKeywords = {\n  'running': ['run'],\n  'cycling': ['cycl', 'bike', 'biking'],\n  'swimming': ['swim'],\n  'triathlon': ['triathlon', 'tri '],\n  'duathlon': ['duathlon']\n};\n\nconst levelOptions = ['No experience', 'Beginner', 'Intermediate', 'Advanced', 'Elite'];\n\n// Twenty stores select/enum values as UPPER_SNAKE_CASE, not the label text\nconst toEnum = (str) => (str || '').toUpperCase().trim().replace(/[^A-Z0-9]+/g, '_').replace(/^_+|_+$/g, '');\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const d = item.json;\n  const countryKey = (d.country || '').toLowerCase().trim();\n  const digitsOnly = (d.phone_raw || '').replace(/\\D/g, '');\n  const callingCode = countryCallingCodes[countryKey];\n  const iso = countryIso[countryKey];\n\n  let phone_local = null, phone_country_iso = null, phone_wa = null, no_phone = false;\n  if (callingCode && iso && digitsOnly.length >= 7) {\n    // Twenty wants the local number without the calling code\n    phone_local = digitsOnly.startsWith(callingCode) ? digitsOnly.slice(callingCode.length) : digitsOnly;\n    phone_country_iso = iso;\n    // WhatsApp links need the full number WITH calling code, no +\n    phone_wa = digitsOnly.startsWith(callingCode) ? digitsOnly : callingCode + digitsOnly;\n  } else {\n    no_phone = true;\n  }\n\n  const sportText = (d.sport_raw || '').toLowerCase();\n  let sport = '';\n  for (const [option, keywords] of Object.entries(sportKeywords)) {\n    if (keywords.some(k => sportText.includes(k))) {\n      sport = option;\n      break;\n    }\n  }\n\n  const levelText = (d.athlete_level_raw || '').toLowerCase().trim();\n  const athlete_level = levelOptions.find(opt => opt.toLowerCase() === levelText) || '';\n\n  const preferred_language = countryKey === 'brazil' ? 'Portuguese' : 'Spanish';\n\n  results.push({\n    json: {\n      firstname: d.firstname,\n      lastname: d.lastname,\n      email: d.email,\n      phone_local,\n      phone_country_iso,\n      phone_wa,\n      no_phone,\n      city: d.city,\n      state: d.state,\n      country: d.country,\n      sport_enum: toEnum(sport),\n      athlete_level_enum: toEnum(athlete_level),\n      lead_notes: d.lead_notes,\n      preferred_language_enum: toEnum(preferred_language),\n      lead_source_enum: toEnum('TrainingPeaks CoachMatch'),\n      lead_status_enum: toEnum('New'),\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "63000993-37ce-4a08-b72d-869ae08e08c8",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Builds the create-person request. Query and variables are kept separate\n// so quotes/apostrophes in free text (like lead notes) can't break anything.\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const d = item.json;\n\n  // City/country fallback: prefer city, fall back to state/region if city is blank\n  const addressCity = d.city || d.state || '';\n  const addressCountry = d.country || '';\n\n  const data = {\n    name: { firstName: d.firstname, lastName: d.lastname },\n    emails: { primaryEmail: d.email },\n    leadSource: 'COACHMATCH',\n    leadStatus: 'NEW',\n    leadNotes: d.lead_notes,\n    addressCity,\n    addressCountry,\n    preferredLanguage: d.preferred_language_enum,\n  };\n\n  if (!d.no_phone) {\n    data.phones = {\n      primaryPhoneNumber: d.phone_local,\n      primaryPhoneCountryCode: d.phone_country_iso,\n    };\n  }\n\n  if (d.sport_enum) data.sport = d.sport_enum;\n  if (d.athlete_level_enum) data.athleteLevel = d.athlete_level_enum;\n\n  results.push({\n    json: {\n      query: 'mutation CreatePerson($data: PersonCreateInput!) { createPerson(data: $data) { id } }',\n      variables: { data },\n    },\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "31203c16-5c31-49af-9f24-27a0ac2924a8",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://100.70.89.17:3000/graphql",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        832,
+        0
+      ],
+      "id": "cc1bdb1e-bba0-41f8-ab55-5ccb69f01bed",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7d8d1d72-b8a5-41b1-8e4f-e88e7012c2fc",
+              "leftValue": "={{ $json.data.createPerson }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "542b3737-ef49-4222-b9f0-20d380c303ff",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "const lead = $('Code in JavaScript1').item.json;\nconst conflictId = ($json.errors && $json.errors[0] && $json.errors[0].extensions && $json.errors[0].extensions.conflictingRecordId) || '';\nconst waLink = lead.phone_wa ? `https://wa.me/${lead.phone_wa}` : null;\n\nconst lines = [\n  `🔁 Lead repetido: ${lead.firstname} ${lead.lastname}`,\n  `📧 ${lead.email}`,\n  waLink ? `📱 ${waLink}` : `📱 Sin telefono valido`,\n  `🪪 ID en Twenty: ${conflictId}`,\n];\n\nreturn [{ json: { telegram_message: lines.join('\\n') } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        96
+      ],
+      "id": "d64ce657-0928-47bc-b8c3-d218766d6f70",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "={{ $json.telegram_message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1456,
+        96
+      ],
+      "id": "8a7aa76b-6d84-46b4-b8ee-4638558a898c",
+      "name": "Send a text message",
+      "webhookId": "3debcd42-59ca-4335-bbb1-570c0726d33d",
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const lead = $('Code in JavaScript1').item.json;\n\nconst message = `Hola ${lead.firstname}\\n\\nMi nombre es Iván, de Triaperformance, soy coach certificado y partner de Training Peaks. Te contacto ya que solicitaste información en Training Peaks sobre coaching personalizado.\\n\\nCuentame, con qué objetivo y cómo estás entrenando hoy en día?`;\n\nconst waLink = lead.phone_wa\n  ? `https://wa.me/${lead.phone_wa}?text=${encodeURIComponent(message)}`\n  : null;\n\nconst summaryLines = [\n  `✅ ${lead.firstname} ${lead.lastname} · ${lead.country} · ${lead.sport_enum || 'sin deporte'} · ${lead.athlete_level_enum || 'sin nivel'}`,\n  waLink ? `📱 ${waLink}` : `⚠️ Sin telefono, contactar por email: ${lead.email}`,\n];\n\nreturn [{ json: { telegram_message: summaryLines.join('\\n') } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        -96
+      ],
+      "id": "39f1fc70-61f3-41bb-9d92-58c29502bdee",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "={{ $json.telegram_message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1456,
+        -96
+      ],
+      "id": "40e16c9e-e7a3-40b9-a411-174f90ec3d5b",
+      "name": "Send a text message1",
+      "webhookId": "f3661ffc-b25e-4e74-bbdb-7a7eef979aba",
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const personId = $('HTTP Request').item.json.data.createPerson.id;\n\nreturn [{\n  json: {\n    query: 'mutation UpdatePerson($id: ID!, $data: PersonUpdateInput!) { updatePerson(id: $id, data: $data) { id } }',\n    variables: {\n      id: personId,\n      data: {\n        leadStatus: 'MESSAGE_SENT',\n        whatsappTouchCount: 1,\n        lastTouchpoint: new Date().toISOString(),\n      },\n    },\n  },\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1664,
+        -96
+      ],
+      "id": "64768b95-6bce-427d-9856-a79ac8a7f695",
+      "name": "Code in JavaScript5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://100.70.89.17:3000/graphql",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1872,
+        -96
+      ],
+      "id": "cdcfaffd-2e56-4297-ad3b-2573f9f833d8",
+      "name": "HTTP Request2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $('Code in JavaScript1').item.json.email }}",
+        "subject": "={{ $('Code in JavaScript1').item.json.firstname }}, sobre tu solicitud (y el precio real)",
+        "html": "=<p>Hola {{ $('Code in JavaScript1').item.json.firstname }},</p>\n\n<p>Soy Iván, Head Coach de Triaperformance y coach certificado de TrainingPeaks. Recibí tu solicitud de Coach Match y la revisé personalmente.</p>\n\n<p>Voy a ser directo con el precio, porque sé que es lo primero que uno mira.</p>\n\n<p>En TrainingPeaks viste varias opciones: $149, $229 y $359. Y probablemente la de $149 aparecía como la versión recortada — una llamada al mes, un correo, y poco más. Es lógico que eso no te convenciera.</p>\n\n<p>Olvídate de esa limitación. Conmigo, $149 no es el plan de entrada recortado: es el servicio completo. Por esos mismos $149 al mes tienes:</p>\n\n<ul>\n  <li>Plan 100% personalizado, ajustado a tu vida real</li>\n  <li>Ajustes cuando los necesites, sin límite</li>\n  <li>Análisis de tus sesiones cuando lo pidas</li>\n  <li>Comunicación directa conmigo por WhatsApp durante toda la semana</li>\n</ul>\n\n<p>Dicho de otra forma: el nivel de servicio que TrainingPeaks reserva para su tarifa más cara, al precio de entrada.</p>\n\n<p>¿Cómo seguimos? La forma más rápida y fluida es por WhatsApp. Si dejaste tu número en el formulario, en breve te llegará un mensaje mío por ahí. Si no, escríbeme tú directamente aquí: <a href=\"https://wa.me/573105437088\">WhatsApp</a>. Cuéntame tus objetivos y vemos si somos un buen \"match\".</p>\n\n<p>Mientras tanto, te dejo con lo que dicen otros atletas:</p>\n\n<ul>\n  <li>Reseñas en Google — la experiencia real de quienes ya entrenan conmigo: <a href=\"https://maps.app.goo.gl/Dfw4166sxw3WGwA3A\">Link</a></li>\n  <li>Instagram <a href=\"https://www.instagram.com/triaperformance/\">@Triaperformance</a> — cómo entrenan y compiten mis atletas.</li>\n</ul>\n\n<p>Hablamos pronto,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1248,
+        -288
+      ],
+      "id": "e13ff645-7e3f-451c-9c7e-e2daf3a90989",
+      "name": "Send an Email",
+      "webhookId": "ca289025-7afb-4021-ad89-f9da9102c304",
+      "credentials": {
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const personId = $('HTTP Request').item.json.data.createPerson.id;\n\nreturn [{\n  json: {\n    query: \"mutation UpdatePerson($id: ID!, $data: PersonUpdateInput!) { updatePerson(id: $id, data: $data) { id } }\",\n    variables: {\n      id: personId,\n      data: {\n        emailTouchCount: 1,\n        leadStatus: \"MESSAGE_SENT\",\n        lastTouchpoint: new Date().toISOString()\n      }\n    }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1456,
+        -288
+      ],
+      "id": "ccd388bc-c9a3-46e5-a7af-73b0d870f53f",
+      "name": "Code in JavaScript6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://100.70.89.17:3000/graphql",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1648,
+        -288
+      ],
+      "id": "cf720f48-fdd1-4527-a3ee-edd194b41c9f",
+      "name": "HTTP Request3",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "Is CoachMatch email?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is CoachMatch email?": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        []
+      ]
+    },
+    "Send an Email": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "timeSavedPerExecution": 3
+  },
+  "versionId": "00c56a5a-724e-45f4-b392-189d50c55a87",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8e076cafb52cccf2e8bbadb4d0f2ec8c146f30578d107bdefeabccfda2ab75a9"
+  },
+  "nodeGroups": [],
+  "id": "uIPO2qsvC1lNaGS9",
+  "tags": []
+}
