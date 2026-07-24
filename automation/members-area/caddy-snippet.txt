@@ -1,0 +1,50 @@
+# Add inside the triaperformance.com site block, ABOVE any general catch-all
+# handler for the site (order matters -- these specific matches need to be
+# evaluated before the general /members/* gate below them).
+#
+# This is a first pass -- Caddy matcher/placeholder syntax has version quirks,
+# treat this the same way the /api/contact-form rewrite was treated: apply,
+# test for real, and fix based on the actual error rather than assuming this
+# is exactly right on the first try.
+
+@membersPublicPages {
+	path /members/login /members/forgot-password
+	method GET
+}
+handle @membersPublicPages {
+	root * /var/www/triaperformance/website
+	file_server
+}
+
+@membersAuthPost {
+	path /members/login /members/logout
+	method POST
+}
+handle @membersAuthPost {
+	reverse_proxy 127.0.0.1:8091
+}
+
+@membersForgotPost {
+	path /members/forgot-password
+	method POST
+}
+handle @membersForgotPost {
+	rewrite * /webhook/resend-password
+	reverse_proxy 100.70.89.17:5678
+}
+
+handle /members/* {
+	forward_auth 127.0.0.1:8091 {
+		uri /members/check
+		copy_headers Cookie
+	}
+	root * /var/www/triaperformance/website
+	file_server
+}
+
+handle_errors {
+	@needsLogin expression {http.error.status_code} == 401
+	handle @needsLogin {
+		redir * /members/login?next={http.request.orig_uri} 302
+	}
+}

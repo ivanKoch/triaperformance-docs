@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Área de Miembros — Triaperformance</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root {
+    --blue: #004aad; --blue-deep: #003a89; --ink: #1e2019;
+    --white: #fff; --wash: #edf3fb; --slate: #565a52; --mist: #e4e6e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--wash); color: var(--ink);
+    display: flex; align-items: center; justify-content: center; min-height: 100vh;
+  }
+  .login-card {
+    background: var(--white); border-radius: 8px; padding: 40px;
+    max-width: 380px; width: 100%; box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+  .login-card h1 { font-size: 22px; margin: 0 0 8px; }
+  .login-card p.sub { color: var(--slate); font-size: 14px; margin: 0 0 24px; }
+  label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  input[type="password"] {
+    width: 100%; border: 1px solid var(--mist); border-radius: 4px;
+    padding: 12px 14px; font-size: 16px; font-family: inherit; margin-bottom: 16px;
+  }
+  input[type="password"]:focus { outline: none; border-color: var(--blue); }
+  button {
+    width: 100%; background: var(--blue); color: var(--white); border: none;
+    border-radius: 4px; padding: 12px; font-size: 16px; cursor: pointer;
+  }
+  button:hover { background: var(--blue-deep); }
+  .error {
+    background: #fdecea; color: #b3261e; font-size: 14px; border-radius: 4px;
+    padding: 10px 14px; margin-bottom: 16px; display: none;
+  }
+  .error.show { display: block; }
+  .help { text-align: center; font-size: 13px; color: var(--slate); margin-top: 20px; }
+  .help a { color: var(--blue); }
+</style>
+</head>
+<body>
+
+<div class="login-card">
+  <h1>Área de Miembros</h1>
+  <p class="sub">Ingresá la contraseña que recibiste por email al suscribirte a All-Access.</p>
+
+  <div class="error" id="login-error">Contraseña incorrecta. Intentá de nuevo.</div>
+
+  <form method="POST" action="/members/login" id="login-form">
+    <label for="password">Contraseña</label>
+    <input type="password" id="password" name="password" required autocomplete="current-password">
+    <input type="hidden" name="next" id="next-field" value="/members/">
+    <button type="submit">Ingresar</button>
+  </form>
+
+  <p class="help"><a href="/members/forgot-password">¿Olvidaste tu contraseña?</a></p>
+  <p class="help">¿Problemas para ingresar? Escribinos a <a href="mailto:coach@triaperformance.com">coach@triaperformance.com</a></p>
+</div>
+
+<script>
+  // Show the error banner if redirected back with ?error=1
+  if (new URLSearchParams(window.location.search).get('error') === '1') {
+    document.getElementById('login-error').classList.add('show');
+  }
+  // Preserve where the visitor was trying to go before being gated, if present
+  var next = new URLSearchParams(window.location.search).get('next');
+  if (next) document.getElementById('next-field').value = next;
+</script>
+
+</body>
+</html>

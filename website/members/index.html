@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Área de Miembros — Triaperformance</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root {
+    --blue: #004aad; --blue-deep: #003a89; --ink: #1e2019;
+    --white: #fff; --wash: #edf3fb; --slate: #565a52; --mist: #e4e6e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--wash); color: var(--ink);
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 60px 24px; text-align: center; }
+  h1 { font-size: 28px; margin-bottom: 8px; }
+  p.sub { color: var(--slate); margin-bottom: 32px; }
+  .placeholder-box {
+    background: var(--white); border-radius: 8px; padding: 32px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06); text-align: left;
+  }
+  form.logout { text-align: center; margin-top: 24px; }
+  button {
+    background: none; border: 1px solid var(--mist); color: var(--slate);
+    border-radius: 4px; padding: 10px 20px; font-size: 14px; cursor: pointer;
+  }
+  button:hover { border-color: var(--blue); color: var(--blue); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <h1>Bienvenido/a al Área de Miembros</h1>
+  <p class="sub">Estás dentro. El gate de acceso está funcionando.</p>
+
+  <div class="placeholder-box">
+    <p><strong>Esto es un placeholder.</strong> Todavía no hay artefactos publicados aquí — esta página confirma que el login, la cookie y el auth-check de Caddy funcionan de punta a punta. El catálogo real (fuerza, movilidad, mental prep, herramientas interactivas) se construye a partir de acá.</p>
+  </div>
+
+  <form class="logout" method="POST" action="/members/logout">
+    <button type="submit">Cerrar sesión</button>
+  </form>
+</div>
+
+</body>
+</html>

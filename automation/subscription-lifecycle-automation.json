@@ -10,7 +10,7 @@
       "parameters": {
         "width": 640,
         "height": 340,
-        "content": "## Before you activate this workflow\n\n1. In Gmail: create a filter on `from:receipt@trainingpeaks.com` that applies a label (e.g. `TP-Subscriptions`) AND checks 'Skip the Inbox (Archive it)'. This is required -- without it, this workflow's IMAP poller and the CoachMatch workflow's poller both watch the inbox and will race on the \\Seen flag, silently dropping emails at random.\n2. Enable 'Show in IMAP' for that label under Gmail Settings -> Labels.\n3. Set the 'Email Trigger (IMAP)' node's mailbox parameter to that label's IMAP folder name (usually just the label name).\n4. Reuse the same 'IMAP account' and 'Twenty API' credentials as the other workflows.\n5. `customerType` (ALL_ACCESS/PLAN_BUYER/1_1_COACHING), `leadSource` (added WEBSITE + ALL_ACCESS_SUBSCRIPTION), and `leadStatus` are all confirmed real enum values as of July 2026 (see ai-infrastructure-documentation.md). `preferredLanguage: ENGLISH` is still NOT confirmed (only SPANISH/PORTUGUESE have been seen in a real API response) -- verify on the first real English-subscriber test and fix if Twenty rejects it.\n6. Members-area token revocation on churn is a placeholder (see the sticky note near 'Mark Churned in Twenty') -- the auth/token system isn't built yet.\n7. Test with 'Listen for Test Event' before switching this Active."
+        "content": "## Before you activate this workflow\n\n1. In Gmail: create a filter on `from:receipt@trainingpeaks.com` that applies a label (e.g. `TP-Subscriptions`) AND checks 'Skip the Inbox (Archive it)'. This is required -- without it, this workflow's IMAP poller and the CoachMatch workflow's poller both watch the inbox and will race on the \\Seen flag, silently dropping emails at random.\n2. Enable 'Show in IMAP' for that label under Gmail Settings -> Labels.\n3. Set the 'Email Trigger (IMAP)' node's mailbox parameter to that label's IMAP folder name (usually just the label name).\n4. Reuse the same 'IMAP account' and 'Twenty API' credentials as the other workflows.\n5. `customerType` (ALL_ACCESS/PLAN_BUYER/1_1_COACHING), `leadSource` (added WEBSITE + ALL_ACCESS_SUBSCRIPTION), and `leadStatus` are all confirmed real enum values as of July 2026 (see ai-infrastructure-documentation.md). `preferredLanguage: ENGLISH` is still NOT confirmed (only SPANISH/PORTUGUESE have been seen in a real API response) -- verify on the first real English-subscriber test and fix if Twenty rejects it.\n6. Members-area token generation/revocation is now real (Generate Member Token / Insert Token in Postgres / Revoke Token in Postgres) -- requires a 'Members Postgres' credential pointing at the 'members' database on the analytics-postgres container, and the schema in automation/members-area/schema.sql to already exist. The Postgres nodes' exact parameter shape is a best-effort guess -- reconfigure visually in the n8n UI if it doesn't match.\n7. The 'Resend Password' webhook branch (separate trigger in this same workflow) needs its own credential check too -- same Postgres + SMTP credentials as the rest of this workflow.\n8. Test with 'Listen for Test Event' before switching this Active."
       }
     },
     {
@@ -189,17 +189,44 @@
       }
     },
     {
+      "id": "generate-token",
+      "name": "Generate Member Token",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1400, -100],
+      "parameters": {
+        "jsCode": "// Generates a readable-ish random token to double as the member's \"password\".\n// Avoids ambiguous characters (0/O, 1/l/I) since it's typed into a password field.\nconst crypto = require('crypto');\nconst alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';\n\nfunction genToken(length = 20) {\n  let out = '';\n  const bytes = crypto.randomBytes(length);\n  for (let i = 0; i < length; i++) {\n    out += alphabet[bytes[i] % alphabet.length];\n  }\n  return out;\n}\n\nreturn $input.all().map(item => ({\n  json: {\n    ...item.json,\n    member_token: genToken(),\n  }\n}));"
+      }
+    },
+    {
+      "id": "insert-token",
+      "name": "Insert Token in Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1620, -100],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)\nVALUES ($1, $2, $3, $4, TRUE)\nON CONFLICT (token) DO NOTHING;",
+        "options": {
+          "queryReplacement": "={{ $('Subscriber Upserted').item.json.personId }},{{ $('Map Language + Build Twenty Fields').item.json.email }},{{ $json.member_token }},{{ $('Map Language + Build Twenty Fields').item.json.preferredLanguage }}"
+        }
+      },
+      "credentials": {
+        "postgres": { "id": "REPLACE_ME", "name": "Members Postgres" }
+      }
+    },
+    {
       "id": "send-welcome-email",
       "name": "Send Welcome Email",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
-      "position": [1540, -100],
+      "position": [1840, -100],
       "parameters": {
         "fromEmail": "coach@triaperformance.com",
         "toEmail": "={{ $('Map Language + Build Twenty Fields').item.json.email }}",
         "subject": "={{ $('Map Language + Build Twenty Fields').item.json.firstname }}, bienvenido/a a All-Access",
         "emailFormat": "text",
-        "text": "=NOTE: placeholder copy -- rewrite per language once EN/PT welcome copy exists, and add the members-area link + credentials paragraph once that system is built (task: password-gated members area).\n\nHola {{ $('Map Language + Build Twenty Fields').item.json.firstname }},\n\nGracias por suscribirte a All-Access. Este correo va a incluir pronto: instrucciones para aplicar cualquiera de los planes a tu cuenta de TrainingPeaks, los links a las guias incluidas, y el acceso al area de miembros.\n\nIvan Koch - Triaperformance",
+        "text": "=NOTE: placeholder copy -- rewrite once the plan-application instructions and guide links are finalized (task: welcome email package).\n\nHola {{ $('Map Language + Build Twenty Fields').item.json.firstname }},\n\nGracias por suscribirte a All-Access.\n\nTu acceso al Area de Miembros:\nLink: https://triaperformance.com/members/login\nContraseña: {{ $('Generate Member Token').item.json.member_token }}\n\nGuarda este correo -- es tu unica copia de la contraseña.\n\nIvan Koch - Triaperformance",
         "options": {}
       },
       "credentials": {
@@ -277,18 +304,6 @@
       }
     },
     {
-      "id": "sticky-token-todo",
-      "name": "TODO -- token revocation not built yet",
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [860, 380],
-      "parameters": {
-        "width": 380,
-        "height": 180,
-        "content": "Once the members-area auth/token system exists (see task: password-gated members area), add a step here that revokes this person's token so their members-area access actually stops. Right now this only updates Twenty's churnDate -- it does not touch any access control yet."
-      }
-    },
-    {
       "id": "mark-churned",
       "name": "Mark Churned in Twenty",
       "type": "n8n-nodes-base.httpRequest",
@@ -305,6 +320,23 @@
       },
       "credentials": {
         "httpHeaderAuth": { "id": "JHN5QPZo087TvBnD", "name": "Twenty API" }
+      }
+    },
+    {
+      "id": "revoke-token",
+      "name": "Revoke Token in Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1000, 260],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE subscriber_tokens SET active = FALSE, revoked_at = now() WHERE email = $1 AND active = TRUE;",
+        "options": {
+          "queryReplacement": "={{ $('Parse Churn Email').item.json.email }}"
+        }
+      },
+      "credentials": {
+        "postgres": { "id": "REPLACE_ME", "name": "Members Postgres" }
       }
     },
     {
@@ -335,6 +367,100 @@
       },
       "credentials": {
         "telegramApi": { "id": "dmG5jqW0zOMQXhUD", "name": "Hermes Bot" }
+      }
+    },
+    {
+      "id": "sticky-resend",
+      "name": "RESEND PASSWORD -- separate trigger",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-260, 620],
+      "parameters": {
+        "width": 620,
+        "height": 200,
+        "content": "## Resend Password branch\n\nSeparate webhook trigger, independent of the IMAP branches above -- Caddy proxies `POST /members/forgot-password` straight to this webhook (same rewrite pattern as /api/contact-form, see contact-form-pipeline-runbook.md).\n\nDeliberately does not reveal whether an email is a real subscriber (always responds the same generic message) -- standard practice for forgot-password flows.\n\nReuses the same Postgres + SMTP credentials as the rest of this workflow -- no new secrets."
+      }
+    },
+    {
+      "id": "resend-webhook",
+      "name": "Webhook - Resend Password",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 700],
+      "webhookId": "resend-password",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "resend-password",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "lookup-token-resend",
+      "name": "Look Up Active Token",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [220, 700],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT token, preferred_language FROM subscriber_tokens WHERE email = $1 AND active = TRUE ORDER BY created_at DESC LIMIT 1;",
+        "options": {
+          "queryReplacement": "={{ $json.body.email }}"
+        }
+      },
+      "credentials": {
+        "postgres": { "id": "REPLACE_ME", "name": "Members Postgres" }
+      }
+    },
+    {
+      "id": "token-found-resend",
+      "name": "Token Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [440, 700],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 3 },
+          "conditions": [
+            {
+              "id": "r1",
+              "leftValue": "={{ $json.length }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "send-resend-email",
+      "name": "Send Resend Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [660, 620],
+      "parameters": {
+        "fromEmail": "coach@triaperformance.com",
+        "toEmail": "={{ $('Webhook - Resend Password').item.json.body.email }}",
+        "subject": "Tu contraseña del Área de Miembros - Triaperformance",
+        "emailFormat": "text",
+        "text": "=Hola,\n\nRecibimos tu solicitud de recuperar tu contraseña del Area de Miembros.\n\nLink: https://triaperformance.com/members/login\nContraseña: {{ $json.token }}\n\nIvan Koch - Triaperformance",
+        "options": {}
+      },
+      "credentials": {
+        "smtp": { "id": "et4mFjLL6HLiYOoR", "name": "SMTP account" }
+      }
+    },
+    {
+      "id": "respond-resend-generic",
+      "name": "Respond Generic Message",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [880, 700],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, message: 'Si el email esta registrado, te enviamos la contraseña.' }) }}"
       }
     }
   ],
@@ -373,6 +499,12 @@
       "main": [[{ "node": "Subscriber Upserted", "type": "main", "index": 0 }]]
     },
     "Subscriber Upserted": {
+      "main": [[{ "node": "Generate Member Token", "type": "main", "index": 0 }]]
+    },
+    "Generate Member Token": {
+      "main": [[{ "node": "Insert Token in Postgres", "type": "main", "index": 0 }]]
+    },
+    "Insert Token in Postgres": {
       "main": [
         [
           { "node": "Send Welcome Email", "type": "main", "index": 0 },
@@ -396,7 +528,25 @@
       ]
     },
     "Mark Churned in Twenty": {
+      "main": [[{ "node": "Revoke Token in Postgres", "type": "main", "index": 0 }]]
+    },
+    "Revoke Token in Postgres": {
       "main": [[{ "node": "Telegram Notify Churn", "type": "main", "index": 0 }]]
+    },
+    "Webhook - Resend Password": {
+      "main": [[{ "node": "Look Up Active Token", "type": "main", "index": 0 }]]
+    },
+    "Look Up Active Token": {
+      "main": [[{ "node": "Token Found?", "type": "main", "index": 0 }]]
+    },
+    "Token Found?": {
+      "main": [
+        [{ "node": "Send Resend Email", "type": "main", "index": 0 }],
+        [{ "node": "Respond Generic Message", "type": "main", "index": 0 }]
+      ]
+    },
+    "Send Resend Email": {
+      "main": [[{ "node": "Respond Generic Message", "type": "main", "index": 0 }]]
     }
   },
   "active": false,

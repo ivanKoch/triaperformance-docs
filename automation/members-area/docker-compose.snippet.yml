@@ -1,0 +1,18 @@
+# Add this service to whatever compose file already runs on the VPS (or run it
+# standalone with `docker compose -f this-file.yml up -d` in its own directory).
+#
+# Bound to 127.0.0.1 only -- this service is never called by anything except
+# Caddy, on the same machine. Not on Tailscale, not public.
+
+services:
+  members-auth:
+    build: ./auth_service
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8091:8091"
+    environment:
+      # Fill in with whatever DSN actually reaches the analytics-postgres
+      # container's "members" database -- test this from inside the container
+      # first (e.g. `docker exec -it members-auth python3 -c "import psycopg2; psycopg2.connect('...')"`)
+      # before assuming the hostname/port below is right.
+      MEMBERS_DB_DSN: "host=analytics-postgres port=5432 dbname=members user=CHANGE_ME password=CHANGE_ME"
