@@ -33,3 +33,14 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 
 ## Conversation modes
 Open new conversations with a frame when it helps: "act as a growth strategist," "you're building the website," "help me draft this athlete message," "let's work on pricing." The context above and the knowledge base load automatically either way — the frame just narrows the lens.
+
+## Technical/build work — file & deployment practices
+- Claude edits files directly in the connected `triaperformance-docs` folder — website HTML, workflow reference JSON, docs. Claude does not run git commands; Iván commits and pushes himself. Deployment to the live VPS happens through the existing cron pull/rsync (or Iván triggering it manually) — not something Claude does.
+- Claude has no live connection to n8n, the VPS, or Twenty's UI. For any change to a live n8n workflow: Claude gives the exact node name and exact field/expression to change, Iván makes it in the n8n UI himself, and Claude then mirrors the same change into the reference copy of that workflow's JSON in the docs repo (that file is documentation/backup, not the live source of truth — the n8n instance is).
+- Same pattern for Postgres: Claude gives exact `docker exec -it analytics-postgres psql ...` commands for Iván to run from his own terminal, rather than assuming a direct connection exists.
+- Always share step-by-step, copy-pasteable instructions (exact commands, exact mock content, exact node/field names) — Iván is the one executing changes against live systems, not Claude.
+- Testing changes: Claude writes the exact test content (e.g. a mock TrainingPeaks confirmation email) for Iván to paste in, states exactly what to check afterward (specific Twenty fields, specific SQL queries), and only treats something as "done" once he reports a real result back — not assumed working from reading the code alone.
+- When debugging, read the actual source (workflow JSON, app.py, HTML/JS) to find root cause before proposing a fix, rather than guessing from symptoms.
+- After any build/fix/test session, update the knowledge base: `ai-infrastructure-documentation.md` for anything technical/infra (dated inline notes appended, e.g. "*Update, [date] — ...*" — not rewrites of prior entries — and bump the "Last updated" line at the top), `growth-roadmap.md` when it changes what's unblocked or what's next in sequencing.
+- No secrets ever go into docs, JSON files, or chat — credential IDs/placeholders only. Real values live in n8n's credential store, `.env` files on the VPS, or Bitwarden.
+- Moving to a new conversation or topic: Claude writes a copy-pasteable handoff prompt (frame + what's live + what's next + which docs to read) rather than assuming the new conversation will rediscover context on its own.

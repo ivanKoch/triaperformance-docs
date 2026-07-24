@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kettlebell Strength Routine — Triaperformance</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root {
+    /* Dark theme, built from brand-guidelines.md's palette rather than a generic dark UI kit.
+       --blue is the exact brand blue (#004aad) — used as a solid FILL (buttons, progress bar,
+       phase markers, checkmarks) so a light glyph sits on top and contrast holds.
+       --blue-bright is a NEW addition: a lighter tint of brand blue, used only where blue appears
+       as TEXT directly on the near-black background — #004aad on its own fails 4.5:1 contrast
+       there (per the guideline's own contrast rule), so this is flagged for approval rather than
+       silently added to the brand system. */
+    --bg: #0d1117;
+    --surface: #171b21;
+    --surface2: #1f242c;
+    --border: #2a313b;
+    --blue: #004aad;
+    --blue-deep: #003a89;
+    --blue-bright: #4f8fdb;      /* NEW — dark-mode-only text accent, derived from --blue */
+    --blue-dim: rgba(0, 74, 173, 0.22);
+    --text: #f2f3f1;
+    --text-dim: #8b9089;
+    --green: #4caf7d;
+    --warn: #d97a68;
+    --warn-dim: rgba(217, 122, 104, 0.12);
+    --font: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px 80px; }
+
+  /* Site nav — consistent with the rest of triaperformance.com, dark variant */
+  .site-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13, 17, 23, 0.85);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+  .site-nav .wrap { display: flex; align-items: center; justify-content: space-between; padding: 20px 16px; }
+  .site-nav .logo { font-weight: 700; font-size: 17px; color: var(--white, #fff); text-decoration: none; letter-spacing: -0.01em; }
+  .site-nav a.back { color: var(--text-dim); text-decoration: none; font-size: 14px; font-weight: 700; }
+  .site-nav a.back:hover { color: var(--blue-bright); }
+
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding: 28px 0 20px;
+    margin-bottom: 28px;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue-bright);
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .subtitle { font-size: 13px; color: var(--text-dim); }
+
+  /* KB weight selector */
+  .weight-selector {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+  .weight-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+
+  .weight-buttons { display: flex; gap: 8px; }
+
+  .weight-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    font-family: var(--font);
+  }
+
+  .weight-btn:hover { border-color: var(--blue-bright); color: var(--text); }
+  .weight-btn.active {
+    background: var(--blue-dim);
+    border-color: var(--blue);
+    color: var(--blue-bright);
+  }
+
+  /* Phase sections */
+  .phase { margin-bottom: 28px; }
+
+  .phase-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+
+  .phase-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--blue-dim); border: 1px solid var(--blue);
+    color: var(--blue-bright); font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+
+  .phase-title {
+    font-size: 13px; font-weight: 700; color: var(--text);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+
+  .phase-duration { font-size: 12px; color: var(--text-dim); margin-left: auto; }
+
+  /* Exercise cards */
+  .exercise {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; margin-bottom: 10px; overflow: hidden;
+    transition: border-color 0.15s;
+  }
+
+  .exercise.completed { border-color: var(--green); }
+  .exercise.flagged { border-color: var(--blue); }
+
+  .exercise-header { display: flex; align-items: center; padding: 14px 16px; cursor: pointer; gap: 12px; }
+  .exercise-header:hover { background: var(--surface2); }
+
+  .check {
+    width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all 0.15s; cursor: pointer; font-size: 11px; color: transparent;
+  }
+
+  .exercise.completed .check { background: var(--green); border-color: var(--green); color: var(--bg); }
+
+  .exercise-info { flex: 1; }
+  .exercise-name { font-weight: 700; font-size: 14px; color: var(--text); }
+  .exercise-meta { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+  .exercise-weight { font-size: 12px; color: var(--blue-bright); font-weight: 700; text-align: right; flex-shrink: 0; }
+
+  .chevron { color: var(--text-dim); font-size: 16px; transition: transform 0.15s; flex-shrink: 0; }
+  .exercise.open .chevron { transform: rotate(180deg); }
+
+  .exercise-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); }
+  .exercise.open .exercise-body { display: block; }
+
+  .exercise-desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; margin-top: 12px; }
+
+  .exercise-tip {
+    margin-top: 10px; padding: 10px 12px; background: var(--blue-dim);
+    border-left: 2px solid var(--blue); border-radius: 0 4px 4px 0;
+    font-size: 12px; color: var(--blue-bright); line-height: 1.5;
+  }
+  .exercise-tip .tag { font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 11px; }
+
+  .flag-note {
+    margin-top: 10px; padding: 10px 12px; background: var(--warn-dim);
+    border-left: 2px solid var(--warn); border-radius: 0 4px 4px 0;
+    font-size: 12px; color: #e3ab9f; line-height: 1.5;
+  }
+  .flag-note .tag { font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 11px; color: var(--warn); }
+
+  /* Sets tracker */
+  .sets-tracker { margin-top: 12px; }
+  .sets-label { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .sets-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .set-btn {
+    width: 40px; height: 40px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--surface2); color: var(--text-dim); font-size: 12px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; font-family: var(--font);
+  }
+  .set-btn.done { background: var(--blue-dim); border-color: var(--blue); color: var(--blue-bright); }
+
+  /* Progress bar */
+  .progress-container {
+    position: sticky; top: 0; background: var(--bg); padding: 10px 16px 16px;
+    z-index: 10; border-bottom: 1px solid var(--border); margin-bottom: 24px;
+  }
+  .progress-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .progress-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); }
+  .progress-count { font-size: 12px; color: var(--blue-bright); font-weight: 700; }
+  .progress-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--blue); border-radius: 2px; transition: width 0.3s ease; width: 0%; }
+
+  /* Rest timer — floating, slightly heavier shadow than the brand default is
+     intentional here: it needs to read as a floating element over page content. */
+  .rest-timer {
+    display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--surface); border: 1px solid var(--blue); border-radius: 12px;
+    padding: 14px 24px; text-align: center; min-width: 180px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.5); z-index: 100;
+  }
+  .rest-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .rest-time { font-family: var(--font); font-weight: 700; font-size: 34px; color: var(--blue-bright); line-height: 1; margin-bottom: 8px; }
+  .rest-close { font-size: 11px; color: var(--text-dim); cursor: pointer; text-decoration: underline; }
+
+  .reset-btn {
+    width: 100%; padding: 12px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--surface2); color: var(--text-dim); font-size: 13px; font-weight: 700;
+    cursor: pointer; font-family: var(--font); margin-top: 16px; transition: all 0.15s;
+  }
+  .reset-btn:hover { border-color: var(--blue-bright); color: var(--text); }
+
+  .note-box {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 12px 14px; font-size: 13px; color: var(--text-dim); margin-bottom: 16px; line-height: 1.5;
+  }
+  .note-box strong { color: var(--text); }
+
+  footer.page-footer {
+    padding: 32px 16px; text-align: center; color: var(--text-dim); font-size: 13px;
+    border-top: 1px solid var(--border); margin-top: 8px;
+  }
+  footer.page-footer a { color: var(--text-dim); }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="/members/" class="logo">Triaperformance</a>
+    <a href="/members/" class="back">← Members area</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="page-header">
+  <div class="eyebrow">Triaperformance × Strength</div>
+  <h1>Kettlebell strength routine</h1>
+  <p class="subtitle">Iván Koch — Home training · Back-safe · Posterior chain focus</p>
+</header>
+
+<div class="progress-container">
+  <div class="progress-row">
+    <span class="progress-label">Session progress</span>
+    <span class="progress-count" id="progressCount">0 / 9 exercises</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- Weight selector -->
+<div class="weight-selector">
+  <div class="weight-label">Today's working weight</div>
+  <div class="weight-buttons">
+    <div class="weight-btn active" onclick="setWeight('12kg', this)">12 kg<br><span style="font-size:10px;font-weight:400;color:var(--text-dim)">Technique</span></div>
+    <div class="weight-btn" onclick="setWeight('16kg', this)">16 kg<br><span style="font-size:10px;font-weight:400;color:var(--text-dim)">Working</span></div>
+    <div class="weight-btn" onclick="setWeight('21kg', this)">21 kg<br><span style="font-size:10px;font-weight:400;color:var(--text-dim)">Heavy</span></div>
+  </div>
+</div>
+
+<div class="note-box">
+  <strong>Back protocol:</strong> Side-roll to get up from floor. No barbell axial loading. Stop if lower back tension builds — not just discomfort, actual tension. Goblet position protects lumbar curve naturally.
+</div>
+
+<!-- PHASE 1: ACTIVATION -->
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num">1</div>
+    <div class="phase-title">Activation</div>
+    <div class="phase-duration">~10 min · Bands + bodyweight</div>
+  </div>
+
+  <div class="exercise" id="ex-clamshell">
+    <div class="exercise-header" onclick="toggleExercise('ex-clamshell')">
+      <div class="check" onclick="toggleComplete(event, 'ex-clamshell')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Clamshells with band</div>
+        <div class="exercise-meta">2 sets · 15 reps + 5 holds · Each side</div>
+      </div>
+      <div class="exercise-weight">Band</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">Side lying, knees bent at 90°, band just above knees. Rotate top knee toward ceiling while keeping feet together. Right side first — this is your weak link. On the final 5 reps, hold the top position for 3 seconds each.</div>
+      <div class="exercise-tip"><span class="tag">Why it matters</span><br>Right glute med is the root cause of your entire compensation chain. Start every session here.</div>
+      <div class="sets-tracker">
+        <div class="sets-label">Sets</div>
+        <div class="sets-row">
+          <button class="set-btn" onclick="toggleSet(this)">1</button>
+          <button class="set-btn" onclick="toggleSet(this)">2</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise" id="ex-deadbug">
+    <div class="exercise-header" onclick="toggleExercise('ex-deadbug')">
+      <div class="check" onclick="toggleComplete(event, 'ex-deadbug')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Dead bug with band</div>
+        <div class="exercise-meta">3 sets · 10 reps · Each side</div>
+      </div>
+      <div class="exercise-weight">Band</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">Lying on back, band above knees, arms pointing to ceiling. Press lower back into floor. Extend opposite arm and leg simultaneously while resisting the band pulling knees together. Slow and controlled — 3 seconds per rep.</div>
+      <div class="exercise-tip"><span class="tag">Why it matters</span><br>The band above knees fixes your foot turn-in pattern (glute med inhibition). If the foot turns in during the rep, stop and reset.</div>
+      <div class="sets-tracker">
+        <div class="sets-label">Sets</div>
+        <div class="sets-row">
+          <button class="set-btn" onclick="toggleSet(this)">1</button>
+          <button class="set-btn" onclick="toggleSet(this)">2</button>
+          <button class="set-btn" onclick="toggleSet(this)">3</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise" id="ex-slgb">
+    <div class="exercise-header" onclick="toggleExercise('ex-slgb')">
+      <div class="check" onclick="toggleComplete(event, 'ex-slgb')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Single leg glute bridge</div>
+        <div class="exercise-meta">3×12 right · 2×12 left · 2 sec hold at top</div>
+      </div>
+      <div class="exercise-weight">BW</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">On back, one foot flat, other leg extended or bent in air. Drive through the planted heel to raise hips. Hold 2 seconds at top — squeeze the glute deliberately, not just the hamstring. Right side gets more volume every session until glute med is reliably firing.</div>
+      <div class="exercise-tip"><span class="tag">Why it matters</span><br>Do this before squats — wakes the right glute so it contributes from rep 1, preventing the hip shift you noticed.</div>
+      <div class="sets-tracker">
+        <div class="sets-label">Sets (R/L)</div>
+        <div class="sets-row">
+          <button class="set-btn" onclick="toggleSet(this)">R1</button>
+          <button class="set-btn" onclick="toggleSet(this)">R2</button>
+          <button class="set-btn" onclick="toggleSet(this)">R3</button>
+          <button class="set-btn" onclick="toggleSet(this)">L1</button>
+          <button class="set-btn" onclick="toggleSet(this)">L2</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise" id="ex-lateral">
+    <div class="exercise-header" onclick="toggleExercise('ex-lateral')">
+      <div class="check" onclick="toggleComplete(event, 'ex-lateral')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Lateral band walks — forward lean</div>
+        <div class="exercise-meta">3 sets · 15 steps each direction</div>
+      </div>
+      <div class="exercise-weight">Band</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">Band above knees, slight hip hinge forward (running posture, not upright). Step laterally — resist the band pulling knees together. The forward lean makes this far more specific to your running gait than upright lateral walks. Keep tension on the band throughout — don't let feet come together fully.</div>
+      <div class="sets-tracker">
+        <div class="sets-label">Sets</div>
+        <div class="sets-row">
+          <button class="set-btn" onclick="toggleSet(this)">1</button>
+          <button class="set-btn" onclick="toggleSet(this)">2</button>
+          <button class="set-btn" onclick="toggleSet(this)">3</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 2: STRENGTH -->
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num">2</div>
+    <div class="phase-title">Strength</div>
+    <div class="phase-duration">~30 min · Kettlebells</div>
+  </div>
+
+  <div class="exercise" id="ex-goblet">
+    <div class="exercise-header" onclick="toggleExercise('ex-goblet')">
+      <div class="check" onclick="toggleComplete(event, 'ex-goblet')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Goblet squat</div>
+        <div class="exercise-meta">4 sets · 10–12 reps · 90 sec rest</div>
+      </div>
+      <div class="exercise-weight" id="goblet-weight">12 kg</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">Kettlebell at chest in both hands. Feet shoulder-width, toes slightly out. 3 seconds down, pause 1 second at bottom, drive through heels. The goblet position forces upright torso and deep hip crease — this is what "points to the problem" and makes the glute fire correctly. Go as deep as back allows comfortably.</div>
+      <div class="exercise-tip"><span class="tag">Priority</span><br>The single best exercise for your pattern right now. When 16kg feels easy for 12 reps, move to 21kg.</div>
+      <div class="sets-tracker">
+        <div class="sets-label">Sets</div>
+        <div class="sets-row">
+          <button class="set-btn" onclick="toggleSet(this, 90)">1</button>
+          <button class="set-btn" onclick="toggleSet(this, 90)">2</button>
+          <button class="set-btn" onclick="toggleSet(this, 90)">3</button>
+          <button class="set-btn" onclick="toggleSet(this, 90)">4</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise" id="ex-bulgarian">
+    <div class="exercise-header" onclick="toggleExercise('ex-bulgarian')">
+      <div class="check" onclick="toggleComplete(event, 'ex-bulgarian')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Bulgarian split squat</div>
+        <div class="exercise-meta">3 sets · 10 reps each leg · 2 min rest</div>
+      </div>
+      <div class="exercise-weight" id="bulgarian-weight">12 kg</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">Back foot elevated on chair or couch, front foot forward. Hold KB goblet style or at sides. Slow descent, feel right glute engaging at bottom. Drive through the front heel to stand. Right leg first every set. These are taxing — full 2 minutes rest between sets is earned.</div>
+      <div class="exercise-tip"><span class="tag">Why it matters</span><br>Primary posterior chain developer. More glute-specific than regular lunges due to the elevated back foot. Right side always first.</div>
+      <div class="sets-tracker">
+        <div class="sets-label">Sets (R/L)</div>
+        <div class="sets-row">
+          <button class="set-btn" onclick="toggleSet(this, 120)">R1</button>
+          <button class="set-btn" onclick="toggleSet(this, 120)">R2</button>
+          <button class="set-btn" onclick="toggleSet(this, 120)">R3</button>
+          <button class="set-btn" onclick="toggleSet(this)">L1</button>
+          <button class="set-btn" onclick="toggleSet(this)">L2</button>
+          <button class="set-btn" onclick="toggleSet(this)">L3</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise" id="ex-rdl">
+    <div class="exercise-header" onclick="toggleExercise('ex-rdl')">
+      <div class="check" onclick="toggleComplete(event, 'ex-rdl')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Single leg RDL</div>
+        <div class="exercise-meta">3 sets · 10 reps each leg · 90 sec rest</div>
+      </div>
+      <div class="exercise-weight" id="rdl-weight">16 kg</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">Standing, KB in opposite hand to standing leg. Slight bend in standing knee. Hinge from hip — back flat, KB travels close to the leg down toward mid-shin. Feel the hamstring load at the bottom. Return by driving through the heel and squeezing the glute at the top. Right side first every set.</div>
+      <div class="exercise-tip"><span class="tag">Why it matters</span><br>Targets the upper hamstring/semimembranosus — the area that fatigues on long bike efforts. Consistent work here directly improves bike endurance.</div>
+      <div class="flag-note"><span class="tag">Caution</span><br>Right knee inside-back discomfort has been present. If you feel it during RDL, reduce range of motion slightly rather than stopping entirely — keep the hinge within pain-free range.</div>
+      <div class="sets-tracker">
+        <div class="sets-label">Sets (R/L)</div>
+        <div class="sets-row">
+          <button class="set-btn" onclick="toggleSet(this, 90)">R1</button>
+          <button class="set-btn" onclick="toggleSet(this, 90)">R2</button>
+          <button class="set-btn" onclick="toggleSet(this, 90)">R3</button>
+          <button class="set-btn" onclick="toggleSet(this)">L1</button>
+          <button class="set-btn" onclick="toggleSet(this)">L2</button>
+          <button class="set-btn" onclick="toggleSet(this)">L3</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise" id="ex-calf">
+    <div class="exercise-header" onclick="toggleExercise('ex-calf')">
+      <div class="check" onclick="toggleComplete(event, 'ex-calf')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Single leg calf raise</div>
+        <div class="exercise-meta">3 sets · 12–15 reps each leg · 3 sec lower</div>
+      </div>
+      <div class="exercise-weight">21 kg</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">Stand on a step if available for full range. Hold 21kg KB in same-side hand. Slow lowering (3 seconds down) — the eccentric is where the adaptation happens. Rise on 1 second. The soleus took a hit from FRC hill sessions — consistent calf work prevents recurrence and supports Achilles health through the training block.</div>
+      <div class="sets-tracker">
+        <div class="sets-label">Sets (R/L)</div>
+        <div class="sets-row">
+          <button class="set-btn" onclick="toggleSet(this)">R1</button>
+          <button class="set-btn" onclick="toggleSet(this)">R2</button>
+          <button class="set-btn" onclick="toggleSet(this)">R3</button>
+          <button class="set-btn" onclick="toggleSet(this)">L1</button>
+          <button class="set-btn" onclick="toggleSet(this)">L2</button>
+          <button class="set-btn" onclick="toggleSet(this)">L3</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise flagged" id="ex-copenhagen">
+    <div class="exercise-header" onclick="toggleExercise('ex-copenhagen')">
+      <div class="check" onclick="toggleComplete(event, 'ex-copenhagen')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Copenhagen plank</div>
+        <div class="exercise-meta">3 sets · 25–30 sec each side</div>
+      </div>
+      <div class="exercise-weight">BW</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">Side plank with top leg resting on a chair or bench. Bottom leg hangs free. Hold the position — adductors and glute med working simultaneously. This directly addresses the inner thigh fatigue pattern from long bike efforts.</div>
+      <div class="flag-note"><span class="tag">Caution</span><br>Right knee inside-back discomfort — use KNEE as the lever point on the chair, not ankle or foot. This shortens the mechanical arm, reducing adductor load to a manageable level. Progress: knee → mid-shin → ankle as the knee resolves over weeks.</div>
+      <div class="sets-tracker">
+        <div class="sets-label">Sets (R/L)</div>
+        <div class="sets-row">
+          <button class="set-btn" onclick="toggleSet(this)">R1</button>
+          <button class="set-btn" onclick="toggleSet(this)">R2</button>
+          <button class="set-btn" onclick="toggleSet(this)">R3</button>
+          <button class="set-btn" onclick="toggleSet(this)">L1</button>
+          <button class="set-btn" onclick="toggleSet(this)">L2</button>
+          <button class="set-btn" onclick="toggleSet(this)">L3</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 3: FINISHER -->
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num">3</div>
+    <div class="phase-title">Finisher + cooldown</div>
+    <div class="phase-duration">~8 min</div>
+  </div>
+
+  <div class="exercise" id="ex-bridge-finish">
+    <div class="exercise-header" onclick="toggleExercise('ex-bridge-finish')">
+      <div class="check" onclick="toggleComplete(event, 'ex-bridge-finish')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Double leg glute bridge — holds</div>
+        <div class="exercise-meta">15 reps · 5 sec hold at top</div>
+      </div>
+      <div class="exercise-weight">BW</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">Both feet flat, drive hips up, hold 5 seconds. Squeeze glutes deliberately at the top — this is activation, not load. End every session with glutes firing, not fatigued. It reinforces the neuromuscular pattern for the next 24 hours.</div>
+    </div>
+  </div>
+
+  <div class="exercise" id="ex-hipflexor">
+    <div class="exercise-header" onclick="toggleExercise('ex-hipflexor')">
+      <div class="check" onclick="toggleComplete(event, 'ex-hipflexor')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Couch stretch — hip flexors</div>
+        <div class="exercise-meta">2 min each side</div>
+      </div>
+      <div class="exercise-weight">—</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">Kneel with shin against wall or couch, other foot forward. Upright torso, squeeze glute of back leg. The psoas attaches directly to your lumbar vertebrae — when this releases after squatting and loading, the lower back decompresses immediately. Non-negotiable post-session.</div>
+      <div class="exercise-tip"><span class="tag">Why it matters</span><br>Most important post-gym stretch for lower back health. The psoas is almost certainly contributing to your remaining back tightness.</div>
+    </div>
+  </div>
+
+  <div class="exercise" id="ex-pigeon">
+    <div class="exercise-header" onclick="toggleExercise('ex-pigeon')">
+      <div class="check" onclick="toggleComplete(event, 'ex-pigeon')">✓</div>
+      <div class="exercise-info">
+        <div class="exercise-name">Pigeon pose — right side priority</div>
+        <div class="exercise-meta">3 min right · 1 min left</div>
+      </div>
+      <div class="exercise-weight">—</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-desc">Right leg forward, shin at angle, left leg extended behind. Fold forward over the front leg. 3 minutes right side — min 1 resisting, min 2 yielding, min 3 real change happening. The piriformis releases under sustained passive load, not under stretching effort. Breathe into it.</div>
+      <div class="exercise-tip"><span class="tag">Why it matters</span><br>Your most important gym-day stretch. The piriformis pattern drives every right-side issue in your training history.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Progression notes -->
+<div class="note-box" style="margin-top:8px">
+  <strong>Progression:</strong> 12kg → build technique confidence → 16kg for most exercises (2–3 weeks) → 21kg goblet squat when 16kg is easy for 12 clean reps → gym for hip thrust machine once back is fully cleared (highest value exercise home setup can't replicate well).
+</div>
+
+<button class="reset-btn" onclick="resetSession()">Reset session</button>
+
+</div>
+
+<footer class="page-footer">
+  <p>Triaperformance · <a href="mailto:coach@triaperformance.com">coach@triaperformance.com</a></p>
+</footer>
+
+<!-- Rest timer -->
+<div class="rest-timer" id="restTimer">
+  <div class="rest-label">Rest</div>
+  <div class="rest-time" id="restDisplay">1:30</div>
+  <div class="rest-close" onclick="closeTimer()">skip</div>
+</div>
+
+<script>
+  let totalExercises = 9;
+  let completedCount = 0;
+  let currentWeight = '12kg';
+  let timerInterval = null;
+  let timerSeconds = 0;
+
+  const weightMap = {
+    goblet: { '12kg': '12 kg', '16kg': '16 kg', '21kg': '21 kg' },
+    bulgarian: { '12kg': '12 kg', '16kg': '12–16 kg', '21kg': '16 kg' },
+    rdl: { '12kg': '12 kg', '16kg': '16 kg', '21kg': '16–21 kg' }
+  };
+
+  function setWeight(w, btn) {
+    currentWeight = w;
+    document.querySelectorAll('.weight-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const g = document.getElementById('goblet-weight');
+    const b = document.getElementById('bulgarian-weight');
+    const r = document.getElementById('rdl-weight');
+    if (g) g.textContent = weightMap.goblet[w];
+    if (b) b.textContent = weightMap.bulgarian[w];
+    if (r) r.textContent = weightMap.rdl[w];
+  }
+
+  function toggleExercise(id) {
+    const ex = document.getElementById(id);
+    ex.classList.toggle('open');
+  }
+
+  function toggleComplete(e, id) {
+    e.stopPropagation();
+    const ex = document.getElementById(id);
+    const wasComplete = ex.classList.contains('completed');
+    ex.classList.toggle('completed');
+    completedCount = wasComplete ? completedCount - 1 : completedCount + 1;
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const pct = (completedCount / totalExercises) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressCount').textContent = completedCount + ' / ' + totalExercises + ' exercises';
+  }
+
+  function toggleSet(btn, restSeconds) {
+    btn.classList.toggle('done');
+    if (btn.classList.contains('done') && restSeconds) {
+      startRestTimer(restSeconds);
+    }
+  }
+
+  function startRestTimer(seconds) {
+    clearInterval(timerInterval);
+    timerSeconds = seconds;
+    const timer = document.getElementById('restTimer');
+    timer.style.display = 'block';
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      timerSeconds--;
+      updateTimerDisplay();
+      if (timerSeconds <= 0) {
+        clearInterval(timerInterval);
+        timer.style.display = 'none';
+        try { navigator.vibrate && navigator.vibrate([300, 100, 300]); } catch(e) {}
+      }
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    const m = Math.floor(timerSeconds / 60);
+    const s = timerSeconds % 60;
+    document.getElementById('restDisplay').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function closeTimer() {
+    clearInterval(timerInterval);
+    document.getElementById('restTimer').style.display = 'none';
+  }
+
+  function resetSession() {
+    document.querySelectorAll('.exercise').forEach(ex => {
+      ex.classList.remove('completed', 'open');
+    });
+    document.querySelectorAll('.set-btn').forEach(btn => {
+      btn.classList.remove('done');
+    });
+    completedCount = 0;
+    updateProgress();
+    closeTimer();
+  }
+</script>
+
+</body>
+</html>
