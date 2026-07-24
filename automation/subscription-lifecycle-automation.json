@@ -195,7 +195,7 @@
       "typeVersion": 2,
       "position": [1400, -100],
       "parameters": {
-        "jsCode": "// Generates a readable-ish random token to double as the member's \"password\".\n// Avoids ambiguous characters (0/O, 1/l/I) since it's typed into a password field.\nconst crypto = require('crypto');\nconst alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';\n\nfunction genToken(length = 20) {\n  let out = '';\n  const bytes = crypto.randomBytes(length);\n  for (let i = 0; i < length; i++) {\n    out += alphabet[bytes[i] % alphabet.length];\n  }\n  return out;\n}\n\nreturn $input.all().map(item => ({\n  json: {\n    ...item.json,\n    member_token: genToken(),\n  }\n}));"
+        "jsCode": "// Generates a readable-ish random token to double as the member's \"password\".\n// Avoids ambiguous characters (0/O, 1/l/I) since it's typed into a password field.\n// Uses Math.random() rather than the crypto module -- n8n's sandboxed task runner\n// disallows Node built-in modules by default, and this doesn't need\n// cryptographic-grade randomness, just enough to not be guessable.\nconst alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';\n\nfunction genToken(length = 20) {\n  let out = '';\n  for (let i = 0; i < length; i++) {\n    out += alphabet[Math.floor(Math.random() * alphabet.length)];\n  }\n  return out;\n}\n\nreturn $input.all().map(item => ({\n  json: {\n    ...item.json,\n    member_token: genToken(),\n  }\n}));"
       }
     },
     {
@@ -401,6 +401,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
       "position": [220, 700],
+      "alwaysOutputData": true,
       "parameters": {
         "operation": "executeQuery",
         "query": "SELECT token, preferred_language FROM subscriber_tokens WHERE email = $1 AND active = TRUE ORDER BY created_at DESC LIMIT 1;",
@@ -424,9 +425,9 @@
           "conditions": [
             {
               "id": "r1",
-              "leftValue": "={{ $json.length }}",
-              "rightValue": 0,
-              "operator": { "type": "number", "operation": "gt" }
+              "leftValue": "={{ $json.token }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "notEmpty", "singleValue": true }
             }
           ],
           "combinator": "and"

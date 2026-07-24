@@ -8,11 +8,10 @@
 # is exactly right on the first try.
 
 @membersPublicPages {
-	path /members/login /members/forgot-password
+	path /members/login /members/login/ /members/forgot-password /members/forgot-password/
 	method GET
 }
 handle @membersPublicPages {
-	root * /var/www/triaperformance/website
 	file_server
 }
 
@@ -43,6 +42,5 @@ handle /members/* {
 			redir * /members/login?next={http.request.orig_uri} 302
 		}
 	}
-	root * /var/www/triaperformance/website
 	file_server
 }

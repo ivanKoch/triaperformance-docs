@@ -78,13 +78,11 @@
       .then(function () {
         result.textContent = 'Si el email está registrado, te enviamos la contraseña. Revisá tu bandeja de entrada.';
         result.classList.add('show');
-        form.reset();
+        form.style.display = 'none';
       })
       .catch(function () {
         result.textContent = 'Algo salió mal. Escribinos a coach@triaperformance.com.';
         result.classList.add('show');
-      })
-      .finally(function () {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Enviar';
       });
