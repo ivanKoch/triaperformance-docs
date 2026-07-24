@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** July 22, 2026
+**Last updated:** July 24, 2026
 **Status:** Live / operational
 
 ---
@@ -250,7 +250,7 @@ The last piece of the CoachMatch-pattern lead pipeline (§8) now also covers dir
   - `leadStatus`: `NEW`, `MESSAGE_SENT`, `REPLIED`, `IN_CONVERSATION`, `WON_CUSTOMER`, `LOST_NO_RESPONSE`, `LOST_NOT_INTERESTED`, `LOST_PRICE`
   - `leadSource`: confirmed via a real 400 from the live API (July 24, 2026) to be only `COACHMATCH`, `WEBSITE_FORM`, `REFERRAL`, `OTHER` — the `WEBSITE`/`ALL_ACCESS_SUBSCRIPTION` options Iván intended to add were never actually saved to the field (added somewhere that didn't take, or not saved). Subscription-lifecycle automation uses `OTHER` for new All-Access subscribers, since the TrainingPeaks confirmation email never tells us the real acquisition channel (website, Instagram, guide link, etc.) and `OTHER` is the most honest fit of the four real options. If Iván wants a dedicated value later, it needs to be added in Twenty under Settings → Data Model → Person → `leadSource` → Add option, then confirmed again the same way (a real API call, not assumed).
   - `customerType`: `PLAN_BUYER`, `ALL_ACCESS`, `1_1_COACHING` — this is the field that actually distinguishes customer types from each other, not `leadSource`
-  - `preferredLanguage`: `SPANISH` and `PORTUGUESE` confirmed in production use (CoachMatch workflow); `ENGLISH` used in the subscription-lifecycle workflow but **not yet confirmed** against a real API response — verify on first real English-subscriber test.
+  - `preferredLanguage`: `SPANISH`, `PORTUGUESE`, and `ENGLISH` all confirmed — `ENGLISH` verified July 24, 2026 via a live English-subscriber test through the subscription-lifecycle workflow (accepted with no 400).
 - **n8n's generic "HTTP Header Auth" credential type doesn't prepend `Bearer ` automatically** — cost real debugging time, since the saved value is masked afterward with no way to re-confirm it visually. Worth remembering for any future n8n + Twenty credential setup.
 - Confirmed working with a real production form submission on `triaperformance.com`.
 
@@ -261,9 +261,9 @@ The last piece of the CoachMatch-pattern lead pipeline (§8) now also covers dir
   - Parses the real "New subscription confirmation" and "Subscription cancellation" (exact match, not "contains" — collides with "...cancellation scheduled" otherwise) emails from TrainingPeaks.
   - Detects which All-Access product (ES/EN/PT) from the real confirmed product name strings (see `triaperformance-pricing-and-positioning.md`), sets `preferredLanguage` accordingly. Auth itself is language-agnostic; only the members-area *content* will be filtered by this field once built.
   - Upserts the Person in Twenty (dedupe by email), setting `customerType: ALL_ACCESS`, `leadStatus: WON_CUSTOMER`, `purchaseDate`/`churnDate`, `planPurchased`.
-  - Tested end-to-end against the two real historical emails (via a temporary static Set node feeding the filters directly, since replaying already-read mail doesn't retrigger an IMAP poller that tracks by UID) — confirmed working, cleaned up, activated.
+  - Tested end-to-end against realistic mock emails (via a temporary static Set node feeding the filters directly, since replaying already-read mail doesn't retrigger an IMAP poller that tracks by UID) — full matrix: new subscriber create, existing-subscriber update (routes to `Update Person`, generates a fresh token rather than reusing the old one — every new-sub event issues a new token, current behavior, not yet a deliberate design decision either way), all three languages (ES/EN/PT, `preferredLanguage: ENGLISH` confirmed accepted), churn matched (token(s) correctly flipped to `active = FALSE`) and churn unmatched (fires only the Telegram alert, no Twenty/Postgres writes). All green. Temporary Set node removed, test Person records cleaned out of Twenty, `Members Postgres` credential wired (was `REPLACE_ME`, now set), Gmail label filter confirmed in place, **workflow switched Active July 24, 2026.**
 
-## 13. Members-area auth gate (built July 24, 2026, not yet deployed)
+## 13. Members-area auth gate (built and deployed July 24, 2026)
 
 Per-subscriber token system, not a shared password — a churn only revokes the one subscriber's access rather than requiring a rotate-and-rebroadcast to everyone else. Three pieces, all in `automation/members-area/`:
 
@@ -275,8 +275,10 @@ Per-subscriber token system, not a shared password — a churn only revokes the 
 - **Wired into the subscription-lifecycle workflow**: `Generate Member Token` (random 20-char token, ambiguous-character-free alphabet since it doubles as a human-typed password) → `Insert Token in Postgres` on new subscription, `Revoke Token in Postgres` on churn. Welcome email now includes the real login link + generated password instead of placeholder copy.
 - **Access tracking**: `subscriber_tokens` also has `access_count` and `last_accessed_at`, incremented on every `/members/check` call (i.e. every page load inside `/members/`, not just the login event) — answers "how many times has this subscriber actually used it," which a login-only counter wouldn't (the cookie lasts a year, so logins are rare after the first one).
 - **Password lookup + resend, both answered directly rather than assumed**: tokens are stored in plain text in `subscriber_tokens` by deliberate design (not hashed) specifically so Iván can query the table and see exactly which password belongs to which subscriber — a real security-adjacent tradeoff, acceptable given what's being protected is training content, not financial/personal data. Resend is now self-service: a new `Webhook - Resend Password` trigger (same `subscription-lifecycle-automation.json` file, independent branch) reached via `POST /members/forgot-password` (Caddy proxies straight to n8n, same rewrite pattern as `/api/contact-form`) looks up the active token by email and re-sends it over the same SMTP credential already used elsewhere — deliberately responds with the same generic message whether or not the email is a real subscriber, standard forgot-password privacy practice.
-- **Known uncertainty, flagged rather than guessed**: the two new n8n Postgres nodes' exact parameter schema (`operation`/`query`/`options.queryReplacement`) is a best-effort scaffold — unlike the httpRequest/telegram/emailSend nodes this session, there was no real exported Postgres node from Iván's instance to mirror. Recommend opening these two nodes in the n8n UI and re-configuring the query-parameter fields visually if the JSON's structure doesn't match what the UI expects, using the SQL text itself (which is correct) as the reference.
-- **Not yet deployed**: needs the `members` database created, the Gmail-label setup already used for subscriptions is separate/unrelated, the Postgres credential added in n8n, the auth service containerized and running, and the Caddy snippet applied and tested.
+- **Postgres node schema**: the scaffolded parameter shape for the Postgres nodes held up against Iván's live n8n instance with no rework needed.
+- **Resend-password bug found and fixed (July 24, 2026, live testing)**: the `Token Found?` IF node's condition was `{{ $json.length }} > 0` — but at that point `$json` is a single Postgres row object (`{token, preferred_language}`), not an array, so `.length` was always `undefined` and the condition always evaluated false. Net effect: even when a token *was* found, the workflow silently routed to the generic-response branch and skipped `Send Resend Email` — a subscriber would get the "check your inbox" confirmation with no actual email behind it. Fixed by changing the condition to check `{{ $json.token }}` is not empty instead of array length. A second latent bug in the same branch was fixed alongside it: `Look Up Active Token` (Postgres) emits zero output items on a genuine no-match, and n8n nodes don't fire on zero input items by default — meaning a not-found email would leave the webhook hanging indefinitely rather than returning the generic response. Fixed by enabling "Always Output Data" on that node. Both retested live and confirmed: a found email now receives the real password email, a not-found email gets the generic response with no hang and no email sent.
+- **Frontend UX fix, same day**: `website/members/forgot-password/index.html` originally reset the form after submit, leaving the email input and button visible underneath the confirmation message — read as "did this do anything?" Fixed to hide both the form and the intro subtitle on success, leaving just the confirmation text and the "volver al login" link.
+- **Deployed and live**: `members` database created, Gmail-label filter for `TP-Subscriptions` confirmed in place, `Members Postgres` credential wired in n8n, temporary Set node removed, subscription-lifecycle workflow active. Full resend/login/churn matrix retested end-to-end post-fix, all green.
 
 ## Open items / not yet done
 
@@ -333,6 +335,15 @@ ufw status verbose                 # firewall status
 ufw allow OpenSSH
 ufw allow in on tailscale0
 ufw enable
+
+# Members-area — manually deactivate a subscriber token (e.g. cleaning up test data,
+# or revoking access outside the normal churn-email flow)
+docker exec -it analytics-postgres psql -U analytics -d members -c \
+  "UPDATE subscriber_tokens SET active = FALSE, revoked_at = now() WHERE email = 'someone@example.com' AND active = TRUE;"
+
+# Check a subscriber's token status
+docker exec -it analytics-postgres psql -U analytics -d members -c \
+  "SELECT email, active, revoked_at FROM subscriber_tokens WHERE email = 'someone@example.com';"
 
 # Business knowledge base — clone + daily auto-update
 git clone https://github.com/ivanKoch/triaperformance-docs.git ~/.hermes/triaperformance-docs
