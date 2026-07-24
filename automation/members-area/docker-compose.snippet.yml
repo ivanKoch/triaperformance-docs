@@ -1,18 +1,19 @@
-# Add this service to whatever compose file already runs on the VPS (or run it
-# standalone with `docker compose -f this-file.yml up -d` in its own directory).
+# analytics-postgres publishes to 127.0.0.1:5432 on the HOST (loopback only,
+# deliberately not reachable from other containers via the docker bridge). A
+# normal bridge-networked container can't reach that -- 127.0.0.1 inside a
+# container means the container's own loopback, not the host's. Using
+# network_mode: host instead: the container shares the host's network
+# namespace directly, so 127.0.0.1 means the same thing inside and out.
 #
-# Bound to 127.0.0.1 only -- this service is never called by anything except
-# Caddy, on the same machine. Not on Tailscale, not public.
+# This also means `ports:` is not used/needed -- with host networking the app
+# binds directly to the host's 127.0.0.1:8091 (see the Dockerfile CMD), same
+# effective result as the port-publish approach but compatible with how
+# analytics-postgres is locked down.
 
 services:
   members-auth:
     build: ./auth_service
     restart: unless-stopped
-    ports:
-      - "127.0.0.1:8091:8091"
+    network_mode: host
     environment:
-      # Fill in with whatever DSN actually reaches the analytics-postgres
-      # container's "members" database -- test this from inside the container
-      # first (e.g. `docker exec -it members-auth python3 -c "import psycopg2; psycopg2.connect('...')"`)
-      # before assuming the hostname/port below is right.
-      MEMBERS_DB_DSN: "host=analytics-postgres port=5432 dbname=members user=CHANGE_ME password=CHANGE_ME"
+      MEMBERS_DB_DSN: "host=127.0.0.1 port=5432 dbname=members user=analytics password=CHANGE_ME"

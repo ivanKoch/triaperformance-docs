@@ -37,14 +37,12 @@ handle /members/* {
 	forward_auth 127.0.0.1:8091 {
 		uri /members/check
 		copy_headers Cookie
+
+		@denied status 401
+		handle_response @denied {
+			redir * /members/login?next={http.request.orig_uri} 302
+		}
 	}
 	root * /var/www/triaperformance/website
 	file_server
-}
-
-handle_errors {
-	@needsLogin expression {http.error.status_code} == 401
-	handle @needsLogin {
-		redir * /members/login?next={http.request.orig_uri} 302
-	}
 }
