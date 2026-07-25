@@ -13,14 +13,16 @@ What it does, per row in the input CSV:
      n8n workflow uses) -- many 1:1 coaching athletes likely already exist
      there from the live CoachMatch pipeline (running since July 17, 2026 --
      anyone signed up before that date almost certainly won't be there yet).
-  2. If found: PATCHes customerType + leadStatus only. Deliberately does
-     NOT touch purchaseDate/planPurchased/sport/leadSource on an update --
-     this is granting access to an existing relationship, not overwriting
-     whatever's already recorded about it.
+  2. If found: PATCHes customerType + leadStatus + athleteLevel + addressCountry
+     + signUpDate + phones. Deliberately does NOT touch planPurchased/sport/
+     leadSource on an update -- those are more likely to already hold real,
+     correct data on an existing record, whereas signUpDate is specifically
+     the field this backfill exists to populate.
   3. If not found: POSTs a new Person with name, customerType, leadStatus,
-     leadSource, sport, purchaseDate, planPurchased, preferredLanguage --
-     whichever of those columns are present in the CSV (all but email/
-     customer_type/preferred_language are optional).
+     leadSource, sport, signUpDate (plain YYYY-MM-DD), planPurchased,
+     preferredLanguage, athleteLevel, addressCountry, phones -- whichever
+     of those columns are present in the CSV (all but email/customer_type/
+     preferred_language are optional).
   4. Generates a random 20-char token (same alphabet as the n8n workflow's
      Generate Member Token node, for consistency).
   5. Writes ONE multi-row SQL INSERT statement to the output file -- this
@@ -40,7 +42,7 @@ this at a raw export without renaming columns:
   last_name         <- last_name
   customer_type     <- customerType | customer_type
   preferred_language<- preferredLanguage | preferred_language
-  purchase_date     <- signUpDate | purchase_date        (optional)
+  sign_up_date      <- signUpDate | purchase_date        (optional, plain YYYY-MM-DD, sent as Twenty's signUpDate field)
   lead_source       <- leadSource | lead_source           (optional, default OTHER)
   lead_status       <- leadStatus | lead_status            (optional, default WON_CUSTOMER)
   sport             <- sport                                (optional)
@@ -66,10 +68,21 @@ import sys
 import urllib.error
 import urllib.request
 
-TWENTY_BASE_URL = os.environ.get("TWENTY_BASE_URL", "http://100.70.89.17:3000")
-TWENTY_API_KEY = os.environ.get("TWENTY_API_KEY")
+TWENTY_BASE_URL = os.environ.get("TWENTY_BASE_URL", "http://100.70.89.17:3000").strip()
+TWENTY_API_KEY = os.environ.get("TWENTY_API_KEY", "").strip()
 
-VALID_CUSTOMER_TYPES = {"ALL_ACCESS", "1_1_COACHING"}
+
+def auth_header_value(key):
+    """Twenty's 'HTTP Header Auth' credential type (used in n8n for this same
+    API) does NOT auto-prepend 'Bearer ' -- it has to be typed into the header
+    value manually. That means whatever's saved in Bitwarden/n8n may already
+    be the full 'Bearer <token>' string, not just the bare token. Handle both
+    so a copy-paste either way works."""
+    if key.lower().startswith("bearer "):
+        return key
+    return f"Bearer {key}"
+
+VALID_CUSTOMER_TYPES = {"PLAN_BUYER", "ALL_ACCESS", "OPT1_1_COACHING"}
 VALID_LANGUAGES = {"SPANISH", "ENGLISH", "PORTUGUESE"}
 VALID_SPORTS = {"RUNNING", "CYCLING", "SWIMMING", "TRIATHLON", "DUATHLON"}
 VALID_ATHLETE_LEVELS = {"BEGINNER", "INTERMEDIATE", "ADVANCED"}
@@ -153,20 +166,11 @@ def pick(row, *keys):
     return ""
 
 
-def to_iso_datetime(date_str):
-    """Accepts 'YYYY-MM-DD' or a full ISO datetime; always returns a full ISO datetime."""
-    if not date_str:
-        return None
-    if "T" in date_str:
-        return date_str
-    return f"{date_str}T00:00:00.000Z"
-
-
 def twenty_request(method, path, body=None):
     url = f"{TWENTY_BASE_URL}{path}"
     data = json.dumps(body).encode("utf-8") if body is not None else None
     req = urllib.request.Request(url, data=data, method=method)
-    req.add_header("Authorization", f"Bearer {TWENTY_API_KEY}")
+    req.add_header("Authorization", auth_header_value(TWENTY_API_KEY))
     req.add_header("Content-Type", "application/json")
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
@@ -210,8 +214,8 @@ def create_person(row):
     }
     if row.get("sport"):
         body["sport"] = row["sport"]
-    if row.get("purchase_date"):
-        body["purchaseDate"] = row["purchase_date"]
+    if row.get("sign_up_date"):
+        body["signUpDate"] = row["sign_up_date"]
     if row.get("plan_purchased"):
         body["planPurchased"] = row["plan_purchased"]
     if row.get("athlete_level"):
@@ -234,6 +238,8 @@ def update_person(person_id, row):
         body["athleteLevel"] = row["athlete_level"]
     if row.get("address_country"):
         body["addressCountry"] = row["address_country"]
+    if row.get("sign_up_date"):
+        body["signUpDate"] = row["sign_up_date"]
     phone = phone_body(row)
     if phone:
         body["phones"] = phone
@@ -261,7 +267,7 @@ def main():
             lead_source = pick(row, "leadSource", "lead_source").upper() or "OTHER"
             lead_status = pick(row, "leadStatus", "lead_status").upper() or "WON_CUSTOMER"
             plan_purchased = pick(row, "planPurchased", "plan_purchased")
-            purchase_date = to_iso_datetime(pick(row, "signUpDate", "purchase_date"))
+            sign_up_date = pick(row, "signUpDate", "purchase_date")  # plain YYYY-MM-DD, not a datetime
             athlete_level = pick(row, "athleteLevel", "athlete_level").upper()
             address_country = pick(row, "addressCountry", "address_country")
             phone_raw = pick(row, "Whatsapp", "whatsapp", "phone")
@@ -296,7 +302,7 @@ def main():
                 "lead_source": lead_source,
                 "lead_status": lead_status,
                 "plan_purchased": plan_purchased,
-                "purchase_date": purchase_date,
+                "sign_up_date": sign_up_date,
                 "athlete_level": athlete_level,
                 "address_country": address_country,
                 "phone_calling_code": phone_calling_code,
