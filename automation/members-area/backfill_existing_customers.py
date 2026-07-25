@@ -329,6 +329,7 @@ def main():
                     sql_escape(email),
                     sql_escape(token),
                     sql_escape(clean_row["preferred_language"]),
+                    "TRUE",
                 ]) + ")"
             )
             print(f"           token: {token}")
