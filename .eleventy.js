@@ -46,12 +46,66 @@ module.exports = function (eleventyConfig) {
     return map;
   });
 
+  // ---------------------------------------------------------------------------
+  // Blog posts, newest first, per language.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addCollection("posts", (collectionApi) =>
+    collectionApi.getFilteredByTag("post").sort((a, b) => b.date - a.date)
+  );
+
+  // ---------------------------------------------------------------------------
+  // planCard — renders a TrainingPeaks plan from the real inventory.
+  //
+  // An article names a plan by ID and never types a URL. If the ID doesn't
+  // resolve (unpublished, expired link, or on the known-404 list), the BUILD
+  // FAILS rather than shipping a dead link to a buyer. That guard is the point.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addShortcode("planCard", function (planId, blurb) {
+    const plans = this.ctx?.plans || this.context?.environments?.plans;
+    const plan = plans && plans.byId[String(planId)];
+    if (!plan) {
+      throw new Error(
+        `planCard: plan_id "${planId}" is not linkable. It is either unpublished, ` +
+        `has an expired link, or is on the known-404 list in site/_data/plans.js. ` +
+        `Pick a different plan — do not hand-write the URL.`
+      );
+    }
+    const meta = [
+      plan.weeks ? `${plan.weeks} semanas` : null,
+      plan.difficulty,
+      plan.metric === "hr" ? "Frecuencia cardíaca"
+        : plan.metric === "power" ? "Potencia"
+        : plan.metric === "pace" ? "Por ritmo" : null,
+      plan.strength ? "Incluye gimnasio" : null,
+    ].filter(Boolean).join(" · ");
+    return `<div class="plan-pick">
+  <h3><a href="${plan.url}" target="_blank" rel="noopener">${plan.name}</a></h3>
+  <p class="plan-pick-meta">${meta}</p>
+  ${blurb ? `<p class="plan-pick-blurb">${blurb}</p>` : ""}
+  <p class="plan-pick-price">US$ ${plan.price}</p>
+</div>`;
+  });
+
   // Absolute URL helper, for canonical and hreflang tags.
   eleventyConfig.addFilter("absoluteUrl", function (path) {
     const base = "https://triaperformance.com";
     if (!path) return base + "/";
     if (path.startsWith("http")) return path;
     return base + path;
+  });
+
+  // Machine-readable date for <time datetime="...">. Nunjucks has no built-in
+  // `date` filter — that one is Liquid's — so it's defined here.
+  eleventyConfig.addFilter("htmlDate", (d) =>
+    new Date(d).toISOString().slice(0, 10)
+  );
+
+  // Readable post dates, per language.
+  eleventyConfig.addFilter("postDate", (d, lang = "es") => {
+    const locale = { es: "es-AR", en: "en-US", pt: "pt-BR" }[lang] || "es-AR";
+    return new Date(d).toLocaleDateString(locale, {
+      year: "numeric", month: "long", day: "numeric", timeZone: "UTC",
+    });
   });
 
   return {

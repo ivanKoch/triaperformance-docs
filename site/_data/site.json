@@ -11,9 +11,9 @@
   },
   "coachingPrice": "149",
   "languages": {
-    "es": { "code": "es", "label": "ES", "home": "/" },
-    "en": { "code": "en", "label": "EN", "home": "/en/" },
-    "pt": { "code": "pt", "label": "PT", "home": "/pt/" }
+    "es": { "code": "es", "label": "ES", "home": "/", "blog": "/blog/" },
+    "en": { "code": "en", "label": "EN", "home": "/en/", "blog": "/en/blog/" },
+    "pt": { "code": "pt", "label": "PT", "home": "/pt/", "blog": "/pt/blog/" }
   },
   "langOrder": ["es", "en", "pt"]
 }

@@ -188,6 +188,24 @@ tar xzf ~/site-backup-*.tar.gz -C /var/www/triaperformance
 crontab -l
 ```
 
+Expected:
+
+```
+0 6 * * * ~/.hermes/deploy-website.sh >> ~/.hermes/logs/kb-sync.log 2>&1
+```
+
+**Note that this one job has two responsibilities.** The `git pull` inside the deploy script is also what keeps Hermes's copy of the knowledge base current — the log filename (`kb-sync.log`) is a leftover from when that was all it did. If this job starts failing, both the website deploy *and* Hermes's business context go stale, and neither is loud about it.
+
+**Step 16b — check the first automated run.** The morning after cutover:
+
+```bash
+tail -40 ~/.hermes/logs/kb-sync.log
+```
+
+You want to see the pull, "dependencies unchanged — skipping npm ci", "publishing 19 pages", and three `OK 200` lines. If you see `FAIL` on any path, the site is serving errors even though the deploy reported success.
+
+Worth adding to the Telegram watchdog eventually: alert if that log doesn't contain three `OK 200` lines after 6am.
+
 ---
 
 ## Phase 5 — Cleanup (only after a few days of the new deploy running fine)

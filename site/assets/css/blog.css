@@ -1,0 +1,91 @@
+/* Blog — article and listing styles, loaded after site.css.
+   Brand guidelines §4-§5: Helvetica, 65ch text column, 8px spacing grid,
+   blue as accent only. No new colors introduced here. */
+
+/* --- Hero / header ------------------------------------------------------- */
+.blog-hero, .article-hero {
+  border-bottom: 1px solid var(--mist);
+  padding: 64px 0 40px;
+}
+.article-hero h1, .blog-hero h1 {
+  font-size: 44px; font-weight: 700; letter-spacing: -0.02em;
+  line-height: 1.1; margin-bottom: 16px; max-width: 20ch;
+}
+@media (max-width: 640px) { .article-hero h1, .blog-hero h1 { font-size: 32px; } }
+.standfirst {
+  font-size: 19px; color: var(--slate); max-width: 60ch; line-height: 1.5;
+}
+.breadcrumb { font-size: 14px; color: var(--slate); margin-bottom: 20px; }
+.breadcrumb a { color: var(--slate); }
+.breadcrumb a:hover { color: var(--blue); }
+.article-meta { font-size: 14px; color: var(--slate); margin-top: 20px; }
+
+/* --- Article body -------------------------------------------------------- */
+.article-body { padding: 56px 24px 80px; }
+.article-body > * { max-width: 65ch; }
+.article-body h2 {
+  font-size: 28px; font-weight: 700; letter-spacing: -0.01em;
+  margin: 56px 0 16px; line-height: 1.2;
+}
+.article-body h3 {
+  font-size: 20px; font-weight: 700; margin: 36px 0 12px;
+}
+.article-body p { font-size: 17px; line-height: 1.65; margin-bottom: 20px; }
+.article-body ul, .article-body ol { margin: 0 0 24px 24px; }
+.article-body li { font-size: 17px; line-height: 1.65; margin-bottom: 10px; }
+.article-body a { color: var(--blue); font-weight: 700; }
+.article-body strong { font-weight: 700; }
+.article-body hr { border: none; border-top: 1px solid var(--mist); margin: 48px 0; }
+
+/* Data callout — for numbers pulled from the plan catalog. */
+.article-body .datanote {
+  background: var(--wash); border-left: 3px solid var(--blue);
+  padding: 20px 24px; margin: 32px 0; font-size: 16px;
+}
+.article-body .datanote p { font-size: 16px; margin-bottom: 8px; }
+.article-body .datanote p:last-child { margin-bottom: 0; }
+
+/* Tables — used for the decision matrix. */
+.article-body table {
+  width: 100%; max-width: 100%; border-collapse: collapse; margin: 28px 0; font-size: 15px;
+}
+.article-body th, .article-body td {
+  text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--mist);
+}
+.article-body th {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--blue);
+}
+.article-body td { vertical-align: top; }
+
+/* --- Plan cards, rendered by the planCard shortcode ---------------------- */
+.plan-pick {
+  border: 1px solid var(--mist); border-radius: 8px; padding: 24px;
+  margin: 20px 0; max-width: 65ch;
+}
+.plan-pick:hover { box-shadow: 0 1px 3px rgba(30,32,25,.08); }
+.plan-pick h3 { font-size: 18px; font-weight: 700; margin: 0 0 8px; line-height: 1.35; }
+.plan-pick h3 a { color: var(--blue); text-decoration: none; }
+.plan-pick h3 a:hover { text-decoration: underline; }
+.plan-pick-meta { font-size: 14px; color: var(--slate); margin-bottom: 10px; }
+.plan-pick-blurb { font-size: 15px; margin-bottom: 12px; }
+.plan-pick-price { font-size: 15px; font-weight: 700; color: var(--ink); margin: 0; }
+
+/* --- Listing ------------------------------------------------------------- */
+.post-list { padding: 56px 0 80px; }
+.post-teaser {
+  padding-bottom: 32px; margin-bottom: 32px; border-bottom: 1px solid var(--mist);
+  max-width: 65ch;
+}
+.post-teaser:last-child { border-bottom: none; }
+.post-teaser h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 10px; }
+.post-teaser h2 a { color: var(--ink); text-decoration: none; }
+.post-teaser h2 a:hover { color: var(--blue); }
+.post-teaser p { color: var(--slate); font-size: 17px; }
+
+/* --- Closing CTA --------------------------------------------------------- */
+.article-cta { background: var(--wash); text-align: center; padding: 80px 0; }
+.article-cta h2 { font-size: 32px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.01em; }
+.article-cta p { color: var(--slate); max-width: 560px; margin: 0 auto 32px; font-size: 17px; }
+.article-cta .btn-primary { background: var(--blue); color: var(--white); }
+.article-cta .btn-primary:hover { background: var(--blue-deep); }

@@ -1,0 +1,36 @@
+---
+layout: layouts/base.njk
+lang: es
+transKey: blog-index
+tags: []
+pageCss: blog.css
+title: Blog — Triaperformance
+description: "Entrenamiento de running y triatlón basado en datos: cómo elegir un plan, cómo testear, y qué hacer con los números."
+---
+{%- set t = i18n[lang] -%}
+<section class="blog-hero">
+  <div class="wrap">
+    <span class="label">{{ t.blogTitle }}</span>
+    <h1>{{ t.blogTitle }}</h1>
+    <p class="standfirst">{{ t.blogIntro }}</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="post-list">
+    {%- set langPosts = collections.posts | selectattr("data.lang", "equalto", lang) -%}
+    {%- for post in langPosts %}
+    <article class="post-teaser">
+      {%- if post.data.category %}<span class="label">{{ post.data.category }}</span>{% endif %}
+      <h2><a href="{{ post.url }}">{{ post.data.headline }}</a></h2>
+      {%- if post.data.standfirst %}<p>{{ post.data.standfirst }}</p>{% endif %}
+      <p class="article-meta">
+        <time datetime="{{ post.date | htmlDate }}">{{ post.date | postDate(lang) }}</time>
+        {%- if post.data.readingTime %} · {{ post.data.readingTime }} {{ t.minRead }}{% endif %}
+      </p>
+    </article>
+    {%- else %}
+    <p>Todavía no hay artículos publicados.</p>
+    {%- endfor %}
+  </section>
+</div>

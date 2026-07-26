@@ -1,0 +1,9 @@
+{
+  "_comment": "Written by automation/check-plan-links.py. Empty until the checker has been run for real against an unrestricted network — the sandbox this was scaffolded in has no outbound HTTP, so its results were meaningless and were discarded. Only entries with status 404 or 410 block a plan from being linked in an article.",
+  "generated_at": null,
+  "checked": 0,
+  "ok": 0,
+  "bad": 0,
+  "inconclusive": 0,
+  "plans": {}
+}

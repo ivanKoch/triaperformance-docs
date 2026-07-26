@@ -16,9 +16,13 @@
       },
       { "label": "Coaching", "url": "/#coaching" },
       { "label": "Membresía All-Access", "url": "/all-access/" },
+      { "label": "Blog", "url": "/blog/" },
       { "label": "Contacto", "url": "/#contacto", "cta": true }
     ]
   },
+
+  "_blogNavNote": "Blog is only in the Spanish nav for now. Add it to en/pt once those blogs have their first article — linking to an empty listing page is worse than not linking at all.",
+
   "en": {
     "menuLabel": "Open menu",
     "items": [

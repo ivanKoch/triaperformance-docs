@@ -1,0 +1,42 @@
+---
+layout: layouts/base.njk
+---
+{#- Article layout. Sits on top of base.njk, so nav, footer, analytics and the
+    hreflang machinery all come for free — an article declares a transKey the
+    same way any other page does. UI strings come from site/_data/i18n.json. -#}
+{%- set t = i18n[lang] -%}
+<article>
+  <header class="article-hero">
+    <div class="wrap">
+      <p class="breadcrumb">
+        <a href="{{ site.languages[lang].home }}">{{ t.home }}</a> /
+        <a href="{{ site.languages[lang].blog }}">{{ t.blogTitle }}</a> /
+        {{ shortTitle or headline }}
+      </p>
+      {%- if category %}<span class="label">{{ category }}</span>{% endif %}
+      <h1>{{ headline }}</h1>
+      {%- if standfirst %}
+      <p class="standfirst">{{ standfirst }}</p>
+      {%- endif %}
+      <p class="article-meta">
+        <time datetime="{{ page.date | htmlDate }}">{{ page.date | postDate(lang) }}</time>
+        {%- if readingTime %} · {{ readingTime }} {{ t.minRead }}{% endif %}
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap article-body">
+    {{ content | safe }}
+  </div>
+</article>
+
+{#- Every article closes with the same offer. Defined once here so no article can
+    forget it, and so changing the offer is one edit rather than one per article. -#}
+<section class="article-cta">
+  <div class="wrap">
+    <span class="label">{{ t.ctaLabel }}</span>
+    <h2>{{ t.ctaHeading }}</h2>
+    <p>{{ t.ctaBody }}</p>
+    <a href="{{ t.ctaHref }}" class="btn-primary">{{ t.ctaButton }}</a>
+  </div>
+</section>

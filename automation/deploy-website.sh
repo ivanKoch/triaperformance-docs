@@ -32,10 +32,22 @@ echo "[$(date -Is)] pulling repo"
 cd "$REPO"
 git pull --ff-only
 
-echo "[$(date -Is)] installing dependencies"
+# Dependencies. Only reinstall when package-lock.json has actually changed —
+# this runs daily from cron, and a nightly `npm ci` means a nightly dependency on
+# the npm registry being reachable. With `set -e`, one transient network failure
+# would kill both the site deploy and the knowledge-base sync this same job does.
+#
 # NOT --omit=dev: Eleventy is a devDependency (it's a build tool, it ships nothing
 # to the browser), so --omit=dev skips the one package this script actually needs.
-npm ci --no-audit --no-fund
+LOCK_HASH="$(md5sum package-lock.json | cut -d' ' -f1)"
+STAMP="$REPO/node_modules/.deploy-lock-hash"
+if [ ! -d node_modules ] || [ ! -f "$STAMP" ] || [ "$(cat "$STAMP")" != "$LOCK_HASH" ]; then
+  echo "[$(date -Is)] dependencies changed — running npm ci"
+  npm ci --no-audit --no-fund
+  echo "$LOCK_HASH" > "$STAMP"
+else
+  echo "[$(date -Is)] dependencies unchanged — skipping npm ci"
+fi
 
 echo "[$(date -Is)] building site"
 npx @11ty/eleventy --output="$BUILD_DIR"

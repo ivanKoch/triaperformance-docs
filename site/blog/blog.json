@@ -1,0 +1,6 @@
+{
+  "_comment": "Directory data file — defaults for every Spanish blog post. The listing page (index.njk) overrides layout and tags.",
+  "lang": "es",
+  "layout": "layouts/article.njk",
+  "tags": ["post"]
+}

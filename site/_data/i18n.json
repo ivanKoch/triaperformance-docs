@@ -1,0 +1,42 @@
+{
+  "_note": "UI strings for the blog, per language. Article body copy lives in the article files themselves; this is only the furniture around it.",
+
+  "es": {
+    "home": "Inicio",
+    "blogTitle": "Blog",
+    "blogIntro": "Entrenamiento basado en datos: cómo elegir, cómo medir, y qué hacer con los números.",
+    "minRead": "min de lectura",
+    "readMore": "Leer",
+    "ctaLabel": "Empezá ahora",
+    "ctaHeading": "¿Querés que tu plan lo arme alguien que mira tus datos?",
+    "ctaBody": "Coaching 1:1 con testing, zonas propias, y feedback todos los lunes. Contanos tu objetivo y te respondemos en menos de 24 horas.",
+    "ctaButton": "Hablemos",
+    "ctaHref": "/#contacto"
+  },
+
+  "en": {
+    "home": "Home",
+    "blogTitle": "Blog",
+    "blogIntro": "Data-driven training: how to choose, how to measure, and what to do with the numbers.",
+    "minRead": "min read",
+    "readMore": "Read",
+    "ctaLabel": "Get started",
+    "ctaHeading": "Want a plan built by someone actually reading your data?",
+    "ctaBody": "1:1 coaching with real testing, your own zones, and feedback every Monday. Tell us your goal and we'll reply within 24 hours.",
+    "ctaButton": "Get in touch",
+    "ctaHref": "/en/#contacto"
+  },
+
+  "pt": {
+    "home": "Início",
+    "blogTitle": "Blog",
+    "blogIntro": "Treino baseado em dados: como escolher, como medir, e o que fazer com os números.",
+    "minRead": "min de leitura",
+    "readMore": "Ler",
+    "ctaLabel": "Comece agora",
+    "ctaHeading": "Quer um plano montado por quem realmente olha seus dados?",
+    "ctaBody": "Coaching 1:1 com testes, zonas próprias, e feedback toda segunda-feira. Conte seu objetivo e respondemos em até 24 horas.",
+    "ctaButton": "Falar com o coach",
+    "ctaHref": "/pt/#contacto"
+  }
+}
