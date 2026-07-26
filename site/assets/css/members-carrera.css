@@ -1,0 +1,21 @@
+/* carrera — extra rules on top of site.css + members.css. */
+
+ul { margin: 0 0 16px 20px; max-width: 65ch; }
+
+li { margin-bottom: 8px; }
+
+.dist-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+
+.chip {
+    border: 1px solid var(--mist); background: var(--white); color: var(--ink);
+    font-size: 14px; font-weight: 700; padding: 8px 16px; border-radius: 999px;
+    cursor: pointer; font-family: inherit;
+  }
+
+.chip.active { background: var(--blue); border-color: var(--blue); color: var(--white); }
+
+.chip:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+
+.dist-panel { display: none; }
+
+.dist-panel.active { display: block; }

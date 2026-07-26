@@ -1,0 +1,107 @@
+---
+layout: layouts/base.njk
+lang: pt
+transKey: home
+title: Triaperformance — Eleve sua performance
+description: "Treinamento de triatlo e corrida baseado em dados. Testes, zonas corretas, análise, reteste. Feedback toda segunda-feira, sempre."
+---
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <span class="label">Coaching de Triatlo e Corrida</span>
+    <h1>Eleve sua performance</h1>
+    <p>Atletas mais rápidos porque tudo é medido. Testes, zonas corretas, análise com dados, reteste para comprovar o progresso.</p>
+    <a href="#contacto" class="btn-primary">Começar agora</a>
+    <a href="#planes" class="btn-secondary">Ver planos</a>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<div class="wrap">
+  <section id="coaching">
+    <span class="label">O que fazemos</span>
+    <h2>Um serviço, três formas de usar</h2>
+    <p class="section-intro">Sem níveis, sem letras miúdas. Teste obrigatório, feedback semanal toda segunda-feira, e ajustes sempre que precisar.</p>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Coaching 1:1</h3>
+        <p>Check-in semanal sempre, ajustes e análises quando você pedir, WhatsApp durante a semana. Feedback toda segunda-feira sem falta, há mais de 2 anos.</p>
+      </div>
+      <div class="card">
+        <h3>Planos de treino</h3>
+        <p>+300 planos no TrainingPeaks, em espanhol, inglês e português. Estrutura profissional, no seu ritmo, sem coach 1:1.</p>
+      </div>
+      <div class="card">
+        <h3>All-Access</h3>
+        <p>Todos os planos + TrainingPeaks Premium + extras. Ideal se você vai disputar mais de uma prova por ano.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PRICING -->
+<section class="pricing" id="planes">
+  <div class="wrap">
+    <span class="label">Preço</span>
+    <h2>Um preço claro</h2>
+    <p class="section-intro">Sem surpresas. Cancele quando quiser.</p>
+    <div class="price-card">
+      <span class="label" style="color: var(--blue);">Coaching 1:1</span>
+      <div class="amount">${{ site.coachingPrice }}<span>/mês</span></div>
+      <ul>
+        <li>Check-in semanal, toda segunda-feira</li>
+        <li>Ajustes e análises quando você pedir</li>
+        <li>WhatsApp durante a semana</li>
+        <li>Plano 100% individual, sem modelos prontos</li>
+        <li>Força sempre incluída</li>
+      </ul>
+      <a href="#contacto" class="btn-primary">Quero começar</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<!--
+  NOTE (decided with Iván, Jul 2026): zero Portuguese-language reviews exist (43 total, 0 from
+  PT-speaking athletes — he has no PT-speaking athletes to ask). Rather than leave this section
+  empty indefinitely, these are real quotes from real athletes (see social-proof-and-reviews.md),
+  translated from their original Spanish into Portuguese. Attribution (name + country) is
+  unchanged and accurate. Swap for native PT quotes if/when the review-generation playbook
+  produces some.
+-->
+<div class="wrap">
+  <section>
+    <span class="label">Resultados</span>
+    <h2>O que os atletas dizem</h2>
+    <p class="section-intro">45 avaliações 5 estrelas no Google, nenhuma negativa.</p>
+    <div class="grid-2">
+      <div class="testimonial">
+        <p class="quote">Com o apoio dele, consegui correr uma maratona (42km) em menos de 3 horas.</p>
+        <p class="attribution">Luis Casillas — México</p>
+      </div>
+      <div class="testimonial">
+        <p class="quote">Comecei sob os cuidados dele para o 70.3 do Panamá e consegui meu melhor tempo na distância.</p>
+        <p class="attribution">Limaris — Porto Rico</p>
+      </div>
+      <div class="testimonial">
+        <p class="quote">Toda segunda-feira ele me escreve para saber como está indo minha semana, me dá feedback.</p>
+        <p class="attribution">Sergio Toro — Chile</p>
+      </div>
+      <div class="testimonial">
+        <p class="quote">Não importa seu nível ou o país onde você esteja, a distância nunca é um impedimento.</p>
+        <p class="attribution">Luis Lopez — Colômbia</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- LEAD MAGNET CTA -->
+<section class="cta-final" id="contacto">
+  <div class="wrap">
+    <span class="label">Comece agora</span>
+    <h2>Conte-nos seu objetivo</h2>
+    <p>Deixe seus dados e entramos em contato em até 24 horas. Sem compromisso.</p>
+
+    {% include "partials/contact-form.njk" %}
+  </div>
+</section>

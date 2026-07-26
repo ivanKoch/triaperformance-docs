@@ -1,0 +1,160 @@
+---
+layout: layouts/base.njk
+navVariant: "members-home"
+footerVariant: "default"
+pageCss: "members-home.css"
+title: "Área de Miembros — Triaperformance"
+---
+<section class="hero-members">
+  <div class="wrap">
+    <span class="label">All-Access</span>
+    <h1>Todo lo que incluye tu suscripción, en un solo lugar</h1>
+    <p>Todos los planes, cambios ilimitados, TrainingPeaks Premium, tus guías, y una biblioteca de herramientas que sigue creciendo.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="label">Empezá acá</span>
+    <h2>¿Recién llegás? Hacé estas cuatro cosas primero</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <h3>Testeá tu umbral</h3>
+          <p>Un test por deporte, bien hecho. <a href="/members/tests/">Ver los protocolos de testing →</a></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div>
+          <h3>Configurá tus zonas en TrainingPeaks</h3>
+          <p>Con tu número de umbral, te mostramos exactamente dónde cargarlo. <a href="/members/zonas/">Ver la guía de zonas →</a></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div>
+          <h3>Elegí tu plan en TrainingPeaks</h3>
+          <p>Explorá el catálogo completo desde tu cuenta y asignalo a tu calendario. <a href="#faq">¿Cómo encuentro los planes? →</a></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div>
+          <h3>Guardá esta página</h3>
+          <p>Playbooks de carrera, calculadora de nutrición y la guía de carga de entrenamiento están acá cuando los necesites. <a href="#biblioteca">Ver la biblioteca ↓</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="biblioteca">
+  <div class="wrap">
+    <span class="label">Biblioteca</span>
+    <h2>Herramientas y guías</h2>
+    <p class="section-intro">Construidas con la misma metodología del coaching. Sumamos contenido nuevo con el tiempo — esta lista va a seguir creciendo.</p>
+
+    <div class="filters" id="filters">
+      <button class="chip active" data-filter="all">Todo</button>
+      <button class="chip" data-filter="zonas">Zonas y testing</button>
+      <button class="chip" data-filter="carga">Carga de entrenamiento</button>
+      <button class="chip" data-filter="carrera">Ejecución de carrera</button>
+      <button class="chip" data-filter="nutricion">Nutrición</button>
+      <button class="chip" data-filter="fuerza">Fuerza</button>
+      <button class="chip" data-filter="guias">Guías</button>
+    </div>
+
+    <div class="grid-3" id="card-grid">
+      <div class="card" data-category="zonas">
+        <span class="tag">Guía</span>
+        <h3>Guía de Zonas y Umbral</h3>
+        <p>Qué significa cada zona, por qué separamos la Zona X y la Zona Y, y dónde cargar tus números en TrainingPeaks después de testear.</p>
+        <a class="card-link" href="/members/zonas/">Ver guía →</a>
+      </div>
+      <div class="card" data-category="zonas">
+        <span class="tag">Guía + planilla</span>
+        <h3>Protocolos de Testing</h3>
+        <p>Cómo testear tu umbral en cada deporte, reglas del test bien hecho, y una planilla para llevar el registro.</p>
+        <a class="card-link" href="/members/tests/">Ver guía →</a>
+      </div>
+      <div class="card" data-category="carga">
+        <span class="tag">Guía</span>
+        <h3>Carga de Entrenamiento Explicada</h3>
+        <p>TSS, CTL, ATL, TSB y el gráfico PMC — qué significan y cómo leerlos de verdad.</p>
+        <a class="card-link" href="/members/carga/">Ver guía →</a>
+      </div>
+      <div class="card" data-category="carrera">
+        <span class="tag">Playbook</span>
+        <h3>Ejecución de Carrera y Pacing</h3>
+        <p>Estrategia de pacing y plan de carrera por distancia — 5k/10k, maratón, tri olímpico/sprint, 70.3 e Ironman completo.</p>
+        <a class="card-link" href="/members/carrera/">Ver guía →</a>
+      </div>
+      <div class="card" data-category="nutricion">
+        <span class="tag">Calculadora</span>
+        <h3>Nutrición y Carga de Carbohidratos</h3>
+        <p>Tu esquema diario, objetivos de carbohidratos por sesión, y una calculadora de carga de carbos para la semana de carrera.</p>
+        <a class="card-link" href="/members/nutricion/">Ver calculadora →</a>
+      </div>
+      <div class="card" data-category="fuerza">
+        <span class="tag">Rutina</span>
+        <h3>Rutina de Kettlebell</h3>
+        <p>Rutina de fuerza en casa, con seguimiento interactivo de series y timer de descanso incorporado.</p>
+        <a class="card-link" href="/members/kettlebell/">Ver rutina →</a>
+      </div>
+      <div class="card" data-category="guias">
+        <span class="tag">Descargas</span>
+        <h3>Guías de Nutrición, Prep. Mental y Zonas</h3>
+        <p>Las tres guías descargables en PDF — disponibles cuando quieras.</p>
+        <a class="card-link" href="/guias/">Ver descargas →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--surface" id="faq">
+  <div class="wrap">
+    <span class="label">FAQ</span>
+    <h2>Preguntas frecuentes</h2>
+
+    <div class="faq-item">
+      <h3>¿Cómo accedo a mis planes en TrainingPeaks?</h3>
+      <p>All-Access se entrega a través de tu cuenta de TrainingPeaks, no de este sitio. Iniciá sesión ahí (web o app) con el email con el que te suscribiste, y andá a <strong>Planes → Explorar</strong> para ver el catálogo completo. Asigná el que quieras a tu calendario — con All-Access podés cambiar de plan las veces que quieras. TrainingPeaks Premium ya está incluido en la misma cuenta.</p>
+    </div>
+    <div class="faq-item">
+      <h3>¿Dónde están las guías descargables?</h3>
+      <p>Las guías de nutrición, preparación mental y zonas de entrenamiento están en <a href="/guias/">triaperformance.com/guias</a> — no hace falta otro login.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Me olvidé la contraseña, ¿cómo vuelvo a entrar?</h3>
+      <p>Usá la <a href="/members/forgot-password/">página de recuperación</a> — ingresá el email con el que te suscribiste y te reenviamos el acceso.</p>
+    </div>
+    <div class="faq-item">
+      <h3>¿Cómo gestiono o cancelo mi suscripción?</h3>
+      <p>Tu suscripción se maneja directo en TrainingPeaks Payments — la facturación, los cambios y la cancelación se hacen desde tu cuenta de TrainingPeaks, no acá.</p>
+    </div>
+    <div class="faq-item">
+      <h3>¿Qué incluye exactamente All-Access?</h3>
+      <p>Todos los +300 planes de entrenamiento en cada deporte, distancia e idioma, cambios ilimitados de plan, TrainingPeaks Premium, las guías descargables, y esta biblioteca de herramientas — todo por una sola suscripción mensual.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var chips = document.querySelectorAll('#filters .chip');
+    var cards = document.querySelectorAll('#card-grid .card');
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        chips.forEach(function (c) { c.classList.remove('active'); });
+        chip.classList.add('active');
+        var filter = chip.getAttribute('data-filter');
+        cards.forEach(function (card) {
+          var show = filter === 'all' || card.getAttribute('data-category') === filter;
+          card.style.display = show ? '' : 'none';
+        });
+      });
+    });
+  })();
+</script>

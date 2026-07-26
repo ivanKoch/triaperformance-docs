@@ -147,7 +147,7 @@
         "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.data.people[0].id }}",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ customerType: 'ALL_ACCESS', leadStatus: 'WON_CUSTOMER', purchaseDate: new Date().toISOString(), planPurchased: $('Map Language + Build Twenty Fields').item.json.subscription_name, preferredLanguage: $('Map Language + Build Twenty Fields').item.json.preferredLanguage, churnDate: null }) }}",
+        "jsonBody": "={{ JSON.stringify({ customerType: 'ALL_ACCESS', leadStatus: 'WON_CUSTOMER', signUpDate: new Date().toISOString().split('T')[0], planPurchased: $('Map Language + Build Twenty Fields').item.json.subscription_name, preferredLanguage: $('Map Language + Build Twenty Fields').item.json.preferredLanguage, churnDate: null }) }}",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth"
       },
@@ -166,7 +166,7 @@
         "url": "http://100.70.89.17:3000/rest/people",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: { firstName: $('Map Language + Build Twenty Fields').item.json.firstname, lastName: $('Map Language + Build Twenty Fields').item.json.lastname || '-' }, emails: { primaryEmail: $('Map Language + Build Twenty Fields').item.json.email }, customerType: 'ALL_ACCESS', leadStatus: 'WON_CUSTOMER', leadSource: 'OTHER', purchaseDate: new Date().toISOString(), planPurchased: $('Map Language + Build Twenty Fields').item.json.subscription_name, preferredLanguage: $('Map Language + Build Twenty Fields').item.json.preferredLanguage }) }}",
+        "jsonBody": "={{ JSON.stringify({ name: { firstName: $('Map Language + Build Twenty Fields').item.json.firstname, lastName: $('Map Language + Build Twenty Fields').item.json.lastname || '-' }, emails: { primaryEmail: $('Map Language + Build Twenty Fields').item.json.email }, customerType: 'ALL_ACCESS', leadStatus: 'WON_CUSTOMER', leadSource: 'OTHER', signUpDate: new Date().toISOString().split('T')[0], planPurchased: $('Map Language + Build Twenty Fields').item.json.subscription_name, preferredLanguage: $('Map Language + Build Twenty Fields').item.json.preferredLanguage }) }}",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth"
       },

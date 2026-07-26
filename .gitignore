@@ -5,3 +5,8 @@
 # real subscriber access tokens, must never land in git history.
 automation/members-area/*.sql
 !automation/members-area/schema.sql
+
+# Eleventy build. Source of truth is site/ -- _site/ is generated output and is
+# rebuilt on the VPS at deploy time, so it never belongs in the repo.
+node_modules/
+_site/

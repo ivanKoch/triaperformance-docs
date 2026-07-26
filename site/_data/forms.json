@@ -1,0 +1,91 @@
+{
+  "phoneCountries": [
+    { "code": "54", "label": "🇦🇷 +54" },
+    { "code": "34", "label": "🇪🇸 +34" },
+    { "code": "52", "label": "🇲🇽 +52" },
+    { "code": "57", "label": "🇨🇴 +57" },
+    { "code": "56", "label": "🇨🇱 +56" },
+    { "code": "598", "label": "🇺🇾 +598" },
+    { "code": "51", "label": "🇵🇪 +51" },
+    { "code": "1", "label": "🇺🇸 +1" },
+    { "code": "55", "label": "🇧🇷 +55" },
+    { "code": "351", "label": "🇵🇹 +351" }
+  ],
+
+  "_note": "Sport `value`s are deliberately identical across all three languages (Spanish strings). Only the visible labels are translated. The n8n contact-form workflow maps these four values to Twenty's `sport` enum — changing a value here breaks that mapping. See contact-form-pipeline-runbook.md.",
+
+  "es": {
+    "defaultPhone": "54",
+    "phoneOther": "Otro (escribí + código)",
+    "phonePlaceholder": "11 1234 5678",
+    "labelName": "Nombre",
+    "labelEmail": "Email",
+    "labelPhone": "WhatsApp",
+    "labelSport": "Deporte",
+    "labelMessage": "Contanos tu objetivo",
+    "messagePlaceholder": "Ej: quiero correr mi primer 21k en noviembre",
+    "sportPlaceholder": "Seleccioná una opción",
+    "sports": [
+      { "value": "Running", "label": "Running" },
+      { "value": "Ciclismo", "label": "Ciclismo" },
+      { "value": "Duatlón", "label": "Duatlón" },
+      { "value": "Triatlón", "label": "Triatlón" }
+    ],
+    "submit": "Enviar",
+    "submitting": "Enviando...",
+    "success": "¡Gracias! Te contactamos en menos de 24 horas.",
+    "error": "Algo salió mal. Escribinos por WhatsApp mientras lo resolvemos.",
+    "divider": "o si preferís, escribinos directo",
+    "whatsappCta": "Escribir por WhatsApp"
+  },
+
+  "en": {
+    "defaultPhone": "1",
+    "phoneOther": "Other (type + code)",
+    "phonePlaceholder": "305 123 4567",
+    "labelName": "Name",
+    "labelEmail": "Email",
+    "labelPhone": "WhatsApp",
+    "labelSport": "Sport",
+    "labelMessage": "Tell us your goal",
+    "messagePlaceholder": "E.g. I want to run my first half marathon in November",
+    "sportPlaceholder": "Select an option",
+    "sports": [
+      { "value": "Running", "label": "Running" },
+      { "value": "Ciclismo", "label": "Cycling" },
+      { "value": "Duatlón", "label": "Duathlon" },
+      { "value": "Triatlón", "label": "Triathlon" }
+    ],
+    "submit": "Send",
+    "submitting": "Sending...",
+    "success": "Thanks! We'll be in touch within 24 hours.",
+    "error": "Something went wrong. Message us on WhatsApp while we fix it.",
+    "divider": "or if you'd rather, message us directly",
+    "whatsappCta": "Message on WhatsApp"
+  },
+
+  "pt": {
+    "defaultPhone": "55",
+    "phoneOther": "Outro (digite + código)",
+    "phonePlaceholder": "11 91234 5678",
+    "labelName": "Nome",
+    "labelEmail": "Email",
+    "labelPhone": "WhatsApp",
+    "labelSport": "Esporte",
+    "labelMessage": "Conte-nos seu objetivo",
+    "messagePlaceholder": "Ex: quero correr minha primeira meia maratona em novembro",
+    "sportPlaceholder": "Selecione uma opção",
+    "sports": [
+      { "value": "Running", "label": "Corrida" },
+      { "value": "Ciclismo", "label": "Ciclismo" },
+      { "value": "Duatlón", "label": "Duatlo" },
+      { "value": "Triatlón", "label": "Triatlo" }
+    ],
+    "submit": "Enviar",
+    "submitting": "Enviando...",
+    "success": "Obrigado! Entraremos em contato em até 24 horas.",
+    "error": "Algo deu errado. Fale conosco no WhatsApp enquanto resolvemos.",
+    "divider": "ou se preferir, fale conosco direto",
+    "whatsappCta": "Falar no WhatsApp"
+  }
+}

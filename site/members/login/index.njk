@@ -1,0 +1,33 @@
+---
+layout: layouts/base.njk
+navVariant: "none"
+footerVariant: "none"
+pageCss: "members-login.css"
+title: "Área de Miembros — Triaperformance"
+---
+<div class="login-card">
+  <h1>Área de Miembros</h1>
+  <p class="sub">Ingresá la contraseña que recibiste por email al suscribirte a All-Access.</p>
+
+  <div class="error" id="login-error">Contraseña incorrecta. Intentá de nuevo.</div>
+
+  <form method="POST" action="/members/login" id="login-form">
+    <label for="password">Contraseña</label>
+    <input type="password" id="password" name="password" required autocomplete="current-password">
+    <input type="hidden" name="next" id="next-field" value="/members/">
+    <button type="submit">Ingresar</button>
+  </form>
+
+  <p class="help"><a href="/members/forgot-password">¿Olvidaste tu contraseña?</a></p>
+  <p class="help">¿Problemas para ingresar? Escribinos a <a href="mailto:coach@triaperformance.com">coach@triaperformance.com</a></p>
+</div>
+
+<script>
+  // Show the error banner if redirected back with ?error=1
+  if (new URLSearchParams(window.location.search).get('error') === '1') {
+    document.getElementById('login-error').classList.add('show');
+  }
+  // Preserve where the visitor was trying to go before being gated, if present
+  var next = new URLSearchParams(window.location.search).get('next');
+  if (next) document.getElementById('next-field').value = next;
+</script>

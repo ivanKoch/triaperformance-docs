@@ -1,0 +1,111 @@
+---
+layout: layouts/base.njk
+lang: es
+transKey: home
+title: Triaperformance — Eleva tu performance
+description: "Coaching de triatlón y running basado en datos. Test, zonas correctas, análisis, re-test. Lunes de feedback, siempre."
+---
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <span class="label">Coaching de triatlón y running</span>
+    <h1>Eleva tu performance</h1>
+    <p>Atletas más rápidos porque todo se mide. Test, zonas correctas, análisis contra datos, re-test para probar el progreso.</p>
+    <a href="#contacto" class="btn-primary">Empezar ahora</a>
+    <a href="#planes" class="btn-secondary">Ver planes</a>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<div class="wrap">
+  <section id="coaching">
+    <span class="label">Lo que hacemos</span>
+    <h2>Un servicio, tres formas de usarlo</h2>
+    <p class="section-intro">Sin niveles, sin letra chica. Testing obligatorio, feedback semanal todos los lunes, y ajustes cuando los necesitás.</p>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Coaching 1:1</h3>
+        <p>Check-in semanal siempre, ajustes y análisis cuando los pedís, WhatsApp durante la semana. Lunes de feedback sin falta, hace más de 2 años.</p>
+      </div>
+      <div class="card">
+        <h3>Planes de entrenamiento</h3>
+        <p>+300 planes en TrainingPeaks, en español, inglés y portugués. Estructura profesional, a tu ritmo, sin coach 1:1.</p>
+        {#- Deliberately NOT reusing nav.es.items[0].children here. The nav dropdown
+            uses short Title Case labels; these card links use longer sentence-case
+            anchor text chosen for SEO. Same destinations, different copy on purpose. -#}
+        <ul class="card-links">
+          <li><a href="/planes/running/">Planes de running</a></li>
+          <li><a href="/planes/triatlon/">Planes de entrenamiento de triatlón</a></li>
+          <li><a href="/planes/hyrox/">Planes HYROX</a></li>
+          <li><a href="/planes/bajar-de-peso/">Planes para bajar de peso</a></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>All-Access</h3>
+        <p>Todos los planes + TrainingPeaks Premium + extras. Ideal si vas a correr más de un plan al año.</p>
+        <ul class="card-links">
+          <li><a href="/all-access/">Conocé All-Access</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PRICING -->
+<section class="pricing" id="planes">
+  <div class="wrap">
+    <span class="label">Precio</span>
+    <h2>Un precio claro</h2>
+    <p class="section-intro">Sin sorpresas. Cancelás cuando quieras.</p>
+    <div class="price-card">
+      <span class="label" style="color: var(--blue);">Coaching 1:1</span>
+      <div class="amount">${{ site.coachingPrice }}<span>/mes</span></div>
+      <ul>
+        <li>Check-in semanal, todos los lunes</li>
+        <li>Ajustes y análisis cuando los pedís</li>
+        <li>WhatsApp durante la semana</li>
+        <li>Plan 100% individual, no plantillas</li>
+        <li>Fuerza incluida siempre</li>
+      </ul>
+      <a href="#contacto" class="btn-primary">Quiero empezar</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<div class="wrap">
+  <section>
+    <span class="label">Resultados</span>
+    <h2>Lo que dicen los atletas</h2>
+    <p class="section-intro">45 reseñas de 5 estrellas en Google, cero negativas.</p>
+    <div class="grid-2">
+      <div class="testimonial">
+        <p class="quote">Con su apoyo logré correr un 42k en menos de 3 hrs.</p>
+        <p class="attribution">Luis Casillas — México</p>
+      </div>
+      <div class="testimonial">
+        <p class="quote">Comencé bajo su cuidado para el 70.3 de Panamá y pude lograr mi mejor tiempo en la distancia.</p>
+        <p class="attribution">Limaris — Puerto Rico</p>
+      </div>
+      <div class="testimonial">
+        <p class="quote">Todos los lunes me escribe para saber cómo viene mi semana, me da feedback.</p>
+        <p class="attribution">Sergio Toro — Chile</p>
+      </div>
+      <div class="testimonial">
+        <p class="quote">Siempre se adapta a los cambios en mi agenda… tiene un gran conocimiento de la ciencia detrás de su método.</p>
+        <p class="attribution">Jose Ureña</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- LEAD MAGNET CTA -->
+<section class="cta-final" id="contacto">
+  <div class="wrap">
+    <span class="label">Empezá ahora</span>
+    <h2>Contanos tu objetivo</h2>
+    <p>Dejanos tus datos y te contactamos en menos de 24 horas. Sin compromiso.</p>
+
+    {% include "partials/contact-form.njk" %}
+  </div>
+</section>

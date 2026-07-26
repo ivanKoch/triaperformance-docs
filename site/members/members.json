@@ -1,0 +1,10 @@
+{
+  "_comment": "Directory data file — applies to every page under site/members/. Individual pages override any of these in their own front matter.",
+
+  "lang": "es",
+  "noindex": true,
+  "navVariant": "members-page",
+  "footerVariant": "members",
+
+  "_analytics": "Decided July 26, 2026: the members area gets the same analytics stack as the public site — GA4, Microsoft Clarity, and the outbound-link conversion tracker. Clarity was previously absent here (copy-paste drift in the hand-written site), which meant zero visibility into how subscribers actually use what they pay for. Note this does record session replays of logged-in subscribers; pages stay noindex so they are not publicly discoverable. To opt a single page out, set noClarity: true or noTracking: true in that page's own front matter."
+}

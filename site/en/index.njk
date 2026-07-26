@@ -1,0 +1,95 @@
+---
+layout: layouts/base.njk
+lang: en
+transKey: home
+title: Triaperformance — Elevate Your Performance
+description: "Data-driven triathlon and running coaching. Testing, correct zones, analysis, re-test. Monday feedback, always."
+---
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <span class="label">Triathlon &amp; Running Coaching</span>
+    <h1>Elevate Your Performance</h1>
+    <p>Faster athletes because everything gets measured. Testing, correct zones, data-driven analysis, re-testing to prove progress.</p>
+    <a href="#contacto" class="btn-primary">Get Started</a>
+    <a href="#planes" class="btn-secondary">View Plans</a>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<div class="wrap">
+  <section id="coaching">
+    <span class="label">What We Do</span>
+    <h2>One Service, Three Ways to Use It</h2>
+    <p class="section-intro">No tiers, no fine print. Mandatory testing, weekly feedback every Monday, and adjustments whenever you need them.</p>
+    <div class="grid-3">
+      <div class="card">
+        <h3>1:1 Coaching</h3>
+        <p>Always-on weekly check-in, adjustments and analysis whenever you ask, WhatsApp support all week. Monday feedback without fail, for over 2 years running.</p>
+      </div>
+      <div class="card">
+        <h3>Training Plans</h3>
+        <p>300+ plans on TrainingPeaks, in Spanish, English, and Portuguese. Professional structure, at your own pace, no 1:1 coach required.</p>
+      </div>
+      <div class="card">
+        <h3>All-Access</h3>
+        <p>Every plan + TrainingPeaks Premium + extras. Ideal if you're racing more than once a year.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PRICING -->
+<section class="pricing" id="planes">
+  <div class="wrap">
+    <span class="label">Pricing</span>
+    <h2>One Clear Price</h2>
+    <p class="section-intro">No surprises. Cancel anytime.</p>
+    <div class="price-card">
+      <span class="label" style="color: var(--blue);">1:1 Coaching</span>
+      <div class="amount">${{ site.coachingPrice }}<span>/mo</span></div>
+      <ul>
+        <li>Weekly check-in, every Monday</li>
+        <li>Adjustments and analysis whenever you ask</li>
+        <li>WhatsApp support all week</li>
+        <li>100% individual plan, no templates</li>
+        <li>Strength training always included</li>
+      </ul>
+      <a href="#contacto" class="btn-primary">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<div class="wrap">
+  <section>
+    <span class="label">Results</span>
+    <h2>What Athletes Say</h2>
+    <p class="section-intro">45 five-star reviews on Google, zero negative.</p>
+    <div class="grid-2">
+      <div class="testimonial">
+        <p class="quote">Always on top of my training and available to make any adjustments I needed due to my travel schedule.</p>
+        <p class="attribution">Giles Carmichael</p>
+      </div>
+      <div class="testimonial">
+        <p class="quote">He provides insight into my Training Peaks data helping me understand what the numbers mean… He keeps my FTP current.</p>
+        <p class="attribution">Sylmarie Arizmendi — Puerto Rico</p>
+      </div>
+      <div class="testimonial">
+        <p class="quote">Amazing coach and always available to help and adjust where necessary.</p>
+        <p class="attribution">Gerald Moreta</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- LEAD MAGNET CTA -->
+<section class="cta-final" id="contacto">
+  <div class="wrap">
+    <span class="label">Get Started Now</span>
+    <h2>Tell Us Your Goal</h2>
+    <p>Leave your info and we'll reach out within 24 hours. No commitment.</p>
+
+    {% include "partials/contact-form.njk" %}
+  </div>
+</section>

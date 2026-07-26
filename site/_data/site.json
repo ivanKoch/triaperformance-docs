@@ -1,0 +1,19 @@
+{
+  "name": "Triaperformance",
+  "domain": "https://triaperformance.com",
+  "email": "coach@triaperformance.com",
+  "whatsapp": "https://wa.me/573105437088",
+  "copyrightYear": "2026",
+  "_analyticsNote": "GA4 stream 'TriaperformanceVPS', stream ID 15297820095, under coach@triaperformance.com. Enhanced measurement is on at the GA4 end (page views, scrolls, outbound clicks, site search, video engagement, file downloads, form interactions). These IDs are referenced by site/_includes/partials/analytics.njk and are loaded on every page. This note replaces the old website/googleTag.html, which was a scratch file that was being publicly served at /googleTag.html for no reason.",
+  "analytics": {
+    "ga4": "G-T69KEHW59J",
+    "clarity": "xq3g7pvr9i"
+  },
+  "coachingPrice": "149",
+  "languages": {
+    "es": { "code": "es", "label": "ES", "home": "/" },
+    "en": { "code": "en", "label": "EN", "home": "/en/" },
+    "pt": { "code": "pt", "label": "PT", "home": "/pt/" }
+  },
+  "langOrder": ["es", "en", "pt"]
+}

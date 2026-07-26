@@ -1,0 +1,61 @@
+{
+  "_note": "Anchor targets are absolute (/#coaching, not #coaching) because the sections they point at live on the language homepage. That makes one nav definition correct on every page of that language — the hand-written site needed two variants, one for the homepage and one for everything else. From the homepage itself, /#coaching is still an in-page jump, not a reload.",
+
+  "es": {
+    "menuLabel": "Abrir menú",
+    "items": [
+      {
+        "label": "Planes",
+        "url": "/planes/running/",
+        "children": [
+          { "label": "Planes de Running", "url": "/planes/running/" },
+          { "label": "Planes de Triatlón", "url": "/planes/triatlon/" },
+          { "label": "Planes HYROX", "url": "/planes/hyrox/" },
+          { "label": "Planes para Bajar de Peso", "url": "/planes/bajar-de-peso/" }
+        ]
+      },
+      { "label": "Coaching", "url": "/#coaching" },
+      { "label": "Membresía All-Access", "url": "/all-access/" },
+      { "label": "Contacto", "url": "/#contacto", "cta": true }
+    ]
+  },
+  "en": {
+    "menuLabel": "Open menu",
+    "items": [
+      { "label": "Plans", "url": "/en/#planes" },
+      { "label": "Coaching", "url": "/en/#coaching" },
+      { "label": "All-Access Membership", "url": "/en/all-access/" },
+      { "label": "Contact", "url": "/en/#contacto", "cta": true }
+    ]
+  },
+  "pt": {
+    "menuLabel": "Abrir menu",
+    "items": [
+      { "label": "Planos", "url": "/pt/#planes" },
+      { "label": "Coaching", "url": "/pt/#coaching" },
+      { "label": "Assinatura All-Access", "url": "/pt/all-access/" },
+      { "label": "Contato", "url": "/pt/#contacto", "cta": true }
+    ]
+  },
+
+  "_membersNote": "The members area grew three different nav shapes by hand: the members home (Biblioteca/FAQ + logout), the content pages (Área de Miembros/Biblioteca, no logout), and kettlebell (a plain back-link, and an English-language page that doesn't follow the site's design system at all). Both real variants are defined below and preserved as-is; kettlebell keeps its own inline nav. Worth unifying at some point — flagged, not silently changed.",
+
+  "membersHome": {
+    "menuLabel": "Abrir menú",
+    "home": "/members/",
+    "items": [
+      { "label": "Biblioteca", "url": "#biblioteca" },
+      { "label": "FAQ", "url": "#faq" }
+    ],
+    "logoutLabel": "Cerrar sesión"
+  },
+
+  "membersPage": {
+    "menuLabel": "Abrir menú",
+    "home": "/members/",
+    "items": [
+      { "label": "Área de Miembros", "url": "/members/" },
+      { "label": "Biblioteca", "url": "/members/#biblioteca" }
+    ]
+  }
+}

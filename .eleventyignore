@@ -1,0 +1,3 @@
+# Files inside site/ that are documentation, not pages.
+# Without this, site/README.md would be built and published at /README/.
+site/README.md

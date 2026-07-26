@@ -1,0 +1,105 @@
+{# Site navigation.
+
+   Variants, selected by the page's `navVariant` front matter:
+     "public"       (default) — sticky nav + language switcher. Marketing pages.
+     "members-home"           — members landing: Biblioteca / FAQ + logout button.
+     "members-page"           — members content pages: back to the members area.
+                                Set `noPrint: true` to add the no-print classes
+                                (the testing-protocols page is meant to be printed).
+     "none"                   — login, forgot-password, and kettlebell, which
+                                either have no nav or carry their own inline.
+
+   Menu contents come from site/_data/nav.json. Editing the nav is one edit
+   there rather than 19 edits across the site. #}
+
+{% if navVariant == "members-home" %}
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="{{ nav.membersHome.home }}" class="logo">{{ site.name }}</a>
+    <button class="nav-toggle" id="navToggle" aria-label="{{ nav.membersHome.menuLabel }}" onclick="toggleNav()"><span></span><span></span><span></span></button>
+    <nav id="siteNav">
+      {%- for item in nav.membersHome.items %}
+      <a href="{{ item.url }}">{{ item.label }}</a>
+      {%- endfor %}
+      <form method="POST" action="/members/logout" style="display:inline; margin:0;">
+        <button type="submit" class="nav-cta">{{ nav.membersHome.logoutLabel }}</button>
+      </form>
+    </nav>
+  </div>
+</nav>
+<div class="nav-overlay" id="navOverlay" onclick="closeNav()"></div>
+
+{% elif navVariant == "members-page" %}
+<div class="site-nav-sticky{% if noPrint %} no-print{% endif %}">
+<div class="wrap">
+  <header>
+    <a href="{{ nav.membersPage.home }}" class="logo">{{ site.name }}</a>
+    <button class="nav-toggle" id="navToggle" aria-label="{{ nav.membersPage.menuLabel }}" onclick="toggleNav()"><span></span><span></span><span></span></button>
+    <nav id="siteNav">
+      {%- for item in nav.membersPage.items %}
+      <a href="{{ item.url }}">{{ item.label }}</a>
+      {%- endfor %}
+    </nav>
+  </header>
+</div>
+</div>
+<div class="nav-overlay{% if noPrint %} no-print{% endif %}" id="navOverlay" onclick="closeNav()"></div>
+
+{% elif navVariant != "none" %}
+{%- set menu = nav[lang] -%}
+<div class="site-nav-sticky">
+<div class="wrap">
+  <header>
+    <a href="{{ site.languages[lang].home }}" class="logo">{{ site.name }}</a>
+    <button class="nav-toggle" id="navToggle" aria-label="{{ menu.menuLabel }}" onclick="toggleNav()"><span></span><span></span><span></span></button>
+    <nav id="siteNav">
+      {%- for item in menu.items %}
+      {%- if item.children %}
+      <div class="nav-dropdown">
+        <a href="{{ item.url }}">{{ item.label }}</a>
+        <div class="nav-dropdown-menu">
+          {%- for child in item.children %}
+          <a href="{{ child.url }}">{{ child.label }}</a>
+          {%- endfor %}
+        </div>
+      </div>
+      {%- elif item.cta %}
+      <a href="{{ item.url }}" class="nav-cta">{{ item.label }}</a>
+      {%- else %}
+      {#- Highlight the nav item for the page you're on. Dropdown parents are
+          excluded above, matching how the hand-written pages behaved. -#}
+      <a href="{{ item.url }}"{% if item.url == page.url %} class="lang-active"{% endif %}>{{ item.label }}</a>
+      {%- endif %}
+      {%- endfor %}
+      <span class="lang-switch">
+        {%- set alts = collections.translations[transKey] -%}
+        {%- for code in site.langOrder -%}
+        {%- if not loop.first %}<span class="sep">·</span>{% endif -%}
+        {%- set target = alts[code] if alts and alts[code] else site.languages[code].home -%}
+        <a href="{{ target }}"{% if code == lang %} class="lang-active"{% endif %}>{{ site.languages[code].label }}</a>
+        {%- endfor -%}
+      </span>
+    </nav>
+  </header>
+</div>
+</div>
+<div class="nav-overlay" id="navOverlay" onclick="closeNav()"></div>
+{% endif %}
+
+{% if navVariant != "none" %}
+<script>
+  function toggleNav() {
+    document.getElementById('siteNav').classList.toggle('mobile-open');
+    document.getElementById('navToggle').classList.toggle('open');
+    document.getElementById('navOverlay').classList.toggle('show');
+  }
+  function closeNav() {
+    document.getElementById('siteNav').classList.remove('mobile-open');
+    document.getElementById('navToggle').classList.remove('open');
+    document.getElementById('navOverlay').classList.remove('show');
+  }
+  document.querySelectorAll('#siteNav a').forEach(function (a) {
+    a.addEventListener('click', function () { if (window.innerWidth <= 860) closeNav(); });
+  });
+</script>
+{% endif %}

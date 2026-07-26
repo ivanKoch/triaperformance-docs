@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% include "partials/analytics.njk" %}
+<title>{{ title }}</title>
+{%- if description %}
+<meta name="description" content="{{ description }}">
+{%- endif %}
+{%- if noindex %}
+<meta name="robots" content="noindex, nofollow">
+{%- endif %}
+<link rel="canonical" href="{{ page.url | absoluteUrl }}">
+{#- hreflang alternates, generated from every page sharing this page's transKey.
+    Add a translation and the tags appear on all siblings automatically — this is
+    the maintenance problem that made a build step necessary in the first place. -#}
+{%- set alts = collections.translations[transKey] %}
+{%- if alts and not noindex %}
+{%- for code in site.langOrder %}{% if alts[code] %}
+<link rel="alternate" hreflang="{{ code }}" href="{{ alts[code] | absoluteUrl }}">
+{%- endif %}{% endfor %}
+{%- if alts.es %}
+<link rel="alternate" hreflang="x-default" href="{{ alts.es | absoluteUrl }}">
+{%- endif %}
+{%- endif %}
+<link rel="stylesheet" href="/assets/css/site.css">
+{#- pageCss takes either a single filename or a list of them, loaded in order after site.css. -#}
+{%- if pageCss %}{% if pageCss is string %}
+<link rel="stylesheet" href="/assets/css/{{ pageCss }}">
+{%- else %}{% for css in pageCss %}
+<link rel="stylesheet" href="/assets/css/{{ css }}">
+{%- endfor %}{% endif %}{% endif %}
+</head>
+<body>
+
+{% include "partials/nav.njk" %}
+
+{{ content | safe }}
+
+{% include "partials/footer.njk" %}
+
+{%- if not noTracking %}
+{% include "partials/tracking.njk" %}
+{%- endif %}
+
+</body>
+</html>

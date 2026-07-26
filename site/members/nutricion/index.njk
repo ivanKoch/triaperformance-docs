@@ -1,0 +1,99 @@
+---
+layout: layouts/base.njk
+pageCss:
+  - members.css
+  - members-nutricion.css
+
+title: "Nutrición y Carga de Carbohidratos — Triaperformance All-Access"
+---
+<header class="artifact-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/members/#biblioteca">Biblioteca</a> / Nutrición</div>
+    <span class="label">Calculadora</span>
+    <h1>Nutrición y Carga de Carbohidratos</h1>
+    <p>Nutrición de entrenamiento y de carrera, nada más — no es un plan de dieta ni de bajar de peso. Si tenés una condición médica que interactúa con la nutrición (enfermedad digestiva, hipertensión, etc.), consultá a un médico o nutricionista, no esta página.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Tus números</h2>
+    <div class="calc">
+      <div class="field">
+        <label for="weight">Peso corporal (kg)</label>
+        <input type="number" id="weight" placeholder="ej: 68">
+      </div>
+      <div class="field">
+        <label for="hours">Horas hasta que empieza tu sesión/carrera</label>
+        <input type="number" id="hours" placeholder="ej: 3">
+      </div>
+      <div class="field">
+        <label for="experience">¿Ya cargaste carbohidratos antes de una carrera?</label>
+        <select id="experience">
+          <option value="experienced">Sí, ya lo hice antes</option>
+          <option value="first">No, es la primera vez</option>
+        </select>
+      </div>
+      <button class="btn-primary" onclick="calcular()">Calcular</button>
+
+      <div class="result-table" id="resultados">
+        <table class="tp-table">
+          <tbody>
+            <tr><th>Proteína diaria objetivo</th><td id="r-proteina"></td></tr>
+            <tr><th>Grasa diaria objetivo</th><td>40–80g (los carbohidratos completan tu necesidad energética — más en días largos/duros, menos en días de descanso)</td></tr>
+            <tr><th>Carbohidratos pre-sesión</th><td id="r-pre"></td></tr>
+            <tr><th>Objetivo de carga de carbos (1–1.5 días antes)</th><td id="r-carga"></td></tr>
+            <tr><th>Sodio (base)</th><td>~300mg/hora (≈200mg cada 40 min) — más en calor, menos en climas fríos</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="video-slot">Video explicativo — próximamente</div>
+  </div>
+</section>
+
+<section class="section--wash">
+  <div class="wrap">
+    <h2>Objetivos durante la sesión</h2>
+    <table class="tp-table">
+      <thead><tr><th>Contexto</th><th>Objetivo</th></tr></thead>
+      <tbody>
+        <tr><td>Sesión corta y suave</td><td>Está bien sin comer nada — pero los carbohidratos igual ayudan, aunque sea solo por motivación en un día suave y plano.</td></tr>
+        <tr><td>Punto de partida general</td><td>60g de carbohidratos/hora, entrená el intestino para subir de ahí en adelante.</td></tr>
+        <tr><td>Bici (intestino entrenado)</td><td>Hasta 100–120g/hora.</td></tr>
+        <tr><td>Running</td><td>Tope alrededor de 90g/hora — el intestino tolera menos carbohidratos corriendo que en bici.</td></tr>
+        <tr><td>Trabajo en ayunas</td><td>Solo para sesiones aeróbicas suaves, para entrenar el uso de grasa — no para nada duro o largo.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Día de carrera</h2>
+    <table class="tp-table">
+      <thead><tr><th>Tramo</th><th>Objetivo</th></tr></thead>
+      <tbody>
+        <tr><td>Bici</td><td>Hasta 120g de carbohidratos/hora — disueltos en los bidones, polvo en el bolso, agua de los puestos.</td></tr>
+        <tr><td>Running</td><td>Hasta 60g de carbohidratos/hora — geles cada ~20 minutos.</td></tr>
+        <tr><td>Sodio</td><td>~200mg cada 40 minutos, más en calor, menos en climas fríos.</td></tr>
+        <tr><td>Cafeína</td><td>~200mg antes de largar + ~200mg en T1 (~300mg total en el organismo) — solo si se entrenó antes en dosis de 100mg; depende de tolerancia y peso.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout callout-warn">
+      <p><strong>Entrenalo antes de correrlo.</strong> Los problemas digestivos el día de la carrera casi siempre son por tolerancia a un producto o por un desajuste entre concentración y ritmo de consumo — recalculá los gramos contra los minutos reales de consumo, diluí, o bajá el ritmo. Si no se probó en entrenamiento, es un riesgo real el día de la carrera, no un tal vez.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--wash">
+  <div class="wrap">
+    <h2>Carga de carbohidratos, paso a paso</h2>
+    <ol>
+      <li><strong>48–72 horas antes:</strong> sacá la fibra, las verduras crudas y la fruta desde 3 días antes — enlentecen la digestión y suman riesgo digestivo justo cuando no lo querés.</li>
+      <li><strong>1–1.5 días antes:</strong> pasá a carbohidratos blancos bajos en fibra (arroz, pan blanco, pasta, papa) más proteína magra (pollo, huevo). Usá la calculadora de arriba para tu objetivo en gramos.</li>
+      <li><strong>¿Primera vez haciendo esto?</strong> Empezá conservador y subí en las próximas carreras en vez de ir directo al objetivo completo — mirá primero cómo lo tolera tu cuerpo.</li>
+    </ol>
+  </div>
+</section>

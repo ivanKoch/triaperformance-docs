@@ -1,0 +1,110 @@
+{# Contact form. Posts to the same-origin /api/contact-form path, which Caddy
+   proxies to the internal n8n webhook — see contact-form-pipeline-runbook.md.
+
+   All visible copy comes from site/_data/forms.json, per language. The sport
+   `value` attributes are intentionally the same Spanish strings in all three
+   languages because n8n maps them to Twenty's `sport` enum. #}
+{%- set f = forms[lang] -%}
+<form class="contact-form" id="contact-form">
+  <div class="field">
+    <label for="cf-name">{{ f.labelName }}</label>
+    <input type="text" id="cf-name" name="name" required autocomplete="name">
+  </div>
+  <div class="field">
+    <label for="cf-email">{{ f.labelEmail }}</label>
+    <input type="email" id="cf-email" name="email" required autocomplete="email">
+  </div>
+  <div class="field">
+    <label for="cf-phone">{{ f.labelPhone }}</label>
+    <div class="phone-row">
+      <select id="cf-phone-country" name="phone_country">
+        {%- for c in forms.phoneCountries %}{% if c.code == f.defaultPhone %}
+        <option value="{{ c.code }}" selected>{{ c.label }}</option>
+        {%- endif %}{% endfor %}
+        {%- for c in forms.phoneCountries %}{% if c.code != f.defaultPhone %}
+        <option value="{{ c.code }}">{{ c.label }}</option>
+        {%- endif %}{% endfor %}
+        <option value="">{{ f.phoneOther }}</option>
+      </select>
+      <input type="tel" id="cf-phone" name="phone" required autocomplete="tel" placeholder="{{ f.phonePlaceholder }}">
+    </div>
+  </div>
+  <div class="field">
+    <label for="cf-sport">{{ f.labelSport }}</label>
+    <select id="cf-sport" name="sport" required>
+      <option value="">{{ f.sportPlaceholder }}</option>
+      {%- for s in f.sports %}
+      <option value="{{ s.value }}">{{ s.label }}</option>
+      {%- endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="cf-message">{{ f.labelMessage }}</label>
+    <textarea id="cf-message" name="message" placeholder="{{ f.messagePlaceholder }}"></textarea>
+  </div>
+  <button type="submit" class="btn-primary" id="cf-submit">{{ f.submit }}</button>
+  <p class="form-status" id="cf-status"></p>
+</form>
+
+<p class="contact-divider">{{ f.divider }}</p>
+<a href="{{ site.whatsapp }}" target="_blank" rel="noopener" class="btn-secondary" style="color:var(--blue); border-color:var(--blue);">{{ f.whatsappCta }}</a>
+
+<script>
+(function () {
+  // Same-origin path — proxied by Caddy to the internal n8n webhook.
+  // See contact-form-pipeline-runbook.md, Step 3, for the Caddy config that makes this path work.
+  var ENDPOINT = "/api/contact-form";
+
+  var form = document.getElementById("contact-form");
+  var status = document.getElementById("cf-status");
+  var submitBtn = document.getElementById("cf-submit");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    status.className = "form-status";
+    status.textContent = "";
+    submitBtn.disabled = true;
+    submitBtn.textContent = {{ f.submitting | dump | safe }};
+
+    var payload = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      phone: (function () {
+        var cc = form.phone_country.value;
+        var local = form.phone.value.trim().replace(/^0+/, "").replace(/[^\d\s]/g, "");
+        return cc ? ("+" + cc + " " + local) : form.phone.value.trim();
+      })(),
+      sport: form.sport.value,
+      message: form.message.value.trim(),
+      source: "website_contact_form",
+      language: {{ lang | dump | safe }},
+      page_url: window.location.href,
+      submitted_at: new Date().toISOString()
+    };
+
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("bad_status");
+        return res.json().catch(function () { return {}; });
+      })
+      .then(function () {
+        status.className = "form-status success";
+        status.textContent = {{ f.success | dump | safe }};
+        if (window.gtag) gtag('event', 'generate_lead', { form_id: 'contact-form', sport: payload.sport, page_path: window.location.pathname });
+        form.reset();
+      })
+      .catch(function () {
+        status.className = "form-status error";
+        status.textContent = {{ f.error | dump | safe }};
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = {{ f.submit | dump | safe }};
+      });
+  });
+})();
+</script>

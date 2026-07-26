@@ -1,0 +1,18 @@
+{# Footer variants, set by the page's `footerVariant` front matter:
+     "default" (default) — public pages and the members landing page.
+     "members"           — members content pages, which use different copy.
+     "none"              — login / forgot-password (no footer), and kettlebell,
+                           which carries its own inline. #}
+{%- if footerVariant == "members" %}
+<footer{% if noPrint %} class="no-print"{% endif %}>
+  <div class="wrap">
+    <p>{{ site.name }} · Área de Miembros · ¿Dudas? <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+  </div>
+</footer>
+{%- elif footerVariant != "none" %}
+<footer{% if noPrint %} class="no-print"{% endif %}>
+  <div class="wrap">
+    <p>{{ site.name }} © {{ site.copyrightYear }} — <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+  </div>
+</footer>
+{%- endif %}

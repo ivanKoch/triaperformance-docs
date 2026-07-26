@@ -1,0 +1,85 @@
+---
+layout: layouts/base.njk
+pageCss:
+  - members.css
+  - members-carrera.css
+
+title: "Ejecución de Carrera y Pacing — Triaperformance All-Access"
+---
+<header class="artifact-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/members/#biblioteca">Biblioteca</a> / Ejecución de Carrera</div>
+    <span class="label">Playbook</span>
+    <h1>Ejecución de Carrera y Pacing</h1>
+    <p>Estrategia de pacing y estructura del plan de carrera por distancia. La misma lógica que se usa para armar el plan de carrera de cada atleta — los números específicos siempre los confirmás vos con tus propios datos testeados.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="dist-tabs" id="dist-tabs">
+      <button class="chip active" data-tab="5k10k">5k / 10k</button>
+      <button class="chip" data-tab="maraton">Maratón</button>
+      <button class="chip" data-tab="olimpico">Tri Olímpico / Sprint</button>
+      <button class="chip" data-tab="70-3">70.3</button>
+      <button class="chip" data-tab="im">Ironman completo</button>
+    </div>
+
+    <div class="dist-panel active" id="panel-5k10k">
+      <h2>5k / 10k</h2>
+      <p><strong>Pacing:</strong> referencia de esfuerzo de 10k alrededor del 100–110% de tu intensidad de umbral (IF) — es una guía para la simulación y el taper, no un número para clavar a ciegas el día de la carrera.</p>
+      <p><strong>Plan de carrera:</strong> objetivo de pacing con un rango realista, no un número único; un protocolo de entrada en calor simple; hidratación solo si las condiciones lo requieren a esta distancia.</p>
+      <p><strong>Simulación:</strong> una simulación a ritmo de carrera unas 4 semanas antes confirma el objetivo antes del día de la carrera.</p>
+    </div>
+
+    <div class="dist-panel" id="panel-maraton">
+      <h2>Maratón</h2>
+      <p><strong>Pacing:</strong> conservador durante la primera mitad. Zona X (Zona 2 alta / ritmo de esfuerzo de maratón) como objetivo promedio. La búsqueda del negative split empieza cerca del kilómetro 30, no antes — el ritmo piso se mantiene hasta el 21k.</p>
+      <p><strong>La nutrición está directamente conectada:</strong> los ritmos objetivo asumen que la nutrición se ejecuta según el plan (mirá la <a href="/members/nutricion/">calculadora de Nutrición</a>) — un bajón por falta de combustible no es un fallo de pacing, es un fallo de nutrición.</p>
+      <p><strong>Taper:</strong> últimas 2 semanas, planificado de atrás para adelante desde el día de la carrera — mirá la <a href="/members/carga/">guía de Carga de Entrenamiento</a> para ver cómo debería moverse el TSB en la semana de carrera.</p>
+      <p><strong>Simulación:</strong> una simulación a ritmo objetivo unas 4 semanas antes.</p>
+    </div>
+
+    <div class="dist-panel" id="panel-olimpico">
+      <h2>Triatlón Olímpico / Sprint</h2>
+      <p><strong>Pacing:</strong> la distancia Olímpica se corre a intensidad de umbral fuerte / sub-umbral — no es una distancia para guardarse como en sprint o 70.3. Nadar relajado y eficiente (el valor real de la técnica acá es salir del agua barato, no rápido), asentar la bici, correr con un esfuerzo controlado el primer kilómetro antes de abrir.</p>
+      <p><strong>Plan de carrera:</strong> pacing por tramo con rangos de potencia/FC/ritmo, ensayo de transiciones, esquema de nutrición e hidratación ajustado a la duración más corta.</p>
+    </div>
+
+    <div class="dist-panel" id="panel-70-3">
+      <h2>70.3</h2>
+      <p><strong>Pacing:</strong> intensidad baja relativa al umbral con topes duros de FC por tramo — el running es donde se paga una bici demasiado exigida. Zonas de potencia/FC prohibidas en las subidas de la bici, específicamente para proteger el running.</p>
+      <p><strong>Nutrición:</strong> bici hasta 120g de carbohidratos/hora, running hasta 60g/hora, sodio ~200mg/40min (más en calor). Detalle completo en la <a href="/members/nutricion/">calculadora de Nutrición</a>.</p>
+      <p><strong>Plan de carrera:</strong> rangos de pacing completos por tramo, esquema de nutrición e hidratación, y un marco de contingencia — una estrategia clara, un par de escenarios pensados de antemano, flexibilidad si hace falta, pero sostenerla si el día viene bien.</p>
+    </div>
+
+    <div class="dist-panel" id="panel-im">
+      <h2>Ironman completo</h2>
+      <p><strong>Pacing:</strong> el más conservador de las cinco distancias. Los picos de potencia en bici están marcados explícitamente como quemadores de carbohidratos que arruinan el running — potencia estable y controlada, nunca persiguiendo un tramo. Topes duros de FC por tramo, misma lógica que 70.3, más determinante a esta distancia.</p>
+      <p><strong>Nutrición:</strong> bici hasta 120g de carbohidratos/hora (disueltos en los bidones, polvo en el bolso, agua de los puestos), running hasta 60g/hora (geles cada ~20 minutos), cafeína ~200mg antes de largar + 200mg en T1. Detalle completo en la <a href="/members/nutricion/">calculadora de Nutrición</a>.</p>
+      <p><strong>Taper:</strong> el taper más largo y deliberado de las cinco distancias, planificado de atrás para adelante apuntando a un TSB claramente positivo en la largada. Mirá el ejemplo trabajado en la <a href="/members/carga/">guía de Carga de Entrenamiento</a>.</p>
+      <p><strong>Semana de carrera complicada (viajes, enfermedad, imprevistos):</strong> reencuadrá los días perdidos como taper extra en vez de fitness perdido; activaciones cortas de 30 minutos (entrada en calor + un par de sprints cortos + un bloque breve a ritmo de carrera) en los días que queden.</p>
+    </div>
+
+    <div class="video-slot">Video explicativo — próximamente</div>
+  </div>
+</section>
+
+<section class="section--wash">
+  <div class="wrap">
+    <h2>Todo plan de carrera incluye</h2>
+    <ul>
+      <li>Pacing por tramo — rangos de potencia, FC y/o ritmo, segmento por segmento.</li>
+      <li>Esquema de nutrición e hidratación, cronometrado según el tramo y las condiciones.</li>
+      <li>Marco de contingencia: una estrategia clara, un par de escenarios pensados de antemano, margen para adaptarse — pero si el día viene bien, sostener el plan en vez de improvisar.</li>
+    </ul>
+    <p style="color:var(--slate); font-size:14px;">Todos los ritmos objetivo son condicionales a que la nutrición se ejecute según el plan, al clima, y a no sobre-exigir la bici. Son un piso y un marco de referencia, no una garantía.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Después de la carrera</h2>
+    <p>Primero, felicitate — después, un debrief honesto: cómo se siente el cuerpo, sueño y alimentación en los días posteriores, tu propia lectura de la carrera antes de compararla con los datos. Esperá fatiga sistémica por unas dos semanas después de la carrera; que un tempo se sienta peor de lo esperado en esa ventana es normal, no una alarma. El fitness construido para una carrera es temporal y se libera a propósito cuando arranca el próximo bloque.</p>
+  </div>
+</section>

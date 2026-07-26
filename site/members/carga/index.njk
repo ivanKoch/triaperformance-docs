@@ -1,0 +1,64 @@
+---
+layout: layouts/base.njk
+pageCss:
+  - members.css
+  - members-carga.css
+
+title: "Carga de Entrenamiento Explicada — Triaperformance All-Access"
+---
+<header class="artifact-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/members/#biblioteca">Biblioteca</a> / Carga de Entrenamiento</div>
+    <span class="label">Guía</span>
+    <h1>Carga de Entrenamiento Explicada</h1>
+    <p>TSS, CTL, ATL, TSB y el gráfico PMC — los cuatro números y un gráfico que aparecen todo el tiempo en TrainingPeaks, explicados una vez para no tener que preguntar cada vez.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h3>TSS — Training Stress Score</h3>
+    <p>Un número único para cuánto costó un entrenamiento, combinando intensidad y duración. 100 TSS ≈ una hora a tu umbral. Una rodada suave de 45 minutos puede ser 40 TSS; una sesión de bici de 90 minutos al umbral puede ser 140 TSS. Es la base de todos los demás números de esta página.</p>
+
+    <h3>CTL — Chronic Training Load ("Fitness")</h3>
+    <p>Un promedio móvil y ponderado de tu TSS de los últimos ~42 días. Sube despacio y baja despacio — el fitness construido durante meses no desaparece en una semana, y tampoco se construye en una semana. Un CTL más alto generalmente indica un motor aeróbico más grande, construido con el tiempo.</p>
+
+    <h3>ATL — Acute Training Load ("Fatiga")</h3>
+    <p>La misma idea pero en una ventana mucho más corta — los últimos ~7 días. Se mueve rápido: un bloque duro lo dispara, una semana suave lo baja rápido. El ATL es lo que un taper está diseñado para bajar.</p>
+
+    <h3>TSB — Training Stress Balance ("Forma")</h3>
+    <div class="callout">
+      <p><strong>TSB = CTL de ayer − ATL de ayer.</strong></p>
+      <p>TSB negativo significa que estás cargando más fatiga que fitness — normal y esperable en medio de un bloque. TSB positivo significa que la fatiga bajó y el fitness se nota — lo que querés que pase el día de la carrera. Buscar un TSB siempre positivo significa que no estás entrenando lo suficientemente fuerte como para construir fitness real.</p>
+    </div>
+
+    <h3>El PMC — Performance Management Chart</h3>
+    <p>El gráfico de TrainingPeaks que muestra CTL, ATL y TSB juntos en el tiempo. Es la forma más rápida de ver un bloque construyéndose (CTL subiendo), una semana dura pegando (ATL disparado, TSB bajando), o un taper haciendo su trabajo (ATL bajando, TSB volviendo a positivo) — sin leer cada entrenamiento uno por uno.</p>
+
+    <div class="video-slot">Video explicativo — próximamente</div>
+  </div>
+</section>
+
+<section class="section--wash">
+  <div class="wrap">
+    <h2>Ejemplo real: un taper</h2>
+    <p>Un atleta preparando un Ironman completo planificó sus últimas tres semanas de atrás para adelante, apuntando a un TSB cercano a +20 en la largada:</p>
+    <table class="tp-table">
+      <thead><tr><th>Semana</th><th>Carga</th><th>Qué pasa con el TSB</th></tr></thead>
+      <tbody>
+        <tr><td>3 semanas antes</td><td>Semana de descarga, ~10h</td><td>El ATL baja, el TSB empieza a subir desde el déficit del bloque</td></tr>
+        <tr><td>2 semanas antes</td><td>La semana más grande, ~19h incl. una rodada de 6h</td><td>Un último golpe de carga real — el TSB baja de nuevo, a propósito</td></tr>
+        <tr><td>1 semana antes</td><td>~12h</td><td>El ATL baja más rápido que el CTL — el TSB sube</td></tr>
+        <tr><td>Semana de carrera</td><td>Suave, solo activaciones cortas</td><td>El TSB llega positivo — fatiga eliminada, fitness intacto</td></tr>
+      </tbody>
+    </table>
+    <p style="color:var(--slate); font-size:14px;">La trampa: dos semanas antes se siente como el momento de "sumar más" porque la forma se siente bien. Para eso está exactamente la semana de descarga de tres semanas antes — resistí las ganas de seguir entrenando fuerte durante un taper.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Dónde verlo</h2>
+    <p>En TrainingPeaks: <strong>Dashboard → Performance Management Chart</strong>, o tocá cualquier día individual para ver los valores de CTL/ATL/TSB de ese día. Solo significa lo que tiene que significar si tus zonas y tu umbral están bien configurados primero — mirá la <a href="/members/zonas/">Guía de Zonas y Umbral</a> si todavía no lo hiciste.</p>
+  </div>
+</section>

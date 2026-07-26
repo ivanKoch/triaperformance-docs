@@ -1,0 +1,52 @@
+---
+layout: layouts/base.njk
+navVariant: "none"
+footerVariant: "none"
+pageCss: "members-forgot-password.css"
+title: "Recuperar contraseña — Triaperformance"
+---
+<div class="card">
+  <h1>Recuperar contraseña</h1>
+  <p class="sub" id="sub">Ingresá el email con el que te suscribiste a All-Access. Si está registrado, te enviamos la contraseña.</p>
+
+  <form id="forgot-form">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required autocomplete="email">
+    <button type="submit" id="submit-btn">Enviar</button>
+  </form>
+
+  <p class="result" id="result"></p>
+
+  <p class="help"><a href="/members/login">Volver al login</a></p>
+</div>
+
+<script>
+  var form = document.getElementById('forgot-form');
+  var sub = document.getElementById('sub');
+  var result = document.getElementById('result');
+  var submitBtn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+
+    fetch('/members/forgot-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: document.getElementById('email').value.trim() })
+    })
+      .then(function () {
+        result.textContent = 'Si el email está registrado, te enviamos la contraseña. Revisá tu bandeja de entrada.';
+        result.classList.add('show');
+        form.style.display = 'none';
+        sub.style.display = 'none';
+      })
+      .catch(function () {
+        result.textContent = 'Algo salió mal. Escribinos a coach@triaperformance.com.';
+        result.classList.add('show');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar';
+      });
+  });
+</script>

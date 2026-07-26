@@ -1,0 +1,13 @@
+/* carga — extra rules on top of site.css + members.css. */
+
+h3 { font-size: 19px; font-weight: 700; margin-bottom: 8px; margin-top: 24px; }
+
+table.tp-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px; }
+
+table.tp-table th, table.tp-table td { border: 1px solid var(--mist); padding: 12px 16px; text-align: left; }
+
+table.tp-table th { background: var(--wash); font-weight: 700; }
+
+.callout { background: var(--wash); border-radius: 8px; padding: 24px 28px; margin: 24px 0; }
+
+.callout p:last-child { margin-bottom: 0; }

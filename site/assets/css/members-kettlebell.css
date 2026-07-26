@@ -1,0 +1,268 @@
+/* kettlebell — extra rules on top of site.css. */
+
+:root {
+    /* Dark theme, built from brand-guidelines.md's palette rather than a generic dark UI kit.
+       --blue is the exact brand blue (#004aad) — used as a solid FILL (buttons, progress bar,
+       phase markers, checkmarks) so a light glyph sits on top and contrast holds.
+       --blue-bright is a NEW addition: a lighter tint of brand blue, used only where blue appears
+       as TEXT directly on the near-black background — #004aad on its own fails 4.5:1 contrast
+       there (per the guideline's own contrast rule), so this is flagged for approval rather than
+       silently added to the brand system. */
+    --bg: #0d1117;
+    --surface: #171b21;
+    --surface2: #1f242c;
+    --border: #2a313b;
+    --blue: #004aad;
+    --blue-deep: #003a89;
+    --blue-bright: #4f8fdb;      /* NEW — dark-mode-only text accent, derived from --blue */
+    --blue-dim: rgba(0, 74, 173, 0.22);
+    --text: #f2f3f1;
+    --text-dim: #8b9089;
+    --green: #4caf7d;
+    --warn: #d97a68;
+    --warn-dim: rgba(217, 122, 104, 0.12);
+    --font: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 16px 80px; }
+
+/* Site nav — consistent with the rest of triaperformance.com, dark variant */
+  .site-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13, 17, 23, 0.85);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+
+.site-nav .wrap { display: flex; align-items: center; justify-content: space-between; padding: 20px 16px; }
+
+.site-nav .logo { font-weight: 700; font-size: 17px; color: var(--white, #fff); text-decoration: none; letter-spacing: -0.01em; }
+
+.site-nav a.back { color: var(--text-dim); text-decoration: none; font-size: 14px; font-weight: 700; }
+
+.site-nav a.back:hover { color: var(--blue-bright); }
+
+header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding: 28px 0 20px;
+    margin-bottom: 28px;
+  }
+
+.eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue-bright);
+    margin-bottom: 8px;
+  }
+
+h1 {
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+.subtitle { font-size: 13px; color: var(--text-dim); }
+
+/* KB weight selector */
+  .weight-selector {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+.weight-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+
+.weight-buttons { display: flex; gap: 8px; }
+
+.weight-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    font-family: var(--font);
+  }
+
+.weight-btn:hover { border-color: var(--blue-bright); color: var(--text); }
+
+.weight-btn.active {
+    background: var(--blue-dim);
+    border-color: var(--blue);
+    color: var(--blue-bright);
+  }
+
+/* Phase sections */
+  .phase { margin-bottom: 28px; }
+
+.phase-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+
+.phase-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--blue-dim); border: 1px solid var(--blue);
+    color: var(--blue-bright); font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+
+.phase-title {
+    font-size: 13px; font-weight: 700; color: var(--text);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+
+.phase-duration { font-size: 12px; color: var(--text-dim); margin-left: auto; }
+
+/* Exercise cards */
+  .exercise {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; margin-bottom: 10px; overflow: hidden;
+    transition: border-color 0.15s;
+  }
+
+.exercise.completed { border-color: var(--green); }
+
+.exercise.flagged { border-color: var(--blue); }
+
+.exercise-header { display: flex; align-items: center; padding: 14px 16px; cursor: pointer; gap: 12px; }
+
+.exercise-header:hover { background: var(--surface2); }
+
+.check {
+    width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all 0.15s; cursor: pointer; font-size: 11px; color: transparent;
+  }
+
+.exercise.completed .check { background: var(--green); border-color: var(--green); color: var(--bg); }
+
+.exercise-info { flex: 1; }
+
+.exercise-name { font-weight: 700; font-size: 14px; color: var(--text); }
+
+.exercise-meta { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+.exercise-weight { font-size: 12px; color: var(--blue-bright); font-weight: 700; text-align: right; flex-shrink: 0; }
+
+.chevron { color: var(--text-dim); font-size: 16px; transition: transform 0.15s; flex-shrink: 0; }
+
+.exercise.open .chevron { transform: rotate(180deg); }
+
+.exercise-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); }
+
+.exercise.open .exercise-body { display: block; }
+
+.exercise-desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; margin-top: 12px; }
+
+.exercise-tip {
+    margin-top: 10px; padding: 10px 12px; background: var(--blue-dim);
+    border-left: 2px solid var(--blue); border-radius: 0 4px 4px 0;
+    font-size: 12px; color: var(--blue-bright); line-height: 1.5;
+  }
+
+.exercise-tip .tag { font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 11px; }
+
+.flag-note {
+    margin-top: 10px; padding: 10px 12px; background: var(--warn-dim);
+    border-left: 2px solid var(--warn); border-radius: 0 4px 4px 0;
+    font-size: 12px; color: #e3ab9f; line-height: 1.5;
+  }
+
+.flag-note .tag { font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 11px; color: var(--warn); }
+
+/* Sets tracker */
+  .sets-tracker { margin-top: 12px; }
+
+.sets-label { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+
+.sets-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.set-btn {
+    width: 40px; height: 40px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--surface2); color: var(--text-dim); font-size: 12px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; font-family: var(--font);
+  }
+
+.set-btn.done { background: var(--blue-dim); border-color: var(--blue); color: var(--blue-bright); }
+
+/* Progress bar */
+  .progress-container {
+    position: sticky; top: 0; background: var(--bg); padding: 10px 16px 16px;
+    z-index: 10; border-bottom: 1px solid var(--border); margin-bottom: 24px;
+  }
+
+.progress-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+
+.progress-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); }
+
+.progress-count { font-size: 12px; color: var(--blue-bright); font-weight: 700; }
+
+.progress-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+
+.progress-fill { height: 100%; background: var(--blue); border-radius: 2px; transition: width 0.3s ease; width: 0%; }
+
+/* Rest timer — floating, slightly heavier shadow than the brand default is
+     intentional here: it needs to read as a floating element over page content. */
+  .rest-timer {
+    display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--surface); border: 1px solid var(--blue); border-radius: 12px;
+    padding: 14px 24px; text-align: center; min-width: 180px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.5); z-index: 100;
+  }
+
+.rest-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+
+.rest-time { font-family: var(--font); font-weight: 700; font-size: 34px; color: var(--blue-bright); line-height: 1; margin-bottom: 8px; }
+
+.rest-close { font-size: 11px; color: var(--text-dim); cursor: pointer; text-decoration: underline; }
+
+.reset-btn {
+    width: 100%; padding: 12px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--surface2); color: var(--text-dim); font-size: 13px; font-weight: 700;
+    cursor: pointer; font-family: var(--font); margin-top: 16px; transition: all 0.15s;
+  }
+
+.reset-btn:hover { border-color: var(--blue-bright); color: var(--text); }
+
+.note-box {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 12px 14px; font-size: 13px; color: var(--text-dim); margin-bottom: 16px; line-height: 1.5;
+  }
+
+.note-box strong { color: var(--text); }
+
+footer.page-footer {
+    padding: 32px 16px; text-align: center; color: var(--text-dim); font-size: 13px;
+    border-top: 1px solid var(--border); margin-top: 8px;
+  }
+
+footer.page-footer a { color: var(--text-dim); }

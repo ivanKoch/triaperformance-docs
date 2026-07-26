@@ -1,0 +1,39 @@
+/* Members-area shared styles — the rules every members content page uses
+   on top of site.css. Extracted from the five pages that had them duplicated. */
+
+h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 16px; }
+
+@media (max-width: 640px) { h1 { font-size: 28px; } }
+
+h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 12px; }
+
+p { margin-bottom: 16px; max-width: 65ch; }
+
+a { color: var(--blue); }
+
+.breadcrumb { font-size: 14px; color: var(--slate); margin-bottom: 16px; }
+
+.breadcrumb a { color: var(--slate); }
+
+.breadcrumb a:hover { color: var(--blue); }
+
+.artifact-hero { border-bottom: 1px solid var(--mist); padding-bottom: 48px; }
+
+.section--wash { background: var(--wash); }
+
+.video-slot {
+    border: 1px dashed var(--mist); border-radius: 8px; background: var(--wash); color: var(--slate);
+    padding: 48px 24px; text-align: center; font-size: 14px; margin: 24px 0;
+  }
+
+@media (max-width: 640px) {
+    .nav-toggle { display: flex; }
+    header nav {
+      position: fixed; top: 0; right: -100%; width: min(260px, 85vw); height: 100vh;
+      background: var(--white); box-shadow: -8px 0 24px rgba(30,32,25,.15);
+      flex-direction: column; align-items: flex-start; padding: 96px 28px 28px;
+      transition: right .25s ease; z-index: 95;
+    }
+    header nav.mobile-open { right: 0; }
+    header nav a { margin-left: 0; margin-bottom: 20px; font-size: 17px; }
+  }
