@@ -18,6 +18,13 @@ REPO="$HOME/.hermes/triaperformance-docs"
 BUILD_DIR="$(mktemp -d /tmp/tp-build.XXXXXX)"
 WEBROOT="/var/www/triaperformance"
 
+# mktemp -d creates the directory as 0700. `rsync -a` preserves permissions and,
+# with a trailing slash on the source, applies the source directory's mode to the
+# destination too — which silently turned the webroot into 0700 root:root and made
+# Caddy (running as the `caddy` user) return 403 on every request. Fixing it at the
+# source rather than patching the webroot afterwards.
+chmod 755 "$BUILD_DIR"
+
 cleanup() { rm -rf "$BUILD_DIR"; }
 trap cleanup EXIT
 
@@ -26,7 +33,9 @@ cd "$REPO"
 git pull --ff-only
 
 echo "[$(date -Is)] installing dependencies"
-npm ci --omit=dev --no-audit --no-fund
+# NOT --omit=dev: Eleventy is a devDependency (it's a build tool, it ships nothing
+# to the browser), so --omit=dev skips the one package this script actually needs.
+npm ci --no-audit --no-fund
 
 echo "[$(date -Is)] building site"
 npx @11ty/eleventy --output="$BUILD_DIR"
@@ -45,5 +54,22 @@ fi
 
 echo "[$(date -Is)] publishing $PAGE_COUNT pages to $WEBROOT"
 rsync -a --delete "$BUILD_DIR"/ "$WEBROOT"/
+
+# Belt and braces alongside the chmod on BUILD_DIR above: read for everyone,
+# traverse (execute) on directories only. Harmless if already correct.
+chmod -R a+rX "$WEBROOT"
+
+# ---- Post-deploy verification. Test what a visitor actually gets, not just
+# whether files exist — the 403 that motivated this was invisible to a file check.
+echo "[$(date -Is)] verifying the live site responds"
+for path in "/" "/planes/running/" "/members/login/"; do
+  code=$(curl -sk -o /dev/null -w '%{http_code}' -H 'Host: triaperformance.com' \
+         "https://127.0.0.1${path}" || echo "000")
+  if [ "$code" = "200" ]; then
+    echo "  OK   $code  $path"
+  else
+    echo "  FAIL $code  $path" >&2
+  fi
+done
 
 echo "[$(date -Is)] deploy complete"

@@ -145,7 +145,28 @@ chmod +x ~/.hermes/deploy-website.sh
 ~/.hermes/deploy-website.sh
 ```
 
-It should print the pull, the build, then "publishing 19 pages". If the build fails it exits **without touching the live site** — that guard is the whole reason the build runs here rather than in the cron blindly.
+It should print the pull, the build, "publishing 19 pages", and then three `OK 200` lines for `/`, `/planes/running/` and `/members/login/`. If the build fails it exits **without touching the live site** — that guard is the whole reason the build runs here rather than in the cron blindly.
+
+> **Known failure, fixed July 26, 2026 — read this if you hit a 403.**
+> The first version of this script created its build directory with `mktemp -d`, which
+> makes it `0700`. `rsync -a` with a trailing slash applies the *source directory's*
+> permissions to the destination, so the deploy silently turned `/var/www/triaperformance`
+> into `0700 root:root`. Every file inside was readable, but Caddy runs as the `caddy`
+> user and couldn't traverse the parent directory, so every request returned **403**.
+>
+> Diagnosed with `namei -l /var/www/triaperformance/index.html`, which prints the
+> permissions of every component in the path — the culprit line was
+> `drwx------ root root triaperformance`. Worth remembering: `ls -la` on the directory
+> *contents* looks completely healthy in this failure mode; the problem is the
+> directory itself. Immediate fix:
+>
+> ```bash
+> chmod -R a+rX /var/www/triaperformance
+> ```
+>
+> The script now sets the build directory to `755` before rsync, chmods the webroot
+> afterwards, and curls three real URLs at the end so this class of failure reports
+> itself at deploy time instead of in your browser.
 
 **Step 15.** Check the live site in a browser: homepage, one plan page, and log into `/members/` with a real subscriber token to confirm the auth gate still works. Then confirm HTTPS and headers are unchanged:
 
