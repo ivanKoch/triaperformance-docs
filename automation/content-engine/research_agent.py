@@ -437,6 +437,9 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--debug-source", metavar="NAME",
                     help="print link-matching detail for the source whose name contains NAME")
+    ap.add_argument("--save", action="store_true",
+                    help="with --check-sources: write what was discovered back into "
+                         "sources.json, so real runs skip feed probing")
     args = ap.parse_args()
 
     cfg = json.load(open(SOURCES_FILE, encoding="utf-8"))
@@ -446,6 +449,9 @@ def main():
     # --- source discovery -------------------------------------------------
     all_posts, report = [], []
     for src in cfg["sources"]:
+        if src.get("active") is False:
+            print(f"[source] {src['name']}: skipped (active=false)")
+            continue
         dbg = bool(args.debug_source and args.debug_source.lower() in src["name"].lower())
         mode, feed, posts, err = discover(src, delay, debug=dbg)
         posts = posts[: settings.get("max_posts_per_source", 25)]
@@ -463,8 +469,37 @@ def main():
         for name, mode, feed, n, err in report:
             status = "OK" if n else "NO POSTS"
             print(f"{status:9s} {name:42s} mode={mode:5s} n={n:3d} {feed or ''} {err or ''}")
-        print("\nPut any discovered feed URLs into sources.json as feed_url, "
-              "and set fetch_mode explicitly, so real runs skip discovery.")
+
+        if args.save:
+            # Record what actually worked so future runs go straight to the right
+            # URL instead of probing six candidate paths per source every time.
+            by_name = {r[0]: r for r in report}
+            changes = []
+            for src in cfg["sources"]:
+                name, mode, feed, n, err = by_name.get(src["name"], (None,) * 5)
+                if name is None:
+                    continue
+                if n and mode == "feed" and feed and src.get("feed_url") != feed:
+                    src["feed_url"], src["fetch_mode"] = feed, "feed"
+                    changes.append(f"{name}: feed -> {feed}")
+                elif n and mode == "html" and src.get("fetch_mode") != "html":
+                    src["fetch_mode"], src["feed_url"] = "html", None
+                    changes.append(f"{name}: html mode (skips feed probing)")
+            if changes:
+                with open(SOURCES_FILE, "w", encoding="utf-8") as fh:
+                    json.dump(cfg, fh, indent=2, ensure_ascii=False)
+                    fh.write("\n")
+                print("\nsources.json updated:")
+                for c in changes:
+                    print(f"  {c}")
+                print("\nRun this on your Mac and commit the file — the VPS checkout "
+                      "is reset on every deploy, so changes made there are lost.")
+            else:
+                print("\nsources.json already matches what was discovered — nothing to write.")
+        else:
+            print("\nRe-run with --save to write these results into sources.json "
+                  "(do it on your Mac, then commit). Sources that keep failing can be "
+                  'switched off with "active": false rather than retried every week.')
         return
 
     cutoff = datetime.now(timezone.utc) - timedelta(days=settings.get("lookback_days", 120))

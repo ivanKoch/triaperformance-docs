@@ -1,6 +1,5 @@
 {
   "_comment": "Blogs the research agent watches. SIGNAL sources — timing and gaps — not topic lists to copy. Notes below include Iván's own read on each plus what a manual crawl (July 27, 2026) actually found. Run `python3 research_agent.py --check-sources` on the VPS to verify the feed guesses before the first real run.",
-
   "sources": [
     {
       "name": "TrainingPeaks — Training Articles",
@@ -21,7 +20,8 @@
       "site_url": "https://trainright.com/blog/",
       "feed_url": "https://trainright.com/feed/",
       "fetch_mode": "auto",
-      "note": "Carmichael Training Systems. High-volume, broad endurance coverage. Big authority — treat as a gap-finder, not a topic list."
+      "active": false,
+      "note": "Carmichael Training Systems. DISABLED July 27, 2026: returns HTTP 403 on both the feed and the index page — bot protection, and we are not spoofing a browser user-agent to get around it. Set active back to true if they ever stop blocking. Nine working sources is plenty of signal."
     },
     {
       "name": "High North Performance",
@@ -34,14 +34,14 @@
       "name": "High North Running",
       "site_url": "https://highnorthrunning.co.uk/",
       "feed_url": null,
-      "fetch_mode": "auto",
+      "fetch_mode": "html",
       "note": "The running arm of High North — added because the main site is cycling-only and Iván's catalog is running-heavy (195 of 323 published plans)."
     },
     {
       "name": "MyProCoach",
       "site_url": "https://www.myprocoach.net/blog/",
       "feed_url": null,
-      "fetch_mode": "auto",
+      "fetch_mode": "html",
       "note": "Structured plan seller, closest business model to the plans catalog. Watch for how they position plans vs coaching."
     },
     {
@@ -55,7 +55,7 @@
       "name": "EndureIQ",
       "site_url": "https://www.endureiq.com/blog-posts",
       "feed_url": null,
-      "fetch_mode": "auto",
+      "fetch_mode": "html",
       "note": "Dr Dan Plews. Iván: 'they gate a lot of content but they are GOOD.' The clearest working example of the gated_teaser model we're copying — study how much they give away before the gate."
     },
     {
@@ -73,14 +73,17 @@
       "note": "Closest business analogue — solo-ish coaching + plans + newsletter, started ~10 years ago. Crawled manually: their 'blog' is a NEWSLETTER ARCHIVE, not SEO content. Titles are subject lines ('You're within 5 minutes of a sub-3 hour marathon'), not search queries, and roughly half are athlete transformation stories. They monetize through relationship and story, not search. Publishing ~1-2/month, irregular. This is the strongest argument for adding case_study as an article type."
     }
   ],
-
   "settings": {
     "request_delay_seconds": 2.0,
     "max_posts_per_source": 25,
     "lookback_days": 120,
     "notify_threshold": 8,
     "ideas_per_run": 12,
-    "languages": ["es", "en", "pt"],
+    "languages": [
+      "es",
+      "en",
+      "pt"
+    ],
     "_languages_note": "PT ideas must stay inside the distances that actually have PT inventory — marathon, 5k, 10k, 21k, FTP. Everything else points at plans that don't exist.",
     "_dormant_sources_note": "High North last published April 2024. The agent must not treat an old post as a current signal — that's what lookback_days is for. Its archive is still useful as a topic map, so it stays in the list, but expect zero recent posts from it."
   }
