@@ -1,0 +1,181 @@
+# Content engine — research agent + review page
+
+**Status:** written, nothing deployed. July 27, 2026.
+**Scope:** Agent 1 (research) and the approval surface. No writer, no publisher.
+
+The research agent proposes ideas. You approve them in batches on a private page. That's it — nothing writes or publishes yet, deliberately. The point of stopping here is to find out whether the ideas are any good before automating anything downstream, because bad ideas written well are still bad articles.
+
+---
+
+## What it actually does
+
+Weekly, on the VPS:
+
+1. Fetches recent posts from the source blogs in `sources.json`.
+2. Loads **what you uniquely have**: the plan catalog with per-language counts, the members-area artifacts, the methodology sections, the lead magnets.
+3. Asks the model for N ideas, each of which must name concrete Triaperformance assets — an idea that names none is discarded before it reaches the database.
+4. Writes them to Postgres as `PROPOSED`.
+5. If the pending queue is at or over the threshold (default 8), calls an n8n webhook that emails you. Below threshold, it stays quiet — you asked for batches, not drips.
+
+**The sources are for timing and gaps, not topics to copy.** Writing about durability because TrainingPeaks did means competing with TrainingPeaks on their ground. The prompt makes an idea legitimate only when several sources are circling a theme *and* you can say something they can't, or when they're collectively missing something you're placed to answer.
+
+---
+
+## Step 0 — Get the files onto the VPS first
+
+**Every file referenced below is written on Iván's Mac and reaches the VPS only through GitHub.** Claude edits the local repo; it never touches the VPS. So before any step that reads a file from `~/.hermes/triaperformance-docs/...`, that file has to have been committed, pushed, and pulled — otherwise you get `No such file or directory` on a script you can see perfectly well on your laptop.
+
+On the Mac:
+
+```bash
+cd ~/triaperformance-docs
+git add -A
+git commit -m "..."
+git push
+```
+
+On the VPS:
+
+```bash
+cd ~/.hermes/triaperformance-docs
+git fetch origin && git reset --hard origin/main
+```
+
+(`reset --hard` rather than `pull` — that checkout is a strict mirror and must never diverge. See `website-build-cutover-runbook.md`.)
+
+This caught us twice: once with `automation/check-plan-links.py`, once with this schema file. Check it first.
+
+## Step 1 — Create the database
+
+```bash
+docker exec -it analytics-postgres psql -U analytics -c "CREATE DATABASE content;"
+```
+
+```bash
+docker exec -i analytics-postgres psql -U analytics -d content < ~/.hermes/triaperformance-docs/automation/content-engine/schema.sql
+```
+
+Verify:
+
+```bash
+docker exec -it analytics-postgres psql -U analytics -d content -c "\dt"
+```
+
+You should see `sources`, `source_posts`, `content_ideas`.
+
+## Step 2 — Add your source blogs
+
+Edit `automation/content-engine/sources.json` on your Mac and put in the 4–5 blogs you had in mind. The three in there now are unverified guesses. Push, then on the VPS:
+
+```bash
+cd ~/.hermes/triaperformance-docs/automation/content-engine
+python3 research_agent.py --check-sources
+```
+
+This fetches nothing into the database. It reports, per source, whether a real RSS/Atom feed was found, whether it fell back to scraping the index page, or whether the site blocked us. **Copy any discovered feed URLs back into `sources.json` as `feed_url` and set `fetch_mode` explicitly**, so real runs skip discovery and are faster and gentler.
+
+Expect some sources to fail. TrainingPeaks' `/blog/feed/` redirects to an article rather than serving XML, so it will probably land in `html` mode.
+
+## Step 3 — See what it would propose, without saving
+
+```bash
+pip3 install psycopg2-binary --break-system-packages
+```
+
+```bash
+export CONTENT_DB_DSN="postgres://analytics:PASSWORD@127.0.0.1:5432/content"
+export GOOGLE_API_KEY="the key already in ~/.hermes/.env"
+python3 research_agent.py --dry-run
+```
+
+Read the ideas. This is the moment that decides whether the whole approach is worth continuing — if the ideas are generic, the fix is the prompt and the asset inputs, not more automation downstream.
+
+If they look reasonable, drop `--dry-run` to save them.
+
+## Step 4 — Deploy the review page
+
+```bash
+cd ~/.hermes/triaperformance-docs/automation/content-engine/admin_service
+docker build -t tp-admin .
+docker run -d --name tp-admin --restart unless-stopped \
+  -e CONTENT_DB_DSN="postgres://analytics:PASSWORD@172.17.0.1:5432/content" \
+  -p 127.0.0.1:8092:8092 tp-admin
+```
+
+Note `172.17.0.1` rather than `127.0.0.1` in the DSN — inside a container, loopback is the container itself, not the host. This is the same gotcha as the dashboard binding issue in `ai-infrastructure-documentation.md` problem #3.
+
+## Step 5 — Gate it in Caddy
+
+Generate a password hash:
+
+```bash
+caddy hash-password
+```
+
+Add inside the `triaperformance.com` site block, **above** the general handlers:
+
+```
+handle /admin/* {
+	basic_auth {
+		ivan REPLACE_WITH_HASH_FROM_ABOVE
+	}
+	reverse_proxy 127.0.0.1:8092
+}
+```
+
+Then `systemctl reload caddy`. Save the password in Bitwarden.
+
+**Why basic_auth and not the members token system:** there is exactly one user. The members area needed per-subscriber tokens because revoking one subscriber must not affect the others. Here a second token system would be invented complexity.
+
+## Step 6 — The notification email
+
+Create an n8n workflow with a Webhook trigger and a Send Email node, using the same Gmail SMTP credential the nurture sequence uses. Body: "N ideas waiting" plus a link to `https://triaperformance.com/admin/ideas/`. Then:
+
+```bash
+export IDEA_NOTIFY_WEBHOOK="https://triaperformance.com/api/idea-notify"
+```
+
+The credential stays in n8n rather than being copied into a script — one place, one rotation.
+
+## Step 7 — Cron
+
+Once a manual run has worked end to end:
+
+```
+0 7 * * 1 cd ~/.hermes/triaperformance-docs/automation/content-engine && /usr/bin/python3 research_agent.py >> ~/.hermes/logs/content-engine.log 2>&1
+```
+
+Monday 7am, staggered clear of the 5am pixel sync and 6am site deploy.
+
+**Important:** the deploy script does `git reset --hard` on that checkout every morning. The agent only *reads* from it, so that's fine — but never write anything you want to keep inside that directory. Ideas live in Postgres precisely for this reason.
+
+---
+
+## Article types, and why the type is chosen before writing
+
+| Type | What it is | Typical CTA |
+|---|---|---|
+| `plan_guide` | Decision guide routing to specific plans | `plan` |
+| `education` | Topical authority. May sell nothing. | `none` or `lead_magnet` |
+| `gated_teaser` | Concept explained fully; the *artifact* is behind `/members/` | `all_access` |
+| `gear` | Affiliate-oriented | `affiliate` |
+
+A gated teaser is written differently from a plan guide from its first sentence. Deciding the offer after drafting produces a CTA bolted onto an article that wasn't shaped for it — so `article_type` and `cta_type` are part of the idea you approve, not a later step.
+
+**`cta_type = none` is a legitimate outcome.** An article that ranks and builds trust without selling anything is a success.
+
+### The rule for gated teasers
+
+**The article must be complete and useful standing alone. The paywall holds the execution artifact, never the understanding.**
+
+An activation article explains what activation is, why it matters, and what a good one looks like. Behind the login sits the specific sequence — reps, order, video. A teaser that withholds the knowledge is thin content, and Google is explicitly built to bury it.
+
+You have six artifacts already gated (`carga`, `carrera`, `kettlebell`, `nutricion`, `tests`, `zonas`), and All-Access has 2 subscribers. This is the only content pattern that converts free search traffic into your one recurring revenue line.
+
+---
+
+## What is deliberately not built
+
+- **The writer.** Nothing drafts articles yet. Approve ideas, write them yourself (with help), and see whether the ideas were good.
+- **The publisher.** Blog publishing is already a git commit; it doesn't need an agent.
+- **The feedback loop.** Needs 60–90 days of Search Console data before it has anything to say. Building it now would be measuring noise.

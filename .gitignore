@@ -10,3 +10,8 @@ automation/members-area/*.sql
 # rebuilt on the VPS at deploy time, so it never belongs in the repo.
 node_modules/
 _site/
+
+# Python bytecode. Several of these are already tracked from earlier work; clear
+# them with:  git rm -r --cached '**/__pycache__'
+__pycache__/
+*.pyc
