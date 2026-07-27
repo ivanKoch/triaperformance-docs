@@ -7,7 +7,13 @@
 - **Blog structure is live**: `/blog/` (ES), with `/en/blog/` and `/pt/blog/` reserved. Article URLs are slug-only, no dates. Articles are ordinary pages, so they inherit nav, footer, analytics and the `transKey` hreflang machinery automatically.
 - **`site/_data/plans.js`** loads the 381-row plan inventory at build time and exposes 322 linkable plans. It excludes the 6 known-404 IDs, duplicate rows, and expired links.
 - **The `planCard` shortcode implements the brief's core monetization rule mechanically**: an article names a plan by `plan_id` and never contains a URL. Name, price, duration, metric and link are all joined in from the inventory. **Referencing an unlinkable plan fails the build** — verified by deliberately referencing the dead `434680` and confirming a non-zero exit.
-- **First article published**: `/blog/como-elegir-tu-plan-de-maraton/`, ES.
+- **First article published in all three languages, live July 27, 2026**:
+  - ES `/blog/como-elegir-tu-plan-de-maraton/` — 4 questions, 9 plans
+  - EN `/en/blog/how-to-choose-a-marathon-plan/` — 4 questions, 9 plans
+  - PT `/pt/blog/como-escolher-seu-plano-de-maratona/` — **3 questions, 9 plans**
+- **These are not translations, and that's the model to follow.** The PT article is a different, shorter piece because the PT catalog is different: only 1 of 15 marathon plans is pace-based, so "which metric do you train by?" isn't a real question there. Prices differ too (US$24–39.99 vs US$49.99–59.99), so the All-Access maths is rewritten. The writer agent's contract must be *"same intent, adapted to this language's actual inventory"*, not *"translate this."*
+- **hreflang verified working three ways** on real translated content — every article and every listing emits all four tags and the language switcher moves between equivalent pages. This is the mechanism the whole Eleventy build step was justified by, now proven.
+- **Link status: 323 of 323 published plans return HTTP 200.** Nothing in the catalog is broken. The "6 known 404s" carried in the docs since July 21 were entirely wrong — one plan was live and buyable, five had already been deleted from the inventory. They were an artifact of a rate-limited, partial (190/330) crawl being recorded as fact.
 
 **What the research pass found (Agent 1's job, done by hand):**
 - Marathon is the deepest inventory — 68 published plans, 35 ES / 18 EN / 15 PT. Only distance with genuine depth in all three languages.
