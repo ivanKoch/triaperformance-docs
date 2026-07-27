@@ -32,6 +32,7 @@ ENVIRONMENT (all read from ~/.hermes/.env or the shell)
 """
 
 import argparse
+import html.entities
 import json
 import os
 import re
@@ -71,10 +72,28 @@ def looks_like_feed(body, ctype):
 # ---------------------------------------------------------------------------
 # Parsing
 # ---------------------------------------------------------------------------
+def sanitize_xml(body):
+    """Replace HTML entities XML doesn't know about with numeric references.
+
+    Squarespace and some WordPress feeds emit things like &nbsp; or &mdash;,
+    which are valid HTML but undefined in XML — the parser dies with
+    "undefined entity". High North's feed failed at line 3361 for exactly this.
+    """
+    def repl(m):
+        name = m.group(1)
+        if name in ("amp", "lt", "gt", "apos", "quot"):
+            return m.group(0)
+        ch = html.entities.html5.get(name + ";")
+        if ch and len(ch) == 1:
+            return f"&#{ord(ch)};"
+        return ""  # unknown entity: drop it rather than fail the whole feed
+    return re.sub(r"&([A-Za-z][A-Za-z0-9]*);", repl, body)
+
+
 def parse_feed(body):
     """RSS or Atom -> [{url, title, summary, published_at}]"""
     out = []
-    root = ET.fromstring(body.encode("utf-8"))
+    root = ET.fromstring(sanitize_xml(body).encode("utf-8"))
     ns = {"atom": "http://www.w3.org/2005/Atom"}
 
     for item in root.iter():
@@ -106,13 +125,14 @@ def parse_feed(body):
     return out
 
 
-def parse_html_index(body, base_url):
+def parse_html_index(body, base_url, debug=False, min_text=18):
     """Crude fallback: pull article links + their anchor text off a blog index."""
-    seen, out = set(), []
+    seen, out, rejected = set(), [], []
     for m in re.finditer(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', body, re.S | re.I):
         href, text = m.group(1), re.sub(r"<[^>]+>", " ", m.group(2))
         text = re.sub(r"\s+", " ", text).strip()
-        if not text or len(text) < 25:
+        if not text or len(text) < min_text:
+            rejected.append(("short text", text[:40]))
             continue
         if href.startswith("/"):
             href = base_url.rstrip("/").split("/")[0] + "//" + base_url.split("/")[2] + href
@@ -125,6 +145,12 @@ def parse_html_index(body, base_url):
             continue
         seen.add(href)
         out.append({"url": href, "title": text[:300], "summary": "", "published_raw": ""})
+    if debug:
+        print(f"    [debug] matched {len(out)} links, rejected {len(rejected)}")
+        for r in rejected[:15]:
+            print(f"      rejected ({r[0]}): {r[1]}")
+        for o in out[:10]:
+            print(f"      kept: {o['title'][:70]}")
     return out
 
 
@@ -144,17 +170,29 @@ def parse_date(raw):
 # ---------------------------------------------------------------------------
 # Source discovery
 # ---------------------------------------------------------------------------
-def discover(source, delay=2.0):
-    """Return (mode, feed_url, posts, error)."""
+def discover(source, delay=2.0, debug=False):
+    """Return (mode, feed_url, posts, error).
+
+    Every failure path falls through to the next strategy. The first version
+    returned immediately when a configured feed errored, which meant one 403 or
+    one malformed entity took the whole source out — TrainRight and High North
+    both died that way on the first real run despite having usable HTML pages.
+    """
     site = source["site_url"]
+    notes = []
 
     if source.get("feed_url"):
         try:
             body, ctype = fetch(source["feed_url"])
             if looks_like_feed(body, ctype):
-                return "feed", source["feed_url"], parse_feed(body), None
+                posts = parse_feed(body)
+                if posts:
+                    return "feed", source["feed_url"], posts, None
+                notes.append("configured feed parsed but was empty")
+            else:
+                notes.append("configured feed URL did not return XML")
         except Exception as e:
-            return "feed", source["feed_url"], [], f"configured feed failed: {e}"
+            notes.append(f"configured feed failed ({e}) — falling back")
 
     if source.get("fetch_mode") in ("auto", "feed", None):
         for cand in FEED_CANDIDATES:
@@ -176,12 +214,13 @@ def discover(source, delay=2.0):
 
     try:
         body, _ = fetch(site)
-        posts = parse_html_index(body, site)
+        posts = parse_html_index(body, site, debug=debug)
+        note = "; ".join(notes) or None
         if posts:
-            return "html", None, posts, None
-        return "html", None, [], "index fetched but no article links matched"
+            return "html", None, posts, note
+        return "html", None, [], "; ".join(notes + ["index fetched but no article links matched"])
     except Exception as e:
-        return "none", None, [], f"{e}"
+        return "none", None, [], "; ".join(notes + [str(e)])
 
 
 # ---------------------------------------------------------------------------
@@ -396,6 +435,8 @@ def main():
     ap.add_argument("--check-sources", action="store_true")
     ap.add_argument("--crawl-only", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--debug-source", metavar="NAME",
+                    help="print link-matching detail for the source whose name contains NAME")
     args = ap.parse_args()
 
     cfg = json.load(open(SOURCES_FILE, encoding="utf-8"))
@@ -405,7 +446,8 @@ def main():
     # --- source discovery -------------------------------------------------
     all_posts, report = [], []
     for src in cfg["sources"]:
-        mode, feed, posts, err = discover(src, delay)
+        dbg = bool(args.debug_source and args.debug_source.lower() in src["name"].lower())
+        mode, feed, posts, err = discover(src, delay, debug=dbg)
         posts = posts[: settings.get("max_posts_per_source", 25)]
         report.append((src["name"], mode, feed, len(posts), err))
         print(f"[source] {src['name']}: mode={mode} posts={len(posts)}"
