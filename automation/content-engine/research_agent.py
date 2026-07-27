@@ -54,6 +54,81 @@ FEED_CANDIDATES = ["feed/", "rss/", "rss.xml", "feed.xml", "atom.xml", "index.xm
 
 
 # ---------------------------------------------------------------------------
+# Environment
+#
+# Secrets already exist on this box in ~/.hermes/.env and ~/.analytics/.env.
+# Reading them here means nobody has to retype a key into a shell — which is
+# both a security improvement (no secrets in shell history) and how the first
+# run actually failed: a placeholder string got exported verbatim as the API key.
+# Values already set in the environment always win.
+# ---------------------------------------------------------------------------
+ENV_FILES = [os.path.expanduser("~/.hermes/.env"), os.path.expanduser("~/.analytics/.env")]
+
+GEMINI_KEY_NAMES = ["GOOGLE_API_KEY", "GEMINI_API_KEY", "GOOGLE_GENAI_API_KEY",
+                    "GOOGLE_AI_API_KEY"]
+PG_PASS_NAMES = ["ANALYTICS_DB_PASSWORD", "POSTGRES_PASSWORD", "PGPASSWORD",
+                 "ANALYTICS_POSTGRES_PASSWORD", "DB_PASSWORD"]
+
+
+def read_env_files():
+    """Parse KEY=VALUE out of the known .env files. Returns {name: value}."""
+    found = {}
+    for path in ENV_FILES:
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                k, v = line.split("=", 1)
+                found.setdefault(k.strip(), v.strip().strip("\"'"))
+    return found
+
+
+def load_env(verbose=True):
+    env = read_env_files()
+
+    if not os.environ.get("GOOGLE_API_KEY"):
+        for name in GEMINI_KEY_NAMES:
+            if env.get(name):
+                os.environ["GOOGLE_API_KEY"] = env[name]
+                if verbose:
+                    print(f"[env] model key loaded from {name}")
+                break
+
+    if not os.environ.get("CONTENT_DB_DSN"):
+        if env.get("CONTENT_DB_DSN"):
+            os.environ["CONTENT_DB_DSN"] = env["CONTENT_DB_DSN"]
+            if verbose:
+                print("[env] CONTENT_DB_DSN loaded from .env")
+        else:
+            for name in PG_PASS_NAMES:
+                if env.get(name):
+                    user = env.get("POSTGRES_USER") or env.get("ANALYTICS_DB_USER") or "analytics"
+                    os.environ["CONTENT_DB_DSN"] = (
+                        f"postgres://{user}:{env[name]}@127.0.0.1:5432/content")
+                    if verbose:
+                        print(f"[env] CONTENT_DB_DSN built from {name}")
+                    break
+
+    if not os.environ.get("IDEA_NOTIFY_WEBHOOK") and env.get("IDEA_NOTIFY_WEBHOOK"):
+        os.environ["IDEA_NOTIFY_WEBHOOK"] = env["IDEA_NOTIFY_WEBHOOK"]
+
+
+def show_env():
+    """Report which variable NAMES exist. Never prints a value."""
+    env = read_env_files()
+    print("Variables found in ~/.hermes/.env and ~/.analytics/.env (names only):")
+    for k in sorted(env):
+        print(f"  {k}")
+    print()
+    for label, names in (("model key", GEMINI_KEY_NAMES), ("postgres password", PG_PASS_NAMES)):
+        hit = next((n for n in names if env.get(n)), None)
+        print(f"  {label}: {'found as ' + hit if hit else 'NOT FOUND — looked for ' + ', '.join(names)}")
+
+
+# ---------------------------------------------------------------------------
 # HTTP
 # ---------------------------------------------------------------------------
 def fetch(url, timeout=25):
@@ -437,10 +512,19 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--debug-source", metavar="NAME",
                     help="print link-matching detail for the source whose name contains NAME")
+    ap.add_argument("--show-env", action="store_true",
+                    help="list which secret variable NAMES exist in the .env files "
+                         "(names only, never values) and exit")
     ap.add_argument("--save", action="store_true",
                     help="with --check-sources: write what was discovered back into "
                          "sources.json, so real runs skip feed probing")
     args = ap.parse_args()
+
+    if args.show_env:
+        show_env()
+        return
+
+    load_env()
 
     cfg = json.load(open(SOURCES_FILE, encoding="utf-8"))
     settings = cfg["settings"]
@@ -530,7 +614,11 @@ def main():
 
     api_key = os.environ.get("GOOGLE_API_KEY")
     if not api_key:
-        sys.exit("GOOGLE_API_KEY is not set.")
+        sys.exit("No model API key found. Run --show-env to see what's in the .env files.")
+    if " " in api_key or len(api_key) < 20:
+        sys.exit(f"The API key looks wrong ({len(api_key)} chars, contains a space?). "
+                 "It was probably set to placeholder text rather than a real key. "
+                 "Unset it and let the script read ~/.hermes/.env: unset GOOGLE_API_KEY")
     model = os.environ.get("CONTENT_MODEL", "gemini-3.5-flash")
 
     prompt = PROMPT.format(
