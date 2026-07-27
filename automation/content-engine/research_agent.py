@@ -66,8 +66,10 @@ ENV_FILES = [os.path.expanduser("~/.hermes/.env"), os.path.expanduser("~/.analyt
 
 GEMINI_KEY_NAMES = ["GOOGLE_API_KEY", "GEMINI_API_KEY", "GOOGLE_GENAI_API_KEY",
                     "GOOGLE_AI_API_KEY"]
-PG_PASS_NAMES = ["ANALYTICS_DB_PASSWORD", "POSTGRES_PASSWORD", "PGPASSWORD",
-                 "ANALYTICS_POSTGRES_PASSWORD", "DB_PASSWORD"]
+# The analytics stack uses PG_* names (confirmed from the real ~/.analytics/.env,
+# July 2026). The others are fallbacks in case that ever changes.
+PG_PASS_NAMES = ["PG_PASSWORD", "ANALYTICS_DB_PASSWORD", "POSTGRES_PASSWORD",
+                 "PGPASSWORD", "DB_PASSWORD"]
 
 
 def read_env_files():
@@ -105,11 +107,19 @@ def load_env(verbose=True):
         else:
             for name in PG_PASS_NAMES:
                 if env.get(name):
-                    user = env.get("POSTGRES_USER") or env.get("ANALYTICS_DB_USER") or "analytics"
+                    # Same server and credentials as the analytics database, but a
+                    # different database name — `content` is its own lane on the
+                    # shared analytics-postgres container, like storefront and
+                    # members. PG_DB is deliberately ignored: it points at the
+                    # analytics database, not this one.
+                    user = env.get("PG_USER") or env.get("POSTGRES_USER") or "analytics"
+                    host = env.get("PG_HOST") or "127.0.0.1"
+                    port = env.get("PG_PORT") or "5432"
                     os.environ["CONTENT_DB_DSN"] = (
-                        f"postgres://{user}:{env[name]}@127.0.0.1:5432/content")
+                        f"postgres://{user}:{env[name]}@{host}:{port}/content")
                     if verbose:
-                        print(f"[env] CONTENT_DB_DSN built from {name}")
+                        print(f"[env] CONTENT_DB_DSN built from {name} "
+                              f"(user={user} host={host} port={port} db=content)")
                     break
 
     if not os.environ.get("IDEA_NOTIFY_WEBHOOK") and env.get("IDEA_NOTIFY_WEBHOOK"):
