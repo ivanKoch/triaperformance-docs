@@ -1,0 +1,6 @@
+{
+  "_comment": "Directory data file — defaults for every English blog post.",
+  "lang": "en",
+  "layout": "layouts/article.njk",
+  "tags": ["post"]
+}

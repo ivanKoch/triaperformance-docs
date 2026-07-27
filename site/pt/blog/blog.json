@@ -1,0 +1,6 @@
+{
+  "_comment": "Directory data file — defaults for every Portuguese blog post.",
+  "lang": "pt",
+  "layout": "layouts/article.njk",
+  "tags": ["post"]
+}

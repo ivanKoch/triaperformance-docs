@@ -70,13 +70,28 @@ module.exports = function (eleventyConfig) {
         `Pick a different plan — do not hand-write the URL.`
       );
     }
+    // Card furniture is localised off the page's own language, so the same
+    // shortcode works in an ES, EN or PT article without per-language variants.
+    const lang = (this.ctx && this.ctx.lang) || "es";
+    const L = {
+      es: { weeks: "semanas", hr: "Frecuencia cardíaca", power: "Potencia",
+            pace: "Por ritmo", gym: "Incluye gimnasio",
+            level: { Beginner: "Principiante", Intermediate: "Intermedio", Advanced: "Avanzado" } },
+      en: { weeks: "weeks", hr: "Heart rate", power: "Power",
+            pace: "Pace based", gym: "Includes gym work",
+            level: { Beginner: "Beginner", Intermediate: "Intermediate", Advanced: "Advanced" } },
+      pt: { weeks: "semanas", hr: "Frequência cardíaca", power: "Potência",
+            pace: "Por ritmo", gym: "Inclui academia",
+            level: { Beginner: "Iniciante", Intermediate: "Intermediário", Advanced: "Avançado" } },
+    }[lang];
+
     const meta = [
-      plan.weeks ? `${plan.weeks} semanas` : null,
-      plan.difficulty,
-      plan.metric === "hr" ? "Frecuencia cardíaca"
-        : plan.metric === "power" ? "Potencia"
-        : plan.metric === "pace" ? "Por ritmo" : null,
-      plan.strength ? "Incluye gimnasio" : null,
+      plan.weeks ? `${plan.weeks} ${L.weeks}` : null,
+      L.level[plan.difficulty] || plan.difficulty,
+      plan.metric === "hr" ? L.hr
+        : plan.metric === "power" ? L.power
+        : plan.metric === "pace" ? L.pace : null,
+      plan.strength ? L.gym : null,
     ].filter(Boolean).join(" · ");
     return `<div class="plan-pick">
   <h3><a href="${plan.url}" target="_blank" rel="noopener">${plan.name}</a></h3>
@@ -93,6 +108,16 @@ module.exports = function (eleventyConfig) {
     if (path.startsWith("http")) return path;
     return base + path;
   });
+
+  // Filter a post collection to one language.
+  //
+  // Do NOT use Nunjucks' `selectattr("data.lang", ...)` for this: Nunjucks does
+  // not resolve dotted attribute paths the way Jinja2 does, so it silently
+  // returns an empty list rather than erroring. That shipped a live blog index
+  // reading "no articles published" while the article existed. (July 2026)
+  eleventyConfig.addFilter("byLang", (posts, lang) =>
+    (posts || []).filter((p) => p.data.lang === lang)
+  );
 
   // Machine-readable date for <time datetime="...">. Nunjucks has no built-in
   // `date` filter — that one is Liquid's — so it's defined here.

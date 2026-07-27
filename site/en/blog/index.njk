@@ -1,11 +1,11 @@
 ---
 layout: layouts/base.njk
-lang: es
+lang: en
 transKey: blog-index
 eleventyExcludeFromCollections: true
 pageCss: blog.css
 title: Blog — Triaperformance
-description: "Entrenamiento de running y triatlón basado en datos: cómo elegir un plan, cómo testear, y qué hacer con los números."
+description: "Data-driven running and triathlon training: how to choose a plan, how to test, and what to do with the numbers."
 ---
 {%- set t = i18n[lang] -%}
 <section class="blog-hero">
@@ -30,7 +30,7 @@ description: "Entrenamiento de running y triatlón basado en datos: cómo elegir
       </p>
     </article>
     {%- else %}
-    <p>Todavía no hay artículos publicados.</p>
+    <p>No articles published yet.</p>
     {%- endfor %}
   </section>
 </div>

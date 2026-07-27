@@ -21,7 +21,7 @@
     ]
   },
 
-  "_blogNavNote": "Blog is only in the Spanish nav for now. Add it to en/pt once those blogs have their first article — linking to an empty listing page is worse than not linking at all.",
+  "_blogNavNote": "All three languages now have a blog with at least one article, so Blog is in every nav.",
 
   "en": {
     "menuLabel": "Open menu",
@@ -29,6 +29,7 @@
       { "label": "Plans", "url": "/en/#planes" },
       { "label": "Coaching", "url": "/en/#coaching" },
       { "label": "All-Access Membership", "url": "/en/all-access/" },
+      { "label": "Blog", "url": "/en/blog/" },
       { "label": "Contact", "url": "/en/#contacto", "cta": true }
     ]
   },
@@ -38,6 +39,7 @@
       { "label": "Planos", "url": "/pt/#planes" },
       { "label": "Coaching", "url": "/pt/#coaching" },
       { "label": "Assinatura All-Access", "url": "/pt/all-access/" },
+      { "label": "Blog", "url": "/pt/blog/" },
       { "label": "Contato", "url": "/pt/#contacto", "cta": true }
     ]
   },
