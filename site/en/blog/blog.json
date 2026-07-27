@@ -1,6 +1,5 @@
 {
-  "_comment": "Directory data file — defaults for every English blog post.",
+  "_comment": "Directory data file — defaults for every English blog post. Posts are collected by glob in .eleventy.js, not by tag — see the note there.",
   "lang": "en",
-  "layout": "layouts/article.njk",
-  "tags": ["post"]
+  "layout": "layouts/article.njk"
 }

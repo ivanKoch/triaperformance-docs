@@ -91,14 +91,42 @@ chmod -R a+rX "$WEBROOT"
 # ---- Post-deploy verification. Test what a visitor actually gets, not just
 # whether files exist — the 403 that motivated this was invisible to a file check.
 echo "[$(date -Is)] verifying the live site responds"
-for path in "/" "/planes/running/" "/members/login/"; do
-  code=$(curl -sk -o /dev/null -w '%{http_code}' -H 'Host: triaperformance.com' \
-         "https://127.0.0.1${path}" || echo "000")
+# --resolve, not -H 'Host:'. Caddy routes TLS by SNI, and curl sends no SNI for a
+# bare IP address, so https://127.0.0.1 with a Host header fails the handshake
+# before HTTP is ever spoken — it reports 000 on a site that is working fine.
+# --resolve keeps the real hostname (so SNI, Host and cert all match) while still
+# connecting to the loopback address.
+verify_failed=0
+for path in "/" "/planes/running/" "/members/login/" "/blog/"; do
+  code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 \
+         --resolve "triaperformance.com:443:127.0.0.1" \
+         "https://triaperformance.com${path}") || code="000"
   if [ "$code" = "200" ]; then
     echo "  OK   $code  $path"
   else
     echo "  FAIL $code  $path" >&2
+    verify_failed=1
   fi
 done
+if [ "$verify_failed" = "1" ]; then
+  echo "[$(date -Is)] WARNING: the site is deployed but not serving all paths correctly." >&2
+fi
+
+# Self-update. The live script lives at ~/.hermes/deploy-website.sh, separate from
+# this file in the repo, so improvements to it would otherwise never reach the box —
+# and a broken live script can't pull its own fix, which is exactly how the July 27
+# diverged-branch failure became unrecoverable without manual intervention.
+#
+# Copied at the END, after a successful deploy, so a bad commit can't brick the
+# deploy path: the new version only takes effect on the next run, and only if this
+# run got all the way here. Deliberately not exec'ing the repo copy directly —
+# bash reads scripts incrementally, so rewriting the running file mid-execution
+# is its own class of bug.
+LIVE="$HOME/.hermes/deploy-website.sh"
+if ! cmp -s "$REPO/automation/deploy-website.sh" "$LIVE"; then
+  cp "$REPO/automation/deploy-website.sh" "$LIVE"
+  chmod +x "$LIVE"
+  echo "[$(date -Is)] deploy script updated — new version takes effect next run"
+fi
 
 echo "[$(date -Is)] deploy complete"

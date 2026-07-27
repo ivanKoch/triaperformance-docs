@@ -237,6 +237,20 @@ git push
 
 ---
 
+## If the deploy is broken and won't fix itself
+
+The live script is `~/.hermes/deploy-website.sh`, a **copy** of `automation/deploy-website.sh` from the repo. It self-updates at the end of each successful run — so a fix to the script only reaches the box via a run that completes. If the live script is broken badly enough to fail before that point, it can never pull its own fix, and you have to install it by hand:
+
+```bash
+cd ~/.hermes/triaperformance-docs
+git fetch origin && git reset --hard origin/main
+cp automation/deploy-website.sh ~/.hermes/deploy-website.sh
+chmod +x ~/.hermes/deploy-website.sh
+~/.hermes/deploy-website.sh
+```
+
+Those four commands are the recovery path for any deploy-script failure. Worth remembering they exist.
+
 ## The VPS checkout is disposable
 
 `~/.hermes/triaperformance-docs` on the VPS is a **strict mirror of GitHub**, not a working copy. The deploy script does `git fetch` + `git reset --hard origin/main` + `git clean -fd` on every run, so anything authored or generated inside it is destroyed on the next deploy.

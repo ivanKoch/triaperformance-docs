@@ -1,6 +1,5 @@
 {
-  "_comment": "Directory data file — defaults for every Portuguese blog post.",
+  "_comment": "Directory data file — defaults for every Portuguese blog post. Posts are collected by glob in .eleventy.js, not by tag — see the note there.",
   "lang": "pt",
-  "layout": "layouts/article.njk",
-  "tags": ["post"]
+  "layout": "layouts/article.njk"
 }

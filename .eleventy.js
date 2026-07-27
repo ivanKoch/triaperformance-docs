@@ -49,8 +49,22 @@ module.exports = function (eleventyConfig) {
   // ---------------------------------------------------------------------------
   // Blog posts, newest first, per language.
   // ---------------------------------------------------------------------------
+  // Built from a glob, not a tag. Tagging was the obvious approach, but Eleventy
+  // deep-merges `tags` down the data cascade, so `tags: ["post"]` in a blog
+  // directory data file also lands on that directory's index.njk and the listing
+  // page lists itself. The escape hatch (eleventyExcludeFromCollections) removes
+  // the page from getAll() entirely — which silently stripped the listing pages
+  // out of the translations map below and killed their hreflang. Globbing the
+  // article files and excluding index.njk avoids both problems. (July 2026)
   eleventyConfig.addCollection("posts", (collectionApi) =>
-    collectionApi.getFilteredByTag("post").sort((a, b) => b.date - a.date)
+    collectionApi
+      .getFilteredByGlob([
+        "site/blog/*.njk",
+        "site/en/blog/*.njk",
+        "site/pt/blog/*.njk",
+      ])
+      .filter((p) => !p.inputPath.endsWith("index.njk"))
+      .sort((a, b) => b.date - a.date)
   );
 
   // ---------------------------------------------------------------------------

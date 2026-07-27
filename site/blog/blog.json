@@ -1,6 +1,5 @@
 {
-  "_comment": "Directory data file — defaults for every Spanish blog post. The listing page (index.njk) overrides layout and tags.",
+  "_comment": "Directory data file — defaults for every Spanish blog post. Posts are collected by glob in .eleventy.js, not by tag — see the note there.",
   "lang": "es",
-  "layout": "layouts/article.njk",
-  "tags": ["post"]
+  "layout": "layouts/article.njk"
 }
