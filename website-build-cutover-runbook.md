@@ -237,6 +237,18 @@ git push
 
 ---
 
+## The VPS checkout is disposable
+
+`~/.hermes/triaperformance-docs` on the VPS is a **strict mirror of GitHub**, not a working copy. The deploy script does `git fetch` + `git reset --hard origin/main` + `git clean -fd` on every run, so anything authored or generated inside it is destroyed on the next deploy.
+
+This is deliberate, and it came from a real failure (July 27, 2026): the link checker was run on the VPS and its results were committed there. `git commit` works without credentials — only `git push` needs them — so the box ended up with a local commit it could never push. The next deploy ran `git pull --ff-only`, hit a diverged branch, and aborted before building anything. The site simply stopped updating, with the failure buried in `kb-sync.log`.
+
+Rules that follow from this:
+
+- **Never author anything in the VPS checkout.** Edit on your Mac, push, let the VPS pull.
+- **Anything a job on the box generates goes outside the repo**, or is gitignored. That includes link-check results and build output.
+- If you ever *do* need something off the VPS, copy it out (`/tmp`, or `scp` it down) rather than committing it there.
+
 ## What to remember afterwards
 
 - **Edit `site/`, never `_site/`.** `_site/` is generated and gets wiped on every build.

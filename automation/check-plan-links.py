@@ -36,7 +36,14 @@ from datetime import datetime, timezone
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INVENTORY = os.path.join(REPO, "data", "training_plans_inventory.csv")
-STATUS = os.path.join(REPO, "data", "plan_link_status.json")
+
+# Default output is the committed copy in the repo. On the VPS the checkout is
+# reset --hard on every deploy, so a cron there must write somewhere durable:
+#   PLAN_LINK_STATUS=~/.hermes/plan_link_status.json python3 automation/check-plan-links.py
+# and the deploy exports the same variable so the build reads it.
+STATUS = os.environ.get("PLAN_LINK_STATUS") or os.path.join(
+    REPO, "data", "plan_link_status.json"
+)
 
 UA = "Mozilla/5.0 (compatible; TriaperformanceLinkCheck/1.0; +https://triaperformance.com)"
 

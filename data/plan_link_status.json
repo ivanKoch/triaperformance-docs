@@ -1,9 +1,1624 @@
 {
-  "_comment": "Written by automation/check-plan-links.py. Empty until the checker has been run for real against an unrestricted network — the sandbox this was scaffolded in has no outbound HTTP, so its results were meaningless and were discarded. Only entries with status 404 or 410 block a plan from being linked in an article.",
-  "generated_at": null,
-  "checked": 0,
-  "ok": 0,
+  "generated_at": "2026-07-26T23:14:05+00:00",
+  "checked": 323,
+  "ok": 323,
   "bad": 0,
   "inconclusive": 0,
-  "plans": {}
+  "plans": {
+    "368997": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-368997/4-week-polarized-to-improve-speed-garmin-structured-workouts",
+      "checked_at": "2026-07-26T23:03:26+00:00"
+    },
+    "380280": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-380280/5-km-for-beginners-science-based-polarized-80-20",
+      "checked_at": "2026-07-26T23:03:28+00:00"
+    },
+    "380334": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-380334/5-km-for-beginners-extended-science-based-polarized-80-20",
+      "checked_at": "2026-07-26T23:03:30+00:00"
+    },
+    "390919": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-390919/5-km-para-principiantes-sistema-polarizado-80-20-soporte-por-mail-ilimitado",
+      "checked_at": "2026-07-26T23:03:32+00:00"
+    },
+    "391102": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-391102/5-km-para-principiantes-extendido-sistema-polarizado-80-20-soporte-por-mail-ilim",
+      "checked_at": "2026-07-26T23:03:34+00:00"
+    },
+    "391110": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-391110/10-km-para-principiantes-sistema-polarizado-80-20-soporte-por-mail-ilimitado",
+      "checked_at": "2026-07-26T23:03:36+00:00"
+    },
+    "391113": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-391113/10-km-para-principiantes-extendido-sistema-polarizado-80-20-soporte-por-mail-ili",
+      "checked_at": "2026-07-26T23:03:38+00:00"
+    },
+    "391449": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-391449/5-km-para-intermedios-sistema-polarizado-80-20-soporte-por-mail-ilimitado",
+      "checked_at": "2026-07-26T23:03:40+00:00"
+    },
+    "391451": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-391451/5-km-para-intermedios-extendido-sistema-polarizado-80-20-soporte-por-mail-ilimit",
+      "checked_at": "2026-07-26T23:03:42+00:00"
+    },
+    "391452": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-391452/5-km-para-avanzados-sistema-polarizado-80-20-soporte-por-mail-ilimitado",
+      "checked_at": "2026-07-26T23:03:45+00:00"
+    },
+    "392377": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-392377/nadar-mas-rapido-en-4-semanas-con-el-sistema-80-20-polarizado-sincroniza-con-gar",
+      "checked_at": "2026-07-26T23:03:47+00:00"
+    },
+    "392378": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-392378/nadar-mas-rapido-8-semanas-sistema-polarizado-sincroniza-con-garmin",
+      "checked_at": "2026-07-26T23:03:49+00:00"
+    },
+    "392381": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-392381/5-km-principiantes-stryd-potencia-sistema-polarizado-80-20-soporte-por-mail-ilim",
+      "checked_at": "2026-07-26T23:03:51+00:00"
+    },
+    "392504": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-392504/5-km-principiantes-extendido-stryd-potencia-polarizado-80-20-soporte-por-mail-il",
+      "checked_at": "2026-07-26T23:03:53+00:00"
+    },
+    "392758": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-392758/10-km-principiantes-stryd-potencia-sistema-polarizado-80-20-soporte-por-mail-ili",
+      "checked_at": "2026-07-26T23:03:55+00:00"
+    },
+    "392759": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-392759/10-km-principiantes-extendido-stryd-potencia-polarizado-80-20-soporte-por-mail-i",
+      "checked_at": "2026-07-26T23:03:57+00:00"
+    },
+    "393660": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-408606/tus-primeros-1500m-en-4-semanas-sincroniza-con-garmin-soporte-ilimitado-por-mail",
+      "checked_at": "2026-07-26T23:03:59+00:00"
+    },
+    "393663": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-393663/domina-los-1900m-en-4-semanas-con-el-sistema-polarizado-80-20-sincroniza-con-gar",
+      "checked_at": "2026-07-26T23:04:01+00:00"
+    },
+    "393676": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-393676/tus-primeros-3000m-en-8-semanas-con-el-sistema-polarizado-80-20-sincroniza-con-g",
+      "checked_at": "2026-07-26T23:04:03+00:00"
+    },
+    "395435": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-395435/5-km-beginners-run-with-power-stryd-science-based-polarized-80-20-unlimited-mail",
+      "checked_at": "2026-07-26T23:04:05+00:00"
+    },
+    "395634": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-395634/5-km-beginners-extended-run-with-power-stryd-polarized-80-20-unlimited-mail-supp",
+      "checked_at": "2026-07-26T23:04:06+00:00"
+    },
+    "395635": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-395635/5-km-for-intermediates-science-based-polarized-80-20-unlimited-email-support",
+      "checked_at": "2026-07-26T23:04:08+00:00"
+    },
+    "401093": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-401093/swim-1500m-non-stop-in-4-weeks-polarized-garmin-structured-workouts",
+      "checked_at": "2026-07-26T23:04:10+00:00"
+    },
+    "401095": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-401095/swim-1900m-non-stop-in-4-weeks-crush-the-half-distance-polarized-garmin-structur",
+      "checked_at": "2026-07-26T23:04:12+00:00"
+    },
+    "401098": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-401098/8-week-polarized-to-improve-speed-garmin-structured-workouts",
+      "checked_at": "2026-07-26T23:04:14+00:00"
+    },
+    "401100": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-401100/your-first-3000m-non-stop-in-8-weeks-polarized-garmin-structured-workouts",
+      "checked_at": "2026-07-26T23:04:16+00:00"
+    },
+    "408604": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-408604/nadar-mas-rapido-para-principiantes-sincroniza-con-garmin-soporte-por-mail-ilimi",
+      "checked_at": "2026-07-26T23:04:18+00:00"
+    },
+    "408606": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-408606/tus-primeros-1500m-en-4-semanas-sincroniza-con-garmin-soporte-ilimitado-por-mail",
+      "checked_at": "2026-07-26T23:04:20+00:00"
+    },
+    "408607": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-408607/tus-primeros-1900m-sincroniza-con-garmin-soporte-ilimitado-por-mail",
+      "checked_at": "2026-07-26T23:04:22+00:00"
+    },
+    "408608": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-408608/1500m-para-avanzados-polarizado-sincroniza-con-garmin-soporte-ilimitado-por-mail",
+      "checked_at": "2026-07-26T23:04:24+00:00"
+    },
+    "408609": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-408609/1900m-para-avanzados-polarizado-sincroniza-con-garmin-soporte-ilimitado-por-mail",
+      "checked_at": "2026-07-26T23:04:26+00:00"
+    },
+    "408611": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-408611/3800m-a-5000m-para-avanzados-polarizado-sincroniza-con-garmin-soporte-ilimitado-por-mail",
+      "checked_at": "2026-07-26T23:04:28+00:00"
+    },
+    "408613": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-408613/4-week-polarized-to-improve-endurance-garmin-structured-workouts-unlimited-email",
+      "checked_at": "2026-07-26T23:04:30+00:00"
+    },
+    "408737": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-408737/1500m-for-advanced-swimmers-polarized-garmin-structured-workouts",
+      "checked_at": "2026-07-26T23:04:32+00:00"
+    },
+    "413662": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-413662/triatlon-olimpico-con-sistema-polarizado-80-20",
+      "checked_at": "2026-07-26T23:04:34+00:00"
+    },
+    "413817": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-413817/8-week-polarized-training-to-improve-ftp-speed-endurance",
+      "checked_at": "2026-07-26T23:04:36+00:00"
+    },
+    "414883": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-414883/12-week-polarized-training-to-improve-ftp-speed-endurance",
+      "checked_at": "2026-07-26T23:04:38+00:00"
+    },
+    "415081": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-415081/8-semanas-polarizadas-para-mejorar-ftp-velocidad-y-resistencia",
+      "checked_at": "2026-07-26T23:04:40+00:00"
+    },
+    "415087": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-415087/12-semanas-polarizadas-para-mejorar-ftp-velocidad-y-resistencia",
+      "checked_at": "2026-07-26T23:04:42+00:00"
+    },
+    "415102": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-415102/16-week-polarized-training-to-improve-ftp-speed-endurance",
+      "checked_at": "2026-07-26T23:04:44+00:00"
+    },
+    "415118": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-415118/16-semanas-polarizadas-para-mejorar-ftp-velocidad-y-resistencia",
+      "checked_at": "2026-07-26T23:04:46+00:00"
+    },
+    "415129": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/sprint/tp-415129/triatlon-short-sprint-con-sistema-polarizado-80-20",
+      "checked_at": "2026-07-26T23:04:48+00:00"
+    },
+    "415216": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-415216/olympic-triathlon-for-beginners-intermediate-science-based-polarized-80-20",
+      "checked_at": "2026-07-26T23:04:50+00:00"
+    },
+    "415231": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-415231/21-km-para-principiantes-sistema-polarizado-80-20-soporte-por-mail-ilimitado",
+      "checked_at": "2026-07-26T23:04:52+00:00"
+    },
+    "415245": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-415245/21km-para-avanzados-sistema-polarizado-a-piramidal",
+      "checked_at": "2026-07-26T23:04:54+00:00"
+    },
+    "429677": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-429677/triatlon-media-distancia-sistema-polarizado-80-20-12-semanas-1-de-testeo",
+      "checked_at": "2026-07-26T23:04:56+00:00"
+    },
+    "429685": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-429685/triatlon-olimpico-sistema-polarizado-80-20-12-semanas-1-de-testeo",
+      "checked_at": "2026-07-26T23:04:58+00:00"
+    },
+    "429688": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-429688/triatlon-media-distancia-sistema-polarizado-80-20-intermedios-a-avanzados",
+      "checked_at": "2026-07-26T23:05:00+00:00"
+    },
+    "432952": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-432952/marathon-18-weeks-up-to-90-km-weekly-pace-power-heart-rate-based",
+      "checked_at": "2026-07-26T23:05:02+00:00"
+    },
+    "433343": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-433343/marathon-12-weeks-up-to-90-km-weekly-pace-power-heart-rate-based",
+      "checked_at": "2026-07-26T23:05:04+00:00"
+    },
+    "433348": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-433348/marathon-12-weeks-90-to-110-km-weekly-pace-power-heart-rate-based",
+      "checked_at": "2026-07-26T23:05:06+00:00"
+    },
+    "433354": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-433354/marathon-18-weeks-90-to-110-km-weekly-pace-power-heart-rate-based",
+      "checked_at": "2026-07-26T23:05:08+00:00"
+    },
+    "434030": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-434030/marathon-12-weeks-110-to-135-km-weekly-pace-power-heart-rate-based",
+      "checked_at": "2026-07-26T23:05:10+00:00"
+    },
+    "434034": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-434034/marathon-18-weeks-110-to-135-km-weekly-pace-power-heart-rate-based",
+      "checked_at": "2026-07-26T23:05:12+00:00"
+    },
+    "434678": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-434678/maraton-12-semanas-hasta-90-km-semanales-ritmo-potencia-frecuencia-cardiaca",
+      "checked_at": "2026-07-26T23:05:14+00:00"
+    },
+    "434680": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-434680/plan-18-semanas-maraton-base-frecuencia-cardiaca-vol-90km",
+      "checked_at": "2026-07-26T23:05:16+00:00"
+    },
+    "434681": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-434681/maraton-12-semanas-entre-90-y-110-km-semanales-ritmo-potencia-frecuencia-cardiac",
+      "checked_at": "2026-07-26T23:05:18+00:00"
+    },
+    "434683": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-434683/maraton-18-semanas-entre-90-y-110-km-semanales-zonas-segun-frecuencia-cardiaca",
+      "checked_at": "2026-07-26T23:05:20+00:00"
+    },
+    "434684": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-434684/maraton-12-semanas-entre-110-y-135-km-semanales-ritmo-potencia-frecuencia-cardia",
+      "checked_at": "2026-07-26T23:05:23+00:00"
+    },
+    "434685": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-434685/maraton-18-semanas-entre-110-y-135-km-semanales-ritmo-potencia-frecuencia-cardia",
+      "checked_at": "2026-07-26T23:05:25+00:00"
+    },
+    "435944": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-435944/maratona-12-semanas-entre-110-e-135-km-por-semana-ritmo-potencia-frequencia-card",
+      "checked_at": "2026-07-26T23:05:27+00:00"
+    },
+    "435945": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-435945/maratona-12-semanas-entre-90-e-110-km-por-semana-ritmo-potencia-frequencia-cardi",
+      "checked_at": "2026-07-26T23:05:29+00:00"
+    },
+    "435947": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-435947/maratona-12-semanas-ate-90-km-por-semana-ritmo-potencia-frequencia-cardiaca",
+      "checked_at": "2026-07-26T23:05:31+00:00"
+    },
+    "436153": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-436153/maratona-18-semanas-ate-90-km-por-semana-ritmo-potencia-frequencia-cardiaca",
+      "checked_at": "2026-07-26T23:05:33+00:00"
+    },
+    "436154": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-436154/maratona-18-semanas-entre-110-e-135-km-por-semana-ritmo-potencia-frequencia-card",
+      "checked_at": "2026-07-26T23:05:35+00:00"
+    },
+    "436155": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-436155/maratona-18-semanas-entre-90-e-110-km-por-semana-ritmo-potencia-frequencia-cardi",
+      "checked_at": "2026-07-26T23:05:37+00:00"
+    },
+    "436340": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-436340/4-semanas-polarizadas-para-melhorar-a-velocidade-treinos-estruturados-da-garmin",
+      "checked_at": "2026-07-26T23:05:39+00:00"
+    },
+    "436384": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-436384/nadar-1500m-sem-parar-em-6-semanas-polarizado-treinos-estruturados-da-garmin",
+      "checked_at": "2026-07-26T23:05:40+00:00"
+    },
+    "436502": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-436502/8-semanas-polarizadas-para-melhorar-ftp-velocidade-e-resistencia",
+      "checked_at": "2026-07-26T23:05:42+00:00"
+    },
+    "436503": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-436503/16-semanas-polarizadas-para-melhorar-ftp-velocidade-e-resistencia",
+      "checked_at": "2026-07-26T23:05:44+00:00"
+    },
+    "436504": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-436504/12-semanas-polarizadas-para-melhorar-ftp-velocidade-e-resistencia",
+      "checked_at": "2026-07-26T23:05:46+00:00"
+    },
+    "437461": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/sprint/tp-437461/triathlon-short-sprint-polarized-80-20",
+      "checked_at": "2026-07-26T23:05:48+00:00"
+    },
+    "437462": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-437462/triathlon-for-beginners-8-weeks-valid-for-short-sprint-olympic",
+      "checked_at": "2026-07-26T23:05:50+00:00"
+    },
+    "437522": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-437522/5-km-para-avancados-8-semanas-sistema-polarizado-80-20-suporte-por-e-mail-ilimit",
+      "checked_at": "2026-07-26T23:05:52+00:00"
+    },
+    "437525": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-437525/5-km-para-intermediarios-8-semanas-sistema-polarizado-80-20-suporte-por-e-mail-i",
+      "checked_at": "2026-07-26T23:05:54+00:00"
+    },
+    "437526": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-437526/5-km-para-iniciantes-8-semanas-sistema-polarizado-80-20-suporte-por-e-mail-ilimi",
+      "checked_at": "2026-07-26T23:05:56+00:00"
+    },
+    "437626": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-437626/10-km-para-iniciantes-8-semanas-sistema-polarizado-80-20-suporte-por-e-mail-ilim",
+      "checked_at": "2026-07-26T23:05:58+00:00"
+    },
+    "437630": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-437630/21-km-para-avancados-12-semanas-sistema-polarizado-80-20-suporte-por-e-mail-ilim",
+      "checked_at": "2026-07-26T23:06:00+00:00"
+    },
+    "437632": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-437632/21-km-para-iniciantes-16-semanas-sistema-polarizado-80-20-suporte-por-e-mail-ili",
+      "checked_at": "2026-07-26T23:06:02+00:00"
+    },
+    "437633": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-437633/5-km-for-advanced-runners-science-based-polarized-80-20-unlimited-email-support",
+      "checked_at": "2026-07-26T23:06:04+00:00"
+    },
+    "437635": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-437635/21-km-for-advanced-runners-science-based-polarized-80-20-unlimited-email-support",
+      "checked_at": "2026-07-26T23:06:06+00:00"
+    },
+    "437638": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-437638/21-km-for-beginners-science-based-polarized-80-20-unlimited-email-support",
+      "checked_at": "2026-07-26T23:06:08+00:00"
+    },
+    "437724": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-437724/10-km-for-beginner-runners-science-based-polarized-80-20",
+      "checked_at": "2026-07-26T23:06:10+00:00"
+    },
+    "437753": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-437753/5-km-para-iniciantes-12-semanas-sistema-polarizado-80-20-suporte-por-e-mail-ilim",
+      "checked_at": "2026-07-26T23:06:12+00:00"
+    },
+    "437755": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-437755/5-km-for-intermediates-extended-science-based-polarized-80-20",
+      "checked_at": "2026-07-26T23:06:14+00:00"
+    },
+    "437756": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-437756/5-km-para-intermediarios-12-semanas-sistema-polarizado-80-20-suporte-por-e-mail-ilimitado",
+      "checked_at": "2026-07-26T23:06:16+00:00"
+    },
+    "437863": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-437863/10-km-for-intermediates-science-based-polarized-80-20-unlimited-email-support",
+      "checked_at": "2026-07-26T23:06:18+00:00"
+    },
+    "437865": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-437865/10-km-para-intermediarios-12-semanas-sistema-polarizado-80-20-suporte-por-e-mail",
+      "checked_at": "2026-07-26T23:06:20+00:00"
+    },
+    "437866": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-437866/10-km-para-avanzados-12-semanas-sistema-polarizado-80-20-soporte-por-mail-ilimit",
+      "checked_at": "2026-07-26T23:06:22+00:00"
+    },
+    "437867": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-437867/10-km-for-advanced-runners-12-weeks-science-based-polarized-80-20-unlimited-emai",
+      "checked_at": "2026-07-26T23:06:24+00:00"
+    },
+    "437868": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-437868/10-km-para-avancados-12-semanas-sistema-polarizado-80-20-suporte-por-e-mail-ilim",
+      "checked_at": "2026-07-26T23:06:26+00:00"
+    },
+    "438912": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-438912/1500m-distancia-olimpica-plano-de-treinamento-polarizado-para-iniciantes",
+      "checked_at": "2026-07-26T23:06:28+00:00"
+    },
+    "438913": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-438913/1500m-distancia-olimpica-plano-de-treinamento-polarizado-para-iniciantes-e-inter",
+      "checked_at": "2026-07-26T23:06:30+00:00"
+    },
+    "439350": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439350/plan-para-maraton-de-tokyo-2026-12-semanas-entre-110-y-135-km-semana-empezar-has?_gl=1*hybh1c*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDcwOSRqNDkkbDEkaDE4OTQwNTY2NzU.",
+      "checked_at": "2026-07-26T23:06:32+00:00"
+    },
+    "439351": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439351/plan-para-maraton-de-tokyo-2026-12-semanas-entre-90-y-110-km-semanales-empezar-h?_gl=1*hybh1c*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDcwOSRqNDkkbDEkaDE4OTQwNTY2NzU.",
+      "checked_at": "2026-07-26T23:06:34+00:00"
+    },
+    "439352": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439352/plan-para-maraton-de-tokyo-2026-12-semanas-hasta-90-km-semanales-empezar-hasta-e?_gl=1*hybh1c*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDcwOSRqNDkkbDEkaDE4OTQwNTY2NzU.",
+      "checked_at": "2026-07-26T23:06:36+00:00"
+    },
+    "439428": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439428/maraton-de-londres-2026-18-semanas-vol-90-110km-semanales-inicio-22-diciembre-20",
+      "checked_at": "2026-07-26T23:06:38+00:00"
+    },
+    "439429": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439421/maraton-de-boston-2026-18-semanas-vol-90km-semanales-inicio-15-diciembre-2026",
+      "checked_at": "2026-07-26T23:06:40+00:00"
+    },
+    "439845": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-439845/triatlon-full-larga-distancia-para-avanzados-polarizado-soporte-por-email-ilimit",
+      "checked_at": "2026-07-26T23:06:41+00:00"
+    },
+    "439860": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-439860/triatlo-distancia-completa-para-triatletas-avancados-distribuicao-polarizada-sup",
+      "checked_at": "2026-07-26T23:06:43+00:00"
+    },
+    "439917": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-439917/21-km-para-intermedios-sistema-polarizado-80-20-soporte-por-mail-ilimitado",
+      "checked_at": "2026-07-26T23:06:45+00:00"
+    },
+    "439919": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-439919/21-km-para-intermediarios-16-semanas-sistema-polarizado-80-20-suporte-por-e-mail",
+      "checked_at": "2026-07-26T23:06:47+00:00"
+    },
+    "439920": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439920/21-km-for-intermediates-science-based-polarized-80-20-unlimited-email-support",
+      "checked_at": "2026-07-26T23:06:49+00:00"
+    },
+    "441196": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-441196/triathlon-half-distance-for-intermediates-to-advanced-triathletes-email-support",
+      "checked_at": "2026-07-26T23:06:51+00:00"
+    },
+    "441223": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-441223/triathlon-olympic-distance-for-intermediates-to-advanced-triathletes-email-suppo",
+      "checked_at": "2026-07-26T23:06:53+00:00"
+    },
+    "441250": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-441250/triatlon-half-media-distancia-para-intermedios-a-avanzados-polarizado-soporte-po",
+      "checked_at": "2026-07-26T23:06:55+00:00"
+    },
+    "441256": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-441256/triatlon-distancia-olimpica-para-intermedios-a-avanzados-polarizado-soporte-grat",
+      "checked_at": "2026-07-26T23:06:57+00:00"
+    },
+    "441721": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-441721/your-first-full-distance-triathlon-for-beginners-21-weeks-re-usable-plan-free-e-mail-support",
+      "checked_at": "2026-07-26T23:06:59+00:00"
+    },
+    "441905": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-441905/tu-primer-full-triatlon-de-larga-distancia-principiantes-21-semanas-soporte-por-mail-ilimita",
+      "checked_at": "2026-07-26T23:07:01+00:00"
+    },
+    "442089": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-442089/triatlon-full-larga-distancia-para-principiantes-a-intermedios-polarizado-soport",
+      "checked_at": "2026-07-26T23:07:03+00:00"
+    },
+    "442090": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-442090/your-first-half-distance-triathlon-for-beginners-18-weeks-re-usable-plan-free-e-mail-support",
+      "checked_at": "2026-07-26T23:07:05+00:00"
+    },
+    "442098": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-442098/triathlon-half-distance-for-beginners-to-intermediate-triathletes-email-support",
+      "checked_at": "2026-07-26T23:07:07+00:00"
+    },
+    "442189": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-442189/tu-primer-half-triatlon-de-media-distancia-principiantes-21-semanas-soporte-por-mail-ilimita",
+      "checked_at": "2026-07-26T23:07:09+00:00"
+    },
+    "442305": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-442305/triatlon-half-media-distancia-para-principiantes-a-intermedios-polarizado-soport",
+      "checked_at": "2026-07-26T23:07:11+00:00"
+    },
+    "443884": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-443884/your-first-olympic-distance-triathlon-for-beginners-16-weeks-re-usable-plan-free",
+      "checked_at": "2026-07-26T23:07:13+00:00"
+    },
+    "443885": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/sprint/tp-443885/your-first-sprint-distance-triathlon-for-beginners-12-weeks-re-usable-plan-free-e-mail",
+      "checked_at": "2026-07-26T23:07:15+00:00"
+    },
+    "443888": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/sprint/tp-443888/tu-primer-sprint-triatlon-de-distancia-sprint-short-principiantes-12-semanas-sop",
+      "checked_at": "2026-07-26T23:07:17+00:00"
+    },
+    "443923": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-443923/triathlon-olympic-distance-for-beginners-to-intermediate-polarized-free-email-su",
+      "checked_at": "2026-07-26T23:07:19+00:00"
+    },
+    "443929": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/sprint/tp-443929/triathlon-sprint-distance-for-beginners-to-intermediate-triathletes-email-suppor",
+      "checked_at": "2026-07-26T23:07:21+00:00"
+    },
+    "443948": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-443948/triathlon-12-week-maintenance-plan-base-season-polarized",
+      "checked_at": "2026-07-26T23:07:23+00:00"
+    },
+    "474825": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-474825/nuevo-2025-16-semanas-polarizadas-para-mejorar-ftp-velocidad-y-resistencia-ritmo",
+      "checked_at": "2026-07-26T23:07:25+00:00"
+    },
+    "475339": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-475339/maratona-18-semanas-ate-90-km-por-semana-ritmo-pace",
+      "checked_at": "2026-07-26T23:07:27+00:00"
+    },
+    "476494": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476494/maraton-12-semanas-entre-90-y-110-km-semanales-zonas-por-ritmo-pace",
+      "checked_at": "2026-07-26T23:07:29+00:00"
+    },
+    "476495": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476495/maraton-12-semanas-hasta-90-km-semanales-zonas-por-ritmo-pace",
+      "checked_at": "2026-07-26T23:07:31+00:00"
+    },
+    "476496": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476496/maraton-18-semanas-entre-110-y-135-km-semanales-zonas-por-ritmo-pace",
+      "checked_at": "2026-07-26T23:07:33+00:00"
+    },
+    "476497": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476497/maraton-18-semanas-entre-90-y-110-km-semanales-zonas-por-ritmo-pace",
+      "checked_at": "2026-07-26T23:07:35+00:00"
+    },
+    "476498": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476498/maraton-18-semanas-hasta-90-km-semanales-zonas-por-ritmo-pace",
+      "checked_at": "2026-07-26T23:07:37+00:00"
+    },
+    "476525": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476525/maraton-12-semanas-entre-110-y-135-km-semanales-zonas-por-ritmo-pace",
+      "checked_at": "2026-07-26T23:07:39+00:00"
+    },
+    "476791": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476791/maraton-18-semanas-hasta-90-km-semanales-zonas-por-potencia-stryd",
+      "checked_at": "2026-07-26T23:07:41+00:00"
+    },
+    "479405": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-479405/ciclismo-gimnasio-8-semanas-para-mejorar-ftp-y-vo2max-incluye-plan-de-fortalecim",
+      "checked_at": "2026-07-26T23:07:43+00:00"
+    },
+    "479412": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-479412/ciclismo-gimnasio-12-semanas-para-mejorar-ftp-y-vo2max-incluye-plan-de-fortaleci",
+      "checked_at": "2026-07-26T23:07:45+00:00"
+    },
+    "479415": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-479415/ciclismo-gimnasio-16-semanas-para-mejorar-ftp-y-vo2max-incluye-plan-de-fortaleci",
+      "checked_at": "2026-07-26T23:07:47+00:00"
+    },
+    "479876": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/fitness/tp-479876/fortalecimiento-8-semanas-protocolo-3-veces-por-semana-fuerza-maxima",
+      "checked_at": "2026-07-26T23:07:49+00:00"
+    },
+    "480010": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-480010/triatlon-mantenimiento-12-semanas-periodo-base",
+      "checked_at": "2026-07-26T23:07:51+00:00"
+    },
+    "480015": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-480015/triatlon-fortalecimiento-mantenimiento-12-semanas-periodo-base-gimnasio",
+      "checked_at": "2026-07-26T23:07:53+00:00"
+    },
+    "480017": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-480017/triatlon-fortalecimiento-mantenimiento-avanzado-12-semanas-periodo-base-gimnasio",
+      "checked_at": "2026-07-26T23:07:55+00:00"
+    },
+    "480020": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-480020/triatlon-distancia-olimpica-principiantes-a-intermedios-polarizado-soporte-gratu",
+      "checked_at": "2026-07-26T23:07:57+00:00"
+    },
+    "480025": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-480025/tu-primer-triatlon-olimpico-ideal-principiantes-sin-experiencia",
+      "checked_at": "2026-07-26T23:07:58+00:00"
+    },
+    "480109": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/sprint/tp-480109/triatlon-distancia-sprint-short-para-principiantes-a-intermedios-polarizado",
+      "checked_at": "2026-07-26T23:08:00+00:00"
+    },
+    "480116": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-480116/triatlon-fortalecimiento-plan-para-distancia-olimpica-protocolo-de-gimnasio-avan",
+      "checked_at": "2026-07-26T23:08:03+00:00"
+    },
+    "480118": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-480118/triatlon-fortalecimiento-plan-para-distancia-olimpica-protocolo-de-gimnasio-inte",
+      "checked_at": "2026-07-26T23:08:05+00:00"
+    },
+    "480121": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-480121/triatlon-fortalecimiento-plan-para-media-distancia-protocolo-de-gimnasio-avanzad",
+      "checked_at": "2026-07-26T23:08:07+00:00"
+    },
+    "480125": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-480125/triatlon-fortalecimiento-plan-para-media-distancia-protocolo-de-gimnasio-interme",
+      "checked_at": "2026-07-26T23:08:09+00:00"
+    },
+    "480128": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-480128/triatlon-fortalecimiento-plan-para-larga-distancia-full-protocolo-de-gimnasio-av",
+      "checked_at": "2026-07-26T23:08:11+00:00"
+    },
+    "480131": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-480131/triatlon-fortalecimiento-plan-para-larga-distancia-full-protocolo-de-gimnasio-in",
+      "checked_at": "2026-07-26T23:08:13+00:00"
+    },
+    "480134": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/sprint/tp-480134/triatlon-fortalecimiento-plan-para-distancia-sprint-short-protocolo-de-gimnasio-intermedios",
+      "checked_at": "2026-07-26T23:08:15+00:00"
+    },
+    "480276": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-480276/duatlon-fortalecimiento-mantenimiento-12-semanas-periodo-base-gimnasio",
+      "checked_at": "2026-07-26T23:08:16+00:00"
+    },
+    "480279": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-480279/duatlon-fortalecimiento-plan-para-distancia-clasica-protocolo-de-gimnasio-interm",
+      "checked_at": "2026-07-26T23:08:18+00:00"
+    },
+    "480281": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-480281/duatlon-fortalecimiento-plan-para-distancia-sprint-short-protocolo-de-gimnasio",
+      "checked_at": "2026-07-26T23:08:20+00:00"
+    },
+    "480285": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-480285/duatlon-fortalecimiento-powerman-clasica-protocolo-de-gimnasio",
+      "checked_at": "2026-07-26T23:08:22+00:00"
+    },
+    "480286": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-480286/duatlon-fortalecimiento-powerman-sprint-short-protocolo-de-gimnasio",
+      "checked_at": "2026-07-26T23:08:24+00:00"
+    },
+    "480287": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-480287/duatlon-fortalecimiento-powerman-full-10k-150k-30k-protocolo-de-gimnasio",
+      "checked_at": "2026-07-26T23:08:27+00:00"
+    },
+    "480288": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-480288/duatlon-fortalecimiento-powerman-full-10k-150k-30k-protocolo-de-gimnasio-avanzad",
+      "checked_at": "2026-07-26T23:08:29+00:00"
+    },
+    "491764": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/fitness/tp-491764/plan-para-ganar-masa-muscular-8-semanas-4-veces-por-semana",
+      "checked_at": "2026-07-26T23:08:31+00:00"
+    },
+    "492216": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-492216/ride-lift-improve-your-ftp-in-8-weeks-cycling-gym-training-plan-polarized",
+      "checked_at": "2026-07-26T23:08:33+00:00"
+    },
+    "492217": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-492217/ride-lift-improve-your-ftp-in-12-weeks-cycling-gym-training-plan-polarized",
+      "checked_at": "2026-07-26T23:08:35+00:00"
+    },
+    "492218": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-492218/ride-lift-improve-your-ftp-in-16-weeks-cycling-gym-training-plan-polarized",
+      "checked_at": "2026-07-26T23:08:37+00:00"
+    },
+    "492318": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-492318/21-km-correr-y-fuerza-plan-para-principiantes-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:08:39+00:00"
+    },
+    "492331": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-492331/21-km-correr-y-fuerza-plan-para-intermedios-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:08:41+00:00"
+    },
+    "492333": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-492333/21-km-correr-y-fuerza-plan-para-avanzados-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:08:43+00:00"
+    },
+    "492952": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-492952/nuevo-2024-5-km-para-principiantes-plan-polarizado-soporte-reusable",
+      "checked_at": "2026-07-26T23:08:45+00:00"
+    },
+    "492964": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-492964/2024-5-km-correr-y-fuerza-plan-para-principiantes-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:08:47+00:00"
+    },
+    "493001": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-493001/nuevo-2024-5-km-para-intermedios-plan-polarizado-soporte-reusable",
+      "checked_at": "2026-07-26T23:08:49+00:00"
+    },
+    "493008": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-493008/2024-5-km-correr-y-fuerza-plan-para-intermedios-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:08:51+00:00"
+    },
+    "493009": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-493009/nuevo-2024-5-km-para-avanzados-plan-polarizado-soporte-reusable",
+      "checked_at": "2026-07-26T23:08:53+00:00"
+    },
+    "493011": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-493011/2024-5-km-correr-y-fuerza-plan-para-avanzados-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:08:55+00:00"
+    },
+    "493030": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-493030/nuevo-2024-21-km-plan-para-avanzados-reusable-soporte-ilimitado",
+      "checked_at": "2026-07-26T23:08:57+00:00"
+    },
+    "493032": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-493032/nuevo-2024-21-km-plan-para-intermedios-reusable-soporte-ilimitado",
+      "checked_at": "2026-07-26T23:08:59+00:00"
+    },
+    "493038": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-493038/nuevo-2024-10-km-para-principiantes-plan-polarizado-soporte-reusable",
+      "checked_at": "2026-07-26T23:09:01+00:00"
+    },
+    "493045": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-493045/10-km-correr-y-fuerza-plan-para-principiantes-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:09:03+00:00"
+    },
+    "493079": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-493079/nuevo-2024-10-km-para-intermedios-plan-polarizado-soporte-reusable",
+      "checked_at": "2026-07-26T23:09:05+00:00"
+    },
+    "493081": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-493081/10-km-correr-y-fuerza-plan-para-intermedios-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:09:07+00:00"
+    },
+    "493083": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-493083/nuevo-2024-10-km-para-avanzados-plan-polarizado-soporte-reusable",
+      "checked_at": "2026-07-26T23:09:09+00:00"
+    },
+    "493085": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-493085/10-km-correr-y-fuerza-plan-para-avanzados-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:09:11+00:00"
+    },
+    "493414": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/gran-fondo-century/tp-493414/gran-fondo-century-gym-8-semanas-con-foco-en-ftp-y-vo2max-plan-de-fortalecimient",
+      "checked_at": "2026-07-26T23:09:13+00:00"
+    },
+    "493416": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-493416/indoor-rodillo-gym-8-semanas-para-subir-ftp-y-vo2max-fuerza-maxima",
+      "checked_at": "2026-07-26T23:09:15+00:00"
+    },
+    "493498": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/gran-fondo-century/tp-493498/gran-fondo-century-gym-12-semanas-con-foco-en-ftp-y-vo2max-plan-de-fortalecimien",
+      "checked_at": "2026-07-26T23:09:17+00:00"
+    },
+    "493502": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-493502/indoor-rodillo-gym-12-semanas-para-subir-ftp-y-vo2max-fuerza-maxima",
+      "checked_at": "2026-07-26T23:09:19+00:00"
+    },
+    "493510": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/gran-fondo-century/tp-493510/gran-fondo-century-gym-16-semanas-con-foco-en-ftp-y-vo2max-plan-de-fortalecimien",
+      "checked_at": "2026-07-26T23:09:21+00:00"
+    },
+    "493511": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-493511/indoor-rodillo-gym-16-semanas-para-subir-ftp-y-vo2max-fuerza-maxima",
+      "checked_at": "2026-07-26T23:09:24+00:00"
+    },
+    "493539": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/gran-fondo-century/tp-493539/gran-fondo-century-ride-lift-improve-your-ftp-in-8-weeks-cycling-gym-training-pl",
+      "checked_at": "2026-07-26T23:09:26+00:00"
+    },
+    "493659": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/gran-fondo-century/tp-493659/gran-fondo-century-ride-lift-improve-your-ftp-in-16-weeks-cycling-gym-training-p",
+      "checked_at": "2026-07-26T23:09:28+00:00"
+    },
+    "493660": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/gran-fondo-century/tp-493660/gran-fondo-century-ride-lift-improve-your-ftp-in-12-weeks-cycling-gym-training-p",
+      "checked_at": "2026-07-26T23:09:30+00:00"
+    },
+    "493715": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-493715/indoor-ride-lift-improve-your-ftp-in-8-weeks-cycling-strength-training",
+      "checked_at": "2026-07-26T23:09:32+00:00"
+    },
+    "493719": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-493719/indoor-ride-lift-improve-your-ftp-in-16-weeks-cycling-strength-training",
+      "checked_at": "2026-07-26T23:09:34+00:00"
+    },
+    "493724": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-493724/indoor-ride-lift-improve-your-ftp-in-12-weeks-cycling-strength-training",
+      "checked_at": "2026-07-26T23:09:36+00:00"
+    },
+    "493733": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-493733/8-week-weight-loss-plan-ride-lift-improve-vo2-ftp-strength-and-lose-that-weight",
+      "checked_at": "2026-07-26T23:09:38+00:00"
+    },
+    "493735": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-493735/16-week-weight-loss-plan-ride-lift-improve-vo2-ftp-strength-and-lose-that-weight",
+      "checked_at": "2026-07-26T23:09:40+00:00"
+    },
+    "493737": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-493737/12-week-weight-loss-plan-ride-lift-improve-vo2-ftp-strength-and-lose-that-weight",
+      "checked_at": "2026-07-26T23:09:42+00:00"
+    },
+    "493909": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-493909/bajar-de-peso-ciclismo-gym-16-semanas-mix-hiit-long-endurance-y-gimnasio",
+      "checked_at": "2026-07-26T23:09:44+00:00"
+    },
+    "493925": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-493925/baja-de-peso-mix-de-correr-ciclismo-y-gimnasio-16-semanas",
+      "checked_at": "2026-07-26T23:09:45+00:00"
+    },
+    "493932": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-493932/21-km-correr-y-fuerza-plan-para-intermedios-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:09:47+00:00"
+    },
+    "493933": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/tp-493933/plan-para-bajar-de-peso-triatlon-y-fuerza-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:09:49+00:00"
+    },
+    "493936": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-493936/18-week-weight-loss-plan-triathlon-lift-endurance-gym-training-plan",
+      "checked_at": "2026-07-26T23:09:51+00:00"
+    },
+    "493939": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-493939/16-week-weight-loss-plan-ride-run-lift-lose-that-weight",
+      "checked_at": "2026-07-26T23:09:53+00:00"
+    },
+    "493947": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-493947/16-week-weight-loss-plan-run-lift-gym-program-included",
+      "checked_at": "2026-07-26T23:09:54+00:00"
+    },
+    "500575": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-500575/marathon-18-weeks-110-to-135-km-weekly-pace",
+      "checked_at": "2026-07-26T23:09:56+00:00"
+    },
+    "522276": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-522276/2025-weight-loss-plan-24-weeks-run-lift-gym-program-included",
+      "checked_at": "2026-07-26T23:09:58+00:00"
+    },
+    "522290": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-522290/2025-plan-para-perder-peso-24-semanas-correr-y-fuerza-incluye-rutina-de-gimnasio",
+      "checked_at": "2026-07-26T23:10:00+00:00"
+    },
+    "522765": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522765/maraton-de-barcelona-2025-12-semanas-entre-110-y-135-km-sem-empezar-h-22-de-dici",
+      "checked_at": "2026-07-26T23:10:02+00:00"
+    },
+    "522766": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522766/maraton-de-barcelona-2025-12-semanas-entre-90-y-110-km-sem-empezar-h-22-de-dicie",
+      "checked_at": "2026-07-26T23:10:04+00:00"
+    },
+    "528890": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528890/marathon-12-weeks-up-to-90-km-weekly-pace-based",
+      "checked_at": "2026-07-26T23:10:07+00:00"
+    },
+    "528891": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528891/marathon-12-weeks-90-to-110-km-weekly-pace-based",
+      "checked_at": "2026-07-26T23:10:09+00:00"
+    },
+    "528892": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528892/marathon-12-weeks-110-to-135-km-weekly-pace-based",
+      "checked_at": "2026-07-26T23:10:10+00:00"
+    },
+    "528893": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528893/marathon-18-weeks-90-to-110-km-weekly-pace-based",
+      "checked_at": "2026-07-26T23:10:12+00:00"
+    },
+    "528894": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528894/marathon-18-weeks-up-to-90-km-weekly-pace-based",
+      "checked_at": "2026-07-26T23:10:14+00:00"
+    },
+    "530284": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-530284/triatlon-full-larga-distancia-para-avanzados-polarizado",
+      "checked_at": "2026-07-26T23:10:16+00:00"
+    },
+    "546013": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546013/2025-16-week-polarized-to-increase-speed-and-endurance-beginner-3-sessions-per-w",
+      "checked_at": "2026-07-26T23:10:18+00:00"
+    },
+    "546022": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546022/2025-16-week-polarized-to-increase-speed-and-endurance-intermediate-4-sessions-p",
+      "checked_at": "2026-07-26T23:10:20+00:00"
+    },
+    "546026": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546026/2025-16-week-polarized-to-increase-speed-and-endurance-advanced-5-sessions-per-w",
+      "checked_at": "2026-07-26T23:10:22+00:00"
+    },
+    "546034": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546034/2025-16-semanas-polarizadas-aumentar-velocidad-y-resistencia-principiante-3-sesi",
+      "checked_at": "2026-07-26T23:10:24+00:00"
+    },
+    "546039": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546039/2025-16-semanas-polarizadas-aumentar-velocidad-y-resistencia-intermedio-4-sesion",
+      "checked_at": "2026-07-26T23:10:26+00:00"
+    },
+    "546040": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546040/2025-16-semanas-polarizadas-aumentar-velocidad-y-resistencia-avanzado-5-sesiones",
+      "checked_at": "2026-07-26T23:10:28+00:00"
+    },
+    "546055": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546055/2025-16-week-swim-5x-per-week-strength-2x-per-week",
+      "checked_at": "2026-07-26T23:10:30+00:00"
+    },
+    "546057": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546057/2025-16-week-swim-4x-per-week-strength-2x-per-week",
+      "checked_at": "2026-07-26T23:10:32+00:00"
+    },
+    "546060": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546060/2025-16-week-swim-3x-per-week-strength-2x-per-week-improve-speed-and-power",
+      "checked_at": "2026-07-26T23:10:34+00:00"
+    },
+    "546063": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546063/2025-16-semanas-nadar-3x-gimnasio-2x-incrementa-tu-potencia-y-velocidad-nadando",
+      "checked_at": "2026-07-26T23:10:36+00:00"
+    },
+    "546064": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546064/2025-16-semanas-nadar-4x-semana-gimnasio-2x-incrementa-tu-potencia-y-velocidad-n",
+      "checked_at": "2026-07-26T23:10:38+00:00"
+    },
+    "546067": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-546067/2025-16-semanas-nadar-5x-semana-gimnasio-2x-incrementa-tu-potencia-y-velocidad-n",
+      "checked_at": "2026-07-26T23:10:40+00:00"
+    },
+    "547020": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-547020/5-kms-en-20-minutos-o-menos-12-semanas-4x-por-semana",
+      "checked_at": "2026-07-26T23:10:42+00:00"
+    },
+    "547291": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-547291/5-kms-en-20-minutos-o-menos-12-semanas-5x-por-semana",
+      "checked_at": "2026-07-26T23:10:44+00:00"
+    },
+    "547294": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-547294/5-kms-en-20-minutos-o-menos-12-semanas-6x-por-semana",
+      "checked_at": "2026-07-26T23:10:46+00:00"
+    },
+    "554869": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-554869/nuevo-2025-5-km-para-avanzados-12-semanas-1-semana-de-testeo",
+      "checked_at": "2026-07-26T23:10:48+00:00"
+    },
+    "554880": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-554880/nuevo-2025-5-km-para-intermedios-12-semanas-1-semana-de-testeo",
+      "checked_at": "2026-07-26T23:10:50+00:00"
+    },
+    "557728": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/5km/tp-557728/nuevo-2025-5-km-para-principiantes-12-semanas-1-semana-de-testeo",
+      "checked_at": "2026-07-26T23:10:52+00:00"
+    },
+    "561409": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-561409/hyrox-dominate-the-run-12-week-beginner-running-training-plan",
+      "checked_at": "2026-07-26T23:10:54+00:00"
+    },
+    "561948": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-561948/hyrox-crush-the-run-12-week-intermediate-running-training-plan",
+      "checked_at": "2026-07-26T23:10:57+00:00"
+    },
+    "561949": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-561949/hyrox-run-like-the-elite-12-week-advanced-running-training-plan",
+      "checked_at": "2026-07-26T23:10:58+00:00"
+    },
+    "561957": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-561957/hyrox-domina-los-8x1000-corriendo-plan-de-12-semanas-para-principiantes-corre-3x",
+      "checked_at": "2026-07-26T23:11:00+00:00"
+    },
+    "562094": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-562094/hyrox-domina-los-8x1000-corriendo-plan-de-12-semanas-para-intermedios-corre-4x-p",
+      "checked_at": "2026-07-26T23:11:02+00:00"
+    },
+    "562095": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-562095/hyrox-corre-los-8x1000-como-elite-plan-de-12-semanas-para-avanzados-corre-5x-por",
+      "checked_at": "2026-07-26T23:11:04+00:00"
+    },
+    "566190": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-566190/desarrolla-tu-vo2max-8-semanas-principiantes",
+      "checked_at": "2026-07-26T23:11:06+00:00"
+    },
+    "566209": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566209/desarrolla-tu-umbral-y-resistencia-a-la-fatiga-durabilidad-8-semanas-1-testeo",
+      "checked_at": "2026-07-26T23:11:08+00:00"
+    },
+    "566215": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566215/desarrolla-tu-potencia-anaerobica-sprint-8-semanas-1-de-testeo",
+      "checked_at": "2026-07-26T23:11:10+00:00"
+    },
+    "566223": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566223/desarrolla-tu-potencia-en-subida-8-semanas-1-semana-de-testeo-nivel-1-principian",
+      "checked_at": "2026-07-26T23:11:12+00:00"
+    },
+    "566231": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566231/base-mantenimiento-de-ftp-8-semanas-1-de-testeo-nivel-1-principiante",
+      "checked_at": "2026-07-26T23:11:14+00:00"
+    },
+    "566787": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566787/base-mantenimiento-de-ftp-8-semanas-1-de-testeo-nivel-2-intermedios",
+      "checked_at": "2026-07-26T23:11:16+00:00"
+    },
+    "566788": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566788/desarrolla-tu-potencia-anaerobica-sprint-8-semanas-1-de-testeo-intermedios",
+      "checked_at": "2026-07-26T23:11:18+00:00"
+    },
+    "566789": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566789/desarrolla-tu-potencia-en-subida-8-semanas-1-semana-de-testeo-intermedios",
+      "checked_at": "2026-07-26T23:11:20+00:00"
+    },
+    "566790": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566790/desarrolla-tu-umbral-ftp-y-resistencia-a-la-fatiga-durabilidad-8-semanas-1-teste",
+      "checked_at": "2026-07-26T23:11:22+00:00"
+    },
+    "566791": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-566791/desarrolla-tu-vo2max-9-semanas-8-semanas-de-plan-1-de-testeo-intermedios",
+      "checked_at": "2026-07-26T23:11:24+00:00"
+    },
+    "566792": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566792/base-mantenimiento-de-ftp-8-semanas-1-de-testeo-nivel-3-avanzados",
+      "checked_at": "2026-07-26T23:11:26+00:00"
+    },
+    "566793": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566793/desarrolla-tu-potencia-anaerobica-sprint-8-semanas-1-de-testeo-avanzados",
+      "checked_at": "2026-07-26T23:11:28+00:00"
+    },
+    "566794": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566794/desarrolla-tu-potencia-en-subida-8-semanas-1-semana-de-testeo-nivel-3-avanzados",
+      "checked_at": "2026-07-26T23:11:30+00:00"
+    },
+    "566795": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-566795/desarrolla-tu-vo2max-9-semanas-8-semanas-de-plan-1-de-testeo-avanzados",
+      "checked_at": "2026-07-26T23:11:32+00:00"
+    },
+    "566796": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/road-cycling/tp-566796/desarrolla-tu-umbral-ftp-y-resistencia-a-la-fatiga-durabilidad-8-semanas-1-teste",
+      "checked_at": "2026-07-26T23:11:34+00:00"
+    },
+    "567744": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-567744/triatlo-de-media-distancia-half-im-nivel-intermediario-plano-reutilizavel-gratis",
+      "checked_at": "2026-07-26T23:11:36+00:00"
+    },
+    "602951": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-602951/8-week-time-crunched-weight-loss-indoor-cycle-home-strength-no-gym",
+      "checked_at": "2026-07-26T23:11:38+00:00"
+    },
+    "602954": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-602954/4-week-weight-loss-kickstart-ride-home-strength-no-gym",
+      "checked_at": "2026-07-26T23:11:39+00:00"
+    },
+    "602958": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-602958/8-week-time-crunched-weight-loss-ride-full-gym-lifting-body-recomposition",
+      "checked_at": "2026-07-26T23:11:41+00:00"
+    },
+    "602964": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-602964/4-week-weight-loss-kickstart-ride-full-gym-lifting",
+      "checked_at": "2026-07-26T23:11:43+00:00"
+    },
+    "602972": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-602972/8-week-weight-loss-watts-kg-booster-4-rides-2-lifts-full-gym",
+      "checked_at": "2026-07-26T23:11:45+00:00"
+    },
+    "602977": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-602977/8-week-weight-loss-4-rides-2-home-lifts-no-gym",
+      "checked_at": "2026-07-26T23:11:47+00:00"
+    },
+    "602981": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/indoor/tp-602981/8-week-high-volume-weight-loss-5-rides-2-gym-lifts-body-recomposition",
+      "checked_at": "2026-07-26T23:11:49+00:00"
+    },
+    "603033": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-603033/8-week-time-crunched-weight-loss-run-home-strength-no-gym",
+      "checked_at": "2026-07-26T23:11:51+00:00"
+    },
+    "603038": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-603038/4-week-weight-loss-kickstart-run-home-strength-no-gym",
+      "checked_at": "2026-07-26T23:11:53+00:00"
+    },
+    "603040": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-603040/8-week-time-crunched-weight-loss-run-full-gym",
+      "checked_at": "2026-07-26T23:11:55+00:00"
+    },
+    "603209": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-603209/4-week-weight-loss-kickstart-run-full-gym-lifting",
+      "checked_at": "2026-07-26T23:11:57+00:00"
+    },
+    "603217": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-603217/8-week-weight-loss-fat-max-progression-4-runs-2-home-lifts-no-gym",
+      "checked_at": "2026-07-26T23:11:59+00:00"
+    },
+    "603230": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-603230/8-week-weight-loss-fat-max-progression-4-runs-2-lifts-full-gym",
+      "checked_at": "2026-07-26T23:12:00+00:00"
+    },
+    "603253": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-603253/8-week-high-volume-weight-loss-5-runs-2-gym-lifts-body-recomposition",
+      "checked_at": "2026-07-26T23:12:03+00:00"
+    },
+    "603265": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-603265/8-week-low-impact-weight-loss-swim-home-strength-no-gym",
+      "checked_at": "2026-07-26T23:12:05+00:00"
+    },
+    "603271": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-603271/8-week-low-impact-weight-loss-swim-full-gym-lifting",
+      "checked_at": "2026-07-26T23:12:06+00:00"
+    },
+    "603283": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-603283/4-week-low-impact-kickstart-swim-home-strength-no-gym",
+      "checked_at": "2026-07-26T23:12:08+00:00"
+    },
+    "603284": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-603284/4-week-low-impact-kickstart-swim-full-gym-lifting",
+      "checked_at": "2026-07-26T23:12:10+00:00"
+    },
+    "603286": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-603286/8-week-weight-loss-smart-mix-ride-run-home-strength-no-gym",
+      "checked_at": "2026-07-26T23:12:12+00:00"
+    },
+    "603288": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-603288/8-week-weight-loss-smart-mix-ride-run-full-gym-lifting",
+      "checked_at": "2026-07-26T23:12:14+00:00"
+    },
+    "603392": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-603392/4-week-weight-loss-mix-kickstart-ride-run-home-strength",
+      "checked_at": "2026-07-26T23:12:16+00:00"
+    },
+    "603393": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-603393/4-week-weight-loss-mix-kickstart-ride-run-full-gym-lifting",
+      "checked_at": "2026-07-26T23:12:18+00:00"
+    },
+    "603400": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/tp-603400/8-week-triathlon-weight-loss-swim-bike-run-home-strength-no-gym",
+      "checked_at": "2026-07-26T23:12:20+00:00"
+    },
+    "603403": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/tp-603403/8-week-triathlon-weight-loss-swim-bike-run-full-gym-lifting",
+      "checked_at": "2026-07-26T23:12:22+00:00"
+    },
+    "603504": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/tp-603504/4-week-triathlon-weight-loss-kickstart-swim-bike-run-home-strength",
+      "checked_at": "2026-07-26T23:12:24+00:00"
+    },
+    "603517": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/gran-fondo-century/tp-603517/16-week-gran-fondo-weight-loss-climb-faster-prep-home-strength-no-gym",
+      "checked_at": "2026-07-26T23:12:26+00:00"
+    },
+    "603523": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/gran-fondo-century/tp-603523/16-week-gran-fondo-weight-loss-climb-faster-prep-full-gym-periodized-strength",
+      "checked_at": "2026-07-26T23:12:28+00:00"
+    },
+    "604334": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528890/marathon-12-weeks-up-to-90-km-weekly-pace-based",
+      "checked_at": "2026-07-26T23:12:30+00:00"
+    },
+    "604335": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528891/marathon-12-weeks-90-to-110-km-weekly-pace-based",
+      "checked_at": "2026-07-26T23:12:32+00:00"
+    },
+    "604336": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528892/marathon-12-weeks-110-to-135-km-weekly-pace-based",
+      "checked_at": "2026-07-26T23:12:34+00:00"
+    },
+    "604337": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528894/marathon-18-weeks-up-to-90-km-weekly-pace-based",
+      "checked_at": "2026-07-26T23:12:36+00:00"
+    },
+    "604339": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528893/marathon-18-weeks-90-to-110-km-weekly-pace-based",
+      "checked_at": "2026-07-26T23:12:38+00:00"
+    },
+    "604340": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-500575/marathon-18-weeks-110-to-135-km-weekly-pace",
+      "checked_at": "2026-07-26T23:12:40+00:00"
+    },
+    "605018": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-605018/objetivo-2026-plan-para-bajar-de-peso-ciclismo-fuerza-en-casa-sin-equipamiento",
+      "checked_at": "2026-07-26T23:12:41+00:00"
+    },
+    "605020": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-605020/objetivo-2026-inicia-la-perdida-de-peso-ciclismo-fuerza-en-casa-sin-equipamiento",
+      "checked_at": "2026-07-26T23:12:43+00:00"
+    },
+    "605023": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-605023/objetivo-2026-plan-para-bajar-de-peso-ciclismo-fuerza-en-gimnasio",
+      "checked_at": "2026-07-26T23:12:45+00:00"
+    },
+    "605024": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-605024/objetivo-2026-inicia-la-perdida-de-peso-ciclismo-fuerza-en-gimnasio",
+      "checked_at": "2026-07-26T23:12:47+00:00"
+    },
+    "606077": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-606077/objetivo-2026-plan-para-bajar-de-peso-running-fuerza-en-casa-sin-equipamiento",
+      "checked_at": "2026-07-26T23:12:49+00:00"
+    },
+    "606085": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-606087/objetivo-2026-plan-para-bajar-de-peso-running-fuerza-en-gimnasio",
+      "checked_at": "2026-07-26T23:12:51+00:00"
+    },
+    "606087": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-606085/objetivo-2026-inicia-la-perdida-de-peso-running-fuerza-en-casa-sin-equipamiento",
+      "checked_at": "2026-07-26T23:12:53+00:00"
+    },
+    "606091": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-606091/objetivo-2026-inicia-la-perdida-de-peso-running-fuerza-en-gimnasio",
+      "checked_at": "2026-07-26T23:12:55+00:00"
+    },
+    "606092": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-606092/objetivo-2026-plan-para-bajar-de-peso-bajo-impacto-natacion-fuerza-en-casa",
+      "checked_at": "2026-07-26T23:12:57+00:00"
+    },
+    "606561": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-606561/objetivo-2026-plan-para-bajar-de-peso-bajo-impacto-natacion-fuerza-en-gimnasio",
+      "checked_at": "2026-07-26T23:12:59+00:00"
+    },
+    "606563": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-606563/objetivo-2026-plan-para-bajar-de-peso-ciclismo-running-fuerza-en-casa",
+      "checked_at": "2026-07-26T23:13:01+00:00"
+    },
+    "606566": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-606566/objetivo-2026-plan-para-bajar-de-peso-ciclismo-running-fuerza-en-gimnasio",
+      "checked_at": "2026-07-26T23:13:03+00:00"
+    },
+    "606569": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/tp-606569/objetivo-2026-baja-de-peso-con-triatlon-fuerza-en-casa",
+      "checked_at": "2026-07-26T23:13:05+00:00"
+    },
+    "606570": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/tp-606570/objetivo-2026-baja-de-peso-con-triatlon-fuerza-en-gimnasio",
+      "checked_at": "2026-07-26T23:13:07+00:00"
+    },
+    "611863": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/tp-611863/16-semanas-hyrox-full-prep-intermedio-running-fuerza-integrada",
+      "checked_at": "2026-07-26T23:13:09+00:00"
+    },
+    "612081": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/tp-612081/16-semanas-hyrox-full-prep-principiante-tu-primera-meta-running-fuerza-progresiv",
+      "checked_at": "2026-07-26T23:13:11+00:00"
+    },
+    "612084": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/tp-612084/16-semanas-hyrox-avanzados-running-volumen-y-carga-fuerza-maxima-potencia",
+      "checked_at": "2026-07-26T23:13:13+00:00"
+    },
+    "612222": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-612222/16-week-hyrox-full-prep-intermediate-hybrid-running-strength-plan",
+      "checked_at": "2026-07-26T23:13:15+00:00"
+    },
+    "612230": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-612230/8-week-hyrox-race-ready-competition-phase-run-stations",
+      "checked_at": "2026-07-26T23:13:17+00:00"
+    },
+    "612231": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/other/tp-612231/8-semanas-hyrox-race-ready-competicion-running-estaciones",
+      "checked_at": "2026-07-26T23:13:19+00:00"
+    },
+    "612551": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612551/plan-12-semanas-maraton-base-carrera-gym-volumen-principiante-55-a-90km",
+      "checked_at": "2026-07-26T23:13:21+00:00"
+    },
+    "612554": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612554/plan-12-semanas-maraton-build-carrera-gym-volumen-intermedio-90-110km",
+      "checked_at": "2026-07-26T23:13:23+00:00"
+    },
+    "612555": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612555/plan-12-semanas-maraton-peak-carrera-gym-volumen-avanzado-110km",
+      "checked_at": "2026-07-26T23:13:25+00:00"
+    },
+    "612559": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476498/maraton-18-semanas-hasta-90-km-semanales-zonas-por-ritmo-pace",
+      "checked_at": "2026-07-26T23:13:27+00:00"
+    },
+    "612560": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476497/maraton-18-semanas-entre-90-y-110-km-semanales-zonas-por-ritmo-pace",
+      "checked_at": "2026-07-26T23:13:29+00:00"
+    },
+    "612561": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476496/maraton-18-semanas-entre-110-y-135-km-semanales-zonas-por-ritmo-pace",
+      "checked_at": "2026-07-26T23:13:31+00:00"
+    },
+    "612568": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612568/maraton-de-boston-2026-running-rutina-de-gym-volumen-55-90-km",
+      "checked_at": "2026-07-26T23:13:33+00:00"
+    },
+    "612570": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612570/maraton-de-boston-2026-running-rutina-de-gym-intermedio-90-110km",
+      "checked_at": "2026-07-26T23:13:35+00:00"
+    },
+    "612571": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612571/maraton-de-boston-2026-running-rutina-de-gym-avanzado-110km-sem",
+      "checked_at": "2026-07-26T23:13:37+00:00"
+    },
+    "612572": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612572/maraton-de-londres-2026-running-rutina-de-gym-volumen-55-90-km",
+      "checked_at": "2026-07-26T23:13:39+00:00"
+    },
+    "612573": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612573/maraton-de-londres-2026-running-rutina-de-gym-intermedio-90-110km",
+      "checked_at": "2026-07-26T23:13:41+00:00"
+    },
+    "612574": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612574/maraton-de-londres-2026-running-rutina-de-gym-avanzado-110km-sem",
+      "checked_at": "2026-07-26T23:13:43+00:00"
+    },
+    "612575": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612575/plano-12-semanas-base-maratona-corrida-gym-volume-55-a-90km-semana",
+      "checked_at": "2026-07-26T23:13:45+00:00"
+    },
+    "612577": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612577/maratona-de-boston-2026-corrida-rotina-de-gym-volume-55-90-km",
+      "checked_at": "2026-07-26T23:13:47+00:00"
+    },
+    "612581": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612581/maratona-de-londres-2026-corrida-rotina-de-gym-volume-55-90-km",
+      "checked_at": "2026-07-26T23:13:49+00:00"
+    },
+    "612582": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612582/plano-18-semanas-maratona-corrida-gym-volume-55-a-90km-semana",
+      "checked_at": "2026-07-26T23:13:51+00:00"
+    },
+    "612820": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612820/maratona-de-londres-2026-corrida-rotina-de-gym-volume-55-90-km",
+      "checked_at": "2026-07-26T23:13:53+00:00"
+    },
+    "612829": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612829/maratona-de-santiago-2026-corrida-rotina-de-gym-volume-55-90-km",
+      "checked_at": "2026-07-26T23:13:55+00:00"
+    },
+    "612838": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612838/maratona-do-rio-2026-corrida-rotina-de-gym-volume-55-90-km",
+      "checked_at": "2026-07-26T23:13:56+00:00"
+    },
+    "612970": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612970/maraton-de-santiago-2026-running-rutina-de-gym-18-semanas-volumen-55-90-km",
+      "checked_at": "2026-07-26T23:13:58+00:00"
+    },
+    "612974": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612974/maraton-de-lima-2026-running-rutina-de-gym-18-semanas-volumen-55-90-km",
+      "checked_at": "2026-07-26T23:14:00+00:00"
+    },
+    "612836": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612836/maratona-de-lima-2026-corrida-rotina-de-gym-volume-55-90-km",
+      "checked_at": "2026-07-26T23:14:02+00:00"
+    },
+    "612978": {
+      "status": 200,
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612978/maraton-de-rio-de-janeiro-2026-running-rutina-de-gym-18-semanas-volumen-55-90-km",
+      "checked_at": "2026-07-26T23:14:04+00:00"
+    }
+  }
 }

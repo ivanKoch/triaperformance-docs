@@ -47,7 +47,15 @@ module.exports = function () {
   const header = rows.shift().map((h) => h.trim());
 
   // Measured link status, if the checker has been run.
-  const statusPath = path.join(__dirname, "../../data/plan_link_status.json");
+  //
+  // PLAN_LINK_STATUS lets a machine that generates its own results point at a
+  // file outside the repo. The VPS checkout is reset --hard on every deploy, so
+  // anything a cron writes inside it is destroyed; results written to, say,
+  // ~/.hermes/plan_link_status.json survive and are picked up here.
+  // Falls back to the committed copy, which is what a local build uses.
+  const statusPath =
+    process.env.PLAN_LINK_STATUS ||
+    path.join(__dirname, "../../data/plan_link_status.json");
   let linkStatus = null;
   if (fs.existsSync(statusPath)) {
     const raw = JSON.parse(fs.readFileSync(statusPath, "utf8"));

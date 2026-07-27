@@ -28,9 +28,20 @@ chmod 755 "$BUILD_DIR"
 cleanup() { rm -rf "$BUILD_DIR"; }
 trap cleanup EXIT
 
-echo "[$(date -Is)] pulling repo"
+echo "[$(date -Is)] syncing repo to origin"
 cd "$REPO"
-git pull --ff-only
+# The VPS is a strict mirror of GitHub — it builds and deploys, it never authors.
+# `git pull --ff-only` was used here first and broke the deploy the moment the repo
+# had a local commit (a link-check result committed on the box), because a diverged
+# branch can't fast-forward. fetch + reset --hard can't diverge and can't conflict.
+#
+# Consequence, on purpose: any local change inside this checkout is discarded on
+# every deploy. Nothing should ever be authored here. Anything a job on this box
+# generates (link-check results, build output) belongs outside the repo or in
+# .gitignore — see data/plan_link_status.json.
+git fetch origin
+git reset --hard origin/main
+git clean -fd
 
 # Dependencies. Only reinstall when package-lock.json has actually changed —
 # this runs daily from cron, and a nightly `npm ci` means a nightly dependency on
@@ -50,6 +61,12 @@ else
 fi
 
 echo "[$(date -Is)] building site"
+# If a link-check run has left durable results outside the repo, prefer them over
+# the committed copy — the checkout itself is wiped on every deploy (see above).
+if [ -f "$HOME/.hermes/plan_link_status.json" ]; then
+  export PLAN_LINK_STATUS="$HOME/.hermes/plan_link_status.json"
+  echo "[$(date -Is)] using link status from $PLAN_LINK_STATUS"
+fi
 npx @11ty/eleventy --output="$BUILD_DIR"
 
 # ---- Guards. Publish only if the build produced a real site. ----------------
