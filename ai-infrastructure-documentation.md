@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** July 26, 2026
+**Last updated:** July 28, 2026
 **Status:** Live / operational
 
 ---
@@ -358,6 +358,12 @@ Three fixes, all in `automation/deploy-website.sh`: `chmod 755` on the build dir
 **A verification that lied.** The post-deploy check added after the 403 reported `FAIL 000000` on all paths of a site that was working perfectly. Two bugs: curl emits `000` via `-w` on failure *and* the `|| echo "000"` fallback appended a second one; and the check used `https://127.0.0.1` with a `Host:` header, but **Caddy routes TLS by SNI and curl sends no SNI for a bare IP address**, so the handshake failed before HTTP was ever spoken. Fixed with `--resolve triaperformance.com:443:127.0.0.1`, which keeps hostname, SNI and certificate consistent while connecting to loopback. Worth recording because a false-alarming verification is worse than none — it trains you to ignore the one signal meant to catch real breakage.
 
 **Not cut over yet.** `website/` is untouched and still in the repo; the build now produces the served HTML but the old hand-written folder has not been deleted. Cutover sequence: install Node on the VPS → replace `~/.hermes/deploy-website.sh` with the version in `automation/` → run it manually once and diff `/var/www/triaperformance` against the current site → then delete `website/` from the repo and move `images/`, `hubfs/`, `guias/` into `site/assets/` (the Eleventy config currently passthrough-copies them from their old location).
+
+**Sitemap + robots.txt added, July 28, 2026 — GSC "Duplicate without user-selected canonical."** After cutover, Google Search Console flagged this reason for the first time. Investigation ruled out a template bug: `base.njk`'s canonical tag (`{{ page.url | absoluteUrl }}`) is unconditional and self-referencing, verified correct and distinct on every built page (checked `index.html`, `en/index.html`, `pt/index.html`, `all-access/index.html`, `en/all-access/index.html` directly in `_site/`); no www/non-www mismatch (`absoluteUrl`'s base is a single hardcoded string); no stale orphaned pages (`deploy-website.sh` uses `rsync -a --delete`). What was actually missing: **no `sitemap.xml` or `robots.txt` existed anywhere in the repo** — the migration shipped hreflang but nothing telling Google which of the resulting URLs are canonical at a site level, which is a known contributing factor for this exact GSC category right after a structural change on a multi-language site.
+
+Fix: `site/sitemap.njk` (permalink `/sitemap.xml`, `eleventyExcludeFromCollections: true` so it doesn't try to list itself) walks `collections.all`, skips anything with `noindex: true` (i.e. all of `/members/*`, via the existing `members.json` directory default — nothing new to maintain there), and for each surviving page emits `<loc>`, `<lastmod>` (from Eleventy's own file date), and the same hreflang alternates as the HTML `<head>` (via `xhtml:link`, pulling from `collections.translations[transKey]` and `site.langOrder` — identical mechanism to `base.njk`, so the two can't drift). `site/robots.txt` is a static file passed through via a new `addPassthroughCopy` entry in `.eleventy.js`, disallowing `/members/` (belt-and-braces; that path is already `noindex` and gated by Caddy `forward_auth`) and pointing at the sitemap.
+
+Verified with a real build (`npx @11ty/eleventy --output=/tmp/tp-sitemap-test`): output is 16 URLs — the 3 homepages, 3 All-Access pages, 4 plan pages, 3 blog indexes, 3 blog articles, in all three languages — zero members pages, hreflang blocks match the HTML exactly, XML parses clean. Next step, not yet done: submit `https://triaperformance.com/sitemap.xml` in Search Console and pull the actual list of flagged URLs from Indexing > Pages to confirm whether the existing GSC flags were pre-migration stale entries (should self-resolve on re-crawl) or something that needs a further fix.
 
 ## Open items / not yet done
 

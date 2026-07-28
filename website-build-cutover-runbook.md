@@ -269,3 +269,4 @@ Rules that follow from this:
 - **The nav lives in `site/_data/nav.json`.** One edit changes it everywhere.
 - **Adding a translated page:** give it the same `transKey` as its siblings and the hreflang tags plus language switcher wire themselves up.
 - **Analytics are in `site/_includes/partials/analytics.njk`** — GA4 and Clarity on every page, once.
+- **`site/sitemap.njk` and `site/robots.txt`** (added July 28, 2026, in response to a GSC "Duplicate without user-selected canonical" flag) generate `/sitemap.xml` and `/robots.txt` automatically from the same `noindex`/`transKey` data the canonical/hreflang tags use — a new indexable page needs nothing added here, it just needs to not be under `site/members/` (or to set `noindex: true` itself).

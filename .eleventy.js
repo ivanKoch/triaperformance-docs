@@ -21,6 +21,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "website/hubfs": "hubfs" });
   eleventyConfig.addPassthroughCopy({ "website/guias": "guias" });
   eleventyConfig.addPassthroughCopy({ "site/assets": "assets" });
+  eleventyConfig.addPassthroughCopy({ "site/robots.txt": "robots.txt" });
 
   // ---------------------------------------------------------------------------
   // Translation map — the reason this build exists.
