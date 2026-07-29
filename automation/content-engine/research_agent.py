@@ -357,11 +357,81 @@ def load_our_assets():
 
 
 # ---------------------------------------------------------------------------
+# Theme clustering — done in code, not by the model.
+#
+# The first real run produced 10 of 12 ideas with source_count=1: the model was
+# reacting to individual posts ("TrainingPeaks wrote X, let's write X for
+# amateurs") rather than finding convergence. That is the exact failure the whole
+# design was meant to avoid. Finding which themes appear across several sources
+# is counting, not judgement — so it happens here and the model is handed the
+# result instead of being asked to do it in prose.
+# ---------------------------------------------------------------------------
+STOPWORDS = set("""
+a an and are as at be but by for from has have how in into is it its of on or
+that the to was what when where which who why with your you del las los una uno
+para por con como que sin sobre más muy the de la el en y a o um uma para com
+this these those they their them will can more most just also than then
+""".split())
+
+# Words every endurance blog uses constantly. They cluster perfectly and mean
+# nothing — "training appears in 4 sources" is not a signal, it's the topic of
+# the entire corpus. Excluded so real themes (durability, lactate) surface.
+DOMAIN_NOISE = set("""
+training train trainings workout workouts athlete athletes coach coaching
+running runner runners cycling cyclist cyclists triathlon triathlete session
+sessions performance race races racing week weeks plan plans guide tips
+treino treinos atleta atletas corrida entrenamiento entrenamientos plan
+""".split())
+STOPWORDS |= DOMAIN_NOISE
+
+
+def theme_clusters(posts, min_sources=2):
+    """Group posts by shared salient words; report which themes span sources."""
+    def words(t):
+        return {w for w in re.findall(r"[a-zA-Záéíóúñçãõü]{4,}", (t or "").lower())
+                if w not in STOPWORDS}
+
+    tokens = {}
+    for p in posts:
+        for w in words(p["title"]) | words(p.get("summary", "")):
+            tokens.setdefault(w, []).append(p)
+
+    clusters = []
+    for word, group in tokens.items():
+        sources = {g["source_name"] for g in group}
+        if len(sources) >= min_sources and len(group) >= 2:
+            clusters.append({
+                "theme": word,
+                "source_count": len(sources),
+                "post_count": len(group),
+                "sources": sorted(sources),
+                "examples": [{"title": g.get("title", "")[:130], "url": g.get("url", "")}
+                             for g in group[:4]],
+            })
+    clusters.sort(key=lambda c: (-c["source_count"], -c["post_count"]))
+    return clusters[:25]
+
+
+# ---------------------------------------------------------------------------
 # Idea generation
 # ---------------------------------------------------------------------------
 PROMPT = """You are the research agent for Triaperformance, a triathlon and running coaching business.
 
 Your job: propose {n} article ideas for their blog. You are NOT writing articles.
+
+CONVERGING THEMES (computed, not guessed)
+Below, under THEMES, is the list of subjects that appeared across MULTIPLE sources
+in the window, with counts. These are the real timing signals. Prefer them.
+Every idea must declare `signal_type`:
+  convergence — built on a theme in the THEMES list. Set source_count to that
+                theme's source_count. This is the strongest kind.
+  gap         — the sources collectively are NOT covering something Triaperformance
+                is well placed to answer. Say in the rationale what is missing.
+  evergreen   — no source signal at all; it stands on Triaperformance's own assets
+                and search intent. Legitimate, but cap these at a third of the set.
+Do NOT claim `convergence` for a theme touched by only one source. That is just
+reacting to one blog post, and it produces articles competing with that blog on
+its own ground.
 
 WHAT THE SOURCE POSTS ARE FOR
 Below is what competitor/industry blogs published recently. Use them for TIMING
@@ -396,8 +466,19 @@ ARTICLE TYPES — pick per idea:
                 athlete and a real result to build on. Never invent an athlete.
 
 CTA TYPES: plan | all_access | coaching | affiliate | lead_magnet | none
-  Choose `none` freely. An article that ranks and builds trust without selling
-  is a success. Do not attach a CTA that the article doesn't naturally earn.
+
+COHERENCE RULES — these are enforced in code, violations are discarded:
+  gated_teaser  MUST use cta_type = all_access. That is what the type means: the
+                artifact lives behind the members login. If you want to point at a
+                free PDF instead, the type is `education` with cta_type=lead_magnet.
+  case_study    MUST use cta_type = coaching or none.
+  gear          MUST use cta_type = affiliate.
+
+REQUIRED MIX across the set you return:
+  - at least 2 ideas with cta_type = none. An article that ranks and builds trust
+    without selling anything is a success, not a fallback.
+  - at least 1 case_study, if the assets give you a real athlete to build on.
+  - no more than a third with signal_type = evergreen.
 
 FORMATS WORTH BORROWING (formats, not topics)
   "Paper review" — take one recent study, extract what it actually changes in
@@ -412,9 +493,17 @@ LANGUAGE RULES
   en — SEO/acquisition focus. Weight Loss is the strongest English category.
   pt — ONLY marathon, 5k, 10k, 21k and FTP. The Portuguese catalog has nothing
        else, so an idea outside those points readers at plans that don't exist.
+       The audience is BRAZIL, not Portugal — the catalog carries Rio, Santiago
+       and Lima race editions. Write for Brazilian runners and use Brazilian
+       Portuguese. Never write "em Portugal".
+  Check the per-language plan counts in OUR ASSETS before proposing: a topic with
+  fewer than 5 plans in the target language is too thin to route a reader to.
 
 Return STRICT JSON, no prose, no markdown fence:
-{{"ideas":[{{"language":"es","working_title":"...","angle":"what we can say that the sources cannot","target_query":"...","rationale":"why now, why us","article_type":"education","cta_type":"none","cta_target":null,"our_assets":["..."],"evidence":["source post url"],"source_count":2,"score":75}}]}}
+{{"ideas":[{{"language":"es","working_title":"...","angle":"what we can say that the sources cannot","target_query":"...","rationale":"why now, why us","article_type":"education","cta_type":"none","cta_target":null,"signal_type":"convergence","theme":"durabilidad","our_assets":["..."],"evidence":["source post url"],"source_count":3,"score":75}}]}}
+
+THEMES APPEARING ACROSS MULTIPLE SOURCES
+{themes}
 
 RECENT SOURCE POSTS
 {sources}
@@ -461,6 +550,15 @@ def connect():
 
 VALID_TYPES = {"plan_guide", "education", "gated_teaser", "gear", "case_study"}
 VALID_CTAS = {"plan", "all_access", "coaching", "affiliate", "lead_magnet", "none"}
+VALID_SIGNALS = {"convergence", "gap", "evergreen"}
+
+# An article type implies its offer. The first run produced gated_teaser ideas
+# pointing at a free PDF, which is a different funnel wearing the same label.
+REQUIRED_CTA = {
+    "gated_teaser": {"all_access"},
+    "case_study": {"coaching", "none"},
+    "gear": {"affiliate"},
+}
 
 
 def save_ideas(conn, ideas):
@@ -475,6 +573,19 @@ def save_ideas(conn, ideas):
                 continue
             if not i.get("our_assets"):
                 dropped.append((i.get("working_title", "?"), "no Triaperformance assets named"))
+                continue
+            allowed = REQUIRED_CTA.get(at)
+            if allowed and ct not in allowed:
+                dropped.append((i.get("working_title", "?"),
+                                f"{at} must use cta {'/'.join(sorted(allowed))}, got {ct}"))
+                continue
+            sig = i.get("signal_type")
+            if sig not in VALID_SIGNALS:
+                dropped.append((i.get("working_title", "?"), f"bad signal_type {sig}"))
+                continue
+            if sig == "convergence" and (i.get("source_count") or 0) < 2:
+                dropped.append((i.get("working_title", "?"),
+                                "claims convergence but only one source"))
                 continue
             cur.execute("""
                 INSERT INTO content_ideas
@@ -609,6 +720,12 @@ def main():
             print(f"  - [{p['source_name']}] {p['title'][:90]}")
         return
 
+    clusters = theme_clusters(recent)
+    print(f"[themes] {len(clusters)} themes appear across 2+ sources")
+    for c in clusters[:10]:
+        print(f"    {c['theme']:22s} {c['source_count']} sources, "
+              f"{c['post_count']} posts  ({', '.join(s2.split(' —')[0] for s2 in c['sources'][:3])})")
+
     assets = load_our_assets()
     print(f"[assets] {len(assets['plans_by_topic'])} plan topic buckets, "
           f"{len(assets['members_artifacts'])} members artifacts, "
@@ -633,6 +750,7 @@ def main():
 
     prompt = PROMPT.format(
         n=settings.get("ideas_per_run", 12),
+        themes=json.dumps(clusters, ensure_ascii=False, indent=1)[:5000],
         sources=json.dumps([{"source": p["source_name"], "title": p["title"],
                              "summary": p.get("summary", "")[:300], "url": p["url"]}
                             for p in recent[:120]], ensure_ascii=False, indent=1),
@@ -646,12 +764,25 @@ def main():
     print(f"[model] returned {len(ideas)} ideas")
 
     if args.dry_run:
+        from collections import Counter
         for i in ideas:
-            print(f"\n  [{i.get('language')}] {i.get('working_title')}")
+            ok = []
+            allowed = REQUIRED_CTA.get(i.get("article_type"))
+            if allowed and i.get("cta_type") not in allowed:
+                ok.append("CTA MISMATCH")
+            if i.get("signal_type") == "convergence" and (i.get("source_count") or 0) < 2:
+                ok.append("FAKE CONVERGENCE")
+            flag = ("  <<< " + ", ".join(ok)) if ok else ""
+            print(f"\n  [{i.get('language')}] {i.get('working_title')}{flag}")
             print(f"      type={i.get('article_type')} cta={i.get('cta_type')} "
+                  f"signal={i.get('signal_type')} theme={i.get('theme')} "
                   f"score={i.get('score')} sources={i.get('source_count')}")
             print(f"      angle: {i.get('angle','')[:150]}")
             print(f"      assets: {i.get('our_assets')}")
+        print("\n--- mix ---")
+        for label, key in (("types", "article_type"), ("ctas", "cta_type"),
+                           ("signals", "signal_type"), ("languages", "language")):
+            print(f"  {label:10s} {dict(Counter(i.get(key) for i in ideas))}")
         return
 
     kept, dropped = save_ideas(conn, ideas)

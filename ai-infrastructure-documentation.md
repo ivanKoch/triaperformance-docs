@@ -365,6 +365,18 @@ Fix: `site/sitemap.njk` (permalink `/sitemap.xml`, `eleventyExcludeFromCollectio
 
 Verified with a real build (`npx @11ty/eleventy --output=/tmp/tp-sitemap-test`): output is 16 URLs — the 3 homepages, 3 All-Access pages, 4 plan pages, 3 blog indexes, 3 blog articles, in all three languages — zero members pages, hreflang blocks match the HTML exactly, XML parses clean. Next step, not yet done: submit `https://triaperformance.com/sitemap.xml` in Search Console and pull the actual list of flagged URLs from Indexing > Pages to confirm whether the existing GSC flags were pre-migration stale entries (should self-resolve on re-crawl) or something that needs a further fix.
 
+Sitemap submitted July 28, 2026 and confirmed live via `curl https://triaperformance.com/sitemap.xml` and `curl https://triaperformance.com/robots.txt` — both serving correctly from the real domain, matching the local build output exactly.
+
+**Full analytics/SEO-tooling sanity check across the migration, July 28, 2026.** Prompted by the cutover, checked every tool listed in `infrastructure.html` §9 survived Eleventy intact, verified against a real build's actual HTML output rather than just reading the templates:
+- **GA4** (`G-T69KEHW59J`) and **Microsoft Clarity** (`xq3g7pvr9i`) — both present on all 25 built pages (grepped `gtag/js?id=` and `clarity.ms/tag` across every file in `_site/`, zero pages missing either). They live once in `site/_includes/partials/analytics.njk`, included unconditionally by `base.njk`, so this can't drift per-page the way the old hand-written site did (Clarity was missing from all 9 members pages there — see the July 26 entry above).
+- **GA4 conversion-event tracker** (`begin_checkout`, `select_plan`, `whatsapp_click`, in `tracking.njk`) — also present on all 25 pages; only conditional on `noTracking`, which no page currently sets.
+- **Google Search Console** — a Domain property verified via a DNS TXT record (not a per-page meta tag or script), so it was never at risk from the template migration at all. Confirmed unaffected.
+- **Bing Webmaster Tools** and **Ahrefs Webmaster Tools** — both were added via "Import from Google Search Console" (see `infrastructure.html` §9), which piggybacks on the same DNS verification rather than adding their own site-verification tag. Same conclusion: nothing in these tools' setup depends on page HTML, so the Eleventy migration could not have broken them. No verification action needed on these two beyond confirming GSC itself is still verified (it is — same DNS record, untouched by the site rebuild).
+
+Net finding: **nothing in the analytics/SEO tool stack was actually at risk from the migration** — GA4/Clarity/conversion-tracking are template-level and were spot-checked in real build output above; GSC/Bing/Ahrefs are DNS-level and structurally can't be touched by a template change. The one real, concrete gap the migration introduced was the missing sitemap.xml/robots.txt (fixed above), not a regression in any of the previously-installed tools.
+
+A standing "new/modified page" checklist covering all of this (analytics inheritance, `noindex`, `transKey`, sitemap inclusion, why GSC/Bing/Ahrefs need no per-page action) is now in `triaperformance-project-instructions.md` under "Technical/build work," so this doesn't need re-verifying by hand on every future page.
+
 ## Open items / not yet done
 
 - Old "Managed Hermes" plan not yet cancelled (intentionally — waiting for the new setup to prove stable over a few days first).
