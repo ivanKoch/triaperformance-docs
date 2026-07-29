@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** July 28, 2026
+**Last updated:** July 29, 2026
 **Status:** Live / operational
 
 ---
@@ -379,11 +379,13 @@ A standing "new/modified page" checklist covering all of this (analytics inherit
 
 ## Open items / not yet done
 
-- Old "Managed Hermes" plan not yet cancelled (intentionally — waiting for the new setup to prove stable over a few days first).
+*Note, July 29, 2026: the live, prioritized list of open items across the whole project is now `open-loops.md` (repo root). This section stays as the technical detail behind those items — but check `open-loops.md` first for what's actually next.*
+
+- ~~Old "Managed Hermes" plan not yet cancelled~~ — **cancelled, confirmed July 29, 2026.**
 - MCP tool integrations (Google Workspace, HubSpot) — planned, not started.
 - Threading Hermes into the live website workflow (drafting content, updating pages, weekly SEO checks) — infrastructure is ready, day-to-day usage isn't set up yet. (The Monday coaching check-in, §14, is now the first real exception to this — Hermes doing real recurring day-to-day work.)
 - Historical HubSpot contact migration into Twenty (2,073 contacts, scope decision still open) and full HubSpot decommission — CoachMatch is running side-by-side with the old HubSpot flow for now, not cut over. Explicitly separate from the customer-only backfill in §13 (see growth-roadmap.md).
-- Monday coaching check-in automation (§14) hasn't run against a real Monday yet — treat the first run as a dry run.
+- ~~Monday coaching check-in automation (§14) hasn't run against a real Monday yet~~ — **validated against a real Monday, confirmed July 29, 2026 ("worked perfectly"). §14 is fully live.**
 - Ronald Yesid (`rongoni6@hotmail.com`) likely has 2-3 duplicate active tokens in `subscriber_tokens` from repeated live testing of the backfill script on July 25 — real athlete, not test data, but worth deduplicating down to one active token (`SELECT email, count(*) FROM subscriber_tokens WHERE active = TRUE GROUP BY email HAVING count(*) > 1;` from `OPERATIONS.md` will surface it).
 - "Who's in Twenty but has no Members Area access at all" has no query yet (flagged in `OPERATIONS.md`) — currently a manual comparison, worth building once the athlete list is large enough that eyeballing stops being reliable.
 - Deeper analytics build (GA4 User-ID per subscriber, a real per-event access log, BigQuery sync into the VPS analytics warehouse) — planning-only, see §13's "Where real analytics goes next" note.

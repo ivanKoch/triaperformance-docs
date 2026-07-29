@@ -33,13 +33,18 @@ See `business-overview.md` for numbers and `pricing-and-positioning.md` for how 
 
 **Not the same thing, worth keeping distinct**: the "historical HubSpot contact migration" above refers to all 2,073 HubSpot contacts (leads, dead leads, FB Lead Ads history, everything) and is still an open scope decision. Separately, July 25, 2026, a *customer-only* backfill was done — `automation/members-area/backfill_existing_customers.py` — which creates/updates Twenty Person records for known paying customers only (35 existing 1:1 coaching athletes so far, sourced from Iván's own CoachMatch/business ledger, not the HubSpot export) specifically to grant Members Area access. It's a narrower, different-purpose tool that happens to also write to Twenty — it doesn't touch or resolve the broader 2,073-contact migration question at all. See `ai-infrastructure-documentation.md` §13 for detail.
 
+*Update, July 29, 2026 — decisions taken:*
+- **Migrate all 2,073 contacts, not active-only** — but deliberately **parked until the storefront/website content is ready**, because the point of the migration is a re-engagement email to the full list landing on real plan/All-Access pages. Interim insurance: export the full HubSpot contact CSV now, so losing HubSpot access can't destroy the data before the migration happens. HubSpot decommission follows the migration.
+- Active paying customers and active subscribers are already in Twenty (July 25 backfill + subsequent signups).
+- **Gap identified: no "new 1:1 coaching athlete" onboarding flow exists.** A new athlete signed this week was set up fully manually (Twenty record, member access, welcome). Define the flow — checklist first, n8n for the deterministic parts — before the next signup. Tracked in `open-loops.md`.
+
 *Execution-ownership principle, decided July 16, 2026:* recurring/repetitive operational work does not run as a Claude scheduled task going forward — it runs on the VPS (n8n for deterministic/mechanical work like parsing a fixed-template email and writing a CRM record; Hermes for anything that genuinely needs judgment, like drafting a nudge message). Claude's role stays design, one-off builds, and strategy. Concretely: the CoachMatch → CRM → WhatsApp-link pipeline moves to an n8n workflow with its own scoped, read-only Gmail access — not broad Workspace access, and not routed through an LLM for what is structured, deterministic parsing. The existing Claude scheduled task keeps running unchanged until the n8n replacement is built and verified, then gets retired. This same principle should apply when pillars 16/17/21 (Telegram publishing, content agent, artifact pipeline) get built.
 
 Whatever replaces it tracks lead volume and conversion by month and price point from day one — that data didn't really exist in HubSpot despite the fields existing for it (see `customer_tier` diagnostic above).
 
 **Tools library** — calculators and routines (carb-loading calculator, pace converter, threshold calculator, hip activation routine, yin yoga and kettlebell routines already built), built as Claude artifacts, migrated onto the new website. Claude-hosted artifact links are free and public by default with no gating mechanism — paywalling requires moving the code onto the owned site behind real auth. Natural to bundle behind All-Access rather than sell individually, which also gives All-Access a reason to grow past its current 2 subscribers.
 
-*Update, July 24, 2026 — the "real auth" this was blocked on now exists.* The members-area auth gate (per-subscriber token, not a shared password) is live: `/members/*` on `triaperformance.com` is gated behind a login tied to each All-Access subscriber, provisioned and revoked automatically off the real TrainingPeaks subscribe/cancel emails (see `ai-infrastructure-documentation.md` §12–13). This is a lighter-weight mechanism than the Stripe-based paywall sketched below — it rides on the existing TrainingPeaks Marketplace checkout rather than a new checkout flow, so it doesn't yet support selling All-Access directly off the owned site, but it does fully unblock moving the tools-library artifacts behind real auth, which was the actual dependency here. Next step for this pillar: migrate the existing artifacts (carb-loading calculator, pace converter, threshold calculator, hip activation, yin yoga, kettlebell) into `website/members/` so they're gated by the same login rather than freely public Claude artifact links.
+*Update, July 24, 2026 — the "real auth" this was blocked on now exists.* The members-area auth gate (per-subscriber token, not a shared password) is live: `/members/*` on `triaperformance.com` is gated behind a login tied to each All-Access subscriber, provisioned and revoked automatically off the real TrainingPeaks subscribe/cancel emails (see `ai-infrastructure-documentation.md` §12–13). This is a lighter-weight mechanism than the Stripe-based paywall sketched below — it rides on the existing TrainingPeaks Marketplace checkout rather than a new checkout flow, so it doesn't yet support selling All-Access directly off the owned site, but it does fully unblock moving the tools-library artifacts behind real auth, which was the actual dependency here. *Done, July 2026* — the gated members area now hosts six artifacts behind the subscriber login (`/members/carga/`, `/members/carrera/`, `/members/nutricion/`, `/members/tests/`, `/members/zonas/`, `/members/kettlebell/`), all on the Eleventy build with full analytics. This pillar's remaining work is distribution (All-Access promotion), not build.
 
 **Plans catalog & plan-matching (added July 2026)** — Iván maintains a spreadsheet of all ~300 marketplace plans with per-plan parameters: duration in weeks, language, sport, difficulty, race distance, URL, etc. Exported as a CSV and dropped into the repo, this becomes the data source for a real Plans page — replacing the current placeholder in `brand-guidelines.md`'s page inventory ("links out to the 300 TrainingPeaks plans") with an actual dynamic, filterable catalog rendered from the CSV. Two matching layers, not mutually exclusive, sequenced by effort:
 1. **Filter/dropdown controls** over the CSV's own variables (sport, race distance, duration, difficulty, language) — low effort, ships first, no AI dependency.
@@ -103,33 +108,19 @@ A thought-experiment brainstorm — what else is viable as a solo operation (pos
 - A multi-coach roster/agency model beyond the single second-coach hire — quietly turns Iván into a manager rather than a solo operator; different business than the one being built here.
 - Merch / physical fulfillment — skip, doesn't leverage anything already built.
 
-## Sequencing (draft, not fixed — revisit as priorities shift)
-1. Website content build-out + Plans catalog (CSV-driven) + paywall + multi-language. Website hosting itself is done (live on the VPS); this is now about real pages, not migration.
-2. WhatsApp context tool — small, parallel, a quick win.
-3. Hermes itself is live and ready (see pillar 2) — thread it into the website build from the start rather than bolting on after.
-4. CRM cutover — historical-contact scope decision, then full HubSpot decommission.
-5. Athlete context system (Terra API evaluation + the TrainingPeaks side) — once the website exists to plug into.
-6. Coach-hire depends on the athlete context system; AI Coach depends on the methodology write-up (now done, see `methodology.md`) plus product/pricing decisions.
+## Sequencing
+*Rewritten July 29, 2026. The live, single source of truth for open items and their order is now **`open-loops.md`** (repo root) — update that file, not this section. The standing shape:*
 
-## What's still needed from Iván
-- **Complete current asset inventory** — confirm the full list of tools/artifacts already built beyond the yin yoga and kettlebell routines, and confirm how All-Access is currently signed up for.
-- **Plans CSV** — export the plans spreadsheet and drop it into the repo (or upload here) to unblock the Plans catalog build.
-- **Domain and hosting decision** — resolved: `triaperformance.com` on the Hermes VPS.
+1. **Storefront Phase 1 is the one big open branch** — dynamic plan pages, facet filters, email capture, All-Access modules, UTM'd redirects. WIP limit: nothing else big opens until it ships.
+2. Content engine stays at Gate A — deploy the already-written research agent, start the weekly testimonial drip. No writer agent until ideas prove out.
+3. HubSpot contact migration: **migrate all 2,073** (decided July 29, 2026), but deliberately parked until the storefront/website content is ready — the migration's purpose is a re-engagement email blast to the full list pointing at real pages. Export a full contact CSV now as insurance against losing HubSpot access.
+4. Race-specific landing pages (city marathons, halfs, Ironman/70.3) follow the plan template.
+5. AI Coach, Terra, coach-hire, WhatsApp context tool: parked with explicit triggers in `open-loops.md`.
 
-
-# Growth Roadmap Addition — Training Plan Storefront ("Vidriera")
-
-*Merge this section into `growth-roadmap.md` (triaperformance-docs repo). Written Jul 18, 2026, from the full analysis of all-time TP sales, the 407-plan inventory, and 12 months of pixel view data. Full numbers in `plan-storefront-project-brief.md`.*
-
----
-
-# Growth Roadmap Addition — Training Plan Storefront ("Vidriera")
-
-*Merge this section into `growth-roadmap.md` (triaperformance-docs repo). Written Jul 18, 2026, from the full analysis of all-time TP sales, the 407-plan inventory, and 12 months of pixel view data. Full numbers in `plan-storefront-project-brief.md`.*
-
----
 
 ## New initiative: Training Plan Storefront (vidriera + AI plan picker)
+
+*Written Jul 18, 2026, from the full analysis of all-time TP sales, the 407-plan inventory, and 12 months of pixel view data. Full numbers in `plan-storefront-project-brief.md`. (Merged properly into this doc July 29, 2026 — an earlier paste had duplicated the section header.)*
 
 ### Why this, why now (evidence)
 
@@ -161,7 +152,7 @@ A thought-experiment brainstorm — what else is viable as a solo operation (pos
 **Phase 2 — Discovery & conversion (Idea 3 + listing fixes)**
 - AI plan picker: cheap model parses intent → facets → ranked plans ("run a fast 10k in 8 weeks"). At 394 plans, no vector DB needed; cost is negligible. Doubles as email-capture mechanism.
 - Fix EN Cycling + EN Triathlon TP listings: together 24% of all views converting at 0.5% vs 1.2% catalog average ≈ **~$1,500/yr recoverable with zero new plans**. Copy the ES tri positioning that converts at 1.8%.
-- Race+year SEO landing pages (Boston/Berlin/Valencia 2027…) backed by evergreen plans — kills the annual 99-plan rebuild treadmill; the website page carries the year, the plan doesn't.
+- Race+year SEO landing pages (Boston/Berlin/Valencia 2027…) backed by evergreen plans — kills the annual 99-plan rebuild treadmill; the website page carries the year, the plan doesn't. *Priority raised July 29, 2026 (Iván): build these broadly — every major city marathon (NYC, Chicago, Valencia, Buenos Aires…), half marathons, and Ironman/70.3 races — as evergreen race-specific landing pages once the dynamic plan template exists.*
 
 **Phase 3 — Monetization upgrades (trigger-based)**
 - B-lite premium bundle (+$50 call) on top-10 sellers.
