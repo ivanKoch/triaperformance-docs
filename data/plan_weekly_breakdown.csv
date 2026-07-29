@@ -467,3 +467,300 @@ plan_id,activity_type,weekly_count,weekly_avg,weekly_avg_unit,longest_workout,lo
 603217,Run,4,04:09:00,duration,01:20:00,duration
 603217,strength,2,01:06:00,duration,00:36:00,duration
 603217,Day Off,1,,,,
+434680,Run,5,06:13:00,duration,03:09:00,duration
+434680,Day Off,2,,,,
+475339,Run,5,45,mi,26,mi
+475339,Day Off,2,,,,
+437863,Run,5,04:33:00,duration,01:40:00,duration
+437863,Day Off,2,,,,
+437865,Run,5,04:45:00,duration,01:40:00,duration
+437865,Day Off,2,,,,
+437866,Run,6,06:32:00,duration,02:00:00,duration
+437866,Day Off,1,,,,
+437867,Run,6,06:28:00,duration,02:00:00,duration
+437867,Day Off,2,,,,
+437868,Run,6,06:40:00,duration,02:00:00,duration
+437868,Day Off,2,,,,
+438912,Swim,3,01:56:00,duration,00:59:00,duration
+438913,Swim,3,01:48:00,duration,00:52:00,duration
+439845,Swim,4,02:20:00,duration,01:20:00,duration
+439845,Bike,4,06:33:00,duration,06:00:00,duration
+439845,Run,3,03:26:00,duration,02:44:00,duration
+439860,Bike,4,06:41:00,duration,06:00:00,duration
+439860,Swim,4,02:26:00,duration,01:20:00,duration
+439860,Run,3,03:30:00,duration,02:44:00,duration
+439917,Run,5,04:51:00,duration,02:00:00,duration
+439917,Day Off,2,,,,
+439919,Run,5,05:07:00,duration,02:00:00,duration
+439919,Day Off,2,,,,
+439920,Run,5,04:59:00,duration,02:00:00,duration
+439920,Day Off,2,,,,
+441196,Swim,3,02:04:00,duration,01:03:00,duration
+441196,Bike,3,04:39:00,duration,03:00:00,duration
+441196,Run,3,02:57:00,duration,02:00:00,duration
+441196,Day Off,1,,,,
+441223,Bike,4,04:19:00,duration,02:30:00,duration
+441223,Swim,3,02:06:00,duration,01:03:00,duration
+441223,Run,3,02:55:00,duration,02:00:00,duration
+441223,Day Off,1,,,,
+441250,Run,3,02:57:00,duration,02:00:00,duration
+441250,Swim,3,02:04:00,duration,01:03:00,duration
+441250,Bike,3,04:40:00,duration,03:00:00,duration
+441250,Day Off,1,,,,
+441256,Bike,4,04:14:00,duration,02:30:00,duration
+441256,Run,3,02:52:00,duration,02:00:00,duration
+441256,Swim,3,02:00:00,duration,01:03:00,duration
+441256,Day Off,1,,,,
+441721,Bike,2,03:39:00,duration,06:00:00,duration
+441721,Run,2,02:14:00,duration,02:40:00,duration
+441721,Swim,2,01:19:00,duration,01:20:00,duration
+441721,Day Off,2,,,,
+441905,Swim,2,01:19:00,duration,01:20:00,duration
+441905,Run,2,02:14:00,duration,02:40:00,duration
+441905,Day Off,2,,,,
+441905,Bike,2,03:39:00,duration,06:00:00,duration
+476791,Run,5,45,mi,26,mi
+476791,Day Off,2,,,,
+493416,Bike,4,07:48:00,duration,04:00:00,duration
+493416,strength,2,02:20:00,duration,01:10:00,duration
+493416,Day Off,1,,,,
+493498,Bike,4,08:04:00,duration,04:30:00,duration
+493498,strength,2,02:20:00,duration,01:10:00,duration
+493498,Day Off,1,,,,
+493502,Bike,4,08:04:00,duration,04:30:00,duration
+493502,strength,2,02:20:00,duration,01:10:00,duration
+493502,Day Off,1,,,,
+493510,Bike,4,08:36:00,duration,05:00:00,duration
+493510,strength,2,02:20:00,duration,01:10:00,duration
+493510,Day Off,1,,,,
+493511,Bike,4,08:36:00,duration,05:00:00,duration
+493511,strength,2,02:20:00,duration,01:10:00,duration
+493511,Day Off,1,,,,
+493539,Bike,4,07:47:00,duration,04:00:00,duration
+493539,strength,2,03:00:00,duration,01:30:00,duration
+493539,Day Off,1,,,,
+493659,Bike,4,08:36:00,duration,05:00:00,duration
+493659,strength,2,,,,
+493659,Day Off,1,,,,
+493660,Bike,4,08:00:00,duration,04:30:00,duration
+493660,strength,2,,,,
+493660,Day Off,1,,,,
+493715,Bike,4,07:47:00,duration,04:00:00,duration
+493715,strength,2,03:00:00,duration,01:30:00,duration
+493715,Day Off,1,,,,
+493719,Bike,4,08:36:00,duration,05:00:00,duration
+493719,strength,2,,,,
+493719,Day Off,1,,,,
+493724,Bike,4,08:00:00,duration,04:30:00,duration
+493724,strength,2,,,,
+493724,Day Off,1,,,,
+493733,Bike,4,07:47:00,duration,04:00:00,duration
+493733,strength,2,03:00:00,duration,01:30:00,duration
+493733,Day Off,1,,,,
+493735,Bike,4,08:36:00,duration,05:00:00,duration
+493735,strength,2,,,,
+493735,Day Off,1,,,,
+493737,Bike,4,08:00:00,duration,04:30:00,duration
+493737,strength,2,,,,
+493737,Day Off,1,,,,
+493909,Bike,4,08:36:00,duration,05:00:00,duration
+493909,strength,2,02:20:00,duration,01:10:00,duration
+493909,Day Off,1,,,,
+493925,Bike,2,02:54:00,duration,02:30:00,duration
+493925,Run,2,02:08:00,duration,01:45:00,duration
+493925,strength,2,02:20:00,duration,01:10:00,duration
+493925,Day Off,1,,,,
+493932,Run,6,04:45:00,duration,02:00:00,duration
+493932,strength,2,02:10:00,duration,01:10:00,duration
+493932,Day Off,1,,,,
+493933,Bike,2,02:52:00,duration,02:30:00,duration
+493933,Swim,2,01:14:00,duration,00:52:00,duration
+493933,Run,2,01:59:00,duration,01:45:00,duration
+493933,strength,2,,,,
+493933,Day Off,1,,,,
+493936,Swim,2,01:12:00,duration,00:52:00,duration
+493936,Day Off,2,,,,
+493936,Bike,2,02:57:00,duration,03:30:00,duration
+493936,Run,2,02:02:00,duration,02:00:00,duration
+493936,strength,2,02:20:00,duration,01:10:00,duration
+493939,Day Off,2,,,,
+493939,Bike,2,02:41:00,duration,02:30:00,duration
+493939,Run,2,01:58:00,duration,01:45:00,duration
+493939,strength,2,02:20:00,duration,01:10:00,duration
+493947,Run,4,04:09:00,duration,02:00:00,duration
+493947,Day Off,2,,,,
+493947,strength,2,02:20:00,duration,01:10:00,duration
+500575,Run,8,74,mi,26,mi
+522276,Run,4,04:02:00,duration,02:00:00,duration
+522276,Day Off,2,,,,
+522276,strength,2,02:20:00,duration,01:10:00,duration
+522290,Run,6,04:54:00,duration,02:00:00,duration
+522290,strength,2,02:20:00,duration,01:10:00,duration
+522290,Day Off,1,,,,
+528890,Run,5,00:08:00,duration,00:56:00,duration
+528890,Day Off,2,,,,
+528891,Run,6,61,mi,26,mi
+528891,Day Off,1,,,,
+528892,Run,8,00:10:00,duration,01:58:00,duration
+528893,Run,6,00:13:00,duration,02:04:00,duration
+528893,Day Off,1,,,,
+528894,Run,5,00:03:00,duration,01:00:00,duration
+528894,Day Off,2,,,,
+530284,Swim,4,02:26:00,duration,01:20:00,duration
+530284,Bike,4,06:44:00,duration,06:00:00,duration
+530284,Run,3,03:30:00,duration,02:44:00,duration
+546013,Day Off,4,,,,
+546013,Swim,3,01:49:00,duration,00:52:00,duration
+546022,Swim,4,02:31:00,duration,00:52:00,duration
+546022,Day Off,3,,,,
+546026,Swim,5,03:01:00,duration,00:57:00,duration
+546026,Day Off,2,,,,
+546034,Day Off,4,,,,
+546034,Swim,3,01:46:00,duration,00:59:00,duration
+546039,Swim,4,02:30:00,duration,01:03:00,duration
+546039,Day Off,3,,,,
+546040,Swim,5,02:60:00,duration,01:03:00,duration
+546040,Day Off,2,,,,
+554880,Run,5,04:35:00,duration,01:45:00,duration
+554880,Day Off,2,,,,
+557728,Run,5,04:30:00,duration,01:45:00,duration
+557728,Day Off,2,,,,
+561409,Run,3,03:14:00,duration,01:45:00,duration
+561949,Run,5,05:07:00,duration,01:46:00,duration
+561957,Run,3,03:18:00,duration,01:45:00,duration
+562094,Run,4,04:10:00,duration,01:45:00,duration
+562095,Run,5,05:13:00,duration,01:46:00,duration
+566190,Bike,5,06:33:00,duration,03:00:00,duration
+566190,Day Off,2,,,,
+566209,Bike,5,06:53:00,duration,03:00:00,duration
+566209,Day Off,2,,,,
+566215,Bike,5,06:55:00,duration,03:00:00,duration
+566215,Day Off,3,,,,
+603230,Run,4,04:09:00,duration,01:20:00,duration
+603230,strength,2,02:20:00,duration,01:10:00,duration
+603230,Day Off,1,,,,
+603253,Run,5,05:01:00,duration,01:20:00,duration
+603253,strength,2,02:20:00,duration,01:10:00,duration
+603253,Day Off,1,,,,
+603265,Swim,3,02:36:00,duration,01:09:00,duration
+603265,Day Off,2,,,,
+603265,strength,2,,,,
+603271,Swim,3,02:36:00,duration,01:09:00,duration
+603271,Day Off,2,,,,
+603271,strength,2,02:20:00,duration,01:10:00,duration
+603283,Swim,3,02:18:00,duration,01:03:00,duration
+603283,Day Off,2,,,,
+603283,strength,2,,,,
+603284,Swim,3,02:18:00,duration,01:03:00,duration
+603284,Day Off,2,,,,
+603284,strength,2,02:20:00,duration,01:10:00,duration
+603286,Bike,2,03:37:00,duration,03:15:00,duration
+603286,Run,2,01:56:00,duration,01:15:00,duration
+603286,strength,2,01:06:00,duration,00:36:00,duration
+603286,Day Off,1,,,,
+603288,Bike,2,03:37:00,duration,03:15:00,duration
+603288,Run,2,01:56:00,duration,01:15:00,duration
+603288,strength,2,02:20:00,duration,01:10:00,duration
+603288,Day Off,1,,,,
+603392,Bike,2,03:15:00,duration,02:30:00,duration
+603392,Run,2,01:47:00,duration,01:00:00,duration
+603392,strength,2,01:06:00,duration,00:36:00,duration
+603392,Day Off,1,,,,
+603523,Bike,4,05:38:00,duration,03:00:00,duration
+603523,strength,2,02:20:00,duration,01:10:00,duration
+603523,Day Off,1,,,,
+604334,Run,5,00:08:00,duration,00:56:00,duration
+604334,Day Off,2,,,,
+604335,Run,6,61,mi,26,mi
+604335,Day Off,1,,,,
+604336,Run,8,00:10:00,duration,01:58:00,duration
+604337,Run,5,00:03:00,duration,01:00:00,duration
+604337,Day Off,2,,,,
+604339,Run,6,00:13:00,duration,02:04:00,duration
+604339,Day Off,1,,,,
+604340,Run,8,74,mi,26,mi
+605018,Bike,3,04:35:00,duration,04:00:00,duration
+605018,Day Off,2,,,,
+605018,strength,2,,,,
+605020,Bike,3,04:05:00,duration,02:30:00,duration
+605020,Day Off,2,,,,
+605020,strength,2,,,,
+605023,Bike,3,04:35:00,duration,04:00:00,duration
+605023,Day Off,2,,,,
+605023,strength,2,02:20:00,duration,01:10:00,duration
+605024,Bike,3,04:05:00,duration,02:30:00,duration
+605024,Day Off,2,,,,
+605024,strength,2,02:20:00,duration,01:10:00,duration
+606077,Run,3,03:12:00,duration,01:30:00,duration
+606077,Day Off,2,,,,
+606077,strength,2,,,,
+606085,Run,3,03:12:00,duration,01:30:00,duration
+606085,Day Off,2,,,,
+606085,strength,2,,,,
+606087,Run,3,02:55:00,duration,01:15:00,duration
+606087,Day Off,2,,,,
+606087,strength,2,,,,
+606091,Run,3,03:12:00,duration,01:30:00,duration
+606091,Day Off,2,,,,
+606091,strength,2,02:20:00,duration,01:10:00,duration
+606092,Swim,3,02:38:00,duration,01:09:00,duration
+606092,Day Off,2,,,,
+606092,strength,2,,,,
+606561,Swim,3,02:38:00,duration,01:09:00,duration
+606561,Day Off,2,,,,
+606561,strength,2,02:20:00,duration,01:10:00,duration
+606563,Day Off,2,,,,
+606563,Bike,2,02:55:00,duration,04:00:00,duration
+606563,Run,2,01:40:00,duration,01:15:00,duration
+606563,strength,2,,,,
+606566,Day Off,2,,,,
+606566,Bike,2,02:55:00,duration,04:00:00,duration
+606566,Run,2,01:40:00,duration,01:15:00,duration
+606566,strength,2,02:20:00,duration,01:10:00,duration
+606569,Bike,2,02:55:00,duration,04:00:00,duration
+606569,Run,2,01:40:00,duration,01:15:00,duration
+606569,Swim,2,01:28:00,duration,01:09:00,duration
+606569,strength,2,,,,
+606569,Day Off,1,,,,
+606570,Bike,2,02:55:00,duration,04:00:00,duration
+606570,Run,2,01:40:00,duration,01:15:00,duration
+606570,Swim,2,01:28:00,duration,01:09:00,duration
+606570,strength,2,,,,
+606570,Day Off,1,,,,
+611863,Run,4,03:47:00,duration,01:32:00,duration
+611863,Day Off,2,,,,
+611863,strength,2,01:25:00,duration,00:45:00,duration
+612081,Run,3,03:16:00,duration,01:32:00,duration
+612081,Day Off,2,,,,
+612081,strength,2,01:20:00,duration,00:45:00,duration
+612084,Run,6,05:17:00,duration,01:32:00,duration
+612084,strength,2,01:25:00,duration,00:45:00,duration
+612084,Day Off,1,,,,
+612222,Run,4,03:46:00,duration,01:32:00,duration
+612222,Day Off,2,,,,
+612222,strength,2,01:25:00,duration,00:45:00,duration
+612230,Run,5,03:40:00,duration,01:32:00,duration
+612230,Day Off,2,,,,
+612230,strength,2,01:20:00,duration,00:40:00,duration
+612231,Run,4,03:38:00,duration,01:32:00,duration
+612231,Day Off,2,,,,
+612231,strength,2,01:20:00,duration,00:40:00,duration
+612551,Run,5,00:10:00,duration,01:00:00,duration
+612551,Day Off,2,,,,
+612551,strength,2,02:08:00,duration,01:10:00,duration
+612554,Run,6,00:10:00,duration,01:00:00,duration
+612554,strength,2,02:08:00,duration,01:10:00,duration
+612554,Day Off,1,,,,
+612555,Run,8,00:10:00,duration,01:00:00,duration
+612555,strength,2,02:08:00,duration,01:10:00,duration
+612559,Run,5,00:10:00,duration,01:00:00,duration
+612559,Day Off,2,,,,
+612560,Run,6,00:15:00,duration,01:27:00,duration
+612560,Day Off,1,,,,
+612561,Run,8,00:10:00,duration,01:00:00,duration
+612575,Run,5,06:08:00,duration,03:09:00,duration
+612575,Day Off,2,,,,
+612575,strength,2,02:08:00,duration,01:10:00,duration
+612582,Run,5,06:13:00,duration,03:09:00,duration
+612582,Day Off,2,,,,
+612582,strength,1,00:39:00,duration,01:10:00,duration

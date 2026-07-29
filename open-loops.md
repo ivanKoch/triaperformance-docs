@@ -1,6 +1,6 @@
 # Open Loops — the single source of truth for what's in flight
 
-**Last updated: July 29, 2026.** This file replaces the open-item lists previously scattered across `ai-infrastructure-documentation.md`, `growth-roadmap.md` (Sequencing), `content-engine-brief.md` (Open decisions), and the runbooks. Those docs keep the *detail*; this file is the *list*. Update it at the end of every working session.
+**Last updated: July 29, 2026 (storefront crawl + dedup diagnosis session).** This file replaces the open-item lists previously scattered across `ai-infrastructure-documentation.md`, `growth-roadmap.md` (Sequencing), `content-engine-brief.md` (Open decisions), and the runbooks. Those docs keep the *detail*; this file is the *list*. Update it at the end of every working session.
 
 ## Rules
 - **WIP limit: 1 big branch + 1 small slot.** A new branch opens only when one closes.
@@ -17,8 +17,9 @@ The only item on this list that moves revenue toward the $5k/mo target this quar
 **Definition of done:** dynamic plan template rendering every published plan · facet filters (sport, distance, difficulty, weeks, language, features) · email capture before the TP redirect · All-Access promo module on every plan page + per-language landing page · all redirects carry UTM + plan_id · Product schema on plan pages · live on triaperformance.com.
 
 Sub-items:
-- [ ] Finish the weekly-breakdown crawl — 130 of 330 plans remaining (sequential at 1.5s intervals works; parallel gets rate-limited)
-- [ ] Dedupe the 4 duplicate `plan_id`s in `plans_raw` (439394, 439396, 439397, 612974)
+- [ ] Finish the weekly-breakdown crawl — **file-level done July 29, 2026:** 301/323 published plans captured, 22 confirmed dead (race-year plans past their date), zero rate-limit hits at ≥2s sequential pacing. Box stays unchecked until the new rows are loaded into the live Postgres table and Iván confirms the row count via psql — commands prepared, see `ai-infrastructure-documentation.md` §10.
+- [ ] Dedupe the 4 duplicate `plan_id`s in `plans_raw` (439394, 439396, 439397, 612974) — **source CSV was already fixed July 22** (`git` commit `a3833e8`, predates this list); only the Postgres `plans_raw` table (loaded July 21, before that fix) still needs it. Diagnostic + fix SQL prepared, pending Iván running it and confirming via psql — see `ai-infrastructure-documentation.md` §10.
+- [ ] New: manually check plan_ids 612974 (Lima ES) and 612836 (Lima PT) on TrainingPeaks — both now 404 despite `is_published = TRUE`, found during the July 29 crawl.
 - [ ] Build the plan template + facets + capture + All-Access module
 - [ ] Product schema → validate with Rich Results Test (parked in roadmap for exactly this moment)
 
