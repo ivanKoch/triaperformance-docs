@@ -67,7 +67,7 @@ nav a:hover { color: var(--blue); }
    Ink overlay at 35-50% opacity per guideline §6 when text sits on a photo. */
 .hero {
   position: relative;
-  background: var(--ink) url("/images/hero.jpg") center center / cover no-repeat;
+  background: var(--ink) url("/assets/images/hero.jpg") center center / cover no-repeat;
   color: var(--white); text-align: center;
   padding: 128px 0;
 }

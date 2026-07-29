@@ -12,14 +12,17 @@
 
 module.exports = function (eleventyConfig) {
   // ---------------------------------------------------------------------------
-  // Static assets. Images, PDFs and marketplace artwork are copied through
-  // untouched. They still live under website/ during the migration so the
-  // current live site keeps working; move them into site/assets/ once the
-  // last page is migrated and website/ is deleted.
+  // Static assets. `images` and `guias` have been migrated into site/assets/
+  // (Phase 5 cleanup, July 29 2026) and are covered by the site/assets
+  // passthrough below — no separate line needed for them anymore.
+  //
+  // `website/hubfs` stays here PERMANENTLY, unlike the rest of website/ —
+  // do not move it. Its exact route (triaperformance.com/hubfs/tp_marketplace/*)
+  // is hotlinked by TrainingPeaks' own marketplace pages across ~300 live plan
+  // listings. Moving it would break those images on TrainingPeaks' site, not
+  // just ours, and there's no way to fix ~300 external references after the fact.
   // ---------------------------------------------------------------------------
-  eleventyConfig.addPassthroughCopy({ "website/images": "images" });
   eleventyConfig.addPassthroughCopy({ "website/hubfs": "hubfs" });
-  eleventyConfig.addPassthroughCopy({ "website/guias": "guias" });
   eleventyConfig.addPassthroughCopy({ "site/assets": "assets" });
   eleventyConfig.addPassthroughCopy({ "site/robots.txt": "robots.txt" });
 

@@ -22,45 +22,12 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": false,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "a1b2c3d4-1111-4222-8333-444455556666",
-              "leftValue": "={{ $json.subject }}",
-              "rightValue": "Coach Match",
-              "operator": {
-                "type": "string",
-                "operation": "contains"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        104,
-        0
-      ],
-      "id": "f1e2d3c4-2222-4333-8444-555566667777",
-      "name": "Is CoachMatch email?"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Parses the structured TrainingPeaks CoachMatch email body\nconst results = [];\n\n// Fixes a confirmed UTF-8-read-as-Latin-1 encoding bug from the IMAP source\n// (e.g. \"JosuÃ©\" -> \"Josué\"). Safe no-op on text that doesn't have the issue.\nconst fixEncoding = (str) => {\n  try {\n    return Buffer.from(str, 'latin1').toString('utf8');\n  } catch (e) {\n    return str;\n  }\n};\n\nfor (const item of $input.all()) {\n  const body = fixEncoding(item.json.textPlain || '');\n\n  // Captures multi-line wrapped values, stopping at the next blank line\n  // (field boundary) or end of string -- not just the next line break.\n  const extract = (label) => {\n    const re = new RegExp(label + '\\\\s*:?\\\\s*([\\\\s\\\\S]+?)(?:\\\\r?\\\\n\\\\s*\\\\r?\\\\n|$)', 'i');\n    const match = body.match(re);\n    return match ? match[1].replace(/\\r?\\n/g, ' ').replace(/\\s+/g, ' ').trim() : '';\n  };\n\n  const fullName = extract('Athlete Name');\n  const nameParts = fullName.split(/\\s+/);\n  const lastname = nameParts.pop() || '';\n  const firstname = nameParts.join(' ');\n\n  const location = extract('Location');\n  const [city, state, country] = location.split(',').map(s => (s || '').trim());\n\n  results.push({\n    json: {\n      firstname,\n      lastname,\n      email: extract('Email'),\n      phone_raw: extract('Phone'),\n      city: city || '',\n      state: state || '',\n      country: country || '',\n      sport_raw: extract('What are you training for\\\\?'),\n      athlete_level_raw: extract('Ability Level'),\n      lead_notes: extract('Please give us more details about what you are looking for in a coach:'),\n      source_subject: item.json.subject,\n      source_date: item.json.date,\n    }\n  });\n}\n\nreturn results;"
+        "jsCode": "// Parses the structured TrainingPeaks CoachMatch email body\nconst results = [];\n\n// Fixes a confirmed UTF-8-read-as-Latin-1 encoding bug from the IMAP source\n// (e.g. \"JosuÃ©\" -> \"Josué\"). Safe no-op on text that doesn't have the issue.\nconst fixEncoding = (str) => {\n  try {\n    return Buffer.from(str, 'latin1').toString('utf8');\n  } catch (e) {\n    return str;\n  }\n};\n\nfor (const item of $input.all()) {\n  const body = fixEncoding(item.json.textPlain || '');\n\n  // Captures multi-line wrapped values, stopping at the next blank line\n  // (field boundary) or end of string -- not just the next line break.\n  const extract = (label) => {\n    const re = new RegExp(label + '\\\\s*:?\\\\s*([\\\\s\\\\S]+?)(?:\\\\r?\\\\n\\\\s*\\\\r?\\\\n|$)', 'i');\n    const match = body.match(re);\n    return match ? match[1].replace(/\\r?\\n/g, ' ').replace(/\\s+/g, ' ').trim() : '';\n  };\n\n  const fullName = extract('Athlete Name');\n  const nameParts = fullName.split(/\\s+/);\n  const lastname = nameParts.pop() || '';\n  const firstname = nameParts.join(' ');\n\n  const location = extract('Location');\n  const locationParts = location.split(',').map(s => (s || '').trim()).filter(Boolean);\nlet city = '', state = '', country = '';\nif (locationParts.length === 1) {\n  country = locationParts[0];\n} else if (locationParts.length === 2) {\n  [city, country] = locationParts;\n} else if (locationParts.length >= 3) {\n  city = locationParts[0];\n  country = locationParts[locationParts.length - 1];\n  state = locationParts.slice(1, -1).join(', ');\n}\n\n  results.push({\n    json: {\n      firstname,\n      lastname,\n      email: extract('Email'),\n      phone_raw: extract('Phone'),\n      city: city || '',\n      state: state || '',\n      country: country || '',\n      sport_raw: extract('What are you training for\\\\?'),\n      athlete_level_raw: extract('Ability Level'),\n      lead_notes: extract('Please give us more details about what you are looking for in a coach:'),\n      source_subject: item.json.subject,\n      source_date: item.json.date,\n    }\n  });\n}\n\nreturn results;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        208,
+        416,
         0
       ],
       "id": "ee967baf-3fdf-41b6-bcfc-82767b536c6b",
@@ -73,7 +40,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        416,
+        624,
         0
       ],
       "id": "63000993-37ce-4a08-b72d-869ae08e08c8",
@@ -86,7 +53,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        624,
+        832,
         0
       ],
       "id": "31203c16-5c31-49af-9f24-27a0ac2924a8",
@@ -106,7 +73,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        832,
+        1040,
         0
       ],
       "id": "cc1bdb1e-bba0-41f8-ab55-5ccb69f01bed",
@@ -146,7 +113,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1040,
+        1248,
         0
       ],
       "id": "542b3737-ef49-4222-b9f0-20d380c303ff",
@@ -159,7 +126,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1248,
+        1456,
         96
       ],
       "id": "d64ce657-0928-47bc-b8c3-d218766d6f70",
@@ -174,7 +141,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1456,
+        1664,
         96
       ],
       "id": "8a7aa76b-6d84-46b4-b8ee-4638558a898c",
@@ -194,7 +161,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1248,
+        1664,
         -96
       ],
       "id": "39f1fc70-61f3-41bb-9d92-58c29502bdee",
@@ -209,7 +176,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1456,
+        1904,
         -96
       ],
       "id": "40e16c9e-e7a3-40b9-a411-174f90ec3d5b",
@@ -229,7 +196,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1664,
+        2080,
         -96
       ],
       "id": "64768b95-6bce-427d-9856-a79ac8a7f695",
@@ -249,7 +216,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1872,
+        2288,
         -96
       ],
       "id": "cdcfaffd-2e56-4297-ad3b-2573f9f833d8",
@@ -272,7 +239,7 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        1248,
+        1456,
         -288
       ],
       "id": "e13ff645-7e3f-451c-9c7e-e2daf3a90989",
@@ -292,7 +259,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1456,
+        1664,
         -288
       ],
       "id": "ccd388bc-c9a3-46e5-a7af-73b0d870f53f",
@@ -312,7 +279,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1648,
+        1856,
         -288
       ],
       "id": "cf720f48-fdd1-4527-a3ee-edd194b41c9f",
@@ -323,6 +290,91 @@
           "name": "Twenty API"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0261f590-188f-47c1-8b18-f5314388a0ad",
+              "leftValue": "={{ $json.subject }}",
+              "rightValue": "Coach Match",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1f1adda0-7ef0-4ed4-9cee-61d6491b240e",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "747ead67-3321-4616-bec6-26bf9982cfdd",
+              "leftValue": "={{ $('Code in JavaScript1').item.json.country.toLowerCase().trim() }}",
+              "rightValue": "brazil",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "2b46f7ef-6bbf-43c2-8acb-94499db48c70",
+              "leftValue": "={{ $('Code in JavaScript1').item.json.country.toLowerCase().trim() }}",
+              "rightValue": "argentina",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "957278cf-6ae7-4cfc-9336-c4704e4e6e6f",
+              "leftValue": "={{ $('Code in JavaScript1').item.json.phone_wa }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        1456,
+        -96
+      ],
+      "id": "cf366e21-3f19-4988-8486-e62732ef07c9",
+      "name": "Skip WhatsApp Outreach — BR/AR"
     }
   ],
   "pinData": {},
@@ -331,23 +383,11 @@
       "main": [
         [
           {
-            "node": "Is CoachMatch email?",
+            "node": "Filter",
             "type": "main",
             "index": 0
           }
         ]
-      ]
-    },
-    "Is CoachMatch email?": {
-      "main": [
-        [
-          {
-            "node": "Code in JavaScript",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        []
       ]
     },
     "Code in JavaScript": {
@@ -403,7 +443,7 @@
             "index": 0
           },
           {
-            "node": "Code in JavaScript4",
+            "node": "Skip WhatsApp Outreach — BR/AR",
             "type": "main",
             "index": 0
           }
@@ -487,6 +527,28 @@
           }
         ]
       ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip WhatsApp Outreach — BR/AR": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -498,7 +560,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "timeSavedPerExecution": 3
   },
-  "versionId": "00c56a5a-724e-45f4-b392-189d50c55a87",
+  "versionId": "6ff83110-b66b-4fe4-a217-cd54dd9daa6b",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "8e076cafb52cccf2e8bbadb4d0f2ec8c146f30578d107bdefeabccfda2ab75a9"

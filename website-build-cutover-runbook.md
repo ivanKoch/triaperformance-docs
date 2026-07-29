@@ -210,30 +210,37 @@ Worth adding to the Telegram watchdog eventually: alert if that log doesn't cont
 
 ## Phase 5 — Cleanup (only after a few days of the new deploy running fine)
 
-**Step 17.** Move the binary assets into the source folder. Right now `.eleventy.js` copies them from their old home so nothing broke during the migration:
+**Step 17 (revised July 29, 2026 — see note below).** Move only `images` and `guias` into the source folder. `hubfs` is excluded — see why below.
 
 ```bash
 cd ~/triaperformance-docs
 git mv website/images site/assets/images
-git mv website/hubfs  site/assets/hubfs
 git mv website/guias  site/assets/guias
 ```
 
-**Step 18.** Then update the passthrough lines in `.eleventy.js` — replace the three `website/...` lines with:
+**`website/hubfs` stays exactly where it is, permanently — do not move it.** Confirmed July 29, 2026: TrainingPeaks' own marketplace pages hotlink the exact route `triaperformance.com/hubfs/tp_marketplace/*.png` across roughly 300 live plan listings. There's no way to update ~300 external references after the fact, so unlike the rest of `website/`, this one folder and its passthrough line in `.eleventy.js` (`eleventyConfig.addPassthroughCopy({ "website/hubfs": "hubfs" })`) are permanent, not migration debt.
 
-```js
-eleventyConfig.addPassthroughCopy({ "site/assets": "assets" });
+**Step 18.** Code-side changes already made (July 29, 2026):
+- `.eleventy.js`: removed the `website/images` and `website/guias` passthrough lines (now covered by the existing `site/assets` passthrough once step 17's `git mv` lands); kept and commented the `website/hubfs` line as permanent.
+- Updated every internal reference from `/images/...` and `/guias/...` to `/assets/images/...` and `/assets/guias/...`: `site/assets/css/site.css` (hero background), `site/blog/como-elegir-tu-plan-de-maraton.njk`, `site/en/blog/how-to-choose-a-marathon-plan.njk`, `site/pt/blog/como-escolher-seu-plano-de-maratona.njk`, `site/members/index.njk` (2 links).
+- The lead-magnet PDF URLs at the old `/guias/` path are linked from already-sent live email sequences, so those can't just be updated — added Caddy redirects instead, one per known file (not a `/guias/*` wildcard — see next point for why).
+- `hero2.jpg` and all 23 files under `hubfs/tp_marketplace/` are not referenced by any current page — `hero2.jpg` appears to be an unused leftover (moves harmlessly with the rest of `images/`), `hubfs` is the external-hotlink case above.
+- **The guides listing page lives at `/members/guias/`, gated — not a public `/guias/` page.** Built `site/members/guias/index.njk` (Spanish only — no EN/PT guide translations exist), following the same pattern as the other members subpages (`artifact-hero`/`breadcrumb` from `members.css`, plus the card grid from `members-home.css`), so it correctly inherits `noindex: true` and the dark `navVariant`/`footerVariant` from `site/members/members.json`'s directory defaults — no extra Caddy config needed, `handle /members/*` already gates it same as every other members page. The two links on `/members/` (the "Ver descargas" card and the FAQ answer) now point at `/members/guias/`. Fixes the original 404 too — the old bare `/guias/` link had no index file behind it and always 404'd, true under the old path as well, just never noticed until this session.
+
+```
+redir /guias/zonas-de-entrenamiento.pdf /assets/guias/zonas-de-entrenamiento.pdf permanent
+redir /guias/pre-entreno.pdf /assets/guias/pre-entreno.pdf permanent
+redir /guias/intervalos.pdf /assets/guias/intervalos.pdf permanent
 ```
 
-...and update any page that links to `/images/hero.jpg` to `/assets/images/hero.jpg`. **Ask me to do this step** — it touches every image and PDF reference on the site, and the lead-magnet PDF URLs at `/guias/` are linked from live email sequences, so those paths need a Caddy redirect rather than just moving.
-
-**Step 19.** Once step 18 is done and verified, delete the old site:
+**Step 19.** Once step 18 is verified locally (`npm run serve`, check every page, hero image loads, guías links resolve), delete only the now-unused hand-written page folders — NOT all of `website/`, since `hubfs` must remain:
 
 ```bash
-git rm -r website/
-git commit -m "Remove hand-written site; Eleventy build is now the source"
+git rm -r website/planes website/pt website/all-access website/members website/en
+git commit -m "Eleventy Phase 5 cleanup: migrate images/guias into site/assets, remove superseded hand-written pages, keep hubfs route stable for TrainingPeaks marketplace"
 git push
 ```
+`website/` itself stays in the repo after this — it now only contains `hubfs/`, permanently.
 
 ---
 
