@@ -29,7 +29,7 @@ Sub-items:
 - [ ] Duplicate-lead Telegram notification pulls raw HubSpot email HTML — fix
 - [ ] GSC: pull the flagged URLs from Indexing > Pages, confirm the "Duplicate without user-selected canonical" entries are pre-migration stale
 - [ ] Eleventy Phase 5 cleanup — delete `website/`, move `images/`/`hubfs/`/`guias/` into `site/assets/` (needs Caddy redirect for `/guias/` PDFs linked from live emails — ask Claude, per cutover runbook step 18)
-- [ ] Export the full 2,073-contact HubSpot CSV **now** (insurance — access can disappear with the employer account; migration itself is parked, see NEXT)
+- [x] ~~Export the full 2,073-contact HubSpot CSV~~ — **done July 29, 2026.** Keep the CSV out of the git repo (2,073 contacts' PII) — store it locally/Drive/Bitwarden-adjacent, note where.
 
 ---
 
