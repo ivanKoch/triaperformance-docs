@@ -173,6 +173,27 @@ module.exports = function (eleventyConfig) {
     return Array.from(set).sort();
   });
 
+  // ---------------------------------------------------------------------------
+  // facetCrossMap — for each distinct value of `valueKey` across plans, the
+  // sorted set of `groupKey` values it co-occurs with. Built to make one
+  // facet group depend on another client-side (distance/enfoque options
+  // narrowed to whatever's actually relevant to the checked sport(s), rather
+  // than always listing every distance value in the whole catalog — e.g.
+  // "1900m" is a swim distance and has no business showing up once Running
+  // is checked). Computed from the real data, same reasoning as facetValues.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addFilter("facetCrossMap", function (plans, valueKey, groupKey) {
+    const map = {};
+    for (const p of plans || []) {
+      const v = p[valueKey], g = p[groupKey];
+      if (!v || !g) continue;
+      (map[v] = map[v] || new Set()).add(g);
+    }
+    const out = {};
+    for (const v in map) out[v] = Array.from(map[v]).sort();
+    return out;
+  });
+
   // Absolute URL helper, for canonical and hreflang tags.
   eleventyConfig.addFilter("absoluteUrl", function (path) {
     const base = "https://triaperformance.com";

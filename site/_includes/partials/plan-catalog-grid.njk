@@ -18,6 +18,7 @@
     visibility client-side by reading each card's data-* attributes. #}
 {%- set sports = catalogPlans | facetValues("sport") -%}
 {%- set distances = catalogPlans | facetValues("distance") -%}
+{%- set distanceSports = catalogPlans | facetCrossMap("distance", "sport") -%}
 {%- set difficulties = catalogPlans | facetValues("difficulty") -%}
 {%- set weeksBuckets = ["1-8", "9-12", "13-18", "19+"] -%}
 
@@ -38,7 +39,7 @@
       <h3>{{ u.filterDistance }}</h3>
       <div class="facet-options">
         {%- for d in distances %}
-        <label><input type="checkbox" data-group="distance" value="{{ d }}" {% if presetDistance and presetDistance == d %}checked{% endif %}> {{ d }}</label>
+        <label data-sports="{{ distanceSports[d] | join(' ') }}"><input type="checkbox" data-group="distance" value="{{ d }}" {% if presetDistance and presetDistance == d %}checked{% endif %}> {{ d }}</label>
         {%- endfor %}
       </div>
     </div>
