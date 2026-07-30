@@ -1,0 +1,6 @@
+{
+  "_note": "Per-language All-Access subscription price + landing page URL, used by the promo module on every plan page (site/_includes/partials/all-access-module.njk). Source of truth for the price is the live All-Access landing pages (site/all-access/, site/en/all-access/, site/pt/all-access/) and growth-roadmap.md's storefront section — ES/EN products are priced the same, PT is its own cheaper product.",
+  "es": { "price": "39.99", "url": "/all-access/" },
+  "en": { "price": "39.99", "url": "/en/all-access/" },
+  "pt": { "price": "29.99", "url": "/pt/all-access/" }
+}

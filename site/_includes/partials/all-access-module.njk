@@ -1,0 +1,16 @@
+{#- All-Access promo module — appears on every individual plan page (Phase 1
+    standing decision, growth-roadmap.md). Condensed version of the pitch on
+    site/all-access/, site/en/all-access/, site/pt/all-access/: expects `u`
+    (planUi[lang]) and `aa` (allAccess[lang] — price + landing page URL) to
+    already be set by the including template. #}
+<section class="plan-allaccess">
+  <div class="wrap">
+    <span class="label">{{ u.allAccessEyebrow }}</span>
+    <h2>{{ u.allAccessHeading }}</h2>
+    <p class="section-intro">{{ u.allAccessBody }}</p>
+    <div class="allaccess-card">
+      <div class="allaccess-price">US$ {{ aa.price }}<span>{{ u.allAccessPriceSuffix }}</span></div>
+      <a href="{{ aa.url }}" class="btn-secondary" style="color:var(--blue); border-color:var(--blue);">{{ u.allAccessCta }}</a>
+    </div>
+  </div>
+</section>

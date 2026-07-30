@@ -119,6 +119,60 @@ module.exports = function (eleventyConfig) {
 </div>`;
   });
 
+  // ---------------------------------------------------------------------------
+  // withUtm — appends UTM + plan_id to a TrainingPeaks plan URL.
+  //
+  // Every outbound redirect from the storefront to a TP purchase page must
+  // carry these (Phase 1 standing decision, growth-roadmap.md storefront
+  // section: "all redirects carry UTM + plan_id"). Built with the URL API so
+  // it's correct regardless of whether the source link already has a query
+  // string (none currently do, but this doesn't assume that stays true).
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addFilter("withUtm", function (url, planId) {
+    try {
+      const u = new URL(url);
+      u.searchParams.set("utm_source", "triaperformance");
+      u.searchParams.set("utm_medium", "website");
+      u.searchParams.set("utm_campaign", "plan_storefront");
+      u.searchParams.set("plan_id", planId);
+      return u.toString();
+    } catch (e) {
+      return url; // malformed URL — fail open rather than break the page build
+    }
+  });
+
+  // ---------------------------------------------------------------------------
+  // formatWeeklyStat — renders one weekly-breakdown value (avg duration or
+  // longest session) for display. Source units are inconsistent by design
+  // (running/biking/strength are "duration" HH:MM:SS, swimming is "meters",
+  // a handful are "mi") — this normalizes the common HH:MM:SS→H:MM case
+  // (drops a leading "00:" hour) and passes other units through with a label.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addFilter("formatWeeklyStat", function (value, unit) {
+    if (!value) return "—";
+    if (unit === "duration") {
+      const m = value.match(/^(\d{2}):(\d{2}):(\d{2})$/);
+      if (!m) return value;
+      const h = parseInt(m[1], 10), min = m[2];
+      return h > 0 ? `${h}:${min} h` : `${parseInt(min, 10)} min`;
+    }
+    if (unit === "meters") return `${value} m`;
+    if (unit === "mi") return `${value} mi`;
+    return value;
+  });
+
+  // ---------------------------------------------------------------------------
+  // facetValues — unique, sorted, non-empty values of a field across a plan
+  // list. Used to build the catalog's facet checkboxes server-side from
+  // whatever the data actually contains, rather than a hand-maintained list
+  // that drifts from the CSV.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addFilter("facetValues", function (plans, key) {
+    const set = new Set();
+    for (const p of plans || []) { if (p[key]) set.add(p[key]); }
+    return Array.from(set).sort();
+  });
+
   // Absolute URL helper, for canonical and hreflang tags.
   eleventyConfig.addFilter("absoluteUrl", function (path) {
     const base = "https://triaperformance.com";

@@ -1,0 +1,276 @@
+{
+  "name": "Plan Catalog Email Capture -> Twenty + Email + Telegram",
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "nodes": [
+    {
+      "id": "sticky-readme",
+      "name": "READ ME BEFORE ACTIVATING",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-200, -260],
+      "parameters": {
+        "width": 660,
+        "height": 380,
+        "content": "## Before you activate this workflow\n\nDerived from 'Website Contact Form -> Twenty + Email + Telegram' (same repo, automation/contact-form-workflow.json) — same pattern, lighter payload: just an email, no name/phone/sport collected on the plan pages.\n\n1. NOT LIVE until: Twenty Settings -> Data Model -> add `PLAN_CATALOG` to the `leadSource` enum (existing values: COACHMATCH, WEBSITE_FORM, REFERRAL, OTHER). Confirm with a real API call before activating — see plan-lead-pipeline-runbook.md for the exact curl command.\n2. Reuse the same 3 credentials as the contact-form workflow: `Twenty API` (HTTP Header Auth), `Gmail SMTP`, `Telegram bot`.\n3. Set `TWENTY_BASE_URL` and `TELEGRAM_CHAT_ID` in the 'Config' node (same values as the contact-form workflow).\n4. DECISION NEEDED (flagged, not assumed): 'Build Twenty payload' sets `excludeFromSequence: true` — these leads do NOT enter the WhatsApp coaching nurture watchdog by default, since browsing a plan catalog isn't the same intent signal as a contact-form submission. Flip to `false` in that node if you want plan-capture leads nurtured the same as contact-form leads.\n5. `name.firstName` has no real value to use (the plan pages only collect email) — defaults to the email's local part (e.g. 'javier' from javier@gmail.com). Confirm this doesn't break Person creation — see runbook.\n6. Test with 'Listen for Test Event' before switching Active."
+      }
+    },
+    {
+      "id": "webhook-trigger",
+      "name": "Webhook - Plan Lead",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-200, 60],
+      "webhookId": "plan-lead",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "plan-lead",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [40, 60],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "1", "name": "TWENTY_BASE_URL", "type": "string", "value": "http://100.70.89.17:3000" },
+            { "id": "2", "name": "TELEGRAM_CHAT_ID", "type": "string", "value": "REPLACE_WITH_IVAN_CHAT_ID" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "check-duplicate",
+      "name": "Check Twenty for existing Person",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [280, 60],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.TWENTY_BASE_URL }}/rest/people",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "filter", "value": "=emails.primaryEmail[eq]:{{ $('Webhook - Plan Lead').item.json.body.email }}" }
+          ]
+        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": { "response": { "response": { "neverError": true } } }
+      },
+      "credentials": {
+        "httpHeaderAuth": { "id": "REPLACE_ME", "name": "Twenty API" }
+      }
+    },
+    {
+      "id": "is-duplicate",
+      "name": "Already exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [520, 60],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.data && $json.data.people && $json.data.people.length }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "build-payload",
+      "name": "Build Twenty payload",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [760, 180],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "1", "name": "name.firstName", "type": "string", "value": "={{ $('Webhook - Plan Lead').item.json.body.email.split('@')[0] }}" },
+            { "id": "2", "name": "name.lastName", "type": "string", "value": "-" },
+            { "id": "3", "name": "emails.primaryEmail", "type": "string", "value": "={{ $('Webhook - Plan Lead').item.json.body.email }}" },
+            { "id": "4", "name": "leadNotes", "type": "string", "value": "={{ 'Plan: ' + $('Webhook - Plan Lead').item.json.body.plan_name + ' (ID ' + $('Webhook - Plan Lead').item.json.body.plan_id + ') — capturado desde el catalogo de planes. Pagina: ' + $('Webhook - Plan Lead').item.json.body.page_url }}" },
+            { "id": "5", "name": "leadSource", "type": "string", "value": "PLAN_CATALOG" },
+            { "id": "6", "name": "leadStatus", "type": "string", "value": "NEW" },
+            { "id": "7", "name": "preferredLanguage", "type": "string", "value": "={{ $('Webhook - Plan Lead').item.json.body.language }}" },
+            { "id": "8", "name": "excludeFromSequence", "type": "boolean", "value": true }
+          ]
+        }
+      }
+    },
+    {
+      "id": "create-person",
+      "name": "Create Person in Twenty",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1000, 180],
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": { "id": "REPLACE_ME", "name": "Twenty API" }
+      }
+    },
+    {
+      "id": "person-created",
+      "name": "Person Created",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1240, 180],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "1", "name": "personId", "type": "string", "value": "={{ $json.data.createPerson.id }}" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "twenty-error-alert",
+      "name": "Telegram alert - Twenty error",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1240, 380],
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=⚠️ No se pudo crear el lead de catálogo de planes en Twenty. Revisar manualmente.\nEmail: {{ $('Webhook - Plan Lead').item.json.body.email }}\nPlan: {{ $('Webhook - Plan Lead').item.json.body.plan_name }} ({{ $('Webhook - Plan Lead').item.json.body.plan_id }})\nPagina: {{ $('Webhook - Plan Lead').item.json.body.page_url }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": { "id": "REPLACE_ME", "name": "Telegram bot" }
+      }
+    },
+    {
+      "id": "send-plan-email",
+      "name": "Send plan email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1240, 180],
+      "parameters": {
+        "fromEmail": "coach@triaperformance.com",
+        "toEmail": "={{ $('Webhook - Plan Lead').item.json.body.email }}",
+        "subject": "={{ 'Tu plan: ' + $('Webhook - Plan Lead').item.json.body.plan_name }}",
+        "emailFormat": "text",
+        "text": "=Hola,\n\nAca esta el plan que pediste:\n\n{{ $('Webhook - Plan Lead').item.json.body.plan_name }}\n{{ $('Webhook - Plan Lead').item.json.body.page_url }}\n\nDesde esa pagina podes ver el detalle semanal completo y comprarlo en TrainingPeaks cuando quieras.\n\nIvan Koch - Triaperformance"
+      },
+      "credentials": {
+        "smtp": { "id": "REPLACE_ME", "name": "Gmail SMTP" }
+      }
+    },
+    {
+      "id": "mark-message-sent",
+      "name": "Set leadStatus = MESSAGE_SENT",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1480, 180],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people/{{ $('Person Created').item.json.personId }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ leadStatus: 'MESSAGE_SENT', emailTouchCount: 1, lastTouchpoint: new Date().toISOString() }) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": { "id": "REPLACE_ME", "name": "Twenty API" }
+      }
+    },
+    {
+      "id": "telegram-notify",
+      "name": "Telegram notify Ivan",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1720, 180],
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=Nuevo lead del catalogo de planes\nEmail: {{ $('Webhook - Plan Lead').item.json.body.email }}\nPlan: {{ $('Webhook - Plan Lead').item.json.body.plan_name }}\nIdioma: {{ $('Webhook - Plan Lead').item.json.body.language }}\nPagina: {{ $('Webhook - Plan Lead').item.json.body.page_url }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": { "id": "REPLACE_ME", "name": "Telegram bot" }
+      }
+    },
+    {
+      "id": "respond-success",
+      "name": "Respond success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [1960, 180],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}"
+      }
+    },
+    {
+      "id": "already-exists-telegram",
+      "name": "Telegram notify (duplicate)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [760, -60],
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=Lead del catalogo de planes ya existia en Twenty: {{ $('Webhook - Plan Lead').item.json.body.email }} (plan: {{ $('Webhook - Plan Lead').item.json.body.plan_name }})",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": { "id": "REPLACE_ME", "name": "Telegram bot" }
+      }
+    },
+    {
+      "id": "respond-success-dup",
+      "name": "Respond success (duplicate)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [1000, -60],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook - Plan Lead": { "main": [[{ "node": "Config", "type": "main", "index": 0 }]] },
+    "Config": { "main": [[{ "node": "Check Twenty for existing Person", "type": "main", "index": 0 }]] },
+    "Check Twenty for existing Person": { "main": [[{ "node": "Already exists?", "type": "main", "index": 0 }]] },
+    "Already exists?": {
+      "main": [
+        [{ "node": "Telegram notify (duplicate)", "type": "main", "index": 0 }],
+        [{ "node": "Build Twenty payload", "type": "main", "index": 0 }]
+      ]
+    },
+    "Telegram notify (duplicate)": { "main": [[{ "node": "Respond success (duplicate)", "type": "main", "index": 0 }]] },
+    "Build Twenty payload": { "main": [[{ "node": "Create Person in Twenty", "type": "main", "index": 0 }]] },
+    "Create Person in Twenty": {
+      "main": [
+        [{ "node": "Person Created", "type": "main", "index": 0 }],
+        [{ "node": "Telegram alert - Twenty error", "type": "main", "index": 0 }]
+      ]
+    },
+    "Telegram alert - Twenty error": { "main": [[{ "node": "Respond success", "type": "main", "index": 0 }]] },
+    "Person Created": { "main": [[{ "node": "Send plan email", "type": "main", "index": 0 }]] },
+    "Send plan email": { "main": [[{ "node": "Set leadStatus = MESSAGE_SENT", "type": "main", "index": 0 }]] },
+    "Set leadStatus = MESSAGE_SENT": { "main": [[{ "node": "Telegram notify Ivan", "type": "main", "index": 0 }]] },
+    "Telegram notify Ivan": { "main": [[{ "node": "Respond success", "type": "main", "index": 0 }]] }
+  }
+}

@@ -1,7 +1,9 @@
 ---
 layout: layouts/base.njk
 lang: es
-pageCss: planes-triatlon.css
+pageCss:
+  - planes-triatlon.css
+  - plan-page.css
 title: "Planes de Entrenamiento de Triatlón — Sprint, Olímpico, 70.3 e Ironman | Triaperformance"
 description: "Planes de triatlón con estructura profesional para Sprint, Olímpico, 70.3 y distancia completa (Ironman). Coach certificado IRONMAN. En TrainingPeaks."
 ---
@@ -18,144 +20,18 @@ description: "Planes de triatlón con estructura profesional para Sprint, Olímp
   </div>
 </section>
 
-<!-- SPRINT -->
-<section class="distance-section" id="sprint">
+<!-- CATALOG: live plan grid from the inventory, preset to Triathlon. Was 5
+     hand-written distance-section blocks (Sprint/Olímpico/70.3/140.6/
+     Mantenimiento) with hardcoded TP links and no UTM/plan_id — replaced
+     July 30, 2026 with the same catalog component the new /planes/ page
+     uses, so this URL now carries real facet filters, tracked redirects,
+     and stays in sync with the inventory automatically. -->
+{%- set catalogPlans = plans.byLanguage.es -%}
+{%- set u = planUi.es -%}
+{%- set presetSport = "Triathlon" -%}
+<section style="padding-top:0;">
   <div class="wrap">
-    <h2>Planes para Triatlón Sprint</h2>
-    <p class="section-intro">La puerta de entrada al triatlón: distancias cortas, ideal para tu primera carrera o para volver a competir con volumen manejable.</p>
-    <div class="grid-2">
-      <div class="plan-card">
-        <span class="plan-level">Principiante</span>
-        <h3>Triatlón Sprint Prep (Tu Primer Triatlón)</h3>
-        <p class="plan-meta">13 semanas · $49.99</p>
-        <p class="plan-strength">Sin rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/sprint/tp-443888/tu-primer-sprint-triatlon-de-distancia-sprint-short-principiantes-12-semanas-sop" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Intermedio</span>
-        <h3>Triatlón Sprint + Gym (Intermedio)</h3>
-        <p class="plan-meta">13 semanas · $48.00</p>
-        <p class="plan-strength has-gym">Incluye rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/sprint/tp-480134/triatlon-fortalecimiento-plan-para-distancia-sprint-short-protocolo-de-gimnasio-intermedios" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- OLIMPICO -->
-<section class="distance-section" id="olimpico">
-  <div class="wrap">
-    <h2>Planes para Triatlón Olímpico</h2>
-    <p class="section-intro">El siguiente escalón natural después de Sprint, o tu punto de entrada si ya tenés base en los tres deportes. Volumen intermedio, buen equilibrio entre exigencia y tiempo disponible.</p>
-    <div class="grid-3">
-      <div class="plan-card">
-        <span class="plan-level">Principiante</span>
-        <h3>Triatlón Olímpico (Tu Primer Triatlón)</h3>
-        <p class="plan-meta">16 semanas · $59.99</p>
-        <p class="plan-strength">Sin rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-480025/tu-primer-triatlon-olimpico-ideal-principiantes-sin-experiencia" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Intermedio</span>
-        <h3>Triatlón Olímpico + Gym (Intermedio)</h3>
-        <p class="plan-meta">17 semanas · $59.99</p>
-        <p class="plan-strength has-gym">Incluye rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-480118/triatlon-fortalecimiento-plan-para-distancia-olimpica-protocolo-de-gimnasio-inte" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Avanzado</span>
-        <h3>Triatlón Olímpico + Gym (Avanzado)</h3>
-        <p class="plan-meta">20 semanas · $59.99</p>
-        <p class="plan-strength has-gym">Incluye rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-480116/triatlon-fortalecimiento-plan-para-distancia-olimpica-protocolo-de-gimnasio-avan" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 70.3 -->
-<section class="distance-section" id="70-3">
-  <div class="wrap">
-    <h2>Planes para Triatlón 70.3</h2>
-    <p class="section-intro">Media distancia: el punto donde la gestión de nutrición, ritmo y fatiga acumulada empieza a pesar tanto como el volumen de entrenamiento. 19 a 20 semanas de progresión.</p>
-    <div class="grid-3">
-      <div class="plan-card">
-        <span class="plan-level">Principiante</span>
-        <h3>Triatlón 70.3 (Tu Primer Half)</h3>
-        <p class="plan-meta">19 semanas · $69.99</p>
-        <p class="plan-strength">Sin rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-442189/tu-primer-half-triatlon-de-media-distancia-principiantes-21-semanas-soporte-por-mail-ilimita" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Intermedio</span>
-        <h3>Triatlón 70.3 + Gym (Intermedio)</h3>
-        <p class="plan-meta">19 semanas · $69.99</p>
-        <p class="plan-strength has-gym">Incluye rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-480125/triatlon-fortalecimiento-plan-para-media-distancia-protocolo-de-gimnasio-interme" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Avanzado</span>
-        <h3>Triatlón 70.3 + Gym (Avanzado)</h3>
-        <p class="plan-meta">20 semanas · $69.99</p>
-        <p class="plan-strength has-gym">Incluye rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-480121/triatlon-fortalecimiento-plan-para-media-distancia-protocolo-de-gimnasio-avanzad" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 140.6 -->
-<section class="distance-section" id="140-6">
-  <div class="wrap">
-    <h2>Planes para Ironman (140.6)</h2>
-    <p class="section-intro">Distancia completa. 22 a 24 semanas de construcción progresiva de volumen, con foco en resistencia de base y en llegar sano a la línea de largada — no solo entrenado.</p>
-    <div class="grid-3">
-      <div class="plan-card">
-        <span class="plan-level">Principiante</span>
-        <h3>Triatlón Larga Distancia (Tu Primer Full)</h3>
-        <p class="plan-meta">22 semanas · $79.99</p>
-        <p class="plan-strength">Sin rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-441905/tu-primer-full-triatlon-de-larga-distancia-principiantes-21-semanas-soporte-por-mail-ilimita" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Intermedio</span>
-        <h3>Triatlón Full + Gym (Intermedio)</h3>
-        <p class="plan-meta">22 semanas · $79.99</p>
-        <p class="plan-strength has-gym">Incluye rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-480131/triatlon-fortalecimiento-plan-para-larga-distancia-full-protocolo-de-gimnasio-in" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Avanzado</span>
-        <h3>Triatlón Full + Gym (Avanzado)</h3>
-        <p class="plan-meta">24 semanas · $79.99</p>
-        <p class="plan-strength has-gym">Incluye rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-480128/triatlon-fortalecimiento-plan-para-larga-distancia-full-protocolo-de-gimnasio-av" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MANTENIMIENTO -->
-<section class="distance-section" id="mantenimiento">
-  <div class="wrap">
-    <h2>Planes de Mantenimiento para Triatlón</h2>
-    <p class="section-intro">Para la temporada baja o el período entre dos carreras: sostener el fitness de base (CTL) sin la carga de un bloque específico de carrera. Ideal si ya corriste tu objetivo del año y no querés perder la forma antes del próximo bloque.</p>
-    <div class="grid-2">
-      <div class="plan-card">
-        <span class="plan-level">Base / Mantenimiento</span>
-        <h3>Base Triatlón - Mantenimiento de fitness (CTL)</h3>
-        <p class="plan-meta">12 semanas · $49.99</p>
-        <p class="plan-strength">Sin rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-480010/triatlon-mantenimiento-12-semanas-periodo-base" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Base / Mantenimiento</span>
-        <h3>Base Triatlón + Gym - Mantenimiento, Pre Temporada</h3>
-        <p class="plan-meta">12 semanas · $49.99</p>
-        <p class="plan-strength has-gym">Incluye rutina de gimnasio</p>
-        <a href="https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-480015/triatlon-fortalecimiento-mantenimiento-12-semanas-periodo-base-gimnasio" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-    </div>
+    {% include "partials/plan-catalog-grid.njk" %}
   </div>
 </section>
 

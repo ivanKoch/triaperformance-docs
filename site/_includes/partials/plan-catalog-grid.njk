@@ -1,0 +1,102 @@
+{#- Facet filters + plan grid — the reusable half of the catalog. Included by:
+    - the 3 catalog index pages (site/planes/, site/en/plans/, site/pt/planos/),
+      unfiltered, with their own hero above this include.
+    - the 4 existing hand-written category pages (site/planes/triatlon/,
+      running/, hyrox/, bajar-de-peso/), which keep their own hero/intro
+      copy and pass `presetSport` so the page loads pre-filtered to that sport.
+
+    Expects: `catalogPlans` (the array for one language — deliberately not
+    named `plans`, which is the global site/_data/plans.js data object, not
+    an array), `lang`, `u` (planUi[lang]), and at most one of:
+    `presetSport` (exact CSV `sport` value, e.g. "Triathlon"),
+    `presetDistance` (exact CSV `distance` value — HYROX is a distance, not
+    a sport, in the source data), `presetFeature` (one of the `features`
+    facet's own values: strength | weightloss | hr | power | pace).
+
+    Static site, no backend: every card renders server-side (crawlable,
+    works with JS off) and site/assets/js/catalog-filters.js just toggles
+    visibility client-side by reading each card's data-* attributes. #}
+{%- set sports = catalogPlans | facetValues("sport") -%}
+{%- set distances = catalogPlans | facetValues("distance") -%}
+{%- set difficulties = catalogPlans | facetValues("difficulty") -%}
+{%- set weeksBuckets = ["1-8", "9-12", "13-18", "19+"] -%}
+
+<div class="catalog-layout plan-catalog" data-catalog>
+  <aside class="facets">
+    <div class="facet-group">
+      <h3>{{ u.filterSport }}</h3>
+      <div class="facet-options">
+        {%- for s in sports %}
+        <label>
+          <input type="checkbox" data-group="sport" value="{{ s }}" {% if presetSport and presetSport == s %}checked{% endif %}>
+          {{ u.sport[s] or s }}
+        </label>
+        {%- endfor %}
+      </div>
+    </div>
+    <div class="facet-group">
+      <h3>{{ u.filterDistance }}</h3>
+      <div class="facet-options">
+        {%- for d in distances %}
+        <label><input type="checkbox" data-group="distance" value="{{ d }}" {% if presetDistance and presetDistance == d %}checked{% endif %}> {{ d }}</label>
+        {%- endfor %}
+      </div>
+    </div>
+    <div class="facet-group">
+      <h3>{{ u.filterDifficulty }}</h3>
+      <div class="facet-options">
+        {%- for diff in difficulties %}
+        <label><input type="checkbox" data-group="difficulty" value="{{ diff }}"> {{ u.difficulty[diff] or diff }}</label>
+        {%- endfor %}
+      </div>
+    </div>
+    <div class="facet-group">
+      <h3>{{ u.filterWeeks }}</h3>
+      <div class="facet-options">
+        {%- for wb in weeksBuckets %}
+        <label><input type="checkbox" data-group="weeksbucket" value="{{ wb }}"> {{ u.weeksBucket[wb] }}</label>
+        {%- endfor %}
+      </div>
+    </div>
+    <div class="facet-group">
+      <h3>{{ u.filterFeatures }}</h3>
+      <div class="facet-options">
+        <label><input type="checkbox" data-group="features" value="strength" {% if presetFeature == "strength" %}checked{% endif %}> {{ u.strengthFlag }}</label>
+        <label><input type="checkbox" data-group="features" value="weightloss" {% if presetFeature == "weightloss" %}checked{% endif %}> {{ u.weightLossFlag }}</label>
+        <label><input type="checkbox" data-group="features" value="hr" {% if presetFeature == "hr" %}checked{% endif %}> {{ u.metric.hr }}</label>
+        <label><input type="checkbox" data-group="features" value="power" {% if presetFeature == "power" %}checked{% endif %}> {{ u.metric.power }}</label>
+        <label><input type="checkbox" data-group="features" value="pace" {% if presetFeature == "pace" %}checked{% endif %}> {{ u.metric.pace }}</label>
+      </div>
+    </div>
+    <button type="button" class="facet-reset" data-reset>{{ u.filterReset }}</button>
+  </aside>
+
+  <div class="catalog-results">
+    <p class="catalog-count" data-count>{{ catalogPlans.length }} {{ u.resultsCount }}</p>
+    <div class="catalog-grid" data-grid>
+      {%- for plan in catalogPlans %}
+      {%- set featureTokens = "" %}
+      {%- if plan.strength %}{% set featureTokens = featureTokens + "strength " %}{% endif %}
+      {%- if plan.weightLoss %}{% set featureTokens = featureTokens + "weightloss " %}{% endif %}
+      {%- if plan.metric %}{% set featureTokens = featureTokens + plan.metric %}{% endif %}
+      <a href="{{ plan.pageUrl }}" class="catalog-card"
+         data-sport="{{ plan.sport }}"
+         data-distance="{{ plan.distance }}"
+         data-difficulty="{{ plan.difficulty }}"
+         data-weeksbucket="{{ plan.weeksBucket }}"
+         data-features="{{ featureTokens }}">
+        <span class="label">{{ u.sport[plan.sport] or plan.sport }}{% if plan.distance %} · {{ plan.distance }}{% endif %}</span>
+        <h3>{{ plan.displayName }}</h3>
+        <p class="catalog-card-meta">
+          {{ plan.weeks }} {{ u.weeksShort }}{% if plan.difficulty %} · {{ u.difficulty[plan.difficulty] or plan.difficulty }}{% endif %}
+        </p>
+        <p class="catalog-card-price">US$ {{ plan.price }}</p>
+        <span class="btn-primary">{{ u.viewPlan }}</span>
+      </a>
+      {%- endfor %}
+    </div>
+    <p class="catalog-empty" data-empty hidden>{{ u.noResults }}</p>
+  </div>
+</div>
+
+<script src="/assets/js/catalog-filters.js" defer></script>

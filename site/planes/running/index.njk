@@ -1,7 +1,9 @@
 ---
 layout: layouts/base.njk
 lang: es
-pageCss: planes-running.css
+pageCss:
+  - planes-running.css
+  - plan-page.css
 title: "Planes de Entrenamiento de Running — 5K, 10K, 21K y Maratón | Triaperformance"
 description: "Planes de running con estructura profesional para 5K, 10K, media maratón y maratón. Incluyen rutina de fuerza. En TrainingPeaks."
 ---
@@ -17,127 +19,16 @@ description: "Planes de running con estructura profesional para 5K, 10K, media m
   </div>
 </section>
 
-<!-- 5K -->
-<section class="distance-section" id="5k">
+<!-- CATALOG: live plan grid from the inventory, preset to Running. Was 4
+     hand-written distance-section blocks (5K/10K/21K/42K) with hardcoded TP
+     links and no UTM/plan_id — replaced July 30, 2026 with the same catalog
+     component the new /planes/ page uses. -->
+{%- set catalogPlans = plans.byLanguage.es -%}
+{%- set u = planUi.es -%}
+{%- set presetSport = "Running" -%}
+<section style="padding-top:0;">
   <div class="wrap">
-    <h2>Planes para Correr 5K</h2>
-    <p class="section-intro">Ideal si estás empezando a correr en serio, volviendo de una pausa, o querés bajar tu marca en la distancia más corta antes de escalar a 10K o 21K.</p>
-    <div class="grid-3">
-      <div class="plan-card">
-        <span class="plan-level">Principiante</span>
-        <h3>Plan 9 Semanas: 5 km Prep (Principiantes)</h3>
-        <p class="plan-meta">9 semanas · $39.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/5km/tp-492964/2024-5-km-correr-y-fuerza-plan-para-principiantes-incluye-rutina-de-gimnasio" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Intermedio</span>
-        <h3>Plan 9 Semanas: 5 km Prep (Intermedios)</h3>
-        <p class="plan-meta">9 semanas · $39.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/5km/tp-493008/2024-5-km-correr-y-fuerza-plan-para-intermedios-incluye-rutina-de-gimnasio" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Avanzado</span>
-        <h3>Plan 9 Semanas: 5 km Prep (Avanzados)</h3>
-        <p class="plan-meta">9 semanas · $39.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/5km/tp-493011/2024-5-km-correr-y-fuerza-plan-para-avanzados-incluye-rutina-de-gimnasio" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 10K -->
-<section class="distance-section" id="10k">
-  <div class="wrap">
-    <h2>Planes para Correr 10K</h2>
-    <p class="section-intro">El siguiente paso natural después de 5K, o tu primer objetivo si ya corrés de forma recreativa. Volumen moderado, foco en economía de carrera y ritmo sostenido.</p>
-    <div class="grid-3">
-      <div class="plan-card">
-        <span class="plan-level">Principiante</span>
-        <h3>Plan 12 Semanas: 10 km Prep (Principiantes)</h3>
-        <p class="plan-meta">12 semanas · $49.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/10km/tp-493045/10-km-correr-y-fuerza-plan-para-principiantes-incluye-rutina-de-gimnasio" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Intermedio</span>
-        <h3>Plan 12 Semanas: 10 km Prep (Intermedios)</h3>
-        <p class="plan-meta">12 semanas · $49.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/10km/tp-493081/10-km-correr-y-fuerza-plan-para-intermedios-incluye-rutina-de-gimnasio" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Avanzado</span>
-        <h3>Plan 12 Semanas: 10 km Prep (Avanzado)</h3>
-        <p class="plan-meta">12 semanas · $49.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/10km/tp-493085/10-km-correr-y-fuerza-plan-para-avanzados-incluye-rutina-de-gimnasio" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 21K -->
-<section class="distance-section" id="21k">
-  <div class="wrap">
-    <h2>Planes para Media Maratón (21K)</h2>
-    <p class="section-intro">La distancia donde más se nota la diferencia entre entrenar con estructura y entrenar por intuición. 14 semanas de base aeróbica progresiva antes del pico de carrera.</p>
-    <div class="grid-3">
-      <div class="plan-card">
-        <span class="plan-level">Principiante</span>
-        <h3>Plan 14 Semanas: 21 km - Media Maratón (Principiante)</h3>
-        <p class="plan-meta">14 semanas · $59.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-493932/21-km-correr-y-fuerza-plan-para-intermedios-incluye-rutina-de-gimnasio" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Intermedio</span>
-        <h3>Plan 14 Semanas: 21 km - Media Maratón (Intermedios)</h3>
-        <p class="plan-meta">14 semanas · $59.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-492331/21-km-correr-y-fuerza-plan-para-intermedios-incluye-rutina-de-gimnasio" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Avanzado</span>
-        <h3>Plan 14 Semanas: 21 km - Media Maratón (Avanzados)</h3>
-        <p class="plan-meta">14 semanas · $59.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/half-marathon/tp-492333/21-km-correr-y-fuerza-plan-para-avanzados-incluye-rutina-de-gimnasio" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 42K -->
-<section class="distance-section" id="42k">
-  <div class="wrap">
-    <h2>Planes para Maratón (42K)</h2>
-    <p class="section-intro">Estructura por ritmo (zonas de pace), pensada para volumen semanal creciente y control de fatiga en las semanas de mayor carga. Elegí el plan según tu volumen semanal actual, no según la fecha de una carrera puntual.</p>
-    <div class="grid-3">
-      <div class="plan-card">
-        <span class="plan-level">Principiante · 55–90 km/sem</span>
-        <h3>Plan 12 Semanas: Maratón Base</h3>
-        <p class="plan-meta">12 semanas · $49.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/marathon/tp-612551/plan-12-semanas-maraton-base-carrera-gym-volumen-principiante-55-a-90km" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Intermedio · 90–110 km/sem</span>
-        <h3>Plan 12 Semanas: Maratón Build</h3>
-        <p class="plan-meta">12 semanas · $49.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/marathon/tp-612554/plan-12-semanas-maraton-build-carrera-gym-volumen-intermedio-90-110km" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-      <div class="plan-card">
-        <span class="plan-level">Avanzado · &gt;110 km/sem</span>
-        <h3>Plan 12 Semanas: Maratón Peak</h3>
-        <p class="plan-meta">12 semanas · $49.99</p>
-        <p class="plan-strength">Incluye rutina de fuerza</p>
-        <a href="https://www.trainingpeaks.com/training-plans/running/marathon/tp-612555/plan-12-semanas-maraton-peak-carrera-gym-volumen-avanzado-110km" class="btn-primary" target="_blank" rel="noopener">Ver plan</a>
-      </div>
-    </div>
+    {% include "partials/plan-catalog-grid.njk" %}
   </div>
 </section>
 

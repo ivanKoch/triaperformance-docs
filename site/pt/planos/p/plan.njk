@@ -1,0 +1,15 @@
+---
+pagination:
+  data: plans.byLanguage.pt
+  size: 1
+  alias: plan
+  addAllPagesToCollections: true
+permalink: "/pt/planos/p/{{ plan.slug }}/"
+layout: layouts/base.njk
+lang: pt
+pageCss: plan-page.css
+eleventyComputed:
+  title: "{{ plan.displayName | safe }} — Plano de {{ plan.weeks }} semanas | Triaperformance"
+  description: "{{ plan.displayName | safe }}: plano de treino de {{ plan.weeks }} semanas na TrainingPeaks. US$ {{ plan.price }}."
+---
+{% include "partials/plan-page-content.njk" %}

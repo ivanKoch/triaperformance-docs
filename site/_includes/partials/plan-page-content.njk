@@ -1,0 +1,118 @@
+{#- Shared content for every individual plan page (ES/EN/PT). Included by the
+    three thin pagination shells: site/planes/p/plan.njk, site/en/plans/p/plan.njk,
+    site/pt/planos/p/plan.njk — each just sets `lang` and paginates a different
+    slice of plans.byLanguage. `plan` comes from the pagination alias.
+
+    Standing decisions this implements (growth-roadmap.md storefront section):
+    Option A (redirect to TP, no checkout) · email capture before the redirect,
+    non-blocking · redirect carries UTM + plan_id · All-Access promo module ·
+    Product schema. -#}
+{%- set u = planUi[lang] -%}
+{%- set aa = allAccess[lang] -%}
+{%- set home = site.languages[lang].home -%}
+{%- set plansUrl = { es: "/planes/", en: "/en/plans/", pt: "/pt/planos/" }[lang] -%}
+{%- set sportLabel = u.sport[plan.sport] or plan.sport -%}
+{%- set difficultyLabel = u.difficulty[plan.difficulty] -%}
+{%- set metricLabel = u.metric[plan.metric] -%}
+{%- set buyUrl = plan.url | withUtm(plan.id) -%}
+
+<section class="plan-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="{{ home }}">{{ u.breadcrumbHome }}</a> / <a href="{{ plansUrl }}">{{ u.breadcrumbPlans }}</a> / {{ plan.displayName }}</p>
+    <span class="label">{{ sportLabel }}{% if plan.distance %} · {{ plan.distance }}{% endif %}</span>
+    <h1>{{ plan.displayName }}</h1>
+    <p class="plan-meta">
+      {{ plan.weeks }} {{ u.weeksLabel }}
+      {%- if difficultyLabel %} · {{ difficultyLabel }}{% endif %}
+      {%- if metricLabel %} · {{ metricLabel }}{% endif %}
+    </p>
+    {%- if plan.strength or plan.weightLoss or plan.timeGoal %}
+    <div class="plan-flags">
+      {%- if plan.strength %}<span class="flag">{{ u.strengthFlag }}</span>{% endif %}
+      {%- if plan.weightLoss %}<span class="flag">{{ u.weightLossFlag }}</span>{% endif %}
+      {%- if plan.timeGoal %}<span class="flag">{{ u.timeGoalFlag }}</span>{% endif %}
+    </div>
+    {%- endif %}
+    <div class="plan-price">US$ {{ plan.price }}</div>
+  </div>
+</section>
+
+<section class="plan-buy">
+  <div class="wrap plan-buy-grid">
+    <div class="plan-buy-cta">
+      <a href="{{ buyUrl }}" class="btn-primary plan-buy-btn plan-card" target="_blank" rel="noopener">{{ u.ctaBuy }}</a>
+      <p class="plan-buy-note">{{ u.ctaNote }}</p>
+    </div>
+    <div class="plan-capture">
+      <h3>{{ u.captureHeading }}</h3>
+      <p>{{ u.captureBody }}</p>
+      <form class="plan-capture-form"
+            data-plan-id="{{ plan.id }}"
+            data-plan-name="{{ plan.displayName | escape }}"
+            data-lang="{{ lang }}"
+            data-page-url="{{ page.url | absoluteUrl }}">
+        <div class="plan-capture-row">
+          <label class="visually-hidden" for="pc-email-{{ plan.id }}">{{ u.captureEmailLabel }}</label>
+          <input type="email" id="pc-email-{{ plan.id }}" name="email" placeholder="{{ u.capturePlaceholder }}" required>
+          <button type="submit">{{ u.captureSubmit }}</button>
+        </div>
+        <p class="plan-capture-status"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="plan-breakdown">
+  <div class="wrap">
+    <h2>{{ u.breakdownTitle }}</h2>
+    {%- if plan.weeklyBreakdown %}
+    <p class="section-intro">{{ u.breakdownIntro }}</p>
+    <table class="breakdown-table">
+      <thead>
+        <tr><th scope="col"></th><th scope="col">{{ u.colSessions }}</th><th scope="col">{{ u.colAvg }}</th><th scope="col">{{ u.colLongest }}</th></tr>
+      </thead>
+      <tbody>
+        {%- for a in plan.weeklyBreakdown.activities %}
+        <tr>
+          <th scope="row">{{ u.activity[a.type] or a.type }}</th>
+          <td>{{ a.weeklyCount or "—" }}</td>
+          <td>{{ a.weeklyAvg | formatWeeklyStat(a.weeklyAvgUnit) }}</td>
+          <td>{{ a.longest | formatWeeklyStat(a.longestUnit) }}</td>
+        </tr>
+        {%- endfor %}
+      </tbody>
+    </table>
+    {%- if plan.weeklyBreakdown.restDaysPerWeek %}
+    <p class="rest-days">{{ u.restDays }}: {{ plan.weeklyBreakdown.restDaysPerWeek }}</p>
+    {%- endif %}
+    {%- else %}
+    <p class="section-intro">{{ u.noBreakdown }}</p>
+    {%- endif %}
+  </div>
+</section>
+
+{% include "partials/all-access-module.njk" %}
+
+<section class="plan-final-cta">
+  <div class="wrap">
+    <a href="{{ buyUrl }}" class="btn-primary plan-card" target="_blank" rel="noopener">{{ u.ctaBuy }}</a>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ plan.displayName | dump | safe }},
+  "description": {{ (plan.weeks + " " + u.weeksLabel + " — " + sportLabel + (", " + plan.distance if plan.distance else "") + (", " + difficultyLabel if difficultyLabel else "")) | dump | safe }},
+  "brand": { "@type": "Brand", "name": "Triaperformance" },
+  "offers": {
+    "@type": "Offer",
+    "url": {{ plan.url | dump | safe }},
+    "priceCurrency": "USD",
+    "price": {{ plan.price | dump | safe }},
+    "availability": "https://schema.org/InStock"
+  }
+}
+</script>
+<script src="/assets/js/plan-capture.js" defer></script>

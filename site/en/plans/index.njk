@@ -1,0 +1,22 @@
+---
+layout: layouts/base.njk
+lang: en
+transKey: plan-catalog
+pageCss: plan-page.css
+title: "Training Plans — Filter by Sport, Distance and Level | Triaperformance"
+description: "Every Triaperformance training plan on TrainingPeaks: running, cycling, swimming, triathlon, duathlon and HYROX. Filter by sport, distance, level and duration."
+---
+{%- set catalogPlans = plans.byLanguage.en -%}
+{%- set u = planUi.en -%}
+<section class="plan-hero">
+  <div class="wrap">
+    <span class="label">Training Plans</span>
+    <h1>Every plan, filtered by what you're after</h1>
+    <p class="section-intro">{{ catalogPlans.length }} plans on TrainingPeaks — running, cycling, swimming, triathlon, duathlon and HYROX. Filter by sport, distance, level and duration.</p>
+  </div>
+</section>
+<section style="padding-top:0;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>

@@ -1,0 +1,22 @@
+---
+layout: layouts/base.njk
+lang: pt
+transKey: plan-catalog
+pageCss: plan-page.css
+title: "Planos de Treino — Filtre por Esporte, Distância e Nível | Triaperformance"
+description: "Todos os planos de treino da Triaperformance na TrainingPeaks: corrida, ciclismo, natação, triatlo, duatlo e HYROX. Filtre por esporte, distância, nível e duração."
+---
+{%- set catalogPlans = plans.byLanguage.pt -%}
+{%- set u = planUi.pt -%}
+<section class="plan-hero">
+  <div class="wrap">
+    <span class="label">Planos de Treino</span>
+    <h1>Todos os planos, filtrados pelo que você procura</h1>
+    <p class="section-intro">{{ catalogPlans.length }} planos na TrainingPeaks — corrida, ciclismo, natação, triatlo, duatlo e HYROX. Filtre por esporte, distância, nível e duração.</p>
+  </div>
+</section>
+<section style="padding-top:0;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
