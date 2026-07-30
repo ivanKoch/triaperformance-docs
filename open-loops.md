@@ -37,7 +37,7 @@ Sub-items:
 
 ## NEXT (queued, in order, each with its trigger)
 
-1. **EN Cycling + EN Triathlon TP listing rewrites** — ~$1,500/yr recoverable, zero new plans. Trigger: any time; independent of everything. Copy the ES tri positioning (1.8% conv vs 0.5%).
+1. **EN Cycling + EN Triathlon TP listing rewrites — IN PROGRESS July 29, 2026, scoped as a pilot.** 2026 data showed EN isn't uniformly broken: 3 sellers convert at 2.2% (413817, 414883, 602981 — untouched, control group); 9 plans with 693 views YTD sold zero. Those 9 are rewritten in `en-listing-rewrites-2026-07.md` (titles + full HTML, paste-ready) — Iván pastes into TP. **Read results ~Oct 27, 2026 (90 days): re-run views query + H2 sales, rewritten vs control. No lift → close the EN-listing thread permanently.** UTM'd contact links mean GA4 `source=trainingpeaks` sessions are now attributable.
 2. **Race-specific landing pages** — every major city marathon (NYC, Chicago, Valencia, Buenos Aires…), half marathons, Ironman/70.3. Evergreen pages backed by evergreen plans. Trigger: plan template shipped. (Iván, July 29)
 3. **Weekly GBP-review → IG testimonial drip** — 33 never-posted reviews ≈ 8 months of zero-creation content. Trigger: any time; first recurring content job.
 4. **Full HubSpot migration (all 2,073 contacts) + re-engagement email blast + HubSpot decommission** — decided July 29: migrate all, not active-only. Trigger: storefront/website content ready to land the blast on.
