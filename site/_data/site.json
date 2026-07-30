@@ -10,6 +10,7 @@
     "clarity": "xq3g7pvr9i"
   },
   "coachingPrice": "149",
+  "defaultProductImage": "/assets/images/hero2.jpg",
   "languages": {
     "es": { "code": "es", "label": "ES", "home": "/", "blog": "/blog/" },
     "en": { "code": "en", "label": "EN", "home": "/en/", "blog": "/en/blog/" },

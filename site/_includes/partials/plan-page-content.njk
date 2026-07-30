@@ -105,6 +105,7 @@
   "@type": "Product",
   "name": {{ plan.displayName | dump | safe }},
   "description": {{ (plan.weeks + " " + u.weeksLabel + " — " + sportLabel + (", " + plan.distance if plan.distance else "") + (", " + difficultyLabel if difficultyLabel else "")) | dump | safe }},
+  "image": {{ site.defaultProductImage | absoluteUrl | dump | safe }},
   "brand": { "@type": "Brand", "name": "Triaperformance" },
   "offers": {
     "@type": "Offer",
