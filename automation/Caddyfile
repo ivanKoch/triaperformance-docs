@@ -4,6 +4,18 @@ triaperformance.com {
         Referrer-Policy "no-referrer-when-downgrade"
     }
 
+    # Content-engine admin (idea review). Single user, so a basic_auth line is the
+    # whole requirement — the members area needs per-subscriber tokens because
+    # revoking one must not affect the others, which does not apply here.
+    # Must sit above the general file_server or /admin/* is served from the static
+    # webroot, where it does not exist, and returns 404.
+    handle /admin/* {
+        basic_auth {
+            ivan miUn8ewX1U8Ibr
+        }
+        reverse_proxy 127.0.0.1:8092
+    }
+
     @membersPublicPages {
         path /members/login /members/login/ /members/forgot-password /members/forgot-password/
         method GET
