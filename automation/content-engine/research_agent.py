@@ -614,30 +614,55 @@ ALREADY PROPOSED OR PUBLISHED (do not repeat):
 """
 
 
-def call_model(prompt, api_key, model):
-    url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
-           f"{model}:generateContent?key={api_key}")
+def call_model(prompt, api_key, model, api_versions=("v1beta", "v1")):
+    """Call Gemini, trying each API version before giving up.
+
+    Not every model is served on every API version — a model that `--list-models`
+    reports on v1beta can still 404 on a generateContent call there. Rather than
+    guess which version a given model wants, try them in order.
+
+    Google's own error body is always shown on failure. An earlier version of
+    this replaced it with a friendly message about the model name being wrong,
+    which threw away the one piece of information that says what actually
+    happened — the error text was right there and got discarded.
+    """
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"temperature": 0.85, "maxOutputTokens": 32768,
                              "responseMimeType": "application/json"},
     }
-    req = urllib.request.Request(
-        url, data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"}, method="POST")
-    try:
-        with urllib.request.urlopen(req, timeout=180) as r:
-            data = json.loads(r.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        if e.code == 404:
-            sys.exit(f"Model '{model}' does not exist on this API key.\n"
-                     f"Run:  python3 research_agent.py --list-models\n"
-                     f"then set WRITER_MODEL / CONTENT_MODEL to one of the names it prints.")
-        detail = e.read().decode("utf-8", errors="replace")[:400]
-        sys.exit(f"Model call failed: HTTP {e.code}\n{detail}")
-    # Report real token usage rather than estimating cost. Two runs of this on
-    # the same idea with different models is a cheaper way to decide whether the
-    # pro tier is worth it than any amount of arguing about price per token.
+    last = None
+    for ver in api_versions:
+        url = (f"https://generativelanguage.googleapis.com/{ver}/models/"
+               f"{model}:generateContent?key={api_key}")
+        req = urllib.request.Request(
+            url, data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"}, method="POST")
+        try:
+            with urllib.request.urlopen(req, timeout=300) as r:
+                data = json.loads(r.read().decode("utf-8"))
+            if ver != api_versions[0]:
+                print(f"[model] note: {model} answered on {ver}, not {api_versions[0]}",
+                      file=sys.stderr)
+            break
+        except urllib.error.HTTPError as e:
+            body = e.read().decode("utf-8", errors="replace")
+            last = (ver, e.code, body)
+            print(f"[model] {ver} returned HTTP {e.code}", file=sys.stderr)
+            continue
+    else:
+        ver, code, body = last
+        try:
+            msg = json.loads(body)["error"]["message"]
+        except Exception:
+            msg = body[:600]
+        sys.exit(f"Model call failed on every API version tried "
+                 f"({', '.join(api_versions)}).\n"
+                 f"Model: {model}\n"
+                 f"Last response (HTTP {code}): {msg}\n\n"
+                 f"If this says the model is not found, run:\n"
+                 f"  python3 research_agent.py --list-models")
+
     u = data.get("usageMetadata") or {}
     if u:
         print(f"[model] {model}: {u.get('promptTokenCount', '?')} in / "
@@ -651,13 +676,9 @@ def call_model(prompt, api_key, model):
     try:
         return json.loads(text)
     except json.JSONDecodeError as e:
-        # The response was cut off — usually the output token limit, which
-        # `finishReason: MAX_TOKENS` confirms. Losing eleven good ideas because
-        # the twelfth was truncated mid-sentence is the wrong failure: salvage
-        # every complete idea object and report the shortfall.
         reason = cand.get("finishReason", "unknown")
         print(f"[model] response was not valid JSON ({e}); finishReason={reason}. "
-              f"Salvaging complete ideas...", file=sys.stderr)
+              f"Salvaging complete objects...", file=sys.stderr)
         return {"ideas": salvage_ideas(text)}
 
 
