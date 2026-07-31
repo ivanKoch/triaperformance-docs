@@ -314,9 +314,16 @@ def main():
     api_key = os.environ.get("GOOGLE_API_KEY")
     if not api_key:
         sys.exit("No model API key found. Run: python3 research_agent.py --show-env")
-    model = os.environ.get("WRITER_MODEL") or read_env_files().get("WRITER_MODEL") \
-        or "gemini-3.1-pro-preview"
-    print(f"[writer] model: {model}")
+    # Say where the value came from. "model: X" alone is not enough when X is
+    # not what you just configured — the question is always which source won.
+    env_model = read_env_files().get("WRITER_MODEL")
+    if os.environ.get("WRITER_MODEL"):
+        model, src = os.environ["WRITER_MODEL"], "shell environment"
+    elif env_model:
+        model, src = env_model, "~/.hermes/.env or ~/.analytics/.env"
+    else:
+        model, src = "gemini-3.1-pro-preview", "built-in default"
+    print(f"[writer] model: {model}  (from {src})")
 
     # Plan catalogue, from the same CSV and link-status file the site build reads.
     plans = load_plans()

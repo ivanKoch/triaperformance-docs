@@ -75,18 +75,33 @@ PG_PASS_NAMES = ["PG_PASSWORD", "ANALYTICS_DB_PASSWORD", "POSTGRES_PASSWORD",
 
 
 def read_env_files():
-    """Parse KEY=VALUE out of the known .env files. Returns {name: value}."""
+    """Parse KEY=VALUE out of the known .env files. Returns {name: value}.
+
+    Two precedence rules, and they differ on purpose:
+
+      WITHIN a file, the LAST occurrence wins — standard .env behaviour, and the
+      only sane reading of a file edited with `echo VAR=x >> .env`. The first
+      version of this used setdefault throughout, so appending a corrected value
+      did nothing and the stale line kept winning silently. That cost a debugging
+      round trip on a config change that had, in fact, been made correctly.
+
+      ACROSS files, the FIRST file wins — ~/.hermes/.env is the primary store and
+      shouldn't be overridden by whatever ~/.analytics/.env happens to define.
+    """
     found = {}
     for path in ENV_FILES:
         if not os.path.exists(path):
             continue
+        this_file = {}
         with open(path, encoding="utf-8", errors="replace") as fh:
             for line in fh:
                 line = line.strip()
                 if not line or line.startswith("#") or "=" not in line:
                     continue
                 k, v = line.split("=", 1)
-                found.setdefault(k.strip(), v.strip().strip("\"'"))
+                this_file[k.strip()] = v.strip().strip("\"'")   # last wins in-file
+        for k, v in this_file.items():
+            found.setdefault(k, v)                                # first file wins
     return found
 
 
