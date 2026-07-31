@@ -720,7 +720,7 @@ ALREADY PROPOSED OR PUBLISHED (do not repeat):
 """
 
 
-def call_model(prompt, api_key, model, api_versions=("v1beta", "v1")):
+def call_model(prompt, api_key, model, api_versions=("v1beta", "v1"), expect="json"):
     """Call Gemini, trying each API version before giving up.
 
     Not every model is served on every API version — a model that `--list-models`
@@ -732,11 +732,10 @@ def call_model(prompt, api_key, model, api_versions=("v1beta", "v1")):
     which threw away the one piece of information that says what actually
     happened — the error text was right there and got discarded.
     """
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"temperature": 0.85, "maxOutputTokens": 32768,
-                             "responseMimeType": "application/json"},
-    }
+    gen = {"temperature": 0.85, "maxOutputTokens": 32768}
+    if expect == "json":
+        gen["responseMimeType"] = "application/json"
+    payload = {"contents": [{"parts": [{"text": prompt}]}], "generationConfig": gen}
     last = None
     for ver in api_versions:
         url = (f"https://generativelanguage.googleapis.com/{ver}/models/"
@@ -769,15 +768,27 @@ def call_model(prompt, api_key, model, api_versions=("v1beta", "v1")):
                  f"If this says the model is not found, run:\n"
                  f"  python3 research_agent.py --list-models")
 
+    # Report thinking tokens separately. in + out does not equal total on 3.x
+    # pro models — the gap is reasoning tokens, which are billed at the output
+    # rate. Hiding them understates the real cost of a call by roughly half.
     u = data.get("usageMetadata") or {}
     if u:
-        print(f"[model] {model}: {u.get('promptTokenCount', '?')} in / "
-              f"{u.get('candidatesTokenCount', '?')} out / "
-              f"{u.get('totalTokenCount', '?')} total", file=sys.stderr)
+        pin = u.get("promptTokenCount", 0)
+        pout = u.get("candidatesTokenCount", 0)
+        tot = u.get("totalTokenCount", 0)
+        think = u.get("thoughtsTokenCount") or max(0, tot - pin - pout)
+        parts = [f"{pin:,} in", f"{pout:,} out"]
+        if think:
+            parts.append(f"{think:,} thinking (billed as output)")
+        parts.append(f"{tot:,} total")
+        print(f"[model] {model}: " + " / ".join(parts), file=sys.stderr)
 
     cand = data["candidates"][0]
     text = cand["content"]["parts"][0]["text"]
     text = re.sub(r"^```(?:json)?|```$", "", text.strip(), flags=re.M).strip()
+
+    if expect != "json":
+        return text
 
     try:
         return json.loads(text)

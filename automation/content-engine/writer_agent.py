@@ -216,8 +216,12 @@ RULES
 - Prices and product scope differ per market — use the ones in the market notes.
 - Keep every number that is physiological (percentages, durations, protocols).
 
-Return STRICT JSON, same shape:
-{{"headline":"...","short_title":"...","title":"... | Triaperformance","standfirst":"...","description":"...","category":"...","reading_time":8,"slug":"url-slug","body":"<p>...</p>"}}
+OUTPUT FORMAT — exactly this, nothing before or after:
+
+===META===
+{{"headline":"...","short_title":"...","title":"... | Triaperformance","standfirst":"...","description":"...","category":"...","reading_time":8,"slug":"url-slug"}}
+===BODY===
+<p>the full article HTML, written normally, NOT inside the JSON</p>
 """
 
 MARKET_NOTES = {
@@ -233,6 +237,28 @@ MARKET_NOTES = {
           "includes every plan. Link /all-access/. Use voseo where natural.",
 }
 LANG_NAME = {"es": "Spanish", "en": "English", "pt": "Portuguese"}
+
+
+def parse_draft(text):
+    """Split the model's reply into metadata JSON and raw HTML body.
+
+    The first version asked for everything in one JSON object with the article
+    inside a `body` string. A 1,500-word HTML article contains hundreds of
+    quotes and angle brackets, and one missed escape invalidates the whole
+    response — which is exactly what happened: a complete, good article was
+    thrown away over a stray quote 9,500 characters in. Keeping the prose
+    outside the JSON removes the failure mode rather than defending against it.
+    """
+    if "===BODY===" not in text:
+        raise ValueError("model reply has no ===BODY=== marker; got: "
+                         + text[:300].replace("\n", " "))
+    meta_part, body = text.split("===BODY===", 1)
+    meta_part = meta_part.replace("===META===", "").strip()
+    meta_part = re.sub(r"^```(?:json)?|```$", "", meta_part, flags=re.M).strip()
+    draft = json.loads(meta_part)
+    body = re.sub(r"^```(?:html)?|```$", "", body.strip(), flags=re.M).strip()
+    draft["body"] = body
+    return draft
 
 
 def build_draft(idea, plans, model, api_key):
@@ -253,7 +279,7 @@ def build_draft(idea, plans, model, api_key):
         all_access_path={"es": "/all-access/", "en": "/en/all-access/",
                          "pt": "/pt/all-access/"}[idea["language"]],
     )
-    return call_model(prompt, api_key, model)
+    return parse_draft(call_model(prompt, api_key, model, expect="text"))
 
 
 def validate(draft, plans, lang):
@@ -425,7 +451,7 @@ def translate(conn, piece_id, plans, model, api_key, dry_run):
                               for p in cands], ensure_ascii=False)[:4000],
             headline=src["headline"], standfirst=src["standfirst"] or "",
             body=src["body"])
-        draft = call_model(prompt, api_key, model)
+        draft = parse_draft(call_model(prompt, api_key, model, expect="text"))
         problems = validate(draft, plans, lang)
         if problems:
             print("  REJECTED — " + "; ".join(problems), file=sys.stderr)
