@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** July 31, 2026 (CoachMatch pipeline reliability fixes — WhatsApp watchdog rebuild, email-nurture bug, multi-lead execution bug — plus full VPS script/config migration into the repo, §18)
+**Last updated:** July 31, 2026 (UTM convention for external channel links added to §9; CoachMatch pipeline reliability fixes — WhatsApp watchdog rebuild, email-nurture bug, multi-lead execution bug — plus full VPS script/config migration into the repo, §18)
 **Status:** Live / operational
 
 ---
@@ -211,6 +211,8 @@ Purpose: this VPS copy is now the durable backup of the pixel data, independent 
 **Site-verification tools, same day.** Microsoft Clarity (heatmaps + session recordings) added via a manual script tag in `website/index.html`'s `<head>`, alongside the GA4 tag (Clarity project ID `xq3g7pvr9i`). Connected to the GA4 property under Clarity's Settings → Integrations, which lets recordings be filtered by GA4 traffic-source/segment data — worth noting this is a reporting-level correlation only, not a raw-data feed; Clarity's actual recordings and heatmaps live solely inside Clarity's own platform, no BigQuery/Postgres export exists for them. Bing Webmaster Tools and Ahrefs Webmaster Tools were both added via their "Import from Google Search Console" one-click path — no new DNS or file-upload work, both piggyback on the existing GSC domain verification. Same caveat as the GA4/GSC link above: Search Console data itself doesn't flow into GA4's or BigQuery's dataset, it's a reporting-level integration only — a genuine data pull would need the Search Console API separately.
 
 Two items from the same tooling review deliberately not actioned: Rich Results Test (search.google.com/test/rich-results) needs no account and nothing to set up — it's a URL-paste validator to use once plan pages ship with Product schema (Phase 1/2 storefront SEO work, not built yet). Umami (self-hosted analytics) stays parked — only worth adding if GA4's own UI becomes a friction point, per the original call.
+
+*Update, July 31, 2026 — UTM convention for external channel links (distinct from the internal plan→TrainingPeaks UTMs in §17).* `utm_source` = platform (`google`, `facebook`, `linkedin`, `strava`, `trainingpeaks`, `whatsapp`, `email`, `instagram`). `utm_medium` = placement type (`gbp_profile`, `gbp_post`, `bio`, `signature`, `directory`). `utm_campaign` = `profile` for evergreen bio/profile links, or a specific slug for time-bound content (e.g. a GBP post topic/date). `utm_content` = optional variant when a channel needs to split traffic (e.g. running vs. triatlón). Base URL can be the homepage or any specific page (plan page, All-Access landing) — same UTM tail applies regardless of destination. First applied July 31, 2026 across Instagram bio, Google Business Profile (profile + posts), Facebook, LinkedIn, Strava, TrainingPeaks bio, WhatsApp Business, and email signature.
 
 ## 10. Storefront data pipeline — plan catalog + weekly-breakdown crawl (July 21, 2026)
 

@@ -1,6 +1,6 @@
 # Open Loops — the single source of truth for what's in flight
 
-**Last updated: July 31, 2026 (CoachMatch pipeline reliability session — three real bugs found and fixed in WhatsApp follow-up, email nurture, and multi-lead lead-creation handling; all VPS Python scripts + the live Caddy config migrated into the repo, closing the "blind scripts" problem for good. Detail: `ai-infrastructure-documentation.md` §18. No change to the Plan Storefront big branch — this was an off-branch reliability fix session).** This file replaces the open-item lists previously scattered across `ai-infrastructure-documentation.md`, `growth-roadmap.md` (Sequencing), `content-engine-brief.md` (Open decisions), and the runbooks. Those docs keep the *detail*; this file is the *list*. Update it at the end of every working session.
+**Last updated: July 31, 2026 (external-channel UTM rollout closed — see Recently closed; CoachMatch pipeline reliability session — three real bugs found and fixed in WhatsApp follow-up, email nurture, and multi-lead lead-creation handling; all VPS Python scripts + the live Caddy config migrated into the repo, closing the "blind scripts" problem for good. Detail: `ai-infrastructure-documentation.md` §18. No change to the Plan Storefront big branch — this was an off-branch reliability fix session).** This file replaces the open-item lists previously scattered across `ai-infrastructure-documentation.md`, `growth-roadmap.md` (Sequencing), `content-engine-brief.md` (Open decisions), and the runbooks. Those docs keep the *detail*; this file is the *list*. Update it at the end of every working session.
 
 ## Rules
 - **WIP limit: 1 big branch + 1 small slot.** A new branch opens only when one closes.
@@ -62,11 +62,13 @@ Sub-items:
 - Kettlebell members page nav unification — cosmetic.
 - Verify with TP account manager: All-Access rev share + monthly subscriber/churn reporting.
 - Open decisions from `content-engine-brief.md` §9 still pending: Instagram account type (Business?), LinkedIn track identity.
+- WhatsApp Business profile website link still un-UTM'd (verified accounts can't edit it) — revisit if Meta ever allows editing again, or if WhatsApp support confirms a workaround.
 
 ---
 
 ## Recently closed (context for new conversations)
 
+- External-channel UTM rollout (Jul 31) — convention defined and documented (`ai-infrastructure-documentation.md` §9): `utm_source`=platform, `utm_medium`=placement type, `utm_campaign`=`profile` (evergreen) or a content slug, optional `utm_content` for variants. Applied to Instagram bio, Google Business Profile (profile field + post-generator template saved for reuse), Facebook Page about field (updated even though not actively used), LinkedIn, Strava bio, TrainingPeaks coach bio, email signature, and YouTube channel about section. **Not applied:** WhatsApp Business profile — verified accounts can't have their website field edited; revisit if/when that unlocks (see LATER). Not yet verified in GA4 — check Acquisition → Traffic acquisition in ~1–2 weeks to confirm each source/medium is actually landing distinctly, since this is the first time non-plan-page UTMs exist on the site.
 - CoachMatch pipeline reliability session (Jul 31) — three real bugs fixed: WhatsApp watchdog rebuilt (message 2/3 progression, auto-lost after 7 days silent, no-phone leads no longer clutter the digest), email-nurture `emailTouchCount` stuck-at-1 bug (GraphQL `Float!`/`Int` type mismatch failing the query silently), and a multi-lead-per-execution bug in lead creation (n8n Code nodes defaulting to "Run Once for All Items" while written single-item style, so a 2-lead IMAP batch only ever updated the first lead). All three fixed and at least one (lead creation) confirmed live. Also closed the "blind scripts" problem: every VPS Python script (`twenty_followup_check.py`, `update_lead_status.py`, `sync_pixel_data.py`) and the live Caddyfile are now tracked in the repo, with a dispatcher/crontab pattern so future edits only ever need `git commit && git push`. Detail: `ai-infrastructure-documentation.md` §18. **Not yet verified:** WhatsApp watchdog hasn't run against a real batch yet (first live cron run Aug 1); no bulk audit of historically-stuck leads from either bug.
 - Monday coaching check-in — validated on a real Monday, fully live (Jul 2026)
 - Managed Hermes plan — cancelled (Jul 29)
