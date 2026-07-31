@@ -635,6 +635,15 @@ def call_model(prompt, api_key, model):
                      f"then set WRITER_MODEL / CONTENT_MODEL to one of the names it prints.")
         detail = e.read().decode("utf-8", errors="replace")[:400]
         sys.exit(f"Model call failed: HTTP {e.code}\n{detail}")
+    # Report real token usage rather than estimating cost. Two runs of this on
+    # the same idea with different models is a cheaper way to decide whether the
+    # pro tier is worth it than any amount of arguing about price per token.
+    u = data.get("usageMetadata") or {}
+    if u:
+        print(f"[model] {model}: {u.get('promptTokenCount', '?')} in / "
+              f"{u.get('candidatesTokenCount', '?')} out / "
+              f"{u.get('totalTokenCount', '?')} total", file=sys.stderr)
+
     cand = data["candidates"][0]
     text = cand["content"]["parts"][0]["text"]
     text = re.sub(r"^```(?:json)?|```$", "", text.strip(), flags=re.M).strip()
