@@ -24,8 +24,10 @@ USAGE
     python3 research_agent.py --dry-run           generate ideas, print, don't save
     python3 research_agent.py                     full run (intended for cron)
 
-ENVIRONMENT (all read from ~/.hermes/.env or the shell)
-    CONTENT_DB_DSN      postgres://analytics:...@127.0.0.1:5432/content
+ENVIRONMENT (read from ~/.hermes/.env and ~/.analytics/.env automatically)
+    PG_HOST/PG_PORT/PG_USER/PG_PASSWORD   Postgres, connected with keyword
+                        parameters rather than a postgres:// URI — the password
+                        contains characters a URI cannot carry safely.
     GOOGLE_API_KEY      Gemini key, already on the box for Hermes
     IDEA_NOTIFY_WEBHOOK n8n webhook that sends the "ideas ready" email
     CONTENT_MODEL       optional, defaults to gemini-3.5-flash
@@ -99,29 +101,15 @@ def load_env(verbose=True):
                     print(f"[env] model key loaded from {name}")
                 break
 
-    if not os.environ.get("CONTENT_DB_DSN"):
-        if env.get("CONTENT_DB_DSN"):
-            os.environ["CONTENT_DB_DSN"] = env["CONTENT_DB_DSN"]
-            if verbose:
-                print("[env] CONTENT_DB_DSN loaded from .env")
-        else:
-            for name in PG_PASS_NAMES:
-                if env.get(name):
-                    # Same server and credentials as the analytics database, but a
-                    # different database name — `content` is its own lane on the
-                    # shared analytics-postgres container, like storefront and
-                    # members. PG_DB is deliberately ignored: it points at the
-                    # analytics database, not this one.
-                    user = env.get("PG_USER") or env.get("POSTGRES_USER") or "analytics"
-                    host = env.get("PG_HOST") or "127.0.0.1"
-                    port = env.get("PG_PORT") or "5432"
-                    os.environ["CONTENT_DB_DSN"] = (
-                        f"postgres://{user}:{env[name]}@{host}:{port}/content")
-                    if verbose:
-                        print(f"[env] CONTENT_DB_DSN built from {name} "
-                              f"(user={user} host={host} port={port} db=content)")
-                    break
-
+    # Postgres connection is assembled from discrete PG_* values at connect()
+    # time — see the note there on why a URI is not used. This only reports.
+    if verbose and not os.environ.get("CONTENT_DB_DSN"):
+        for name in PG_PASS_NAMES:
+            if env.get(name):
+                print(f"[env] postgres password available as {name} "
+                      f"(user={env.get('PG_USER', 'analytics')} "
+                      f"host={env.get('PG_HOST', '127.0.0.1')} db=content)")
+                break
     if not os.environ.get("IDEA_NOTIFY_WEBHOOK") and env.get("IDEA_NOTIFY_WEBHOOK"):
         os.environ["IDEA_NOTIFY_WEBHOOK"] = env["IDEA_NOTIFY_WEBHOOK"]
 
@@ -586,14 +574,30 @@ def call_model(prompt, api_key, model):
 # Database
 # ---------------------------------------------------------------------------
 def connect():
-    dsn = os.environ.get("CONTENT_DB_DSN")
-    if not dsn:
-        sys.exit("CONTENT_DB_DSN is not set. See the header of this file.")
+    """Connect with keyword parameters, never a URI.
+
+    A postgres:// URI breaks when the password contains ":" or "@" — libpq parses
+    part of the password as the port and fails with "invalid integer value for
+    connection option port". That is exactly what happened here on the first real
+    save. Keyword parameters have no delimiters to collide with.
+    """
     try:
         import psycopg2
     except ImportError:
-        sys.exit("psycopg2 missing. Install with: pip3 install psycopg2-binary --break-system-packages")
-    return psycopg2.connect(dsn)
+        sys.exit("psycopg2 missing. Install with: pip3 install psycopg2-binary "
+                 "--break-system-packages, or use ~/.analytics/venv/bin/python3")
+
+    env = read_env_files()
+    password = os.environ.get("PG_PASSWORD") or env.get("PG_PASSWORD")
+    if not password:
+        sys.exit("No Postgres password found. Run --show-env to see what's available.")
+    return psycopg2.connect(
+        host=os.environ.get("PG_HOST") or env.get("PG_HOST") or "127.0.0.1",
+        port=int(os.environ.get("PG_PORT") or env.get("PG_PORT") or 5432),
+        user=os.environ.get("PG_USER") or env.get("PG_USER") or "analytics",
+        password=password,
+        dbname="content",
+    )
 
 
 VALID_TYPES = {"plan_guide", "education", "gated_teaser", "gear", "case_study"}

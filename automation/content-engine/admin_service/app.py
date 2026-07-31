@@ -18,19 +18,37 @@ Run:
 
 import json
 import os
+import re
 
 import psycopg2
 import psycopg2.extras
 from flask import Flask, redirect, request
 
 app = Flask(__name__)
-DSN = os.environ["CONTENT_DB_DSN"]
+
+# Discrete connection parameters, NOT a URI.
+#
+# A DSN string like postgres://user:pass@host:port/db cannot survive a password
+# containing ":" or "@" — those are the delimiters the format is built from.
+# Iván's Postgres password contains one, and libpq parsed part of it as the port
+# number ("invalid integer value ... for connection option port"). Keyword
+# parameters have no escaping rules to get wrong. CONTENT_DB_DSN is still
+# honoured if set, for anything that already passes one.
+DB = {
+    "host": os.environ.get("PG_HOST", "127.0.0.1"),
+    "port": int(os.environ.get("PG_PORT", "5432")),
+    "user": os.environ.get("PG_USER", "analytics"),
+    "password": os.environ.get("PG_PASSWORD", ""),
+    "dbname": os.environ.get("PG_DB_CONTENT", "content"),
+}
+DSN = os.environ.get("CONTENT_DB_DSN", "")
 
 TYPE_LABEL = {
-    "plan_guide": "Plan guide",
-    "education": "Education",
-    "gated_teaser": "Gated teaser",
-    "gear": "Gear",
+    "plan_guide": "Guía de planes",
+    "education": "Educativo",
+    "gated_teaser": "Teaser (área de miembros)",
+    "gear": "Equipamiento",
+    "case_study": "Caso de atleta",
 }
 CTA_LABEL = {
     "plan": "Plan", "all_access": "All-Access", "coaching": "Coaching",
@@ -40,7 +58,9 @@ LANG_LABEL = {"es": "ES", "en": "EN", "pt": "PT"}
 
 
 def db():
-    return psycopg2.connect(DSN, cursor_factory=psycopg2.extras.RealDictCursor)
+    if DSN:
+        return psycopg2.connect(DSN, cursor_factory=psycopg2.extras.RealDictCursor)
+    return psycopg2.connect(cursor_factory=psycopg2.extras.RealDictCursor, **DB)
 
 
 PAGE = """<!DOCTYPE html>
@@ -197,11 +217,49 @@ def decide():
     return redirect("/admin/ideas/", code=303)
 
 
+def redacted_dsn():
+    """Connection target with the password masked, safe to show in an error."""
+    if DSN:
+        return re.sub(r"://([^:]+):[^@]*@", r"://\1:***@", DSN)
+    return f"{DB['user']}:***@{DB['host']}:{DB['port']}/{DB['dbname']}"
+
+
 @app.get("/admin/health")
 def health():
-    with db() as conn, conn.cursor() as cur:
-        cur.execute("SELECT count(*) AS n FROM content_ideas WHERE status='PROPOSED'")
-        return {"ok": True, "pending": cur.fetchone()["n"]}
+    """Diagnose, don't just fail.
+
+    This endpoint exists to tell you what is wrong before Caddy is even involved,
+    so a bare 500 from it is useless. Each failure mode is reported distinctly —
+    an empty password (the most likely one, if the shell variable used to build
+    the DSN was never set) looks nothing like a missing table, and guessing
+    between them costs more time than reporting them does.
+    """
+    if not DSN and not DB["password"]:
+        return {"ok": False,
+                "error": "no password: PG_PASSWORD is not set in the container. The "
+                         "shell variable used in docker run was probably empty. Check: "
+                         "grep -l '^PG_PASSWORD=' ~/.analytics/.env ~/.hermes/.env",
+                "target": redacted_dsn()}, 500
+
+    try:
+        with db() as conn, conn.cursor() as cur:
+            cur.execute("SELECT to_regclass('public.content_ideas') AS t")
+            if not cur.fetchone()["t"]:
+                return {"ok": False,
+                        "error": "connected, but table content_ideas does not exist — "
+                                 "schema.sql was never loaded into this database",
+                        "target": redacted_dsn()}, 500
+            cur.execute("SELECT count(*) AS n FROM content_ideas WHERE status='PROPOSED'")
+            pending = cur.fetchone()["n"]
+            cur.execute("SELECT count(*) AS n FROM content_ideas")
+            total = cur.fetchone()["n"]
+        return {"ok": True, "pending": pending, "total": total, "target": redacted_dsn()}
+    except psycopg2.OperationalError as e:
+        return {"ok": False, "error": f"cannot connect: {e}".strip(),
+                "target": redacted_dsn()}, 500
+    except Exception as e:
+        return {"ok": False, "error": f"{type(e).__name__}: {e}",
+                "target": redacted_dsn()}, 500
 
 
 if __name__ == "__main__":
