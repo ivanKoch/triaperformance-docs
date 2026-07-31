@@ -1,0 +1,416 @@
+{
+  "name": "CoachMatch – Email Nurture 2-3",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1f85f583-7fc9-44b3-b40f-b2f95fe5e147",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://100.70.89.17:3000/graphql",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"query\": \"query FindPeopleForEmailNurture($status: String!) { people(filter: { leadStatus: { eq: $status }, emailTouchCount: { lt: 3 } }) { edges { node { id name { firstName lastName } emails { primaryEmail } emailTouchCount createdAt } } } }\",\n  \"variables\": {\n    \"status\": \"MESSAGE_SENT\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "ba59ccf5-43ee-4e75-ad81-985f77cfa500",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date();\nconst results = [];\n\nfor (const edge of $input.first().json.data.people.edges) {\n  const person = edge.node;\n  const createdAt = new Date(person.createdAt);\n  const hoursSinceCreated = (now - createdAt) / (1000 * 60 * 60);\n  const touchCount = person.emailTouchCount;\n\n  const isDue =\n    (touchCount === 1 && hoursSinceCreated >= 24) ||\n    (touchCount === 2 && hoursSinceCreated >= 48);\n\n  if (isDue) {\n    results.push({\n      json: {\n        id: person.id,\n        firstname: person.name.firstName,\n        lastname: person.name.lastName,\n        email: person.emails.primaryEmail,\n        emailTouchCount: touchCount\n      }\n    });\n  }\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "490b3456-d5c7-4262-baf7-c1ade0318c8b",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        624,
+        0
+      ],
+      "id": "517cc232-52ef-4578-8912-e3db2411e07b",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.emailTouchCount }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "6f0ab971-1e3b-41e8-90a4-6e873ed3dd52"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Email 2 due"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b8bbe0a6-54d7-468c-8c32-d19d2a43fd5b",
+                    "leftValue": "={{ $json.emailTouchCount }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Email 3 due"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        0
+      ],
+      "id": "a1fec67a-c3bd-4558-b735-30c7864b9c11",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "fromEmail": "Iván Koch - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.firstname }}, no busques un plan — busca un coach",
+        "html": "=<p>Hola {{ $json.firstname }},</p>\n\n<p>Siguiendo mi correo de ayer, quiero contarte algo que aprendí entrenando a docenas de atletas.</p>\n\n<p>Un plan perfecto en papel no sirve de nada si no se adapta a tu realidad. Un PDF no sabe si tuviste una reunión hasta tarde, si dormiste mal, o si hoy amaneciste con más energía de lo normal.</p>\n\n<p>Por eso lo que te ofrecía ayer no es \"cargarte rutinas en TrainingPeaks\". Es comunicación constante y feedback real, incluido siempre, sin costo extra:</p>\n\n<ul>\n  <li>¿Surgió un viaje imprevisto? Ajustamos el plan.</li>\n  <li>¿No entendiste una sesión? Me escribes y lo resolvemos.</li>\n  <li>¿Necesitas un empujón? Ahí estaré.</li>\n</ul>\n\n<p>Si lees las <a href=\"https://maps.app.goo.gl/Dfw4166sxw3WGwA3A\">Reseñas de Google</a>, verás que lo que más valoran mis atletas no son los números, sino justamente eso: la adaptación a su agenda y el check-in semanal.</p>\n\n<p>No quiero venderte una hoja de cálculo. Quiero ser parte de tu proceso.</p>\n\n<p>Sigamos por <a href=\"https://wa.me/573105437088\">WhatsApp</a> y vemos cómo adaptar esto a tus horarios.</p>\n\n<p>Saludos,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1456,
+        -160
+      ],
+      "id": "6634c713-9b03-4834-b9da-3252cd0af524",
+      "name": "Send an Email",
+      "webhookId": "27ed8d85-5bdf-4bbc-85e7-685bb161655c",
+      "credentials": {
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    query: \"mutation UpdatePerson($id: ID!, $data: PersonUpdateInput!) { updatePerson(id: $id, data: $data) { id } }\",\n    variables: {\n      id: $('Code in JavaScript').item.json.id,\n      data: {\n        emailTouchCount: 2,\n        lastTouchpoint: new Date().toISOString()\n      }\n    }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        -160
+      ],
+      "id": "22568730-c48f-4437-b74e-b3d2df834b14",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "fromEmail": "Iván Koch - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.firstname }}, ¿sigues buscando coach? (un regalo, sin compromiso)",
+        "html": "=<p>Hola {{ $json.firstname }},</p>\n\n<p>Imagino que estás ocupado, o quizás ya encontraste el coach que buscabas. Sin problema.</p>\n\n<p>Pero no quiero que te vayas con las manos vacías. En Triaperformance creemos en aportar valor desde el día uno, seas atleta oficial o no.</p>\n\n<p>Elige la guía que más te sirva hoy y es tuya:</p>\n\n<ul>\n  <li><a href=\"https://triaperformance.com/guias/pre-entreno.pdf\">Guía de bolsillo para el pre-entreno</a> — qué comer antes de entrenar según el tiempo que tengas.</li>\n  <li><a href=\"https://triaperformance.com/guias/intervalos.pdf\">Manual para sobrevivir a los intervalos</a> — herramientas para fortalecer tu mente cuando las piernas ya no responden.</li>\n  <li><a href=\"https://triaperformance.com/guias/zonas-de-entrenamiento.pdf\">Guía rápida de zonas de entrenamiento</a> — deja de entrenar a ciegas y define tus ritmos exactos.</li>\n</ul>\n\n<p>Haz clic en la que prefieras y es tuya al instante. Es mi forma de agradecerte por haberme contactado.</p>\n\n<p>Y si en algún momento quieres retomar la conversación, aquí me tienes: <a href=\"https://wa.me/573105437088\">WhatsApp</a>.</p>\n\n<p>Un abrazo,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1456,
+        16
+      ],
+      "id": "add2314c-33f3-4058-89c2-900b6a245583",
+      "name": "Send an Email1",
+      "webhookId": "ceef59d8-7584-44ba-b817-69267c1d5fe9",
+      "credentials": {
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    query: \"mutation UpdatePerson($id: ID!, $data: PersonUpdateInput!) { updatePerson(id: $id, data: $data) { id } }\",\n    variables: {\n      id: $('Code in JavaScript').item.json.id,\n      data: {\n        emailTouchCount: 3,\n        lastTouchpoint: new Date().toISOString()\n      }\n    }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1664,
+        16
+      ],
+      "id": "03708f6a-eed5-41d2-aa5a-138900b6eaea",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://100.70.89.17:3000/graphql",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2176,
+        16
+      ],
+      "id": "2fbd29c5-675a-4937-a356-dd899a2d1515",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://100.70.89.17:3000/graphql",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1872,
+        16
+      ],
+      "id": "16266de7-51a5-4c32-b82a-75391caaf65e",
+      "name": "HTTP Request2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send an Email1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an Email": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an Email1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "timeSavedPerExecution": 5
+  },
+  "versionId": "8ee6c674-70ba-4daa-968f-7c3ba43d3124",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8e076cafb52cccf2e8bbadb4d0f2ec8c146f30578d107bdefeabccfda2ab75a9"
+  },
+  "nodeGroups": [],
+  "id": "zMcF5LSfOy1Ww69c",
+  "tags": []
+}
