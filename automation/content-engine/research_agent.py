@@ -393,52 +393,88 @@ DOMAIN_NOISE = set("""
 training train trainings workout workouts athlete athletes coach coaching
 running runner runners cycling cyclist cyclists triathlon triathlete session
 sessions performance race races racing week weeks plan plans guide tips
+fitness fit training's endurance goals goal program programs schedule
 treino treinos atleta atletas corrida entrenamiento entrenamientos plan
 """.split())
-STOPWORDS |= DOMAIN_NOISE
+# Function words. These are not "noise because they're common" — several are
+# rare in this corpus — they're words that can't carry a theme regardless.
+FUNCTION_WORDS = set("""
+here there this that these those they them their its it is are was were be been
+being have has had do does did will would can could should may might must
+you your yours we our ours us they i me my mine he she his her
+what when where which who whom why how all any both each few more most other
+some such only own same than too very just now then once again ever never
+about above after against below between during before under over up down out
+off further while because until unless since although though even also still
+get gets got make makes making take takes taking use uses used using
+way ways thing things part parts lot lots kind sort type
+day days week weeks month months year years time times
+new old good better best big small long short high low
+one two three first second next last another every
+into onto from with without within across through per via
+como para pero porque cuando donde desde hasta entre sobre bajo
+esto esta este esos esas aquel aquella todo toda todos todas
+mais menos muito pouco quando onde porque isso essa esse
+""".split())
+STOPWORDS |= DOMAIN_NOISE | FUNCTION_WORDS
 
 
-def theme_clusters(posts, min_sources=2, max_doc_freq=0.20):
-    """Group posts by shared salient words; report which themes span sources.
+def theme_clusters(posts, min_sources=2, max_doc_freq=0.25):
+    """Find themes spanning multiple sources, using two-word phrases.
 
-    A hand-maintained stopword list can't keep up — the first version surfaced
-    "here", "using", "time" and "data" as top themes. Instead, anything appearing
-    in more than max_doc_freq of the corpus is treated as noise automatically:
-    a word in 20%+ of an endurance-blog crawl describes the corpus, not a trend.
-    That removes "training" and "here" for the same principled reason, without
-    anyone having to notice them first.
+    Single words don't work here. The first attempt surfaced "here", "time",
+    "using" and "build" as top themes, and a document-frequency cutoff didn't
+    help because those words appear in only 6% of posts — they are semantically
+    empty, not statistically frequent, which is a different problem needing a
+    different tool. Bigrams solve it structurally: "fatigue resistance" and
+    "lactate threshold" are themes, "here is" and "using your" are not, and a
+    phrase built from two content words is almost always meaningful.
+
+    Single words are still allowed through, but only if they are long, rare
+    enough to be specific, and not in the stoplist.
     """
-    def words(t):
-        return {w for w in re.findall(r"[a-zA-Záéíóúñçãõü]{4,}", (t or "").lower())
-                if w not in STOPWORDS}
+    def tokens(t):
+        return [w for w in re.findall(r"[a-zA-Záéíóúñçãõü]+", (t or "").lower())
+                if len(w) >= 3]
 
-    tokens = {}
+    def phrases(t):
+        ws = tokens(t)
+        out = set()
+        for a, b in zip(ws, ws[1:]):
+            if a in STOPWORDS or b in STOPWORDS:
+                continue
+            out.add(f"{a} {b}")
+        for w in ws:
+            if len(w) >= 6 and w not in STOPWORDS:
+                out.add(w)
+        return out
+
+    index = {}
     for p in posts:
-        for w in words(p["title"]) | words(p.get("summary", "")):
-            tokens.setdefault(w, []).append(p)
+        for ph in phrases(p["title"]) | phrases(p.get("summary", "")):
+            index.setdefault(ph, []).append(p)
 
     n_posts = max(len(posts), 1)
     clusters = []
-    for word, group in tokens.items():
+    for phrase, group in index.items():
         if len(group) / n_posts > max_doc_freq:
-            continue  # too common to be a signal
+            continue
         sources = {g["source_name"] for g in group}
         if len(sources) >= min_sources and len(group) >= 2:
             clusters.append({
-                "theme": word,
+                "theme": phrase,
                 "source_count": len(sources),
                 "post_count": len(group),
+                "is_phrase": " " in phrase,
                 "sources": sorted(sources),
                 "examples": [{"title": g.get("title", "")[:130], "url": g.get("url", "")}
                              for g in group[:4]],
             })
-    clusters.sort(key=lambda c: (-c["source_count"], -c["post_count"]))
+    # Multi-word themes first: they are specific enough to build an angle on.
+    clusters.sort(key=lambda c: (-int(c["is_phrase"]), -c["source_count"], -c["post_count"]))
     return clusters[:25]
 
 
-# ---------------------------------------------------------------------------
-# Idea generation
-# ---------------------------------------------------------------------------
 PROMPT = """You are the research agent for Triaperformance, a triathlon and running coaching business.
 
 Your job: propose {n} article ideas for their blog. You are NOT writing articles.
@@ -557,7 +593,7 @@ def call_model(prompt, api_key, model):
            f"{model}:generateContent?key={api_key}")
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"temperature": 0.85, "maxOutputTokens": 8192,
+        "generationConfig": {"temperature": 0.85, "maxOutputTokens": 32768,
                              "responseMimeType": "application/json"},
     }
     req = urllib.request.Request(
@@ -565,9 +601,55 @@ def call_model(prompt, api_key, model):
         headers={"Content-Type": "application/json"}, method="POST")
     with urllib.request.urlopen(req, timeout=120) as r:
         data = json.loads(r.read().decode("utf-8"))
-    text = data["candidates"][0]["content"]["parts"][0]["text"]
+    cand = data["candidates"][0]
+    text = cand["content"]["parts"][0]["text"]
     text = re.sub(r"^```(?:json)?|```$", "", text.strip(), flags=re.M).strip()
-    return json.loads(text)
+
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError as e:
+        # The response was cut off — usually the output token limit, which
+        # `finishReason: MAX_TOKENS` confirms. Losing eleven good ideas because
+        # the twelfth was truncated mid-sentence is the wrong failure: salvage
+        # every complete idea object and report the shortfall.
+        reason = cand.get("finishReason", "unknown")
+        print(f"[model] response was not valid JSON ({e}); finishReason={reason}. "
+              f"Salvaging complete ideas...", file=sys.stderr)
+        return {"ideas": salvage_ideas(text)}
+
+
+def salvage_ideas(text):
+    """Pull complete {...} objects out of a truncated ideas array."""
+    start = text.find("[")
+    if start == -1:
+        return []
+    ideas, depth, obj_start, in_str, esc = [], 0, None, False, False
+    for i, ch in enumerate(text[start:], start):
+        if in_str:
+            if esc:
+                esc = False
+            elif ch == "\\":
+                esc = True
+            elif ch == '"':
+                in_str = False
+            continue
+        if ch == '"':
+            in_str = True
+        elif ch == "{":
+            if depth == 0:
+                obj_start = i
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0 and obj_start is not None:
+                try:
+                    ideas.append(json.loads(text[obj_start:i + 1]))
+                except json.JSONDecodeError:
+                    pass
+                obj_start = None
+    print(f"[model] salvaged {len(ideas)} complete ideas from the truncated response",
+          file=sys.stderr)
+    return ideas
 
 
 # ---------------------------------------------------------------------------
