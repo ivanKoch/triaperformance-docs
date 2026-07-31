@@ -183,8 +183,14 @@ STRUCTURE
 - End with a section that concedes the strongest counter-argument honestly,
   then says why the advice still holds.
 
-Return STRICT JSON, no markdown fence:
-{{"headline":"the H1","short_title":"3-5 words for the breadcrumb","title":"SEO title | Triaperformance","standfirst":"one sentence under the H1","description":"meta description, 150-160 chars","category":"2-3 words","reading_time":8,"slug":"url-slug-in-{language_code}","body":"<p>the full article HTML</p>"}}
+OUTPUT FORMAT — exactly this, nothing before or after. Two blocks separated by
+the ===BODY=== marker. The article HTML goes AFTER the marker, as plain text —
+never inside the JSON, and never escaped.
+
+===META===
+{{"headline":"the H1","short_title":"3-5 words for the breadcrumb","title":"SEO title | Triaperformance","standfirst":"one sentence under the H1","description":"meta description, 150-160 chars","category":"2-3 words","reading_time":8,"slug":"url-slug-in-{language_code}"}}
+===BODY===
+<p>the full article HTML, written normally</p>
 """
 
 TRANSLATE_PROMPT = """Adapt this published Triaperformance article into {language_name}.
@@ -248,10 +254,27 @@ def parse_draft(text):
     response — which is exactly what happened: a complete, good article was
     thrown away over a stray quote 9,500 characters in. Keeping the prose
     outside the JSON removes the failure mode rather than defending against it.
+
+    But we accept the old shape too. A generation costs real money, and a reply
+    that happens to be valid JSON with a body in it is a perfectly good article
+    — refusing it because it arrived in last week's format is throwing away
+    something that works. Parse what the model sent; only fail if it's
+    unusable.
     """
+    text = text.strip()
     if "===BODY===" not in text:
-        raise ValueError("model reply has no ===BODY=== marker; got: "
-                         + text[:300].replace("\n", " "))
+        # No marker. If it's parseable JSON carrying a body, take it.
+        cleaned = re.sub(r"^```(?:json)?|```$", "", text, flags=re.M).strip()
+        try:
+            draft = json.loads(cleaned)
+        except json.JSONDecodeError as e:
+            raise ValueError(
+                "model reply has no ===BODY=== marker and is not valid JSON "
+                f"({e}); got: " + text[:300].replace("\n", " ")) from None
+        if not isinstance(draft, dict) or not draft.get("body"):
+            raise ValueError("model reply has no ===BODY=== marker and no body "
+                             "field; got: " + text[:300].replace("\n", " "))
+        return draft
     meta_part, body = text.split("===BODY===", 1)
     meta_part = meta_part.replace("===META===", "").strip()
     meta_part = re.sub(r"^```(?:json)?|```$", "", meta_part, flags=re.M).strip()
