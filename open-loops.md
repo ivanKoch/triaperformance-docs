@@ -1,6 +1,6 @@
 # Open Loops — the single source of truth for what's in flight
 
-**Last updated: July 30, 2026 (Plan Storefront Phase 1, part 1 — catalog + plan-page template built, not yet deployed; same-day, race-specific landing pages planning session — gathering done, item 2 in NEXT).** This file replaces the open-item lists previously scattered across `ai-infrastructure-documentation.md`, `growth-roadmap.md` (Sequencing), `content-engine-brief.md` (Open decisions), and the runbooks. Those docs keep the *detail*; this file is the *list*. Update it at the end of every working session.
+**Last updated: July 31, 2026 (CoachMatch pipeline reliability session — three real bugs found and fixed in WhatsApp follow-up, email nurture, and multi-lead lead-creation handling; all VPS Python scripts + the live Caddy config migrated into the repo, closing the "blind scripts" problem for good. Detail: `ai-infrastructure-documentation.md` §18. No change to the Plan Storefront big branch — this was an off-branch reliability fix session).** This file replaces the open-item lists previously scattered across `ai-infrastructure-documentation.md`, `growth-roadmap.md` (Sequencing), `content-engine-brief.md` (Open decisions), and the runbooks. Those docs keep the *detail*; this file is the *list*. Update it at the end of every working session.
 
 ## Rules
 - **WIP limit: 1 big branch + 1 small slot.** A new branch opens only when one closes.
@@ -67,6 +67,7 @@ Sub-items:
 
 ## Recently closed (context for new conversations)
 
+- CoachMatch pipeline reliability session (Jul 31) — three real bugs fixed: WhatsApp watchdog rebuilt (message 2/3 progression, auto-lost after 7 days silent, no-phone leads no longer clutter the digest), email-nurture `emailTouchCount` stuck-at-1 bug (GraphQL `Float!`/`Int` type mismatch failing the query silently), and a multi-lead-per-execution bug in lead creation (n8n Code nodes defaulting to "Run Once for All Items" while written single-item style, so a 2-lead IMAP batch only ever updated the first lead). All three fixed and at least one (lead creation) confirmed live. Also closed the "blind scripts" problem: every VPS Python script (`twenty_followup_check.py`, `update_lead_status.py`, `sync_pixel_data.py`) and the live Caddyfile are now tracked in the repo, with a dispatcher/crontab pattern so future edits only ever need `git commit && git push`. Detail: `ai-infrastructure-documentation.md` §18. **Not yet verified:** WhatsApp watchdog hasn't run against a real batch yet (first live cron run Aug 1); no bulk audit of historically-stuck leads from either bug.
 - Monday coaching check-in — validated on a real Monday, fully live (Jul 2026)
 - Managed Hermes plan — cancelled (Jul 29)
 - Eleventy cutover + sitemap/robots + analytics sanity check (Jul 26–28)
