@@ -316,6 +316,7 @@ def load_our_assets():
     import csv
 
     assets = {"plans_by_topic": {}, "members_artifacts": [], "methodology_sections": [],
+              "races": [],
               "lead_magnets": ["zonas-de-entrenamiento", "pre-entreno", "intervalos"]}
 
     inv = os.path.join(REPO, "data", "training_plans_inventory.csv")
@@ -345,6 +346,30 @@ def load_our_assets():
                 and d not in ("login", "forgot-password")
             )
             break
+
+    # Races. Each row already carries researched target queries per language and
+    # the plan durations available for it — the single highest-intent content
+    # angle in the repo, because a race-specific guide meets a reader who has
+    # already chosen a date and is looking for exactly one thing.
+    races_csv = os.path.join(REPO, "data", "races.csv")
+    if os.path.exists(races_csv):
+        with open(races_csv, encoding="utf-8-sig", newline="") as fh:
+            for r in csv.DictReader(fh):
+                name = (r.get("race_name_es") or r.get("race_name_en")
+                        or r.get("race_name_pt") or "").strip()
+                if not name:
+                    continue
+                assets["races"].append({
+                    "race": name,
+                    "country": (r.get("country") or "").strip(),
+                    "distance": (r.get("distance") or "").strip(),
+                    "market": (r.get("language_market") or "").strip(),
+                    "month": (r.get("typical_month") or "").strip(),
+                    "plan_weeks": (r.get("plan_duration_weeks_available") or "").strip(),
+                    "queries_es": (r.get("target_queries_es") or "")[:200],
+                    "queries_en": (r.get("target_queries_en") or "")[:200],
+                    "queries_pt": (r.get("target_queries_pt") or "")[:200],
+                })
 
     meth = os.path.join(REPO, "methodology.md")
     if os.path.exists(meth):
@@ -479,6 +504,15 @@ REQUIRED MIX across the set you return:
     without selling anything is a success, not a fallback.
   - at least 1 case_study, if the assets give you a real athlete to build on.
   - no more than a third with signal_type = evergreen.
+
+RACE-SPECIFIC ANGLES
+OUR ASSETS includes a `races` list with real target-race data: distance, market,
+typical month, the plan durations available for it, and pre-researched search
+queries per language. A race guide is the highest-intent content available —
+the reader has already picked a date and wants one specific answer. Propose
+these when the race's month is close enough to matter and the plan durations
+line up with the time remaining. Use the race's own target_queries as
+target_query rather than inventing one.
 
 FORMATS WORTH BORROWING (formats, not topics)
   "Paper review" — take one recent study, extract what it actually changes in
@@ -729,7 +763,8 @@ def main():
     assets = load_our_assets()
     print(f"[assets] {len(assets['plans_by_topic'])} plan topic buckets, "
           f"{len(assets['members_artifacts'])} members artifacts, "
-          f"{len(assets['methodology_sections'])} methodology sections")
+          f"{len(assets['methodology_sections'])} methodology sections, "
+          f"{len(assets['races'])} races")
 
     existing = []
     conn = None
