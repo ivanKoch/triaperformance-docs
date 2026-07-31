@@ -88,6 +88,25 @@ rsync -a --delete "$BUILD_DIR"/ "$WEBROOT"/
 # traverse (execute) on directories only. Harmless if already correct.
 chmod -R a+rX "$WEBROOT"
 
+# ---- Caddy config sync. Same "repo is truth" invariant as the site itself:
+# the live /etc/caddy/Caddyfile should never be hand-edited, only ever written
+# here from automation/Caddyfile. Validate the REPO's copy before touching
+# anything live — a bad commit then just fails loudly here and leaves the
+# running config alone, instead of reloading Caddy into a broken state.
+echo "[$(date -Is)] checking Caddyfile for changes"
+if ! cmp -s "$REPO/automation/Caddyfile" /etc/caddy/Caddyfile; then
+  echo "[$(date -Is)] Caddyfile changed — validating before touching the live one"
+  if sudo caddy validate --config "$REPO/automation/Caddyfile"; then
+    sudo cp "$REPO/automation/Caddyfile" /etc/caddy/Caddyfile
+    sudo systemctl reload caddy
+    echo "[$(date -Is)] Caddyfile updated and reloaded"
+  else
+    echo "[$(date -Is)] CADDYFILE VALIDATION FAILED — live config left untouched, site deploy continues" >&2
+  fi
+else
+  echo "[$(date -Is)] Caddyfile unchanged"
+fi
+
 # ---- Post-deploy verification. Test what a visitor actually gets, not just
 # whether files exist — the 403 that motivated this was invisible to a file check.
 echo "[$(date -Is)] verifying the live site responds"

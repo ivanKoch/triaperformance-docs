@@ -1,0 +1,67 @@
+triaperformance.com {
+    root * /var/www/triaperformance
+    header {
+        Referrer-Policy "no-referrer-when-downgrade"
+    }
+
+    @membersPublicPages {
+        path /members/login /members/login/ /members/forgot-password /members/forgot-password/
+        method GET
+    }
+    handle @membersPublicPages {
+        file_server
+    }
+
+    @membersAuthPost {
+        path /members/login /members/logout
+        method POST
+    }
+    handle @membersAuthPost {
+        reverse_proxy 127.0.0.1:8091
+    }
+
+    @membersForgotPost {
+        path /members/forgot-password
+        method POST
+    }
+    handle @membersForgotPost {
+        rewrite * /webhook/resend-password
+        reverse_proxy 100.70.89.17:5678
+    }
+
+    handle /members/* {
+        forward_auth 127.0.0.1:8091 {
+            uri /members/check
+            copy_headers Cookie
+
+            @denied status 401
+            handle_response @denied {
+                redir * /members/login?next={http.request.orig_uri} 302
+            }
+        }
+        file_server
+    }
+
+    route /api/plan-lead {
+        rewrite * /webhook/plan-lead
+        reverse_proxy 100.70.89.17:5678 {
+            header_up Host {upstream_hport}
+        }
+    }
+
+    route /api/contact-form {
+        rewrite * /webhook/contact-form
+        reverse_proxy 100.70.89.17:5678
+    }
+
+    redir /guias/zonas-de-entrenamiento.pdf /assets/guias/zonas-de-entrenamiento.pdf permanent
+    redir /guias/pre-entreno.pdf /assets/guias/pre-entreno.pdf permanent
+    redir /guias/intervalos.pdf /assets/guias/intervalos.pdf permanent
+
+    file_server
+    encode gzip
+}
+
+www.triaperformance.com {
+    redir https://triaperformance.com{uri} permanent
+}
