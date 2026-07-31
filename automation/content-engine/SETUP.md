@@ -94,38 +94,70 @@ If they look reasonable, drop `--dry-run` to save them.
 
 ## Step 4 — Deploy the review page
 
+This is the UI. Once it's up, the ideas live at **https://triaperformance.com/admin/ideas/** in a browser — a table with Sí / No / — radio buttons per idea, "approve all" and "reject all" buttons, and one Save at the end.
+
+Pull the password out of the env file rather than typing it:
+
 ```bash
-cd ~/.hermes/triaperformance-docs/automation/content-engine/admin_service
-docker build -t tp-admin .
-docker run -d --name tp-admin --restart unless-stopped \
-  -e CONTENT_DB_DSN="postgres://analytics:PASSWORD@172.17.0.1:5432/content" \
-  -p 127.0.0.1:8092:8092 tp-admin
+export PGPW=$(grep '^PG_PASSWORD=' ~/.analytics/.env | cut -d= -f2- | tr -d "\"'")
 ```
 
-Note `172.17.0.1` rather than `127.0.0.1` in the DSN — inside a container, loopback is the container itself, not the host. This is the same gotcha as the dashboard binding issue in `ai-infrastructure-documentation.md` problem #3.
+```bash
+docker build -t tp-admin ~/.hermes/triaperformance-docs/automation/content-engine/admin_service
+```
+
+```bash
+docker run -d --name tp-admin --restart unless-stopped --network host -e CONTENT_DB_DSN="postgres://analytics:$PGPW@127.0.0.1:5432/content" tp-admin
+```
+
+Check it can see the database:
+
+```bash
+curl -s http://127.0.0.1:8092/admin/health
+```
+
+Expect `{"ok": true, "pending": N}` where N is the number of ideas waiting.
+
+**`--network host` is required, not stylistic.** `analytics-postgres` is bound to `127.0.0.1` on the host, so a container on the default bridge network cannot reach it — not on `172.17.0.1`, not by container name. Sharing the host's network namespace is the way in without loosening the database's binding. Because of that, gunicorn binds `127.0.0.1` inside the container: with `--network host`, binding `0.0.0.0` would publish this admin page on the VPS's public IP.
 
 ## Step 5 — Gate it in Caddy
 
-Generate a password hash:
+Generate a password hash (it will prompt twice, nothing echoes):
 
 ```bash
 caddy hash-password
 ```
 
-Add inside the `triaperformance.com` site block, **above** the general handlers:
+Save that password in Bitwarden now, while you have it.
+
+Add this inside the `triaperformance.com` site block in `automation/Caddyfile`, **above** the general handlers — `handle` blocks are evaluated in order and the first match wins:
 
 ```
 handle /admin/* {
 	basic_auth {
-		ivan REPLACE_WITH_HASH_FROM_ABOVE
+		ivan PASTE_THE_HASH_HERE
 	}
 	reverse_proxy 127.0.0.1:8092
 }
 ```
 
-Then `systemctl reload caddy`. Save the password in Bitwarden.
+Edit that file on your Mac, commit and push — the daily deploy validates and installs the Caddyfile automatically. To apply it immediately instead:
 
-**Why basic_auth and not the members token system:** there is exactly one user. The members area needed per-subscriber tokens because revoking one subscriber must not affect the others. Here a second token system would be invented complexity.
+```bash
+sudo cp ~/.hermes/triaperformance-docs/automation/Caddyfile /etc/caddy/Caddyfile && sudo caddy validate --config /etc/caddy/Caddyfile && sudo systemctl reload caddy
+```
+
+Then open **https://triaperformance.com/admin/ideas/** and log in with `ivan` plus that password.
+
+**Why basic_auth and not the members token system:** there's exactly one user. The members area needed per-subscriber tokens because revoking one subscriber must not affect the others. Here that would be invented complexity.
+
+## Step 5b — If you'd rather look at the ideas right now
+
+The page is the intended way, but the data is queryable directly:
+
+```bash
+docker exec -it analytics-postgres psql -U analytics -d content -c "SELECT id, language, article_type, cta_type, score, working_title FROM pending_ideas;"
+```
 
 ## Step 6 — The notification email
 

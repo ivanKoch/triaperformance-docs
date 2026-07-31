@@ -410,8 +410,16 @@ treino treinos atleta atletas corrida entrenamiento entrenamientos plan
 STOPWORDS |= DOMAIN_NOISE
 
 
-def theme_clusters(posts, min_sources=2):
-    """Group posts by shared salient words; report which themes span sources."""
+def theme_clusters(posts, min_sources=2, max_doc_freq=0.20):
+    """Group posts by shared salient words; report which themes span sources.
+
+    A hand-maintained stopword list can't keep up — the first version surfaced
+    "here", "using", "time" and "data" as top themes. Instead, anything appearing
+    in more than max_doc_freq of the corpus is treated as noise automatically:
+    a word in 20%+ of an endurance-blog crawl describes the corpus, not a trend.
+    That removes "training" and "here" for the same principled reason, without
+    anyone having to notice them first.
+    """
     def words(t):
         return {w for w in re.findall(r"[a-zA-Záéíóúñçãõü]{4,}", (t or "").lower())
                 if w not in STOPWORDS}
@@ -421,8 +429,11 @@ def theme_clusters(posts, min_sources=2):
         for w in words(p["title"]) | words(p.get("summary", "")):
             tokens.setdefault(w, []).append(p)
 
+    n_posts = max(len(posts), 1)
     clusters = []
     for word, group in tokens.items():
+        if len(group) / n_posts > max_doc_freq:
+            continue  # too common to be a signal
         sources = {g["source_name"] for g in group}
         if len(sources) >= min_sources and len(group) >= 2:
             clusters.append({
@@ -448,8 +459,11 @@ CONVERGING THEMES (computed, not guessed)
 Below, under THEMES, is the list of subjects that appeared across MULTIPLE sources
 in the window, with counts. These are the real timing signals. Prefer them.
 Every idea must declare `signal_type`:
-  convergence — built on a theme in the THEMES list. Set source_count to that
-                theme's source_count. This is the strongest kind.
+  convergence — built on a theme in the THEMES list. You MUST list, in `evidence`,
+                the URLs of the actual posts that support it, from at least two
+                DIFFERENT sources. The count is verified against those URLs in
+                code — claiming a theme's headline number without citing posts
+                that are genuinely about your angle gets the idea discarded.
   gap         — the sources collectively are NOT covering something Triaperformance
                 is well placed to answer. Say in the rationale what is missing.
   evergreen   — no source signal at all; it stands on Triaperformance's own assets
@@ -595,8 +609,23 @@ REQUIRED_CTA = {
 }
 
 
-def save_ideas(conn, ideas):
+def verified_source_count(idea, url_to_source):
+    """How many DISTINCT sources the idea actually cites.
+
+    The model was setting source_count to the theme's source count, which meant
+    an idea about altitude in Mexico City claimed 5 sources because 5 sources had
+    written about "marathon". A broad theme launders a weak signal into a strong
+    number. The claim is now measured from the evidence URLs instead of believed.
+    """
+    ev = idea.get("evidence") or []
+    if isinstance(ev, str):
+        ev = [ev]
+    return len({url_to_source[u] for u in ev if u in url_to_source})
+
+
+def save_ideas(conn, ideas, url_to_source=None):
     """Insert ideas, dropping any the model malformed rather than trusting it."""
+    url_to_source = url_to_source or {}
     kept, dropped = 0, []
     with conn.cursor() as cur:
         for i in ideas:
@@ -617,10 +646,14 @@ def save_ideas(conn, ideas):
             if sig not in VALID_SIGNALS:
                 dropped.append((i.get("working_title", "?"), f"bad signal_type {sig}"))
                 continue
-            if sig == "convergence" and (i.get("source_count") or 0) < 2:
-                dropped.append((i.get("working_title", "?"),
-                                "claims convergence but only one source"))
-                continue
+            if sig == "convergence":
+                verified = verified_source_count(i, url_to_source)
+                if verified < 2:
+                    dropped.append((i.get("working_title", "?"),
+                                    f"claims convergence but only {verified} distinct "
+                                    f"source(s) in its cited evidence"))
+                    continue
+                i["source_count"] = verified  # store the measured value, not the claim
             cur.execute("""
                 INSERT INTO content_ideas
                   (language, working_title, angle, target_query, rationale,
@@ -805,8 +838,12 @@ def main():
             allowed = REQUIRED_CTA.get(i.get("article_type"))
             if allowed and i.get("cta_type") not in allowed:
                 ok.append("CTA MISMATCH")
-            if i.get("signal_type") == "convergence" and (i.get("source_count") or 0) < 2:
-                ok.append("FAKE CONVERGENCE")
+            if i.get("signal_type") == "convergence":
+                v = verified_source_count(i, {p["url"]: p["source_name"]
+                                              for p in recent if p.get("url")})
+                if v < 2:
+                    ok.append(f"UNVERIFIED CONVERGENCE (claims "
+                              f"{i.get('source_count')}, evidence shows {v})")
             flag = ("  <<< " + ", ".join(ok)) if ok else ""
             print(f"\n  [{i.get('language')}] {i.get('working_title')}{flag}")
             print(f"      type={i.get('article_type')} cta={i.get('cta_type')} "
@@ -820,7 +857,8 @@ def main():
             print(f"  {label:10s} {dict(Counter(i.get(key) for i in ideas))}")
         return
 
-    kept, dropped = save_ideas(conn, ideas)
+    url_to_source = {p["url"]: p["source_name"] for p in recent if p.get("url")}
+    kept, dropped = save_ideas(conn, ideas, url_to_source)
     print(f"[db] saved {kept} ideas, dropped {len(dropped)}")
     for title, why in dropped:
         print(f"     dropped: {title[:60]} — {why}")
