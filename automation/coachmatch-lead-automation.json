@@ -121,7 +121,8 @@
     },
     {
       "parameters": {
-        "jsCode": "const lead = $('Code in JavaScript1').item.json;\nconst conflictId = ($json.errors && $json.errors[0] && $json.errors[0].extensions && $json.errors[0].extensions.conflictingRecordId) || '';\nconst waLink = lead.phone_wa ? `https://wa.me/${lead.phone_wa}` : null;\n\nconst lines = [\n  `🔁 Lead repetido: ${lead.firstname} ${lead.lastname}`,\n  `📧 ${lead.email}`,\n  waLink ? `📱 ${waLink}` : `📱 Sin telefono valido`,\n  `🪪 ID en Twenty: ${conflictId}`,\n];\n\nreturn [{ json: { telegram_message: lines.join('\\n') } }];"
+        "mode": "runOnceForEachItem",
+        "jsCode": "const lead = $('Code in JavaScript1').item.json;\nconst conflictId = ($json.errors && $json.errors[0] && $json.errors[0].extensions && $json.errors[0].extensions.conflictingRecordId) || '';\nconst waLink = lead.phone_wa ? `https://wa.me/${lead.phone_wa}` : null;\n\nconst lines = [\n  `🔁 Lead repetido: ${lead.firstname} ${lead.lastname}`,\n  `📧 ${lead.email}`,\n  waLink ? `📱 ${waLink}` : `📱 Sin telefono valido`,\n  `🪪 ID en Twenty: ${conflictId}`,\n];\n\nreturn { json: { telegram_message: lines.join('\\n') } };"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -156,7 +157,8 @@
     },
     {
       "parameters": {
-        "jsCode": "const lead = $('Code in JavaScript1').item.json;\n\nconst message = `Hola ${lead.firstname}\\n\\nMi nombre es Iván, de Triaperformance, soy coach certificado y partner de Training Peaks. Te contacto ya que solicitaste información en Training Peaks sobre coaching personalizado.\\n\\nCuentame, con qué objetivo y cómo estás entrenando hoy en día?`;\n\nconst waLink = lead.phone_wa\n  ? `https://wa.me/${lead.phone_wa}?text=${encodeURIComponent(message)}`\n  : null;\n\nconst summaryLines = [\n  `✅ ${lead.firstname} ${lead.lastname} · ${lead.country} · ${lead.sport_enum || 'sin deporte'} · ${lead.athlete_level_enum || 'sin nivel'}`,\n  waLink ? `📱 ${waLink}` : `⚠️ Sin telefono, contactar por email: ${lead.email}`,\n];\n\nreturn [{ json: { telegram_message: summaryLines.join('\\n') } }];"
+        "mode": "runOnceForEachItem",
+        "jsCode": "const lead = $('Code in JavaScript1').item.json;\n\nconst message = `Hola ${lead.firstname}\\n\\nMi nombre es Iván, de Triaperformance, soy coach certificado y partner de Training Peaks. Te contacto ya que solicitaste información en Training Peaks sobre coaching personalizado.\\n\\nCuentame, con qué objetivo y cómo estás entrenando hoy en día?`;\n\nconst waLink = lead.phone_wa\n  ? `https://wa.me/${lead.phone_wa}?text=${encodeURIComponent(message)}`\n  : null;\n\nconst summaryLines = [\n  `✅ ${lead.firstname} ${lead.lastname} · ${lead.country} · ${lead.sport_enum || 'sin deporte'} · ${lead.athlete_level_enum || 'sin nivel'}`,\n  waLink ? `📱 ${waLink}` : `⚠️ Sin telefono, contactar por email: ${lead.email}`,\n];\n\nreturn { json: { telegram_message: summaryLines.join('\\n') } };"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -191,7 +193,8 @@
     },
     {
       "parameters": {
-        "jsCode": "const personId = $('HTTP Request').item.json.data.createPerson.id;\n\nreturn [{\n  json: {\n    query: 'mutation UpdatePerson($id: ID!, $data: PersonUpdateInput!) { updatePerson(id: $id, data: $data) { id } }',\n    variables: {\n      id: personId,\n      data: {\n        leadStatus: 'MESSAGE_SENT',\n        whatsappTouchCount: 1,\n        lastTouchpoint: new Date().toISOString(),\n      },\n    },\n  },\n}];"
+        "mode": "runOnceForEachItem",
+        "jsCode": "const personId = $('HTTP Request').item.json.data.createPerson.id;\n\nreturn {\n  json: {\n    query: 'mutation UpdatePerson($id: ID!, $data: PersonUpdateInput!) { updatePerson(id: $id, data: $data) { id } }',\n    variables: {\n      id: personId,\n      data: {\n        leadStatus: 'MESSAGE_SENT',\n        whatsappTouchCount: 1,\n        lastTouchpoint: new Date().toISOString(),\n      },\n    },\n  },\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -254,7 +257,8 @@
     },
     {
       "parameters": {
-        "jsCode": "const personId = $('HTTP Request').item.json.data.createPerson.id;\n\nreturn [{\n  json: {\n    query: \"mutation UpdatePerson($id: ID!, $data: PersonUpdateInput!) { updatePerson(id: $id, data: $data) { id } }\",\n    variables: {\n      id: personId,\n      data: {\n        emailTouchCount: 1,\n        leadStatus: \"MESSAGE_SENT\",\n        lastTouchpoint: new Date().toISOString()\n      }\n    }\n  }\n}];"
+        "mode": "runOnceForEachItem",
+        "jsCode": "const personId = $('HTTP Request').item.json.data.createPerson.id;\n\nreturn {\n  json: {\n    query: \"mutation UpdatePerson($id: ID!, $data: PersonUpdateInput!) { updatePerson(id: $id, data: $data) { id } }\",\n    variables: {\n      id: personId,\n      data: {\n        emailTouchCount: 1,\n        leadStatus: \"MESSAGE_SENT\",\n        lastTouchpoint: new Date().toISOString()\n      }\n    }\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
