@@ -140,6 +140,74 @@ def list_models(api_key):
     print("  export WRITER_MODEL=<name>          # or add WRITER_MODEL=<name> to ~/.hermes/.env")
 
 
+# Models that exist but can't do prose: image, speech, music, robotics, embedding.
+NON_TEXT = ("image", "tts", "robotics", "lyria", "banana", "embedding",
+            "computer-use", "veo", "imagen")
+
+
+def test_models(api_key, only=None):
+    """Actually CALL each candidate model with a trivial prompt.
+
+    --list-models is not enough: the listing endpoint reports models the key can
+    SEE, not ones it can USE. gemini-2.5-pro appeared there and then returned
+    "no longer available to new users" on the first real call. The only reliable
+    test of whether a model works is to use it, so that is what this does —
+    a five-token prompt each, which costs almost nothing and settles it.
+    """
+    url = f"https://generativelanguage.googleapis.com/v1beta/models?key={api_key}"
+    with urllib.request.urlopen(url, timeout=30) as r:
+        listed = json.loads(r.read().decode("utf-8")).get("models", [])
+
+    cands = []
+    for m in listed:
+        name = m["name"].replace("models/", "")
+        if "generateContent" not in m.get("supportedGenerationMethods", []):
+            continue
+        if any(x in name.lower() for x in NON_TEXT):
+            continue
+        if only and only not in name:
+            continue
+        cands.append((name, m.get("outputTokenLimit", 0)))
+    cands.sort()
+
+    print(f"calling {len(cands)} text models with a trivial prompt...\n")
+    ok, bad = [], []
+    payload = {"contents": [{"parts": [{"text": "Reply with the single word: ok"}]}],
+               "generationConfig": {"maxOutputTokens": 2048}}
+    for name, outlim in cands:
+        u = (f"https://generativelanguage.googleapis.com/v1beta/models/"
+             f"{name}:generateContent?key={api_key}")
+        req = urllib.request.Request(u, data=json.dumps(payload).encode(),
+                                     headers={"Content-Type": "application/json"},
+                                     method="POST")
+        try:
+            with urllib.request.urlopen(req, timeout=90) as r:
+                json.loads(r.read().decode("utf-8"))
+            ok.append((name, outlim))
+            print(f"  WORKS   {name:38s} out={outlim}")
+        except urllib.error.HTTPError as e:
+            try:
+                msg = json.loads(e.read().decode())["error"]["message"][:80]
+            except Exception:
+                msg = f"HTTP {e.code}"
+            bad.append((name, msg))
+            print(f"  no      {name:38s} {msg}")
+        except Exception as e:
+            bad.append((name, str(e)[:70]))
+            print(f"  no      {name:38s} {e}")
+        time.sleep(0.4)
+
+    print(f"\n{len(ok)} usable, {len(bad)} unavailable.")
+    pro = [n for n, _ in ok if "pro" in n and "latest" not in n]
+    if pro:
+        print("\nUsable pro-tier models, newest last:")
+        for n in pro:
+            print(f"  {n}")
+        print(f"\nSuggested:  echo 'WRITER_MODEL={pro[-1]}' >> ~/.hermes/.env")
+    else:
+        print("\nNo pinned pro model is callable. Fall back to the best usable flash tier.")
+
+
 def show_env():
     """Report which variable NAMES exist. Never prints a value."""
     env = read_env_files()
@@ -851,7 +919,11 @@ def main():
     ap.add_argument("--debug-source", metavar="NAME",
                     help="print link-matching detail for the source whose name contains NAME")
     ap.add_argument("--list-models", action="store_true",
-                    help="print the models this API key can actually use, and exit")
+                    help="print the models this API key can SEE (not necessarily use)")
+    ap.add_argument("--test-models", action="store_true",
+                    help="actually call each text model and report which ones work")
+    ap.add_argument("--only", metavar="SUBSTRING",
+                    help="with --test-models: only test names containing this")
     ap.add_argument("--show-env", action="store_true",
                     help="list which secret variable NAMES exist in the .env files "
                          "(names only, never values) and exit")
@@ -866,11 +938,14 @@ def main():
 
     load_env()
 
-    if args.list_models:
+    if args.list_models or args.test_models:
         key = os.environ.get("GOOGLE_API_KEY")
         if not key:
             sys.exit("No API key found. Run --show-env.")
-        list_models(key)
+        if args.test_models:
+            test_models(key, args.only)
+        else:
+            list_models(key)
         return
 
     cfg = json.load(open(SOURCES_FILE, encoding="utf-8"))
