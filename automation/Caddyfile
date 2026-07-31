@@ -11,7 +11,7 @@ triaperformance.com {
     # webroot, where it does not exist, and returns 404.
     handle /admin/* {
         basic_auth {
-            ivan $2a$14$D0Re5hygfLd.kygTRwabyOOSgFIF5GP8GSmDbcRvHMSxIo0NtyYJi
+            ivan $2a$14$adW9sEQJhHnRK3E5XB4UGOmbZ0cD5GgPhP3N8SpU0SsuZF9QhJpFS
         }
         reverse_proxy 127.0.0.1:8092
     }
