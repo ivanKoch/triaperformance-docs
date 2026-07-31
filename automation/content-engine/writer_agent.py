@@ -28,11 +28,15 @@ USAGE
 
 ENVIRONMENT (read automatically from ~/.hermes/.env and ~/.analytics/.env)
     GOOGLE_API_KEY   Gemini key
-    WRITER_MODEL     defaults to gemini-2.5-pro — the only pro model on this key
-                     that is neither a "-preview" tier nor a "-latest" alias.
-                     Pinned on purpose: an alias silently changes behaviour under
-                     a tuned prompt. Run research_agent.py --list-models to see
-                     what else is available.
+    WRITER_MODEL     defaults to gemini-3.1-pro-preview.
+                     A "-preview" tier is not what we wanted — the pinned-version
+                     rule from ai-infrastructure-documentation.md would prefer a
+                     stable release. But as of July 2026 every stable pro model
+                     on this key (2.5-pro, 3-pro-preview) returns "no longer
+                     available to new users", so preview is the only pro tier
+                     that answers. Consequence: Google may withdraw it. If the
+                     writer suddenly fails, that is the first thing to check:
+                       python3 research_agent.py --test-models
     PG_*             Postgres connection
 """
 
@@ -311,7 +315,7 @@ def main():
     if not api_key:
         sys.exit("No model API key found. Run: python3 research_agent.py --show-env")
     model = os.environ.get("WRITER_MODEL") or read_env_files().get("WRITER_MODEL") \
-        or "gemini-2.5-pro"
+        or "gemini-3.1-pro-preview"
     print(f"[writer] model: {model}")
 
     # Plan catalogue, from the same CSV and link-status file the site build reads.

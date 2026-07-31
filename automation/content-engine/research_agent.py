@@ -198,14 +198,37 @@ def test_models(api_key, only=None):
         time.sleep(0.4)
 
     print(f"\n{len(ok)} usable, {len(bad)} unavailable.")
-    pro = [n for n, _ in ok if "pro" in n and "latest" not in n]
+    # Variant suffixes are specialised builds, not better general models —
+    # "-customtools" is tuned for custom tool-calling and is the wrong choice for
+    # prose. Sorting alphabetically and taking the last entry recommended exactly
+    # that, which is why this filters rather than sorts.
+    VARIANTS = ("-customtools", "-thinking", "-tuning", "-8b", "-002", "-001")
+    pro = [n for n, _ in ok
+           if "pro" in n and "latest" not in n
+           and not any(n.endswith(v) for v in VARIANTS)]
+    flash = [n for n, _ in ok
+             if "flash" in n and "lite" not in n and "latest" not in n
+             and not any(n.endswith(v) for v in VARIANTS)]
+
+    def newest(names):
+        """Highest version number wins — not alphabetical order."""
+        def ver(n):
+            m = re.search(r"gemini-(\d+)(?:\.(\d+))?", n)
+            return (int(m.group(1)), int(m.group(2) or 0)) if m else (0, 0)
+        return sorted(names, key=ver)
+
     if pro:
-        print("\nUsable pro-tier models, newest last:")
-        for n in pro:
+        print("\nUsable pro-tier models (oldest to newest):")
+        for n in newest(pro):
             print(f"  {n}")
-        print(f"\nSuggested:  echo 'WRITER_MODEL={pro[-1]}' >> ~/.hermes/.env")
-    else:
-        print("\nNo pinned pro model is callable. Fall back to the best usable flash tier.")
+        print(f"\nSuggested:  echo 'WRITER_MODEL={newest(pro)[-1]}' >> ~/.hermes/.env")
+    if flash:
+        print("\nUsable flash-tier, worth comparing against — you review every draft "
+              "anyway, so a cheaper first pass may cost you nothing:")
+        for n in newest(flash):
+            print(f"  {n}")
+    if not pro:
+        print("\nNo pro model is callable. Use the newest flash above.")
 
 
 def show_env():
