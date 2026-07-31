@@ -125,3 +125,76 @@ CREATE OR REPLACE VIEW pending_ideas AS
 SELECT * FROM content_ideas
 WHERE status = 'PROPOSED'
 ORDER BY score DESC NULLS LAST, created_at DESC;
+
+-- ---------------------------------------------------------------------------
+-- Drafts. Added July 31, 2026 — the original schema stopped at ideas, so an
+-- approved idea had nowhere to go and disappeared from the UI. This is the
+-- second half of the pipeline.
+--
+--   content_ideas.status = APPROVED  ->  writer produces a content_pieces row
+--   content_pieces.status = DRAFTED  ->  Iván reviews at /admin/drafts/
+--   content_pieces.status = APPROVED ->  n8n commits the .njk file to GitHub
+--   content_pieces.status = PUBLISHED
+-- ---------------------------------------------------------------------------
+CREATE TYPE piece_status AS ENUM (
+    'DRAFTED',    -- writer produced it, waiting on Iván
+    'APPROVED',   -- cleared to publish
+    'REJECTED',
+    'PUBLISHED'
+);
+
+CREATE TABLE IF NOT EXISTS content_pieces (
+    id            SERIAL PRIMARY KEY,
+    idea_id       INTEGER REFERENCES content_ideas(id) ON DELETE SET NULL,
+    -- Translations point at the piece they were derived from, so an approved
+    -- Spanish article can spawn its EN and PT siblings without re-deciding.
+    parent_id     INTEGER REFERENCES content_pieces(id) ON DELETE SET NULL,
+
+    language      TEXT NOT NULL CHECK (language IN ('es', 'en', 'pt')),
+    slug          TEXT NOT NULL,
+
+    -- Everything the Eleventy front matter needs.
+    title         TEXT NOT NULL,   -- <title>, includes the brand suffix
+    headline      TEXT NOT NULL,   -- H1
+    short_title   TEXT,            -- breadcrumb
+    standfirst    TEXT,
+    description   TEXT NOT NULL,   -- meta description
+    category      TEXT,
+    trans_key     TEXT NOT NULL,   -- shared across the language siblings
+    reading_time  INTEGER,
+
+    body          TEXT NOT NULL,   -- the article HTML, minus front matter
+    -- The model's untouched output, kept even after Iván edits `body`.
+    -- Diffing the two over time is the only honest signal for what the
+    -- writer prompt keeps getting wrong.
+    original_body TEXT,
+
+    model_used    TEXT,
+    generated_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    status        piece_status NOT NULL DEFAULT 'DRAFTED',
+    decided_at    TIMESTAMPTZ,
+    notes         TEXT,
+
+    published_at  TIMESTAMPTZ,
+    published_url TEXT,
+    file_path     TEXT,            -- e.g. site/blog/mi-articulo.njk
+
+    UNIQUE (language, slug)
+);
+
+CREATE INDEX IF NOT EXISTS content_pieces_status_idx ON content_pieces (status, generated_at DESC);
+
+CREATE OR REPLACE VIEW pending_drafts AS
+SELECT p.*, i.article_type, i.cta_type, i.cta_target, i.angle, i.target_query
+FROM content_pieces p
+LEFT JOIN content_ideas i ON i.id = p.idea_id
+WHERE p.status = 'DRAFTED'
+ORDER BY p.generated_at DESC;
+
+-- Ideas cleared for writing that don't have a draft yet — the writer's queue.
+CREATE OR REPLACE VIEW ideas_awaiting_draft AS
+SELECT i.*
+FROM content_ideas i
+WHERE i.status = 'APPROVED'
+  AND NOT EXISTS (SELECT 1 FROM content_pieces p WHERE p.idea_id = i.id)
+ORDER BY i.score DESC NULLS LAST;
