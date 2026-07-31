@@ -114,6 +114,32 @@ def load_env(verbose=True):
         os.environ["IDEA_NOTIFY_WEBHOOK"] = env["IDEA_NOTIFY_WEBHOOK"]
 
 
+def list_models(api_key):
+    """Ask the API which models this key can actually use.
+
+    Model names change and vary by key. Guessing one produces a bare HTTP 404
+    with no hint about what went wrong — which is exactly how the writer agent
+    first failed, on a model name that was invented rather than looked up.
+    """
+    url = f"https://generativelanguage.googleapis.com/v1beta/models?key={api_key}"
+    with urllib.request.urlopen(url, timeout=30) as r:
+        data = json.loads(r.read().decode("utf-8"))
+    rows = []
+    for m in data.get("models", []):
+        if "generateContent" not in m.get("supportedGenerationMethods", []):
+            continue
+        rows.append((m["name"].replace("models/", ""),
+                     m.get("inputTokenLimit", "?"), m.get("outputTokenLimit", "?"),
+                     m.get("displayName", "")))
+    rows.sort()
+    print(f"{len(rows)} models on this key support generateContent:\n")
+    print(f"  {'name':42s} {'in':>9} {'out':>7}  display")
+    for n, i, o, d in rows:
+        print(f"  {n:42s} {i:>9} {o:>7}  {d[:34]}")
+    print("\nPick one for writing (prefer a 'pro' tier over 'flash') and set it:")
+    print("  export WRITER_MODEL=<name>          # or add WRITER_MODEL=<name> to ~/.hermes/.env")
+
+
 def show_env():
     """Report which variable NAMES exist. Never prints a value."""
     env = read_env_files()
@@ -599,8 +625,16 @@ def call_model(prompt, api_key, model):
     req = urllib.request.Request(
         url, data=json.dumps(payload).encode("utf-8"),
         headers={"Content-Type": "application/json"}, method="POST")
-    with urllib.request.urlopen(req, timeout=120) as r:
-        data = json.loads(r.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(req, timeout=180) as r:
+            data = json.loads(r.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            sys.exit(f"Model '{model}' does not exist on this API key.\n"
+                     f"Run:  python3 research_agent.py --list-models\n"
+                     f"then set WRITER_MODEL / CONTENT_MODEL to one of the names it prints.")
+        detail = e.read().decode("utf-8", errors="replace")[:400]
+        sys.exit(f"Model call failed: HTTP {e.code}\n{detail}")
     cand = data["candidates"][0]
     text = cand["content"]["parts"][0]["text"]
     text = re.sub(r"^```(?:json)?|```$", "", text.strip(), flags=re.M).strip()
@@ -786,6 +820,8 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--debug-source", metavar="NAME",
                     help="print link-matching detail for the source whose name contains NAME")
+    ap.add_argument("--list-models", action="store_true",
+                    help="print the models this API key can actually use, and exit")
     ap.add_argument("--show-env", action="store_true",
                     help="list which secret variable NAMES exist in the .env files "
                          "(names only, never values) and exit")
@@ -799,6 +835,13 @@ def main():
         return
 
     load_env()
+
+    if args.list_models:
+        key = os.environ.get("GOOGLE_API_KEY")
+        if not key:
+            sys.exit("No API key found. Run --show-env.")
+        list_models(key)
+        return
 
     cfg = json.load(open(SOURCES_FILE, encoding="utf-8"))
     settings = cfg["settings"]
