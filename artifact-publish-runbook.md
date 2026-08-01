@@ -22,6 +22,7 @@ For an artifact named `<tool>` (e.g. `activacion`):
 2. **`site/assets/css/members-<tool>.css`**
    - Self-contained: loads on top of `site.css` only. **Do not include `members.css`** in `pageCss` — that file styles the light content pages and will fight the dark theme.
    - Start from `members-activacion.css`: dark `:root` tokens (§7.1), the dark overrides for `.site-nav-sticky`/`.logo`/nav links/mobile slide-out/`footer`, then the tool's own component styles.
+   - **Same tool type = same stylesheet.** A variant of an existing tool (e.g. the cycling activation reusing the running activation's exact component set) points its `pageCss` at the existing file instead of duplicating it. Only fork the CSS when the new tool actually has new components.
 3. **Card on the members home** — `site/members/index.njk`, `#card-grid`:
    - Add a `.card` with `data-category="<category>"`, a `.tag` (Guía / Rutina / Calculadora / Playbook), an `<h3>`, one-sentence description, `card-link` to `/members/<tool>/`.
    - If it's a new category, add a chip to `#filters` (`data-filter` must match `data-category`). Reuse an existing category when honest.
@@ -59,4 +60,5 @@ Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card
 
 | Tool | URL | Category | Shipped |
 |---|---|---|---|
-| Activación de Running | `/members/activacion/` | activacion | Aug 1, 2026 (pending deploy) |
+| Activación de Running | `/members/activacion/` | activacion | Aug 1, 2026 — live |
+| Activación de Ciclismo | `/members/activacion-ciclismo/` | activacion | Aug 1, 2026 (pending deploy). Shares `members-activacion.css`. |

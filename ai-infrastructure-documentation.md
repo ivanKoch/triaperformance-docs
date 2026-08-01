@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** August 1, 2026 (new §19 — artifact → members-area publishing pipeline established; first artifact `/members/activacion/` built and verified in local Eleventy build, pending deploy. Earlier same day: §18 addendum — fixed `twenty_followup_check.py` dispatcher's `~`-expansion bug that broke its first live cron run; root-caused via Hermes's own scheduler source, not guessing)
+**Last updated:** August 1, 2026 (§19 + addendum — artifact → members-area publishing pipeline established; running activation live, cycling activation built end-to-end as the first no-approval-gate run, pending deploy. Earlier same day: §18 addendum — fixed `twenty_followup_check.py` dispatcher's `~`-expansion bug that broke its first live cron run; root-caused via Hermes's own scheduler source, not guessing)
 **Status:** Live / operational
 
 ---
@@ -446,6 +446,8 @@ Decisions codified this session:
 - **No analytics work needed per artifact** — GA4 + Clarity + noindex arrive via `base.njk` + `members.json`. Verified in the real build output for `/members/activacion/` (both tags present, `noindex` set, absent from sitemap.xml).
 
 Build verified clean with Eleventy v3.1.6 (355 files). Deploy is Iván's commit/push + the VPS cron pull, per standing practice.
+
+*Update, August 1, 2026 (same day) — running tool confirmed deployed live by Iván. Second artifact through the pipeline, this time end-to-end without an approval gate as a process test: **Activación de Ciclismo** (`/members/activacion-ciclismo/`) — same circuit engine, cycling-specific selection (glute bridge, dead bug, open book, clamshell, cat-cow, low-lunge hip-flexor mobility, bodyweight squat, lateral leg swings; suelo → arrodillado → de pie). Reuses `members-activacion.css` wholesale rather than forking it — codified in the runbook as "same tool type = same stylesheet." Card added under the existing `activacion` chip. Build re-verified (356 files: GA4+Clarity ×2, noindex, out of sitemap, raw tags consumed). Pending Iván's commit/push.*
 
 ## Open items / not yet done
 
