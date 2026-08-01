@@ -10,6 +10,20 @@ The process for taking an interactive training artifact (Claude-built HTML tool 
 2. Iván opens it locally, uses it for real training, sends corrections (exercises, timings, behavior, copy).
 3. Iterate until approved. Nothing touches the site repo before approval — except brand-guidelines.md, which gets extended first if the artifact introduces a design decision not yet covered (per that doc's own rule).
 
+## Template: the 3-tab activation/routine tool (v2, August 1, 2026)
+
+Timer-based routine tools don't start from scratch — there's a shared template, adapted from Iván's Claude-artifact prototypes (3 tabs: Inicio / Rutina / Ejercicios; ring timer; rest overlay; coaching-cue box; next-up preview; phone vibration) and re-skinned to brand (§7.1 tokens, Helvetica, single blue accent — no per-phase color rainbow, no serif, no emojis, voseo).
+
+Three shared pieces, one data file per tool:
+
+- `site/_includes/partials/activation-tool.njk` — the markup skeleton.
+- `site/assets/js/activation-tool.js` — the engine. Reads `window.ACTIVATION_DATA`. Handles tabs, work/rest cycle, unilateral = full duration per side, prev/skip/pause, variant swap ("Cambiar ejercicio"), position-change callouts between phases, beeps + vibration, done stats, repeat.
+- `site/assets/css/members-activacion.css` — all styling, including the dark nav/footer overrides.
+
+A new routine tool is then just: `site/members/<tool>/index.njk` = front matter + inline `window.ACTIVATION_DATA = {...}` (inside `{% raw %}`) + `{% include "partials/activation-tool.njk" %}`. The data model (documented at the top of the engine file) includes per-exercise `cue` (long coaching description), `tag` (equipment), `variants` (each with own mode/cue), and `video: null` — set a YouTube ID there and the Ejercicios tab renders the embed automatically, nothing else to build.
+
+For non-routine tools (calculators etc.), fall through to the generic process below.
+
 ## Phase 2 — Port into the site
 
 For an artifact named `<tool>` (e.g. `activacion`):
@@ -60,5 +74,5 @@ Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card
 
 | Tool | URL | Category | Shipped |
 |---|---|---|---|
-| Activación de Running | `/members/activacion/` | activacion | Aug 1, 2026 — live |
-| Activación de Ciclismo | `/members/activacion-ciclismo/` | activacion | Aug 1, 2026 (pending deploy). Shares `members-activacion.css`. |
+| Activación de Running | `/members/activacion/` | activacion | Aug 1, 2026 — live; rebuilt same day on template v2 (pending redeploy) |
+| Activación de Ciclismo | `/members/activacion-ciclismo/` | activacion | Aug 1, 2026 — built on template v2 (pending deploy) |

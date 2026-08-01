@@ -3,265 +3,75 @@ layout: layouts/base.njk
 pageCss: "members-activacion.css"
 title: "Activación de Ciclismo — Triaperformance All-Access"
 ---
-<div class="wrap wrap--narrow">
-
-<header class="page-header">
-  <div class="breadcrumb"><a href="/members/#biblioteca">Biblioteca</a> / Activación</div>
-  <span class="label">Activación</span>
-  <h1>Activación de ciclismo</h1>
-  <p class="subtitle">Circuito de 8 ejercicios, 1 serie de 40&nbsp;segundos cada uno, del suelo a estar de pie — sin volver a bajar. Ejercicios unilaterales: 40&nbsp;segundos por lado. Hacela antes del rodillo o de sesiones de calidad, o cuando llegás duro a la bici.</p>
-</header>
-
-<div class="circuit" id="circuit"></div>
-
-<div class="panel">
-  <div class="panel-inner">
-    <div class="phase-label" id="phaseLabel">Listo para empezar</div>
-    <div class="current-name" id="currentName">—</div>
-    <div class="side-label" id="sideLabel"></div>
-    <div class="clock" id="clock">0:40</div>
-    <div class="controls">
-      <button class="btn-secondary" id="prevBtn" disabled>Anterior</button>
-      <button class="btn-primary" id="mainBtn">Empezar</button>
-      <button class="btn-secondary" id="skipBtn" disabled>Saltar</button>
-      <button class="btn-secondary" id="replaceBtn" disabled>Cambiar</button>
-    </div>
-    <div class="done-msg" id="doneMsg">
-      <h2>Activación completa</h2>
-      <p>Listo para pedalear. <span id="doneStats"></span></p>
-    </div>
-  </div>
-</div>
-
-</div>
-
-<div class="overlay" id="overlay">
-  <div class="dialog">
-    <h3>Cambiar ejercicio</h3>
-    <div id="variantList"></div>
-    <div class="close-row"><button class="close-btn" id="closeDialog">Cancelar</button></div>
-  </div>
-</div>
-
 {% raw %}
 <script>
-// mode: "bi" = bilateral (40s total) · "uni" = unilateral (40s por lado) · "alt" = alternado (40s total)
-// Selección ciclismo: glúteos + core antibalanceo + movilidad torácica y de cadera
-// (posición de bici), cerrando de pie con patrón de pedaleo. Suelo → de pie, sin volver a bajar.
-const EXERCISES = [
-  { name: "Puente de glúteos", position: "Boca arriba", mode: "bi",
-    variants: [
-      { name: "Puente a una pierna", mode: "uni" },
-      { name: "Puente con marcha", mode: "alt" }
+window.ACTIVATION_DATA = {
+  title: "Activación de ciclismo",
+  subtitle: "Del suelo a estar de pie, sin volver a bajar. 1 serie de 40 segundos por ejercicio; los unilaterales, 40 segundos por lado.",
+  context: "Antes del rodillo o de sesiones de calidad",
+  why: "Horas sentado — en el escritorio y después en la bici — acortan los flexores de cadera, comprimen la lumbar y apagan los glúteos. Si subís a la bici así, la espalda compensa lo que los glúteos no hacen. Diez minutos acá cambian la calidad de toda la sesión.",
+  doneSub: "Listo para pedalear.",
+  phases: [
+    { name: "Boca arriba", exercises: [
+      { name: "Puente de glúteos", mode: "bi", tag: "Sin equipo", video: null,
+        cue: "Pies apoyados cerca de la cola. Subí la cadera empujando con los talones y apretá los glúteos arriba un segundo. Es la llave de encendido del pedaleo.",
+        variants: [
+          { name: "Puente a una pierna", mode: "uni", cue: "Una pierna extendida en el aire, la otra empuja. La pelvis no debe rotar — como en el pedaleo, cada pierna trabaja sola." },
+          { name: "Puente con marcha", mode: "alt", cue: "Cadera arriba y fija; despegá un pie por vez sin que la pelvis se mueva. Antirrotación pura." }
+        ]},
+      { name: "Dead bug", mode: "alt", tag: "Sin equipo", video: null,
+        cue: "Lumbar pegada al piso. Extendé brazo y pierna contrarios sin que la espalda se despegue. El core que sostiene la posición aero se entrena así, lento y con control.",
+        variants: [
+          { name: "Descenso de piernas", mode: "alt", cue: "Piernas a 90°, bajá una por vez hasta rozar el piso con el talón, siempre con la lumbar apoyada." },
+          { name: "Dead bug isométrico", mode: "bi", cue: "Brazos y rodillas a 90°, empujá las manos contra las rodillas y sostené la tensión respirando normal." }
+        ]}
     ]},
-  { name: "Dead bug", position: "Boca arriba", mode: "alt",
-    variants: [
-      { name: "Descenso de piernas", mode: "alt" },
-      { name: "Dead bug isométrico", mode: "bi" }
+    { name: "De costado", exercises: [
+      { name: "Rotación torácica (open book)", mode: "uni", tag: "Sin equipo", video: null,
+        cue: "Rodillas a 90°, brazos extendidos al frente. Abrí el brazo de arriba como un libro, siguiendo la mano con la mirada. La movilidad torácica que la posición de bici te va quitando.",
+        variants: [
+          { name: "Arco de brazo (arm sweep)", mode: "uni", cue: "Mismo inicio, pero dibujá un arco completo por encima de la cabeza con la mano rozando el piso." },
+          { name: "Rotación torácica sentado", mode: "alt", cue: "Sentado con piernas cruzadas, manos en el pecho, rotá el tronco a un lado y al otro sin mover la cadera." }
+        ]},
+      { name: "Almeja (clamshell)", mode: "uni", tag: "Sin equipo", video: null,
+        cue: "Rodillas flexionadas a 90°, pies juntos. Abrí la rodilla de arriba sin rotar la pelvis. El glúteo medio evita que la rodilla se te vaya hacia adentro al pedalear.",
+        variants: [
+          { name: "Almeja con banda", mode: "uni", tag: "Minibanda", cue: "Banda por encima de las rodillas. Misma técnica, contra resistencia." },
+          { name: "Elevación lateral de pierna", mode: "uni", cue: "Acostado de costado, subí la pierna de arriba con el pie apuntando levemente hacia abajo. Sin impulso." }
+        ]}
     ]},
-  { name: "Rotación torácica (open book)", position: "De costado", mode: "uni",
-    variants: [
-      { name: "Arco de brazo (arm sweep)", mode: "uni" },
-      { name: "Rotación torácica sentado", mode: "alt" }
+    { name: "Cuadrupedia", exercises: [
+      { name: "Gato-vaca", mode: "bi", tag: "Sin equipo", video: null,
+        cue: "Redondeá la espalda al exhalar y arquéala al inhalar, lento y sin forzar el rango. Descomprime la columna antes de flexionarla sobre la bici.",
+        variants: [
+          { name: "Thread the needle", mode: "uni", cue: "Desde cuadrupedia, pasá un brazo por debajo del cuerpo hasta apoyar el hombro, y volvé abriendo hacia el techo." },
+          { name: "Bird dog", mode: "alt", cue: "Extendé brazo y pierna contrarios hasta la línea del tronco, con pausa de un segundo estirado." }
+        ]}
     ]},
-  { name: "Almeja (clamshell)", position: "De costado", mode: "uni",
-    variants: [
-      { name: "Almeja con banda", mode: "uni" },
-      { name: "Elevación lateral de pierna", mode: "uni" }
+    { name: "Arrodillado", exercises: [
+      { name: "Movilidad de flexores de cadera (zancada baja)", mode: "uni", tag: "Sin equipo", video: null,
+        cue: "Rodilla de atrás apoyada. Apretá el glúteo de esa pierna — esa es la clave — y llevá la cadera suavemente adelante. El psoas se acorta sentado y pedaleando; soltalo antes de subir.",
+        variants: [
+          { name: "Zancada baja con rotación", mode: "uni", cue: "En la misma zancada, rotá el tronco hacia el lado de la pierna adelantada con los brazos abiertos." },
+          { name: "Couch stretch dinámico", mode: "uni", cue: "Empeine de atrás apoyado contra la pared o un banco. Entrá y salí del estiramiento con control, sin rebotar." }
+        ]}
     ]},
-  { name: "Gato-vaca", position: "Cuadrupedia", mode: "bi",
-    variants: [
-      { name: "Thread the needle", mode: "uni" },
-      { name: "Bird dog", mode: "alt" }
-    ]},
-  { name: "Movilidad de flexores de cadera (zancada baja)", position: "Arrodillado", mode: "uni",
-    variants: [
-      { name: "Zancada baja con rotación", mode: "uni" },
-      { name: "Couch stretch dinámico", mode: "uni" }
-    ]},
-  { name: "Sentadilla con peso corporal", position: "De pie", mode: "bi",
-    variants: [
-      { name: "Sentadilla con pausa abajo", mode: "bi" },
-      { name: "Sentadilla búlgara sin peso", mode: "uni" }
-    ]},
-  { name: "Balanceo lateral de pierna", position: "De pie", mode: "uni",
-    variants: [
-      { name: "Balanceo frontal de pierna", mode: "uni" },
-      { name: "Círculos de cadera", mode: "uni" }
+    { name: "De pie", exercises: [
+      { name: "Sentadilla con peso corporal", mode: "bi", tag: "Sin equipo", video: null,
+        cue: "Pies al ancho de hombros. Bajá controlado hasta donde la técnica aguante y subí empujando el piso. Patrón de fuerza general antes de fijar la cadera al pedaleo.",
+        variants: [
+          { name: "Sentadilla con pausa abajo", mode: "bi", cue: "Misma sentadilla, con dos segundos de pausa abajo manteniendo la tensión." },
+          { name: "Sentadilla búlgara sin peso", mode: "uni", cue: "Pie de atrás apoyado en un banco o silla. Bajá vertical, con la rodilla de adelante estable." }
+        ]},
+      { name: "Balanceo lateral de pierna", mode: "uni", tag: "Pared de apoyo", video: null,
+        cue: "De frente a la pared, cruzá la pierna de lado a lado por delante del cuerpo. Abre aductores y glúteo medio antes de fijar la cadera en un solo plano. Lo último antes de subir.",
+        variants: [
+          { name: "Balanceo frontal de pierna", mode: "uni", cue: "De costado a la pared, balanceá la pierna adelante y atrás creciendo en rango." },
+          { name: "Círculos de cadera", mode: "uni", cue: "Parado en una pierna, dibujá círculos amplios con la rodilla levantada, hacia adelante y hacia atrás." }
+        ]}
     ]}
-];
-
-const WORK = 40, REST = 15;
-const MODE_LABEL = { bi: "40s", uni: "40s por lado", alt: "alternado · 40s" };
-
-let idx = 0, side = 1, remaining = WORK, phase = "idle"; // idle | work | rest | done
-let timer = null, skipped = 0, replaced = 0;
-
-const $ = id => document.getElementById(id);
-const circuitEl = $("circuit");
-
-function renderCircuit() {
-  circuitEl.innerHTML = EXERCISES.map((ex, i) => `
-    <div class="ex-row ${i < idx ? "done" : ""} ${i === idx && phase !== "done" ? "active" : ""}" id="row${i}">
-      <div class="num">${i < idx ? "✓" : i + 1}</div>
-      <div class="ex-info">
-        <div class="ex-name">${ex.name}</div>
-        <div class="ex-meta">${ex.position} · ${MODE_LABEL[ex.mode]}</div>
-      </div>
-    </div>`).join("");
-}
-
-function fmt(s) { return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
-
-function beep(freq, dur) {
-  try {
-    const ctx = beep.ctx || (beep.ctx = new (window.AudioContext || window.webkitAudioContext)());
-    const o = ctx.createOscillator(), g = ctx.createGain();
-    o.frequency.value = freq; o.connect(g); g.connect(ctx.destination);
-    g.gain.setValueAtTime(0.2, ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
-    o.start(); o.stop(ctx.currentTime + dur);
-  } catch (e) {}
-}
-
-function updatePanel() {
-  const ex = EXERCISES[idx];
-  const clock = $("clock");
-  clock.textContent = fmt(remaining);
-  clock.classList.toggle("resting", phase === "rest");
-  $("prevBtn").disabled = phase === "idle" || (idx === 0 && side === 1);
-  if (phase === "done") return;
-  if (phase === "rest") {
-    $("phaseLabel").textContent = "Descanso — siguiente:";
-    const next = nextTarget();
-    $("currentName").textContent = next.name;
-    $("sideLabel").textContent = next.sideText;
-  } else {
-    $("phaseLabel").textContent = phase === "idle" ? "Listo para empezar" : "Trabajo";
-    $("currentName").textContent = ex ? ex.name : "—";
-    $("sideLabel").textContent = ex && ex.mode === "uni" ? (side === 1 ? "Lado 1" : "Lado 2") : (ex ? MODE_LABEL[ex.mode] : "");
-  }
-}
-
-// during rest, idx/side already point at the upcoming block
-function nextTarget() {
-  const ex = EXERCISES[idx];
-  if (!ex) return { name: "Fin", sideText: "" };
-  return { name: ex.name, sideText: ex.mode === "uni" ? "Lado " + side : MODE_LABEL[ex.mode] };
-}
-
-function tick() {
-  remaining--;
-  if (remaining <= 3 && remaining > 0) beep(660, 0.1);
-  if (remaining <= 0) {
-    beep(880, 0.3);
-    if (phase === "work") endWorkBlock();
-    else startWork();
-  }
-  updatePanel();
-}
-
-function endWorkBlock() {
-  const ex = EXERCISES[idx];
-  if (ex.mode === "uni" && side === 1) {
-    side = 2;
-    phase = "rest"; remaining = REST; // short transition between sides
-  } else {
-    advance();
-    if (phase !== "done") { phase = "rest"; remaining = REST; }
-  }
-}
-
-function advance() {
-  idx++; side = 1;
-  if (idx >= EXERCISES.length) finish();
-  renderCircuit();
-}
-
-function startWork() {
-  phase = "work"; remaining = WORK;
-}
-
-function finish() {
-  phase = "done";
-  clearInterval(timer); timer = null;
-  $("phaseLabel").textContent = "";
-  $("currentName").textContent = "";
-  $("sideLabel").textContent = "";
-  $("clock").style.display = "none";
-  document.querySelector(".controls").style.display = "none";
-  $("doneMsg").style.display = "block";
-  const parts = [];
-  if (skipped) parts.push(skipped + " salteado" + (skipped > 1 ? "s" : ""));
-  if (replaced) parts.push(replaced + " cambiado" + (replaced > 1 ? "s" : ""));
-  $("doneStats").textContent = parts.length ? "(" + parts.join(", ") + ")" : "";
-  renderCircuit();
-}
-
-$("mainBtn").addEventListener("click", () => {
-  if (phase === "done") return;
-  if (timer) { // pause
-    clearInterval(timer); timer = null;
-    $("mainBtn").textContent = "Reanudar";
-  } else {
-    if (phase === "idle") { startWork(); }
-    timer = setInterval(tick, 1000);
-    $("mainBtn").textContent = "Pausar";
-    $("skipBtn").disabled = false;
-    $("replaceBtn").disabled = false;
-  }
-  updatePanel();
-});
-
-$("skipBtn").addEventListener("click", () => {
-  if (phase === "done") return;
-  skipped++;
-  advance();
-  if (phase !== "done") { phase = "rest"; remaining = REST; }
-  updatePanel();
-});
-
-// go back one exercise (or from side 2 back to side 1) and restart its 40s
-$("prevBtn").addEventListener("click", () => {
-  if (phase === "done" || phase === "idle") return;
-  if (side === 2) {
-    side = 1;
-  } else if (idx > 0) {
-    idx--; side = 1;
-  }
-  startWork();
-  renderCircuit();
-  updatePanel();
-});
-
-$("replaceBtn").addEventListener("click", () => {
-  if (phase === "done") return;
-  const ex = EXERCISES[idx];
-  $("variantList").innerHTML = ex.variants.map((v, i) => `
-    <button class="variant" data-i="${i}">
-      <span class="v-name">${v.name}</span>
-      <span class="v-meta">${MODE_LABEL[v.mode]}</span>
-    </button>`).join("");
-  $("overlay").classList.add("open");
-});
-
-$("variantList").addEventListener("click", e => {
-  const btn = e.target.closest(".variant");
-  if (!btn) return;
-  const v = EXERCISES[idx].variants[+btn.dataset.i];
-  const old = { name: EXERCISES[idx].name, mode: EXERCISES[idx].mode };
-  EXERCISES[idx] = { ...EXERCISES[idx], name: v.name, mode: v.mode, variants: [old, ...EXERCISES[idx].variants.filter(x => x !== v)] };
-  replaced++;
-  side = 1;
-  if (phase === "work") remaining = WORK; // restart the block with the new exercise; during rest, keep the countdown
-  $("overlay").classList.remove("open");
-  renderCircuit(); updatePanel();
-});
-
-$("closeDialog").addEventListener("click", () => $("overlay").classList.remove("open"));
-$("overlay").addEventListener("click", e => { if (e.target === $("overlay")) $("overlay").classList.remove("open"); });
-
-renderCircuit();
-updatePanel();
+  ]
+};
 </script>
 {% endraw %}
+{% include "partials/activation-tool.njk" %}

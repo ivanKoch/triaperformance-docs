@@ -1,0 +1,104 @@
+{# Shared skeleton for activation tools (3-tab layout: Inicio / Rutina / Ejercicios).
+   The page defines window.ACTIVATION_DATA inline BEFORE including this partial;
+   all content is rendered into this skeleton by /assets/js/activation-tool.js.
+   Styles: members-activacion.css. See artifact-publish-runbook.md. #}
+
+<div class="tool">
+
+  <div class="crumb-bar">
+    <div class="wrap"><a href="/members/#biblioteca">Biblioteca</a> / Activación</div>
+  </div>
+
+  <nav class="tool-tabs" aria-label="Secciones de la herramienta">
+    <button class="tool-tab active" data-tab="home">Inicio</button>
+    <button class="tool-tab" data-tab="workout">Rutina</button>
+    <button class="tool-tab" data-tab="list">Ejercicios</button>
+  </nav>
+
+  <!-- INICIO -->
+  <div class="screen active" id="tab-home">
+    <div class="home-wrap" id="homeContent"></div>
+  </div>
+
+  <!-- RUTINA -->
+  <div class="screen" id="tab-workout">
+    <div class="workout-container">
+
+      <div class="phase-header">
+        <span class="phase-dot"></span>
+        <span class="phase-name" id="phaseName"></span>
+        <span class="block-progress" id="blockProgress"></span>
+      </div>
+      <div class="total-progress"><div class="total-progress-fill" id="totalBar"></div></div>
+
+      <div class="exercise-display">
+        <div class="ex-num" id="exNum"></div>
+        <div class="ex-name-big" id="exName"></div>
+        <div class="ex-tag" id="exTag"></div>
+        <div class="ring-wrap">
+          <svg class="ring-svg" width="120" height="120" viewBox="0 0 120 120">
+            <circle class="ring-bg" cx="60" cy="60" r="52"/>
+            <circle class="ring-fg" id="ringArc" cx="60" cy="60" r="52"
+              stroke-dasharray="326.7" stroke-dashoffset="0"/>
+          </svg>
+          <div class="ring-inner">
+            <div class="ring-time" id="ringTime">0:40</div>
+            <div class="ring-lbl" id="ringLbl"></div>
+          </div>
+        </div>
+        <div class="ex-spec" id="exSpec"></div>
+        <div class="ex-cue" id="exCue"></div>
+        <button class="change-link" id="changeLink">Cambiar ejercicio</button>
+        <div class="next-preview" id="nextPreview"></div>
+      </div>
+
+      <!-- rest / transition overlay -->
+      <div class="stage-overlay" id="restOverlay" style="display:none">
+        <div class="rest-lbl" id="restLbl">Descanso</div>
+        <div class="rest-time" id="restTime">0:15</div>
+        <div class="rest-next" id="restNext"></div>
+        <button class="btn-secondary" id="skipRestBtn">Saltar descanso →</button>
+      </div>
+
+      <!-- done overlay -->
+      <div class="stage-overlay" id="doneOverlay" style="display:none">
+        <div class="done-title">Activación completa</div>
+        <p class="done-sub" id="doneSub"></p>
+        <div class="done-stats">
+          <div class="done-stat"><div class="done-val" id="statEx">0</div><div class="done-lbl">Ejercicios</div></div>
+          <div class="done-stat"><div class="done-val" id="statMin">0'</div><div class="done-lbl">Minutos</div></div>
+          <div class="done-stat"><div class="done-val" id="statSkip">0</div><div class="done-lbl">Salteados</div></div>
+        </div>
+        <button class="btn-primary" id="repeatBtn">Repetir</button>
+      </div>
+
+      <div class="controls" id="workControls">
+        <button class="btn-secondary ctrl-side" id="prevBtn" disabled>← Anterior</button>
+        <button class="btn-primary ctrl-main" id="mainBtn">Empezar</button>
+        <button class="btn-secondary ctrl-side" id="skipBtn" disabled>Saltar →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EJERCICIOS -->
+  <div class="screen" id="tab-list">
+    <div class="list-wrap" id="listContent"></div>
+  </div>
+
+</div>
+
+<!-- variant picker -->
+<div class="overlay-modal" id="variantOverlay">
+  <div class="dialog">
+    <h3>Cambiar ejercicio</h3>
+    <div id="variantList"></div>
+    <div class="close-row"><button class="close-btn" id="closeVariant">Cancelar</button></div>
+  </div>
+</div>
+
+<script>
+  // done-overlay subtitle comes from the page's data
+  document.getElementById("doneSub").textContent = window.ACTIVATION_DATA.doneSub || "";
+</script>
+<script src="/assets/js/activation-tool.js"></script>

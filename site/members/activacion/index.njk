@@ -3,263 +3,73 @@ layout: layouts/base.njk
 pageCss: "members-activacion.css"
 title: "Activación de Running — Triaperformance All-Access"
 ---
-<div class="wrap wrap--narrow">
-
-<header class="page-header">
-  <div class="breadcrumb"><a href="/members/#biblioteca">Biblioteca</a> / Activación</div>
-  <span class="label">Activación</span>
-  <h1>Activación de running</h1>
-  <p class="subtitle">Circuito de 8 ejercicios, 1 serie de 40&nbsp;segundos cada uno, del suelo a estar de pie — sin volver a bajar. Ejercicios unilaterales: 40&nbsp;segundos por lado. Hacela antes de sesiones de calidad o cuando llegás duro a entrenar.</p>
-</header>
-
-<div class="circuit" id="circuit"></div>
-
-<div class="panel">
-  <div class="panel-inner">
-    <div class="phase-label" id="phaseLabel">Listo para empezar</div>
-    <div class="current-name" id="currentName">—</div>
-    <div class="side-label" id="sideLabel"></div>
-    <div class="clock" id="clock">0:40</div>
-    <div class="controls">
-      <button class="btn-secondary" id="prevBtn" disabled>Anterior</button>
-      <button class="btn-primary" id="mainBtn">Empezar</button>
-      <button class="btn-secondary" id="skipBtn" disabled>Saltar</button>
-      <button class="btn-secondary" id="replaceBtn" disabled>Cambiar</button>
-    </div>
-    <div class="done-msg" id="doneMsg">
-      <h2>Activación completa</h2>
-      <p>Listo para correr. <span id="doneStats"></span></p>
-    </div>
-  </div>
-</div>
-
-</div>
-
-<div class="overlay" id="overlay">
-  <div class="dialog">
-    <h3>Cambiar ejercicio</h3>
-    <div id="variantList"></div>
-    <div class="close-row"><button class="close-btn" id="closeDialog">Cancelar</button></div>
-  </div>
-</div>
-
 {% raw %}
 <script>
-// mode: "bi" = bilateral (40s total) · "uni" = unilateral (40s por lado) · "alt" = alternado (40s total)
-const EXERCISES = [
-  { name: "Puente de glúteos", position: "Boca arriba", mode: "bi",
-    variants: [
-      { name: "Puente a una pierna", mode: "uni" },
-      { name: "Puente con marcha", mode: "alt" }
+window.ACTIVATION_DATA = {
+  title: "Activación de running",
+  subtitle: "Del suelo a estar de pie, sin volver a bajar. 1 serie de 40 segundos por ejercicio; los unilaterales, 40 segundos por lado.",
+  context: "Antes de sesiones de calidad",
+  why: "Correr con los glúteos dormidos y la cadera rígida carga el trabajo en la lumbar, los isquios y las pantorrillas. Diez minutos de activación mejoran la técnica desde el primer kilómetro y bajan el riesgo de molestias.",
+  doneSub: "Listo para correr.",
+  phases: [
+    { name: "Boca arriba", exercises: [
+      { name: "Puente de glúteos", mode: "bi", tag: "Sin equipo", video: null,
+        cue: "Pies apoyados cerca de la cola. Subí la cadera empujando con los talones y apretá los glúteos arriba un segundo. Bajá controlado, sin arquear la lumbar.",
+        variants: [
+          { name: "Puente a una pierna", mode: "uni", cue: "Una pierna extendida en el aire, la otra empuja. La pelvis no debe rotar — si cae hacia un lado, volvé a la versión con dos piernas." },
+          { name: "Puente con marcha", mode: "alt", cue: "Cadera arriba y fija; despegá un pie por vez sin que la pelvis se mueva. El trabajo es antirrotación, no altura." }
+        ]},
+      { name: "Dead bug", mode: "alt", tag: "Sin equipo", video: null,
+        cue: "Lumbar pegada al piso. Extendé brazo y pierna contrarios sin que la espalda se despegue. Lento — el objetivo es control, no velocidad.",
+        variants: [
+          { name: "Descenso de piernas", mode: "alt", cue: "Piernas a 90°, bajá una por vez hasta rozar el piso con el talón, siempre con la lumbar apoyada." },
+          { name: "Dead bug isométrico", mode: "bi", cue: "Brazos y rodillas a 90°, empujá las manos contra las rodillas y sostené la tensión respirando normal." }
+        ]}
     ]},
-  { name: "Dead bug", position: "Boca arriba", mode: "alt",
-    variants: [
-      { name: "Descenso de piernas", mode: "alt" },
-      { name: "Dead bug isométrico", mode: "bi" }
+    { name: "De costado", exercises: [
+      { name: "Plancha lateral", mode: "uni", tag: "Sin equipo", video: null,
+        cue: "Codo debajo del hombro, cuerpo en línea de cabeza a pies. Empujá la cadera hacia arriba y sostené. Si tiembla, está trabajando.",
+        variants: [
+          { name: "Plancha lateral + elevación de pierna", mode: "uni", cue: "En plancha lateral, subí y bajá la pierna de arriba controlado. Suma glúteo medio al trabajo de tronco." },
+          { name: "Elevación lateral de pierna", mode: "uni", cue: "Acostado de costado, subí la pierna de arriba con el pie apuntando levemente hacia abajo. Rango medio, sin impulso." }
+        ]},
+      { name: "Almeja (clamshell)", mode: "uni", tag: "Sin equipo", video: null,
+        cue: "Rodillas flexionadas a 90°, pies juntos. Abrí la rodilla de arriba sin rotar la pelvis — el movimiento sale del glúteo medio, no de la espalda.",
+        variants: [
+          { name: "Almeja con banda", mode: "uni", tag: "Minibanda", cue: "Banda por encima de las rodillas. Misma técnica, contra resistencia — abrí hasta donde la pelvis se mantenga quieta." },
+          { name: "Fire hydrant", mode: "uni", cue: "En cuadrupedia, abrí la rodilla hacia el costado manteniendo la cadera y el tronco quietos." }
+        ]}
     ]},
-  { name: "Plancha lateral", position: "De costado", mode: "uni",
-    variants: [
-      { name: "Plancha lateral + elevación de pierna", mode: "uni" },
-      { name: "Elevación lateral de pierna", mode: "uni" }
+    { name: "Cuadrupedia", exercises: [
+      { name: "Bird dog", mode: "alt", tag: "Sin equipo", video: null,
+        cue: "Extendé brazo y pierna contrarios hasta la línea del tronco. Pausa de un segundo estirado, sin arquear la lumbar ni rotar la cadera.",
+        variants: [
+          { name: "Bird dog isométrico", mode: "uni", cue: "Misma posición extendida, pero sostenida. La cadera queda paralela al piso todo el tiempo." },
+          { name: "Plancha con toque de hombro", mode: "alt", cue: "En plancha alta, tocá el hombro contrario con una mano por vez. La cadera no se mueve." }
+        ]}
     ]},
-  { name: "Almeja (clamshell)", position: "De costado", mode: "uni",
-    variants: [
-      { name: "Almeja con banda", mode: "uni" },
-      { name: "Fire hydrant", mode: "uni" }
-    ]},
-  { name: "Bird dog", position: "Cuadrupedia", mode: "alt",
-    variants: [
-      { name: "Bird dog isométrico", mode: "uni" },
-      { name: "Plancha con toque de hombro", mode: "alt" }
-    ]},
-  { name: "Balanceo de pierna (frontal)", position: "De pie", mode: "uni",
-    variants: [
-      { name: "Balanceo lateral de pierna", mode: "uni" },
-      { name: "Círculos de cadera", mode: "uni" }
-    ]},
-  { name: "Marcha A", position: "De pie", mode: "alt",
-    variants: [
-      { name: "Skipping A", mode: "alt" },
-      { name: "Rodillas al pecho caminando", mode: "alt" }
-    ]},
-  { name: "Pogos (saltos de tobillo)", position: "De pie", mode: "bi",
-    variants: [
-      { name: "Pogos a una pierna", mode: "uni" },
-      { name: "Soga (jump rope)", mode: "bi" }
+    { name: "De pie", exercises: [
+      { name: "Balanceo de pierna (frontal)", mode: "uni", tag: "Pared de apoyo", video: null,
+        cue: "Apoyate en una pared y balanceá la pierna adelante y atrás con impulso controlado. Aumentá el rango de a poco — es el patrón de la zancada.",
+        variants: [
+          { name: "Balanceo lateral de pierna", mode: "uni", cue: "De frente a la pared, cruzá la pierna de lado a lado por delante del cuerpo. Abre aductores y glúteo medio." },
+          { name: "Círculos de cadera", mode: "uni", cue: "Parado en una pierna, dibujá círculos amplios con la rodilla levantada, hacia adelante y hacia atrás." }
+        ]},
+      { name: "Marcha A", mode: "alt", tag: "Sin equipo", video: null,
+        cue: "Rodilla arriba hasta la altura de la cadera, pie de apoyo firme, brazos de carrera. Postura alta y contacto corto — es técnica, no cardio.",
+        variants: [
+          { name: "Skipping A", mode: "alt", cue: "Misma mecánica que la marcha, con un salto corto entre apoyos. Ritmo antes que altura." },
+          { name: "Rodillas al pecho caminando", mode: "alt", cue: "Caminando, abrazá una rodilla al pecho por paso, creciendo en altura con cada apoyo." }
+        ]},
+      { name: "Pogos (saltos de tobillo)", mode: "bi", tag: "Sin equipo", video: null,
+        cue: "Saltos cortos y elásticos con los tobillos rígidos, talones que apenas rozan el piso. Preparan tendones y pantorrillas para el impacto de correr.",
+        variants: [
+          { name: "Pogos a una pierna", mode: "uni", cue: "Misma elasticidad, en un solo apoyo. Saltos más bajos, contacto igual de corto." },
+          { name: "Soga (jump rope)", mode: "bi", tag: "Soga", cue: "Saltos al ritmo de la soga, apoyo en el antepié, rodillas casi extendidas." }
+        ]}
     ]}
-];
-
-const WORK = 40, REST = 15;
-const MODE_LABEL = { bi: "40s", uni: "40s por lado", alt: "alternado · 40s" };
-
-let idx = 0, side = 1, remaining = WORK, phase = "idle"; // idle | work | rest | done
-let timer = null, skipped = 0, replaced = 0;
-
-const $ = id => document.getElementById(id);
-const circuitEl = $("circuit");
-
-function renderCircuit() {
-  circuitEl.innerHTML = EXERCISES.map((ex, i) => `
-    <div class="ex-row ${i < idx ? "done" : ""} ${i === idx && phase !== "done" ? "active" : ""}" id="row${i}">
-      <div class="num">${i < idx ? "✓" : i + 1}</div>
-      <div class="ex-info">
-        <div class="ex-name">${ex.name}</div>
-        <div class="ex-meta">${ex.position} · ${MODE_LABEL[ex.mode]}</div>
-      </div>
-    </div>`).join("");
-}
-
-function fmt(s) { return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
-
-function beep(freq, dur) {
-  try {
-    const ctx = beep.ctx || (beep.ctx = new (window.AudioContext || window.webkitAudioContext)());
-    const o = ctx.createOscillator(), g = ctx.createGain();
-    o.frequency.value = freq; o.connect(g); g.connect(ctx.destination);
-    g.gain.setValueAtTime(0.2, ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
-    o.start(); o.stop(ctx.currentTime + dur);
-  } catch (e) {}
-}
-
-function updatePanel() {
-  const ex = EXERCISES[idx];
-  const clock = $("clock");
-  clock.textContent = fmt(remaining);
-  clock.classList.toggle("resting", phase === "rest");
-  $("prevBtn").disabled = phase === "idle" || (idx === 0 && side === 1);
-  if (phase === "done") return;
-  if (phase === "rest") {
-    $("phaseLabel").textContent = "Descanso — siguiente:";
-    const next = nextTarget();
-    $("currentName").textContent = next.name;
-    $("sideLabel").textContent = next.sideText;
-  } else {
-    $("phaseLabel").textContent = phase === "idle" ? "Listo para empezar" : "Trabajo";
-    $("currentName").textContent = ex ? ex.name : "—";
-    $("sideLabel").textContent = ex && ex.mode === "uni" ? (side === 1 ? "Lado 1" : "Lado 2") : (ex ? MODE_LABEL[ex.mode] : "");
-  }
-}
-
-// during rest, idx/side already point at the upcoming block
-function nextTarget() {
-  const ex = EXERCISES[idx];
-  if (!ex) return { name: "Fin", sideText: "" };
-  return { name: ex.name, sideText: ex.mode === "uni" ? "Lado " + side : MODE_LABEL[ex.mode] };
-}
-
-function tick() {
-  remaining--;
-  if (remaining <= 3 && remaining > 0) beep(660, 0.1);
-  if (remaining <= 0) {
-    beep(880, 0.3);
-    if (phase === "work") endWorkBlock();
-    else startWork();
-  }
-  updatePanel();
-}
-
-function endWorkBlock() {
-  const ex = EXERCISES[idx];
-  if (ex.mode === "uni" && side === 1) {
-    side = 2;
-    phase = "rest"; remaining = REST; // short transition between sides
-  } else {
-    advance();
-    if (phase !== "done") { phase = "rest"; remaining = REST; }
-  }
-}
-
-function advance() {
-  idx++; side = 1;
-  if (idx >= EXERCISES.length) finish();
-  renderCircuit();
-}
-
-function startWork() {
-  phase = "work"; remaining = WORK;
-}
-
-function finish() {
-  phase = "done";
-  clearInterval(timer); timer = null;
-  $("phaseLabel").textContent = "";
-  $("currentName").textContent = "";
-  $("sideLabel").textContent = "";
-  $("clock").style.display = "none";
-  document.querySelector(".controls").style.display = "none";
-  $("doneMsg").style.display = "block";
-  const parts = [];
-  if (skipped) parts.push(skipped + " salteado" + (skipped > 1 ? "s" : ""));
-  if (replaced) parts.push(replaced + " cambiado" + (replaced > 1 ? "s" : ""));
-  $("doneStats").textContent = parts.length ? "(" + parts.join(", ") + ")" : "";
-  renderCircuit();
-}
-
-$("mainBtn").addEventListener("click", () => {
-  if (phase === "done") return;
-  if (timer) { // pause
-    clearInterval(timer); timer = null;
-    $("mainBtn").textContent = "Reanudar";
-  } else {
-    if (phase === "idle") { startWork(); }
-    timer = setInterval(tick, 1000);
-    $("mainBtn").textContent = "Pausar";
-    $("skipBtn").disabled = false;
-    $("replaceBtn").disabled = false;
-  }
-  updatePanel();
-});
-
-$("skipBtn").addEventListener("click", () => {
-  if (phase === "done") return;
-  skipped++;
-  advance();
-  if (phase !== "done") { phase = "rest"; remaining = REST; }
-  updatePanel();
-});
-
-// go back one exercise (or from side 2 back to side 1) and restart its 40s
-$("prevBtn").addEventListener("click", () => {
-  if (phase === "done" || phase === "idle") return;
-  if (side === 2) {
-    side = 1;
-  } else if (idx > 0) {
-    idx--; side = 1;
-  }
-  startWork();
-  renderCircuit();
-  updatePanel();
-});
-
-$("replaceBtn").addEventListener("click", () => {
-  if (phase === "done") return;
-  const ex = EXERCISES[idx];
-  $("variantList").innerHTML = ex.variants.map((v, i) => `
-    <button class="variant" data-i="${i}">
-      <span class="v-name">${v.name}</span>
-      <span class="v-meta">${MODE_LABEL[v.mode]}</span>
-    </button>`).join("");
-  $("overlay").classList.add("open");
-});
-
-$("variantList").addEventListener("click", e => {
-  const btn = e.target.closest(".variant");
-  if (!btn) return;
-  const v = EXERCISES[idx].variants[+btn.dataset.i];
-  const old = { name: EXERCISES[idx].name, mode: EXERCISES[idx].mode };
-  EXERCISES[idx] = { ...EXERCISES[idx], name: v.name, mode: v.mode, variants: [old, ...EXERCISES[idx].variants.filter(x => x !== v)] };
-  replaced++;
-  side = 1;
-  if (phase === "work") remaining = WORK; // restart the block with the new exercise; during rest, keep the countdown
-  $("overlay").classList.remove("open");
-  renderCircuit(); updatePanel();
-});
-
-$("closeDialog").addEventListener("click", () => $("overlay").classList.remove("open"));
-$("overlay").addEventListener("click", e => { if (e.target === $("overlay")) $("overlay").classList.remove("open"); });
-
-renderCircuit();
-updatePanel();
+  ]
+};
 </script>
 {% endraw %}
+{% include "partials/activation-tool.njk" %}
