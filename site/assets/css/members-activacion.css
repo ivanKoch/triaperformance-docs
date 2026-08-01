@@ -1,0 +1,155 @@
+/* Activación de running — interactive tool page.
+   Dark members-artifact system per brand-guidelines.md §7.1 (same tokens as
+   members-home.css). Self-contained: loads on top of site.css only, does NOT
+   use members.css (that file styles the light content pages). */
+
+:root {
+  --bg: #0d1117;
+  --surface: #171b21;
+  --surface2: #1f242c;
+  --border: #2a313b;
+  --blue: #004aad;
+  --blue-deep: #003a89;
+  --blue-bright: #4f8fdb;
+  --blue-dim: rgba(0, 74, 173, 0.22);
+  --white: #ffffff;
+  --text: #f2f3f1;
+  --text-dim: #8b9089;
+}
+
+body {
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap--narrow { max-width: 720px; padding-bottom: 96px; }
+
+/* --- nav (members-page variant) & footer, dark overrides on site.css --- */
+.site-nav-sticky {
+  background: rgba(13, 17, 23, 0.85);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.site-nav-sticky .logo { color: var(--white); }
+.site-nav-sticky nav a { color: var(--text-dim); }
+.site-nav-sticky nav a:hover { color: var(--blue-bright); }
+.nav-toggle span { background: var(--text); }
+
+@media (max-width: 860px) {
+  header nav {
+    background: var(--surface);
+    box-shadow: none;
+    border-left: 1px solid var(--border);
+  }
+}
+
+footer { border-top: 1px solid var(--border); color: var(--text-dim); }
+footer a { color: var(--text-dim); }
+
+/* --- page header --- */
+.page-header { padding-top: 48px; }
+.breadcrumb { font-size: 14px; color: var(--text-dim); margin-bottom: 16px; }
+.breadcrumb a { color: var(--text-dim); }
+.breadcrumb a:hover { color: var(--blue-bright); }
+.page-header .label { color: var(--blue-bright); margin-bottom: 8px; }
+.page-header h1 {
+  font-size: 36px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;
+  margin-bottom: 8px; color: var(--white);
+}
+.subtitle { color: var(--text-dim); font-size: 17px; max-width: 65ch; }
+
+/* --- circuit list --- */
+.circuit { margin-top: 48px; border-top: 1px solid var(--border); }
+.ex-row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.ex-row .num {
+  flex: 0 0 28px; height: 28px; width: 28px;
+  border: 1.5px solid var(--border); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: var(--text-dim);
+}
+.ex-row.done .num { background: var(--blue); border-color: var(--blue); color: var(--white); }
+.ex-row.active { background: var(--surface); }
+.ex-row.active .num { border-color: var(--blue-bright); color: var(--blue-bright); }
+.ex-row .ex-info { flex: 1; }
+.ex-row .ex-name { font-weight: 700; font-size: 17px; }
+.ex-row .ex-meta { font-size: 14px; color: var(--text-dim); }
+.ex-row.done .ex-name { color: var(--text-dim); text-decoration: line-through; text-decoration-thickness: 1px; }
+
+/* --- timer panel --- */
+.panel {
+  position: sticky; bottom: 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 24px 0 8px;
+  margin-top: 32px;
+}
+.panel-inner { text-align: center; }
+.phase-label {
+  font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--blue-bright); min-height: 21px;
+}
+.current-name { font-size: 22px; font-weight: 700; margin: 4px 0 0; min-height: 33px; color: var(--white); }
+.side-label { font-size: 14px; color: var(--text-dim); min-height: 22px; }
+.clock {
+  font-size: 72px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+  margin: 8px 0 16px;
+  color: var(--white);
+}
+.clock.resting { color: var(--text-dim); }
+
+.controls { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.controls button, .dialog button {
+  font-family: inherit; font-size: 16px; font-weight: 700;
+  border-radius: 4px; padding: 14px 24px; cursor: pointer;
+}
+.btn-primary { background: var(--blue); color: var(--white); border: none; min-width: 160px; }
+.btn-primary:hover { background: var(--blue-deep); }
+.btn-secondary { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+.btn-secondary:hover { border-color: var(--blue-bright); color: var(--blue-bright); }
+.btn-secondary:disabled { opacity: .35; cursor: default; }
+.btn-secondary:disabled:hover { border-color: var(--border); color: var(--text); }
+
+/* --- replace dialog --- */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, .6);
+  display: none; align-items: center; justify-content: center; padding: 24px;
+  z-index: 200;
+}
+.overlay.open { display: flex; }
+.dialog {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 32px;
+  max-width: 440px; width: 100%;
+}
+.dialog h3 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--white); }
+.variant {
+  display: block; width: 100%; text-align: left;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; margin-bottom: 8px; font-weight: 400; font-size: 17px; color: var(--text);
+}
+.variant:hover { border-color: var(--blue-bright); }
+.variant .v-name { font-weight: 700; display: block; }
+.variant .v-meta { font-size: 14px; color: var(--text-dim); }
+.dialog .close-row { text-align: right; margin-top: 8px; }
+.dialog .close-btn {
+  background: none; border: none; color: var(--text-dim);
+  font-size: 14px; font-weight: 400; text-decoration: underline; padding: 4px;
+}
+
+/* --- done state --- */
+.done-msg { display: none; text-align: center; padding: 24px 0; }
+.done-msg h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--white); }
+.done-msg p { color: var(--text-dim); }
+
+@media (max-width: 480px) {
+  .page-header h1 { font-size: 28px; }
+  .clock { font-size: 56px; }
+  .controls button { padding: 12px 16px; font-size: 15px; }
+  .btn-primary { min-width: 120px; }
+}

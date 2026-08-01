@@ -89,6 +89,28 @@ Rules: no italics, no light weights, no more than two weights (400/700) anywhere
 
 **Forms**: single column, Mist borders, 4px radius. Labels above fields, never placeholder-only.
 
+## 7.1 Members-area dark theme (interactive tools / artifacts)
+
+*Added August 1, 2026.* The members home and interactive tools (starting with the kettlebell routine, formalized with the running-activation tool) use a dark variant of the brand. **Dark is the default for members-area interactive artifacts**; static guide pages built earlier (`zonas`, `tests`, `carga`, `carrera`, `nutricion`) remain light until unified. The public site stays white-first — this system never appears on public pages.
+
+Token set (matches `assets/css/members-home.css`):
+
+| Role | Var | Hex |
+|---|---|---|
+| Background | `--bg` | `#0d1117` |
+| Surface (cards, dialogs, active rows) | `--surface` | `#171b21` |
+| Surface 2 (nested elements) | `--surface2` | `#1f242c` |
+| Border | `--border` | `#2a313b` |
+| Blue fill (buttons, filled accents) | `--blue` | `#004aad` |
+| Blue hover | `--blue-deep` | `#003a89` |
+| Blue as text on dark | `--blue-bright` | `#4f8fdb` |
+| Blue tint | `--blue-dim` | `rgba(0,74,173,.22)` |
+| Text | `--text` | `#f2f3f1` |
+| Secondary text | `--text-dim` | `#8b9089` |
+| Headings | `--white` | `#ffffff` |
+
+Rules: TP Blue `#004aad` stays a fill-only color on dark (fails contrast as text on `--bg`); any blue text uses `--blue-bright`. Secondary buttons: 1.5px `--border` border, `--text`, hover to `--blue-bright`. Everything else (type scale, spacing, radius, no-shadow rule, voice) unchanged from the light system.
+
 ## 8. Voice
 
 - Direct and data-grounded, like the coaching. Short sentences. Numbers over adjectives ("42k under 3 hours" beats "amazing results").

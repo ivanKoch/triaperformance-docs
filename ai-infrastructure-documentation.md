@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** July 31, 2026 (UTM convention for external channel links added to §9; CoachMatch pipeline reliability fixes — WhatsApp watchdog rebuild, email-nurture bug, multi-lead execution bug — plus full VPS script/config migration into the repo, §18)
+**Last updated:** August 1, 2026 (new §19 — artifact → members-area publishing pipeline established; first artifact `/members/activacion/` built and verified in local Eleventy build, pending deploy. Earlier same day: §18 addendum — fixed `twenty_followup_check.py` dispatcher's `~`-expansion bug that broke its first live cron run; root-caused via Hermes's own scheduler source, not guessing)
 **Status:** Live / operational
 
 ---
@@ -429,6 +429,23 @@ Three real, independent bugs found and fixed in the same session, all via the sa
 **New standing practice, going forward (also added to the project's custom instructions):** every Python script that runs on the VPS — via Hermes cron, Hermes's agent, or plain crontab — gets written into `automation/` in this repo from day one, never authored directly on the box. The same now applies to Caddy config changes. The only manual, non-git step left anywhere in this pipeline is the n8n workflow UI itself (still no live API/MCP connection to n8n), and even there, every workflow gets archived back to the repo the same session it's built or changed.
 
 **Also codified from bug 3, specifically for n8n Code nodes going forward:** always set the node's execution mode explicitly (`Run Once for All Items` vs `Run Once for Each Item`) rather than leaving it on the default — code written in single-item style (`.item`, `.first()`, a hardcoded one-element `return`) needs "Run Once for Each Item" or it will silently misbehave the moment more than one item reaches it in a single execution, exactly as happened here. A single-item manual test in the n8n UI cannot catch this class of bug — it needs a real or replayed multi-item execution.
+
+*Update, August 1, 2026 — the §18 dispatcher for `twenty_followup_check.py` broke on its actual first live run (this same morning) with `fatal: cannot change to '/opt/data/home/.hermes/triaperformance-docs': No such file or directory`. Root cause, confirmed by reading Hermes's own scheduler source (`/opt/hermes/cron/scheduler.py`, `hermes_constants.py`) rather than guessing: in this Docker deployment `HERMES_HOME=/opt/data`, and Hermes correctly finds/runs job scripts at `HERMES_HOME/scripts` (i.e. the dispatcher was in the right place, `/opt/data/scripts/twenty_followup_check.py` — host path `~/.hermes/scripts/...`). But when Hermes spawns the subprocess to *execute* that script, it deliberately sets the subprocess's OS `$HOME` to `{HERMES_HOME}/home` (`/opt/data/home`) — intentionally separate from `HERMES_HOME` itself, so Hermes's own state doesn't collide with whatever a script expects at `~`. The dispatcher's `REPO_DIR = os.path.expanduser("~/.hermes/triaperformance-docs")` therefore resolved to `/opt/data/home/.hermes/triaperformance-docs` at run time — a path that was never cloned — instead of the one true repo mirror that already exists (and that `deploy-website.sh`'s cron keeps in sync) at `/opt/data/triaperformance-docs`. Fix: changed `REPO_DIR` in the dispatcher to the hardcoded absolute path `"/opt/data/triaperformance-docs"`, removing the `~` expansion entirely. Confirmed working with a real run (`HOME=/opt/data/home python3 /opt/data/scripts/twenty_followup_check.py` inside the `hermes-gateway` container, matching Hermes's actual subprocess env) — produced a clean digest and, being a real (non-dry-run) execution, actually advanced `whatsappTouchCount`/`lastTouchpoint` for the 4 flagged leads. **`update_lead_status.py`'s dispatcher was checked and does NOT have this bug** (no `~`-based path in it). **Standing practice update:** any dispatcher or script invoked via Hermes's `no_agent` cron mechanism must use an absolute path (e.g. `HERMES_HOME`-relative or hardcoded) for anything touching the repo mirror or other Hermes-managed paths — never `os.path.expanduser("~/...")` — because the subprocess's OS `$HOME` is not `HERMES_HOME` and is not the same `$HOME` a plain host shell or host crontab sees.*
+
+## 19. Artifact → members-area publishing pipeline (established August 1, 2026)
+
+First run of a now-standing process: interactive training artifacts (Claude-built HTML tools) get published into the gated members area following a fixed checklist, instead of the ad-hoc port that produced the kettlebell outlier (own inline nav, own design language, 173 lines of unique CSS). The checklist lives in **`artifact-publish-runbook.md`** (repo root, same family as the other runbooks).
+
+First artifact through the pipeline: **Activación de Running** (`/members/activacion/`) — guided 8-exercise circuit, 40s work / 15s transition timer, floor-to-standing ordering, unilateral exercises run 40s per side, controls for previous/skip/replace-with-variant. Files: `site/members/activacion/index.njk` (markup + inline JS wrapped in `{% raw %}`), `site/assets/css/members-activacion.css` (self-contained; loads on top of `site.css` only, deliberately not `members.css`), card + new "Activación" filter chip in `site/members/index.njk`.
+
+Decisions codified this session:
+
+- **Dark is the default theme for members-area interactive artifacts** — token set documented in `brand-guidelines.md` §7.1 (added this session), matching `members-home.css`. Static guide pages stay light until unified. Public site stays white-first.
+- **Artifacts use the standard `members-page` nav variant and `members` footer variant** (inherited from `members.json`), restyled dark in the page's own CSS — never a bespoke inline nav (the kettlebell mistake).
+- **No auth work needed per artifact** — Caddy's `forward_auth` gates `/members/*` by wildcard; a new folder under `site/members/` is born gated.
+- **No analytics work needed per artifact** — GA4 + Clarity + noindex arrive via `base.njk` + `members.json`. Verified in the real build output for `/members/activacion/` (both tags present, `noindex` set, absent from sitemap.xml).
+
+Build verified clean with Eleventy v3.1.6 (355 files). Deploy is Iván's commit/push + the VPS cron pull, per standing practice.
 
 ## Open items / not yet done
 
