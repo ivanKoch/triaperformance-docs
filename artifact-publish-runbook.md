@@ -76,3 +76,4 @@ Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card
 |---|---|---|---|
 | Activación de Running | `/members/activacion/` | activacion | Aug 1, 2026 — live; rebuilt same day on template v2 (pending redeploy) |
 | Activación de Ciclismo | `/members/activacion-ciclismo/` | activacion | Aug 1, 2026 — built on template v2 (pending deploy) |
+| Core Sin Excusas | `/members/core/` | fuerza | Aug 1, 2026 — template v2, data-only page, 45s blocks (`workSeconds` override) (pending deploy) |

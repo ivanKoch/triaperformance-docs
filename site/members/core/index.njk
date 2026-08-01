@@ -1,0 +1,103 @@
+---
+layout: layouts/base.njk
+pageCss: "members-activacion.css"
+title: "Core Sin Excusas — Triaperformance All-Access"
+---
+{% raw %}
+<script>
+window.ACTIVATION_DATA = {
+  title: "Core sin excusas",
+  crumb: "Core",
+  subtitle: "Rutina de core para la habitación del hotel: sin equipo, una toalla en el piso alcanza. 1 serie de 45 segundos por ejercicio; los unilaterales, 45 segundos por lado.",
+  context: "Habitación de hotel · sin equipo",
+  why: "Los viajes rompen la rutina: vuelos, sillas, comidas afuera. Esta rutina no necesita equipo ni espacio, y quince minutos alcanzan para mantener el hábito y el tronco firme — así volvés a entrenar sin arrancar de cero.",
+  doneSub: "Hecho. El viaje no es excusa.",
+  workSeconds: 45,
+  phases: [
+    { name: "Sentado", exercises: [
+      { name: "Russian twist", mode: "alt", tag: "Sin equipo", video: null,
+        cue: "Sentado, tronco inclinado atrás unos 45°, espalda recta. Rotá llevando las manos de un lado al otro del cuerpo. Pies apoyados lo hace más fácil; elevados, más difícil.",
+        variants: [
+          { name: "Twist con pies elevados", mode: "alt", cue: "Misma rotación con los pies despegados del piso. El equilibrio suma trabajo de todo el tronco." },
+          { name: "Inclinación isométrica", mode: "bi", cue: "Sostené la posición inclinada sin rotar, brazos al frente. Respirá normal, sin encorvar la espalda." }
+        ]}
+    ]},
+    { name: "Boca arriba", exercises: [
+      { name: "Toques de talón", mode: "alt", tag: "Sin equipo", video: null,
+        cue: "Rodillas flexionadas, hombros apenas despegados del piso. Tocá un talón por vez inclinando el tronco hacia el costado. Trabajo de oblicuos, corto y controlado.",
+        variants: [
+          { name: "Crunch corto", mode: "bi", cue: "Manos detrás de la cabeza sin tirar del cuello, despegá solo los omóplatos. Rango corto, tensión constante." },
+          { name: "Elevación de piernas", mode: "alt", cue: "Piernas extendidas, bajá una por vez hasta rozar el piso, con la lumbar siempre apoyada." }
+        ]},
+      { name: "Dead bug", mode: "alt", tag: "Sin equipo", video: null,
+        cue: "Lumbar pegada al piso. Extendé brazo y pierna contrarios sin que la espalda se despegue. Lento — el objetivo es control, no velocidad.",
+        variants: [
+          { name: "Descenso de piernas", mode: "alt", cue: "Piernas a 90°, bajá una por vez hasta rozar el piso con el talón, siempre con la lumbar apoyada." },
+          { name: "Dead bug isométrico", mode: "bi", cue: "Brazos y rodillas a 90°, empujá las manos contra las rodillas y sostené la tensión respirando normal." }
+        ]},
+      { name: "Hollow hold", mode: "bi", tag: "Sin equipo", video: null,
+        cue: "Lumbar apoyada, piernas y hombros despegados, brazos extendidos. Si la lumbar se despega, flexioná las rodillas o subí las piernas — la posición vale más que la estética.",
+        variants: [
+          { name: "Hollow con rodillas flexionadas", mode: "bi", cue: "Misma posición con las rodillas dobladas a 90°. La progresión correcta si el hold completo compromete la lumbar." },
+          { name: "Hollow rock", mode: "bi", cue: "Desde el hollow, balanceate suave adelante y atrás sin perder la forma. Solo si el hold estático está dominado." }
+        ]},
+      { name: "Bicicleta", mode: "alt", tag: "Sin equipo", video: null,
+        cue: "Codo hacia la rodilla contraria mientras la otra pierna se extiende sin tocar el piso. Lento y con rotación real del tronco — no es una carrera.",
+        variants: [
+          { name: "Bicicleta con pausa", mode: "alt", cue: "Misma mecánica, con un segundo de pausa en cada contacto codo-rodilla." },
+          { name: "Crunch cruzado", mode: "alt", cue: "Pies apoyados, llevá el codo hacia la rodilla contraria de a un lado por vez." }
+        ]},
+      { name: "Puente con marcha", mode: "alt", tag: "Sin equipo", video: null,
+        cue: "Cadera arriba y fija; despegá un pie por vez sin que la pelvis se caiga hacia ningún lado. Glúteos y antirrotación en un solo ejercicio.",
+        variants: [
+          { name: "Puente a una pierna", mode: "uni", cue: "Una pierna extendida en el aire, la otra empuja. La pelvis no debe rotar." },
+          { name: "Puente isométrico", mode: "bi", cue: "Cadera arriba, glúteos apretados, quieto. Simple y suficiente si la marcha todavía cuesta." }
+        ]}
+    ]},
+    { name: "De costado", exercises: [
+      { name: "Plancha lateral", mode: "uni", tag: "Sin equipo", video: null,
+        cue: "Codo debajo del hombro, cuerpo en línea de cabeza a pies. Empujá la cadera hacia arriba y sostené. Si tiembla, está trabajando.",
+        variants: [
+          { name: "Plancha lateral con rodillas apoyadas", mode: "uni", cue: "Rodillas flexionadas y apoyadas en el piso. Misma línea de tronco, menos palanca — la regresión correcta." },
+          { name: "Plancha lateral + elevación de pierna", mode: "uni", cue: "En plancha lateral, subí y bajá la pierna de arriba controlado. Suma glúteo medio." }
+        ]}
+    ]},
+    { name: "Boca abajo", exercises: [
+      { name: "Plancha frontal", mode: "bi", tag: "Sin equipo", video: null,
+        cue: "Codos debajo de los hombros, glúteos apretados, cadera en línea — ni caída ni en carpa. Empujá el piso con los antebrazos y respirá normal.",
+        variants: [
+          { name: "Plancha con toque de hombro", mode: "alt", cue: "En plancha alta, tocá el hombro contrario con una mano por vez. La cadera no se mueve." },
+          { name: "Plancha dinámica (codos a manos)", mode: "alt", cue: "Subí de codos a manos y volvé, alternando el brazo que inicia. La cadera lo más quieta posible." }
+        ]},
+      { name: "Mountain climbers lentos", mode: "alt", tag: "Sin equipo", video: null,
+        cue: "En plancha alta, llevá una rodilla al pecho por vez, lento y con la cadera baja. Es core, no cardio — la espalda no se redondea ni rebota.",
+        variants: [
+          { name: "Mountain climber cruzado", mode: "alt", cue: "La rodilla va hacia el codo contrario. Más trabajo de oblicuos, mismo control." },
+          { name: "Plancha alta isométrica", mode: "bi", cue: "Sostené la plancha alta con las manos empujando el piso y la espalda ancha." }
+        ]},
+      { name: "Superman", mode: "bi", tag: "Sin equipo", video: null,
+        cue: "Boca abajo, despegá brazos y piernas a la vez, mirada al piso. Subí hasta donde la lumbar trabaje sin pellizcar. La cadena posterior también es core.",
+        variants: [
+          { name: "Superman alterno", mode: "alt", cue: "Brazo y pierna contrarios por vez. Menos intenso, mismo patrón." },
+          { name: "Nadador", mode: "alt", cue: "Desde el superman sostenido, movés brazos y piernas como nadando, cortos y rítmicos." }
+        ]}
+    ]},
+    { name: "Cuadrupedia", exercises: [
+      { name: "Bird dog", mode: "alt", tag: "Sin equipo", video: null,
+        cue: "Extendé brazo y pierna contrarios hasta la línea del tronco. Pausa de un segundo estirado, sin arquear la lumbar ni rotar la cadera.",
+        variants: [
+          { name: "Bird dog isométrico", mode: "uni", cue: "Misma posición extendida, pero sostenida. La cadera queda paralela al piso todo el tiempo." },
+          { name: "Bird dog codo-rodilla", mode: "alt", cue: "Entre repetición y repetición, juntá codo y rodilla debajo del cuerpo antes de volver a extender." }
+        ]},
+      { name: "Bear hold", mode: "bi", tag: "Sin equipo", video: null,
+        cue: "En cuadrupedia, despegá las rodillas 5 centímetros del piso y sostené. Espalda plana, respiración normal. Engañosamente simple — el cierre justo para la rutina.",
+        variants: [
+          { name: "Bear con toque de hombro", mode: "alt", cue: "Desde el bear hold, tocá el hombro contrario con una mano por vez sin que la cadera rote." },
+          { name: "Bear crawl en el lugar", mode: "alt", cue: "Desde el bear hold, avanzá y retrocedé un paso corto con mano y pie contrarios." }
+        ]}
+    ]}
+  ]
+};
+</script>
+{% endraw %}
+{% include "partials/activation-tool.njk" %}

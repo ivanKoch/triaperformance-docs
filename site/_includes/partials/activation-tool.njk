@@ -6,7 +6,7 @@
 <div class="tool">
 
   <div class="crumb-bar">
-    <div class="wrap"><a href="/members/#biblioteca">Biblioteca</a> / Activación</div>
+    <div class="wrap"><a href="/members/#biblioteca">Biblioteca</a> / <span id="crumbLabel"></span></div>
   </div>
 
   <nav class="tool-tabs" aria-label="Secciones de la herramienta">
@@ -98,7 +98,8 @@
 </div>
 
 <script>
-  // done-overlay subtitle comes from the page's data
+  // page-specific labels from the data object
   document.getElementById("doneSub").textContent = window.ACTIVATION_DATA.doneSub || "";
+  document.getElementById("crumbLabel").textContent = window.ACTIVATION_DATA.crumb || window.ACTIVATION_DATA.title;
 </script>
 <script src="/assets/js/activation-tool.js"></script>
