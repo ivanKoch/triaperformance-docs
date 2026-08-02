@@ -5,7 +5,7 @@
 **Phase 0 is underway.** The Eleventy build step shipped and is live (see `ai-infrastructure-documentation.md` §15), which was the hard prerequisite for a blog existing at all. On top of it:
 
 - **Blog structure is live**: `/blog/` (ES), with `/en/blog/` and `/pt/blog/` reserved. Article URLs are slug-only, no dates. Articles are ordinary pages, so they inherit nav, footer, analytics and the `transKey` hreflang machinery automatically.
-- **`site/_data/plans.js`** loads the 381-row plan inventory at build time and exposes 322 linkable plans. It excludes the 6 known-404 IDs, duplicate rows, and expired links.
+- **`site/_data/plans.js`** loads the 381-row plan inventory at build time and exposes the linkable plans, excluding duplicate rows and expired links. *(Corrected Aug 2, 2026 — this line previously said it also excluded "the 6 known-404 IDs." Those never existed: the July 27 full link check returned 323 OK / 0 dead. See the link-status bullet below.)*
 - **The `planCard` shortcode implements the brief's core monetization rule mechanically**: an article names a plan by `plan_id` and never contains a URL. Name, price, duration, metric and link are all joined in from the inventory. **Referencing an unlinkable plan fails the build** — verified by deliberately referencing the dead `434680` and confirming a non-zero exit.
 - **First article published in all three languages, live July 27, 2026**:
   - ES `/blog/como-elegir-tu-plan-de-maraton/` — 4 questions, 9 plans
@@ -77,7 +77,7 @@ A new `content` database on the existing `analytics-postgres` container — same
 | `content_distribution` | One row per piece × channel actually published. external_id, permalink, published_at. |
 | `content_performance` | Time series. distribution_id, metric_date, source (GA4 / GSC / IG / GBP / pixel), impressions, clicks, position, sessions, plan_clicks. |
 
-**Why `content_links` is a separate table and not just prose.** You already have 6 plans marked published in the inventory that 404 on TrainingPeaks, 8 rows with `link = "Expired"`, and 4 duplicate `plan_id`s. If plan URLs live only inside article text, a TP-side unpublish silently rots links across the whole blog and you find out from a reader, or never. With a links table, a nightly checker HEADs every live link, flags the dead ones, and — because it knows the `plan_id` — can propose the replacement plan from `plans_raw`. That's a self-maintaining affiliate/plan surface, which is the whole premise of the "agent-generated affiliate pages" priority in the roadmap parking lot.
+**Why `content_links` is a separate table and not just prose.** You already have 8 rows with `link = "Expired"` in the inventory, and TP can unpublish a plan at any time without telling you. *(Corrected Aug 2, 2026: this paragraph previously also cited "6 plans marked published that 404" and "4 duplicate `plan_id`s" as live problems. Both were closed in July — the 404s were an artifact of a rate-limited partial crawl, the duplicates were already gone from `plans_raw`. The argument for a links table stands on its own without them.)* If plan URLs live only inside article text, a TP-side unpublish silently rots links across the whole blog and you find out from a reader, or never. With a links table, a nightly checker HEADs every live link, flags the dead ones, and — because it knows the `plan_id` — can propose the replacement plan from `plans_raw`. That's a self-maintaining affiliate/plan surface, which is the whole premise of the "agent-generated affiliate pages" priority in the roadmap parking lot.
 
 ---
 
@@ -221,7 +221,7 @@ The moat here isn't volume, it's that you can write things nobody else can: what
 
 Then **let the feedback agent authorize the increase**. If after 90 days the ES articles are actually earning impressions and driving plan clicks, double it. If they're not, volume would only have multiplied the problem. That's the same data-first posture you applied to the storefront analysis.
 
-**And before any of it: publish what already exists.** Per the roadmap's own "distribution over creation" principle, there's months of zero-creation content sitting idle — 10 never-posted GBP reviews (≈2.5 months of weekly testimonial posts), 6 built calculators/routines, 3 lead-magnet PDFs, 386 plans with weekly-breakdown data, and the whole infra build log for LinkedIn. The first agent to build is arguably not a writer at all. It's a scheduler that drips out assets you already own.
+**And before any of it: publish what already exists.** Per the roadmap's own "distribution over creation" principle, there's months of zero-creation content sitting idle — 9 unused GBP reviews (≈9 weeks of weekly testimonial posts, plus a recyclable back catalog of 36 already posted; *counts corrected Aug 2, 2026 — this line previously said 10 never-posted ≈ 2.5 months*), 6 built calculators/routines, 3 lead-magnet PDFs, 386 plans with weekly-breakdown data, and the whole infra build log for LinkedIn. The first agent to build is arguably not a writer at all. It's a scheduler that drips out assets you already own.
 
 ---
 
@@ -232,7 +232,7 @@ Each phase ships a durable asset — per the standing rule from `memory.md` that
 **Phase 0 — Do it manually once.** No agents. Create the `content` database and tables. Then take one Spanish article from idea to published to measured entirely by hand, writing every row yourself. This is not busywork: it's how the input/output contract of every agent gets defined by reality rather than by guess. Everything you have to invent to complete it manually is a field you'd otherwise have discovered missing in month three.
 *Asset: the schema, and one published article.*
 
-**Phase 1 — Distribution of existing assets.** n8n workflow that drips the 10 GBP reviews and the existing tools/lead magnets to GBP and IG on a schedule. No LLM in the path beyond caption formatting.
+**Phase 1 — Distribution of existing assets.** n8n workflow that drips the unused GBP reviews (9 as of Aug 2, 2026, replenished by the ongoing ask cadence) and the existing tools/lead magnets to IG and email on a schedule — **not** to GBP, where quoting a review back is redundant to the same visitor and burns a monthly post slot (decided Aug 2, 2026, see `social-proof-and-reviews.md`). No LLM in the path beyond caption formatting.
 *Asset: an active publishing cadence with zero creation cost, and a working IG/GBP API integration proven before it matters.*
 
 **Phase 2 — Research agent + Gate A.** Weekly idea generation grounded in GSC + plan-view data. Approval page, ideas only. You still write the articles (with Claude's help, as now).
@@ -256,7 +256,7 @@ Each phase ships a durable asset — per the standing rule from `memory.md` that
 | Risk | Mitigation |
 |---|---|
 | Hallucinated plan/affiliate URLs | Model selects `plan_id` from a supplied list; n8n joins the URL. Never generated. |
-| Plans get unpublished on TP, links rot silently | `content_links` + nightly HEAD checker + `plans_raw` status recheck. Already a live problem (6 known 404s). |
+| Plans get unpublished on TP, links rot silently | `content_links` + nightly HEAD checker + `plans_raw` status recheck. Link status is measured by `automation/check-plan-links.py`, not maintained in prose — the last full check (July 27, 2026) returned 323 OK / 0 dead. |
 | Voice drift into generic SEO copy | `brand-guidelines.md` §8 in every prompt; diff approved-vs-draft monthly; hard ban list (no "unlock", "crush", no exclamation marks). |
 | Batch approval fatigue → rubber-stamping | Gate A kills bad work before it's written; keep the batch at 5 packages until edits are consistently light. |
 | Flash-tier model producing plausible-sounding wrong training advice | Use a stronger model for the writer. `methodology.md` as grounding. The AI Coach red lines apply to public content too — no injury/medical claims. |

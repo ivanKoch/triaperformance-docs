@@ -1,7 +1,7 @@
 # Triaperformance — Pricing & Positioning
 
 ## The model: purchasing-power segmentation, not service tiers
-TrainingPeaks frames coaching as three formal tiers — Bronze ($149), Silver ($229), Gold ($349) — differentiated by call frequency, adjustment frequency, and analysis depth. **That ladder is a US-market framing and does not describe how Triaperformance actually prices or delivers. Do not assume it does when reasoning about this business.**
+TrainingPeaks frames coaching as three formal tiers — Bronze ($149), Silver ($229), Gold ($359) — differentiated by call frequency, adjustment frequency, and analysis depth. **That ladder is a US-market framing and does not describe how Triaperformance actually prices or delivers. Do not assume it does when reasoning about this business.**
 
 The real model: one consistent service definition, priced differently depending on what the market and the individual athlete can bear.
 
@@ -18,7 +18,7 @@ Latin America's coaching market is anchored around $60–100/month for what feel
 
 **$149 works specifically with:**
 - High-purchasing-power Latin Americans
-- US-based athletes, for whom $149 undercuts TrainingPeaks' own $349 "Gold" framing and reads as inexpensive
+- US-based athletes, for whom $149 undercuts TrainingPeaks' own $359 "Gold" framing and reads as inexpensive
 - Working professionals with real discretionary income — recent acquisitions have included a fellow COO
 
 **$149 is not a viable general Latin American market price.** The $75–99 range is where most of the current base sits and where new Latin American acquisition outside the high-purchasing-power segment will likely continue to land. Both price points are correct for their respective segments — this isn't a single number to converge on.
@@ -97,11 +97,11 @@ Two live products, priced by market purchasing power:
 
 The Portuguese discount is historical (weak BRL made USD pricing feel expensive). Because the $9 TrainingPeaks Premium fee is fixed, lower prices carry disproportionately worse margins — any future All-Access pricing decision should account for that floor. At 2 subscribers, the constraint is distribution, not price: this product is built, recurring, near-zero marginal effort, and unpromoted.
 
-**Checkout links (added Jul 2026, for website CTA buttons):**
+**Checkout links (added Jul 2026, for website CTA buttons; subscriber counts corrected Aug 2, 2026 — one Spanish subscriber churned, so the live total is 2: 1 ES + 1 PT):**
 
 | Language | Checkout URL | Product name (as set in TP Payments) | Price | Subscribers | Renameable? |
 |---|---|---|---|---|---|
-| Spanish | https://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd4edb446f3 | "Suscripción Triaperformance - Todos los planes y guías + Training Peaks Premium" | $39.99 | 2 | No — existing subscribers, can't rename |
+| Spanish | https://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd4edb446f3 | "Suscripción Triaperformance - Todos los planes y guías + Training Peaks Premium" | $39.99 | 1 | No — existing subscriber, can't rename |
 | English | https://checkout.trainingpeaks.com/product/7127a1e4-f736-45b7-b98d-1bbe468d950a | "FULL ACCESS: All training plans and guides + Training Peaks Premium" | $39.99 | 0 | Yes — no subscribers yet, open to a better name if proposed |
 | Portuguese | https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a | "Acesso Total: Planos de Treino (Corrida + Ciclismo + Triatlo)" | $29.99 | 1 | No — existing subscriber |
 

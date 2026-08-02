@@ -2,7 +2,16 @@
 
 *Created July 2026 from the GBP review export (43 reviews). This is the fourth knowledge-base file: what the reviews prove, where they're deployed, and where the gaps are. Update when new reviews land or get deployed.*
 
-*Update, August 2, 2026 — count corrected to **45 reviews**, of which **36 have been repurposed to Instagram and 9 have not**. The theme, geography and quote-bank sections below still describe the original 43-review export and have not been re-tallied; treat their breakdowns as the last full analysis, not as current totals.*
+## Live metrics — August 2, 2026
+
+| Metric | Value |
+|---|---|
+| Total GBP reviews | **45** (all 5 stars, zero negatives) |
+| Repurposed to Instagram | **36** |
+| Unused | **9** |
+
+**These figures come from Iván and supersede every count elsewhere in this file and in any other doc.** Review count, subscriber count and athlete count are live metrics: they move, and no analysis in this file re-derives them. When Iván states one, take it as current and correct the copies — do not reconcile it against an older tally.
+
 
 ## The asset
 
@@ -12,7 +21,10 @@ The "under-distributed asset" framing from July is out of date — the drip is r
 
 **The July 2026 push worked.** 7 reviews landed on Jul 12–13 alone — the single biggest cluster ever, vs. a baseline of 1–4/month. Asking converts. That makes review generation a controllable lever, not luck.
 
-## What the reviews prove (theme frequency, of 38 written)
+## What the reviews prove (theme frequency)
+
+> **Stale snapshot — analysis only, not current counts.** Everything from here to the end of the quote bank is tallied from the July 2026 export of 43 reviews (38 written, 5 star-only). It has not been re-tallied since. Use it for *what the reviews say*; use the live-metrics block above for *how many there are*. The same applies to the geography, language and product-coverage numbers below.
+
 
 | Theme | ~Count | Strategic read |
 |---|---|---|

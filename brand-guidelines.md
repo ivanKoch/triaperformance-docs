@@ -124,8 +124,8 @@ Deliberately small, per the High North model:
 
 1. **Home** — hero, services in one pass, plans/pricing, testimonials, lead magnet CTA.
 2. **Coaching 1:1** — the Private-channel page. Pricing per `pricing-and-positioning.md`.
-3. **Plans** — links out to the 300 TrainingPeaks plans.
-4. **Tools** (later) — the calculators library, behind All-Access paywall.
-5. **Contact** — WhatsApp + email. No contact-form theater.
+3. **Plans** — the storefront: per-language catalog pages with facet filters and an individual page per plan, each redirecting to its TrainingPeaks checkout with UTM + plan_id. *(Updated Aug 2, 2026 — this used to read "links out to the 300 TrainingPeaks plans," which describes a link list, not what was built.)*
+4. **Tools** — the calculators and routines library, behind the `/members/` token gate for All-Access subscribers. Live, not "later."
+5. **Contact** — a real contact form (name, email, WhatsApp, sport, goal) posting through Caddy → n8n → Twenty, plus WhatsApp and email. *(Updated Aug 2, 2026 — this used to say "no contact-form theater." The form has been the front door of the live lead pipeline since July 22, 2026; the original note was about avoiding a form that goes nowhere, which is the opposite of what shipped.)*
 
 Lead magnet (training zones guide) is a CTA block reused across pages, not its own page.

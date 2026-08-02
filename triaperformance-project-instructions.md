@@ -25,12 +25,78 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 - Anything Garmin-specific that would exclude Polar or Wahoo athletes.
 
 ## Knowledge base
-- `business-overview.md` — revenue streams, current numbers, existing assets, current infrastructure.
-- `pricing-and-positioning.md` — how pricing actually works, who buys at which price point.
-- `growth-roadmap.md` — the five growth pillars, tech stack decisions, sequencing, open questions.
-- `social-proof-and-reviews.md` — review inventory, quote bank, review-generation playbook, deployment status.
-- `methodology.md` — coaching methodology: testing protocols, zones, periodization, weekly decision loop, adjustment rules, fueling, race execution, communication voice, AI Coach red lines, worked athlete cases.
+
+**Read first, every session**
+
 - `open-loops.md` — **the single NOW/NEXT/LATER list of open items across the whole project.** Read it at the start of any working session; update it at the end. Other docs keep the detail; this file is the list. WIP limit: 1 big branch + 1 small slot.
+
+**Strategy & business**
+
+- `triaperformance-business-overview.md` — revenue streams, current numbers, existing assets, current infrastructure. Owns the revenue and athlete-count figures.
+- `triaperformance-pricing-and-positioning.md` — how pricing actually works, who buys at which price point, All-Access pricing and checkout links. Owns every price.
+- `triaperformance-growth-roadmap.md` — the five growth pillars, tech-stack decisions, sequencing, the storefront initiative, the monetization parking lot.
+- `plan-storefront-project-brief.md` — the storefront's evidence base: all-time TP sales, catalog economics, decisions taken, build phases, KPIs.
+- `social-proof-and-reviews.md` — review inventory, quote bank, review-generation playbook, deployment status. Owns the review counts.
+- `content-engine-brief.md` — the status-driven content pipeline design: five agent contracts, data model, cadence, gates.
+- `methodology.md` — coaching methodology: testing protocols, zones, periodization, weekly decision loop, adjustment rules, fueling, race execution, communication voice, AI Coach red lines, worked athlete cases.
+
+**Build, brand & infrastructure**
+
+- `ai-infrastructure-documentation.md` — the technical source of truth, §1–19 plus dated addenda: VPS, Hermes, Docker, Caddy, n8n, Twenty, Postgres, members-area auth, Eleventy, storefront build, script/config repo migration, artifact pipeline. Append dated notes; never rewrite prior entries.
+- `brand-guidelines.md` — color, type, layout, components, the members-area dark theme (§7.1), voice (§8), page inventory (§9).
+- `build-log.md` — narrative incident log (the numbered "problems solved").
+- `infrastructure.html` — the visual infra/SEO status board.
+
+**Runbooks — read the relevant one before touching that system**
+
+- `deploy-runbook.md` — git → VPS cron pull → rsync → Caddy.
+- `website-build-cutover-runbook.md` — the Eleventy migration, step by step.
+- `artifact-publish-runbook.md` — prototype → approve → port → verify → deploy for members-area tools.
+- `twenty-crm-runbook.md` — Twenty schema, enums, API patterns.
+- `contact-form-pipeline-runbook.md` — website form → Caddy → n8n → Twenty.
+- `plan-lead-pipeline-runbook.md` — the plan-catalog email-capture backend spec (not yet wired up).
+- `automation/members-area/OPERATIONS.md` — subscriber tokens, access grants/revocations, the psql queries.
+- `automation/content-engine/SETUP.md` — the research agent, written but not deployed.
+- `automation/coaching-checkin/monday-message-voice-guide.md` — voice for the Monday check-in.
+
+**Working docs (project-specific, may go stale by design)**
+
+- `race-landing-pages-longlist.md`, `race-page-data-schema.md`, `race-page-content-outline.md` — the race-page initiative.
+- `en-listing-rewrites-2026-07.md`, `es-pt-listing-rewrites-2026-07.md` — the live TP listing experiment and its measurement plan.
+- `gbp-posts-2026-08.md` — the current Google Business Profile post set.
+
+**Data & code**
+
+- `data/` — `training_plans_inventory.csv` (the plan catalog, source of truth for the site build), `plan_weekly_breakdown.csv`, `plan_link_status.json`, `races.csv`.
+- `automation/` — every VPS/cron Python script, the n8n workflow JSON reference copies, `Caddyfile`, `deploy-website.sh`.
+- `site/` — the Eleventy source. `website/` holds only the permanent `hubfs` route TrainingPeaks hotlinks.
+
+**Meta**
+
+- `triaperformance-project-instructions.md` — this file. Mirror of the Custom instructions field.
+- `triaperformance-project-memory.md` — mirror of the Memory field. See the Project Memory section above.
+
+If a doc is added, renamed or retired, update this list in the same session.
+
+## Project Memory — scope and upkeep
+The project's **Memory** field is not a state file and must not duplicate the knowledge base. It holds only what the repo can't: how Iván works, what Claude can and can't touch, and hard-won standing lessons. Business state — revenue, athlete counts, catalog counts, pricing, what's live, what's next — is deliberately excluded, because the repo is versioned and memory is not.
+
+Update memory **only** when one of these changes:
+- how Iván wants Claude to work (tone, autonomy, execution boundaries);
+- what Claude can and can't touch (tools, access, who executes what);
+- a durable lesson that would change future behaviour — the kind worth stating as a rule, not as a fact;
+- where the source of truth lives.
+
+Do **not** update memory for: a completed build, a number that moved, a new doc, a shipped feature, or anything already captured in `open-loops.md` or a dated inline note. Those belong in the repo.
+
+The mirror lives at `triaperformance-project-memory.md` — edit that file, then paste it whole into the Memory field. Most sessions produce nothing that meets the bar above, and memory correctly stays unchanged; when a session *does* meet it, say so explicitly at the end of the session rather than leaving it to be noticed later.
+
+## Knowledge-base hygiene
+- **Live metrics come from Iván.** Review count, All-Access subscriber count, athlete count, revenue — these move, and no doc re-derives them. When Iván states one, it is current and correct: take it, and fix the copies. Do not reconcile it against an older tally in the KB or ask him to justify the difference.
+- **One home doc per figure.** Anything restated in more than one file (catalog counts, review counts, subscriber counts, prices) has exactly one owner; every other mention is a copy and must be corrected in the same session the number moves.
+- **Append, don't rewrite.** Corrections go in as dated inline notes (`*Corrected [date] — ...*`) that say what the line used to claim and why it was wrong. The wrong version is useful; silently overwriting it isn't.
+- **Closed means closed.** A doc that lists something as "open" or "pending" that `open-loops.md` shows as closed is a bug. Strike it through with the closing date and stop re-raising it.
+- **Sunset means sunset.** HubSpot is decommissioned and runs no live flow; it appears in the docs only as history. Same rule for anything else retired.
 
 ## Conversation modes
 Open new conversations with a frame when it helps: "act as a growth strategist," "you're building the website," "help me draft this athlete message," "let's work on pricing." The context above and the knowledge base load automatically either way — the frame just narrows the lens.
