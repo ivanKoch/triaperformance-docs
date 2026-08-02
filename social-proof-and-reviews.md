@@ -1,6 +1,6 @@
 # Triaperformance — Social Proof & Reviews
 
-*Created July 2026 from the GBP review export (43 reviews). This is the fourth knowledge-base file: what the reviews prove, where they're deployed, and where the gaps are. Update when new reviews land or get deployed.*
+*What the reviews prove, where they're deployed, and where the gaps are. Update when new reviews land or get deployed.*
 
 ## Live metrics — August 2, 2026
 

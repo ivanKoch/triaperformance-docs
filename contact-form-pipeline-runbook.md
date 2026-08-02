@@ -7,7 +7,7 @@ Built to reuse the exact CoachMatch pipeline pattern (see `ai-infrastructure-doc
 Source differs from CoachMatch on purpose: `leadSource = "WEBSITE_FORM"`, so the two lead sources stay distinguishable in reporting (this was flagged as a gap in the growth roadmap's HubSpot audit, originally planned as `campaign_attribution` — Twenty's actual schema calls it `leadSource` instead, and it turned out to be an enum, confirmed value `WEBSITE_FORM`).
 
 Deliverables already committed to the repo:
-- `website/index.html` — the form itself (name, email, WhatsApp phone, sport, goal/message), posts to same-origin `/api/contact-form`.
+- The form itself (name, email, WhatsApp phone, sport, goal/message), posting to same-origin `/api/contact-form`. It lives in the Eleventy source under `site/`. *(Updated Aug 2, 2026 — this line used to point at `website/index.html`, which is where the form lived before the July 26–29 Eleventy cutover. `website/` now holds only the permanent `hubfs` route.)*
 - `automation/contact-form-workflow.json` — importable n8n workflow.
 
 **Why same-origin `/api/contact-form` and not n8n's Tailscale address directly**: n8n is bound to the Tailscale interface only (`100.70.89.17`), same as Twenty and the Hermes dashboard — not reachable from a visitor's browser on the public internet. The website's own domain is public. So Caddy (already running on the VPS, already terminating TLS for `triaperformance.com`) needs one new route that proxies just this one path through to n8n internally. This keeps n8n's admin UI exactly as locked-down as it is today — only the single webhook path becomes reachable, not the rest of n8n.

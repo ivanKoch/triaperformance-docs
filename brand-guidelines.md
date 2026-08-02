@@ -21,7 +21,7 @@ Wordmark: "Triaperformance" set in Helvetica Bold.
 - Minimum width: 140px digital.
 - Don't: add effects, outlines, gradients, or recolor outside the two approved combinations.
 
-Source file: `tp_logo_horizontal.png` (currently hosted on HubSpot — download before HubSpot access ends; recreate as SVG for the new site).
+Source file: `tp_logo_horizontal.png` — held locally by Iván. Still worth recreating as an SVG for the site.
 
 ## 3. Color
 
