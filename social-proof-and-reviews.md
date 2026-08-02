@@ -2,9 +2,13 @@
 
 *Created July 2026 from the GBP review export (43 reviews). This is the fourth knowledge-base file: what the reviews prove, where they're deployed, and where the gaps are. Update when new reviews land or get deployed.*
 
+*Update, August 2, 2026 — count corrected to **45 reviews**, of which **36 have been repurposed to Instagram and 9 have not**. The theme, geography and quote-bank sections below still describe the original 43-review export and have not been re-tallied; treat their breakdowns as the last full analysis, not as current totals.*
+
 ## The asset
 
-**43 Google Business Profile reviews, all 5 stars, zero negatives.** 38 with written text, 5 star-only. Dated span: Sep 2024 – Jul 2026. Only 10 of 43 have ever been repurposed (Instagram). This is a classic under-distributed asset: built, credible, and mostly sitting unused on GBP.
+**45 Google Business Profile reviews, all 5 stars, zero negatives.** 38 with written text, 5 star-only as of the July 2026 export (43); the 2 added since have not been categorized. Dated span: Sep 2024 – Aug 2026. **36 of 45 have been repurposed to Instagram; 9 have not.**
+
+The "under-distributed asset" framing from July is out of date — the drip is running at ~1 testimonial post/week and has worked through most of the backlog. Remaining unused inventory is ~9 weeks, but this is not a real constraint: previously-posted reviews are recyclable after roughly a year (nobody is auditing the profile for repeats), ~22 active athletes have never been asked, and ~14 of those are due an ask in the next cycle. Iván's standing rule is to ask at the 3–4 month athlete mark.
 
 **The July 2026 push worked.** 7 reviews landed on Jul 12–13 alone — the single biggest cluster ever, vs. a baseline of 1–4/month. Asking converts. That makes review generation a controllable lever, not luck.
 
@@ -81,7 +85,8 @@ Mapped to where each quote works hardest. Trim ellipses as needed; always attrib
 ## Deployment plan
 
 - **Website (pillar 2):** testimonials are a build requirement, not a nice-to-have — a quotes section per page per language, sourced from this file. Spanish inventory is ready today; English/Portuguese depend on the playbook above.
-- **Content pipeline:** 33 reviews never posted to IG. At one testimonial post/week that's ~8 months of zero-creation content — the natural first recurring job for the social/content agent (drafts → approval), using the quote bank above.
+- **Content pipeline:** 9 reviews not yet posted to IG ≈ 9 weeks at one testimonial post/week, plus a recyclable back catalog of 36 already-posted ones. Still the natural first recurring job for the social/content agent (drafts → approval), using the quote bank above — just sized as an ongoing weekly job fed by the ask cadence, not as a one-off 8-month reservoir.
+- **Not GBP posts.** Reviews already render on the Business Profile with the star rating, above any post. Quoting one back as a "What's new" post is redundant to the same visitor and burns a monthly post slot. GBP's own review lever is *replying* to each one (profile activity); the repurposing channels are Instagram, the website, email sequences and TP listings. (Decided Aug 2, 2026.)
 - **CoachMatch/Private funnels:** add 1–2 quotes to the existing email sequences (welcome email 2 is the natural slot) and to the WhatsApp follow-up script for hesitant leads.
 - **GBP itself:** reply to every review (owner responses boost profile activity), keep the profile category/services current — it's free local-intent SEO while the new website doesn't exist yet.
 
