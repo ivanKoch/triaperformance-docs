@@ -26,6 +26,8 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 
 ## Knowledge base
 
+- First of all, for every new conversation, prompt the folder selector so Iván can give you edit access to the local repo and you can manage the files. Never add, commit or push.
+
 **Read first, every session**
 
 - `open-loops.md` — **the single NOW/NEXT/LATER list of open items across the whole project.** Read it at the start of any working session; update it at the end. Other docs keep the detail; this file is the list. WIP limit: 1 big branch + 1 small slot.
