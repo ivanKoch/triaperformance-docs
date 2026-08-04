@@ -6,6 +6,7 @@
 #   run-agent.sh write       draft whatever ideas Iván approved         (daily)
 #   run-agent.sh translate   give approved articles their EN/PT siblings (daily)
 #   run-agent.sh notify      tell Iván if anything needs him, or broke  (daily)
+#   run-agent.sh publish     drain 2 approved articles onto the site    (daily)
 #
 # WHY A WRAPPER AND NOT TWO RAW CRONTAB LINES
 # The standing rule (ai-infrastructure-documentation.md §18) is that a plain
@@ -22,7 +23,11 @@
 #   30 6 * * 1  cd $R && git pull -q && automation/content-engine/run-agent.sh research
 #   0  7 * * *  cd $R && git pull -q && automation/content-engine/run-agent.sh write
 #   30 7 * * *  cd $R && git pull -q && automation/content-engine/run-agent.sh translate
+#   30 5 * * *  cd $R && git pull -q && automation/content-engine/run-agent.sh publish
 #   0  8 * * *  cd $R && git pull -q && automation/content-engine/run-agent.sh notify
+#
+# Publish runs at 05:30, half an hour before deploy-website.sh at 06:00, so the
+# two articles it commits are live the same morning rather than waiting a day.
 #
 # Translate runs after write, and half an hour later, because it works on a
 # different input: write turns approved IDEAS into drafts, translate turns
@@ -63,7 +68,8 @@ case "$AGENT" in
   write)     CMD=(writer_agent.py --limit "$WRITE_LIMIT") ;;
   translate) CMD=(writer_agent.py --auto-translate --limit "$TRANSLATE_LIMIT") ;;
   notify)    CMD=(notify.py) ;;
-  *)         echo "usage: $0 {research|write|translate|notify}" >&2; exit 64 ;;
+  publish)   CMD=() ;;   # handled below — a webhook poke, not a python script
+  *)         echo "usage: $0 {research|write|translate|notify|publish}" >&2; exit 64 ;;
 esac
 
 mkdir -p "$LOG_DIR" "$STATE_DIR"
@@ -95,8 +101,26 @@ cd "$REPO/automation/content-engine" || {
   exit 1
 }
 
-"$PYTHON" "${CMD[@]}" >> "$LOG" 2>&1
-RC=$?
+if [ "$AGENT" = "publish" ]; then
+  # Drain the approved queue. The n8n workflow itself decides how many to take
+  # (LIMIT in its query), so this is a poke with no arguments — which is only
+  # safe because the webhook is a trigger, not a payload. Firing it twice
+  # publishes the next two, never the same two.
+  HOOK="${PUBLISH_WEBHOOK:-$(grep -h '^PUBLISH_WEBHOOK=' "$HOME/.hermes/.env" \
+        "$HOME/.analytics/.env" 2>/dev/null | head -1 | cut -d= -f2- | tr -d "\"'")}"
+  if [ -z "$HOOK" ]; then
+    echo "PUBLISH_WEBHOOK not set (add it to ~/.hermes/.env)" >> "$LOG"
+    RC=1
+  else
+    curl -sS --max-time 120 -X POST -H 'Content-Type: application/json' \
+         -d '{}' "$HOOK" >> "$LOG" 2>&1
+    RC=$?
+    echo "" >> "$LOG"
+  fi
+else
+  "$PYTHON" "${CMD[@]}" >> "$LOG" 2>&1
+  RC=$?
+fi
 
 FINISHED=$(date -Is)
 if [ "$RC" -eq 0 ]; then
