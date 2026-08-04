@@ -50,8 +50,12 @@ AGENTS = ("research", "write", "translate")
 # them rather than guessing one and failing silently.
 TOKEN_KEYS = ("TELEGRAM_BOT_TOKEN", "HERMES_TELEGRAM_TOKEN", "TELEGRAM_TOKEN",
               "TELEGRAM_API_TOKEN", "HERMES_BOT_TOKEN")
-CHAT_KEYS = ("TELEGRAM_CHAT_ID", "HERMES_TELEGRAM_CHAT_ID", "TELEGRAM_CHAT",
-             "TELEGRAM_USER_ID")
+# Order matters: TELEGRAM_HOME_CHANNEL is where Hermes already posts, so these
+# messages land in the same place as everything else rather than opening a
+# second channel to check. TELEGRAM_ALLOWED_USERS is a fallback and is an
+# allowlist — plural, comma-separated — so it needs splitting, not using whole.
+CHAT_KEYS = ("TELEGRAM_CHAT_ID", "TELEGRAM_HOME_CHANNEL", "HERMES_TELEGRAM_CHAT_ID",
+             "TELEGRAM_CHAT", "TELEGRAM_USER_ID", "TELEGRAM_ALLOWED_USERS")
 
 
 def first_env(keys):
@@ -61,6 +65,21 @@ def first_env(keys):
         if v:
             return k, v.strip()
     return None, None
+
+
+def as_chat_id(key, value):
+    """One chat id, from a variable that may legitimately hold several.
+
+    TELEGRAM_ALLOWED_USERS is an allowlist, so it can be "123,456". Passing the
+    whole string to Telegram gives a 400 that reads like a bad token. Take the
+    first entry and say so.
+    """
+    if not value:
+        return value
+    first = value.split(",")[0].strip()
+    if first != value.strip():
+        print(f"[notify] {key} holds several values; using the first ({first})")
+    return first
 
 
 def counts(conn):
@@ -227,6 +246,7 @@ def main():
 
     tkey, token = first_env(TOKEN_KEYS)
     ckey, chat_id = first_env(CHAT_KEYS)
+    chat_id = as_chat_id(ckey, chat_id)
     if not token or not chat_id:
         # Loud, because a notifier that can't notify must not fail quietly —
         # that is precisely the condition it exists to prevent.
