@@ -173,6 +173,13 @@ HARD RULES
 4. Numbers over adjectives. Any figure must come from the methodology or the
    plan list above. Do not invent statistics, study findings or percentages.
 5. No hype vocabulary. No exclamation marks. Second person, informal-professional.
+6. PLAN SPREAD. If you link more than two plans, the set must vary on the axes a
+   reader actually chooses by — `weeks` (12 vs 18) AND `metric` (pace vs hr).
+   Six plans that are all `metric: pace` tells every heart-rate athlete you have
+   nothing for them. Both fields are in the plan list above; read them. If the
+   catalogue genuinely only offers one metric for this topic, say so in one
+   sentence rather than leaving the reader to notice.
+7. `category` is written in {language_name}, like every other field. Not English.
 
 STRUCTURE
 - 1200-1700 words.
@@ -218,7 +225,12 @@ Standfirst: {standfirst}
 RULES
 - Same planCard rule: {{% planCard "PLAN_ID", "..." %}}, only ids from the list.
   If a plan referenced in the source has no equivalent here, drop that card
-  rather than substituting something that isn't the same plan.
+  rather than substituting something that isn't the same plan. The list above is
+  already filtered to this market and this topic — an id that is not in it does
+  not exist for this reader, whatever the source article linked.
+- If you link more than two plans, vary them on `weeks` and on `metric`
+  (pace vs hr). All-one-metric is a dead end for half the audience.
+- `category` is written in {language_name}, not English and not Spanish.
 - Prices and product scope differ per market — use the ones in the market notes.
 - Keep every number that is physiological (percentages, durations, protocols).
 
@@ -316,9 +328,18 @@ def validate(draft, plans, lang):
         problems.append("contains a hand-written TrainingPeaks URL — must use planCard")
     if "<h1" in body.lower():
         problems.append("contains an <h1>; the layout renders the headline")
+    # The build guard catches a plan_id that doesn't resolve. It cannot catch a
+    # plan_id that resolves to the WRONG LANGUAGE — a Spanish TrainingPeaks plan
+    # linked from an English article builds cleanly and sells nothing. This is
+    # the only place that can be caught, so it is caught here.
+    want_lang = LANG_NAME[lang]
     for pid in re.findall(r'planCard\s+"(\d+)"', body):
-        if pid not in plans["byId"]:
+        p = plans["byId"].get(pid)
+        if not p:
             problems.append(f"planCard references unlinkable plan {pid}")
+        elif p["language"] != want_lang:
+            problems.append(
+                f"planCard {pid} is a {p['language']} plan in a {want_lang} article")
     words = len(re.sub(r"<[^>]+>", " ", body).split())
     if words < 700:
         problems.append(f"only {words} words — too thin")
@@ -461,17 +482,34 @@ def translate(conn, piece_id, plans, model, api_key, dry_run):
         sys.exit(f"piece {piece_id} is {src['status']} — approve it before translating, "
                  "so the siblings inherit an article you've actually signed off on")
 
+    # Which plans the source article linked, so the siblings are offered the
+    # SAME topic in their own market — not the first 40 rows of the catalogue,
+    # which for English is mostly not marathon plans at all.
+    src_topics = set()
+    for pid in re.findall(r'planCard\s+"(\d+)"', src["body"] or ""):
+        p = plans["byId"].get(pid)
+        if p:
+            src_topics.add((p["sport"], p["distance"]))
+
     targets = [l for l in ("es", "en", "pt") if l != src["language"]]
     for lang in targets:
         print(f"\n[writer] adapting piece {piece_id} into {LANG_NAME[lang]}")
-        cands = [p for p in plans["all"]
-                 if p["language"] == {"es": "Spanish", "en": "English",
-                                      "pt": "Portuguese"}[lang]][:40]
+        cands = [p for p in plans["all"] if p["language"] == LANG_NAME[lang]
+                 and (not src_topics or (p["sport"], p["distance"]) in src_topics)]
+        topics = ", ".join(sorted(f"{s} {d}" for s, d in src_topics)) or "any"
+        print(f"    {len(cands)} candidate plan(s) in {LANG_NAME[lang]} "
+              f"matching: {topics}")
+        if src_topics and not cands:
+            print("    no equivalent plans in this market — the article will be "
+                  "written without plan cards", file=sys.stderr)
         prompt = TRANSLATE_PROMPT.format(
             language_name=LANG_NAME[lang], market_notes=MARKET_NOTES[lang],
             voice=brand_voice(),
-            plans=json.dumps([{k: p[k] for k in ("id", "name", "weeks", "difficulty")}
-                              for p in cands], ensure_ascii=False)[:4000],
+            # `metric` and `weeks` are what rule 3 below needs to spread across.
+            plans=json.dumps([{k: p[k] for k in
+                               ("id", "name", "weeks", "difficulty", "metric", "strength")}
+                              for p in cands[:40]], ensure_ascii=False)[:4000]
+            or "none — do not link plans",
             headline=src["headline"], standfirst=src["standfirst"] or "",
             body=src["body"])
         draft = parse_draft(call_model(prompt, api_key, model, expect="text"))
