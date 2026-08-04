@@ -4,6 +4,7 @@
 #
 #   run-agent.sh research    crawl the source blogs and propose ideas   (weekly)
 #   run-agent.sh write       draft whatever ideas Iván approved         (daily)
+#   run-agent.sh translate   give approved articles their EN/PT siblings (daily)
 #
 # WHY A WRAPPER AND NOT TWO RAW CRONTAB LINES
 # The standing rule (ai-infrastructure-documentation.md §18) is that a plain
@@ -19,6 +20,11 @@
 #   R=/root/.hermes/triaperformance-docs
 #   30 6 * * 1  cd $R && git pull -q && automation/content-engine/run-agent.sh research
 #   0  7 * * *  cd $R && git pull -q && automation/content-engine/run-agent.sh write
+#   30 7 * * *  cd $R && git pull -q && automation/content-engine/run-agent.sh translate
+#
+# Translate runs after write, and half an hour later, because it works on a
+# different input: write turns approved IDEAS into drafts, translate turns
+# approved ARTICLES into siblings. Yesterday's approvals are what it picks up.
 #
 # The `git pull` lives in the crontab line, not in this script, on purpose: a
 # script that updates itself mid-run is still executing the old copy. Pulling
@@ -43,12 +49,15 @@ STATE_DIR="${STATE_DIR:-$HOME/.hermes/state}"
 # article the exposure is small, but "small per unit, unbounded count" is the
 # shape of every runaway bill, so the count is bounded.
 WRITE_LIMIT="${WRITE_LIMIT:-3}"
+# Counted in ARTICLES, not generations — each one costs up to two model calls.
+TRANSLATE_LIMIT="${TRANSLATE_LIMIT:-2}"
 
 AGENT="${1:-}"
 case "$AGENT" in
-  research) CMD=(research_agent.py) ;;
-  write)    CMD=(writer_agent.py --limit "$WRITE_LIMIT") ;;
-  *)        echo "usage: $0 {research|write}" >&2; exit 64 ;;
+  research)  CMD=(research_agent.py) ;;
+  write)     CMD=(writer_agent.py --limit "$WRITE_LIMIT") ;;
+  translate) CMD=(writer_agent.py --auto-translate --limit "$TRANSLATE_LIMIT") ;;
+  *)         echo "usage: $0 {research|write|translate}" >&2; exit 64 ;;
 esac
 
 mkdir -p "$LOG_DIR" "$STATE_DIR"
@@ -71,7 +80,7 @@ fi
 STARTED=$(date -Is)
 {
   echo "=============================================================="
-  echo "$STARTED  $AGENT  (limit=${WRITE_LIMIT})"
+  echo "$STARTED  $AGENT  (write_limit=$WRITE_LIMIT translate_limit=$TRANSLATE_LIMIT)"
 } >> "$LOG"
 
 cd "$REPO/automation/content-engine" || {

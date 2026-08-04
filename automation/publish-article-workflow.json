@@ -66,7 +66,7 @@
             },
             {
               "id": "a5",
-              "name": "pieceIds",
+              "name": "requestedIds",
               "value": "={{ ($json.body.piece_ids || []).join(',') }}",
               "type": "string"
             }
@@ -90,10 +90,8 @@
       },
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT id, idea_id, language, slug, title, headline, short_title,\n       standfirst, description, category, trans_key, reading_time, body,\n       to_char(now() AT TIME ZONE 'UTC', 'YYYY-MM-DD') AS pub_date\nFROM content_pieces\nWHERE status = 'APPROVED'\n  AND id = ANY (string_to_array($1, ',')::int[])\nORDER BY id;",
-        "options": {
-          "queryReplacement": "={{ $json.pieceIds }}"
-        }
+        "query": "-- Every APPROVED piece, not the ids in the request body.\n--\n-- The first version took the ids as a query parameter and failed silently on\n-- every batch: n8n splits the Query Parameters field on commas, so \"5,4\"\n-- arrived as $1='5' and $2='4', and a query referencing only $1 fetched one\n-- piece and dropped the rest with no error. Two batches, two lost articles.\n--\n-- Selecting on status instead removes the parameter, and with it the bug\n-- class. It also makes the webhook a trigger rather than a payload: firing it\n-- twice is harmless, and a piece stranded in APPROVED by an earlier failure\n-- gets picked up by the next run instead of needing a manual curl.\nSELECT id, idea_id, language, slug, title, headline, short_title,\n       standfirst, description, category, trans_key, reading_time, body,\n       to_char(now() AT TIME ZONE 'UTC', 'YYYY-MM-DD') AS pub_date\nFROM content_pieces\nWHERE status = 'APPROVED'\nORDER BY id;",
+        "options": {}
       }
     },
     {
@@ -207,7 +205,14 @@
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify($json.commit_body) }}",
-        "options": {}
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 1500
+            }
+          }
+        }
       }
     },
     {
@@ -224,7 +229,7 @@
       },
       "parameters": {
         "operation": "executeQuery",
-        "query": "UPDATE content_pieces\nSET status = 'PUBLISHED', published_at = now(),\n    published_url = $2, file_path = $3\nWHERE id = $1::int AND status = 'APPROVED';\n\nUPDATE content_ideas\nSET status = 'PUBLISHED', published_url = $2\nWHERE id = (SELECT idea_id FROM content_pieces WHERE id = $1::int)\n  AND status = 'WRITTEN';",
+        "query": "-- NOTE: the Query Parameters field below is an ARRAY expression, not a\n-- comma-joined string. n8n splits that field on commas, which is exactly what\n-- broke \"Load approved pieces\" — see the comment there. None of the three\n-- values here can contain a comma (an integer, a slug URL, a file path), so\n-- this is safe, but do not add a free-text value to it without checking.\nUPDATE content_pieces\nSET status = 'PUBLISHED', published_at = now(),\n    published_url = $2, file_path = $3\nWHERE id = $1::int AND status = 'APPROVED';\n\nUPDATE content_ideas\nSET status = 'PUBLISHED', published_url = $2\nWHERE id = (SELECT idea_id FROM content_pieces WHERE id = $1::int)\n  AND status = 'WRITTEN';",
         "options": {
           "queryReplacement": "={{ [ $('Assemble commit payload').item.json.piece_id, $('Assemble commit payload').item.json.published_url, $('Assemble commit payload').item.json.path ] }}"
         }
@@ -258,7 +263,7 @@
       "position": [2240, 20],
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={{ JSON.stringify({ ok: true, published: $items().map(i => i.json.path) }) }}",
+        "responseBody": "={{ JSON.stringify({ ok: true, published: $('Assemble commit payload').all().map(i => i.json.path) }) }}",
         "options": {}
       }
     },

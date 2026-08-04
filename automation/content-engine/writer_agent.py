@@ -378,6 +378,10 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--translate", type=int, metavar="PIECE_ID")
+    ap.add_argument("--auto-translate", action="store_true",
+                    help="find every approved/published original missing a language "
+                         "sibling and write it. --limit caps how many ARTICLES "
+                         "(each costs up to two generations).")
     args = ap.parse_args()
 
     load_env()
@@ -402,6 +406,10 @@ def main():
 
     if args.translate:
         translate(conn, args.translate, plans, model, api_key, args.dry_run)
+        return
+
+    if args.auto_translate:
+        auto_translate(conn, plans, model, api_key, args.dry_run, args.limit)
         return
 
     import psycopg2.extras
@@ -471,6 +479,44 @@ def load_plans():
     return {"byId": byId, "all": all_}
 
 
+def auto_translate(conn, plans, model, api_key, dry_run, limit=0):
+    """Give every signed-off article its two missing language siblings.
+
+    Runs unattended off the daily cron, so it is deliberately conservative:
+
+    - Only APPROVED or PUBLISHED sources. A translation inherits its parent's
+      argument wholesale, so translating a draft you haven't read yet would
+      multiply an unreviewed opinion by three.
+    - Only originals (parent_id IS NULL). Translating a translation compounds
+      drift, and the result would claim the wrong parent.
+    - Skips languages that already exist, so re-running costs nothing.
+
+    The siblings land in DRAFTED like anything else — this automates the typing,
+    not the judgement.
+    """
+    import psycopg2.extras
+    with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
+        cur.execute("""
+            SELECT p.id, p.language, p.headline,
+                   (SELECT count(*) FROM content_pieces c WHERE c.parent_id = p.id) AS siblings
+            FROM content_pieces p
+            WHERE p.parent_id IS NULL
+              AND p.status IN ('APPROVED', 'PUBLISHED')
+              AND (SELECT count(*) FROM content_pieces c WHERE c.parent_id = p.id) < 2
+            ORDER BY p.id
+        """)
+        queue = cur.fetchall()
+
+    print(f"[writer] {len(queue)} article(s) missing a language sibling")
+    for q in queue:
+        print(f"    [{q['id']}] {q['language']} · {2 - q['siblings']} missing · "
+              f"{q['headline'][:55]}")
+    if not queue:
+        return
+    for q in (queue[:limit] if limit else queue):
+        translate(conn, q["id"], plans, model, api_key, dry_run)
+
+
 def translate(conn, piece_id, plans, model, api_key, dry_run):
     import psycopg2.extras
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
@@ -482,6 +528,14 @@ def translate(conn, piece_id, plans, model, api_key, dry_run):
         sys.exit(f"piece {piece_id} is {src['status']} — approve it before translating, "
                  "so the siblings inherit an article you've actually signed off on")
 
+    # Languages this piece already has. Without this check a re-run regenerates
+    # a sibling that exists, pays for it, and then loses it to the
+    # ON CONFLICT (language, slug) DO NOTHING in save_piece — a silent charge
+    # for nothing. Matters far more now that a cron does the re-running.
+    with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
+        cur.execute("SELECT language FROM content_pieces WHERE parent_id=%s", (piece_id,))
+        already = {r["language"] for r in cur.fetchall()}
+
     # Which plans the source article linked, so the siblings are offered the
     # SAME topic in their own market — not the first 40 rows of the catalogue,
     # which for English is mostly not marathon plans at all.
@@ -491,7 +545,13 @@ def translate(conn, piece_id, plans, model, api_key, dry_run):
         if p:
             src_topics.add((p["sport"], p["distance"]))
 
-    targets = [l for l in ("es", "en", "pt") if l != src["language"]]
+    targets = [l for l in ("es", "en", "pt")
+               if l != src["language"] and l not in already]
+    if already:
+        print(f"[writer] piece {piece_id} already has: {', '.join(sorted(already))}")
+    if not targets:
+        print(f"[writer] piece {piece_id} has all three languages — nothing to do")
+        return
     for lang in targets:
         print(f"\n[writer] adapting piece {piece_id} into {LANG_NAME[lang]}")
         cands = [p for p in plans["all"] if p["language"] == LANG_NAME[lang]
