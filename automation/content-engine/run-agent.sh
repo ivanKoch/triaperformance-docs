@@ -5,6 +5,7 @@
 #   run-agent.sh research    crawl the source blogs and propose ideas   (weekly)
 #   run-agent.sh write       draft whatever ideas Iván approved         (daily)
 #   run-agent.sh translate   give approved articles their EN/PT siblings (daily)
+#   run-agent.sh notify      tell Iván if anything needs him, or broke  (daily)
 #
 # WHY A WRAPPER AND NOT TWO RAW CRONTAB LINES
 # The standing rule (ai-infrastructure-documentation.md §18) is that a plain
@@ -21,10 +22,14 @@
 #   30 6 * * 1  cd $R && git pull -q && automation/content-engine/run-agent.sh research
 #   0  7 * * *  cd $R && git pull -q && automation/content-engine/run-agent.sh write
 #   30 7 * * *  cd $R && git pull -q && automation/content-engine/run-agent.sh translate
+#   0  8 * * *  cd $R && git pull -q && automation/content-engine/run-agent.sh notify
 #
 # Translate runs after write, and half an hour later, because it works on a
 # different input: write turns approved IDEAS into drafts, translate turns
 # approved ARTICLES into siblings. Yesterday's approvals are what it picks up.
+#
+# Notify runs last, so the message reflects the morning's work rather than
+# yesterday's state.
 #
 # The `git pull` lives in the crontab line, not in this script, on purpose: a
 # script that updates itself mid-run is still executing the old copy. Pulling
@@ -57,7 +62,8 @@ case "$AGENT" in
   research)  CMD=(research_agent.py) ;;
   write)     CMD=(writer_agent.py --limit "$WRITE_LIMIT") ;;
   translate) CMD=(writer_agent.py --auto-translate --limit "$TRANSLATE_LIMIT") ;;
-  *)         echo "usage: $0 {research|write|translate}" >&2; exit 64 ;;
+  notify)    CMD=(notify.py) ;;
+  *)         echo "usage: $0 {research|write|translate|notify}" >&2; exit 64 ;;
 esac
 
 mkdir -p "$LOG_DIR" "$STATE_DIR"

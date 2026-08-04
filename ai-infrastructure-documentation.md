@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** August 1, 2026 (§19 + addendum — artifact → members-area publishing pipeline established; running activation live, cycling activation built end-to-end as the first no-approval-gate run, pending deploy. Earlier same day: §18 addendum — fixed `twenty_followup_check.py` dispatcher's `~`-expansion bug that broke its first live cron run; root-caused via Hermes's own scheduler source, not guessing)
+**Last updated:** August 4, 2026 (§20 — content engine's publish path closed: n8n commits approved drafts to GitHub, both agents plus auto-translation on cron, five articles live across three languages. Includes the `queryReplacement` comma-splitting bug that silently dropped one piece from every batch, and the editorial rules added after reading real output — plan spread, and never changing the race in a translation)
 **Status:** Live / operational
 
 ---
@@ -453,9 +453,52 @@ Build verified clean with Eleventy v3.1.6 (355 files). Deploy is Iván's commit/
 
 *Update, August 1, 2026 (third artifact, same day) — **Core Sin Excusas** (`/members/core/`), a ~15-minute no-equipment hotel-room core routine, published as the first pure data-only page on template v2: no new CSS, no new JS, just `ACTIVATION_DATA` (12 exercises / 13 blocks across sentado → boca arriba → de costado → boca abajo → cuadrupedia, using the new `workSeconds: 45` override — ≈13 min of timed work, ~15 real with position changes) + the shared include + a card under the existing `fuerza` chip. One template improvement while at it: the partial's breadcrumb label was hardcoded "Activación", now data-driven (`crumb` field, added to all three tools). jsdom smoke test run end-to-end (start → 13 blocks → done overlay with correct stats). Pending Iván's commit/push.*
 
+## 20. Content engine — publish path closed and both agents put on cron (August 4, 2026)
+
+The content engine ran end to end for the first time today: an idea the research agent proposed became a drafted article, a reviewed approval, a GitHub commit, a build and a live page — plus its two language siblings. Nine pieces exist, five are live. What follows is the half that didn't exist this morning.
+
+**`automation/publish-article-workflow.json` — the n8n workflow that commits an approved draft.** Iván approves at `/admin/drafts/`, the admin service POSTs to `PUBLISH_WEBHOOK`, and this workflow writes the `.njk` to GitHub via the Contents API and marks the piece `PUBLISHED`. The daily `deploy-website.sh` cron takes it from there — the workflow never touches the live server.
+
+Decisions codified:
+
+- **n8n holds the only GitHub write token** (fine-grained PAT, `Contents: Read and write`, one repo). The VPS deliberately still has no push access — the diverged-branch failure in `website-build-cutover-runbook.md` is why. Rejected alternative: give the VPS a deploy key and `pull/commit/push`. Same outcome, but it makes the box author commits again, and conflict resolution on an unattended cron is how you lose an article. The Contents API is one atomic "put this file at this path" — no working copy, no merge.
+- **Articles go through git rather than straight to the webroot** because `deploy-website.sh` does `reset --hard origin/main` + `clean -fd` — a file written directly to the VPS clone survives until the next deploy and then vanishes. An article is source code for the site; if it exists only on the server it has no history, no diff and no revert.
+- **Commit straight to `main`, no PR.** Iván already approved the text; a PR is a second approval of the same thing. Consequence he now lives with: origin gains commits he didn't make, so `git pull --rebase` before starting local work is the habit.
+- **A failed push does not mark the piece `PUBLISHED`.** The workflow stops at the failed node and the piece stays `APPROVED`, so it gets retried. Marking it published and logging the error would lose articles quietly.
+- **Front matter is generated, `lang` and `layout` are not** — those come from each blog directory's `blog.json`. Values are emitted as double-quoted YAML scalars with escaping, verified against a title containing quotes, a colon, an em dash and a leading `-`.
+
+**`automation/content-engine/run-agent.sh` + three crontab lines.** Research Mondays 06:30, writer daily 07:00 (`--limit 3`), auto-translate daily 07:30 (`--limit 2` articles). The `git pull` lives in the crontab line, not the script — a script that updates itself mid-run is still executing the old copy (the stale-deploy-script failure from §18). The wrapper adds a `flock`, a trimmed log, and a status file at `~/.hermes/state/content-<agent>.status` so a cron broken for a fortnight surfaces as something readable rather than as an empty review page that looks like a quiet week. `MAILTO=""` is set, which is what makes that status file load-bearing.
+
+**`writer_agent.py --auto-translate`.** Finds every `parent_id IS NULL` piece in `APPROVED`/`PUBLISHED` missing a language sibling and writes it. Three exclusions, each deliberate: a `DRAFTED` source is one nobody has read, so translating it multiplies an unreviewed opinion by three; a translation of a translation compounds drift and claims the wrong parent; a language that already exists is skipped, so re-running is free — without that check a nightly cron regenerates existing siblings, pays for them, and loses them to `ON CONFLICT DO NOTHING`.
+
+### The bug worth remembering: n8n's `queryReplacement` splits on commas
+
+Two batch approvals in a row published exactly one of two pieces, silently, with no error and a green execution. Cause: the Postgres node's **Query Parameters field is a comma-separated list**. Passing `"5,4"` intending it as one string for `string_to_array($1, ',')` gave `$1='5'` and `$2='4'`; a query referencing only `$1` fetched one row. The item count was 1 from that node onward, so the Code nodes' `Run Once for Each Item` settings — the thing suspected first, and the documented §18 failure mode — were never involved. `pending_drafts` sorts `generated_at DESC`, which is why the *newer* piece won both times.
+
+Fixed by deleting the parameter: the query now selects `WHERE status = 'APPROVED'`. The webhook became a trigger rather than a payload, which also makes firing it twice harmless and lets a piece stranded by an earlier failure be collected by the next run.
+
+**Standing lesson, third instance this week:** a delimiter-joined string passed through a layer that also splits on that delimiter. Same shape as HTML-inside-a-JSON-string (the writer's first output contract, which died on an unescaped quote 9,500 characters in) and as a Postgres password containing `:` and `@` inside a connection URI. When a value is joined on some character and parsed elsewhere, check who else claims that character.
+
+### Editorial rules added after real output was read
+
+- **Plan spread.** The first drafts linked six marathon plans, all `pace_based`. A reader training by heart rate saw nothing for them. Both prompts now require the linked set to vary on `weeks` and on `metric`.
+- **Never change the race in a translation.** The translator adapted "Maratón de Valencia" into "California International Marathon" for the US and "Maratona do Rio" for Brazil, following `MARKET_NOTES`. Iván caught it and was right: an English speaker searching "Valencia marathon training plan" has already entered Valencia — high-intent, low-competition traffic — and swapping in a large domestic race trades it for a keyword contested by every coach in that country. The stronger argument is technical: **hreflang declares these to be the same page translated**, so three different races sharing a `transKey` makes that declaration false. `MARKET_NOTES` race lists are now explicitly examples for articles that name no race, never substitutions. Market notes still adapt price, currency, catalogue scope, units and dialect — they no longer change what the article is about.
+- **`validate()` now rejects a plan card whose language doesn't match the article.** A Spanish plan linked from an English article resolves, builds cleanly, and sells nothing — the build guard structurally cannot catch it.
+- **Translations are offered topic-matched plans.** `translate()` previously took the first 40 plans in the target language with no filter; for English that's mostly not marathon plans. It now derives the topic from the plan cards the source article used.
+
+**Cost, measured:** ~US$0.08 per original article and ~US$0.05 per translation at `gemini-3.1-pro-preview`, with thinking tokens running 60% of output spend. A full ES→EN→PT set is about US$0.20. The `--limit` flags exist for batch-size sanity, not for the money.
+
+*Pending: `SETUP.md` still documents `tp-admin` being run with `CONTENT_DB_DSN` (a URI). It is now run with discrete `PG_*` variables — the password contains `:` and `@`, and the URI form is a live tripwire. Correct that file next session.*
+
 ## Open items / not yet done
 
 *Note, July 29, 2026: the live, prioritized list of open items across the whole project is now `open-loops.md` (repo root). This section stays as the technical detail behind those items — but check `open-loops.md` first for what's actually next.*
+
+- **No notification when work is waiting** (August 4, 2026) — Iván has to remember to open `/admin/`. Next thing to build: a daily check that pings the Hermes bot with a count and a link when ideas or drafts are pending, and reads `~/.hermes/state/content-*.status` so a failed cron surfaces too. Until it exists, `MAILTO=""` means a broken agent is indistinguishable from a quiet week.
+- **An `APPROVED`-but-unpublished piece is invisible in the admin UI** — `/admin/drafts/` lists only `DRAFTED`, so approving a piece removes it from the only page that can act on it. Less urgent since the publish query now selects on status (the next run collects it), but there is still no way to see or retry one.
+- **Three published articles promise a zone calculator at `/members/zonas/`**, which is currently a guide. Either build it — it's the gated-teaser artifact the content strategy assumes exists — or soften three sentences.
+- **Education articles get handed the whole catalogue.** When a source article links no plans, `auto_translate`'s topic filter has nothing to narrow on and falls back to every plan in the language (108 English, 34 Portuguese). Suspect the right answer is to pass no plan list at all in that case — the honest signal that the piece isn't a selling article — but confirm against real drafts first.
+- **Unverified factual claim live on the site**: the durability article states an average runner burns 120–160 g of carbohydrate per hour at marathon pace. That reads high for a 3–4 hour amateur and the whole nutrition argument leans on it.
 
 - **Rebuilt WhatsApp follow-up watchdog (§18) not yet run against a real multi-lead batch** — first live cron run is Aug 1, 2026. Confirm message 2/3 progression and the auto-`LOST_NO_RESPONSE` rule actually fire correctly before trusting it fully unattended.
 - **No comprehensive audit run for historical leads affected by the email-nurture or multi-item execution bugs (§18)** — corrections were made ad hoc as specific stuck leads were found (e.g. Agustín Calderón), not via a bulk query across all CoachMatch leads created before the July 31 fixes. Worth a one-time pass if more stale `NEW`/blank-count leads surface.
