@@ -1,0 +1,313 @@
+{
+  "name": "Content Engine — Publish Approved Article",
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "nodes": [
+    {
+      "id": "sticky-readme",
+      "name": "READ ME BEFORE ACTIVATING",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-620, -180],
+      "parameters": {
+        "width": 620,
+        "height": 700,
+        "content": "## Publish Approved Article\n\nLast link of the content engine. Iván approves a draft at /admin/drafts/, the\nadmin service POSTs `{\"piece_ids\":[1,2]}` here, and this workflow writes the\n.njk file to GitHub and marks the piece PUBLISHED. The daily deploy-website.sh\ncron picks it up from there — this workflow never touches the live server.\n\n### Before activating\n\n1. **Config node** — set `githubOwner` and `githubRepo` to the real repo.\n\n2. **GitHub credential** — create a *GitHub API* credential named\n   `GitHub — triaperformance-docs`, using a fine-grained personal access token\n   scoped to that ONE repo with `Contents: Read and write`. Nothing else.\n   Then re-select it on both HTTP Request nodes (they show REPLACE_ME).\n\n3. **Postgres credential** — create a *Postgres* credential named\n   `Content Postgres` pointing at the `content` database on analytics-postgres\n   (host 127.0.0.1 from the n8n container's perspective may differ — use the\n   same settings as the existing `Members Postgres` credential but database\n   `content`). Re-select it on both Postgres nodes.\n\n4. **Point the admin service at this webhook.** On the VPS, set\n   `PUBLISH_WEBHOOK=https://<n8n-host>/webhook/publish-article` in the\n   content-admin container's environment and restart it. Until then the log\n   just says `PUBLISH_WEBHOOK not set — approved but not published`.\n\n### Why n8n owns the GitHub push\n\nThe VPS deliberately has no push access — see the diverged-branch failure in\nwebsite-build-cutover-runbook.md. n8n holds the only write token, and it can\nonly write file contents to one repo.\n\n### Testing\n\nApprove one piece at /admin/drafts/ and watch the execution. Then **approve two\nat once** — the Code nodes are set to *Run Once for Each Item* on purpose, and\na single-item test cannot prove that works. This is the exact bug that hit the\nlead workflow on July 31.\n\n### Failure behaviour\n\nIf the GitHub commit fails the workflow stops there and the piece stays\nAPPROVED, so re-approving retries it. It does NOT get marked PUBLISHED on a\nfailed push — that would lose the article silently."
+      }
+    },
+    {
+      "id": "webhook-publish",
+      "name": "Webhook - Publish Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [40, 120],
+      "webhookId": "publish-article",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "publish-article",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [260, 120],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "githubOwner",
+              "value": "REPLACE_ME",
+              "type": "string"
+            },
+            {
+              "id": "a2",
+              "name": "githubRepo",
+              "value": "triaperformance-docs",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "branch",
+              "value": "main",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "siteBase",
+              "value": "https://triaperformance.com",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "pieceIds",
+              "value": "={{ ($json.body.piece_ids || []).join(',') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "pg-load",
+      "name": "Load approved pieces",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [480, 120],
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Content Postgres"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id, idea_id, language, slug, title, headline, short_title,\n       standfirst, description, category, trans_key, reading_time, body,\n       to_char(now() AT TIME ZONE 'UTC', 'YYYY-MM-DD') AS pub_date\nFROM content_pieces\nWHERE status = 'APPROVED'\n  AND id = ANY (string_to_array($1, ',')::int[])\nORDER BY id;",
+        "options": {
+          "queryReplacement": "={{ $json.pieceIds }}"
+        }
+      }
+    },
+    {
+      "id": "if-any",
+      "name": "Anything to publish?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [700, 120],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c1",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.id }}",
+              "rightValue": ""
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      }
+    },
+    {
+      "id": "build-njk",
+      "name": "Build .njk file",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [920, 20],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// RUN ONCE FOR EACH ITEM — set explicitly, not left on the default.\n// A batch approval sends several piece_ids in one POST, so this node must run\n// per piece. Leaving it on \"run once for all items\" would publish only the\n// first article and silently drop the rest (July 31 lead-workflow bug).\n\nconst cfg = $('Config').first().json;\nconst p = $json;\n\nconst DIR = { es: 'site/blog', en: 'site/en/blog', pt: 'site/pt/blog' };\nconst URLPATH = { es: '/blog/', en: '/en/blog/', pt: '/pt/blog/' };\n\nif (!DIR[p.language]) {\n  throw new Error(`piece ${p.id}: unknown language \"${p.language}\"`);\n}\nif (!p.slug || !p.trans_key || !p.body) {\n  throw new Error(`piece ${p.id}: missing slug, trans_key or body`);\n}\n\n// YAML double-quoted scalar. Same lesson as the writer's JSON body: a colon,\n// a quote or a leading dash inside a title breaks the front matter parse and\n// takes the whole build down. Quote and escape rather than hope.\nconst y = (s) =>\n  '\"' + String(s ?? '').replace(/\\\\/g, '\\\\\\\\').replace(/\"/g, '\\\\\"') + '\"';\n\n// `lang` and `layout` are NOT written here — they come from the directory data\n// file (site/blog/blog.json etc). Writing them per-file would be a second\n// source of truth for something already decided once.\nconst frontMatter = [\n  '---',\n  `transKey: ${p.trans_key}`,\n  `date: ${p.pub_date}`,\n  p.category ? `category: ${y(p.category)}` : null,\n  'pageCss: blog.css',\n  p.reading_time ? `readingTime: ${p.reading_time}` : null,\n  `title: ${y(p.title)}`,\n  `headline: ${y(p.headline)}`,\n  p.short_title ? `shortTitle: ${y(p.short_title)}` : null,\n  p.standfirst ? `standfirst: ${y(p.standfirst)}` : null,\n  `description: ${y(p.description)}`,\n  '---',\n].filter(Boolean).join('\\n');\n\nconst file = frontMatter + '\\n' + String(p.body).trim() + '\\n';\nconst path = `${DIR[p.language]}/${p.slug}.njk`;\n\nreturn {\n  json: {\n    piece_id: p.id,\n    idea_id: p.idea_id,\n    path,\n    published_url: `${cfg.siteBase}${URLPATH[p.language]}${p.slug}/`,\n    commit_message: `content: publish \"${p.headline}\" (${p.language})`,\n    content_b64: Buffer.from(file, 'utf8').toString('base64'),\n    branch: cfg.branch,\n    api_url: `https://api.github.com/repos/${cfg.githubOwner}/${cfg.githubRepo}/contents/${path}`,\n  },\n};"
+      }
+    },
+    {
+      "id": "gh-probe",
+      "name": "Does the file already exist?",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1140, 20],
+      "alwaysOutputData": true,
+      "credentials": {
+        "githubApi": {
+          "id": "REPLACE_ME",
+          "name": "GitHub — triaperformance-docs"
+        }
+      },
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.api_url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "ref",
+              "value": "={{ $json.branch }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "assemble",
+      "name": "Assemble commit payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1360, 20],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// RUN ONCE FOR EACH ITEM — see the note in \"Build .njk file\".\n// `.item` is the paired-item accessor and only behaves correctly in this mode.\n\nconst built = $('Build .njk file').item.json;\nconst probe = $json;\n\n// 200 = the file is already there and we're replacing it (a re-publish after an\n// edit). 404 = new article. Anything else is a real API problem and should not\n// be treated as \"file is new\" — that would blind-overwrite with no sha.\nconst code = probe.statusCode;\nif (code !== 200 && code !== 404) {\n  throw new Error(\n    `GitHub returned ${code} probing ${built.path}: ` +\n    JSON.stringify(probe.body).slice(0, 300)\n  );\n}\n\nconst sha = code === 200 ? probe.body.sha : null;\n\nconst commitBody = {\n  message: built.commit_message,\n  content: built.content_b64,\n  branch: built.branch,\n};\nif (sha) commitBody.sha = sha;\n\nreturn { json: { ...built, sha, replacing: !!sha, commit_body: commitBody } };"
+      }
+    },
+    {
+      "id": "gh-commit",
+      "name": "Commit .njk to GitHub",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1580, 20],
+      "credentials": {
+        "githubApi": {
+          "id": "REPLACE_ME",
+          "name": "GitHub — triaperformance-docs"
+        }
+      },
+      "parameters": {
+        "method": "PUT",
+        "url": "={{ $json.api_url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.commit_body) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "pg-published",
+      "name": "Mark PUBLISHED",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1800, 20],
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Content Postgres"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE content_pieces\nSET status = 'PUBLISHED', published_at = now(),\n    published_url = $2, file_path = $3\nWHERE id = $1::int AND status = 'APPROVED';\n\nUPDATE content_ideas\nSET status = 'PUBLISHED', published_url = $2\nWHERE id = (SELECT idea_id FROM content_pieces WHERE id = $1::int)\n  AND status = 'WRITTEN';",
+        "options": {
+          "queryReplacement": "={{ [ $('Assemble commit payload').item.json.piece_id, $('Assemble commit payload').item.json.published_url, $('Assemble commit payload').item.json.path ] }}"
+        }
+      }
+    },
+    {
+      "id": "telegram-ok",
+      "name": "Telegram notify Ivan",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [2020, 20],
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      },
+      "parameters": {
+        "chatId": "REPLACE_ME",
+        "text": "=📄 Artículo commiteado\n\n{{ $('Assemble commit payload').item.json.path }}\n{{ $('Assemble commit payload').item.json.replacing ? 'Reemplaza el archivo anterior' : 'Archivo nuevo' }}\n\nEstará online tras el próximo deploy:\n{{ $('Assemble commit payload').item.json.published_url }}",
+        "additionalFields": {
+          "disable_web_page_preview": true
+        }
+      }
+    },
+    {
+      "id": "respond-ok",
+      "name": "Respond published",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [2240, 20],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, published: $items().map(i => i.json.path) }) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "respond-none",
+      "name": "Respond nothing to publish",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [920, 260],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, published: [] }) }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Webhook - Publish Request": {
+      "main": [[{ "node": "Config", "type": "main", "index": 0 }]]
+    },
+    "Config": {
+      "main": [[{ "node": "Load approved pieces", "type": "main", "index": 0 }]]
+    },
+    "Load approved pieces": {
+      "main": [[{ "node": "Anything to publish?", "type": "main", "index": 0 }]]
+    },
+    "Anything to publish?": {
+      "main": [
+        [{ "node": "Build .njk file", "type": "main", "index": 0 }],
+        [{ "node": "Respond nothing to publish", "type": "main", "index": 0 }]
+      ]
+    },
+    "Build .njk file": {
+      "main": [[{ "node": "Does the file already exist?", "type": "main", "index": 0 }]]
+    },
+    "Does the file already exist?": {
+      "main": [[{ "node": "Assemble commit payload", "type": "main", "index": 0 }]]
+    },
+    "Assemble commit payload": {
+      "main": [[{ "node": "Commit .njk to GitHub", "type": "main", "index": 0 }]]
+    },
+    "Commit .njk to GitHub": {
+      "main": [[{ "node": "Mark PUBLISHED", "type": "main", "index": 0 }]]
+    },
+    "Mark PUBLISHED": {
+      "main": [[{ "node": "Telegram notify Ivan", "type": "main", "index": 0 }]]
+    },
+    "Telegram notify Ivan": {
+      "main": [[{ "node": "Respond published", "type": "main", "index": 0 }]]
+    }
+  }
+}
