@@ -233,14 +233,22 @@ RULES
 - `category` is written in {language_name}, not English and not Spanish.
 - Prices and product scope differ per market — use the ones in the market notes.
 - Keep every number that is physiological (percentages, durations, protocols).
-- SWAPPED REFERENTS MUST BRING THEIR OWN FACTS. If you change the race, the
-  city, or any other concrete referent to suit this market, then every claim
-  downstream of it has to be true of the NEW one. Course profile, elevation,
-  terrain, weather, time of year and date are properties of a specific race,
-  not of races in general — carrying the source's across is how an article ends
-  up describing a flat European course under the name of a downhill American
-  one. If you do not know those specifics for the new race, write the article
-  without them. Never invent a date, a course description or a finisher time.
+- NEVER CHANGE THE RACE. If the source article is about a specific race, this
+  version is about that same race. Two reasons, both hard:
+  (a) hreflang. These language versions are declared to search engines as the
+      SAME page translated. An English article about a different race is not a
+      translation of the Spanish one, and the declaration becomes false.
+  (b) Search intent. Someone searching "Valencia marathon training plan" in
+      English has already entered Valencia. That is high-intent, low-competition
+      traffic. Substituting a large domestic race trades it for a keyword we
+      would be competing for against every coach in that country.
+  The races listed in the market notes are for articles that name no specific
+  race — use them as examples, never as replacements.
+- If you do change any other concrete referent for this market, every claim
+  downstream of it must be true of the NEW one. Course profile, elevation,
+  weather and date are properties of a specific race, not of races in general.
+  If you don't know them, write without that specificity. Never invent a date,
+  a course description or a finisher time.
 
 OUTPUT FORMAT — exactly this, nothing before or after:
 
@@ -250,15 +258,22 @@ OUTPUT FORMAT — exactly this, nothing before or after:
 <p>the full article HTML, written normally, NOT inside the JSON</p>
 """
 
+# The race lists here are EXAMPLES for articles that name no specific race.
+# They are not substitutions: an English article about the race the Spanish one
+# covers is the point, since the reader searching it in English has already
+# entered that race. See the "NEVER CHANGE THE RACE" rule in TRANSLATE_PROMPT.
 MARKET_NOTES = {
-    "en": "Audience is the US. All-Access is US$39.99/mo and includes every plan "
-          "in the catalogue. Link /en/all-access/. Give paces in both min/km and "
-          "min/mile. Races in this market: NYC, Chicago, Boston, California International.",
+    "en": "Audience is English-speaking, mostly but not only the US — many read "
+          "in English while racing in Europe. All-Access is US$39.99/mo and "
+          "includes every plan in the catalogue. Link /en/all-access/. Give paces "
+          "in both min/km and min/mile. If the article needs an example race and "
+          "the source names none: NYC, Chicago, Boston, California International.",
     "pt": "Audience is BRAZIL, not Portugal — write Brazilian Portuguese. Acesso "
           "Total is US$29.99/mo and covers running, cycling and triathlon plans "
           "only (not swimming, HYROX or weight loss). Link /pt/all-access/. The "
           "Portuguese catalogue only has marathon, 5k, 10k, 21k and FTP — do not "
-          "point readers at anything else. Races: Rio, São Paulo.",
+          "point readers at anything else. If an example race is needed and the "
+          "source names none: Rio, São Paulo.",
     "es": "Audience is Spain and Latin America. All-Access is US$39.99/mo and "
           "includes every plan. Link /all-access/. Use voseo where natural.",
 }
