@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** August 4, 2026 (§20 — content engine's publish path closed: n8n commits approved drafts to GitHub, both agents plus auto-translation on cron, five articles live across three languages. Includes the `queryReplacement` comma-splitting bug that silently dropped one piece from every batch, and the editorial rules added after reading real output — plan spread, and never changing the race in a translation)
+**Last updated:** August 5, 2026 (§8 — n8n patched 2.30.5 → 2.33.4 for a batch of High-severity CVEs from n8n's security advisory; container recreated in place, all workflows verified Active post-upgrade)
 **Status:** Live / operational
 
 ---
@@ -193,6 +193,8 @@ Unlike the email side, there's no WhatsApp Business API in this build (deliberat
 - Free-text status updates, e.g. *"Fabian replied"* → `REPLIED`, *"mark Gaston as won (customer)"* → `WON_CUSTOMER`, *"mark Aimee as lost, too expensive"* → `LOST_PRICE`. Hermes's only job is mapping the sentence to exactly one of the 8 known enum values and calling the script with the right two arguments — it's instructed to ask for clarification rather than guess if the mapping isn't confident (e.g. "customer" alone, before "won" is added, isn't a valid value and shouldn't be silently mapped to one).
 
 Twenty's GraphQL introspection is disabled on this instance, so neither Hermes nor n8n can discover schema/enum values programmatically — the valid `leadStatus` values above were confirmed directly by Iván from the Twenty UI and hardcoded into the script rather than guessed.
+
+*Update, August 5, 2026 — n8n patched 2.30.5 → 2.33.4 in response to n8n's bi-weekly security advisory (multiple High-severity CVEs: GraphQL node credential-header leak, MCP node-schema path traversal RCE, JS task runner sandbox escape via prototype pollution, Git node code execution via repo-local config, among others — full list in the advisory email). Minor-version bump only, no breaking changes per n8n semver. Container recreated in place via `docker run` (image `n8nio/n8n:2.33.4`, same env, same `/root/.n8n` bind mount, same Tailscale-only port binding `100.70.89.17:5678`), preceded by a tarball backup of `/root/.n8n` to `~/n8n-backup-20260805.tar.gz`. Verified live: all workflows (CoachMatch lead creation/nurture, contact-form pipeline, subscription-lifecycle, content-engine publish) still Active post-upgrade, and a real website form submission confirmed end-to-end.
 
 ## 9. Analytics pipeline — plan-view tracking, GA4, Search Console & site-verification tools (live as of July 21, 2026)
 
