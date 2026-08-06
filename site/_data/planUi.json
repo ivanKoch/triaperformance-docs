@@ -1,20 +1,40 @@
 {
   "_note": "UI copy for the auto-generated plan pages and catalogs (site/planes/p/, site/en/plans/p/, site/pt/planos/p/, and the three catalog index pages). Written natively per language, not machine-translated — matches the vos/vous register the rest of the site already uses (not the tu form brand-guidelines.md nominally calls for; the live site is consistently vos in Spanish, this follows it). Distance/focus values from the inventory (Sprint, Olympic, HYROX, Base, FTP...) are shown as-is in every language — they're used as loanwords in ES/PT endurance-sport content and a clean per-value translation table isn't worth building for Phase 1.",
-
   "es": {
     "breadcrumbHome": "Inicio",
     "breadcrumbPlans": "Planes",
     "weeksLabel": "semanas",
-    "difficulty": { "Beginner": "Principiante", "Intermediate": "Intermedio", "Advanced": "Avanzado" },
-    "sport": { "Running": "Running", "Cycling": "Ciclismo", "Swimming": "Natación", "Triathlon": "Triatlón", "Duathlon": "Duatlón", "Strength": "Fuerza" },
-    "metric": { "hr": "Por frecuencia cardíaca", "power": "Por potencia", "pace": "Por ritmo" },
+    "difficulty": {
+      "Beginner": "Principiante",
+      "Intermediate": "Intermedio",
+      "Advanced": "Avanzado"
+    },
+    "sport": {
+      "Running": "Running",
+      "Cycling": "Ciclismo",
+      "Swimming": "Natación",
+      "Triathlon": "Triatlón",
+      "Duathlon": "Duatlón",
+      "Strength": "Fuerza"
+    },
+    "metric": {
+      "hr": "Por frecuencia cardíaca",
+      "power": "Por potencia",
+      "pace": "Por ritmo"
+    },
     "strengthFlag": "Incluye gimnasio",
     "weightLossFlag": "Enfocado en bajar de peso",
     "timeGoalFlag": "Con objetivo de tiempo",
     "priceLabel": "Precio",
     "breakdownTitle": "Qué vas a entrenar por semana",
     "breakdownIntro": "Datos reales del plan en TrainingPeaks: sesiones, duración promedio y la más larga de la semana.",
-    "activity": { "Run": "Correr", "Bike": "Ciclismo", "Swim": "Natación", "Strength": "Fuerza", "Other": "Otro" },
+    "activity": {
+      "Run": "Correr",
+      "Bike": "Ciclismo",
+      "Swim": "Natación",
+      "Strength": "Fuerza",
+      "Other": "Otro"
+    },
     "colSessions": "Sesiones/semana",
     "colAvg": "Duración promedio",
     "colLongest": "La más larga",
@@ -47,24 +67,52 @@
     "resultsCount": "planes",
     "noResults": "No hay planes con esos filtros. Probá con menos filtros.",
     "weeksShort": "sem.",
-    "weeksBucket": { "1-8": "1–8 semanas", "9-12": "9–12 semanas", "13-18": "13–18 semanas", "19+": "19+ semanas" },
-    "viewPlan": "Ver plan"
+    "weeksBucket": {
+      "1-8": "1–8 semanas",
+      "9-12": "9–12 semanas",
+      "13-18": "13–18 semanas",
+      "19+": "19+ semanas"
+    },
+    "viewPlan": "Ver plan",
+    "filterDistanceShort": "Distancia",
+    "filterFeaturesShort": "Extras",
+    "filterResetShort": "Limpiar"
   },
-
   "en": {
     "breadcrumbHome": "Home",
     "breadcrumbPlans": "Plans",
     "weeksLabel": "weeks",
-    "difficulty": { "Beginner": "Beginner", "Intermediate": "Intermediate", "Advanced": "Advanced" },
-    "sport": { "Running": "Running", "Cycling": "Cycling", "Swimming": "Swimming", "Triathlon": "Triathlon", "Duathlon": "Duathlon", "Strength": "Strength" },
-    "metric": { "hr": "Heart-rate based", "power": "Power based", "pace": "Pace based" },
+    "difficulty": {
+      "Beginner": "Beginner",
+      "Intermediate": "Intermediate",
+      "Advanced": "Advanced"
+    },
+    "sport": {
+      "Running": "Running",
+      "Cycling": "Cycling",
+      "Swimming": "Swimming",
+      "Triathlon": "Triathlon",
+      "Duathlon": "Duathlon",
+      "Strength": "Strength"
+    },
+    "metric": {
+      "hr": "Heart-rate based",
+      "power": "Power based",
+      "pace": "Pace based"
+    },
     "strengthFlag": "Includes gym work",
     "weightLossFlag": "Weight-loss focused",
     "timeGoalFlag": "Built around a time goal",
     "priceLabel": "Price",
     "breakdownTitle": "What you'll train each week",
     "breakdownIntro": "Real data from the plan on TrainingPeaks: sessions, average duration, and the longest session of the week.",
-    "activity": { "Run": "Run", "Bike": "Bike", "Swim": "Swim", "Strength": "Strength", "Other": "Other" },
+    "activity": {
+      "Run": "Run",
+      "Bike": "Bike",
+      "Swim": "Swim",
+      "Strength": "Strength",
+      "Other": "Other"
+    },
     "colSessions": "Sessions/week",
     "colAvg": "Avg. duration",
     "colLongest": "Longest",
@@ -97,24 +145,52 @@
     "resultsCount": "plans",
     "noResults": "No plans match those filters. Try clearing one.",
     "weeksShort": "wks",
-    "weeksBucket": { "1-8": "1–8 weeks", "9-12": "9–12 weeks", "13-18": "13–18 weeks", "19+": "19+ weeks" },
-    "viewPlan": "View plan"
+    "weeksBucket": {
+      "1-8": "1–8 weeks",
+      "9-12": "9–12 weeks",
+      "13-18": "13–18 weeks",
+      "19+": "19+ weeks"
+    },
+    "viewPlan": "View plan",
+    "filterDistanceShort": "Distance",
+    "filterFeaturesShort": "Features",
+    "filterResetShort": "Clear"
   },
-
   "pt": {
     "breadcrumbHome": "Início",
     "breadcrumbPlans": "Planos",
     "weeksLabel": "semanas",
-    "difficulty": { "Beginner": "Iniciante", "Intermediate": "Intermediário", "Advanced": "Avançado" },
-    "sport": { "Running": "Corrida", "Cycling": "Ciclismo", "Swimming": "Natação", "Triathlon": "Triatlo", "Duathlon": "Duatlo", "Strength": "Força" },
-    "metric": { "hr": "Por frequência cardíaca", "power": "Por potência", "pace": "Por ritmo" },
+    "difficulty": {
+      "Beginner": "Iniciante",
+      "Intermediate": "Intermediário",
+      "Advanced": "Avançado"
+    },
+    "sport": {
+      "Running": "Corrida",
+      "Cycling": "Ciclismo",
+      "Swimming": "Natação",
+      "Triathlon": "Triatlo",
+      "Duathlon": "Duatlo",
+      "Strength": "Força"
+    },
+    "metric": {
+      "hr": "Por frequência cardíaca",
+      "power": "Por potência",
+      "pace": "Por ritmo"
+    },
     "strengthFlag": "Inclui academia",
     "weightLossFlag": "Focado em emagrecimento",
     "timeGoalFlag": "Com objetivo de tempo",
     "priceLabel": "Preço",
     "breakdownTitle": "O que você vai treinar por semana",
     "breakdownIntro": "Dados reais do plano no TrainingPeaks: sessões, duração média e a mais longa da semana.",
-    "activity": { "Run": "Corrida", "Bike": "Ciclismo", "Swim": "Natação", "Strength": "Força", "Other": "Outro" },
+    "activity": {
+      "Run": "Corrida",
+      "Bike": "Ciclismo",
+      "Swim": "Natação",
+      "Strength": "Força",
+      "Other": "Outro"
+    },
     "colSessions": "Sessões/semana",
     "colAvg": "Duração média",
     "colLongest": "A mais longa",
@@ -147,7 +223,15 @@
     "resultsCount": "planos",
     "noResults": "Nenhum plano com esses filtros. Tente remover algum.",
     "weeksShort": "sem.",
-    "weeksBucket": { "1-8": "1–8 semanas", "9-12": "9–12 semanas", "13-18": "13–18 semanas", "19+": "19+ semanas" },
-    "viewPlan": "Ver plano"
+    "weeksBucket": {
+      "1-8": "1–8 semanas",
+      "9-12": "9–12 semanas",
+      "13-18": "13–18 semanas",
+      "19+": "19+ semanas"
+    },
+    "viewPlan": "Ver plano",
+    "filterDistanceShort": "Distância",
+    "filterFeaturesShort": "Extras",
+    "filterResetShort": "Limpar"
   }
 }

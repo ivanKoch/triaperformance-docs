@@ -25,12 +25,17 @@
    * "1900m" left checked from Swimming after switching to Running) can't
    * silently zero out the results.
    */
+  /* Queries run from `document`, not from the container, because an open panel
+   * is temporarily re-parented into the <body>-level portal (see setupChips).
+   * Safe because every catalog page has exactly one `[data-catalog]`. */
+  function allBoxes(sel) { return document.querySelectorAll(sel || "input[type=checkbox][data-group]"); }
+
   function updateDependentFacets(container) {
     var checkedSports = Array.prototype.map.call(
-      container.querySelectorAll('input[data-group="sport"]:checked'),
+      allBoxes('input[data-group="sport"]:checked'),
       function (cb) { return cb.value; }
     );
-    container.querySelectorAll("[data-sports]").forEach(function (label) {
+    document.querySelectorAll("[data-sports]").forEach(function (label) {
       var sports = (label.dataset.sports || "").split(/\s+/).filter(Boolean);
       var relevant = checkedSports.length === 0 ||
         sports.some(function (s) { return checkedSports.indexOf(s) !== -1; });
@@ -44,7 +49,7 @@
 
   function applyFilters(container) {
     var groups = {};
-    container.querySelectorAll("input[type=checkbox]:checked").forEach(function (cb) {
+    allBoxes("input[type=checkbox][data-group]:checked").forEach(function (cb) {
       var g = cb.dataset.group;
       (groups[g] = groups[g] || []).push(cb.value);
     });
@@ -106,8 +111,13 @@
   }
 
   function updateBadges(container) {
+    var total = 0;
     container.querySelectorAll("[data-facet-group]").forEach(function (group) {
-      var n = group.querySelectorAll("input[type=checkbox]:checked").length;
+      // The group's panel may currently be living in the portal.
+      var panel = group.querySelector("[data-facet-panel]") ||
+        document.querySelector('.facet-portal [data-facet-panel][data-owner="' + group.dataset.owner + '"]');
+      var n = panel ? panel.querySelectorAll("input[type=checkbox]:checked").length : 0;
+      total += n;
       var badge = group.querySelector("[data-facet-badge]");
       if (badge) {
         badge.textContent = n;
@@ -115,6 +125,34 @@
       }
       group.classList.toggle("has-active", n > 0);
     });
+    var reset = container.querySelector("[data-reset]");
+    if (reset) reset.hidden = mq.matches && total === 0;
+  }
+
+  /* Anchor the panel just under the bar, but never outside the viewport. The
+   * bar is only pinned once you've scrolled to it; before that it can sit at
+   * the very bottom of the screen, and a panel hung off it opens below the
+   * fold. Clamped to the nav at the top and to half the viewport at the
+   * bottom, the panel is always reachable wherever the bar happens to be. */
+  function panelTop(container) {
+    var nav = document.querySelector(".site-nav-sticky");
+    var navBottom = nav ? nav.getBoundingClientRect().bottom : 0;
+    var facets = container.querySelector(".facets");
+    var barBottom = facets ? facets.getBoundingClientRect().bottom : navBottom;
+    return Math.round(Math.max(Math.max(navBottom, 0),
+                               Math.min(barBottom, window.innerHeight * 0.5)));
+  }
+
+  /* Panels are moved into a <body>-level portal while open and put back on
+   * close, so exactly one copy of each checkbox exists at all times. */
+  function portalEl() {
+    var el = document.querySelector(".facet-portal");
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "facet-portal";
+      document.body.appendChild(el);
+    }
+    return el;
   }
 
   function closePanels(container) {
@@ -122,8 +160,11 @@
       group.classList.remove("is-open");
       var toggle = group.querySelector("[data-facet-toggle]");
       if (toggle && mq.matches) toggle.setAttribute("aria-expanded", "false");
+      // Reclaim this group's panel from the portal, if it's the open one.
+      var panel = document.querySelector('.facet-portal [data-facet-panel][data-owner="' + group.dataset.owner + '"]');
+      if (panel) group.appendChild(panel);
     });
-    var scrim = container.querySelector("[data-facet-scrim]");
+    var scrim = document.querySelector("[data-facet-scrim]");
     if (scrim) scrim.hidden = true;
   }
 
@@ -139,11 +180,20 @@
   }
 
   function setupChips(container) {
+    var portal = portalEl();
+
+    // Each group gets an id so a panel can be handed back to the right one.
+    container.querySelectorAll("[data-facet-group]").forEach(function (group, i) {
+      group.dataset.owner = "g" + i;
+      var panel = group.querySelector("[data-facet-panel]");
+      if (panel) panel.dataset.owner = "g" + i;
+    });
+
     var scrim = document.createElement("div");
     scrim.className = "facet-scrim";
     scrim.setAttribute("data-facet-scrim", "");
     scrim.hidden = true;
-    container.appendChild(scrim);
+    portal.appendChild(scrim);
     scrim.addEventListener("click", function () { closePanels(container); });
 
     container.addEventListener("click", function (e) {
@@ -154,11 +204,35 @@
       closePanels(container);
       if (opening) {
         measure(container);          // re-measure: nav height can change on rotate
+        portal.style.setProperty("--panel-top", panelTop(container) + "px");
+        portal.appendChild(group.querySelector("[data-facet-panel]"));
         group.classList.add("is-open");
         toggle.setAttribute("aria-expanded", "true");
         scrim.hidden = false;
       }
     });
+
+    /* Background scrolling is blocked by swallowing touchmove on the scrim
+     * rather than by `overflow: hidden` on <html>. The overflow approach was
+     * tried first and looked fine in the DOM, but a screenshot showed what it
+     * actually did: locking the scroll container stops `position: sticky`
+     * working, so the nav and the chip bar vanished the moment a panel opened
+     * — the user lost the very bar they were filtering with. The panel itself
+     * is outside the scrim, so its own overflow scrolling is unaffected. */
+    scrim.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
+
+    /* If the page does scroll while a panel is open, keep the panel glued to
+     * the bar instead of letting it drift. rAF-throttled. */
+    var ticking = false;
+    window.addEventListener("scroll", function () {
+      if (ticking || !mq.matches) return;
+      if (!document.querySelector(".facet-portal [data-facet-panel]")) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        portal.style.setProperty("--panel-top", panelTop(container) + "px");
+        ticking = false;
+      });
+    }, { passive: true });
 
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closePanels(container);
@@ -184,17 +258,18 @@
     // options before the first render, not just after the first change event.
     updateDependentFacets(container);
 
-    container.addEventListener("change", function (e) {
-      if (e.target && e.target.dataset && e.target.dataset.group === "sport") {
-        updateDependentFacets(container);
-      }
+    // On `document`, not `container` — an open panel is re-parented out of the
+    // container into the portal, so its change events never reach it.
+    document.addEventListener("change", function (e) {
+      if (!e.target || !e.target.dataset || !e.target.dataset.group) return;
+      if (e.target.dataset.group === "sport") updateDependentFacets(container);
       applyFilters(container);
       updateBadges(container);
     });
     var resetBtn = container.querySelector("[data-reset]");
     if (resetBtn) {
       resetBtn.addEventListener("click", function () {
-        container.querySelectorAll("input[type=checkbox]").forEach(function (cb) { cb.checked = false; });
+        allBoxes().forEach(function (cb) { cb.checked = false; });
         updateDependentFacets(container);
         applyFilters(container);
         updateBadges(container);

@@ -137,6 +137,9 @@
    specificity (0,2,0 vs 0,1,0), so no !important is needed. Fixed Aug 6, 2026. */
 .catalog-card[hidden],
 .catalog-grid[hidden],
+.facet-badge[hidden],
+.facet-reset[hidden],
+.facet-scrim[hidden],
 .facet-options label[hidden] { display: none; }
 
 /* --- Mobile: facets become a sticky chip bar ----------------------------- */
@@ -167,10 +170,12 @@
   .facet-group { margin-bottom: 0; }
   .facet-group h3 { margin-bottom: 0; }
 
+  .facet-label-full { display: none; }
+
   .facet-toggle {
-    display: flex; align-items: center; gap: 6px;
+    display: flex; align-items: center; gap: 5px;
     background: none; border: 1px solid var(--mist); border-radius: 999px;
-    padding: 7px 14px; font: inherit; font-size: 13px; font-weight: 600;
+    padding: 6px 12px; font: inherit; font-size: 12px; font-weight: 600;
     color: var(--ink); text-transform: none; letter-spacing: 0;
     white-space: nowrap; cursor: pointer;
   }
@@ -189,40 +194,50 @@
     background: var(--blue); color: var(--white); font-size: 11px; font-weight: 700;
   }
 
-  /* Panels are absolutely positioned against `.facets` (which is `sticky`, so
-     it is the containing block) and hang the full bleed width below the bar.
-     `.facets` deliberately has NO `overflow` — an earlier version made the chip
-     row a horizontal scroller, which forced the panels to `position: fixed` to
-     escape being clipped, and that in turn put them inside `.facets`'s stacking
-     context where no z-index could lift them above the scrim. Wrapping the
-     chips instead removes the scroller, the fixed positioning and the stacking
-     trap in one go. If the labels need two rows, they get two rows. */
-  .facets .facet-options {
-    display: none;
-    position: absolute; top: 100%; left: 0; right: 0;
-    background: var(--white); border-bottom: 1px solid var(--mist);
+  /* Panels stay hidden while they live in the bar. When one opens, JS MOVES it
+     into `.facet-portal`, a plain <div> appended to <body>. That is deliberate
+     and it is the third positioning attempt, so the reasoning is worth keeping:
+
+       1. `absolute` inside a horizontally-scrolling bar → clipped by overflow.
+       2. `fixed` inside the bar → escapes the clip, but `.facets` is a
+          positioned element with a z-index, so it forms a stacking context and
+          the panel could never paint above the scrim.
+       3. `absolute` against the bar with the scroller removed → paints fine,
+          but anchors to the BAR. Measured in real Chromium at an iPhone 13
+          viewport: with the page at the top the bar sits at y=605–752, so the
+          panel opened at y=751 in a 664px-tall viewport — 87px below the fold,
+          completely invisible. It only looked right once the bar was pinned.
+
+     Anchoring to the bar is the flaw all three share. In the portal the panel
+     is a child of <body>: no ancestor overflow, no ancestor stacking context,
+     and — the reason this survives Safari, which was never testable here — no
+     dependence on how an engine positions descendants of a `sticky` element.
+     `--panel-top` is set by JS and clamped into the viewport, so the panel is
+     reachable no matter where the bar happens to be. */
+  .facets .facet-options { display: none; }
+
+  .facet-portal .facet-options {
+    display: flex;
+    position: fixed; top: var(--panel-top, 120px); left: 0; right: 0;
+    background: var(--white);
+    border-top: 1px solid var(--mist); border-bottom: 1px solid var(--mist);
     box-shadow: 0 8px 24px rgba(30,32,25,.12);
     padding: 18px 24px 22px; gap: 14px;
     max-height: min(58vh, 460px); overflow-y: auto;
-    z-index: 1;
+    z-index: 120;   /* above the site nav (100) — it covers the page while open */
   }
-  .facet-group.is-open .facet-options { display: flex; }
-  .facet-options label { padding: 3px 0; }  /* taller tap target */
+  .facet-portal .facet-options label { padding: 3px 0; }  /* taller tap target */
 
-  /* Must sit BELOW `.facets` (z-index 50), not above it. `.facets` is a
-     positioned element with a z-index, so it creates a stacking context and
-     everything inside it — panels included — is painted as one layer at 50.
-     A scrim above that value covers the very panel it is meant to sit behind,
-     swallowing every tap. It only needs to outrank the card grid, which is at
-     the default z-index. */
   .facet-scrim {
     position: fixed; inset: 0;
-    background: rgba(30,32,25,.35); z-index: 40; border: 0;
+    background: rgba(30,32,25,.35); z-index: 110; border: 0;
   }
 
+  /* Only shown once something is actually filtered — it is the least useful
+     chip in the bar and the bar is the scarcest space on the page. */
   .facet-reset {
     order: 99; width: auto; border-radius: 999px;
-    padding: 7px 14px; font-size: 13px; font-weight: 600; white-space: nowrap;
+    padding: 6px 12px; font-size: 12px; font-weight: 600; white-space: nowrap;
   }
 
   .catalog-count { margin-bottom: 16px; }
@@ -235,5 +250,7 @@
     background: none; border: 0; padding: 0; font: inherit; color: inherit;
     text-align: left; width: 100%; cursor: default;
   }
-  .facet-badge, .facet-scrim { display: none; }
+  .facet-badge, .facet-scrim, .facet-label-short { display: none; }
+  .facet-reset[hidden] { display: block; }   /* always available in the sidebar */
 }
+

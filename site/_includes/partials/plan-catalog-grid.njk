@@ -21,8 +21,11 @@
     heading and the panel below it is always open — see plan-page.css. The
     `aria-expanded` state is managed by catalog-filters.js, which removes the
     attribute entirely on desktop where it isn't a disclosure control. -#}
-{%- macro facetHead(label) -%}
-<h3><button type="button" class="facet-toggle" data-facet-toggle>{{ label }}<span class="facet-badge" data-facet-badge hidden></span></button></h3>
+{#- `short` is the mobile chip label. The full label is a sidebar heading on
+    desktop, but "Distancia / enfoque" as a chip pushed the bar to three rows
+    (147px — a third of an iPhone screen once the nav is counted). -#}
+{%- macro facetHead(label, short) -%}
+<h3><button type="button" class="facet-toggle" data-facet-toggle><span class="facet-label-full">{{ label }}</span><span class="facet-label-short">{{ short or label }}</span><span class="facet-badge" data-facet-badge hidden></span></button></h3>
 {%- endmacro -%}
 {%- set sports = catalogPlans | facetValues("sport") -%}
 {%- set distances = catalogPlans | facetValues("distance") -%}
@@ -44,7 +47,7 @@
       </div>
     </div>
     <div class="facet-group" data-facet-group>
-      {{ facetHead(u.filterDistance) }}
+      {{ facetHead(u.filterDistance, u.filterDistanceShort) }}
       <div class="facet-options" data-facet-panel>
         {%- for d in distances %}
         <label data-sports="{{ distanceSports[d] | join(' ') }}"><input type="checkbox" data-group="distance" value="{{ d }}" {% if presetDistance and presetDistance == d %}checked{% endif %}> {{ d }}</label>
@@ -68,7 +71,7 @@
       </div>
     </div>
     <div class="facet-group" data-facet-group>
-      {{ facetHead(u.filterFeatures) }}
+      {{ facetHead(u.filterFeatures, u.filterFeaturesShort) }}
       <div class="facet-options" data-facet-panel>
         <label><input type="checkbox" data-group="features" value="strength" {% if presetFeature == "strength" %}checked{% endif %}> {{ u.strengthFlag }}</label>
         <label><input type="checkbox" data-group="features" value="weightloss" {% if presetFeature == "weightloss" %}checked{% endif %}> {{ u.weightLossFlag }}</label>
@@ -77,7 +80,7 @@
         <label><input type="checkbox" data-group="features" value="pace" {% if presetFeature == "pace" %}checked{% endif %}> {{ u.metric.pace }}</label>
       </div>
     </div>
-    <button type="button" class="facet-reset" data-reset>{{ u.filterReset }}</button>
+    <button type="button" class="facet-reset" data-reset hidden><span class="facet-label-full">{{ u.filterReset }}</span><span class="facet-label-short">{{ u.filterResetShort or u.filterReset }}</span></button>
   </aside>
 
   <div class="catalog-results">
