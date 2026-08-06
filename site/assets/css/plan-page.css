@@ -103,3 +103,19 @@
 .catalog-card .catalog-card-price { font-size: 18px; font-weight: 700; margin-top: auto; margin-bottom: 12px; }
 .catalog-card .btn-primary { text-align: center; padding: 10px 20px; font-size: 14px; }
 .catalog-empty { color: var(--slate); padding: 48px 0; text-align: center; }
+
+/* The `hidden` attribute is `display: none` in the *user-agent* stylesheet, at
+   the lowest possible specificity — so any author rule that sets `display` on
+   the same element silently beats it and the element stays visible. Three of
+   the four things catalog-filters.js hides do exactly that:
+     .catalog-card        → display: flex   (line ~95)
+     .facet-options label → display: flex   (line ~84)
+     .catalog-grid        → display: grid   (line ~92)
+   Only .catalog-empty worked, and only because nothing sets its display.
+   That was the whole filter bug: the JS was correct and running, the count
+   updated, `hidden` was set on the right cards — and nothing disappeared.
+   Restated here as author rules, which outrank the plain class selectors on
+   specificity (0,2,0 vs 0,1,0), so no !important is needed. Fixed Aug 6, 2026. */
+.catalog-card[hidden],
+.catalog-grid[hidden],
+.facet-options label[hidden] { display: none; }
