@@ -119,10 +119,9 @@
       var n = panel ? panel.querySelectorAll("input[type=checkbox]:checked").length : 0;
       total += n;
       var badge = group.querySelector("[data-facet-badge]");
-      if (badge) {
-        badge.textContent = n;
-        badge.hidden = n === 0;
-      }
+      // Shown on every chip, zero included — Iván's call, Aug 6 2026: the row
+      // of dots reads better than badges popping in and out as you filter.
+      if (badge) badge.textContent = n;
       group.classList.toggle("has-active", n > 0);
     });
     var reset = container.querySelector("[data-reset]");

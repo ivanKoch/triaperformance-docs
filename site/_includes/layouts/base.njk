@@ -24,12 +24,12 @@
 <link rel="alternate" hreflang="x-default" href="{{ alts.es | absoluteUrl }}">
 {%- endif %}
 {%- endif %}
-<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="{{ "/assets/css/site.css" | v }}">
 {#- pageCss takes either a single filename or a list of them, loaded in order after site.css. -#}
 {%- if pageCss %}{% if pageCss is string %}
-<link rel="stylesheet" href="/assets/css/{{ pageCss }}">
+<link rel="stylesheet" href="{{ ("/assets/css/" + pageCss) | v }}">
 {%- else %}{% for css in pageCss %}
-<link rel="stylesheet" href="/assets/css/{{ css }}">
+<link rel="stylesheet" href="{{ ("/assets/css/" + css) | v }}">
 {%- endfor %}{% endif %}{% endif %}
 </head>
 <body>

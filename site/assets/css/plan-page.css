@@ -137,7 +137,6 @@
    specificity (0,2,0 vs 0,1,0), so no !important is needed. Fixed Aug 6, 2026. */
 .catalog-card[hidden],
 .catalog-grid[hidden],
-.facet-badge[hidden],
 .facet-reset[hidden],
 .facet-scrim[hidden],
 .facet-options label[hidden] { display: none; }
@@ -160,7 +159,11 @@
      deliberately close to the real values so first paint isn't visibly wrong
      if the script is slow. */
   .facets {
-    position: sticky; top: var(--nav-h, 66px); z-index: 50;
+    /* +3px so the bar clears the nav's bottom border instead of tucking
+       under it. `--nav-h` comes from `offsetHeight`, which rounds a
+       fractional height down, so the two boxes met flush and overlapped by a
+       hair. Reported Aug 6, 2026. */
+    position: sticky; top: calc(var(--nav-h, 66px) + 3px); z-index: 50;
     background: var(--white); border-bottom: 1px solid var(--mist);
     /* Bleed past .wrap's 24px padding so the bar spans the full screen. */
     margin: 0 -24px 24px; padding: 10px 24px;

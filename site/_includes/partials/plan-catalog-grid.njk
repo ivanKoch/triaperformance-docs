@@ -25,7 +25,7 @@
     desktop, but "Distancia / enfoque" as a chip pushed the bar to three rows
     (147px — a third of an iPhone screen once the nav is counted). -#}
 {%- macro facetHead(label, short) -%}
-<h3><button type="button" class="facet-toggle" data-facet-toggle><span class="facet-label-full">{{ label }}</span><span class="facet-label-short">{{ short or label }}</span><span class="facet-badge" data-facet-badge hidden></span></button></h3>
+<h3><button type="button" class="facet-toggle" data-facet-toggle><span class="facet-label-full">{{ label }}</span><span class="facet-label-short">{{ short or label }}</span><span class="facet-badge" data-facet-badge>0</span></button></h3>
 {%- endmacro -%}
 {%- set sports = catalogPlans | facetValues("sport") -%}
 {%- set distances = catalogPlans | facetValues("distance") -%}
@@ -111,4 +111,4 @@
   </div>
 </div>
 
-<script src="/assets/js/catalog-filters.js" defer></script>
+<script src="{{ "/assets/js/catalog-filters.js" | v }}" defer></script>

@@ -10,6 +10,9 @@
  * gates that path with forward_auth at request time. The build has no idea auth exists.
  */
 
+const fs = require("fs");
+const path = require("path");
+
 module.exports = function (eleventyConfig) {
   // ---------------------------------------------------------------------------
   // Static assets. `images` and `guias` have been migrated into site/assets/
@@ -128,6 +131,40 @@ module.exports = function (eleventyConfig) {
   // it's correct regardless of whether the source link already has a query
   // string (none currently do, but this doesn't assume that stays true).
   // ---------------------------------------------------------------------------
+  /**
+   * Cache-busting for CSS/JS. Appends `?v=<8 chars of the file's md5>` so a
+   * changed file is a changed URL and no cache can serve the old one.
+   *
+   * Added August 6, 2026 after a full afternoon lost to it. Caddy sends no
+   * `Cache-Control` for /assets/*, so caches fall back to heuristic freshness
+   * and hold JS for hours. Symptom: the mobile filter chips "still didn't
+   * work" across three rounds of fixes, on a phone that was running
+   * two-versions-old JavaScript against current CSS — a combination that
+   * cannot work and looks exactly like a code bug. Proven by fetching the
+   * same URL twice, once bare and once with a dummy query: the bare URL
+   * returned stale code, the query returned current code.
+   *
+   * A content hash, not a build timestamp: unchanged files keep their URL and
+   * stay cached, so this costs nothing on deploys that don't touch them.
+   */
+  const crypto = require("crypto");
+  const assetHashes = new Map();
+  eleventyConfig.addFilter("v", function (url) {
+    if (!url) return url;
+    if (!assetHashes.has(url)) {
+      let hash = "";
+      try {
+        const file = path.join(__dirname, "site", url.replace(/^\//, ""));
+        hash = crypto.createHash("md5").update(fs.readFileSync(file)).digest("hex").slice(0, 8);
+      } catch (e) {
+        // Missing file: fail open with an unversioned URL rather than a broken build.
+        console.warn("[cache-bust] could not hash " + url + " — serving unversioned");
+      }
+      assetHashes.set(url, hash ? url + "?v=" + hash : url);
+    }
+    return assetHashes.get(url);
+  });
+
   eleventyConfig.addFilter("withUtm", function (url, planId) {
     try {
       const u = new URL(url);
