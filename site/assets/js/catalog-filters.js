@@ -86,6 +86,101 @@
     }
   }
 
+  /* ---------------------------------------------------------------------
+   * Mobile chip bar (≤800px). The facet sidebar becomes a horizontal row of
+   * chips pinned under the nav, each opening a dropdown panel. Progressive
+   * enhancement only: the markup, the checkboxes and applyFilters() above are
+   * identical on both layouts, so there is exactly one source of filter state
+   * and nothing to keep in sync. Everything below only changes what's visible.
+   * ------------------------------------------------------------------- */
+  var mq = window.matchMedia("(max-width: 800px)");
+
+  /* The nav's height varies by language and shifts once webfonts land, so the
+   * sticky offsets are measured rather than hardcoded. CSS holds close-enough
+   * fallbacks for the pre-script paint. */
+  function measure(container) {
+    var nav = document.querySelector(".site-nav-sticky");
+    var facets = container.querySelector(".facets");
+    var navH = nav ? nav.offsetHeight : 0;
+    container.style.setProperty("--nav-h", navH + "px");
+    container.style.setProperty(
+      "--facets-bottom", (navH + (facets ? facets.offsetHeight : 0)) + "px");
+  }
+
+  function updateBadges(container) {
+    container.querySelectorAll("[data-facet-group]").forEach(function (group) {
+      var n = group.querySelectorAll("input[type=checkbox]:checked").length;
+      var badge = group.querySelector("[data-facet-badge]");
+      if (badge) {
+        badge.textContent = n;
+        badge.hidden = n === 0;
+      }
+      group.classList.toggle("has-active", n > 0);
+    });
+  }
+
+  function closePanels(container) {
+    container.querySelectorAll("[data-facet-group]").forEach(function (group) {
+      group.classList.remove("is-open");
+      var toggle = group.querySelector("[data-facet-toggle]");
+      if (toggle && mq.matches) toggle.setAttribute("aria-expanded", "false");
+    });
+    var scrim = container.querySelector("[data-facet-scrim]");
+    if (scrim) scrim.hidden = true;
+  }
+
+  /* Desktop is not a disclosure UI — the panels are always open there, so the
+   * attribute is removed rather than left lying about a collapsed state. */
+  function syncMode(container) {
+    closePanels(container);
+    container.querySelectorAll("[data-facet-toggle]").forEach(function (toggle) {
+      if (mq.matches) toggle.setAttribute("aria-expanded", "false");
+      else toggle.removeAttribute("aria-expanded");
+    });
+    if (mq.matches) measure(container);
+  }
+
+  function setupChips(container) {
+    var scrim = document.createElement("div");
+    scrim.className = "facet-scrim";
+    scrim.setAttribute("data-facet-scrim", "");
+    scrim.hidden = true;
+    container.appendChild(scrim);
+    scrim.addEventListener("click", function () { closePanels(container); });
+
+    container.addEventListener("click", function (e) {
+      var toggle = e.target.closest && e.target.closest("[data-facet-toggle]");
+      if (!toggle || !mq.matches) return;
+      var group = toggle.closest("[data-facet-group]");
+      var opening = !group.classList.contains("is-open");
+      closePanels(container);
+      if (opening) {
+        measure(container);          // re-measure: nav height can change on rotate
+        group.classList.add("is-open");
+        toggle.setAttribute("aria-expanded", "true");
+        scrim.hidden = false;
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closePanels(container);
+    });
+
+    var onViewportChange = function () { syncMode(container); };
+    if (mq.addEventListener) mq.addEventListener("change", onViewportChange);
+    else if (mq.addListener) mq.addListener(onViewportChange);   // older Safari
+    window.addEventListener("resize", function () {
+      if (mq.matches) measure(container);
+    });
+    // Webfonts can change the nav's height after first paint.
+    window.addEventListener("load", function () {
+      if (mq.matches) measure(container);
+    });
+
+    syncMode(container);
+    updateBadges(container);
+  }
+
   document.querySelectorAll("[data-catalog]").forEach(function (container) {
     // Preset facets (sport-specific category pages) narrow the distance
     // options before the first render, not just after the first change event.
@@ -96,6 +191,7 @@
         updateDependentFacets(container);
       }
       applyFilters(container);
+      updateBadges(container);
     });
     var resetBtn = container.querySelector("[data-reset]");
     if (resetBtn) {
@@ -103,8 +199,11 @@
         container.querySelectorAll("input[type=checkbox]").forEach(function (cb) { cb.checked = false; });
         updateDependentFacets(container);
         applyFilters(container);
+        updateBadges(container);
+        closePanels(container);
       });
     }
+    setupChips(container);
     // Preset facets (sport-specific category pages) filter on load.
     if (container.querySelector("input[type=checkbox]:checked")) applyFilters(container);
   });
