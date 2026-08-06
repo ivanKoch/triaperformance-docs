@@ -47,3 +47,30 @@ Three fixes, all in `automation/deploy-website.sh`: `chmod 755` on the build dir
 **The invariant the fixes converge on: the VPS owns nothing.** It resets to origin, rebuilds from scratch into a temp directory, re-copies its own script, and writes generated data outside the checkout.
 
 **A verification that lied.** The post-deploy check added after the 403 reported `FAIL 000000` on all paths of a site that was working perfectly. Two bugs: curl emits `000` via `-w` on failure *and* the `|| echo "000"` fallback appended a second one; and the check used `https://127.0.0.1` with a `Host:` header, but **Caddy routes TLS by SNI and curl sends no SNI for a bare IP address**, so the handshake failed before HTTP was ever spoken. Fixed with `--resolve triaperformance.com:443:127.0.0.1`, which keeps hostname, SNI and certificate consistent while connecting to loopback. Worth recording because a false-alarming verification is worse than none — it trains you to ignore the one signal meant to catch real breakage.
+
+---
+
+## Catalog facet filters never filtered anything (August 6, 2026)
+
+Reported by Iván against the live storefront: checking a sport didn't narrow the plan grid, and the distance/enfoque options didn't respond to the sport selection either. Both symptoms, one cause — and the cause was not in the code that appeared to be at fault.
+
+`catalog-filters.js` was correct and running the whole time. It read the checked boxes, computed OR-within-group / AND-across-groups exactly as designed, updated the result count, and set `hidden` on precisely the right cards. Every card that should have disappeared *was* flagged as hidden. Nothing disappeared.
+
+**Root cause: `hidden` is a user-agent stylesheet rule.** `[hidden] { display: none }` lives in the browser's default stylesheet at the lowest specificity in the cascade, so *any* author rule that sets `display` on the same element beats it silently. `plan-page.css` set `display` on three of the four things the script hides:
+
+| element hidden by the JS | competing author rule | result |
+| --- | --- | --- |
+| `.catalog-card` | `display: flex` | stayed visible |
+| `.catalog-grid` | `display: grid` | stayed visible |
+| `.facet-options label` | `display: flex` | stayed visible |
+| `.catalog-empty` | *(none)* | worked — by accident |
+
+The one element that behaved correctly did so only because nobody had styled it. Fix is three selectors — `.catalog-card[hidden]`, `.catalog-grid[hidden]`, `.facet-options label[hidden]` — restating `display: none` as an *author* rule. Specificity (0,2,0) vs (0,1,0), so it wins on the cascade without `!important`.
+
+**The part Iván hadn't seen yet.** The four category pages (`/planes/running/`, `/triatlon/`, `/hyrox/`, `/bajar-de-peso/`) render the full 179-plan ES catalog server-side and rely entirely on a pre-checked box plus this same JS to narrow on load. With the bug, all four were serving the entire catalog: the HYROX page listed every swim, cycling and triathlon plan, 179 instead of 7. Those are the oldest, most-linked plan pages on the site and they are in the main nav. Post-fix, on-load counts are Running 85, Triatlón 30, HYROX 7, Bajar de Peso 19.
+
+**Why it survived the July 30 build check.** That session verified the build the way a build gets verified — clean Eleventy run, correct page counts, right number of cards, data attributes present, no template-syntax leaks. All true, all passing, and all blind to this: the markup and the JS were both individually correct, and the defect only existed in the interaction between the script and a stylesheet neither check looked at. A static build check cannot catch a cascade bug. Nor can jsdom on its own — it models the DOM well but not the UA stylesheet, so `getComputedStyle` there would have shown `display: none` and confirmed a bug that was live on the site.
+
+Verified in two parts, deliberately separated: jsdom for the filtering behaviour (14 assertions — sport filter, dependent distance facets, AND/OR semantics, reset, empty state), and a specificity calculation parsed from the real CSS for the cascade question, because that is the half jsdom cannot be trusted on.
+
+**Standing lesson: never hide a styled element with the `hidden` attribute alone.** Either pair it with an author-level `[hidden] { display: none }` rule, or toggle a class. This is a silent failure by construction — the DOM says hidden, the accessibility tree says hidden, `element.hidden` returns `true`, and the pixels are still there. Any future tool or page that hides elements this way needs the author rule shipped alongside it.

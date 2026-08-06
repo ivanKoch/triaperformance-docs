@@ -74,6 +74,8 @@ Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card
 
 | Tool | URL | Category | Shipped |
 |---|---|---|---|
-| Activación de Running | `/members/activacion/` | activacion | Aug 1, 2026 — live; rebuilt same day on template v2 (pending redeploy) |
-| Activación de Ciclismo | `/members/activacion-ciclismo/` | activacion | Aug 1, 2026 — built on template v2 (pending deploy) |
-| Core Sin Excusas | `/members/core/` | fuerza | Aug 1, 2026 — template v2, data-only page, 45s blocks (`workSeconds` override) (pending deploy) |
+| Activación de Running | `/members/activacion/` | activacion | Aug 1, 2026 — live; rebuilt same day on template v2, committed + deployed |
+| Activación de Ciclismo | `/members/activacion-ciclismo/` | activacion | Aug 1, 2026 — template v2, committed + deployed |
+| Core Sin Excusas | `/members/core/` | fuerza | Aug 1, 2026 — template v2, data-only page, 45s blocks (`workSeconds` override), committed + deployed |
+
+*Status corrected August 6, 2026 — all three rows read "pending deploy" for five days. Verified from git: commits `b05e3cc`, `0f8b0e8`, `d6c0a04` and `b41326e` all landed Aug 1 and went out on the normal cron pull, so the pages are deployed. **Deliberately not claimed as verified:** the real-phone check on template v2's mobile UI is Iván's, hasn't been reported back, and the whole reason v2 exists is that v1 rendered badly on a phone — a build that deploys is not a UI that works. That check is the one thing still outstanding on these three.*

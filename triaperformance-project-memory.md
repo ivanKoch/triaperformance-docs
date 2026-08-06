@@ -2,7 +2,7 @@
 
 *Mirror of the Claude.ai project **Memory** field. Edit this file, then paste it whole into Memory. Memory holds only what the repo can't — how Iván works, and what Claude has learned about operating in this environment. Business state (numbers, what's live, what's next) is deliberately excluded: it lives in the repo, versioned, and changes weekly.*
 
-*Last updated: August 2, 2026.*
+*Last updated: August 6, 2026.*
 
 ## Who this is
 
@@ -27,6 +27,7 @@ The `triaperformance-docs` GitHub repo is the single source of truth. It syncs i
 - **Infrastructure learning for its own sake is an anti-pattern.** Every build session must leave a durable asset behind.
 - **Distribution over creation.** Most of this business is under-promoted, not under-built.
 - **A doc that isn't corrected on the way past rots into a contradiction.** Numbers get restated across files; when one moves, the others don't follow on their own.
+- **Check live state against the live system, never against the docs.** Three times now a "pending" written down has outlived reality — the "6 dead plans" myth, the `plans_raw` duplicate ghost, and a storefront that sat documented as undeployed for a week while live, holding four queued items behind a gate that had already opened. Deploy status, what's serving, what's Active: fetch the URL or run the query at the start of a session. It costs seconds; carrying the assumption forward costs weeks.
 
 ## Deliberately not in memory
 
