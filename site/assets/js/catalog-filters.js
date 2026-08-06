@@ -96,15 +96,13 @@
   var mq = window.matchMedia("(max-width: 800px)");
 
   /* The nav's height varies by language and shifts once webfonts land, so the
-   * sticky offsets are measured rather than hardcoded. CSS holds close-enough
-   * fallbacks for the pre-script paint. */
+   * bar's sticky offset is measured rather than hardcoded. CSS holds a
+   * close-enough fallback for the pre-script paint. The panels no longer need
+   * measuring — they're positioned against `.facets` itself now, not the
+   * viewport, so the browser does that arithmetic. */
   function measure(container) {
     var nav = document.querySelector(".site-nav-sticky");
-    var facets = container.querySelector(".facets");
-    var navH = nav ? nav.offsetHeight : 0;
-    container.style.setProperty("--nav-h", navH + "px");
-    container.style.setProperty(
-      "--facets-bottom", (navH + (facets ? facets.offsetHeight : 0)) + "px");
+    container.style.setProperty("--nav-h", (nav ? nav.offsetHeight : 0) + "px");
   }
 
   function updateBadges(container) {

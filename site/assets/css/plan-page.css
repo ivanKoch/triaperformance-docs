@@ -96,7 +96,26 @@
   background: var(--white); border: 1px solid var(--mist); border-radius: 8px;
   padding: 24px; display: flex; flex-direction: column; transition: box-shadow 0.15s;
 }
+/* The card is a bare <a> and this stylesheet never gave it link styling, so it
+   was inheriting the user-agent defaults the whole time: blue, underlined, and
+   — the reported symptom — RED while `:active`. On a touch screen `:active`
+   fires on press and stays on through a scroll that begins on a card, which is
+   why the text turned red mid-scroll but not when the scroll started between
+   two cards. There is no global `a` reset in site.css (link styling is scoped
+   per component), so it has to be stated here, across every link state. */
+.catalog-card,
+.catalog-card:link,
+.catalog-card:visited,
+.catalog-card:hover,
+.catalog-card:focus,
+.catalog-card:active {
+  color: var(--ink);
+  text-decoration: none;
+}
+.catalog-card { -webkit-tap-highlight-color: transparent; }
 .catalog-card:hover { box-shadow: 0 1px 3px rgba(30,32,25,.08); }
+/* Tap feedback, since the tap highlight above is suppressed. */
+.catalog-card:active { border-color: var(--blue); }
 .catalog-card .label { margin-bottom: 8px; }
 .catalog-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
 .catalog-card .catalog-card-meta { color: var(--slate); font-size: 13px; margin-bottom: 16px; }
@@ -142,11 +161,8 @@
     background: var(--white); border-bottom: 1px solid var(--mist);
     /* Bleed past .wrap's 24px padding so the bar spans the full screen. */
     margin: 0 -24px 24px; padding: 10px 24px;
-    display: flex; flex-wrap: nowrap; gap: 8px;
-    overflow-x: auto; -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    display: flex; flex-wrap: wrap; gap: 8px;
   }
-  .facets::-webkit-scrollbar { display: none; }
 
   .facet-group { margin-bottom: 0; }
   .facet-group h3 { margin-bottom: 0; }
@@ -173,27 +189,35 @@
     background: var(--blue); color: var(--white); font-size: 11px; font-weight: 700;
   }
 
-  /* Panels are `fixed`, not `absolute`, for one specific reason: the chip row
-     is a horizontal scroller, and `overflow-x: auto` computes overflow-y to
-     `auto` too — an absolutely-positioned panel would be clipped by its own
-     parent. Fixed descendants escape ancestor overflow (nothing here creates a
-     containing block for them), so the panel can hang below the bar and span
-     the full width regardless of how far the chips are scrolled. */
+  /* Panels are absolutely positioned against `.facets` (which is `sticky`, so
+     it is the containing block) and hang the full bleed width below the bar.
+     `.facets` deliberately has NO `overflow` — an earlier version made the chip
+     row a horizontal scroller, which forced the panels to `position: fixed` to
+     escape being clipped, and that in turn put them inside `.facets`'s stacking
+     context where no z-index could lift them above the scrim. Wrapping the
+     chips instead removes the scroller, the fixed positioning and the stacking
+     trap in one go. If the labels need two rows, they get two rows. */
   .facets .facet-options {
     display: none;
-    position: fixed; top: var(--facets-bottom, 118px); left: 0; right: 0;
+    position: absolute; top: 100%; left: 0; right: 0;
     background: var(--white); border-bottom: 1px solid var(--mist);
     box-shadow: 0 8px 24px rgba(30,32,25,.12);
     padding: 18px 24px 22px; gap: 14px;
     max-height: min(58vh, 460px); overflow-y: auto;
-    z-index: 60;
+    z-index: 1;
   }
   .facet-group.is-open .facet-options { display: flex; }
   .facet-options label { padding: 3px 0; }  /* taller tap target */
 
+  /* Must sit BELOW `.facets` (z-index 50), not above it. `.facets` is a
+     positioned element with a z-index, so it creates a stacking context and
+     everything inside it — panels included — is painted as one layer at 50.
+     A scrim above that value covers the very panel it is meant to sit behind,
+     swallowing every tap. It only needs to outrank the card grid, which is at
+     the default z-index. */
   .facet-scrim {
-    position: fixed; inset: 0; top: var(--facets-bottom, 118px);
-    background: rgba(30,32,25,.35); z-index: 55; border: 0;
+    position: fixed; inset: 0;
+    background: rgba(30,32,25,.35); z-index: 40; border: 0;
   }
 
   .facet-reset {
