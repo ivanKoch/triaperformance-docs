@@ -116,7 +116,14 @@ echo "[$(date -Is)] verifying the live site responds"
 # --resolve keeps the real hostname (so SNI, Host and cert all match) while still
 # connecting to the loopback address.
 verify_failed=0
-for path in "/" "/planes/running/" "/members/login/" "/blog/"; do
+# robots.txt and sitemap.xml added Aug 6, 2026 after Ahrefs reported robots.txt
+# unreachable. Both were serving fine when checked, so the alert was most likely
+# transient — a crawl landing inside the rsync window, when the webroot is being
+# replaced. That is exactly the failure this loop exists to catch, and neither
+# file was in it: they are passthrough assets, not pages, so a page-only check
+# would never have noticed. They are also the two files whose absence silently
+# costs indexing rather than producing a visible error.
+for path in "/" "/planes/running/" "/members/login/" "/blog/" "/robots.txt" "/sitemap.xml"; do
   code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 \
          --resolve "triaperformance.com:443:127.0.0.1" \
          "https://triaperformance.com${path}") || code="000"
