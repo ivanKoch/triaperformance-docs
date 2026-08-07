@@ -91,6 +91,87 @@
   </div>
 </section>
 
+{#- ---------------------------------------------------------------------------
+    Generated content sections (August 6, 2026).
+
+    Written from the plan's own data — inventory flags plus the weekly-breakdown
+    crawl — rather than copied from the TrainingPeaks listing. The hand-written
+    listing rewrites cover 20 of 321 plans, so copying them would leave 301
+    pages empty; and reusing that text verbatim would set these pages against
+    trainingpeaks.com for the same queries, which this domain loses. Every
+    bullet below is conditional: a plan with no breakdown data simply renders
+    fewer of them rather than asserting something unmeasured.
+--------------------------------------------------------------------------- -#}
+{%- set totals = plan.weeklyTotals -%}
+{%- set sib = plan.siblings -%}
+
+<section class="plan-prose">
+  <div class="wrap plan-prose-grid">
+
+    <div class="plan-prose-block">
+      <h2>{{ u.forWhoTitle }}</h2>
+      <ul class="plan-list">
+        {%- if u.forWhoLevel[plan.difficulty] %}<li>{{ u.forWhoLevel[plan.difficulty] }}</li>{% endif %}
+        {%- if totals and totals.sessions %}
+        <li>
+          {%- if totals.hoursText -%}
+            {{ u.forWhoTime | replace("{sessions}", totals.sessions) | replace("{hours}", totals.hoursText) }}
+          {%- else -%}
+            {{ u.forWhoTimeNoHours | replace("{sessions}", totals.sessions) }}
+          {%- endif -%}
+        </li>
+        {%- endif %}
+        {%- if totals and totals.longestText %}<li>{{ u.forWhoLongest | replace("{longest}", totals.longestText) }}</li>{% endif %}
+        {%- if plan.weeks %}<li>{{ u.forWhoWeeks | replace("{weeks}", plan.weeks) }}</li>{% endif %}
+        {%- if u.forWhoMetric[plan.metric] %}<li>{{ u.forWhoMetric[plan.metric] }}</li>{% endif %}
+      </ul>
+      {%- if sib and (sib.easier or sib.harder or sib.shorter or sib.longer) %}
+      <p class="plan-siblings"><strong>{{ u.forWhoNotFit }}</strong>
+        {%- if sib.easier %} <a href="{{ sib.easier.pageUrl }}">{{ u.siblingEasier | replace("{level}", u.difficulty[sib.easier.difficulty]) }}</a>{% endif %}
+        {%- if sib.harder %} <a href="{{ sib.harder.pageUrl }}">{{ u.siblingHarder | replace("{level}", u.difficulty[sib.harder.difficulty]) }}</a>{% endif %}
+        {%- if sib.shorter %} <a href="{{ sib.shorter.pageUrl }}">{{ u.siblingShorter | replace("{weeks}", sib.shorter.weeks) }}</a>{% endif %}
+        {%- if sib.longer %} <a href="{{ sib.longer.pageUrl }}">{{ u.siblingLonger | replace("{weeks}", sib.longer.weeks) }}</a>{% endif %}
+      </p>
+      {%- endif %}
+    </div>
+
+    <div class="plan-prose-block">
+      <h2>{{ u.methodTitle }}</h2>
+      <ul class="plan-list">
+        <li>{{ u.methodPolarized }}</li>
+        <li>{{ u.methodProgression }}</li>
+        {%- if plan.strength %}<li>{{ u.methodStrength }}</li>{% endif %}
+        <li>{{ u.methodZones }}</li>
+      </ul>
+    </div>
+
+    <div class="plan-prose-block">
+      <h2>{{ u.gearTitle }}</h2>
+      <ul class="plan-list">
+        {%- if u.gearMetric[plan.metric] %}<li>{{ u.gearMetric[plan.metric] }}</li>{% endif %}
+        {%- if u.gearSport[plan.sport] %}<li>{{ u.gearSport[plan.sport] }}</li>{% endif %}
+        {%- if plan.strength %}<li>{{ u.gearStrength }}</li>{% endif %}
+        <li>{{ u.gearTP }}</li>
+      </ul>
+    </div>
+
+    <div class="plan-prose-block">
+      <h2>{{ u.tpTitle }}</h2>
+      <ul class="plan-list">
+        <li>{{ u.tpSync }}</li>
+        <li>{{ u.tpApp }}</li>
+        <li>{{ u.tpStart }}</li>
+        <li>{{ u.tpReusable }}</li>
+        <li>{{ u.tpSupport }}</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+{#- All-Access sits after the content, immediately before the closing buy CTA —
+    the reader has just been told exactly what one plan involves, which is the
+    moment "you could have all of them" actually lands. -#}
 {% include "partials/all-access-module.njk" %}
 
 <section class="plan-final-cta">
@@ -104,7 +185,15 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": {{ plan.displayName | dump | safe }},
-  "description": {{ (plan.weeks + " " + u.weeksLabel + " — " + sportLabel + (", " + plan.distance if plan.distance else "") + (", " + difficultyLabel if difficultyLabel else "")) | dump | safe }},
+  {#- Schema description now carries the same measured facts the page shows —
+      sessions per week and average weekly hours — instead of restating the
+      title. More useful in a rich result, and still no duplicated TP copy. -#}
+  "description": {{ (plan.weeks + " " + u.weeksLabel + " — " + sportLabel
+      + (", " + plan.distance if plan.distance else "")
+      + (", " + difficultyLabel if difficultyLabel else "")
+      + (". " + (u.forWhoTimeNoHours | replace("{sessions}", totals.sessions)) if totals and totals.sessions and not totals.hoursText else "")
+      + (". " + (u.forWhoTime | replace("{sessions}", totals.sessions) | replace("{hours}", totals.hoursText)) if totals and totals.sessions and totals.hoursText else "")
+      ) | dump | safe }},
   "image": {{ site.defaultProductImage | absoluteUrl | dump | safe }},
   "brand": { "@type": "Brand", "name": "Triaperformance" },
   "offers": {

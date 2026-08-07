@@ -216,6 +216,78 @@ module.exports = function () {
     if (plan.langCode && byLanguage[plan.langCode]) byLanguage[plan.langCode].push(plan);
   }
 
+  // ---------------------------------------------------------------------------
+  // Derived fields for the plan-page content sections (August 6, 2026).
+  //
+  // The page body is generated from data rather than copied from the
+  // TrainingPeaks listings: the hand-written listing rewrites only cover 20 of
+  // 321 plans, and reusing their text verbatim would put these pages in
+  // duplicate-content competition with trainingpeaks.com, which outranks this
+  // domain. Everything below is computed once here so the templates stay
+  // declarative and the same numbers are available to the race pages later.
+  // ---------------------------------------------------------------------------
+
+  // Total weekly training time, summed across the duration-based activities.
+  // Swim volume is recorded in metres and a handful of runs in miles; those are
+  // deliberately excluded from the sum rather than guessed at, so a swim-only
+  // plan reports sessions but no hours instead of a fabricated number.
+  const toSeconds = (v) => {
+    const m = /^(\d{1,2}):(\d{2}):(\d{2})$/.exec(v || "");
+    return m ? +m[1] * 3600 + +m[2] * 60 + +m[3] : null;
+  };
+  const DIFFICULTY_ORDER = ["Beginner", "Intermediate", "Advanced"];
+
+  for (const plan of all) {
+    const acts = (plan.weeklyBreakdown && plan.weeklyBreakdown.activities) || [];
+    const sessions = acts.reduce((n, a) => n + (a.weeklyCount || 0), 0);
+    const secs = acts.reduce((n, a) => n + (a.weeklyAvgUnit === "duration" ? (toSeconds(a.weeklyAvg) || 0) : 0), 0);
+    const longestSecs = acts.reduce(
+      (n, a) => Math.max(n, a.longestUnit === "duration" ? (toSeconds(a.longest) || 0) : 0), 0);
+    const fmt = (s) => {
+      const h = Math.floor(s / 3600), m = Math.round((s % 3600) / 60);
+      return h ? (m ? `${h}:${String(m).padStart(2, "0")} h` : `${h} h`) : `${m} min`;
+    };
+    plan.weeklyTotals = acts.length
+      ? {
+          sessions: sessions || null,
+          hoursText: secs ? fmt(secs) : null,
+          longestText: longestSecs ? fmt(longestSecs) : null,
+          restDays: plan.weeklyBreakdown.restDaysPerWeek || null,
+        }
+      : null;
+  }
+
+  // Sibling plans for the "not the right fit?" cross-links. Same language, same
+  // sport and same distance/focus — a wrong-fit visitor gets sent one click
+  // sideways instead of back to Google. Nearest match wins: for difficulty, the
+  // adjacent step with the closest week count; for duration, the next plan up or
+  // down at the same difficulty.
+  for (const plan of all) {
+    if (!plan.langCode) continue;
+    const family = byLanguage[plan.langCode].filter(
+      (p) => p.id !== plan.id && p.sport === plan.sport && p.distance === plan.distance);
+    const rank = DIFFICULTY_ORDER.indexOf(plan.difficulty);
+    const nearestWeeks = (list) =>
+      list.slice().sort((a, b) =>
+        Math.abs((a.weeks || 0) - (plan.weeks || 0)) - Math.abs((b.weeks || 0) - (plan.weeks || 0)))[0] || null;
+    const atRank = (r) => (r < 0 || r >= DIFFICULTY_ORDER.length
+      ? [] : family.filter((p) => p.difficulty === DIFFICULTY_ORDER[r]));
+    const sameDiff = family.filter((p) => p.difficulty === plan.difficulty && p.weeks);
+
+    // Flattened to the three fields the template renders, deliberately NOT the
+    // plan object: plan A's sibling is plan B, whose sibling is plan A, and
+    // Eleventy deep-merges its data cascade — the object graph blows the stack
+    // with "Maximum call stack size exceeded" before a single page renders.
+    const ref = (p) => (p ? { pageUrl: p.pageUrl, difficulty: p.difficulty, weeks: p.weeks } : null);
+
+    plan.siblings = {
+      easier: ref(rank > 0 ? nearestWeeks(atRank(rank - 1)) : null),
+      harder: ref(rank >= 0 && rank < DIFFICULTY_ORDER.length - 1 ? nearestWeeks(atRank(rank + 1)) : null),
+      shorter: ref(sameDiff.filter((p) => p.weeks < plan.weeks).sort((a, b) => b.weeks - a.weeks)[0]),
+      longer: ref(sameDiff.filter((p) => p.weeks > plan.weeks).sort((a, b) => a.weeks - b.weeks)[0]),
+    };
+  }
+
   console.log(
     `[plans] ${all.length} linkable plans loaded ` +
     `(excluded: ${problems.dead.length} known-dead, ` +

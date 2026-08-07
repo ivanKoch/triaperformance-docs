@@ -76,7 +76,53 @@
     "viewPlan": "Ver plan",
     "filterDistanceShort": "Distancia",
     "filterFeaturesShort": "Extras",
-    "filterResetShort": "Limpiar"
+    "filterResetShort": "Limpiar",
+    "forWhoTitle": "Para quién es este plan",
+    "forWhoLevel": {
+      "Beginner": "Estás empezando, o volvés después de un parate. El plan arranca desde una base accesible y progresa sin saltos.",
+      "Intermediate": "Ya entrenás de forma regular y querés estructura. El plan asume una base aeróbica formada.",
+      "Advanced": "Tenés temporadas encima y buscás rendimiento. El volumen y la intensidad son exigentes desde el arranque."
+    },
+    "forWhoTime": "Podés entrenar {sessions} días por semana, alrededor de {hours} en una semana promedio.",
+    "forWhoTimeNoHours": "Podés entrenar {sessions} días por semana.",
+    "forWhoLongest": "La sesión más larga del plan es de {longest}: necesitás un día con ese hueco disponible.",
+    "forWhoWeeks": "Tenés {weeks} semanas por delante antes de tu objetivo. Si te quedan menos, elegí un plan más corto.",
+    "forWhoMetric": {
+      "pace": "Entrenás por ritmo, con un reloj GPS.",
+      "hr": "Entrenás por frecuencia cardíaca, con banda o reloj con sensor óptico.",
+      "power": "Entrenás por potencia, con potenciómetro o rodillo inteligente."
+    },
+    "forWhoNotFit": "¿No te encaja del todo?",
+    "siblingEasier": "Ver la versión para {level}",
+    "siblingHarder": "Ver la versión para {level}",
+    "siblingShorter": "Ver el plan de {weeks} semanas",
+    "siblingLonger": "Ver el plan de {weeks} semanas",
+    "methodTitle": "Cómo funciona el entrenamiento",
+    "methodPolarized": "Distribución polarizada 80/20: la mayor parte del volumen en intensidad baja y controlada, y una porción chica —pero bien ubicada— en intensidad alta. Es la misma metodología que usamos con los atletas de coaching 1-1.",
+    "methodProgression": "La carga progresa por bloques, con semanas de descarga para asimilar el trabajo. No es una suma lineal de kilómetros.",
+    "methodZones": "El plan trabaja por zonas. Si todavía no tenés las tuyas definidas, escribinos y te ayudamos a calcularlas: el soporte por mail está incluido.",
+    "methodStrength": "Incluye trabajo de fuerza integrado al calendario, no como un agregado suelto: las sesiones están ubicadas para no competir con las series clave.",
+    "gearTitle": "Qué necesitás",
+    "gearMetric": {
+      "pace": "Un reloj GPS que registre ritmo.",
+      "hr": "Banda de frecuencia cardíaca o reloj con sensor óptico.",
+      "power": "Potenciómetro o rodillo inteligente que mida potencia."
+    },
+    "gearSport": {
+      "Swimming": "Acceso a pileta.",
+      "Cycling": "Bici de ruta o rodillo.",
+      "Triathlon": "Acceso a pileta, bici o rodillo, y espacio para correr.",
+      "Duathlon": "Bici o rodillo, y espacio para correr.",
+      "Running": "Espacio para correr, en calle o cinta."
+    },
+    "gearStrength": "Acceso a gimnasio o equipamiento básico en casa, según la variante del plan.",
+    "gearTP": "Una cuenta de TrainingPeaks (la versión gratuita alcanza para seguir el plan).",
+    "tpTitle": "Cómo funciona en TrainingPeaks",
+    "tpSync": "Cada sesión se sincroniza con tu reloj o ciclocomputador —Garmin, Polar, Wahoo, Suunto y otros— como entrenamiento estructurado, con los intervalos y las zonas ya cargados.",
+    "tpApp": "Seguís el plan desde la app de TrainingPeaks: la sesión del día, las notas de cada entrenamiento y el calendario completo.",
+    "tpStart": "Elegís la fecha de inicio cuando lo aplicás y el calendario se acomoda solo.",
+    "tpReusable": "El plan es reutilizable: lo aplicás de nuevo las veces que quieras, sin volver a pagar.",
+    "tpSupport": "Soporte por mail ilimitado y sin costo. Si algo no cierra, escribinos."
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -154,7 +200,53 @@
     "viewPlan": "View plan",
     "filterDistanceShort": "Distance",
     "filterFeaturesShort": "Features",
-    "filterResetShort": "Clear"
+    "filterResetShort": "Clear",
+    "forWhoTitle": "Who this plan is for",
+    "forWhoLevel": {
+      "Beginner": "You're starting out, or coming back after a break. The plan starts from an accessible base and progresses without jumps.",
+      "Intermediate": "You already train regularly and want structure. The plan assumes an established aerobic base.",
+      "Advanced": "You have seasons behind you and you're chasing performance. Volume and intensity are demanding from week one."
+    },
+    "forWhoTime": "You can train {sessions} days a week, around {hours} in an average week.",
+    "forWhoTimeNoHours": "You can train {sessions} days a week.",
+    "forWhoLongest": "The longest session in the plan is {longest} — you need one day with that much room in it.",
+    "forWhoWeeks": "You have {weeks} weeks before your goal. If you have fewer, pick a shorter plan.",
+    "forWhoMetric": {
+      "pace": "You train by pace, with a GPS watch.",
+      "hr": "You train by heart rate, with a strap or an optical-sensor watch.",
+      "power": "You train by power, with a power meter or smart trainer."
+    },
+    "forWhoNotFit": "Not quite the right fit?",
+    "siblingEasier": "See the {level} version",
+    "siblingHarder": "See the {level} version",
+    "siblingShorter": "See the {weeks}-week plan",
+    "siblingLonger": "See the {weeks}-week plan",
+    "methodTitle": "How the training works",
+    "methodPolarized": "Polarized 80/20 distribution: most of the volume at low, controlled intensity, and a small — but well-placed — share at high intensity. The same methodology we use with our 1-1 coached athletes.",
+    "methodProgression": "Load progresses in blocks, with recovery weeks to absorb the work. It isn't a linear pile-up of kilometres.",
+    "methodZones": "The plan runs on training zones. If you haven't set yours yet, email us and we'll help you work them out — support is included.",
+    "methodStrength": "Strength work is built into the calendar rather than bolted on: sessions are placed so they don't compete with the key workouts.",
+    "gearTitle": "What you need",
+    "gearMetric": {
+      "pace": "A GPS watch that records pace.",
+      "hr": "A heart-rate strap or a watch with an optical sensor.",
+      "power": "A power meter or a smart trainer that measures power."
+    },
+    "gearSport": {
+      "Swimming": "Pool access.",
+      "Cycling": "A road bike or an indoor trainer.",
+      "Triathlon": "Pool access, a bike or trainer, and somewhere to run.",
+      "Duathlon": "A bike or trainer, and somewhere to run.",
+      "Running": "Somewhere to run, road or treadmill."
+    },
+    "gearStrength": "Gym access or basic equipment at home, depending on the plan variant.",
+    "gearTP": "A TrainingPeaks account (the free tier is enough to follow the plan).",
+    "tpTitle": "How it works in TrainingPeaks",
+    "tpSync": "Every session syncs to your watch or head unit — Garmin, Polar, Wahoo, Suunto and others — as a structured workout, with the intervals and zones already loaded.",
+    "tpApp": "You follow the plan from the TrainingPeaks app: today's session, the notes on each workout, and the full calendar.",
+    "tpStart": "You pick the start date when you apply it, and the calendar arranges itself.",
+    "tpReusable": "The plan is re-usable: apply it again as many times as you like, at no extra cost.",
+    "tpSupport": "Unlimited email support, free. If something doesn't add up, write to us."
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -232,6 +324,52 @@
     "viewPlan": "Ver plano",
     "filterDistanceShort": "Distância",
     "filterFeaturesShort": "Extras",
-    "filterResetShort": "Limpar"
+    "filterResetShort": "Limpar",
+    "forWhoTitle": "Para quem é este plano",
+    "forWhoLevel": {
+      "Beginner": "Você está começando, ou voltando depois de uma pausa. O plano parte de uma base acessível e progride sem saltos.",
+      "Intermediate": "Você já treina com regularidade e quer estrutura. O plano pressupõe uma base aeróbica formada.",
+      "Advanced": "Você tem temporadas na bagagem e busca desempenho. O volume e a intensidade são exigentes desde o início."
+    },
+    "forWhoTime": "Você pode treinar {sessions} dias por semana, cerca de {hours} numa semana média.",
+    "forWhoTimeNoHours": "Você pode treinar {sessions} dias por semana.",
+    "forWhoLongest": "A sessão mais longa do plano é de {longest}: você precisa de um dia com esse espaço livre.",
+    "forWhoWeeks": "Você tem {weeks} semanas até o seu objetivo. Se tiver menos, escolha um plano mais curto.",
+    "forWhoMetric": {
+      "pace": "Você treina por ritmo, com um relógio GPS.",
+      "hr": "Você treina por frequência cardíaca, com cinta ou relógio com sensor óptico.",
+      "power": "Você treina por potência, com medidor de potência ou rolo inteligente."
+    },
+    "forWhoNotFit": "Não encaixa bem?",
+    "siblingEasier": "Ver a versão para {level}",
+    "siblingHarder": "Ver a versão para {level}",
+    "siblingShorter": "Ver o plano de {weeks} semanas",
+    "siblingLonger": "Ver o plano de {weeks} semanas",
+    "methodTitle": "Como funciona o treinamento",
+    "methodPolarized": "Distribuição polarizada 80/20: a maior parte do volume em intensidade baixa e controlada, e uma parcela pequena — mas bem posicionada — em intensidade alta. É a mesma metodologia que usamos com os atletas de coaching 1-1.",
+    "methodProgression": "A carga progride por blocos, com semanas de recuperação para assimilar o trabalho. Não é um acúmulo linear de quilômetros.",
+    "methodZones": "O plano trabalha por zonas. Se você ainda não definiu as suas, escreva para a gente: o suporte por e-mail está incluído.",
+    "methodStrength": "O trabalho de força é integrado ao calendário, e não um acréscimo solto: as sessões são posicionadas para não competir com os treinos-chave.",
+    "gearTitle": "O que você precisa",
+    "gearMetric": {
+      "pace": "Um relógio GPS que registre ritmo.",
+      "hr": "Cinta de frequência cardíaca ou relógio com sensor óptico.",
+      "power": "Medidor de potência ou rolo inteligente que meça potência."
+    },
+    "gearSport": {
+      "Swimming": "Acesso a piscina.",
+      "Cycling": "Bicicleta de estrada ou rolo.",
+      "Triathlon": "Acesso a piscina, bicicleta ou rolo, e espaço para correr.",
+      "Duathlon": "Bicicleta ou rolo, e espaço para correr.",
+      "Running": "Espaço para correr, na rua ou na esteira."
+    },
+    "gearStrength": "Acesso a academia ou equipamento básico em casa, conforme a variante do plano.",
+    "gearTP": "Uma conta TrainingPeaks (a versão gratuita basta para seguir o plano).",
+    "tpTitle": "Como funciona no TrainingPeaks",
+    "tpSync": "Cada sessão sincroniza com o seu relógio ou ciclocomputador — Garmin, Polar, Wahoo, Suunto e outros — como treino estruturado, com os intervalos e as zonas já carregados.",
+    "tpApp": "Você segue o plano pelo app do TrainingPeaks: o treino do dia, as notas de cada sessão e o calendário completo.",
+    "tpStart": "Você escolhe a data de início ao aplicar, e o calendário se ajusta sozinho.",
+    "tpReusable": "O plano é reutilizável: aplique de novo quantas vezes quiser, sem pagar outra vez.",
+    "tpSupport": "Suporte por e-mail ilimitado e gratuito. Se algo não fechar, escreva para a gente."
   }
 }

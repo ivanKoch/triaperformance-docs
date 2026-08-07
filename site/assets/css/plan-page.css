@@ -70,6 +70,29 @@
 
 .plan-final-cta { text-align: center; padding-top: 0; }
 
+/* --- Generated content sections ----------------------------------------- */
+.plan-prose { padding-top: 0; }
+.plan-prose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 56px; }
+@media (max-width: 800px) { .plan-prose-grid { grid-template-columns: 1fr; gap: 32px; } }
+.plan-prose-block h2 { font-size: 22px; margin-bottom: 16px; }
+.plan-list { list-style: none; padding: 0; margin: 0; }
+.plan-list li {
+  position: relative; padding-left: 22px; margin-bottom: 12px;
+  font-size: 15px; line-height: 1.6; color: var(--ink);
+}
+/* Square bullet in brand blue rather than a disc — matches the flag chips and
+   avoids importing an icon set for four sections. */
+.plan-list li::before {
+  content: ""; position: absolute; left: 0; top: 8px;
+  width: 7px; height: 7px; border-radius: 2px; background: var(--blue);
+}
+.plan-siblings {
+  margin-top: 16px; font-size: 15px; color: var(--slate);
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;
+}
+.plan-siblings a { color: var(--blue); text-decoration: none; font-weight: 700; }
+.plan-siblings a:hover { text-decoration: underline; }
+
 /* --- Catalog (facet filters + grid) ------------------------------------- */
 .catalog-layout { display: grid; grid-template-columns: 240px 1fr; gap: 48px; align-items: start; }
 @media (max-width: 800px) { .catalog-layout { grid-template-columns: 1fr; } }
