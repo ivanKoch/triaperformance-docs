@@ -64,6 +64,19 @@
   margin: 20px 0; max-width: 65ch;
 }
 .plan-pick:hover { box-shadow: 0 1px 3px rgba(30,32,25,.08); }
+/* The content engine authors plan cards as `<ul><li>{% planCard %}</li></ul>`,
+   so every card inherited a list marker and the list's 24px indent — a bullet
+   floating beside a bordered card. The card is a block, not a list item, so the
+   list affordances are stripped here rather than the markup being rewritten:
+   that fixes the five already-published articles without editing published
+   content, and it keeps working for whatever the agent writes next. */
+.article-body ul:has(> li > .plan-pick) {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+.article-body li:has(> .plan-pick) { list-style: none; margin-bottom: 0; }
+
 .plan-pick h3 { font-size: 18px; font-weight: 700; margin: 0 0 8px; line-height: 1.35; }
 .plan-pick h3 a { color: var(--blue); text-decoration: none; }
 .plan-pick h3 a:hover { text-decoration: underline; }
