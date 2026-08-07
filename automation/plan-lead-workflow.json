@@ -276,7 +276,7 @@
         180
       ],
       "parameters": {
-        "fromEmail": "coach@triaperformance.com",
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
         "toEmail": "={{ $('Webhook - Plan Lead').item.json.body.email }}",
         "subject": "={{ ({es:'Te ayudamos a elegir tu plan',en:'Let us help you pick your plan',pt:'Vamos ajudar você a escolher o plano'})[$('Webhook - Plan Lead').item.json.body.language] || 'Te ayudamos a elegir tu plan' }}",
         "emailFormat": "text",

@@ -228,7 +228,7 @@
       "typeVersion": 2.1,
       "position": [1240, 180],
       "parameters": {
-        "fromEmail": "coach@triaperformance.com",
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
         "toEmail": "={{ $('Webhook - Contact Form').item.json.body.email }}",
         "subject": "Recibimos tu mensaje - Triaperformance",
         "emailFormat": "text",

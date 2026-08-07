@@ -8,7 +8,14 @@ from datetime import datetime, timezone
 API_URL = "http://100.70.89.17:3000/graphql"
 VALID_STATUSES = {
     "NEW", "MESSAGE_SENT", "REPLIED", "IN_CONVERSATION",
-    "LOST_NO_RESPONSE", "LOST_NOT_INTERESTED", "LOST_PRICE", "WON_CUSTOMER"
+    "LOST_NO_RESPONSE", "LOST_NOT_INTERESTED", "LOST_PRICE", "WON_CUSTOMER",
+    # Added Aug 6, 2026. Normally set automatically by the subscription-lifecycle
+    # workflow when TrainingPeaks confirms a cancellation; listed here so a
+    # churn that never produced a confirmation email can still be recorded by
+    # hand. NOTE: the lookup below only searches leads at MESSAGE_SENT, so a
+    # churned subscriber (WON_CUSTOMER) will not be found by name — this value
+    # is accepted but not yet reachable through this script. See open-loops.md.
+    "CHURNED_CUSTOMER"
 }
 
 def load_api_key():

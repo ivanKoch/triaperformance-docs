@@ -139,7 +139,7 @@
     },
     {
       "parameters": {
-        "fromEmail": "Iván Koch - Triaperformance <coach@triaperformance.com>",
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
         "toEmail": "={{ $json.email }}",
         "subject": "={{ $json.firstname }}, no busques un plan — busca un coach",
         "html": "=<p>Hola {{ $json.firstname }},</p>\n\n<p>Siguiendo mi correo de ayer, quiero contarte algo que aprendí entrenando a docenas de atletas.</p>\n\n<p>Un plan perfecto en papel no sirve de nada si no se adapta a tu realidad. Un PDF no sabe si tuviste una reunión hasta tarde, si dormiste mal, o si hoy amaneciste con más energía de lo normal.</p>\n\n<p>Por eso lo que te ofrecía ayer no es \"cargarte rutinas en TrainingPeaks\". Es comunicación constante y feedback real, incluido siempre, sin costo extra:</p>\n\n<ul>\n  <li>¿Surgió un viaje imprevisto? Ajustamos el plan.</li>\n  <li>¿No entendiste una sesión? Me escribes y lo resolvemos.</li>\n  <li>¿Necesitas un empujón? Ahí estaré.</li>\n</ul>\n\n<p>Si lees las <a href=\"https://maps.app.goo.gl/Dfw4166sxw3WGwA3A\">Reseñas de Google</a>, verás que lo que más valoran mis atletas no son los números, sino justamente eso: la adaptación a su agenda y el check-in semanal.</p>\n\n<p>No quiero venderte una hoja de cálculo. Quiero ser parte de tu proceso.</p>\n\n<p>Sigamos por <a href=\"https://wa.me/573105437088\">WhatsApp</a> y vemos cómo adaptar esto a tus horarios.</p>\n\n<p>Saludos,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",
@@ -176,7 +176,7 @@
     },
     {
       "parameters": {
-        "fromEmail": "Iván Koch - Triaperformance <coach@triaperformance.com>",
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
         "toEmail": "={{ $json.email }}",
         "subject": "={{ $json.firstname }}, ¿sigues buscando coach? (un regalo, sin compromiso)",
         "html": "=<p>Hola {{ $json.firstname }},</p>\n\n<p>Imagino que estás ocupado, o quizás ya encontraste el coach que buscabas. Sin problema.</p>\n\n<p>Pero no quiero que te vayas con las manos vacías. En Triaperformance creemos en aportar valor desde el día uno, seas atleta oficial o no.</p>\n\n<p>Elige la guía que más te sirva hoy y es tuya:</p>\n\n<ul>\n  <li><a href=\"https://triaperformance.com/guias/pre-entreno.pdf\">Guía de bolsillo para el pre-entreno</a> — qué comer antes de entrenar según el tiempo que tengas.</li>\n  <li><a href=\"https://triaperformance.com/guias/intervalos.pdf\">Manual para sobrevivir a los intervalos</a> — herramientas para fortalecer tu mente cuando las piernas ya no responden.</li>\n  <li><a href=\"https://triaperformance.com/guias/zonas-de-entrenamiento.pdf\">Guía rápida de zonas de entrenamiento</a> — deja de entrenar a ciegas y define tus ritmos exactos.</li>\n</ul>\n\n<p>Haz clic en la que prefieras y es tuya al instante. Es mi forma de agradecerte por haberme contactado.</p>\n\n<p>Y si en algún momento quieres retomar la conversación, aquí me tienes: <a href=\"https://wa.me/573105437088\">WhatsApp</a>.</p>\n\n<p>Un abrazo,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",

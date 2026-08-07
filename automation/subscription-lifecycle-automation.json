@@ -6,7 +6,10 @@
       "name": "READ ME BEFORE ACTIVATING",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [-260, -280],
+      "position": [
+        -260,
+        -280
+      ],
       "parameters": {
         "width": 640,
         "height": 340,
@@ -18,13 +21,19 @@
       "name": "Email Trigger (IMAP)",
       "type": "n8n-nodes-base.emailReadImap",
       "typeVersion": 2.1,
-      "position": [-260, 120],
+      "position": [
+        -260,
+        120
+      ],
       "parameters": {
         "mailbox": "TP-Subscriptions",
         "options": {}
       },
       "credentials": {
-        "imap": { "id": "xG2Iu8qvkR9XVFuA", "name": "IMAP account" }
+        "imap": {
+          "id": "xG2Iu8qvkR9XVFuA",
+          "name": "IMAP account"
+        }
       }
     },
     {
@@ -32,16 +41,27 @@
       "name": "Filter - Is New Subscription",
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
-      "position": [0, 0],
+      "position": [
+        0,
+        0
+      ],
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "strict", "version": 3 },
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
           "conditions": [
             {
               "id": "f1",
               "leftValue": "={{ $json.subject }}",
               "rightValue": "New subscription confirmation",
-              "operator": { "type": "string", "operation": "equals" }
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
             }
           ],
           "combinator": "and"
@@ -54,16 +74,27 @@
       "name": "Filter - Is Churn Confirmed",
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
-      "position": [0, 260],
+      "position": [
+        0,
+        260
+      ],
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "strict", "version": 3 },
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
           "conditions": [
             {
               "id": "f2",
               "leftValue": "={{ $json.subject }}",
               "rightValue": "Subscription cancellation",
-              "operator": { "type": "string", "operation": "equals" }
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
             }
           ],
           "combinator": "and"
@@ -76,7 +107,10 @@
       "name": "Parse New Subscription Email",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [220, 0],
+      "position": [
+        220,
+        0
+      ],
       "parameters": {
         "jsCode": "// Parses the \"New subscription confirmation\" email from receipt@trainingpeaks.com\nconst results = [];\n\nfor (const item of $input.all()) {\n  // Collapse all whitespace/line-wraps so multi-line fields become single-line before matching\n  const flat = (item.json.textPlain || '').replace(/\\s+/g, ' ').trim();\n\n  const nameEmail = flat.match(/Customer Name:\\s*([^(]+?)\\s*\\(([^)]+)\\)/i);\n  const subMatch = flat.match(/Subscription:\\s*([\\s\\S]+?)\\s-\\s\\$/);\n  const invoiceMatch = flat.match(/Invoice Number:\\s*(\\S+)/i);\n  const amountMatch = flat.match(/Amount Charged:\\s*\\$([\\d.,]+)/i);\n\n  const fullName = nameEmail ? nameEmail[1].trim() : '';\n  const nameParts = fullName.split(/\\s+/);\n  const lastname = nameParts.pop() || '';\n  const firstname = nameParts.join(' ');\n\n  results.push({\n    json: {\n      firstname,\n      lastname,\n      email: nameEmail ? nameEmail[2].trim() : '',\n      subscription_name: subMatch ? subMatch[1].trim() : '',\n      invoice_number: invoiceMatch ? invoiceMatch[1] : '',\n      amount_charged: amountMatch ? amountMatch[1] : '',\n      source_subject: item.json.subject,\n      source_date: item.json.date,\n    }\n  });\n}\n\nreturn results;"
       }
@@ -86,7 +120,10 @@
       "name": "Map Language + Build Twenty Fields",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [440, 0],
+      "position": [
+        440,
+        0
+      ],
       "parameters": {
         "jsCode": "// Detects which All-Access product (ES/EN/PT) this is from the confirmed real\n// product names in TP Payments (see triaperformance-pricing-and-positioning.md).\n// Falls back to null + a flag if the product name doesn't match any known one\n// (e.g. if the EN product ever gets renamed -- it's the only renameable one).\n\nfunction detectLanguage(subscriptionName) {\n  const s = (subscriptionName || '').toLowerCase();\n  if (s.includes('suscripci') && s.includes('triaperformance')) return 'SPANISH';\n  if (s.includes('full access')) return 'ENGLISH';\n  if (s.includes('acesso total')) return 'PORTUGUESE';\n  return null;\n}\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const d = item.json;\n  const preferredLanguage = detectLanguage(d.subscription_name);\n\n  results.push({\n    json: {\n      firstname: d.firstname,\n      lastname: d.lastname,\n      email: d.email,\n      subscription_name: d.subscription_name,\n      invoice_number: d.invoice_number,\n      amount_charged: d.amount_charged,\n      preferredLanguage, // null if unrecognized -- check Telegram alert if so\n      language_unrecognized: preferredLanguage === null,\n    }\n  });\n}\n\nreturn results;"
       }
@@ -96,22 +133,37 @@
       "name": "Check Existing Person (New Sub)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [660, 0],
+      "position": [
+        660,
+        0
+      ],
       "parameters": {
         "method": "GET",
         "url": "http://100.70.89.17:3000/rest/people",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
-            { "name": "filter", "value": "=emails.primaryEmail[eq]:{{ $json.email }}" }
+            {
+              "name": "filter",
+              "value": "=emails.primaryEmail[eq]:{{ $json.email }}"
+            }
           ]
         },
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth",
-        "options": { "response": { "response": { "neverError": true } } }
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "credentials": {
-        "httpHeaderAuth": { "id": "JHN5QPZo087TvBnD", "name": "Twenty API" }
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
       }
     },
     {
@@ -119,16 +171,27 @@
       "name": "Person Exists? (New Sub)",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [880, 0],
+      "position": [
+        880,
+        0
+      ],
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 3 },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
           "conditions": [
             {
               "id": "p1",
               "leftValue": "={{ $json.data && $json.data.people && $json.data.people.length }}",
               "rightValue": 0,
-              "operator": { "type": "number", "operation": "gt" }
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
             }
           ],
           "combinator": "and"
@@ -141,7 +204,10 @@
       "name": "Update Person (Existing Subscriber)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [1100, -100],
+      "position": [
+        1100,
+        -100
+      ],
       "parameters": {
         "method": "PATCH",
         "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.data.people[0].id }}",
@@ -152,7 +218,10 @@
         "nodeCredentialType": "httpHeaderAuth"
       },
       "credentials": {
-        "httpHeaderAuth": { "id": "JHN5QPZo087TvBnD", "name": "Twenty API" }
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
       }
     },
     {
@@ -160,7 +229,10 @@
       "name": "Create Person (New Subscriber)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [1100, 100],
+      "position": [
+        1100,
+        100
+      ],
       "parameters": {
         "method": "POST",
         "url": "http://100.70.89.17:3000/rest/people",
@@ -171,7 +243,10 @@
         "nodeCredentialType": "httpHeaderAuth"
       },
       "credentials": {
-        "httpHeaderAuth": { "id": "JHN5QPZo087TvBnD", "name": "Twenty API" }
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
       }
     },
     {
@@ -179,11 +254,19 @@
       "name": "Subscriber Upserted",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
-      "position": [1320, 0],
+      "position": [
+        1320,
+        0
+      ],
       "parameters": {
         "assignments": {
           "assignments": [
-            { "id": "1", "name": "personId", "type": "string", "value": "={{ $json.data.updatePerson ? $json.data.updatePerson.id : $json.data.createPerson.id }}" }
+            {
+              "id": "1",
+              "name": "personId",
+              "type": "string",
+              "value": "={{ $json.data.updatePerson ? $json.data.updatePerson.id : $json.data.createPerson.id }}"
+            }
           ]
         }
       }
@@ -193,7 +276,10 @@
       "name": "Generate Member Token",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1400, -100],
+      "position": [
+        1400,
+        -100
+      ],
       "parameters": {
         "jsCode": "// Generates a readable-ish random token to double as the member's \"password\".\n// Avoids ambiguous characters (0/O, 1/l/I) since it's typed into a password field.\n// Uses Math.random() rather than the crypto module -- n8n's sandboxed task runner\n// disallows Node built-in modules by default, and this doesn't need\n// cryptographic-grade randomness, just enough to not be guessable.\nconst alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';\n\nfunction genToken(length = 20) {\n  let out = '';\n  for (let i = 0; i < length; i++) {\n    out += alphabet[Math.floor(Math.random() * alphabet.length)];\n  }\n  return out;\n}\n\nreturn $input.all().map(item => ({\n  json: {\n    ...item.json,\n    member_token: genToken(),\n  }\n}));"
       }
@@ -203,7 +289,10 @@
       "name": "Insert Token in Postgres",
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
-      "position": [1620, -100],
+      "position": [
+        1620,
+        -100
+      ],
       "parameters": {
         "operation": "executeQuery",
         "query": "INSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)\nVALUES ($1, $2, $3, $4, TRUE)\nON CONFLICT (token) DO NOTHING;",
@@ -212,7 +301,10 @@
         }
       },
       "credentials": {
-        "postgres": { "id": "REPLACE_ME", "name": "Members Postgres" }
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
       }
     },
     {
@@ -220,9 +312,12 @@
       "name": "Send Welcome Email",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
-      "position": [1840, -100],
+      "position": [
+        1840,
+        -100
+      ],
       "parameters": {
-        "fromEmail": "coach@triaperformance.com",
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
         "toEmail": "={{ $('Map Language + Build Twenty Fields').item.json.email }}",
         "subject": "={{ $('Map Language + Build Twenty Fields').item.json.firstname }}, bienvenido/a a All-Access",
         "emailFormat": "text",
@@ -230,7 +325,10 @@
         "options": {}
       },
       "credentials": {
-        "smtp": { "id": "et4mFjLL6HLiYOoR", "name": "SMTP account" }
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
+        }
       }
     },
     {
@@ -238,14 +336,20 @@
       "name": "Telegram Notify New Subscriber",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [1540, 100],
+      "position": [
+        1540,
+        100
+      ],
       "parameters": {
         "chatId": "5952194741",
         "text": "=🎉 Nueva suscripción All-Access\nNombre: {{ $('Map Language + Build Twenty Fields').item.json.firstname }} {{ $('Map Language + Build Twenty Fields').item.json.lastname }}\nEmail: {{ $('Map Language + Build Twenty Fields').item.json.email }}\nProducto: {{ $('Map Language + Build Twenty Fields').item.json.subscription_name }}\nIdioma detectado: {{ $('Map Language + Build Twenty Fields').item.json.preferredLanguage || 'NO RECONOCIDO -- revisar' }}",
         "additionalFields": {}
       },
       "credentials": {
-        "telegramApi": { "id": "dmG5jqW0zOMQXhUD", "name": "Hermes Bot" }
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
       }
     },
     {
@@ -253,7 +357,10 @@
       "name": "Parse Churn Email",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [220, 260],
+      "position": [
+        220,
+        260
+      ],
       "parameters": {
         "jsCode": "// Parses the \"Subscription cancellation\" (confirmed, not \"scheduled\") email\nconst results = [];\n\nfor (const item of $input.all()) {\n  const flat = (item.json.textPlain || '').replace(/\\s+/g, ' ').trim();\n\n  const m = flat.match(/that\\s+(.+?)'s\\s*\\(([^)]+)\\)\\s+subscription to\\s+(.+?)\\s+has been cancelled/i);\n\n  const fullName = m ? m[1].trim() : '';\n  const nameParts = fullName.split(/\\s+/);\n  const lastname = nameParts.pop() || '';\n  const firstname = nameParts.join(' ');\n\n  results.push({\n    json: {\n      firstname,\n      lastname,\n      email: m ? m[2].trim() : '',\n      subscription_name: m ? m[3].trim() : '',\n      source_subject: item.json.subject,\n      source_date: item.json.date,\n    }\n  });\n}\n\nreturn results;"
       }
@@ -263,22 +370,37 @@
       "name": "Find Person by Email (Churn)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [440, 260],
+      "position": [
+        440,
+        260
+      ],
       "parameters": {
         "method": "GET",
         "url": "http://100.70.89.17:3000/rest/people",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
-            { "name": "filter", "value": "=emails.primaryEmail[eq]:{{ $json.email }}" }
+            {
+              "name": "filter",
+              "value": "=emails.primaryEmail[eq]:{{ $json.email }}"
+            }
           ]
         },
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth",
-        "options": { "response": { "response": { "neverError": true } } }
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "credentials": {
-        "httpHeaderAuth": { "id": "JHN5QPZo087TvBnD", "name": "Twenty API" }
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
       }
     },
     {
@@ -286,16 +408,27 @@
       "name": "Person Found? (Churn)",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [660, 260],
+      "position": [
+        660,
+        260
+      ],
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 3 },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
           "conditions": [
             {
               "id": "c1",
               "leftValue": "={{ $json.data && $json.data.people && $json.data.people.length }}",
               "rightValue": 0,
-              "operator": { "type": "number", "operation": "gt" }
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
             }
           ],
           "combinator": "and"
@@ -308,18 +441,24 @@
       "name": "Mark Churned in Twenty",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [880, 260],
+      "position": [
+        880,
+        260
+      ],
       "parameters": {
         "method": "PATCH",
         "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.data.people[0].id }}",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ churnDate: new Date().toISOString() }) }}",
+        "jsonBody": "={{ JSON.stringify({ churnDate: new Date().toISOString(), leadStatus: 'CHURNED_CUSTOMER' }) }}",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpHeaderAuth"
       },
       "credentials": {
-        "httpHeaderAuth": { "id": "JHN5QPZo087TvBnD", "name": "Twenty API" }
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
       }
     },
     {
@@ -327,7 +466,10 @@
       "name": "Revoke Token in Postgres",
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
-      "position": [1000, 260],
+      "position": [
+        1000,
+        260
+      ],
       "parameters": {
         "operation": "executeQuery",
         "query": "UPDATE subscriber_tokens SET active = FALSE, revoked_at = now() WHERE email = $1 AND active = TRUE;",
@@ -336,7 +478,10 @@
         }
       },
       "credentials": {
-        "postgres": { "id": "REPLACE_ME", "name": "Members Postgres" }
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
       }
     },
     {
@@ -344,14 +489,20 @@
       "name": "Telegram Notify Churn",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [1100, 220],
+      "position": [
+        1100,
+        220
+      ],
       "parameters": {
         "chatId": "5952194741",
         "text": "=📉 Cancelacion confirmada\nNombre: {{ $('Parse Churn Email').item.json.firstname }} {{ $('Parse Churn Email').item.json.lastname }}\nEmail: {{ $('Parse Churn Email').item.json.email }}\nProducto: {{ $('Parse Churn Email').item.json.subscription_name }}\n\n(Recordatorio: revocar acceso al area de miembros manualmente hasta que el sistema de tokens este listo)",
         "additionalFields": {}
       },
       "credentials": {
-        "telegramApi": { "id": "dmG5jqW0zOMQXhUD", "name": "Hermes Bot" }
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
       }
     },
     {
@@ -359,14 +510,20 @@
       "name": "Telegram Alert - Churn Unmatched",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [880, 460],
+      "position": [
+        880,
+        460
+      ],
       "parameters": {
         "chatId": "5952194741",
         "text": "=⚠️ Email de cancelacion recibido pero no se encontro la Person en Twenty.\nEmail: {{ $('Parse Churn Email').item.json.email }}\nNombre: {{ $('Parse Churn Email').item.json.firstname }} {{ $('Parse Churn Email').item.json.lastname }}\nRevisar manualmente.",
         "additionalFields": {}
       },
       "credentials": {
-        "telegramApi": { "id": "dmG5jqW0zOMQXhUD", "name": "Hermes Bot" }
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
       }
     },
     {
@@ -374,7 +531,10 @@
       "name": "RESEND PASSWORD -- separate trigger",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [-260, 620],
+      "position": [
+        -260,
+        620
+      ],
       "parameters": {
         "width": 620,
         "height": 200,
@@ -386,7 +546,10 @@
       "name": "Webhook - Resend Password",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [0, 700],
+      "position": [
+        0,
+        700
+      ],
       "webhookId": "resend-password",
       "parameters": {
         "httpMethod": "POST",
@@ -400,7 +563,10 @@
       "name": "Look Up Active Token",
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
-      "position": [220, 700],
+      "position": [
+        220,
+        700
+      ],
       "alwaysOutputData": true,
       "parameters": {
         "operation": "executeQuery",
@@ -410,7 +576,10 @@
         }
       },
       "credentials": {
-        "postgres": { "id": "REPLACE_ME", "name": "Members Postgres" }
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
       }
     },
     {
@@ -418,16 +587,28 @@
       "name": "Token Found?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [440, 700],
+      "position": [
+        440,
+        700
+      ],
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 3 },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
           "conditions": [
             {
               "id": "r1",
               "leftValue": "={{ $json.token }}",
               "rightValue": "",
-              "operator": { "type": "string", "operation": "notEmpty", "singleValue": true }
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
             }
           ],
           "combinator": "and"
@@ -440,9 +621,12 @@
       "name": "Send Resend Email",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
-      "position": [660, 620],
+      "position": [
+        660,
+        620
+      ],
       "parameters": {
-        "fromEmail": "coach@triaperformance.com",
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
         "toEmail": "={{ $('Webhook - Resend Password').item.json.body.email }}",
         "subject": "Tu contraseña del Área de Miembros - Triaperformance",
         "emailFormat": "text",
@@ -450,7 +634,10 @@
         "options": {}
       },
       "credentials": {
-        "smtp": { "id": "et4mFjLL6HLiYOoR", "name": "SMTP account" }
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
+        }
       }
     },
     {
@@ -458,7 +645,10 @@
       "name": "Respond Generic Message",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
-      "position": [880, 700],
+      "position": [
+        880,
+        700
+      ],
       "parameters": {
         "respondWith": "json",
         "responseBody": "={{ JSON.stringify({ ok: true, message: 'Si el email esta registrado, te enviamos la contraseña.' }) }}"
@@ -470,84 +660,264 @@
     "Email Trigger (IMAP)": {
       "main": [
         [
-          { "node": "Filter - Is New Subscription", "type": "main", "index": 0 },
-          { "node": "Filter - Is Churn Confirmed", "type": "main", "index": 0 }
+          {
+            "node": "Filter - Is New Subscription",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter - Is Churn Confirmed",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Filter - Is New Subscription": {
-      "main": [[{ "node": "Parse New Subscription Email", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Parse New Subscription Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Parse New Subscription Email": {
-      "main": [[{ "node": "Map Language + Build Twenty Fields", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Map Language + Build Twenty Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Map Language + Build Twenty Fields": {
-      "main": [[{ "node": "Check Existing Person (New Sub)", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Check Existing Person (New Sub)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Check Existing Person (New Sub)": {
-      "main": [[{ "node": "Person Exists? (New Sub)", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Person Exists? (New Sub)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Person Exists? (New Sub)": {
       "main": [
-        [{ "node": "Update Person (Existing Subscriber)", "type": "main", "index": 0 }],
-        [{ "node": "Create Person (New Subscriber)", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Update Person (Existing Subscriber)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Person (New Subscriber)",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Update Person (Existing Subscriber)": {
-      "main": [[{ "node": "Subscriber Upserted", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Subscriber Upserted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Create Person (New Subscriber)": {
-      "main": [[{ "node": "Subscriber Upserted", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Subscriber Upserted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Subscriber Upserted": {
-      "main": [[{ "node": "Generate Member Token", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Generate Member Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Generate Member Token": {
-      "main": [[{ "node": "Insert Token in Postgres", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Insert Token in Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Insert Token in Postgres": {
       "main": [
         [
-          { "node": "Send Welcome Email", "type": "main", "index": 0 },
-          { "node": "Telegram Notify New Subscriber", "type": "main", "index": 0 }
+          {
+            "node": "Send Welcome Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram Notify New Subscriber",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Filter - Is Churn Confirmed": {
-      "main": [[{ "node": "Parse Churn Email", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Parse Churn Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Parse Churn Email": {
-      "main": [[{ "node": "Find Person by Email (Churn)", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Find Person by Email (Churn)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Find Person by Email (Churn)": {
-      "main": [[{ "node": "Person Found? (Churn)", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Person Found? (Churn)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Person Found? (Churn)": {
       "main": [
-        [{ "node": "Mark Churned in Twenty", "type": "main", "index": 0 }],
-        [{ "node": "Telegram Alert - Churn Unmatched", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Mark Churned in Twenty",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram Alert - Churn Unmatched",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Mark Churned in Twenty": {
-      "main": [[{ "node": "Revoke Token in Postgres", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Revoke Token in Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Revoke Token in Postgres": {
-      "main": [[{ "node": "Telegram Notify Churn", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Telegram Notify Churn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Webhook - Resend Password": {
-      "main": [[{ "node": "Look Up Active Token", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Look Up Active Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Look Up Active Token": {
-      "main": [[{ "node": "Token Found?", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Token Found?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Token Found?": {
       "main": [
-        [{ "node": "Send Resend Email", "type": "main", "index": 0 }],
-        [{ "node": "Respond Generic Message", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Send Resend Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Generic Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Send Resend Email": {
-      "main": [[{ "node": "Respond Generic Message", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Respond Generic Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,

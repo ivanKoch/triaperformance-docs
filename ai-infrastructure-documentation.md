@@ -512,6 +512,14 @@ Fixed by deleting the parameter: the query now selects `WHERE status = 'APPROVED
 
 *Pending: `SETUP.md` still documents `tp-admin` being run with `CONTENT_DB_DSN` (a URI). It is now run with discrete `PG_*` variables — the password contains `:` and `@`, and the URI form is a live tripwire. Correct that file next session.*
 
+### Outbound email `From` convention (August 6, 2026)
+
+Every workflow that sends mail uses **`Coach Iván - Triaperformance <coach@triaperformance.com>`** as the `fromEmail`. Iván set this by hand across all live n8n workflows; the reference JSONs in `automation/` were drifting across three different values (`coach@triaperformance.com` bare, `Iván Koch - Triaperformance <…>`, and the correct one) and have been standardised to match. A display name matters more than it looks: a bare address renders as "coach" in most inbox lists, which reads like a shared mailbox rather than a person. Any new email-sending node uses this exact string.
+
+### Churn now sets a status, not just a date (August 6, 2026)
+
+`CHURNED_CUSTOMER` was added to Twenty's `leadStatus` enum (9 values now). Before this, a cancellation set `churnDate` and revoked the member token but left `leadStatus = WON_CUSTOMER`, so **a churned subscriber was indistinguishable from an active one on status alone** — which quietly made the win-back audience unqueryable. The `Mark Churned in Twenty` node's PATCH body now writes both fields. `automation/update_lead_status.py` accepts the value too, with a caveat recorded in the code: its lookup only searches leads at `MESSAGE_SENT`, so a churned subscriber can't actually be found by name through that script yet.
+
 ## Open items / not yet done
 
 *Note, July 29, 2026: the live, prioritized list of open items across the whole project is now `open-loops.md` (repo root). This section stays as the technical detail behind those items — but check `open-loops.md` first for what's actually next.*
