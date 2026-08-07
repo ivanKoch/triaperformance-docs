@@ -78,4 +78,16 @@ Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card
 | Activación de Ciclismo | `/members/activacion-ciclismo/` | activacion | Aug 1, 2026 — template v2, committed + deployed |
 | Core Sin Excusas | `/members/core/` | fuerza | Aug 1, 2026 — template v2, data-only page, 45s blocks (`workSeconds` override), committed + deployed |
 
+### In progress — prototypes not yet ported
+
+*Added Aug 6, 2026. This table used to have a "Shipped" column and nothing else, so an artifact that was **built but not yet ported** had nowhere to be recorded. Prototypes live as Claude artifact share links, outside this repo — which means that unless they are written down here, they are invisible to `open-loops.md` and to every session that starts by reading it. One nearly-finished activation artifact went missing exactly this way. **Add a row the moment a prototype is approved, not when it ships.***
+
+| Tool | Category | State | Notes |
+|---|---|---|---|
+| *(activation artifact — Iván to identify)* | activacion | prototype ~complete, awaiting port | Left "almost finished, ready to publish". Needs the share link and a name; then it's the normal port → verify → deploy path, and it's data-only if it fits template v2. |
+| Calculadora de ritmos / pace converter | zonas | not started | Named in `growth-roadmap.md` §Tools library since the original plan. Three published articles' worth of intent behind it. |
+| Calculadora de umbral / threshold | zonas | not started | Same source. Overlaps the zone calculator — decide whether they are one tool or two before building either. |
+| Calculadora de carga de carbohidratos | nutricion | not started | Same source. `/members/nutricion/` exists as a guide and would be its natural home. |
+| Zone calculator at `/members/zonas/` | zonas | not started | **Already promised in three published articles** — the only one of these with a live claim depending on it. Tracked separately in `open-loops.md`. |
+
 *Status corrected August 6, 2026 — all three rows read "pending deploy" for five days. Verified from git: commits `b05e3cc`, `0f8b0e8`, `d6c0a04` and `b41326e` all landed Aug 1 and went out on the normal cron pull, so the pages are deployed. **Deliberately not claimed as verified:** the real-phone check on template v2's mobile UI is Iván's, hasn't been reported back, and the whole reason v2 exists is that v1 rendered badly on a phone — a build that deploys is not a UI that works. That check is the one thing still outstanding on these three.*
