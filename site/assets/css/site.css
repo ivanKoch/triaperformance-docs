@@ -25,7 +25,16 @@ section { padding: 96px 0; }
 @media (max-width: 640px) { section { padding: 64px 0; } }
 
 /* Nav */
-header {
+/* Scoped to the nav (Aug 6, 2026). This was a bare `header` selector, so it hit
+   every <header> on the site — the blog's `.article-hero` and the eight
+   members-area `.artifact-hero` / `.page-header` blocks included. Consequence:
+   their inner `.wrap` became a flex item, shrink-wrapped to its widest child
+   instead of filling to `max-width: 1080px`, and then centred by its own
+   `margin: 0 auto`. On an article that measured 682px wide at margin-left 379
+   against the 1080/180 every other `.wrap` on the page uses — which is exactly
+   the "title sits right, body sits left" misalignment Iván reported. Both nav
+   headers live inside `.site-nav-sticky`, so scoping there is exact. */
+.site-nav-sticky header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 24px 0;
 }
