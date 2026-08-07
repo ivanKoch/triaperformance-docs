@@ -40,24 +40,14 @@
 <section class="plan-buy">
   <div class="wrap plan-buy-grid">
     <div class="plan-buy-cta">
-      <a href="{{ buyUrl }}" class="btn-primary plan-buy-btn plan-card" target="_blank" rel="noopener">{{ u.ctaBuy }}</a>
+      <a href="{{ buyUrl }}" class="btn-primary btn-buy plan-buy-btn plan-card" target="_blank" rel="noopener">{{ u.ctaBuy }}</a>
       <p class="plan-buy-note">{{ u.ctaNote }}</p>
     </div>
     <div class="plan-capture">
       <h3>{{ u.captureHeading }}</h3>
       <p>{{ u.captureBody }}</p>
-      <form class="plan-capture-form"
-            data-plan-id="{{ plan.id }}"
-            data-plan-name="{{ plan.displayName | escape }}"
-            data-lang="{{ lang }}"
-            data-page-url="{{ page.url | absoluteUrl }}">
-        <div class="plan-capture-row">
-          <label class="visually-hidden" for="pc-email-{{ plan.id }}">{{ u.captureEmailLabel }}</label>
-          <input type="email" id="pc-email-{{ plan.id }}" name="email" placeholder="{{ u.capturePlaceholder }}" required>
-          <button type="submit">{{ u.captureSubmit }}</button>
-        </div>
-        <p class="plan-capture-status"></p>
-      </form>
+      {% set captureSource = "buybox" %}
+      {% include "partials/plan-capture-form.njk" %}
     </div>
   </div>
 </section>
@@ -175,19 +165,29 @@
     is already asking and gives two ways to ask it, one of them immediate.
     Placed after the content and before the buy CTA: by here the reader knows
     what the plan involves, so doubt is at its peak. Added Aug 6, 2026. -#}
+{#- Two ways to ask, side by side on the same grid as the buy box above.
+    The mailto link that used to sit here was the odd one out: the box above
+    captured an address, this one handed the reader to their mail client and
+    captured nothing, so an identical question produced a lead or didn't
+    depending on which button they happened to press. Now both routes are
+    instrumented — WhatsApp opens a pre-filled thread, the form creates the
+    lead in Twenty. Same form component as the buy box, tagged `helpbox` so
+    the two placements stay distinguishable in GA4 and in `leadNotes`. -#}
 <section class="plan-help">
   <div class="wrap">
-    <div class="plan-help-card">
-      <h2>{{ u.helpHeading }}</h2>
-      <p>{{ u.helpBody }}</p>
-      <div class="plan-help-actions">
+    <h2>{{ u.helpHeading }}</h2>
+    <p class="plan-help-intro">{{ u.helpBody }}</p>
+    <div class="plan-help-grid">
+      <div class="plan-help-col">
         <a class="btn-whatsapp"
            href="{{ site.whatsapp }}?text={{ (u.waText | replace("{plan}", plan.displayName)) | urlencode }}"
            target="_blank" rel="noopener">{{ u.helpWhatsapp }}</a>
-        <a class="btn-outline"
-           href="mailto:{{ site.email }}?subject={{ ('Plan: ' + plan.displayName) | urlencode }}">{{ u.helpEmail }}</a>
+        <p class="plan-help-note">{{ u.helpNote }}</p>
       </div>
-      <p class="plan-help-note">{{ u.helpNote }}</p>
+      <div class="plan-help-col plan-capture">
+        {% set captureSource = "helpbox" %}
+        {% include "partials/plan-capture-form.njk" %}
+      </div>
     </div>
   </div>
 </section>

@@ -6,9 +6,10 @@
  * whether or not this form is ever touched. This script only handles the
  * optional capture.
  *
- * One file, loaded once, delegated to every .plan-capture-form on the page
- * (there's one per plan page) rather than an inline <script> repeated 321
- * times across the build.
+ * One file, loaded once, delegated to every .plan-capture-form on the page.
+ * There are two per plan page as of Aug 6, 2026 — one beside the buy button,
+ * one in the "not sure this is for you?" box at the foot — distinguished by
+ * `data-source` (buybox | helpbox) so the two placements can be compared.
  *
  * Endpoint: same-origin /api/plan-lead, proxied by Caddy to an n8n webhook —
  * same pattern as /api/contact-form (see contact-form-pipeline-runbook.md).
@@ -30,9 +31,18 @@
     var button = form.querySelector("button[type=submit]");
     var email = form.querySelector("input[name=email]").value.trim();
     var lang = form.dataset.lang || "es";
-    var submittingText = { es: "Enviando…", en: "Sending…", pt: "Enviando…" }[lang];
-    var successText = { es: "Listo, te lo mandamos.", en: "Done, check your inbox.", pt: "Pronto, enviamos para você." }[lang];
-    var errorText = {
+
+    /* Status copy comes from the form's data-* attributes, which are rendered
+     * from planUi.json. The maps below are only a fallback for a cached page
+     * built before those attributes existed — this file used to own the strings
+     * outright, and they silently went stale the moment the copy changed. */
+    var submittingText = form.dataset.submitting ||
+      { es: "Enviando…", en: "Sending…", pt: "Enviando…" }[lang];
+    var successText = form.dataset.success ||
+      { es: "Listo. Te escribimos dentro de las próximas 24 horas.",
+        en: "Got it. We'll be in touch within 24 hours.",
+        pt: "Pronto. Entramos em contato em até 24 horas." }[lang];
+    var errorText = form.dataset.error || {
       es: "No se pudo enviar — podés seguir con la compra igual.",
       en: "Couldn't send that — you can still go ahead and buy.",
       pt: "Não deu para enviar — você pode seguir com a compra normalmente.",
@@ -50,6 +60,7 @@
       plan_name: form.dataset.planName,
       language: lang,
       source: "plan_catalog",
+      placement: form.dataset.source || "buybox",   // buybox | helpbox
       page_url: form.dataset.pageUrl,
       submitted_at: new Date().toISOString(),
     };
@@ -69,6 +80,7 @@
         if (window.gtag) {
           gtag("event", "generate_lead", {
             form_id: "plan-capture",
+            placement: payload.placement,
             plan_id: payload.plan_id,
             page_path: window.location.pathname,
           });

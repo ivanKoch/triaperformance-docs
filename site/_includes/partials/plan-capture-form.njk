@@ -1,0 +1,31 @@
+{#- The "help me choose" email capture. Rendered twice per plan page — once
+    beside the buy button, once in the help box at the foot — so it lives here
+    rather than being copy-pasted.
+
+    Expects `captureSource` (`buybox` | `helpbox`), used for the input id, the
+    GA4 event and the payload so the two placements can be told apart in
+    reporting. Without it both instances would emit identical `generate_lead`
+    events and there'd be no way to know which one people actually use.
+
+    Status strings come through data-* attributes rather than being hardcoded
+    in plan-capture.js — the JS carried its own copy of them, which silently
+    contradicted planUi.json the moment the copy changed (it was still promising
+    "we sent it to you" after the offer became "we'll help you choose"). One
+    source of truth: planUi.json. -#}
+<form class="plan-capture-form"
+      data-plan-id="{{ plan.id }}"
+      data-plan-name="{{ plan.displayName | escape }}"
+      data-lang="{{ lang }}"
+      data-source="{{ captureSource }}"
+      data-page-url="{{ page.url | absoluteUrl }}"
+      data-submitting="{{ u.captureSubmitting | escape }}"
+      data-success="{{ u.captureSuccess | escape }}"
+      data-error="{{ u.captureError | escape }}">
+  <div class="plan-capture-row">
+    <label class="visually-hidden" for="pc-{{ captureSource }}-{{ plan.id }}">{{ u.captureEmailLabel }}</label>
+    <input type="email" id="pc-{{ captureSource }}-{{ plan.id }}" name="email"
+           placeholder="{{ u.capturePlaceholder }}" required>
+    <button type="submit">{{ u.captureSubmit }}</button>
+  </div>
+  <p class="plan-capture-status"></p>
+</form>
