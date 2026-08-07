@@ -1,0 +1,397 @@
+plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,units_all_time,gross_all_time,earnings_all_time,first_sale,last_sale,in_inventory
+493939,[2026 Weight loss] 16 weeks plan - Ride 🚴 + Run 🏃 + Lift 🏋️,English,Duathlon,Olympic,Beginner,16,59.99,TRUE,23,1369.35,915.31,2024-09-19,2026-06-26,TRUE
+415231,Plan 16 Semanas: 21 km / Media Maratón Base 🏃 (Principiantes - Polarizado a piramidal),Spanish,Running,21 km,Beginner,16,59.99,TRUE,21,701.72,484.61,2023-11-08,2025-07-11,TRUE
+480116,Plan 20 Semanas: Triatlón Olímpico + Gym 🏋️ (Avanzado),Spanish,Triathlon,Olympic,Advanced,20,59.99,TRUE,10,632.23,436.46,2025-01-20,2026-07-17,TRUE
+480015,Plan 12 Semanas: Base Triatlón 🏊🚴🏃 + Gym 🏋️ - Mantenimiento - Pre temporada,Spanish,Triathlon,Base,Beginner,12,49.99,TRUE,11,547.38,379.19,2024-10-31,2026-05-11,TRUE
+439917,Plan 16 Semanas: 21 km / Media Maratón Build 🏃 (Intermedios Polarizado a piramidal),Spanish,Running,21 km,Intermediate,16,59.99,TRUE,9,461.29,317.76,2023-12-09,2025-06-09,TRUE
+391110,Plan 8 Semanas: 10 km Base 🏃 (Principiante),Spanish,Running,10 km,Beginner,8,24.99,TRUE,19,443.78,305.41,2023-04-30,2025-12-05,TRUE
+480288,Plan 23 Semanas: Powerman Full 🏃🚴 + Gym 🏋️ (Avanzado),Spanish,Duathlon,Dua full,Advanced,23,79.99,TRUE,5,397.18,268.22,2024-08-06,2026-06-13,TRUE
+441250,Plan 20 Semanas: Triatlón HALF / Media Distancia Build 🏊🚴🏃 (Polarizado 80/20),Spanish,Triathlon,Half,Intermediate,19,69.99,TRUE,6,374.75,257.83,2023-12-14,2026-06-29,TRUE
+493925,[Objetivo 2026] Plan 16 Semanas: Bajar de Peso - Mix 🏃🚴 + Gym 🏋️ (Cross-Training),Spanish,Duathlon,Dua Classic,Beginner,16,59.99,TRUE,6,366.40,250.02,2024-09-15,2026-03-31,TRUE
+401095,4 Week 70.3 Swim Prep: Reach 1900m (Half Distance),English,Swimming,1900m,Intermediate,4,24.99,TRUE,14,357.80,246.02,2023-10-07,2026-04-11,TRUE
+429685,Plan 13 Semanas: Triatlón Olímpico 🏊🚴🏃 (Polarizado 80/20),Spanish,Triathlon,Olympic,Advanced,13,49.99,TRUE,8,351.44,245.99,2024-06-04,2026-01-10,TRUE
+415118,Plan 16 Semanas: Polarizado 80/20 - Mejora tu FTP 🚀,Spanish,Cycling,FTP,Advanced,16,59.99,TRUE,7,344.77,238.66,2024-05-28,2025-06-23,TRUE
+480128,Plan 24 Semanas: FULL / Larga Distancia + Gym 🏋️ (Avanzado),Spanish,Triathlon,Full,Advanced,24,79.99,TRUE,4,333.58,233.50,2024-11-10,2026-04-11,TRUE
+480121,Plan 20 Semanas: Triatlón HALF / Media Distancia + Gym 🏋️ (Avanzado),Spanish,Triathlon,Half,Intermediate,20,69.99,TRUE,5,321.97,225.37,2024-11-05,2026-06-22,TRUE
+413817,"8 Week Polarized 80/20 - Improve FTP, VO2Max, Speed and Endurance",English,Cycling,FTP,Beginner,8,39.99,TRUE,10,332.26,225.31,2023-08-01,2026-05-19,TRUE
+493737,"[2026 Weight loss] 12 Week plan - Ride 🚴 + Lift 🏋️ - Improve FTP, strength and lose weight!",English,Cycling,Weight Loss,Beginner,12,49.99,TRUE,7,323.07,221.76,2024-12-31,2025-09-29,TRUE
+413662,Plan 8 Semanas: Triatlón Olímpico Express 🏊🚴🏃 (Polarizado 80/20),Spanish,Triathlon,Olympic,Intermediate,8,24.99,TRUE,8,280.17,193.13,2023-07-13,2025-08-14,TRUE
+561949,13 Week HYROX Run Peak: Advanced (Elite Pace),English,Running,HYROX,Advanced,13,49.99,TRUE,5,264.82,179.16,2025-08-30,2026-06-04,TRUE
+612222,16 Week HYROX Full Prep: Intermediate (HYBRID - 🏃 Running + 🏋️‍♂️ Strength plan),English,Running,HYROX,Intermediate,16,59.99,TRUE,4,254.96,167.96,2026-04-14,2026-07-23,TRUE
+415102,"16 Week Polarized 80/20 - Improve FTP, VO2Max, Speed and Endurance",English,Cycling,FTP,Advanced,16,59.99,TRUE,5,248.64,167.82,2023-12-02,2024-12-22,TRUE
+434678,Plan 12 Semanas: Maratón Base - Frecuencia Cardíaca 💓 (Vol. <90km),Spanish,Running,42 km,Beginner,12,49.99,TRUE,7,240.50,165.98,2024-07-21,2026-05-29,TRUE
+493932,Plan 14 Semanas: 21 km - Media Maratón 🏃 + Gym 🏋️ (Principiante),Spanish,Running,21 km,Beginner,14,59.99,TRUE,4,228.41,158.47,2025-01-08,2026-05-04,TRUE
+408737,4 Week Swim Peak: 1500m Speed (Advanced),English,Swimming,1500m,Advanced,4,24.99,TRUE,8,214.93,149.77,2024-03-21,2026-06-23,TRUE
+480125,Plan 19 Semanas: Triatlón HALF / Media Distancia + Gym 🏋️ (Intermedio),Spanish,Triathlon,Half,Intermediate,19,69.99,TRUE,3,214.86,148.38,2024-12-13,2026-05-18,TRUE
+493947,"[2026 Weight loss] 16 week plan - Run 🏃 & Lift 🏋️ - Get leaner, stronger and faster!",English,Running,10 km,Beginner,16,59.99,TRUE,4,207.59,145.31,2024-09-16,2026-07-05,TRUE
+392378,Plan 8 Semanas: Natación Velocidad 🏊 - Sistema Polarizado (Principiante),Spanish,Swimming,Speed,Beginner,8,48.00,TRUE,6,193.66,134.71,2024-03-05,2026-04-07,TRUE
+415129,Plan 8 Semanas: Triatlón Sprint Express 🏊🚴🏃 (Polarizado 80/20),Spanish,Triathlon,Short - Sprint,Beginner,8,40.00,TRUE,5,190.96,133.66,2024-01-18,2026-04-20,TRUE
+493733,"[2026 Weight loss] 8 Week plan - Ride 🚴 + Lift 🏋️ - Improve FTP, strength and lose weight!",English,Cycling,FTP,Beginner,8,39.99,TRUE,5,193.64,131.57,2024-08-29,2025-07-28,TRUE
+415245,Plan 12 Semanas: 21 km / Media Maratón Peak 🏃 (Avanzado Polarizado a piramidal),Spanish,Running,21 km,Advanced,12,49.99,TRUE,5,186.04,126.95,2023-09-28,2025-08-26,TRUE
+437755,12 Week 5 km Build: Run 🏃 (Extended Speed),English,Running,5 km,Intermediate,12,49.99,TRUE,4,179.59,125.67,2024-12-01,2026-03-06,TRUE
+429688,Plan 13 Semanas: HALF / Media Distancia Express 🏊🚴🏃 (Avanzado),Spanish,Triathlon,Half,Advanced,13,48.00,TRUE,4,176.18,123.28,2023-10-19,2026-06-28,TRUE
+492331,Plan 14 Semanas: 21 km - Media Maratón 🏃 + Gym 🏋️ (Intermedios),Spanish,Running,21 km,Intermediate,14,59.99,TRUE,3,175.98,123.18,2025-02-25,2026-04-15,TRUE
+393663,Plan 4 Semanas: Natación 1900m 🏊 - Domina la Distancia (Intermedio),Spanish,Swimming,1900m,Intermediate,4,24.99,TRUE,8,174.33,122.01,2023-05-16,2025-02-14,TRUE
+437635,12 Week Half Marathon 21 km Peak: Run 🏃 (Advanced Polarized),English,Running,21 km,Advanced,12,49.99,TRUE,4,168.30,114.78,2024-03-18,2025-01-23,TRUE
+492218,16 Week FTP Builder: Ride 🚴 + Lift 🏋️ (Hybrid Polarized),English,Cycling,FTP,Advanced,16,59.99,TRUE,3,167.46,113.94,2024-09-12,2025-10-26,TRUE
+562095,Plan 13 Semanas: Preparación HYROX Run 🏃 (Avanzado),Spanish,Running,HYROX,Advanced,13,49.99,TRUE,3,163.99,113.39,2025-08-05,2026-06-05,TRUE
+546064,Plan 16 Semanas: Natación 🏊 + Gym 🏋️ - Potencia y Velocidad (Intermedio),Spanish,Swimming,All-round,Intermediate,16,59.99,TRUE,3,158.79,111.15,2025-08-24,2026-06-14,TRUE
+479415,Plan 16 Semanas: Polarizado 80/20 - Ciclismo 🚴 + Gimnasio 🏋️ - Mejora tu FTP 🚀,Spanish,Cycling,FTP,Advanced,16,59.99,TRUE,3,157.58,110.30,2024-05-30,2025-05-13,TRUE
+561409,13 Week HYROX Run Prep: Beginner (Dominate the Run),English,Running,HYROX,Beginner,13,49.99,TRUE,3,166.03,103.58,2025-09-07,2026-01-25,TRUE
+408733,[Reusable] Swim longer - Endurance for beginners - Syncs with Garmin - Unlimited support,,,,,,,,5,151.77,103.01,2023-12-18,2025-02-09,FALSE
+436153,Maratona - 18 semanas - Até 90 km por semana - Ritmo / Potência / Frequência cardíaca,Portuguese,Running,42 km,Beginner,18,36.00,TRUE,4,147.36,101.46,2023-12-18,2024-11-11,TRUE
+479876,Fortalecimiento - 8 semanas - Protocolo 3 veces por semana - Fuerza máxima,Spanish,Strength,Strength,Beginner,8,40.00,TRUE,4,142.39,97.99,2025-03-17,2026-08-06,TRUE
+522788,Maratón De Santiago 2025 - 18 semanas - Entre 90 y 110 km /sem - Empezar hasta 13 de enero,,,,,,,,2,136.80,95.76,2025-01-13,2025-01-29,FALSE
+493085,Plan 12 Semanas: 10 km Prep 🏃 + Gym 🏋️ (Avanzado),Spanish,Running,10 km,Advanced,12,49.99,TRUE,3,138.13,95.48,2024-08-04,2025-07-12,TRUE
+480017,Plan 12 Semanas: Base Triatlón 🏊🚴🏃 + Gym 🏋️ - Mantenimiento mayor volumen,Spanish,Triathlon,Base,Intermediate,12,49.99,TRUE,3,140.71,95.47,2025-04-18,2026-03-19,TRUE
+493045,Plan 12 Semanas: 10 km Prep 🏃 + Gym 🏋️ (Principiantes),Spanish,Running,10 km,Beginner,12,49.99,TRUE,3,138.39,95.47,2025-01-15,2026-07-28,TRUE
+393676,Plan 8 Semanas: Tus primeros 3000m - Sistema polarizado 80-20,Spanish,Swimming,3000m,Intermediate,8,39.99,TRUE,4,135.97,95.17,2024-05-21,2026-01-31,TRUE
+603286,8 Week Weight Loss SMART Mix: Ride 🚴 Run 🏃 + Home Strength 🏠 (No Gym),English,Duathlon,Weight Loss,Beginner,8,44.99,TRUE,3,140.48,94.47,2026-02-21,2026-06-27,TRUE
+391452,Plan 8 Semanas: 5 km peak 🏃 (Avanzados),Spanish,Running,5 km,Advanced,8,40.00,TRUE,8,131.84,90.92,2023-03-04,2024-04-12,TRUE
+567305,Triathlon: Distância Completa | 21 Semanas | Iniciante | Cruzar a Linha,Portuguese,Triathlon,Full,Beginner,21,42.00,FALSE,3,128.52,88.20,2025-11-16,2026-06-10,TRUE
+493510,Plan 16 Semanas: Gran Fondo Peak - Ciclismo 🚴 + Gimnasio 🏋️,Spanish,Cycling,FTP,Advanced,16,59.99,TRUE,2,123.90,85.12,2025-02-03,2025-03-11,TRUE
+546026,16 Week Swim Performance: Speed & Endurance (Advanced 5x),English,Swimming,All-round,Advanced,16,59.99,TRUE,2,125.62,83.98,2026-02-08,2026-06-05,TRUE
+408611,Ultra: 3800m a 5000m para avanzados - Polarizado - Sincroniza con Garmin - Reutilizable,Spanish,Swimming,3800m,Advanced,8,39.99,TRUE,3,121.58,83.98,2024-12-13,2026-04-28,TRUE
+493936,[2026 Weight loss] 18 week plan - Triathlon & Lift 🏋️ - Endurance + Strength,English,Triathlon,Half,Beginner,18,69.99,TRUE,2,118.79,83.15,2024-08-27,2024-12-27,TRUE
+567744,Triathlon: Média Distância | 20 Semanas | Intermediário | Recorde Pessoal,Portuguese,Triathlon,Half,Intermediate,19,38.00,TRUE,3,116.28,79.80,2025-10-21,2026-06-01,TRUE
+437633,8 Week 5 km Peak: Run 🏃 (Advanced Speed),English,Running,5 km,Advanced,8,39.99,TRUE,3,112.00,78.40,2025-01-31,2025-05-12,TRUE
+432952,18 Week Marathon Base: Heart Rate 💓 (Beginner Vol: <90km),English,Running,42 km,Beginner,18,59.99,TRUE,3,112.37,76.97,2023-11-14,2024-05-23,TRUE
+401093,4 Week Swim Challenge: Reach 1500m Non-Stop (Beginner),English,Swimming,1500m,Beginner,4,24.99,TRUE,5,105.93,73.04,2023-07-17,2025-06-19,TRUE
+434684,Plan 12 Semanas: Maratón Peak - Frecuencia Cardíaca 💓 (Vol. >110km),Spanish,Running,42 km,Advanced,12,49.99,TRUE,3,105.58,72.22,2023-12-11,2025-06-06,TRUE
+438912,Natação: 1500m (Olímpico) | 16 Semanas | Iniciante | Base & Técnica | Compatível Garmin,Portuguese,Swimming,1500m,Beginner,16,32.00,TRUE,2,103.84,70.00,2025-01-13,2025-08-11,TRUE
+562094,Plan 13 Semanas: Preparación HYROX Run 🏃 (Intermedio),Spanish,Running,HYROX,Intermediate,13,49.99,TRUE,2,99.98,69.98,2025-12-24,2026-07-06,TRUE
+602981,8 Week High-Volume Weight Loss: 5 Rides 🚴 + 2 Gym Lifts 🏋️ (Body recomposition),English,Cycling,Weight Loss,Advanced,8,49.99,TRUE,2,117.48,69.98,2026-01-09,2026-03-22,TRUE
+603403,8 Week Triathlon Weight Loss: Swim/Bike/Run + Full Gym Lifting 🏋️,English,Triathlon,Weight Loss,Beginner,8,49.99,TRUE,2,99.98,69.98,2026-03-29,2026-05-25,TRUE
+434685,Plan 18 Semanas: Maratón Peak - Frecuencia Cardíaca 💓 (Vol. >110km),Spanish,Running,42 km,Advanced,18,59.99,TRUE,2,99.79,69.85,2024-04-28,2025-01-01,TRUE
+480020,Plan 17 Semanas: Triatlón Olímpico 🏊🚴🏃 (Principiantes),Spanish,Triathlon,Olympic,Intermediate,17,59.99,TRUE,2,102.33,68.87,2025-12-03,2026-06-16,TRUE
+480286,Plan 12 Semanas: Duatlón Sprint 🏃🚴 + Gym 🏋️ (Principiante),Spanish,Duathlon,Dua Sprint,Beginner,12,49.99,TRUE,2,99.99,68.59,2025-08-27,2025-12-20,TRUE
+493498,Plan 12 Semanas: Gran Fondo Build - Ciclismo 🚴 + Gimnasio 🏋️,Spanish,Cycling,FTP,Intermediate,12,49.99,TRUE,2,97.99,68.59,2025-05-05,2026-05-17,TRUE
+439349,Tokyo Marathon 2026: 12 Week Beginner Prep (Start Dec 8),English,Running,42 km,Beginner,12,49.99,FALSE,2,99.96,67.20,2024-12-06,2024-12-11,TRUE
+567303,Triathlon Olímpico | 16 Semanas | Iniciante | Base & Técnica,Portuguese,Triathlon,Olympic,Beginner,16,32.00,FALSE,3,96.00,67.20,2026-01-02,2026-07-23,TRUE
+603230,8 Week Weight Loss FAT-MAX progression: 4 Runs 🏃 + 2 Lifts 🏋️ (Full Gym),English,Running,Weight Loss,Beginner,8,44.99,TRUE,2,95.87,62.98,2026-04-06,2026-07-20,TRUE
+437638,16 Week Half Marathon Prep: Run 🏃 (Polarized 80/20),English,Running,21 km,Beginner,16,59.99,TRUE,2,88.99,62.29,2024-03-12,2025-08-08,TRUE
+393672,3000m para intermedios a avanzados - Sincroniza con Garmin),,,,,,,,3,88.14,60.18,2023-07-05,2025-03-12,FALSE
+493079,Plan 12 Semanas: 10 km Build 🏃 (Intermedio Polarizado 80/20),Spanish,Running,10 km,Intermediate,12,39.99,TRUE,2,84.79,58.23,2025-02-11,2026-01-05,TRUE
+476495,Plan 12 Semanas: Maratón Base - Por Ritmo ⏱️ (Vol. <90km),Spanish,Running,42 km,Beginner,12,49.99,TRUE,2,82.99,58.09,2024-07-31,2025-08-14,TRUE
+415216,8 Week Olympic Speed: Triathlon 🏊‍♂️🚴🏃 (Polarized 80/20),English,Triathlon,Olympic,Intermediate,9,39.99,TRUE,2,80.00,56.00,2025-04-22,2025-11-27,TRUE
+368997,4 Week Swim Booster: Speed Focus (Beginner),English,Swimming,Speed,Beginner,4,24.99,TRUE,4,81.96,55.96,2023-01-30,2023-07-06,TRUE
+522276,"[2026 Weight loss] 24 week plan - Run 🏃 & Lift 🏋️ - Get leaner, stronger and faster!",English,Running,21 km,Beginner,24,79.99,TRUE,1,75.60,50.40,2025-07-15,2025-07-15,TRUE
+567304,Triathlon: Média Distância | 18 Semanas | Iniciante | Primeira Prova,Portuguese,Triathlon,Half,Beginner,18,36.00,FALSE,2,74.16,50.40,2026-03-18,2026-05-27,TRUE
+391102,Plan 12 Semanas: 5 km base 🏃 (Intermedio Polarizado),Spanish,Running,5 km,Beginner,12,49.99,TRUE,2,71.92,49.13,2024-10-31,2025-11-01,TRUE
+442189,Plan 19 Semanas: Triatlón HALF / Media Distancia 🏊🚴🏃 (Tu Primer Half),Spanish,Triathlon,Half,Beginner,19,69.99,TRUE,1,69.99,48.99,2026-06-22,2026-06-22,TRUE
+395634,12 Week 5 km Power: Run with Stryd ⚡ (Extended),English,Running,5 km,Beginner,12,49.99,TRUE,2,67.66,46.88,2023-10-31,2026-03-06,TRUE
+392377,Plan 4 Semanas: Natación Velocidad 🏊 - Mejora de Ritmos (Intermedio),Spanish,Swimming,Speed,Intermediate,4,24.99,TRUE,4,64.96,45.46,2023-02-20,2024-03-30,TRUE
+433354,18 Week Marathon Build: Heart Rate 💓 (Intermediate Vol: 90-110km),English,Running,42 km,Intermediate,18,59.99,TRUE,1,71.28,45.36,2025-05-13,2025-05-13,TRUE
+436155,Maratona - 18 semanas - Entre 90 e 110 km por semana - Ritmo / Potência / Frequência cardíaca,Portuguese,Running,42 km,Intermediate,18,36.00,TRUE,1,64.80,45.36,2025-01-16,2025-01-16,TRUE
+443812,Ultra: Carrera de +42km a 100 millas - 18 semanas - Volumen semanal: entre 110 y 135 km,,,,,,,,1,67.39,45.36,2024-12-31,2024-12-31,FALSE
+434683,Plan 18 Semanas: Maratón Build - Frecuencia Cardíaca 💓 (Vol. 90-110km),Spanish,Running,42 km,Intermediate,18,59.99,TRUE,1,66.56,44.80,2025-11-02,2025-11-02,TRUE
+395435,8 Week 5 km Power: Run with Stryd ⚡ (Beginner),English,Running,5 km,Beginner,8,39.99,TRUE,3,69.43,44.77,2023-07-31,2026-05-15,TRUE
+439407,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Intermediate (90-110k),English,Running,42 km,Intermediate,18,59.99,FALSE,1,68.97,41.99,2026-01-22,2026-01-22,TRUE
+480118,Plan 16 Semanas: Triatlón Olímpico + Gym 🏋️ (Intermedio),Spanish,Triathlon,Olympic,Intermediate,17,59.99,TRUE,1,62.39,41.99,2026-06-02,2026-06-02,TRUE
+491764,"Plan para ganar masa muscular - 8 semanas, 4 veces por semana",Spanish,Strength,Strength,Beginner,8,40.00,TRUE,2,62.39,41.99,2024-09-22,2025-09-21,TRUE
+493933,[Objetivo 2026] Plan 16 Semanas: Bajar de Peso - Triatlón 🏊🚴🏃 + Gym 🏋️,Spanish,Triathlon,Olympic,Beginner,16,59.99,TRUE,3,59.99,41.99,2025-05-26,2026-04-26,TRUE
+546063,Plan 16 Semanas: Natación 🏊 + Gym 🏋️ - Potencia y Velocidad (Principiante),Spanish,Swimming,All-round,Beginner,16,59.99,TRUE,1,59.99,41.99,2026-01-05,2026-01-05,TRUE
+611863,16 Semanas HYROX Full Prep: Intermedio (🏃 Running + 🏋️‍♂️ Fuerza Integrada),Spanish,Running,HYROX,Intermediate,16,59.99,TRUE,1,62.39,41.99,2026-02-13,2026-02-13,TRUE
+612084,16 Semanas HYROX: Avanzados - 🏃 Running (Volumen y carga) + 🏋️‍♂️ Fuerza (Máxima + potencia),Spanish,Running,HYROX,Advanced,16,59.99,TRUE,1,62.39,41.99,2026-05-10,2026-05-10,TRUE
+612231,8 Semanas HYROX Race Ready: Competición 🏁 (🏃 Running + 🏋️‍♂️ Estaciones),Spanish,Running,HYROX,Beginner,8,34.99,TRUE,1,62.39,41.99,2026-04-13,2026-04-13,TRUE
+439403,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Advanced (110-135k) (Start Feb 2),English,Running,42 km,Advanced,12,49.99,FALSE,2,59.98,41.98,2024-01-12,2024-01-20,TRUE
+391113,Plan 12 Semanas: 10 km 🏃 (Intermedios),Spanish,Running,10 km,Intermediate,12,39.99,TRUE,3,59.77,41.27,2023-02-23,2024-04-20,TRUE
+390919,Plan 8 Semanas: 5 km base 🏃 (Principiantes),Spanish,Running,5 km,Beginner,8,39.99,TRUE,2,58.49,40.94,2024-06-24,2025-07-10,TRUE
+439406,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Advanced (110-135k) ,English,Running,42 km,Advanced,18,59.99,FALSE,1,57.99,40.59,2024-09-09,2024-09-09,TRUE
+480285,Plan 16 Semanas: Duatlón Clásico 🏃🚴 + Gym 🏋️ (Principiante),Spanish,Duathlon,Dua Classic,Beginner,16,59.99,TRUE,1,57.60,40.32,2025-06-05,2025-06-05,TRUE
+391449,Plan 8 Semanas: 5 km build 🏃 (Intermedios),Spanish,Running,5 km,Intermediate,8,40.00,TRUE,3,56.97,39.87,2023-11-10,2024-10-12,TRUE
+393660,Plan 4 Semanas: Natación 1500m 🏊 - Domina la Distancia (Intermedio),Spanish,Swimming,1500m,Intermediate,4,24.99,TRUE,3,58.83,39.59,2023-10-21,2024-08-04,TRUE
+480276,Duatlón + fortalecimiento - Mantenimiento 12 semanas - Período base + Gimnasio,Spanish,Duathlon,Base,Beginner,12,49.99,TRUE,1,54.99,38.49,2024-08-03,2024-08-03,TRUE
+437753,5k: Comece a Correr | 12 Semanas | Iniciante (Do Zero) | Sistema polarizado 80-20,Portuguese,Running,5 km,Beginner,12,24.00,TRUE,2,53.99,37.79,2024-09-07,2025-11-05,TRUE
+493735,"[2026 Weight loss] 16 Week plan - Ride 🚴 + Lift 🏋️ - Improve FTP, strength and lose weight!",English,Cycling,FTP,Intermediate,16,59.99,TRUE,1,53.99,37.79,2024-11-24,2024-11-24,TRUE
+493719,16 Week Indoor Race Prep: Ride 🚴 + Lift 🏋️ (Zwift / Rouvy Ready),English,Cycling,FTP,Advanced,16,59.99,TRUE,1,51.99,36.39,2024-11-17,2024-11-17,TRUE
+492333,Plan 14 Semanas: 21 km - Media Maratón 🏃 + Gym 🏋️ (Avanzados),Spanish,Running,21 km,Advanced,14,59.99,TRUE,1,50.40,35.28,2025-01-04,2025-01-04,TRUE
+414883,"12 Week Polarized 80/20 - Improve FTP, VO2Max, Speed and Endurance",English,Cycling,FTP,Intermediate,12,49.99,TRUE,1,53.49,34.99,2026-05-09,2026-05-09,TRUE
+441905,Plan 22 Semanas: Larga Distancia 🏊🚴🏃 (Tu Primer Full),Spanish,Triathlon,Full,Beginner,22,79.99,TRUE,1,51.99,34.99,2024-03-02,2024-03-02,TRUE
+522766,Maratón Barcelona 2026: Plan 12 Semanas - Vol: 90-110km semanales - Inicio 22 Dic,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,1,51.99,34.99,2025-12-15,2025-12-15,TRUE
+606563,[Objetivo 2026] Plan para bajar de peso: Ciclismo 🚴 + Running 🏃 + Fuerza en Casa 🏋️🏠 ,Spanish,Duathlon,Weight Loss,Beginner,12,49.99,TRUE,1,49.99,34.99,2026-07-27,2026-07-27,TRUE
+606566,[Objetivo 2026] Plan para bajar de peso: Ciclismo 🚴 + Running 🏃 + Fuerza en Gimnasio 🏋️,Spanish,Duathlon,Weight Loss,Beginner,12,49.99,TRUE,1,49.99,34.99,2026-01-29,2026-01-29,TRUE
+439348,Tokyo Marathon 2026: 12 Week Intermediate - 90-110km Weekly - Start Dec 8,English,Running,42 km,Intermediate,12,49.99,FALSE,1,48.00,33.60,2025-11-13,2025-11-13,TRUE
+474632,Maratón de Chicago 2025 - 12 semanas - Entre 110 y 135 km semanales - Empezar 21 de Julio 2025,,,,,,,,1,48.00,33.60,2025-09-02,2025-09-02,FALSE
+480131,Plan 22 Semanas: FULL / Larga Distancia + Gym 🏋️ (Intermedio),Spanish,Triathlon,Full,Intermediate,22,79.99,TRUE,1,49.92,33.60,2025-12-01,2025-12-01,TRUE
+492217,12 Week FTP Builder: Ride 🚴 + Lift 🏋️ (Hybrid Polarized),English,Cycling,FTP,Beginner,12,49.99,TRUE,1,48.00,33.60,2025-08-06,2025-08-06,TRUE
+493502,Plan 12 Semanas Indoor: Potencia en Rodillo 🚴 + Gimnasio 🏋️ (Zwift Ready),Spanish,Cycling,FTP,Intermediate,12,49.99,TRUE,1,49.92,33.60,2025-06-26,2025-06-26,TRUE
+546060,16 Week Swimmer's Body: Swim 🏊 + Dryland Strength 🏋️ (Beginner),English,Swimming,All-round,Beginner,16,59.99,TRUE,1,46.80,32.76,2025-09-21,2025-09-21,TRUE
+546067,Plan 16 Semanas: Natación 🏊 + Gym 🏋️ - Potencia y Velocidad (Avanzado),Spanish,Swimming,All-round,Advanced,16,59.99,TRUE,1,46.80,32.76,2025-08-10,2025-08-10,TRUE
+435944,Maratona - 12 semanas - Entre 110 e 135 km por semana - Ritmo / Potência / Frequência cardíaca,Portuguese,Running,42 km,Advanced,12,24.00,TRUE,2,46.90,31.92,2025-08-17,2026-04-19,TRUE
+602972,8 Week Weight Loss - Watts/Kg Booster: 4 Rides 🚴 + 2 Lifts 🏋️ (Full Gym),English,Cycling,Weight Loss,Intermediate,8,44.99,TRUE,1,48.14,31.49,2026-02-17,2026-02-17,TRUE
+603288,8 Week Weight Loss SMART Mix: Ride 🚴 Run 🏃 + Full Gym Lifting 🏋️,English,Duathlon,Weight Loss,Beginner,8,44.99,TRUE,1,44.99,31.49,2026-04-17,2026-04-17,TRUE
+429677,Plan 13 Semanas: HALF / Media Distancia Express 🏊🚴🏃 (Intermedios),Spanish,Triathlon,Half,Intermediate,13,48.00,TRUE,1,44.93,30.24,2024-12-16,2024-12-16,TRUE
+434030,12 Week Marathon Peak: Heart Rate 💓 (Advanced Vol: 110km+),English,Running,42 km,Advanced,12,49.99,TRUE,1,43.20,30.24,2025-09-15,2025-09-15,TRUE
+439415,Maratón de Boston 2025 - 12 semanas - Entre 110 y 135 km semanales - Empezar el 27 de enero,,,,,,,,1,43.20,30.24,2025-02-25,2025-02-25,FALSE
+443821,Ultra: Race from >42km to 100km - 12 weeks - High weekly volume between 90 and 110 km,,,,,,,,1,43.20,30.24,2025-01-01,2025-01-01,FALSE
+562655,"Berlin Marathon 2025 - 12 weeks - 110 to 135 km weekly - Start by June 30, 2025",,,,,,,,1,46.43,30.24,2025-08-08,2025-08-08,FALSE
+546034,Plan 16 Semanas: Natación Técnica y Resistencia 🏊 - Polarizado (Principiante - 3x),Spanish,Swimming,All-round,Beginner,16,49.99,TRUE,1,44.90,30.20,2025-09-12,2025-09-12,TRUE
+566790,Intermedio: Plan 9 Semanas: Bloque de FTP 🔥 - Sube tu Umbral (Nivel 2),Spanish,Cycling,FTP,Intermediate,9,39.99,TRUE,1,32.00,30.00,,,TRUE
+443818,Ultra: Race from >42km to 100km - 18 weeks - High weekly volume between 110 and 135 km,,,,,,,,1,42.00,28.00,2024-04-26,2024-04-26,FALSE
+493008,Plan 9 Semanas: 5 km Prep 🏃 + Gym 🏋️ (Intermedios),Spanish,Running,5 km,Intermediate,9,39.99,TRUE,1,40.00,28.00,2025-10-27,2025-10-27,TRUE
+603265,8 Week Low-Impact Weight Loss: Swim 🏊 + Home Strength 🏠 (No Gym),English,Swimming,Weight Loss,Beginner,8,39.99,TRUE,1,40.00,28.00,2026-02-23,2026-02-23,TRUE
+437461,9 Week Sprint Express: Triathlon 🏊‍♂️🚴🏃 (Time-Crunched triathlete),English,Triathlon,Short - Sprint,Beginner,9,39.99,TRUE,1,43.19,27.99,2024-06-12,2024-06-12,TRUE
+443923,17 Week Olympic Build: Triathlon 🏊‍♂️🚴🏃 (Intermediate),English,Triathlon,Olympic,Intermediate,17,59.99,TRUE,1,39.99,27.99,2024-01-23,2024-01-23,TRUE
+474289,Maratón de Berlin 2024 - 18 semanas - Hasta 90 kms semanales - Empezar 26 de mayo 2024,,,,,,,,1,42.79,27.99,2024-05-25,2024-05-25,FALSE
+603033,8 Week Time-Crunched Weight Loss: Run 🏃 + Home Strength 🏠 (No Gym),English,Running,Weight Loss,Beginner,8,39.99,TRUE,1,42.79,27.99,2026-08-07,2026-08-07,TRUE
+603271,8 Week Low-Impact Weight Loss: Swim 🏊 + Full Gym Lifting 🏋️,English,Swimming,Weight Loss,Beginner,8,39.99,TRUE,1,39.99,27.99,2026-01-12,2026-01-12,TRUE
+605023,[Objetivo 2026] Plan para bajar de peso: Ciclismo 🚴 + Fuerza en Gimnasio 🏋️,Spanish,Cycling,Weight Loss,Beginner,8,39.99,TRUE,1,41.59,27.99,2026-01-12,2026-01-12,TRUE
+606077,[Objetivo 2026] Plan para bajar de peso: Running 🏃 + Fuerza en Casa 🏠 (Sin equipamiento),Spanish,Running,Weight Loss,Beginner,8,39.99,TRUE,1,41.59,27.99,2026-03-16,2026-03-16,TRUE
+606561,[Objetivo 2026] Plan para bajar de peso: Natación 🏊 + Fuerza en Gimnasio 🏋️,Spanish,Swimming,Weight Loss,Beginner,8,39.99,TRUE,1,39.99,27.99,2026-03-17,2026-03-17,TRUE
+612230,8 Week HYROX Race Ready: Competition Phase (Run + Stations),English,Running,HYROX,,8,39.99,TRUE,1,39.99,27.99,2026-06-10,2026-06-10,TRUE
+401094,[Reusable] Swim 1500m non-stop in 6 weeks - Polarized - Garmin structured workouts,,,,,,,,2,41.78,27.98,2023-06-14,2023-07-11,FALSE
+603393,4 Week Weight Loss Mix Kickstart: Ride 🚴 Run 🏃 + Full Gym Lifting 🏋️,English,Duathlon,Weight Loss,Beginner,4,19.99,TRUE,2,40.98,27.98,2026-04-08,2026-06-09,TRUE
+606091,[Objetivo 2026] Inicia la pérdida de peso: Running 🏃 + Fuerza en Gimnasio 🏋️,Spanish,Running,Weight Loss,Beginner,4,19.99,TRUE,2,41.58,27.98,2026-05-03,2026-05-24,TRUE
+437724,8 Week 10 km Prep: Run 🏃 (First Timer Focus),English,Running,10 km,Beginner,8,39.99,TRUE,2,40.43,27.98,2024-04-14,2024-11-25,TRUE
+567560,Triatlo Olímpico: Plano de Treinamento Polarizado para Nível Intermediário,Portuguese,Triathlon,Olympic,Intermediate,19,38.00,FALSE,1,38.00,26.60,2026-06-22,2026-06-22,TRUE
+391451,Plan 12 Semanas: 5k Build 🏃 (Intermedio Polarizado),Spanish,Running,5 km,Intermediate,12,49.99,TRUE,2,39.50,26.58,2023-08-05,2024-03-26,TRUE
+474825,Plan 16 Semanas: Polarizado 80/20 - Incrementa tu VO2Max y FTP - Frecuencia Cardíaca ❤️,Spanish,Cycling,FTP,Advanced,16,59.99,TRUE,1,37.79,26.45,2024-11-17,2024-11-17,TRUE
+395635,8 Week 5 km Speed: Run 🏃 (Intermediate),English,Running,5 km,Intermediate,8,39.99,TRUE,1,36.00,25.20,2025-04-27,2025-04-27,TRUE
+493715,8 Week Indoor FTP Booster: Ride 🚴 + Lift 🏋️ (Zwift / Rouvy ready),English,Cycling,FTP,Beginner,8,39.99,TRUE,1,36.00,25.20,2025-06-19,2025-06-19,TRUE
+401099,[Reusable] Your first 3000m non-stop in 6 weeks - Polarized - Garmin structured workouts,,,,,,,,1,35.99,25.19,2024-07-27,2024-07-27,FALSE
+408606,Plan 4 Semanas: Natación 1500m 🏊 - Tu Primer 1.5k (Principiante),Spanish,Swimming,1500m,Beginner,4,24.99,TRUE,1,29.99,20.99,2024-12-04,2024-12-04,TRUE
+433343,12 Week Marathon Base: Heart Rate 💓 (Beginner Vol: <90km),English,Running,42 km,Beginner,12,49.99,TRUE,1,29.99,20.99,2024-08-26,2024-08-26,TRUE
+491765,Fortalecimiento triatlón - 8 semanas - 3 veces por semana - Fuerza máxima,,,,,,,,1,29.99,20.99,2025-04-06,2025-04-06,FALSE
+612575,Plano 12 Semanas: Base Maratona (Corrida 🏃 + Gym 🏋️) - Volume 55 a 90km,Portuguese,Running,42 km,Beginner,12,29.99,TRUE,1,29.99,20.99,2026-04-11,2026-04-11,TRUE
+493032,Plan 14 Semanas: 21 km / Media Maratón Peak 🏃 (Intermedios Polarizado),Spanish,Running,21 km,Intermediate,14,49.99,TRUE,1,29.12,19.60,2024-12-02,2024-12-02,TRUE
+408734,[Reusable] 1900m for beginners - Crush the half distance - Syncs with Garmin - Unlimited support,,,,,,,,1,26.99,18.89,2024-10-23,2024-10-23,FALSE
+415081,Plan 8 Semanas: Polarizado 80/20 - Mejora tu FTP 🚀,Spanish,Cycling,FTP,Beginner,8,39.99,TRUE,1,28.07,18.89,2024-06-07,2024-06-07,TRUE
+401098,8 Week Swim Speed: Polarized 80/20 (Beginner),English,Swimming,Speed,Beginner,8,49.99,TRUE,1,24.99,17.49,2023-06-21,2023-06-21,TRUE
+437630,Meia Maratona (21k) | 12 Semanas | Avançado | Foco em Performance | Sistema polarizado 80-20,Portuguese,Running,21 km,Advanced,12,24.00,TRUE,1,24.00,16.80,2026-03-21,2026-03-21,TRUE
+439343,Maratona de Tokyo 2026 - 12 semanas - Entre 110 e 135 km por semana - Início até 8 de dezembro,Portuguese,Running,42 km,Advanced,12,24.00,FALSE,1,24.00,16.80,2026-01-04,2026-01-04,TRUE
+567302,Triathlon Sprint | 12 Semanas | Iniciante | Do Zero à Prova,Portuguese,Triathlon,Short - Sprint,Beginner,12,24.00,FALSE,1,24.00,16.80,2026-07-30,2026-07-30,TRUE
+401097,[Reusable] 6-Week Polarized training to improve speed (Garmin Structured Workouts),,,,,,,,1,20.99,14.69,2023-11-14,2023-11-14,FALSE
+392759,Plan 12 Semanas: 10 km Corre con Potencia ⚡ (Stryd Intermedios),Spanish,Running,10 km,Intermediate,12,34.99,TRUE,1,20.79,13.99,2024-03-01,2024-03-01,TRUE
+408604,Plan 4 Semanas: Natación Velocidad 🏊 - Mejora de Ritmos (Principiante),Spanish,Swimming,Speed,Beginner,4,24.99,TRUE,1,20.79,13.99,2024-03-03,2024-03-03,TRUE
+408613,4 Week Swim Booster: Endurance Focus (Intermediate),English,Swimming,Endurance,Intermediate,4,24.99,TRUE,1,19.99,13.99,2023-09-29,2023-09-29,TRUE
+436340,Natação: Foco em Velocidade | 4 Semanas | Todos os Níveis | Compatível Garmin,Portuguese,Swimming,Speed,Beginner,4,20.00,TRUE,1,19.99,13.99,2024-03-06,2024-03-06,TRUE
+437756,5k Performance | 12 Semanas | Intermediário | Sistema polarizado 80-20,Portuguese,Running,5 km,Intermediate,12,24.00,TRUE,1,19.99,13.99,2024-04-09,2024-04-09,TRUE
+437863,12 Week 10 km Build: Run 🏃 (Polarized 80/20),English,Running,10 km,Intermediate,12,49.99,TRUE,1,19.99,13.99,2023-12-23,2023-12-23,TRUE
+437867,12 Week 10 km Peak: Run 🏃 (Advanced Polarized),English,Running,10 km,Advanced,12,49.99,TRUE,1,19.99,13.99,2023-12-06,2023-12-06,TRUE
+603209,4 Week Weight Loss Kickstart: Run 🏃 + Full Gym Lifting 🏋️,English,Running,Weight Loss,Beginner,4,19.99,TRUE,1,19.99,13.99,2026-03-26,2026-03-26,TRUE
+603284,4 Week Low-Impact Kickstart: Swim 🏊 + Full Gym Lifting 🏋️,English,Swimming,Weight Loss,Beginner,4,19.99,TRUE,1,19.99,13.99,2026-01-27,2026-01-27,TRUE
+603392,4 Week Weight Loss Mix Kickstart: Ride 🚴 Run 🏃 + Home Strength 🏠,English,Duathlon,Weight Loss,Beginner,4,19.99,TRUE,1,20.99,13.99,2026-05-28,2026-05-28,TRUE
+408607,Tus primeros 1900m - Sincroniza con Garmin - Reutilizable,Spanish,Swimming,1900m,Beginner,4,24.99,TRUE,1,15.99,11.19,2023-09-04,2023-09-04,TRUE
+380280,8 Week 5 km Prep: Run 🏃 (First Timer Focus),English,Running,5 km,Beginner,8,39.99,TRUE,1,15.72,10.49,2024-03-28,2024-03-28,TRUE
+380334,12 Week 5 km Prep: Run 🏃 (Extended Base),English,Running,5 km,Beginner,12,49.99,TRUE,1,14.99,10.49,2023-06-30,2023-06-30,TRUE
+443929,12 Week Sprint Speed: Triathlon 🏊‍♂️🚴🏃 (Polarized 80/20),English,Triathlon,Short - Sprint,Intermediate,12,39.99,TRUE,1,10.00,7.00,2025-12-21,2025-12-21,TRUE
+392381,Plan 8 Semanas: 5 km Corre con Potencia ⚡ (Stryd Principiante),Spanish,Running,5 km,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+392504,Plan 12 Semanas: 5 km Corre con Potencia ⚡ (Stryd Intermedios),Spanish,Running,5 km,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+392758,Plan 8 Semanas: 10 km Corre con Potencia ⚡ (Stryd Principiante),Spanish,Running,10 km,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+401100,8 Week Endurance Swim: Reach 3000m Non-Stop (Intermediate),English,Swimming,3000m,Intermediate,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+408608,Plan 4 Semanas: Natación 1500m 🏊 - Polarizado 80/20 (Avanzado),Spanish,Swimming,1500m,Advanced,4,24.99,TRUE,0,0.00,0.00,,,TRUE
+408609,Plan 4 Semanas: Natación 1900m 🏊 - Polarizado 80/20 (Avanzado) [Domina la media distancia],Spanish,Swimming,1900m,Advanced,4,24.99,TRUE,0,0.00,0.00,,,TRUE
+415087,Plan 12 Semanas: Polarizado 80/20 - Mejora tu FTP 🚀,Spanish,Cycling,FTP,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+433348,12 Week Marathon Build: Heart Rate 💓 (Intermediate Vol: 90-110km),English,Running,42 km,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+434034,18 Week Marathon Peak: Heart Rate 💓 (Advanced Vol: 110km+),English,Running,42 km,Advanced,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+434680,Plan 18 Semanas: Maratón Base - Frecuencia Cardíaca 💓 (Vol. <90km),Spanish,Running,42 km,Beginner,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+434681,Plan 12 Semanas: Maratón Build - Frecuencia Cardíaca 💓 (Vol. 90-110km),Spanish,Running,42 km,Intermediate,12,49.99,TRUE,2,0.00,0.00,2024-03-03,2024-03-04,TRUE
+435945,Maratona - 12 semanas - Entre 90 e 110 km por semana - Ritmo / Potência / Frequência cardíaca,Portuguese,Running,42 km,Intermediate,12,24.00,TRUE,0,0.00,0.00,,,TRUE
+435947,Maratona Express | 12 Semanas | Vol. 1 (<90km) | Heart rate,Portuguese,Running,42 km,Beginner,12,24.00,TRUE,0,0.00,0.00,,,TRUE
+436154,Maratona - 18 semanas - Entre 110 e 135 km por semana - Ritmo / Potência / Frequência cardíaca,Portuguese,Running,42 km,Advanced,18,36.00,TRUE,0,0.00,0.00,,,TRUE
+436384,Natação: 1500m Sem Parar | 6 Semanas | Desafio Iniciante | Resistência | Compatível Garmin,Portuguese,Swimming,1500m,Beginner,6,24.00,TRUE,0,0.00,0.00,,,TRUE
+436502,Ciclismo: Base & FTP | 8 Semanas | Iniciante | Método Polarizado,Portuguese,Cycling,FTP,Beginner,8,20.00,TRUE,0,0.00,0.00,,,TRUE
+436503,Ciclismo: Performance & FTP | 16 Semanas | Avançado | Método Polarizado,Portuguese,Cycling,FTP,Advanced,16,32.00,TRUE,0,0.00,0.00,,,TRUE
+436504,Ciclismo: Aumento de FTP | 12 Semanas | Intermediário | Método Polarizado,Portuguese,Cycling,FTP,Intermediate,12,24.00,TRUE,0,0.00,0.00,,,TRUE
+437462,9 Week Olympic Base: Triathlon 🏊‍♂️🚴🏃 (Beginner),English,Triathlon,Olympic,Beginner,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+437522,5k Elite / Velocidade | 8 Semanas | Avançado | Sistema polarizado 80-20,Portuguese,Running,5 km,Advanced,8,20.00,TRUE,0,0.00,0.00,,,TRUE
+437525,5k Express | 8 Semanas | Intermediário | Sistema polarizado 80-20,Portuguese,Running,5 km,Intermediate,8,20.00,TRUE,0,0.00,0.00,,,TRUE
+437526,5k: Primeiros 5km | 8 Semanas | Iniciante | Sistema polarizado 80-20,Portuguese,Running,5 km,Beginner,8,20.00,TRUE,0,0.00,0.00,,,TRUE
+437626,10k: Do 5k aos 10k | 8 Semanas | Iniciante | Sistema polarizado 80-20,Portuguese,Running,10 km,Beginner,8,20.00,TRUE,0,0.00,0.00,,,TRUE
+437632,Meia Maratona (21k) | 16 Semanas | Iniciante | Concluir a Prova,Portuguese,Running,21 km,Beginner,16,32.00,TRUE,0,0.00,0.00,,,TRUE
+437865,10k Evolução | 12 Semanas | Intermediário | Sistema polarizado 80-20,Portuguese,Running,10 km,Intermediate,12,24.00,TRUE,0,0.00,0.00,,,TRUE
+437866,Plan 12 Semanas: 10 km 🏃 (Avanzados),Spanish,Running,10 km,Advanced,12,39.99,TRUE,0,0.00,0.00,,,TRUE
+437868,10k Performance | 12 Semanas | Avançado | Sistema polarizado 80-20,Portuguese,Running,10 km,Advanced,12,24.00,TRUE,0,0.00,0.00,,,TRUE
+438913,Natação: 1500m (Olímpico) | 16 Semanas | Intermediário | Performance | Compatível Garmin,Portuguese,Swimming,1500m,Intermediate,16,32.00,TRUE,0,0.00,0.00,,,TRUE
+439342,Maratona de Tokyo 2026 - 12 semanas - Até 90 km por semana - Início até 8 de dezembro,Portuguese,Running,42 km,Beginner,12,24.00,FALSE,0,0.00,0.00,,,TRUE
+439344,Maratona de Tokyo 2026 - 12 semanas - Entre 90 e 110 km por semana - Início até 8 de dezembro,Portuguese,Running,42 km,Beginner,12,24.00,FALSE,0,0.00,0.00,,,TRUE
+439346,Tokyo Marathon 2026: 12 Week Advanced - 110-135km Weekly - Start Dec 8,English,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+439350,Maratón Tokyo 2026: Plan 12 Semanas - Vol: >110km semanales - Inicio 8-Dic,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+439351,Maratón Tokyo 2026: Plan 12 Semanas - Vol: 90-110km semanales - Inicio 8-Dic,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+439352,Maratón Tokyo 2026: Plan 12 Semanas - Vol: <90km Semanales - Inicio 8-Dic,Spanish,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+439394,Boston Marathon 2026: 18 weeks Advanced - 110-135 km weekly - Start December 15 2025,English,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+439396,Boston Marathon 2026: 18 weeks Intermediate - 90-110 km weekly - Start December 15 2025,English,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+439397,Boston Marathon 2026: 18 weeks Beginner Prep - Start December 15 2025,English,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+439404,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Intermediate (90-110k) (Start Feb 2),English,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+439405,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Beginner Prep (Start Feb 2),English,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+439408,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Beginner Prep,English,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+439419,Maratón de Boston 2026 - 18 semanas - Vol: >110km semanales - Inicio 15 Diciembre 2026,Spanish,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+439420,Maratón de Boston 2026 - 18 semanas - Vol: 90-110km semanales - Inicio 15 Diciembre 2026,Spanish,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+439421,Maratón de Boston 2026 - 18 semanas - Vol: <90km Semanales - Inicio 15 Diciembre 2026,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+439428,Maratón de Londres 2026 - 18 semanas - Vol: 90-110km semanales - Inicio 22 Diciembre 2026,Spanish,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+439429,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+439815,24 Week Full Distance Peak: Triathlon 🏊‍♂️🚴🏃 (Advanced Polarized),English,Triathlon,Full,Advanced,24,79.99,FALSE,0,0.00,0.00,,,TRUE
+439845,Plan 24 Semanas: FULL / Larga Distancia Peak 🏊🚴🏃 (Avanzado),Spanish,Triathlon,Full,Advanced,24,79.99,TRUE,0,0.00,0.00,,,TRUE
+439860,Triathlon: Distância Completa | 23 Semanas | Avançado | Performance,Portuguese,Triathlon,Full,Advanced,23,46.00,TRUE,0,0.00,0.00,,,TRUE
+439919,Meia Maratona (21k) | 16 Semanas | Intermediário | Foco em Resistência,Portuguese,Running,21 km,Intermediate,16,32.00,TRUE,0,0.00,0.00,,,TRUE
+439920,16 Week Half Marathon 21 km Build: Run 🏃 (Intermediate - Polarized 80/20),English,Running,21 km,Intermediate,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+441196,20 Week Half Distance Peak: Triathlon 🏊‍♂️🚴🏃 (Advanced Polarized 80/20),English,Triathlon,Half,Advanced,20,69.99,TRUE,0,0.00,0.00,,,TRUE
+441223,19 Week Olympic Build: Triathlon 🏊‍♂️🚴🏃 (Intermediate to Advanced),English,Triathlon,Olympic,Advanced,19,59.99,TRUE,0,0.00,0.00,,,TRUE
+441256,Plan 20 Semanas: Triatlón Olímpico Build 🏊🚴🏃 (Polarizado 80/20),Spanish,Triathlon,Olympic,Advanced,20,59.99,TRUE,0,0.00,0.00,,,TRUE
+441721,22 Week Full Distance Prep: Triathlon 🏊‍♂️🚴🏃 (First Timer Focus),English,Triathlon,Full,Beginner,22,79.99,TRUE,0,0.00,0.00,,,TRUE
+442088,22 Week Full Distance Build: Triathlon 🏊‍♂️🚴🏃 (Polarized 80/20),English,Triathlon,Full,Intermediate,22,79.99,FALSE,0,0.00,0.00,,,TRUE
+442089,Plan 22 Semanas: FULL / Larga Distancia Build 🏊🚴🏃 (Polarizado 80/20),Spanish,Triathlon,Full,Intermediate,22,79.99,TRUE,0,0.00,0.00,,,TRUE
+442090,19 Week Half Distance Prep: Triathlon 🏊‍♂️🚴🏃 (First Timer Focus),English,Triathlon,Half,Beginner,19,69.99,TRUE,0,0.00,0.00,,,TRUE
+442098,19 Week Half Distance Build: Triathlon 🏊‍♂️🚴🏃 (Intermediate Polarized),English,Triathlon,Half,Intermediate,19,69.99,TRUE,0,0.00,0.00,,,TRUE
+442305,Plan 19 Semanas: Triatlón HALF / Media Distancia 🏊🚴🏃 - Principiantes a intermedios,Spanish,Triathlon,Half,Beginner,19,69.99,TRUE,0,0.00,0.00,,,TRUE
+443884,17 Week Olympic Prep: Triathlon 🏊‍♂️🚴🏃 (First Timer Focus),English,Triathlon,Olympic,Beginner,17,59.99,TRUE,0,0.00,0.00,,,TRUE
+443885,12 Week Sprint Prep: Triathlon 🏊‍♂️🚴🏃 (First Timer Focus),English,Triathlon,Short - Sprint,Beginner,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+443888,Plan 13 Semanas: Triatlón Sprint Prep 🏊🚴🏃 (Tu Primer Triatlón),Spanish,Triathlon,Short - Sprint,Beginner,13,49.99,TRUE,0,0.00,0.00,,,TRUE
+443948,12 Week Triathlon Base: Swim/Bike/Run 🏊‍♂️🚴🏃 (Maintenance),English,Triathlon,Base,Beginner,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+475339,Maratona - 18 semanas - Até 90 km por semana - Ritmo / Pace,Portuguese,Running,42 km,Beginner,18,36.00,TRUE,0,0.00,0.00,,,TRUE
+476494,Plan 12 Semanas: Maratón Build - Por Ritmo ⏱️ (Vol. 90-110km),Spanish,Running,42 km,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+476496,Plan 18 Semanas: Maratón Peak - Por Ritmo ⏱️ (Vol. >110km),Spanish,Running,42 km,Advanced,18,64.00,TRUE,0,0.00,0.00,,,TRUE
+476497,Plan 18 Semanas: Maratón Build - Por Ritmo ⏱️ (Vol. 90-110km),Spanish,Running,42 km,Intermediate,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+476498,Plan 18 Semanas: Maratón Base - Por Ritmo ⏱️ (Vol. <90km),Spanish,Running,42 km,Beginner,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+476525,Plan 12 Semanas: Maratón Peak - Por Ritmo ⏱️ (Vol. >110km),Spanish,Running,42 km,Advanced,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+476791,Plan 18 Semanas: Maratón con Potencia ⚡ (Stryd Principiante),Spanish,Running,42 km,Beginner,18,64.00,TRUE,0,0.00,0.00,,,TRUE
+479405,Plan 8 Semanas: Polarizado 80/20 - Ciclismo 🚴 + Gimnasio 🏋️ - Mejora tu FTP 🚀,Spanish,Cycling,FTP,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+479412,Plan 12 Semanas: Polarizado 80/20 - Ciclismo 🚴 + Gimnasio 🏋️ - Mejora tu FTP 🚀,Spanish,Cycling,FTP,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+480010,Plan 12 Semanas: Base Triatlón 🏊🚴🏃 - Mantenimiento de fitness (CTL),Spanish,Triathlon,Base,Beginner,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+480025,Plan 16 Semanas: Triatlón Olímpico 🏊🚴🏃 (Tu Primer Triatlón),Spanish,Triathlon,Olympic,Beginner,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+480109,Plan 13 Semanas: Triatlón Sprint Peak 🏊🚴🏃 (Intermedios a avanzados),Spanish,Triathlon,Short - Sprint,Intermediate,13,48.00,TRUE,0,0.00,0.00,,,TRUE
+480134,Plan 12 Semanas: Triatlón Sprint + Gym 🏋️ (Intermedio),Spanish,Triathlon,Short - Sprint,Intermediate,13,48.00,TRUE,0,0.00,0.00,,,TRUE
+480279,Plan 16 Semanas: Duatlón Clásico 🏃🚴 + Gym 🏋️ (Intermedio),Spanish,Duathlon,Dua Classic,Intermediate,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+480281,Plan 12 Semanas: Duatlón Short 🏃🚴 + Gym 🏋️ (Enfoque Velocidad),Spanish,Duathlon,Dua Sprint,Beginner,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+480287,Plan 21 Semanas: Powerman Full 🏃🚴 + Gym 🏋️ (Intermedio),Spanish,Duathlon,Dua full,Intermediate,21,79.99,TRUE,0,0.00,0.00,,,TRUE
+492216,8 Week FTP Builder: Ride 🚴 + Lift 🏋️ (Hybrid Polarized),English,Cycling,FTP,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+492318,[Objetivo 2026] Plan para bajar de peso: 14 Semanas: Running 🏃 + Gym 🏋️,Spanish,Running,21 km,Beginner,14,49.99,TRUE,0,0.00,0.00,,,TRUE
+492952,Plan 9 Semanas: 5 km Base 🏃 (Principiante Polarizado 80/20),Spanish,Running,5 km,Beginner,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+492964,Plan 9 Semanas: 5 km Prep 🏃 + Gym 🏋️ (Principiantes),Spanish,Running,5 km,Beginner,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+493001,Plan 9 Semanas: 5 km Base 🏃 (Intermedios Polarizado 80/20),Spanish,Running,5 km,Intermediate,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+493009,Plan 9 Semanas: 5 km Base 🏃 (Avanzados Polarizado 80/20),Spanish,Running,5 km,Advanced,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+493011,Plan 9 Semanas: 5 km Prep 🏃 + Gym 🏋️ (Avanzados),Spanish,Running,5 km,Advanced,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+493030,Plan 14 Semanas: 21 km / Media Maratón Peak 🏃 (Avanzado Polarizado),Spanish,Running,21 km,Advanced,14,49.99,TRUE,0,0.00,0.00,,,TRUE
+493038,Plan 12 Semanas: 10 km Base 🏃 (Principiante Polarizado 80/20),Spanish,Running,10 km,Beginner,12,39.99,TRUE,0,0.00,0.00,,,TRUE
+493081,Plan 12 Semanas: 10 km Prep 🏃 + Gym 🏋️ (Intermedios),Spanish,Running,10 km,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+493083,Plan 12 Semanas: 10 km Peak 🏃 (Avanzado Polarizado 80/20),Spanish,Running,10 km,Advanced,12,39.99,TRUE,0,0.00,0.00,,,TRUE
+493414,Plan 8 Semanas: Gran Fondo Base - Ciclismo 🚴 + Gimnasio 🏋️,Spanish,Cycling,FTP,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+493416,Plan 8 Semanas Indoor: Potencia en Rodillo 🚴 + Gimnasio 🏋️ (Zwift Ready),Spanish,Cycling,FTP,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+493511,Plan 16 Semanas Indoor: Potencia en Rodillo 🚴 + Gimnasio 🏋️ (Zwift Ready),Spanish,Cycling,FTP,Advanced,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+493539,8 Week Gran Fondo Base: Ride 🚴 + Lift 🏋️ (Endurance Focus),English,Cycling,FTP,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+493659,16 Week Gran Fondo Peak: Ride 🚴 + Lift 🏋️ (Century Prep),English,Cycling,FTP,Advanced,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+493660,12 Week Gran Fondo Build: Ride 🚴 + Lift 🏋️ (Century Prep),English,Cycling,FTP,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+493724,12 Week Indoor Power Builder: Ride 🚴 + Lift 🏋️ (Zwift Ready),English,Cycling,FTP,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+493909,[Objetivo 2026] Plan 16 Semanas: Pérdida de Peso - Ciclismo 🚴 + Gimnasio 🏋️,Spanish,Cycling,FTP,Advanced,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+500575,18 Week Marathon Peak: Pace Based ⏱️ (Advanced Vol: 110km+),English,Running,42 km,Advanced,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+522290,[Objetivo 2026] Plan para bajar de peso: 24 Semanas: Running 🏃 + Gym 🏋️,Spanish,Running,21 km,Beginner,24,79.99,TRUE,0,0.00,0.00,,,TRUE
+522765,Maratón Barcelona 2026: Plan 12 Semanas - Vol: >110km semanales - Inicio 22 Dic,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+522769,Maratón Barcelona 2026: Plan 18 Semanas - Vol: >110km semanales - Inicio 10 Nov,Spanish,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+522770,Maratón Barcelona 2026: Plan 18 Semanas - Vol: 90-110km semanales - Inicio 10 Nov,Spanish,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+522771,Maratón Barcelona 2026: Plan 18 Semanas - Vol: <90km semanales - Inicio 10 Nov,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+522799,Barcelona Marathon 2026: 12 weeks Advanced - 110-135 km weekly - Start Dec 22,English,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+522800,Barcelona Marathon 2026: 12 weeks Intermediate - 90-110 km weekly - Start Dec 22,English,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+522801,Barcelona Marathon 2026: 12 weeks Beginner Prep - Start Dec 22,English,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+528890,12 Week Marathon Base: Pace Based ⏱️ (Beginner Vol: <90km),English,Running,42 km,Beginner,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+528891,12 Week Marathon Build: Pace Based ⏱️ (Intermediate Vol: 90-110km),English,Running,42 km,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+528892,12 Week Marathon Peak: Pace Based ⏱️ (Advanced Vol: 110km+),English,Running,42 km,Advanced,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+528893,18 Week Marathon Build: Pace Based ⏱️ (Intermediate Vol: 90-110km),English,Running,42 km,Intermediate,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+528894,18 Week Marathon Base: Pace Based ⏱️ (Beginner Vol: <90km),English,Running,42 km,Beginner,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+530284,Plan 23 Semanas: FULL / Larga Distancia Peak 🏊🚴🏃 (Intermedios a Avanzado),Spanish,Triathlon,Full,Advanced,23,79.99,TRUE,0,0.00,0.00,,,TRUE
+546013,16 Week Swim Performance: Speed & Endurance (Beginner 3x),English,Swimming,All-round,Beginner,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+546022,16 Week Swim Performance: Speed & Endurance (Intermediate 4x),English,Swimming,All-round,Intermediate,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+546039,Plan 16 Semanas: Natación Técnica y Resistencia 🏊 - Polarizado (Intermedio - 4x),Spanish,Swimming,All-round,Intermediate,16,54.99,TRUE,0,0.00,0.00,,,TRUE
+546040,Plan 16 Semanas: Natación Técnica y Resistencia 🏊 - Polarizado (Avanzado - 5x),Spanish,Swimming,All-round,Advanced,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+546055,16 Week Swimmer's Body: Swim 🏊 + Dryland Strength 🏋️ (Advanced),English,Swimming,All-round,Advanced,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+546057,16 Week Swimmer's Body: Swim 🏊 + Dryland Strength 🏋️ (Intermediate),English,Swimming,All-round,Intermediate,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+547020,Plan 12 Semanas: 5k Velocidad 🚀 (Objetivo Sub-20min - Vol. Medio 4x/semana),Spanish,Running,5 km,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+547291,Plan 12 Semanas: 5k Velocidad 🚀 (Objetivo Sub-20min - Vol. Alto 5x/semana),Spanish,Running,5 km,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+547294,Plan 12 Semanas: 5k Velocidad 🚀 (Objetivo Sub-20min - Vol. Elite 6x/semana),Spanish,Running,5 km,Advanced,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+554869,[Objetivo 2026] 5 km para avanzados (12 semanas + 1 semana de testeo),Spanish,Running,5 km,Advanced,13,49.99,TRUE,0,0.00,0.00,,,TRUE
+554880,[Objetivo 2026] 5 km para intermedios (12 semanas + 1 semana de testeo),Spanish,Running,5 km,Intermediate,13,49.99,TRUE,0,0.00,0.00,,,TRUE
+557728,[Objetivo 2026] 5 km para principiantes (12 semanas + 1 semana de testeo),Spanish,Running,5 km,Beginner,13,49.99,TRUE,0,0.00,0.00,,,TRUE
+561948,13 Week HYROX Run Build: Intermediate (Crush the Run),English,Running,HYROX,Intermediate,13,49.99,TRUE,0,0.00,0.00,,,TRUE
+561957,Plan 13 Semanas: Preparación HYROX Run 🏃 (Principiante),Spanish,Running,HYROX,Beginner,13,49.99,TRUE,0,0.00,0.00,,,TRUE
+566190,Principiante: Plan 9 Semanas: Bloque de VO2Max ⚡ - Aumenta tu Motor (Nivel 1),Spanish,Cycling,VO2Max,Beginner,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566209,Principiante: Plan 9 Semanas: Bloque de FTP 🔥 - Sube tu Umbral (Nivel 1),Spanish,Cycling,FTP,Beginner,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566215,Principiante: Plan 9 Semanas: Velocidad y Sprint 🚀 - Potencia Explosiva (Nivel 1),Spanish,Cycling,Sprint,Beginner,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566223,Principiante: Plan 9 Semanas: Escalador Puro 🏔️ - Sube más rápido (Nivel 1),Spanish,Cycling,FTP,Beginner,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566231,Principiante: Plan 9 Semanas: Base Aeróbica 🔋 - Pre-Temporada (Nivel 1),Spanish,Cycling,FTP,Beginner,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566787,Intermedio: Plan 9 Semanas: Base Aeróbica 🔋 - Pre-Temporada (Nivel 2),Spanish,Cycling,FTP,Intermediate,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566788,Intermedio: Plan 9 Semanas: Velocidad y Sprint 🚀 - Potencia Explosiva (Nivel 2),Spanish,Cycling,Sprint,Intermediate,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566789,Intermedio: Plan 9 Semanas: Escalador Puro 🏔️ - Sube más rápido (Nivel 2),Spanish,Cycling,FTP,Intermediate,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566791,Intermedio: Plan 9 Semanas: Bloque de VO2Max ⚡ - Aumenta tu Motor (Nivel 2),Spanish,Cycling,VO2Max,Intermediate,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566792,Avanzado: Plan 9 Semanas: Base Aeróbica 🔋 - Pre-Temporada (Nivel 3),Spanish,Cycling,FTP,Advanced,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566793,Avanzado: Plan 9 Semanas: Velocidad y Sprint 🚀 - Potencia Explosiva (Nivel 3),Spanish,Cycling,Sprint,Advanced,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566794,Avanzado: Plan 9 Semanas: Escalador Puro 🏔️ - Sube más rápido (Nivel 3),Spanish,Cycling,FTP,Advanced,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566795,Avanzado: Plan 9 Semanas: Bloque de VO2Max ⚡ - Aumenta tu Motor (Nivel 3),Spanish,Cycling,VO2Max,Advanced,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+566796,Avanzado: Plan 9 Semanas: Bloque de FTP 🔥 - Sube tu Umbral (Nivel 3),Spanish,Cycling,FTP,Advanced,9,39.99,TRUE,0,0.00,0.00,,,TRUE
+567561,Triathlon Olímpico | 19 Semanas | Avançado | Alta Performance,Portuguese,Triathlon,Olympic,Advanced,19,38.00,FALSE,0,0.00,0.00,,,TRUE
+567562,20 Week Olympic Peak: Triathlon 🏊‍♂️🚴🏃 (Advanced Polarized),English,Triathlon,Olympic,Advanced,20,59.99,FALSE,0,0.00,0.00,,,TRUE
+567564,Plan 20 Semanas: Triatlón Olímpico Peak 🏊🚴🏃 (Polarizado 80/20 - Avanzado),Spanish,Triathlon,Olympic,Advanced,20,59.99,FALSE,0,0.00,0.00,,,TRUE
+597513,Barcelona Marathon 2026: 18 weeks Advanced - 110-135 km weekly - Start Nov 10,English,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+597514,Barcelona Marathon 2026: 18 weeks Intermediate - 90-110 km weekly - Start Nov 10,English,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+597515,Barcelona Marathon 2026: 18 weeks Beginner Prep - Start Nov 10,English,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+597519,Maratona de Barcelona 2026 - 18 semanas - Até 90 km por semana - Início até 10 de novembro,Portuguese,Running,42 km,Beginner,18,72.00,FALSE,0,0.00,0.00,,,TRUE
+597521,Maratona de Barcelona 2026 - 18 semanas - Entre 110 e 135 km por semana - Início até 10 de novembro,Portuguese,Running,42 km,Advanced,18,72.00,FALSE,0,0.00,0.00,,,TRUE
+597524,Maratona de Barcelona 2026 - 18 semanas - Entre 90 e 110 km por semana - Início até 11 de novembro,Portuguese,Running,42 km,Intermediate,18,72.00,FALSE,0,0.00,0.00,,,TRUE
+602951,8 Week Time-Crunched Weight Loss: Indoor Cycle 🚴 + Home Strength 🏠 (No Gym),English,Cycling,Weight Loss,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+602954,4 Week Weight Loss Kickstart: Ride 🚴 + Home Strength 🏠 (No Gym),English,Cycling,Weight Loss,Beginner,4,19.99,TRUE,0,0.00,0.00,,,TRUE
+602958,8 Week Time-Crunched Weight Loss: Ride 🚴 + Full Gym Lifting 🏋️ - Body recomposition,English,Cycling,Weight Loss,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+602964,4 Week Weight Loss Kickstart: Ride 🚴 + Full Gym Lifting 🏋️,English,Cycling,Weight Loss,Beginner,4,19.99,TRUE,0,0.00,0.00,,,TRUE
+602977,8 Week Weight Loss: 4 Rides 🚴 + 2 Home Lifts 🏠 (No Gym),English,Cycling,Weight Loss,Intermediate,8,44.99,TRUE,0,0.00,0.00,,,TRUE
+603038,4 Week Weight Loss Kickstart: Run 🏃 + Home Strength 🏠 (No Gym),English,Running,Weight Loss,Beginner,4,19.99,TRUE,0,0.00,0.00,,,TRUE
+603040,8 Week Time-Crunched Weight Loss: Run 🏃 + Full Gym,English,Running,Weight Loss,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+603217,8 Week Weight Loss FAT-MAX progression: 4 Runs 🏃 + 2 Home Strength 🏠 (No Gym),English,Running,Weight Loss,Beginner,8,44.99,TRUE,0,0.00,0.00,,,TRUE
+603253,8 Week High-Volume Weight Loss: 5 Runs 🏃 + 2 Gym Lifts 🏋️ (Body Recomposition),English,Running,Weight Loss,Beginner,8,49.99,TRUE,0,0.00,0.00,,,TRUE
+603283,4 Week Low-Impact Kickstart: Swim 🏊 + Home Strength 🏠 (No Gym),English,Swimming,Weight Loss,Beginner,4,19.99,TRUE,0,0.00,0.00,,,TRUE
+603400,8 Week Triathlon Weight Loss: Swim/Bike/Run + Home Strength 🏠 (No Gym),English,Triathlon,Weight Loss,Beginner,8,49.99,TRUE,0,0.00,0.00,,,TRUE
+603504,4 Week Triathlon Weight Loss Kickstart: Swim/Bike/Run + Home Strength 🏠,English,Triathlon,Weight Loss,Beginner,4,19.99,TRUE,0,0.00,0.00,,,TRUE
+603517,"16 Week Gran Fondo Weight Loss: ""Climb Faster"" Prep 🚴 + Home Strength 🏠 (No Gym)",English,Cycling,Weight Loss,Intermediate,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+603523,"16 Week Gran Fondo Weight Loss: ""Climb Faster"" Prep 🚴 + Full Gym Periodized Strength 🏋️",English,Cycling,Weight Loss,Intermediate,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+604334,12 Week Marathon: Run 🏃 + Gym Lifting 🏋️ (Beginner 55 to 88 km / week),English,Running,42 km,Beginner,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+604335,12 Week Marathon Build: Run 🏃 + Gym Lifting 🏋️ (Intermediate 90-110km),English,Running,42 km,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+604336,12 Week Marathon Peak: Run 🏃 + Gym Lifting 🏋️ (Advanced 110km+),English,Running,42 km,Advanced,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+604337,18 Week Marathon Base: Run 🏃 + Gym Lifting 🏋️ (Beginner <90km),English,Running,42 km,Beginner,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+604339,18 Week Marathon Build: Run 🏃 + Gym Lifting 🏋️ (Intermediate 90-110km),English,Running,42 km,Intermediate,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+604340,18 Week Marathon Peak: Run 🏃 + Gym Lifting 🏋️ (Advanced 110km+),English,Running,42 km,Advanced,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+604546,Corrida & Emagrecimento | 8 Semanas | Express | Força em Casa 🏋️🏠 (Sem Equipamento) ,Portuguese,Running,Weight Loss,Beginner,8,29.99,FALSE,0,0.00,0.00,,,TRUE
+604548,Desafio 4 Semanas: Corrida | Perda de Peso | Força em Casa 🏋️🏠 (Sem Equipamento) ,Portuguese,Running,Weight Loss,Beginner,4,19.99,FALSE,0,0.00,0.00,,,TRUE
+604550,Corrida & Emagrecimento | 8 Semanas | Com Academia 🏋️ | Express,Portuguese,Running,Weight Loss,Beginner,8,29.99,FALSE,0,0.00,0.00,,,TRUE
+604555,Desafio 4 Semanas: Corrida | Perda de Peso | Força em Academia 🏋️ ,Portuguese,Running,Weight Loss,Beginner,4,19.99,FALSE,0,0.00,0.00,,,TRUE
+604571,Corrida: Queima de Gordura (Fat-Max) | 8 Semanas | Com Academia 🏋️,Portuguese,Running,Weight Loss,Beginner,8,29.99,FALSE,0,0.00,0.00,,,TRUE
+604762,Ciclismo & Emagrecimento | 8 Semanas | Força em Casa 🏋️🏠 (Sem Equipamento) ,Portuguese,Cycling,Weight Loss,Beginner,8,29.99,FALSE,0,0.00,0.00,,,TRUE
+604765,Ciclismo & Emagrecimento | 8 Semanas | Força - Com Academia 🏋️ | Definição,Portuguese,Cycling,Weight Loss,Beginner,8,29.99,FALSE,0,0.00,0.00,,,TRUE
+604810,Desafio 4 Semanas: Ciclismo | Perda de Peso | Força em Casa 🏋️🏠 (Sem Equipamento) ,Portuguese,Cycling,Weight Loss,Beginner,4,19.99,FALSE,0,0.00,0.00,,,TRUE
+604812,Desafio 4 Semanas: Ciclismo | Perda de Peso | Força - Com Academia 🏋️ | Definição,Portuguese,Cycling,Weight Loss,Beginner,4,19.99,FALSE,0,0.00,0.00,,,TRUE
+604816,[Objetivo 2026] Ciclismo: Emagrecimento & Watts/kg | 8 Semanas | Força em Casa 🏋️🏠,Portuguese,Cycling,Weight Loss,Beginner,8,29.99,FALSE,0,0.00,0.00,,,TRUE
+604820,[Objetivo 2026] Ciclismo: Emagrecimento & Watts/kg | 8 Semanas | Força - Com Academia 🏋️,Portuguese,Cycling,Weight Loss,Beginner,8,29.99,FALSE,0,0.00,0.00,,,TRUE
+604934,[Objetivo 2026] Emagrecimento & Base: Corrida 🏃 + Ciclismo 🚴 + Força em casa 🏋️🏠,Portuguese,Duathlon,Weight Loss,Beginner,12,39.99,FALSE,0,0.00,0.00,,,TRUE
+604937,[Objetivo 2026] Emagrecimento & Base: Corrida 🏃 + Ciclismo 🚴 + Força em Academia 🏋️,Portuguese,Duathlon,Weight Loss,Beginner,12,39.99,FALSE,0,0.00,0.00,,,TRUE
+604939,[Objetivo 2026] Corrida 🏃 + Ciclismo 🚴 + Força em casa 🏋️🏠 : Volume & Resistência,Portuguese,Duathlon,Weight Loss,Intermediate,12,39.99,FALSE,0,0.00,0.00,,,TRUE
+604998,[Objetivo 2026] Corrida 🏃 + Ciclismo 🚴 + Força em Academia 🏋️ : Volume & Resistência,Portuguese,Duathlon,Weight Loss,Intermediate,12,39.99,FALSE,0,0.00,0.00,,,TRUE
+605018,[Objetivo 2026] Plan para bajar de peso: Ciclismo 🚴 + Fuerza en Casa 🏠 (Sin equipamiento),Spanish,Cycling,Weight Loss,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+605020,[Objetivo 2026] Inicia la pérdida de peso: Ciclismo 🚴 + Fuerza en Casa 🏠 (Sin equipamiento),Spanish,Cycling,Weight Loss,Beginner,4,19.99,TRUE,0,0.00,0.00,,,TRUE
+605024,[Objetivo 2026] Inicia la pérdida de peso: Ciclismo 🚴 + Fuerza en Gimnasio 🏋️,Spanish,Cycling,Weight Loss,Beginner,4,19.99,TRUE,0,0.00,0.00,,,TRUE
+606085,[Objetivo 2026] Inicia la pérdida de peso: Running 🏃 + Fuerza en Casa 🏠 (Sin equipamiento),Spanish,Running,Weight Loss,Beginner,4,19.99,TRUE,0,0.00,0.00,,,TRUE
+606087,[Objetivo 2026] Plan para bajar de peso: Running 🏃 + Fuerza en Gimnasio 🏋️,Spanish,Running,Weight Loss,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+606092,[Objetivo 2026] Plan para bajar de peso (bajo impacto): Natación 🏊 + Fuerza en Casa 🏋️🏠,Spanish,Swimming,Weight Loss,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
+606569,[Objetivo 2026] Baja de peso con Triatlón 🏊 / 🚴 / 🏃 + Fuerza en Casa 🏋️🏠,Spanish,Triathlon,Weight Loss,Beginner,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+606570,[Objetivo 2026] Baja de peso con Triatlón 🏊 / 🚴 / 🏃 + Fuerza en Gimnasio 🏋️,Spanish,Triathlon,Weight Loss,Beginner,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+612081,16 Semanas HYROX Full Prep: Principiante (Tu Primera Meta) (🏃 Running + 🏋️‍♂️ Fuerza Progresiva),Spanish,Running,HYROX,Beginner,16,59.99,TRUE,0,0.00,0.00,,,TRUE
+612149,13 Semanas HYROX Foco em Corrida: Iniciante (Base e Resistência) 🏃,Portuguese,Running,HYROX,Beginner,13,49.99,FALSE,0,0.00,0.00,,,TRUE
+612168,13 Semanas HYROX Foco em Corrida: Intermediário (Ritmo de Prova) 🏃,Portuguese,Running,HYROX,Intermediate,13,49.99,FALSE,0,0.00,0.00,,,TRUE
+612178,13 Semanas HYROX Foco em Corrida: Avançado (Velocidade e Limiar) 🏃,Portuguese,Running,HYROX,Advanced,13,49.99,FALSE,0,0.00,0.00,,,TRUE
+612551,Plan 12 Semanas: Maratón Base (Carrera 🏃 + Gym 🏋️) - Volumen principiante (55 a 90km),Spanish,Running,42 km,Beginner,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+612554,Plan 12 Semanas: Maratón Build (Carrera 🏃 + Gym 🏋️) - Volumen intermedio (90-110km),Spanish,Running,42 km,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+612555,Plan 12 Semanas: Maratón Peak (Carrera 🏃 + Gym 🏋️) - Volumen avanzado (>110km),Spanish,Running,42 km,Advanced,12,49.99,TRUE,0,0.00,0.00,,,TRUE
+612559,Plan 18 Semanas: Maratón Base (Carrera 🏃 + Gym 🏋️) - Volumen principiante (55 a 90km),Spanish,Running,42 km,Beginner,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+612560,Plan 18 Semanas: Maratón Build (Carrera 🏃 + Gym 🏋️) - Volumen intermedio (90-110km),Spanish,Running,42 km,Intermediate,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+612561,Plan 18 Semanas: Maratón Peak (Carrera 🏃 + Gym 🏋️) - Volumen avanzado (>110km),Spanish,Running,42 km,Advanced,18,64.00,TRUE,0,0.00,0.00,,,TRUE
+612568,🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Volumen 55-90 km,Spanish,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+612570,🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Intermedio 90-110km,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+612571,🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Avanzado >110km/sem,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+612572,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Volumen 55-90 km,Spanish,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+612573,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Intermedio 90-110km,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+612574,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Avanzado >110km/sem,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+612577,🇺🇸 Maratona de Boston 🦄 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,12,29.99,FALSE,0,0.00,0.00,,,TRUE
+612581,🇬🇧 Maratona de Londres 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,12,29.99,FALSE,0,0.00,0.00,,,TRUE
+612582,Plano 18 Semanas: Base Maratona (Corrida 🏃 + Gym 🏋️) - Volume 55 a 90km / semana,Portuguese,Running,42 km,Beginner,18,39.99,TRUE,0,0.00,0.00,,,TRUE
+612820,🇬🇧 Maratona de Londres 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,TRUE
+612829,🇨🇱 Maratona de Santiago 2026 - 🇧🇷 Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,TRUE
+612836,🇵🇪 Maratona de Lima 2026 - 🇧🇷 Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,TRUE
+612838,🇧🇷 Maratona de Rio 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,TRUE
+612970,🇨🇱 Maratón de Santiago 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+612974,🇵🇪 Maratón de Lima 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+612978,🇧🇷 Maratón de Río de Janeiro 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,TRUE,0,0.00,0.00,,,TRUE

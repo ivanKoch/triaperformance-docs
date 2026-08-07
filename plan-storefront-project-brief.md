@@ -1,13 +1,13 @@
 # Project Brief — Training Plan Storefront ("Vidriera")
 
-*Self-contained kickoff doc. Everything needed to start the build in a fresh conversation. Written Jul 18, 2026. Companion files: `training-plans-analysis.md` (full analysis), `plan_performance.csv` (per-plan data: inventory + all-time sales + T12M sales + 12-month views + conversion), `growth-roadmap-ADDITION-plan-storefront.md` (to commit to triaperformance-docs).*
+*Self-contained kickoff doc. Everything needed to start the build in a fresh conversation. Written Jul 18, 2026. **Companion files are now IN the repo (Aug 6, 2026)** — they were named here but never committed, so every figure below was unverifiable for three weeks: `training-plans-analysis.md` (full analysis, regenerated), `data/plan_performance.csv` (per-plan: inventory + all-time units/gross/earnings + first/last sale), `data/plan_sales.csv` (transaction level, de-identified). Customer names and emails are deliberately excluded from both — same rule as the HubSpot export.*
 
 ## 1. The business today (verified numbers)
 
 | Metric | Value |
 |---|---|
 | Catalog | 407 rows: 394 built, 338 published on TP. ES 199 / EN 135 / PT 70 |
-| All-time sales (Jan 2023 – Jul 2026) | 499 units, $20,549 gross, $14,095 earnings |
+| All-time sales (Jan 2023 – Aug 2026) | **507 units, $20,897 gross, $14,334 earnings** *(refreshed Aug 6, 2026 from the full export; was 499 / $20,549 / $14,095 at Jul 18 — three more weeks of sales, not a restatement)* |
 | TP effective take | 29.4% |
 | Trailing 12 months | $8,814 gross / $6,018 earnings; +11% YoY, growth driven by price ($21→$49 avg), not volume |
 | Time invested since Jan 13, 2026 | Zero. 100% passive at $300–800/month |
@@ -19,7 +19,7 @@
 
 **What sells:** weight-loss mixes (#1 concept, 1.7% conv, 80% EN — ES untapped), Triathlon ES (1.8% conv, core franchise), HYROX (since Aug 2025, $56 avg, accelerating), 21km running, FTP/cycling *views* (but see below). January and June are peak months.
 
-**What doesn't:** race-year-stamped marathon plans (110 built, $1,620 all-time, Boston 16 plans/0 sales) — annual rebuild treadmill for nothing. Portuguese (17% of build effort, 5% of revenue). 55% of published plans have never sold once.
+**What doesn't:** race-year-stamped marathon plans (*refreshed Aug 6, 2026: **19 units / $599 all-time**, best race-year = London 2024 at 3 units / $83*) — annual rebuild treadmill for nothing. **Acted on August 6, 2026: the treadmill is retired.** All 17 remaining published race-stamped plans (Tokyo, Barcelona, Boston, London, Santiago, Rio) were unpublished, and no new ones will be built. Race demand is served by race landing pages joining the *generic* marathon plans live, which is what `race-page-data-schema.md` already specified ("it does not store plan IDs statically… this is what makes the whole system evergreen"). Rationale in `open-loops.md`. **Settled the same day with the real per-race data** (`training-plans-analysis.md` §3): race-stamped plans earned **19 units / $599 across three and a half years** — 3.7% of units. The best race in its best year is London 2024 at **three units, $83**, against a build cost of 18 variants. Nothing approaches the agreed bar of ≥10 units or ≥$300 per edition. Iván's recollection that London and Tokyo sold was correct; the magnitude is what decides it. **Retired permanently, and the Nov 1 review is closed three months early.** TrainingPeaks also unpublishes at race day and republishing mints a new URL, so no race listing ever accrues SEO either. Portuguese (17% of build effort, 5% of revenue). 55% of published plans have never sold once.
 
 **Wasted views (cheapest fix in the dataset):** EN Cycling (3,082 views, 0.5% conv; several FTP plans with 150–180 views and 0 sales) + EN Triathlon (777 views, 0.5% vs identical ES plans at 1.8%). ~24% of all traffic converting at ¼ rate ≈ ~$1,500/yr recoverable by rewriting listings. EN conversion gap is competitive (80/20 Endurance, MyProPlan ~900 EN plans, 100k+ sold, authority + reviews) — so EN needs differentiated positioning, ES/PT is where SEO is a blue ocean.
 

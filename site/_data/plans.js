@@ -257,6 +257,66 @@ module.exports = function () {
       : null;
   }
 
+  // ---------------------------------------------------------------------------
+  // seoTitle — a <=60 character page title, guaranteed unique within a language.
+  //
+  // Truncating long plan names alone produced duplicate titles, because sibling
+  // plans differ in the middle ("Volumen 55-90 km" vs "Intermedio 90-110km") or
+  // at the very end. Uniqueness can't be decided one plan at a time, so it's
+  // resolved here where the whole catalogue is in scope: truncate first, then
+  // walk the collisions and re-append the distinguishing attribute — difficulty,
+  // then week count. Anything still colliding after that is a genuinely
+  // duplicated listing on TrainingPeaks, not a titling problem, and is reported
+  // in the build log rather than papered over.
+  // ---------------------------------------------------------------------------
+  const LIMIT = 60;
+  const shorten = (s, limit = LIMIT) => {
+    const t = s.replace(/\s{2,}/g, " ").trim();
+    if (t.length <= limit) return t;
+    const tail = t.match(/\(([^()]{1,26})\)\s*$/);
+    if (tail) {
+      const room = limit - tail[1].length - 4;
+      if (room > 20) {
+        const head = t.slice(0, room);
+        return head.slice(0, head.lastIndexOf(" ")) + "… (" + tail[1] + ")";
+      }
+    }
+    const cut = t.slice(0, limit - 1);
+    return cut.slice(0, cut.lastIndexOf(" ")) + "…";
+  };
+  const DIFF_SHORT = {
+    es: { Beginner: "Principiante", Intermediate: "Intermedio", Advanced: "Avanzado" },
+    en: { Beginner: "Beginner", Intermediate: "Intermediate", Advanced: "Advanced" },
+    pt: { Beginner: "Iniciante", Intermediate: "Intermediário", Advanced: "Avançado" },
+  };
+
+  const trueDuplicates = [];
+  for (const code of ["es", "en", "pt"]) {
+    const seen = new Map();
+    for (const plan of byLanguage[code]) {
+      plan.seoTitle = shorten(plan.displayName);
+      if (!seen.has(plan.seoTitle)) seen.set(plan.seoTitle, []);
+      seen.get(plan.seoTitle).push(plan);
+    }
+    for (const [title, group] of seen) {
+      if (group.length < 2) continue;
+      for (const plan of group) {
+        for (const extra of [DIFF_SHORT[code][plan.difficulty], plan.weeks && `${plan.weeks} sem`]) {
+          if (!extra) continue;
+          const candidate = shorten(plan.displayName, LIMIT - extra.length - 3) + " · " + extra;
+          if (!group.some((p) => p !== plan && p.seoTitle === candidate)) { plan.seoTitle = candidate; break; }
+        }
+      }
+      const still = group.filter((p, i) => group.findIndex((q) => q.seoTitle === p.seoTitle) !== i);
+      if (still.length) trueDuplicates.push({ title, ids: group.map((p) => p.id) });
+    }
+  }
+  if (trueDuplicates.length) {
+    console.log(`[plans] ${trueDuplicates.length} plan(s) share an identical name on TrainingPeaks ` +
+      `— not a titling problem, the listings themselves are duplicates:`);
+    for (const d of trueDuplicates) console.log(`         ${d.ids.join(" / ")}  ${d.title}`);
+  }
+
   // Sibling plans for the "not the right fit?" cross-links. Same language, same
   // sport and same distance/focus — a wrong-fit visitor gets sent one click
   // sideways instead of back to Google. Nearest match wins: for difficulty, the

@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** August 6, 2026 (§17 — intent hub pages, plan-page content sections; plan-page content sections generated from data; asset cache-busting added after stale JS cost three debugging rounds; §17 also corrected — the Plan Storefront is live, not "not yet deployed"; three stale entries struck from the Open items list and the §8 cost table)
+**Last updated:** August 6, 2026 (§17 — SEO metadata pass, intent hub pages, plan-page content sections; plan-page content sections generated from data; asset cache-busting added after stale JS cost three debugging rounds; §17 also corrected — the Plan Storefront is live, not "not yet deployed"; three stale entries struck from the Open items list and the §8 cost table)
 **Status:** Live / operational
 
 ---
@@ -511,6 +511,50 @@ Fixed by deleting the parameter: the query now selects `WHERE status = 'APPROVED
 **Cost, measured:** ~US$0.08 per original article and ~US$0.05 per translation at `gemini-3.1-pro-preview`, with thinking tokens running 60% of output spend. A full ES→EN→PT set is about US$0.20. The `--limit` flags exist for batch-size sanity, not for the money.
 
 *Pending: `SETUP.md` still documents `tp-admin` being run with `CONTENT_DB_DSN` (a URI). It is now run with discrete `PG_*` variables — the password contains `:` and `@`, and the URI form is a live tripwire. Correct that file next session.*
+
+### SEO metadata pass (August 6, 2026)
+
+Triggered by an Ahrefs crawl. Measured against the real build before and after, rather than trusting the tool's counts:
+
+| | before | after |
+|---|---|---|
+| pages with Open Graph tags | **0 / 374** | 374 |
+| pages with Twitter card | **0 / 374** | 374 |
+| titles over 60 characters | 355 | 0 |
+| longest title | 134 | 60 |
+| duplicate titles | 16 | 0 |
+| meta descriptions under 110 | 46 | 0 |
+| meta descriptions over 160 | 13 | 0 |
+
+**Open Graph mattered most, and not for SEO.** No page had any, so every link shared to WhatsApp — the channel Iván actually sends plan links through — rendered as a bare URL. One templated block in `base.njk` covers all 374 pages and anything added later; blog posts reuse their existing `headline` and get `og:type: article` automatically. A purpose-built 1200×630 card (`og-default.jpg`, 105 KB) replaces what would otherwise have been the hero image. `site.defaultProductImage`, used by the Product schema, pointed at that hero — a **6000×4000, 7.4 MB** file — and now points at the card too.
+
+**Titles: two causes, neither requiring a rename on TrainingPeaks.** The template appended "— Plan de N semanas" to names already beginning "Plan N Semanas", and "| Triaperformance" was appended unconditionally at 18 characters a time. `seoTitleAuto` in `base.njk` now drops the brand suffix when a title doesn't fit and only truncates if it still doesn't — applied globally, so future pages and content-engine articles are covered without anyone remembering.
+
+**Uniqueness had to be solved with the whole catalogue in scope**, not per plan: sibling plans differ in the middle of their names ("Volumen 55-90 km" vs "Intermedio 90-110km"), so truncation collapsed them into identical titles. `plans.js` now truncates, then walks the collisions and re-appends difficulty or week count until each is distinct.
+
+**A real finding fell out of that.** Three pairs of plans carry byte-identical names on TrainingPeaks and are not a titling problem:
+
+- `393663` / `408607` — "Plan 4 Semanas: Natación 1900m - Tu Primer 1.9k (Intermedio)", same price, same difficulty, same length. Two listings for one product, splitting their own sales history.
+- `606569` / `606570` — "[Objetivo 2026] Baja de peso con Triatlón + Fuerza en Casa", likewise.
+- `612581` / `612820` — "Maratona de Londres 2026 - Corrida + Rotina de Gym - Volume 55-90 km", but **12 weeks at $29.99 vs 18 weeks at $39.99**. Same name, different product, different price — a buyer cannot tell them apart. Worth renaming on TP.
+
+The build prints these on every run, so they can't quietly return.
+
+*Resolved same day, checked against TrainingPeaks by Iván.* `393663` had been carrying `408607`'s name **and** the wrong difficulty: it is the Intermediate "Domina la Distancia", while `408607` is the Beginner "Tus primeros 1900m — Sincroniza con Garmin". `606569`/`606570` are the home-gym and full-gym variants of one weight-loss triathlon plan. `612581`/`612820` were London Marathon 2026, already run, now `is_published=FALSE`. Published count 321 → 319. Correcting the swim difficulty also repaired the sibling cross-links, which had been offering "the Principiante version" of a plan already labelled Principiante.
+
+**A larger finding fell out of the same scan: 17 more published plans are for 2026 races that have already happened** — Tokyo, Barcelona, Boston, London, Santiago and Rio — all still buyable. Cross-checked against `data/races.csv`, which puts the next Boston at 2027-04-19 and records the 2026 Rio edition as run in June. Logged in `open-loops.md`; the recommendation there is to rename to 2027 with corrected start dates rather than unpublish, since only the year is stale and the race-landing-pages initiative will want them.
+
+**Hero image, done the same day.** `hero.jpg` was **6000×4000 and 7.4 MB**, served as the CSS background on every page — a phone was downloading a 24-megapixel photo to fill a 390px box. Replaced with three widths in WebP plus JPEG fallback, selected by width *and* pixel density (a 390px phone at 3× wants ~1170 real pixels, so DPR has to be in the media query or retina screens get a soft image). Layered so it degrades cleanly: a plain `url()` shorthand every browser understands, then `image-set()` upgrades to WebP where supported.
+
+Measured in real Chromium by counting bytes actually transferred:
+
+| client | before | after |
+|---|---|---|
+| iPhone 13 | 7,236 KB | **72 KB** |
+| MacBook 1512 @2× | 7,236 KB | **241 KB** |
+| Desktop 1280 @1× | 7,236 KB | **72 KB** |
+
+`hero.jpg` and the unused `hero2.jpg` were deleted — the whole `site/assets/images/` directory is now **1.3 MB**, down from 8.8 MB. Both remain in git history if the 6000px original is ever needed for print.
 
 ### Outbound email `From` convention (August 6, 2026)
 

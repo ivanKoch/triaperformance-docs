@@ -74,11 +74,43 @@ nav a:hover { color: var(--blue); }
 
 /* Hero — full-bleed photo section (brand guideline: one allowed per page).
    Ink overlay at 35-50% opacity per guideline §6 when text sits on a photo. */
+/* Hero background, responsive (Aug 6, 2026). This was a single 6000x4000,
+   7.4 MB JPEG served to every visitor on every page — a phone was downloading
+   a 24-megapixel photo to fill a 390px-wide box, which is what Ahrefs was
+   reporting as "slow page". Now three widths in WebP with JPEG fallback, from
+   34 KB on a phone to 241 KB on a large desktop: 14x smaller at worst, ~200x
+   at best, with no visible difference at any real screen size.
+
+   Layering, in order: the plain `url()` shorthand is the floor every browser
+   understands; `image-set()` then upgrades it to WebP where supported (a
+   browser that doesn't know `image-set` discards that declaration and keeps
+   the JPEG). Breakpoints step on width, and on pixel density — a 390px phone
+   at 3x is asking for ~1170 real pixels, so DPR has to be part of the test or
+   retina screens get a soft image. */
 .hero {
   position: relative;
-  background: var(--ink) url("/assets/images/hero.jpg") center center / cover no-repeat;
+  background: var(--ink) url("/assets/images/hero-960.jpg") center center / cover no-repeat;
+  background-image: image-set(
+    url("/assets/images/hero-960.webp") type("image/webp"),
+    url("/assets/images/hero-960.jpg") type("image/jpeg"));
   color: var(--white); text-align: center;
   padding: 128px 0;
+}
+@media (min-width: 700px), (min-resolution: 2dppx) {
+  .hero { background-image: url("/assets/images/hero-1600.jpg"); }
+  .hero {
+    background-image: image-set(
+      url("/assets/images/hero-1600.webp") type("image/webp"),
+      url("/assets/images/hero-1600.jpg") type("image/jpeg"));
+  }
+}
+@media (min-width: 1400px) {
+  .hero { background-image: url("/assets/images/hero-2560.jpg"); }
+  .hero {
+    background-image: image-set(
+      url("/assets/images/hero-2560.webp") type("image/webp"),
+      url("/assets/images/hero-2560.jpg") type("image/jpeg"));
+  }
 }
 .hero::before {
   content: "";

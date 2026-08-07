@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% include "partials/analytics.njk" %}
-<title>{{ title }}</title>
+<title>{{ title | seoTitleAuto }}</title>
 {%- if description %}
-<meta name="description" content="{{ description }}">
+<meta name="description" content="{{ description | clamp(158) }}">
 {%- endif %}
 {%- if noindex %}
 <meta name="robots" content="noindex, nofollow">
@@ -24,6 +24,37 @@
 <link rel="alternate" hreflang="x-default" href="{{ alts.es | absoluteUrl }}">
 {%- endif %}
 {%- endif %}
+{#- Open Graph + Twitter card (added Aug 6, 2026). Every page had none, so a
+    link shared to WhatsApp, Instagram or anywhere else rendered as a bare URL
+    with no title, image or description. That matters more here than the SEO
+    framing suggests: plan links get sent to athletes over WhatsApp constantly,
+    and that's the highest-intent channel this site has.
+
+    Per-page overrides, all optional:
+      `ogTitle`  — shorter than the SEO <title>, which carries "| Triaperformance".
+                   Blog posts need nothing: their existing `headline` is used automatically.
+      `ogImage`  — page-specific image; falls back to the shared social card
+      `ogType`   — "article" on blog posts, "website" everywhere else
+    Everything else is derived, so a new page is covered without doing anything. -#}
+{%- set ogLocale = { es: "es_LA", en: "en_US", pt: "pt_BR" }[lang] or "es_LA" -%}
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:type" content="{{ ogType or "website" }}">
+<meta property="og:locale" content="{{ ogLocale }}">
+<meta property="og:title" content="{{ ogTitle or headline or title }}">
+{%- if description %}
+<meta property="og:description" content="{{ description }}">
+{%- endif %}
+<meta property="og:url" content="{{ page.url | absoluteUrl }}">
+<meta property="og:image" content="{{ (ogImage or site.socialImage) | absoluteUrl }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ ogTitle or headline or title }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ ogTitle or headline or title }}">
+{%- if description %}
+<meta name="twitter:description" content="{{ description }}">
+{%- endif %}
+<meta name="twitter:image" content="{{ (ogImage or site.socialImage) | absoluteUrl }}">
 <link rel="stylesheet" href="{{ "/assets/css/site.css" | v }}">
 {#- pageCss takes either a single filename or a list of them, loaded in order after site.css. -#}
 {%- if pageCss %}{% if pageCss is string %}

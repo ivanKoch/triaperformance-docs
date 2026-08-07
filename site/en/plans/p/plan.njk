@@ -9,7 +9,8 @@ layout: layouts/base.njk
 lang: en
 pageCss: plan-page.css
 eleventyComputed:
-  title: "{{ plan.displayName | safe }} — {{ plan.weeks }}-Week Plan | Triaperformance"
-  description: "{{ plan.displayName | safe }}: a {{ plan.weeks }}-week training plan on TrainingPeaks. US$ {{ plan.price }}."
+  title: "{{ plan.seoTitle | safe }}"
+  ogTitle: "{{ plan.displayName | safe }}"
+  description: "{% set d %}{{ plan.displayName | safe }}: a {{ plan.weeks }}-week plan on TrainingPeaks{% if plan.weeklyTotals and plan.weeklyTotals.sessions %}, {{ plan.weeklyTotals.sessions }} sessions a week{% if plan.weeklyTotals.hoursText %} ({{ plan.weeklyTotals.hoursText }} on average){% endif %}{% endif %}. Training zones, progression and recovery weeks included. US$ {{ plan.price }}.{% endset %}{{ d | clamp(158) }}"
 ---
 {% include "partials/plan-page-content.njk" %}

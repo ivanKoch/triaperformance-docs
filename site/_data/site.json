@@ -10,11 +10,31 @@
     "clarity": "xq3g7pvr9i"
   },
   "coachingPrice": "149",
-  "defaultProductImage": "/assets/images/hero.jpg",
+  "defaultProductImage": "/assets/images/og-default.jpg",
   "languages": {
-    "es": { "code": "es", "label": "ES", "home": "/", "blog": "/blog/" },
-    "en": { "code": "en", "label": "EN", "home": "/en/", "blog": "/en/blog/" },
-    "pt": { "code": "pt", "label": "PT", "home": "/pt/", "blog": "/pt/blog/" }
+    "es": {
+      "code": "es",
+      "label": "ES",
+      "home": "/",
+      "blog": "/blog/"
+    },
+    "en": {
+      "code": "en",
+      "label": "EN",
+      "home": "/en/",
+      "blog": "/en/blog/"
+    },
+    "pt": {
+      "code": "pt",
+      "label": "PT",
+      "home": "/pt/",
+      "blog": "/pt/blog/"
+    }
   },
-  "langOrder": ["es", "en", "pt"]
+  "langOrder": [
+    "es",
+    "en",
+    "pt"
+  ],
+  "socialImage": "/assets/images/og-default.jpg"
 }

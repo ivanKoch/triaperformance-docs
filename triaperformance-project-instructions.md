@@ -37,7 +37,8 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 - `triaperformance-business-overview.md` — revenue streams, current numbers, existing assets, current infrastructure. Owns the revenue and athlete-count figures.
 - `triaperformance-pricing-and-positioning.md` — how pricing actually works, who buys at which price point, All-Access pricing and checkout links. Owns every price.
 - `triaperformance-growth-roadmap.md` — the five growth pillars, tech-stack decisions, sequencing, the storefront initiative, the monetization parking lot.
-- `plan-storefront-project-brief.md` — the storefront's evidence base: all-time TP sales, catalog economics, decisions taken, build phases, KPIs.
+- `plan-storefront-project-brief.md` — the storefront's evidence base: catalog economics, decisions taken, build phases, KPIs. *Every figure in it must be reproducible from a file in `data/` (rule added Aug 6, 2026, after it spent three weeks citing companion files that were never committed).*
+- `training-plans-analysis.md` — **the numbers behind that brief** (added Aug 6, 2026): growth, race-plan performance, the long tail, return per plan built by sport, language split, seasonality, email capture and repeat purchase. Owns every sales figure. Sources: `data/plan_sales.csv` (transaction level) and `data/plan_performance.csv` (per plan) — both de-identified; customer names and emails never enter the repo.
 - `social-proof-and-reviews.md` — review inventory, quote bank, review-generation playbook, deployment status. Owns the review counts.
 - `content-engine-brief.md` — the status-driven content pipeline design: five agent contracts, data model, cadence, gates.
 - `methodology.md` — coaching methodology: testing protocols, zones, periodization, weekly decision loop, adjustment rules, fueling, race execution, communication voice, AI Coach red lines, worked athlete cases.
@@ -69,7 +70,7 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 
 **Data & code**
 
-- `data/` — `training_plans_inventory.csv` (the plan catalog, source of truth for the site build), `plan_weekly_breakdown.csv`, `plan_link_status.json`, `races.csv`.
+- `data/` — `training_plans_inventory.csv` (the plan catalog, source of truth for the site build), `plan_weekly_breakdown.csv`, `plan_link_status.json`, `races.csv`, **`plan_sales.csv`** (every transaction since Jan 2023, de-identified) and **`plan_performance.csv`** (per-plan units/gross/earnings joined to the inventory). *Standing rule: customer names and emails never enter this repo — strip them before committing any export, same as the HubSpot contact CSV.*
 - `automation/` — every VPS/cron Python script, the n8n workflow JSON reference copies, `Caddyfile`, `deploy-website.sh`.
 - `site/` — the Eleventy source. `website/` holds only the permanent `hubfs` route TrainingPeaks hotlinks.
 

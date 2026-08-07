@@ -165,6 +165,85 @@ module.exports = function (eleventyConfig) {
     return assetHashes.get(url);
   });
 
+  /**
+   * seoTitle — fit a page title into the ~60 characters Google renders.
+   *
+   * Added August 6, 2026: 355 of 374 titles were over 60, the longest 134, so
+   * the back half of every plan title was being truncated in results. Two
+   * causes, both fixed here rather than by rewriting 321 product names:
+   *   1. The template appended "— Plan de N semanas" to names that already
+   *      began "Plan N Semanas" — pure duplication, ~20 wasted characters.
+   *   2. "| Triaperformance" was appended unconditionally, costing 18 more.
+   *
+   * Rules, in order: keep the brand if the whole thing still fits; drop the
+   * brand if the name alone fits; otherwise cut at a word boundary. The front
+   * of a plan name carries the searchable part (distance, weeks, level), so
+   * truncation loses the tail, not the meaning. Titles are checked for
+   * uniqueness after truncation — see the build test.
+   */
+  eleventyConfig.addFilter("seoTitle", function (name, brand) {
+    const LIMIT = 60;
+    const clean = String(name || "").replace(/\s{2,}/g, " ").trim();
+    const suffix = brand ? ` | ${brand}` : "";
+    if (clean.length + suffix.length <= LIMIT) return clean + suffix;
+    if (clean.length <= LIMIT) return clean;
+
+    /* Truncating from the end alone produced 16 duplicate titles: sibling plans
+     * differ only in their tail — "(Intermedio - 4x)" vs "(Avanzado - 5x)" —
+     * so cutting the tail is cutting the one part that distinguishes them.
+     * Keep a short trailing qualifier (a parenthetical, or the last dash-
+     * separated segment) and truncate the middle instead. */
+    const tailMatch = clean.match(/\(([^()]{1,26})\)\s*$/) || clean.match(/[-–—]\s*([^-–—]{1,26})\s*$/);
+    const tail = tailMatch ? tailMatch[1].trim() : "";
+    if (tail) {
+      const room = LIMIT - tail.length - 4;           // "… (" + ")"
+      if (room > 20) {
+        const head = clean.slice(0, room);
+        return head.slice(0, head.lastIndexOf(" ")) + "… (" + tail + ")";
+      }
+    }
+    const cut = clean.slice(0, LIMIT - 1);
+    return cut.slice(0, cut.lastIndexOf(" ")) + "…";
+  });
+
+  /**
+   * seoTitleAuto — site-wide guardrail applied in base.njk to EVERY title.
+   *
+   * Most over-length titles were 61-79 characters, i.e. a perfectly good title
+   * plus the 18-character " | Triaperformance" suffix. Google already shows the
+   * site name beside the result, so the suffix is the first thing to go: drop
+   * it and the title fits, with nothing lost and no ellipsis. Only if the title
+   * is still too long on its own does it get cut.
+   *
+   * Applied globally rather than page by page so that anything added later —
+   * including articles written by the content engine — is covered without
+   * anyone remembering to check.
+   */
+  eleventyConfig.addFilter("seoTitleAuto", function (title) {
+    const LIMIT = 60;
+    const s = String(title || "").replace(/\s{2,}/g, " ").trim();
+    if (s.length <= LIMIT) return s;
+    const stripped = s.replace(/\s*[|—–-]\s*Triaperformance\s*$/, "").trim();
+    if (stripped.length <= LIMIT) return stripped;
+    const cut = stripped.slice(0, LIMIT - 1);
+    return cut.slice(0, cut.lastIndexOf(" ")).replace(/[,;:.\-–—|]$/, "").trim() + "…";
+  });
+
+  /**
+   * clamp — cut a meta description to `n` characters on a word boundary.
+   * Descriptions are assembled from a plan name plus real weekly figures, and
+   * plan names run to 94 characters, so the combined string routinely blew
+   * past the ~160 Google renders. Front-loaded facts survive; the tail doesn't
+   * need to.
+   */
+  eleventyConfig.addFilter("clamp", function (text, n) {
+    const s = String(text || "").replace(/\s{2,}/g, " ").trim();
+    const limit = n || 158;
+    if (s.length <= limit) return s;
+    const cut = s.slice(0, limit - 1);
+    return cut.slice(0, cut.lastIndexOf(" ")).replace(/[,;:.\-–—]$/, "") + "…";
+  });
+
   eleventyConfig.addFilter("withUtm", function (url, planId) {
     try {
       const u = new URL(url);

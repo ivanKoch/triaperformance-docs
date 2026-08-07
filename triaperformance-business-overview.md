@@ -3,6 +3,8 @@
 *Last updated: July 2026. Update this file whenever the numbers move — every other document assumes this one is current.*
 
 ## What Triaperformance is
+*Plan-sales figures are owned by `training-plans-analysis.md` (regenerated Aug 6, 2026 from the full TrainingPeaks export): 507 transactions since Jan 2023, $20,897 gross, $14,334 earnings, 2026 tracking to a record ~$6,800 on flat unit volume.*
+
 A triathlon and running coaching business, founded roughly three years ago, run solo. Coaching (CoachMatch + Private), training plan sales, and a dormant subscription product, all currently operating through TrainingPeaks as the backbone. The website has migrated off HubSpot onto the self-hosted VPS (live at `triaperformance.com` via Caddy). *Updated Aug 2, 2026:* it is no longer "a basic homepage" — it runs on an Eleventy build with a three-language blog, a gated members area hosting the interactive tools, per-language All-Access landing pages, and a dynamic plan catalog + individual plan-page template built July 30 — *corrected Aug 6, 2026: this said "(deploy pending)"; it is live, 321 plans across ES/EN/PT, verified against the live site.* The CRM is the self-hosted Twenty instance, sole system of record for leads and customers; **HubSpot is sunset and runs no live flow**. The only HubSpot item left is a one-time import of the 2,073 historical contacts (CSV already exported as insurance), parked until the storefront is ready to land a re-engagement blast. See `growth-roadmap.md`.
 
 ## Revenue streams (June 2026 snapshot)
