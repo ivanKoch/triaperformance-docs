@@ -127,3 +127,15 @@ Fixed in `.eleventy.js` with a `v` filter that appends `?v=<8 chars of the file'
 Standing rule: **when a deployed fix produces no change in symptom, verify the artifact before rewriting the code.** Fetch the deployed asset and diff it against local. One request would have saved three rounds. And a static site with no cache-busting cannot be debugged remotely at all — that was the real defect, and it had been sitting there since the Eleventy cutover.
 
 Still open, deliberately not done here: adding explicit `Cache-Control` to `automation/Caddyfile` (long-lived + `immutable` for `/assets/*` now that URLs are hashed, short/no-cache for HTML). Versioned URLs make correctness independent of it, but the headers would make caching efficient rather than accidental. Also still true: **WebKit was never testable in this environment** — Playwright's Chromium ran via a stubbed `libXdamage`, but WebKit needs the full GTK stack, which apt would not serve. Every browser-verified claim in this entry is Chromium-only.
+
+## Two selector bugs in one stylesheet, opposite causes (August 6, 2026)
+
+Both found by eye on a rendered page, both invisible to every automated check that existed.
+
+**A bare selector that leaked.** `site.css` carried `header { display: flex; justify-content: space-between; padding: 24px 0 }`, written for the nav bar. It matched *every* `<header>` on the site. The blog's `.article-hero` and eight members-area `.artifact-hero` / `.page-header` blocks therefore became flex containers, which made each one's inner `.wrap` a flex item — shrink-wrapped to its widest child instead of filling to `max-width: 1080px`, then centred by its own `margin: 0 auto`. Measured on an article: **682px wide at margin-left 379, against the 1080/180 every other `.wrap` on the page uses.** Visible as a title indented to the middle of the page above body text at the left margin. Scoped to `.site-nav-sticky header`, which both nav headers live inside. Six members pages were silently mis-aligned the same way and were fixed by the same one-line change.
+
+**A missing selector.** `.catalog-card` is a bare `<a>` and nothing ever gave it link styling — see the earlier entry. Same stylesheet, same day, opposite failure.
+
+The pair is the lesson: this codebase styles almost everything through classes, so **bare element selectors are where the surprises live** — both when one exists and shouldn't, and when one should exist and doesn't. Worth a sweep of `site.css` for other unscoped element rules; `header nav` descendants are harmless today only because the nav is the sole header containing a `<nav>`.
+
+**Plan cards in blog posts carried list bullets.** The content engine authors them as `<ul><li>{% planCard %}</li></ul>`, so each bordered card sat beside a bullet and inherited the list's 24px indent. Fixed in CSS (`ul:has(> li > .plan-pick)`) rather than by editing the five published articles — editing the posts would fix today's and every new article would arrive with bullets again. Ordinary bullet lists in the same articles are explicitly verified untouched.

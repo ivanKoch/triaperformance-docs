@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** August 6, 2026 (§17 — plan-page content sections generated from data; asset cache-busting added after stale JS cost three debugging rounds; §17 also corrected — the Plan Storefront is live, not "not yet deployed"; three stale entries struck from the Open items list and the §8 cost table)
+**Last updated:** August 6, 2026 (§17 — intent hub pages, plan-page content sections; plan-page content sections generated from data; asset cache-busting added after stale JS cost three debugging rounds; §17 also corrected — the Plan Storefront is live, not "not yet deployed"; three stale entries struck from the Open items list and the §8 cost table)
 **Status:** Live / operational
 
 ---
@@ -391,6 +391,20 @@ One process note for future sessions: a batch of edits (CSS fix, template link f
 ## 17. Plan Storefront Phase 1, part 1 — catalog + individual plan-page template (built July 30, 2026; **live, confirmed August 6, 2026**)
 
 First real build session on the storefront's core deliverable (`open-loops.md`'s one big branch, `plan-storefront-project-brief.md`, `growth-roadmap.md` storefront section). Scope this session: the individual plan-page template and the 3 catalog pages with facet filters. Not in scope: the AI plan picker (Phase 2), B-lite (Phase 3), direct checkout (deferred behind a revenue trigger). Everything below was built and locally verified (`npx eleventy --output=...`, clean build, zero template-syntax leaks, page counts confirmed against the data).
+
+*Update, August 6, 2026 (fourth pass — intent hub pages and site-wide nav fix). The storefront went from 4 category pages to **18 plan pages**, and the nav was pointing at the wrong places in all three languages.*
+
+*__Nav.__ ES "Planes" linked to `/planes/running/` — a filtered view — rather than the catalog. Worse, EN "Plans" and PT "Planos" pointed at `#planes`, an anchor on their own homepage, so **neither language had any nav route to its catalog at all** since the storefront shipped. All three now land on the unfiltered catalog. Dropdowns: ES 8 entries, EN 6 (its first), PT 4 (its first).*
+
+*__New hubs, built on the existing catalog component with a preset__ (`presetSport` / `presetDistance` / `presetFeature`), not as new page types: ES ciclismo 33, natación 19, ironman 13 · EN running 45, cycling 24, swimming 17, ironman 5, weight-loss 34 · PT maratona 14, ciclismo 3, ironman 2. Selection was inventory-led: cycling (60 across languages) and swimming (40) were the two largest categories with no page and no nav entry anywhere.*
+
+*__`presetDistances` added to the catalog component__ — a list rather than a single value, because the Ironman hub spans `Half` and `Full` and neither distance has the inventory for its own page (7 and 6 in Spanish). OR-within-a-group gives the union for free. One catalog per page remains a hard constraint: the mobile chip JS keys panels by an owner id restarting at `g0` per container and looks the scrim up document-wide, so two grids on one page would collide. Noted in the component header.*
+
+*__Closing coaching CTA__ (`partials/coaching-cta.njk`, copy in `planUi.json` ×3) — the three catalog index pages ended on the bare grid with no next step, while every other plan page promoted 1:1 coaching.*
+
+*__Shared `planes-hub.css`__ rather than a fifth through eleventh copy of the near-identical per-category stylesheets. The four legacy files (`planes-running`, `-triatlon`, `-hyrox`, `-bajar-de-peso`) are ~95% duplicates of each other and were deliberately left alone — folding them in is a separate change with its own regression surface.*
+
+*Verified in real Chromium across all 18 pages: exact plan counts, single `<h1>`, CTA present, hreflang pairing, nav dropdown contents, and the mobile chip bar on the new hubs. Nothing regressed.*
 
 *Update, August 6, 2026 (third finding, plan-page content) — **every plan page now carries generated content sections**: "Who this plan is for", "How the training works", "What you need", and "How it works in TrainingPeaks", with the All-Access module moved to sit after them and before the closing buy CTA. Written from the plan's own data (inventory flags + the weekly-breakdown crawl), not copied from the TrainingPeaks listings — the hand-written listing rewrites cover **20 of 321 plans (6%)**, so copying them would have filled 20 pages and left 301 as they were, and reusing that text verbatim would have set these pages against `trainingpeaks.com` for the same queries on a domain that outranks this one. Two derived fields added in `site/_data/plans.js`: `weeklyTotals` (sessions/week, average weekly hours, longest session — summing only duration-based activities, so a swim plan measured in metres reports sessions and no hours rather than a fabricated number) and `siblings` (nearest easier/harder/shorter/longer plan in the same sport and distance, for the "not the right fit?" cross-links — 296 of 321 pages have at least one). Sibling refs are **flattened to `{pageUrl, difficulty, weeks}` deliberately**: storing the plan object makes A→B→A cycles that blow Eleventy's data-cascade merge with "Maximum call stack size exceeded" before a page renders. Copy lives in `planUi.json`, 28 keys × ES/EN/PT. Product schema description now carries the measured sessions/hours instead of restating the title. Verified in real Chromium across ES/EN/PT and three data shapes (power+strength, swim-in-metres, HR marathon): 4 blocks and 15–16 bullets per page, no unresolved placeholders, single column on mobile.*
 

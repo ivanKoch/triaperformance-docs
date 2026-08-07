@@ -69,6 +69,44 @@
 .allaccess-price span { font-size: 14px; font-weight: 400; color: var(--slate); display: block; }
 
 .plan-final-cta { text-align: center; padding-top: 0; }
+.plan-final-cta .plan-buy-note { margin-top: 12px; }
+
+/* site.css's .btn-primary is white-on-blue, which only reads correctly inside a
+   dark section. On the white plan page the closing buy button has to be the
+   reverse. */
+.btn-buy {
+  background: var(--blue); color: var(--white);
+}
+.btn-buy:hover { background: var(--blue-deep); color: var(--white); }
+
+/* --- "Not sure this plan is for you?" ------------------------------------ */
+.plan-help { padding-top: 0; }
+.plan-help-card {
+  background: var(--wash); border-radius: 8px; padding: 32px;
+  max-width: 720px;
+}
+@media (max-width: 640px) { .plan-help-card { padding: 24px; } }
+.plan-help-card h2 { font-size: 22px; margin-bottom: 10px; }
+.plan-help-card p { color: var(--slate); font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
+.plan-help-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn-whatsapp, .plan-help .btn-outline {
+  display: inline-block; padding: 13px 24px; border-radius: 4px;
+  font-weight: 700; font-size: 15px; text-decoration: none; white-space: nowrap;
+}
+/* WhatsApp green rather than brand blue — this is the one place on the site
+   where the destination, not Triaperformance, is what the reader is choosing,
+   and the colour is the fastest way to say so. */
+.btn-whatsapp { background: #25D366; color: #0b3d21; }
+.btn-whatsapp:hover { background: #1eb658; color: #0b3d21; }
+.plan-help .btn-outline {
+  background: var(--white); color: var(--blue); border: 1px solid var(--mist);
+}
+.plan-help .btn-outline:hover { border-color: var(--blue); }
+.plan-help-note { font-size: 14px; color: var(--slate); margin: 16px 0 0; }
+@media (max-width: 480px) {
+  .plan-help-actions { flex-direction: column; }
+  .btn-whatsapp, .plan-help .btn-outline { text-align: center; }
+}
 
 /* --- Generated content sections ----------------------------------------- */
 .plan-prose { padding-top: 0; }

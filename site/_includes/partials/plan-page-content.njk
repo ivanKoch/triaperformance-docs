@@ -169,16 +169,42 @@
   </div>
 </section>
 
-{#- All-Access sits after the content, immediately before the closing buy CTA —
-    the reader has just been told exactly what one plan involves, which is the
-    moment "you could have all of them" actually lands. -#}
-{% include "partials/all-access-module.njk" %}
-
-<section class="plan-final-cta">
+{#- "Not sure this is the right plan?" — the honest version of what the email
+    capture was pretending to be. The old copy offered to email the plan, which
+    isn't something we can actually do; this asks the question a hesitant buyer
+    is already asking and gives two ways to ask it, one of them immediate.
+    Placed after the content and before the buy CTA: by here the reader knows
+    what the plan involves, so doubt is at its peak. Added Aug 6, 2026. -#}
+<section class="plan-help">
   <div class="wrap">
-    <a href="{{ buyUrl }}" class="btn-primary plan-card" target="_blank" rel="noopener">{{ u.ctaBuy }}</a>
+    <div class="plan-help-card">
+      <h2>{{ u.helpHeading }}</h2>
+      <p>{{ u.helpBody }}</p>
+      <div class="plan-help-actions">
+        <a class="btn-whatsapp"
+           href="{{ site.whatsapp }}?text={{ (u.waText | replace("{plan}", plan.displayName)) | urlencode }}"
+           target="_blank" rel="noopener">{{ u.helpWhatsapp }}</a>
+        <a class="btn-outline"
+           href="mailto:{{ site.email }}?subject={{ ('Plan: ' + plan.displayName) | urlencode }}">{{ u.helpEmail }}</a>
+      </div>
+      <p class="plan-help-note">{{ u.helpNote }}</p>
+    </div>
   </div>
 </section>
+
+{#- Closing buy CTA moved above All-Access (Iván, Aug 6, 2026): the page should
+    make its own offer last, not hand the reader to a different product on the
+    way out. `.btn-primary` is white-on-blue by default — correct inside the
+    dark `.cta-final`, wrong on a white section — so this one is explicitly
+    reversed to blue-on-white via `.btn-buy`. -#}
+<section class="plan-final-cta">
+  <div class="wrap">
+    <a href="{{ buyUrl }}" class="btn-primary btn-buy plan-card" target="_blank" rel="noopener">{{ u.ctaBuy }}</a>
+    <p class="plan-buy-note">{{ u.ctaNote }}</p>
+  </div>
+</section>
+
+{% include "partials/all-access-module.njk" %}
 
 <script type="application/ld+json">
 {
