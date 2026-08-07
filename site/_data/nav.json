@@ -73,6 +73,10 @@
             "url": "/en/plans/"
           },
           {
+            "label": "Running plans",
+            "url": "/en/plans/running/"
+          },
+          {
             "label": "Cycling plans",
             "url": "/en/plans/cycling/"
           },
@@ -83,6 +87,10 @@
           {
             "label": "Ironman plans (70.3 / 140.6)",
             "url": "/en/plans/ironman/"
+          },
+          {
+            "label": "Weight-loss plans",
+            "url": "/en/plans/weight-loss/"
           }
         ]
       },
@@ -110,7 +118,25 @@
     "items": [
       {
         "label": "Planos",
-        "url": "/pt/planos/"
+        "url": "/pt/planos/",
+        "children": [
+          {
+            "label": "Ver todos os planos",
+            "url": "/pt/planos/"
+          },
+          {
+            "label": "Planos de Maratona",
+            "url": "/pt/planos/maratona/"
+          },
+          {
+            "label": "Planos de Ciclismo",
+            "url": "/pt/planos/ciclismo/"
+          },
+          {
+            "label": "Planos para Ironman",
+            "url": "/pt/planos/ironman/"
+          }
+        ]
       },
       {
         "label": "Coaching",

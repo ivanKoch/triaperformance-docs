@@ -1,0 +1,35 @@
+---
+layout: layouts/base.njk
+lang: en
+transKey: plan-hub-running
+pageCss:
+  - planes-hub.css
+  - plan-page.css
+title: "Running Training Plans — 5K, 10K, Half and Marathon | Triaperformance"
+description: "45 structured running plans for 5K, 10K, half marathon and marathon, by pace, heart rate or power. Polarized 80/20, with optional gym work. Delivered through TrainingPeaks."
+---
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/en/">Home</a> / <a href="/en/plans/">Plans</a> / Running</p>
+    <span class="label">Running Plans</span>
+    <h1>Running training plans, by distance and level</h1>
+    <p>From 5K to the marathon, built the way a coached block is built: most of your volume easy and controlled, hard work placed where it pays, and recovery weeks scheduled rather than improvised. Each plan sets your zones by pace or heart rate — some by power, if you run with Stryd.</p>
+    <p>Many plans include an integrated gym routine, placed so it doesn't compete with your key sessions. It's optional: if you have no gym access, follow the running plan and add strength later.</p>
+    <div class="hub-jump">
+      <a href="/en/plans/">See all plans</a>
+      <a href="/en/plans/weight-loss/">Weight-loss plans</a>
+      <a href="/en/plans/ironman/">Ironman plans</a>
+    </div>
+  </div>
+</section>
+
+{%- set catalogPlans = plans.byLanguage.en -%}
+{%- set u = planUi.en -%}
+{%- set presetSport = "Running" -%}
+<section style="padding-top:0;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
+
+{% include "partials/coaching-cta.njk" %}

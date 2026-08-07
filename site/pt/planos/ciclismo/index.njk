@@ -1,0 +1,35 @@
+---
+layout: layouts/base.njk
+lang: pt
+transKey: plan-hub-cycling
+pageCss:
+  - planes-hub.css
+  - plan-page.css
+title: "Planos de Treinamento de Ciclismo — FTP Polarizado 80/20 | Triaperformance"
+description: "Planos de ciclismo estruturados por potência para subir o seu FTP, em blocos de 8, 12 e 16 semanas. Distribuição polarizada 80/20, no TrainingPeaks."
+---
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/pt/">Início</a> / <a href="/pt/planos/">Planos</a> / Ciclismo</p>
+    <span class="label">Planos de Ciclismo</span>
+    <h1>Planos de treinamento de ciclismo para subir o seu FTP</h1>
+    <p>Blocos de FTP com distribuição polarizada 80/20: a maior parte do volume em intensidade baixa e controlada, e o trabalho duro colocado onde ele realmente rende. Em 8, 12 ou 16 semanas, conforme o tempo que você tem até o objetivo.</p>
+    <p>São planos por potência — medidor de potência ou rolo inteligente. Cada sessão sincroniza com o seu ciclocomputador como treino estruturado, com os intervalos e as zonas já carregados.</p>
+    <div class="hub-jump">
+      <a href="/pt/planos/">Ver todos os planos</a>
+      <a href="/pt/planos/maratona/">Planos de Maratona</a>
+      <a href="/pt/planos/ironman/">Planos para Ironman</a>
+    </div>
+  </div>
+</section>
+
+{%- set catalogPlans = plans.byLanguage.pt -%}
+{%- set u = planUi.pt -%}
+{%- set presetSport = "Cycling" -%}
+<section style="padding-top:0;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
+
+{% include "partials/coaching-cta.njk" %}

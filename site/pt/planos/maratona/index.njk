@@ -1,0 +1,37 @@
+---
+layout: layouts/base.njk
+lang: pt
+transKey: plan-hub-marathon
+pageCss:
+  - planes-hub.css
+  - plan-page.css
+title: "Planos de Treinamento para Maratona — 12 e 18 Semanas | Triaperformance"
+description: "14 planos de treinamento para maratona por ritmo ou frequência cardíaca, de 12 a 18 semanas, por faixa de volume semanal. Polarizado 80/20, no TrainingPeaks."
+---
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/pt/">Início</a> / <a href="/pt/planos/">Planos</a> / Maratona</p>
+    <span class="label">Planos de Maratona</span>
+    <h1>Planos de treinamento para maratona</h1>
+    <p>A maratona não se resolve acumulando quilômetros até o corpo aguentar. Estes planos organizam a carga em blocos, com semanas de recuperação programadas, e colocam o trabalho forte onde ele rende — o resto do volume fica em intensidade baixa e controlada.</p>
+    <p>Escolha pela faixa de volume semanal que você consegue sustentar, não pela que gostaria de fazer: há versões para menos de 90 km, de 90 a 110 km e acima de 110 km. Os planos vão de 12 a 18 semanas, por ritmo ou por frequência cardíaca, e vários incluem rotina de força integrada ao calendário.</p>
+    <div class="hub-jump">
+      <a href="/pt/planos/">Ver todos os planos</a>
+      <a href="/pt/planos/ciclismo/">Planos de Ciclismo</a>
+      <a href="/pt/planos/ironman/">Planos para Ironman</a>
+    </div>
+  </div>
+</section>
+
+{#- 42 km is a Running-only distance in the inventory, so the distance preset
+    alone is unambiguous. -#}
+{%- set catalogPlans = plans.byLanguage.pt -%}
+{%- set u = planUi.pt -%}
+{%- set presetDistance = "42 km" -%}
+<section style="padding-top:0;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
+
+{% include "partials/coaching-cta.njk" %}

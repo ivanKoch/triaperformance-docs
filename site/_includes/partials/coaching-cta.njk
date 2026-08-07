@@ -1,0 +1,16 @@
+{#- Closing coaching CTA, shared by the three catalog index pages and the hub
+    pages that don't carry bespoke copy. Added Aug 6, 2026: /planes/ and its
+    EN/PT siblings ended on the plan grid with no next step at all, while every
+    other plan page promoted 1:1 coaching. Copy lives in planUi.json so the
+    three languages stay in one place. Hubs with their own tailored CTA
+    (running, triatlon, hyrox, bajar-de-peso, ciclismo, natacion, ironman) keep
+    theirs — this is the default, not a replacement. -#}
+{%- set c = planUi[lang] -%}
+<section class="cta-final">
+  <div class="wrap">
+    <span class="label">{{ c.ctaEyebrow }}</span>
+    <h2>{{ c.ctaHeading }}</h2>
+    <p>{{ c.ctaBody }}</p>
+    <a href="{{ c.ctaHref }}" class="btn-primary">{{ c.ctaButton }}</a>
+  </div>
+</section>

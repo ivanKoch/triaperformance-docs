@@ -2,7 +2,9 @@
 layout: layouts/base.njk
 lang: pt
 transKey: plan-catalog
-pageCss: plan-page.css
+pageCss:
+  - planes-hub.css
+  - plan-page.css
 title: "Planos de Treino — Filtre por Esporte, Distância e Nível | Triaperformance"
 description: "Todos os planos de treino da Triaperformance na TrainingPeaks: corrida, ciclismo, natação, triatlo, duatlo e HYROX. Filtre por esporte, distância, nível e duração."
 ---
@@ -20,3 +22,5 @@ description: "Todos os planos de treino da Triaperformance na TrainingPeaks: cor
     {% include "partials/plan-catalog-grid.njk" %}
   </div>
 </section>
+
+{% include "partials/coaching-cta.njk" %}

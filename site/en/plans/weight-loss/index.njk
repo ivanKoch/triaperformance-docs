@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+lang: en
+transKey: plan-hub-weightloss
+pageCss:
+  - planes-hub.css
+  - plan-page.css
+title: "Weight Loss Training Plans — Run, Ride, Swim + Strength | Triaperformance"
+description: "34 structured weight-loss training plans combining running, cycling or swimming with strength work, at home or in the gym. From 4-week kickstarts to 24-week blocks, on TrainingPeaks."
+---
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/en/">Home</a> / <a href="/en/plans/">Plans</a> / Weight loss</p>
+    <span class="label">Weight-Loss Plans</span>
+    <h1>Weight-loss training plans, with strength built in</h1>
+    <p>Endurance work alone tends to cost you muscle alongside the fat. Every plan here pairs aerobic training with structured strength, so the weight you lose is the weight you meant to lose — and the training stays sustainable rather than punishing.</p>
+    <p>Pick the sport you'll actually keep doing: running, cycling, swimming for low impact, or a mixed week. Each comes in a home-strength version needing no equipment and a full-gym version, from a 4-week kickstart to a 24-week block.</p>
+    <div class="hub-jump">
+      <a href="/en/plans/">See all plans</a>
+      <a href="/en/plans/running/">Running plans</a>
+      <a href="/en/plans/cycling/">Cycling plans</a>
+      <a href="/en/plans/swimming/">Swimming plans</a>
+    </div>
+  </div>
+</section>
+
+{#- weight_loss is a feature flag in the inventory, not a sport or a distance —
+    so this hub presets the feature facet, the way /planes/bajar-de-peso/ does. -#}
+{%- set catalogPlans = plans.byLanguage.en -%}
+{%- set u = planUi.en -%}
+{%- set presetFeature = "weightloss" -%}
+<section style="padding-top:0;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
+
+{% include "partials/coaching-cta.njk" %}

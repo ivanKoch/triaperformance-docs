@@ -122,7 +122,12 @@
     "tpApp": "Seguís el plan desde la app de TrainingPeaks: la sesión del día, las notas de cada entrenamiento y el calendario completo.",
     "tpStart": "Elegís la fecha de inicio cuando lo aplicás y el calendario se acomoda solo.",
     "tpReusable": "El plan es reutilizable: lo aplicás de nuevo las veces que quieras, sin volver a pagar.",
-    "tpSupport": "Soporte por mail ilimitado y sin costo. Si algo no cierra, escribinos."
+    "tpSupport": "Soporte por mail ilimitado y sin costo. Si algo no cierra, escribinos.",
+    "ctaEyebrow": "¿Preferís acompañamiento semanal?",
+    "ctaHeading": "Coaching 1:1 en vez de un plan autoguiado",
+    "ctaBody": "Un plan te da la estructura. El coaching 1:1 suma testing personalizado, ajustes semana a semana y alguien mirando tus datos cuando algo no cierra. Contanos tu objetivo y tu fecha.",
+    "ctaButton": "Contanos tu objetivo",
+    "ctaHref": "/#contacto"
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -246,7 +251,12 @@
     "tpApp": "You follow the plan from the TrainingPeaks app: today's session, the notes on each workout, and the full calendar.",
     "tpStart": "You pick the start date when you apply it, and the calendar arranges itself.",
     "tpReusable": "The plan is re-usable: apply it again as many times as you like, at no extra cost.",
-    "tpSupport": "Unlimited email support, free. If something doesn't add up, write to us."
+    "tpSupport": "Unlimited email support, free. If something doesn't add up, write to us.",
+    "ctaEyebrow": "Want weekly guidance instead?",
+    "ctaHeading": "1:1 coaching rather than a self-guided plan",
+    "ctaBody": "A plan gives you the structure. 1:1 coaching adds personalised testing, week-by-week adjustments and someone reading your data when something doesn't add up. Tell us your goal and your race date.",
+    "ctaButton": "Tell us your goal",
+    "ctaHref": "/en/#contacto"
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -370,6 +380,11 @@
     "tpApp": "Você segue o plano pelo app do TrainingPeaks: o treino do dia, as notas de cada sessão e o calendário completo.",
     "tpStart": "Você escolhe a data de início ao aplicar, e o calendário se ajusta sozinho.",
     "tpReusable": "O plano é reutilizável: aplique de novo quantas vezes quiser, sem pagar outra vez.",
-    "tpSupport": "Suporte por e-mail ilimitado e gratuito. Se algo não fechar, escreva para a gente."
+    "tpSupport": "Suporte por e-mail ilimitado e gratuito. Se algo não fechar, escreva para a gente.",
+    "ctaEyebrow": "Prefere acompanhamento semanal?",
+    "ctaHeading": "Coaching 1:1 em vez de um plano autoguiado",
+    "ctaBody": "O plano dá a estrutura. O coaching 1:1 acrescenta testes personalizados, ajustes semana a semana e alguém lendo os seus dados quando algo não fecha. Conte o seu objetivo e a data da prova.",
+    "ctaButton": "Conte o seu objetivo",
+    "ctaHref": "/pt/#contacto"
   }
 }

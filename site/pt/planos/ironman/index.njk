@@ -1,0 +1,45 @@
+---
+layout: layouts/base.njk
+lang: pt
+transKey: plan-hub-ironman
+pageCss:
+  - planes-hub.css
+  - plan-page.css
+title: "Planos de Treinamento para Ironman — 70.3 e 140.6 | Triaperformance"
+description: "Planos de treinamento para longa distância: Ironman 70.3 (meia distância) e Ironman 140.6 (distância completa). Polarizado 80/20, no TrainingPeaks."
+---
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/pt/">Início</a> / <a href="/pt/planos/">Planos</a> / Ironman</p>
+    <span class="label">Planos de Longa Distância</span>
+    <h1>Planos de treinamento para Ironman 70.3 e 140.6</h1>
+    <p>A longa distância não se treina somando quilômetros até o corpo aguentar. Treina-se com uma distribuição de intensidade sustentável, blocos de carga que sobem e descem, e sessões específicas que preparam o corpo para nadar, pedalar e correr no mesmo dia, com fadiga acumulada.</p>
+    <p>A seleção em português ainda é enxuta — se você não encontrar aqui a combinação de distância e nível que procura, os planos em espanhol cobrem as duas distâncias em todos os níveis, e o conteúdo dos treinos é o mesmo.</p>
+    <div class="hub-jump">
+      <a href="/pt/planos/">Ver todos os planos</a>
+      <a href="/planes/ironman/">Planos Ironman (ES)</a>
+      <a href="/pt/planos/maratona/">Planos de Maratona</a>
+    </div>
+  </div>
+</section>
+
+<section style="padding-bottom:0;">
+  <div class="wrap">
+    <h2>Ironman 70.3 — meia distância</h2>
+    <p class="section-intro">1,9 km de natação, 90 km de bike e 21 km de corrida.</p>
+
+    <h2>Ironman 140.6 — distância completa</h2>
+    <p class="section-intro">3,8 km de natação, 180 km de bike e uma maratona. A adaptação que esta distância exige não se acelera.</p>
+  </div>
+</section>
+
+{%- set catalogPlans = plans.byLanguage.pt -%}
+{%- set u = planUi.pt -%}
+{%- set presetDistances = ["Half", "Full"] -%}
+<section style="padding-top:24px;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
+
+{% include "partials/coaching-cta.njk" %}
