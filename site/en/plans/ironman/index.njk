@@ -1,0 +1,54 @@
+---
+layout: layouts/base.njk
+lang: en
+transKey: plan-hub-ironman
+pageCss:
+  - planes-hub.css
+  - plan-page.css
+title: "Ironman Training Plans — 70.3 and 140.6 | Triaperformance"
+description: "Structured long-distance triathlon plans: Ironman 70.3 (half distance) and Ironman 140.6 (full distance), from first-timer to advanced. Polarized 80/20, delivered through TrainingPeaks."
+---
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/en/">Home</a> / <a href="/en/plans/">Plans</a> / Ironman</p>
+    <span class="label">Long-Distance Plans</span>
+    <h1>Ironman training plans for 70.3 and 140.6</h1>
+    <p>Long distance isn't trained by piling on kilometres until the body copes. It's trained with a sustainable intensity distribution, load blocks that rise and fall, and specific sessions that prepare you to swim, ride and run on the same day, on accumulated fatigue.</p>
+    <p>These plans cover both distances on the circuit — half distance (70.3) and full distance (140.6), from your first one to advanced. All of them use a polarized 80/20 distribution and sync to your watch and head unit as structured workouts.</p>
+    <div class="hub-jump">
+      <a href="/en/plans/">See all plans</a>
+      <a href="/en/plans/swimming/">Swimming plans</a>
+      <a href="/en/plans/cycling/">Cycling plans</a>
+    </div>
+  </div>
+</section>
+
+<section style="padding-bottom:0;">
+  <div class="wrap">
+    <h2>Ironman 70.3 — half distance</h2>
+    <p class="section-intro">A 1.9 km swim, 90 km ride and a half marathon. It's where most triathletes step up to long distance: it demands real volume, but it still fits around a working life. Plans run 19 to 20 weeks, with first-timer, intermediate and advanced versions, plus variants that add gym work.</p>
+
+    <h2>Ironman 140.6 — full distance</h2>
+    <p class="section-intro">A 3.8 km swim, 180 km ride and a marathon. Here the limiter stops being speed and becomes durability: holding power and pace after hours of load. Plans run 22 to 24 weeks, because the aerobic adaptation this distance asks for can't be rushed. If it's your first full, start with the first-timer plan — it's built to get you to the line intact, not fast.</p>
+  </div>
+</section>
+
+{#- One grid, preset to both long-distance values — see the Spanish page and the
+    component header for why this isn't two grids. -#}
+{%- set catalogPlans = plans.byLanguage.en -%}
+{%- set u = planUi.en -%}
+{%- set presetDistances = ["Half", "Full"] -%}
+<section style="padding-top:24px;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="wrap">
+    <span class="label">First time at this distance?</span>
+    <h2>1:1 coaching for your first 70.3 or Ironman</h2>
+    <p>Long distance is where improvising costs the most: an injury eight weeks out takes the whole season with it. If you want personalised testing, weekly adjustments and someone watching your data, tell us your goal and your race date.</p>
+    <a href="/en/#contacto" class="btn-primary">Tell us your goal</a>
+  </div>
+</section>

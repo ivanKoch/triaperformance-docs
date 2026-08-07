@@ -1,0 +1,42 @@
+---
+layout: layouts/base.njk
+lang: en
+transKey: plan-hub-swimming
+pageCss:
+  - planes-hub.css
+  - plan-page.css
+title: "Swimming Training Plans — 1500m, 1900m, 3000m and Technique | Triaperformance"
+description: "17 structured swim plans: reach your first continuous 1500m or 1900m, build endurance to 3000m, or work speed and technique. Polarized 80/20, delivered through TrainingPeaks."
+---
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/en/">Home</a> / <a href="/en/plans/">Plans</a> / Swimming</p>
+    <span class="label">Swimming Plans</span>
+    <h1>Swimming training plans, by distance and level</h1>
+    <p>From reaching your first continuous 1500m to speed and endurance blocks at 3000m and beyond. Every plan sets the sets, the rest intervals and the target paces — this isn't "swim long until you're tired", it's structured work by zone.</p>
+    <p>Some plans combine technique and endurance; others add dryland strength so you gain power without adding pool volume. If you swim as part of a triathlon, look at the triathlon plans instead — they already integrate all three sports into the same week.</p>
+    <div class="hub-jump">
+      <a href="/en/plans/">See all plans</a>
+      <a href="/en/plans/cycling/">Cycling plans</a>
+    </div>
+  </div>
+</section>
+
+{#- Same catalog component as /en/plans/, preset to Swimming. -#}
+{%- set catalogPlans = plans.byLanguage.en -%}
+{%- set u = planUi.en -%}
+{%- set presetSport = "Swimming" -%}
+<section style="padding-top:0;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="wrap">
+    <span class="label">Want weekly guidance instead?</span>
+    <h2>1:1 coaching rather than a self-guided plan</h2>
+    <p>If you want technique correction, week-by-week adjustments and direct feedback on your times instead of following a fixed plan, 1:1 coaching may suit you better.</p>
+    <a href="/en/#contacto" class="btn-primary">Tell us your goal</a>
+  </div>
+</section>

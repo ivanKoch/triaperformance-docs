@@ -1,0 +1,57 @@
+---
+layout: layouts/base.njk
+lang: es
+transKey: plan-hub-ironman
+pageCss:
+  - planes-hub.css
+  - plan-page.css
+title: "Planes de Entrenamiento Ironman — 70.3 y 140.6 | Triaperformance"
+description: "13 planes de entrenamiento para larga distancia: Ironman 70.3 (media distancia) e Ironman 140.6 (distancia completa), de primera vez a avanzado. Polarizado 80/20, en TrainingPeaks."
+---
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/">Inicio</a> / <a href="/planes/">Planes</a> / Ironman</p>
+    <span class="label">Planes de Larga Distancia</span>
+    <h1>Planes de entrenamiento para Ironman 70.3 y 140.6</h1>
+    <p>La larga distancia no se entrena sumando kilómetros hasta que el cuerpo aguante. Se entrena con una distribución de intensidad sostenible, bloques de carga que suben y bajan, y sesiones específicas que preparan el cuerpo para nadar, pedalear y correr en el mismo día, con fatiga acumulada.</p>
+    <p>Estos planes cubren las dos distancias del circuito: media distancia (70.3) y distancia completa (140.6), de tu primera vez a avanzado. Todos usan distribución polarizada 80/20 y se sincronizan con tu reloj y ciclocomputador como entrenamiento estructurado.</p>
+    <div class="hub-jump">
+      <a href="/planes/">Ver todos los planes</a>
+      <a href="/planes/triatlon/">Todos los planes de Triatlón</a>
+      <a href="/planes/natacion/">Planes de Natación</a>
+      <a href="/planes/ciclismo/">Planes de Ciclismo</a>
+    </div>
+  </div>
+</section>
+
+<section style="padding-bottom:0;">
+  <div class="wrap">
+    <h2>Ironman 70.3 — media distancia</h2>
+    <p class="section-intro">1.9 km de natación, 90 km de bici y 21 km de carrera. Es la distancia donde la mayoría de los triatletas dan el salto a larga distancia: exige volumen real, pero todavía es compatible con una vida laboral normal. Los planes van de 19 a 20 semanas, con versiones de primera vez, intermedio y avanzado, y variantes que suman gimnasio.</p>
+
+    <h2>Ironman 140.6 — distancia completa</h2>
+    <p class="section-intro">3.8 km de natación, 180 km de bici y un maratón. Aquí el limitante deja de ser la velocidad y pasa a ser la durabilidad: sostener potencia y ritmo después de horas de carga. Los planes van de 22 a 24 semanas, porque la adaptación aeróbica que pide esta distancia no se acelera. Si es tu primer full, empezá por el plan de primera vez: está construido para llegar entero, no para llegar rápido.</p>
+  </div>
+</section>
+
+{#- One grid, preset to both long-distance values. Deliberately not two
+    separate grids: the catalog component is one-per-page (see its header), and
+    neither distance has the inventory to carry its own page anyway — 7 and 6 in
+    Spanish. The facet chips let a reader narrow to one of the two. -#}
+{%- set catalogPlans = plans.byLanguage.es -%}
+{%- set u = planUi.es -%}
+{%- set presetDistances = ["Half", "Full"] -%}
+<section style="padding-top:24px;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="wrap">
+    <span class="label">¿Primera larga distancia?</span>
+    <h2>Coaching 1:1 para tu primer 70.3 o Ironman</h2>
+    <p>Un full o un 70.3 es la distancia donde más caro sale improvisar: una lesión a 8 semanas de la carrera se lleva la temporada entera. Si querés testing personalizado, ajustes semanales y alguien mirando tus datos, contanos tu objetivo y tu fecha.</p>
+    <a href="/#contacto" class="btn-primary">Contanos tu objetivo</a>
+  </div>
+</section>

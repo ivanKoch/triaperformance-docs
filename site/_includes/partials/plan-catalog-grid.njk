@@ -10,8 +10,17 @@
     an array), `lang`, `u` (planUi[lang]), and at most one of:
     `presetSport` (exact CSV `sport` value, e.g. "Triathlon"),
     `presetDistance` (exact CSV `distance` value — HYROX is a distance, not
-    a sport, in the source data), `presetFeature` (one of the `features`
-    facet's own values: strength | weightloss | hr | power | pace).
+    a sport, in the source data), `presetDistances` (a LIST of distance values,
+    for a hub that legitimately spans more than one — the Ironman hub covers
+    both `Half` and `Full`, since neither has the inventory to justify its own
+    page; OR-within-a-group means the grid shows the union), `presetFeature`
+    (one of the `features` facet's own values: strength | weightloss | hr |
+    power | pace).
+
+    One catalog per page. The mobile chip JS keys panels by an owner id that
+    restarts at g0 for each container and looks the scrim up document-wide, so
+    two grids on one page would collide — if a page ever needs two, that has to
+    be scoped first.
 
     Static site, no backend: every card renders server-side (crawlable,
     works with JS off) and site/assets/js/catalog-filters.js just toggles
@@ -50,7 +59,7 @@
       {{ facetHead(u.filterDistance, u.filterDistanceShort) }}
       <div class="facet-options" data-facet-panel>
         {%- for d in distances %}
-        <label data-sports="{{ distanceSports[d] | join(' ') }}"><input type="checkbox" data-group="distance" value="{{ d }}" {% if presetDistance and presetDistance == d %}checked{% endif %}> {{ d }}</label>
+        <label data-sports="{{ distanceSports[d] | join(' ') }}"><input type="checkbox" data-group="distance" value="{{ d }}" {% if (presetDistance and presetDistance == d) or (presetDistances and d in presetDistances) %}checked{% endif %}> {{ d }}</label>
         {%- endfor %}
       </div>
     </div>

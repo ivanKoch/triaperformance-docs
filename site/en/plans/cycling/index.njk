@@ -1,0 +1,42 @@
+---
+layout: layouts/base.njk
+lang: en
+transKey: plan-hub-cycling
+pageCss:
+  - planes-hub.css
+  - plan-page.css
+title: "Cycling Training Plans — FTP, VO2Max and Gran Fondo | Triaperformance"
+description: "24 structured cycling plans built on power or heart rate: FTP blocks, VO2Max, sprint, climbing, gran fondo and indoor. Polarized 80/20, delivered through TrainingPeaks."
+---
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/en/">Home</a> / <a href="/en/plans/">Plans</a> / Cycling</p>
+    <span class="label">Cycling Plans</span>
+    <h1>Cycling training plans, by goal and level</h1>
+    <p>FTP blocks, VO2Max, sprint power, climbing and gran fondo builds, plus indoor plans ready for Zwift. All structured on a polarized 80/20 distribution: most of the volume easy and controlled, with the hard work placed where it actually pays.</p>
+    <p>Most run on power, from a power meter or smart trainer, with heart-rate versions if you're not measuring watts yet. Every session syncs to your head unit as a structured workout, with the intervals and zones already loaded.</p>
+    <div class="hub-jump">
+      <a href="/en/plans/">See all plans</a>
+      <a href="/en/plans/swimming/">Swimming plans</a>
+    </div>
+  </div>
+</section>
+
+{#- Same catalog component as /en/plans/, preset to Cycling. -#}
+{%- set catalogPlans = plans.byLanguage.en -%}
+{%- set u = planUi.en -%}
+{%- set presetSport = "Cycling" -%}
+<section style="padding-top:0;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="wrap">
+    <span class="label">Want weekly guidance instead?</span>
+    <h2>1:1 coaching rather than a self-guided plan</h2>
+    <p>If you want personalised testing, week-by-week adjustments and direct feedback on your data instead of following a fixed plan, 1:1 coaching may suit you better.</p>
+    <a href="/en/#contacto" class="btn-primary">Tell us your goal</a>
+  </div>
+</section>

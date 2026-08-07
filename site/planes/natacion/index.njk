@@ -1,0 +1,43 @@
+---
+layout: layouts/base.njk
+lang: es
+transKey: plan-hub-swimming
+pageCss:
+  - planes-hub.css
+  - plan-page.css
+title: "Planes de Entrenamiento de Natación — 1500m, 1900m, 3000m y Técnica | Triaperformance"
+description: "19 planes de natación estructurados: tus primeros 1500m o 1900m continuos, resistencia hasta 3000m, velocidad y técnica. Polarizado 80/20, en TrainingPeaks."
+---
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/">Inicio</a> / <a href="/planes/">Planes</a> / Natación</p>
+    <span class="label">Planes de Natación</span>
+    <h1>Planes de entrenamiento de natación, por distancia y nivel</h1>
+    <p>Desde llegar a tus primeros 1500m continuos hasta bloques de velocidad y resistencia de 3000m o más. Cada plan define series, descansos y ritmos objetivo: no es "nadar largo hasta cansarte", es trabajo estructurado por zonas.</p>
+    <p>Hay planes de técnica y resistencia combinadas, y versiones que suman fuerza en seco para ganar potencia sin más volumen en el agua. Si nadás como parte de un triatlón, mirá también los planes de triatlón, que ya integran los tres deportes en la misma semana.</p>
+    <div class="hub-jump">
+      <a href="/planes/">Ver todos los planes</a>
+      <a href="/planes/triatlon/">Planes de Triatlón</a>
+      <a href="/planes/ciclismo/">Planes de Ciclismo</a>
+    </div>
+  </div>
+</section>
+
+{#- Same catalog component as /planes/, preset to Swimming. -#}
+{%- set catalogPlans = plans.byLanguage.es -%}
+{%- set u = planUi.es -%}
+{%- set presetSport = "Swimming" -%}
+<section style="padding-top:0;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="wrap">
+    <span class="label">¿Preferís acompañamiento semanal?</span>
+    <h2>Coaching 1:1 en vez de un plan autoguiado</h2>
+    <p>Si querés corrección de técnica, ajustes semana a semana y feedback directo sobre tus tiempos en vez de seguir un plan fijo, el coaching 1:1 puede ser mejor opción para vos.</p>
+    <a href="/#contacto" class="btn-primary">Contanos tu objetivo</a>
+  </div>
+</section>

@@ -1,0 +1,44 @@
+/* Shared styles for the sport hub pages (ciclismo, natacion, and any added
+   later), loaded after site.css alongside plan-page.css.
+
+   Deliberately one file rather than a fifth and sixth copy: planes-running.css,
+   planes-triatlon.css, planes-hyrox.css and planes-bajar-de-peso.css are ~95%
+   identical to each other, and adding to that pile makes a future change to the
+   hub layout a four-file edit. Only the rules the new hubs actually use are
+   here — the hero, the breadcrumb and the closing CTA. The plan grid itself is
+   styled by plan-page.css, which the catalog component already owns.
+   The four older files are left alone on purpose: they work, and folding them
+   in is a separate change with its own regression surface. */
+
+.intro-hero { background: var(--wash); }
+.intro-hero h1 {
+  font-size: 44px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;
+  margin-bottom: 20px; max-width: 720px;
+}
+@media (max-width: 640px) { .intro-hero h1 { font-size: 30px; } }
+.intro-hero p { font-size: 18px; color: var(--slate); max-width: 640px; margin-bottom: 20px; }
+.intro-hero p:last-of-type { margin-bottom: 32px; }
+
+.breadcrumb { font-size: 14px; color: var(--slate); margin-bottom: 24px; }
+.breadcrumb a { color: var(--slate); }
+.breadcrumb a:hover { color: var(--blue); }
+
+h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 12px; }
+@media (max-width: 640px) { h2 { font-size: 26px; } }
+
+/* Distance shortcuts — the "by distance" entry points live on the sport hub
+   rather than in the nav, so the menu stays at six items and each distance
+   page still gets an internal link from a topically relevant parent. */
+.hub-jump { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.hub-jump a {
+  display: inline-block; border: 1px solid var(--mist); border-radius: 999px;
+  padding: 8px 16px; font-size: 14px; font-weight: 700;
+  color: var(--ink); text-decoration: none; background: var(--white);
+}
+.hub-jump a:hover { border-color: var(--blue); color: var(--blue); }
+
+.cta-final { background: var(--ink); color: var(--white); text-align: center; }
+.cta-final .label { color: var(--white); opacity: 0.85; }
+.cta-final p { color: var(--white); opacity: 0.85; max-width: 560px; margin: 0 auto 32px; font-size: 17px; }
+.cta-final .btn-primary { background: var(--white); color: var(--blue); }
+.cta-final .btn-primary:hover { background: var(--wash); }
