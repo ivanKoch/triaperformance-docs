@@ -43,6 +43,7 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 - `social-proof-and-reviews.md` — review inventory, quote bank, review-generation playbook, deployment status. Owns the review counts.
 - `content-engine-brief.md` — the status-driven content pipeline design: five agent contracts, data model, cadence, gates.
 - `methodology.md` — coaching methodology: testing protocols, zones, periodization, weekly decision loop, adjustment rules, fueling, race execution, communication voice, AI Coach red lines, worked athlete cases.
+- `athlete-onboarding-flow.md` *(added Aug 8, 2026)* — **home doc for 1:1 athlete onboarding.** Owns the end-to-end task list from "the athlete has paid" to "first block published", both acquisition-channel triggers, the 1:1 exit path, and **the athlete-data-store decision** (Postgres on `analytics-postgres`, keyed by `twenty_person_id` — Twenty holds the commercial record, Postgres the training context, TrainingPeaks a generated mirror). Pre-sale and coaching content stay owned by `methodology.md` §3; this doc points, never restates.
 
 **Build, brand & infrastructure**
 

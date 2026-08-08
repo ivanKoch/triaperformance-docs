@@ -1,6 +1,6 @@
 # Open Loops — the single source of truth for what's in flight
 
-**Last updated: August 8, 2026** — knowledge-base consolidation + factual-correction session. This file was 50 KB, roughly 87% closed items and session history; all of that now lives in **`open-loops-archive.md`**. This file is the live list and nothing else.
+**Last updated: August 8, 2026** — 1:1 onboarding branch opened (`athlete-onboarding-flow.md`), one live bug found. Earlier the same day: knowledge-base consolidation + factual-correction session. This file was 50 KB, roughly 87% closed items and session history; all of that now lives in **`open-loops-archive.md`**. This file is the live list and nothing else.
 
 **Catalog count, for anything that needs it: 301 published plans (ES 164 / EN 108 / PT 29).** Owner: `data/training_plans_inventory.csv`, `is_published=TRUE`. Do not hand-type it from memory — it moved twice in three days.
 
@@ -19,7 +19,11 @@ This file replaces the open-item lists previously scattered across `ai-infrastru
 
 ## NOW
 
-**No big branch is open.** Plan Storefront Phase 1 closed August 6, 2026 (full record in `open-loops-archive.md`). **The next big branch to start is race landing pages** — NEXT #1 below: researched, trigger satisfied, and simpler now that race-stamped plans are retired.
+**Big branch: 1:1 athlete onboarding flow**, opened August 8, 2026. Specification written — `athlete-onboarding-flow.md` is now the home doc and owns every step, decision and open question for this initiative. Nothing is built yet; the spec lists six inputs blocked on Iván (§5) and a live bug to fix first (below). *Race landing pages (NEXT #1) remains the next branch after this one; it is researched and ungated, just not started.*
+
+### 🔴 Fix first — live bug, found August 8, 2026
+
+- [ ] **The subscription-lifecycle workflow tags every 1:1 coaching sale as `ALL_ACCESS`.** `Filter - Is New Subscription` matches on subject alone (`"New subscription confirmation"`) with no product-name condition, and `Create Person (New Subscriber)` hardcodes `customerType: 'ALL_ACCESS'` — so a TP Payments coaching subscription runs the full All-Access branch: wrong `customerType`, a members-area token issued, and the All-Access welcome email sent. The `language_unrecognized` flag exists but **nothing branches on it**. Two actions: add the product filter (+ Telegram alert on unmatched products), then audit existing `ALL_ACCESS` records against `planPurchased` and `subscriber_tokens`. Until this is done, the athlete count and the All-Access subscriber count are both suspect. Detail: `athlete-onboarding-flow.md` §3.
 
 ### Carried over from the storefront branch — catalogue strategy, not build work
 
@@ -31,9 +35,9 @@ This file replaces the open-item lists previously scattered across `ai-infrastru
 
 ### Small slot (pick one at a time)
 
-> **This slot is over its limit — 11 items, not 1.** Left as-is rather than quietly deleted, because every one of them is real. But the rule above is either enforced or dropped; it can't stay written down and ignored. Worth 20 minutes at the start of the next session to pick one, and push the rest to NEXT or LATER with triggers.
+> **This slot was over its limit — 11 items, not 1.** *(Aug 8, 2026: item #1, the 1:1 onboarding flow, was picked and promoted to the big branch above, which is what the rule intends. The remaining 10 are left listed rather than quietly deleted, because every one of them is real — but they are queued behind the branch, not in the slot.)*
 
-- [ ] **New 1:1 athlete onboarding flow** — the last signup was fully manual. Define the checklist (Twenty record with `customerType`/`churnDate` conventions, member access if applicable, welcome message), then n8n the deterministic parts. (Iván, July 29)
+- [x] ~~**New 1:1 athlete onboarding flow** — the last signup was fully manual. Define the checklist (Twenty record with `customerType`/`churnDate` conventions, member access if applicable, welcome message), then n8n the deterministic parts. (Iván, July 29)~~ **Promoted to the big branch, August 8, 2026.** Home doc: `athlete-onboarding-flow.md`. What the one-liner missed, and the spec found: this is *two* triggers not one (Private via TP Payments vs. CoachMatch, which converges only from the Twenty-record step onward); CoachMatch leads have no conversion path at all; 1:1 *cancellation* is as unhandled as 1:1 signup, which corrupts the win-back audience below; and the athlete data store had to be decided before anything downstream could be specified (decided: Postgres on `analytics-postgres`, keyed by `twenty_person_id`, same decoupling as `subscriber_tokens` — reasoning in §2).
 - [ ] **Tools-library backlog — 1 finished prototype + 4 calculators.** *(Consolidated Aug 6, 2026.)* Nine artifacts are live in `/members/`. What isn't:
   1. **An activation artifact left "almost finished, ready to publish"** — Iván to identify which and supply the share link; then it's the normal port → verify → deploy path, and data-only if it fits template v2.
   2. **Zone calculator at `/members/zonas/`** — the only one with a live promise depending on it: **three published articles say a calculator adjusts the seven zones to your test result**, and the page is currently a guide. Build it or soften three sentences.
