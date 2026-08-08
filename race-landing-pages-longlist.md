@@ -3,7 +3,7 @@
 **Status: planning complete, Tier 1 data gathered. Not blocking anything — trigger to build is the plan template (Storefront Phase 1) shipping.**
 **Written: July 30, 2026.** Companion files: `data/races.csv` (Tier 1 dataset), `race-page-content-outline.md` (page structure), `training_plans_inventory.csv` (source of truth for plan matching).
 
-Standing concept (locked): pages are **evergreen**. A page carries the race's year and data; the plans behind it never do. "Valencia Marathon 2027" is a data update to a page, not a new plan or a new page. No race-year-stamped plans get built again (see `open-loops.md`, `plan-storefront-project-brief.md` §Catalog priorities).
+Standing concept (locked): pages are **evergreen**. A page carries the race's year and data; the plans behind it never do. "Valencia Marathon 2027" is a data update to a page, not a new plan or a new page. No race-year-stamped plans get built again (see `open-loops-archive.md` for the decision, `growth-roadmap.md` §Training Plan Storefront for catalog priorities).
 
 ---
 

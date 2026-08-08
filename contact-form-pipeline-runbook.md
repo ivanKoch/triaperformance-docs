@@ -84,5 +84,5 @@ Set the n8n workflow to Inactive, or remove the `/api/contact-form` route from t
 
 ## Still open
 
-- Phone numbers are sent as typed (no country-code normalization) — the WhatsApp deep link in the Telegram message just strips non-digits, so ask leads to include their country code in the field (placeholder text already hints `+54 9 11...`).
+- ~~Phone numbers are sent as typed (no country-code normalization).~~ — **closed August 8, 2026, confirmed working in production by Iván.** The WhatsApp deep link in the Telegram message strips non-digits and the placeholder hint (`+54 9 11...`) is enough: leads arrive with usable numbers. No normalization layer needed — leave it alone.
 - Test Persons created during debugging (Curl Test, Curl2, Formulario Prueba, etc.) are real records in Twenty — clean up if desired, not urgent.

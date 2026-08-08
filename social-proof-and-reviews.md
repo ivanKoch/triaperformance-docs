@@ -44,8 +44,8 @@ The "under-distributed asset" framing from July is out of date — the drip is r
 
 Colombia 10 · Mexico 4 · Puerto Rico 4 · Chile 3 · Costa Rica 2 · Venezuela, España, El Salvador, Uruguay 1 each · 16 unrecorded.
 
-- **English: 3 reviews** (Giles Carmichael, Sylmarie Arizmendi, Gerald Moreta). The $149 strategy leans on US-based buyers, and the English plans catalog is 100 listings — backed by 3 testimonials.
-- **Portuguese: 0 reviews.** 50 Portuguese plans and a Portuguese All-Access edition with zero social proof.
+- **English: 3 reviews** (Giles Carmichael, Sylmarie Arizmendi, Gerald Moreta). The $149 strategy leans on US-based buyers, and the English plans catalog is 108 listings — backed by 3 testimonials. *(Count corrected Aug 8, 2026 — read "100".)*
+- **Portuguese: 0 reviews.** 29 Portuguese plans and a Portuguese All-Access edition with zero social proof. *(Count corrected Aug 8, 2026 — read "50", which predates both the race-plan retirement and the July inventory clean-up.)*
 - **Product coverage:** ~36 reviews are 1:1 coaching; 2 are Plans buyers (Nataly Ortiz, Cristian Barrera — both excellent); 0 mention All-Access or the tools.
 
 The proof inventory mirrors today's revenue, not the growth plan. Fixing this is an *ask* problem, not a build problem.
@@ -100,7 +100,7 @@ Mapped to where each quote works hardest. Trim ellipses as needed; always attrib
 - **Content pipeline:** 9 reviews not yet posted to IG ≈ 9 weeks at one testimonial post/week, plus a recyclable back catalog of 36 already-posted ones. Still the natural first recurring job for the social/content agent (drafts → approval), using the quote bank above — just sized as an ongoing weekly job fed by the ask cadence, not as a one-off 8-month reservoir.
 - **Not GBP posts.** Reviews already render on the Business Profile with the star rating, above any post. Quoting one back as a "What's new" post is redundant to the same visitor and burns a monthly post slot. GBP's own review lever is *replying* to each one (profile activity); the repurposing channels are Instagram, the website, email sequences and TP listings. (Decided Aug 2, 2026.)
 - **CoachMatch/Private funnels:** add 1–2 quotes to the existing email sequences (welcome email 2 is the natural slot) and to the WhatsApp follow-up script for hesitant leads.
-- **GBP itself:** reply to every review (owner responses boost profile activity), keep the profile category/services current — it's free local-intent SEO while the new website doesn't exist yet.
+- **GBP itself:** reply to every review (owner responses boost profile activity), keep the profile category/services current — it's free local-intent SEO that compounds with the site rather than substituting for it. *(Corrected Aug 8, 2026 — this read "while the new website doesn't exist yet." It has been live since July 2026.)*
 
 ## Maintenance
 

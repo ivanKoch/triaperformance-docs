@@ -58,7 +58,7 @@ Against a build cost of 18 variants per race (2 durations × 3 volume tiers × 3
 
 ## 4. The long tail is half the catalogue
 
-- 302 published plans; **151 have never sold once (50%)**
+- 301 published plans; **150 have never sold once (50%)** *(recomputed Aug 8, 2026 after the Rio 2026 plan was unpublished; was 302 / 151, same 50%)*
 - Top 20 plans = **$5,959 of $14,334 — 42% of all earnings**
 - 178 plans have ever sold; 218 never have
 
@@ -72,7 +72,7 @@ Consistent with the July 18 finding (55%) and not improving. The storefront's "e
 | Strength | 6 | $140 | 2 | $70 |
 | Triathlon | 99 | $3,374 | 49 | $69 |
 | Swimming | 80 | $1,638 | 40 | $41 |
-| Running | 195 | $5,001 | 136 | $37 |
+| Running | 195 | $5,001 | 135 | $37 |
 | **Cycling** | 57 | $1,769 | **60** | **$29** |
 
 Running earns the most in absolute terms and should keep its catalogue. But the build-effort question is different: **Cycling has 60 published plans returning $29 each, while Duathlon has 15 returning $121 each** — four times the return on a quarter of the inventory. Duathlon is the most under-built category in the catalogue and nobody had noticed, because it is small in absolute revenue.
@@ -101,7 +101,7 @@ January and June peak, October troughs — confirms the earlier read. January is
 
 *Corrected August 6, 2026, same day. This section first read "0 of 507 buyers opted into marketing," taken from `SoldToAllowMarketingEmails`, which is FALSE on every row. That column is not the opt-in signal. **The real signal is whether the buyer shared an email at all** — 251 of 507 did, and Iván created a HubSpot contact for each and nurtured them. The original claim was wrong and would have justified work that isn't needed.*
 
-**251 of 507 buyers (49.5%) shared an email.** But the rate is falling, sharply:
+**251 of 507 buyers (49.5%) shared an email.** The rate has fallen over time:
 
 | year | shared an email | rate |
 |---|---|---|
@@ -110,7 +110,9 @@ January and June peak, October troughs — confirms the earlier read. January is
 | 2025 | 87 / 170 | 51.2% |
 | **2026** | **35 / 119** | **29.4%** |
 
-**That is a halving in two years, and nobody was watching it.** 2026 is on pace for ~60 contacts where the same volume in 2024 would have produced ~120. Worth finding out why before building anything on top of it: most likely TrainingPeaks changed the checkout consent flow or moved the prompt. If it's a TP-side change there may be nothing to do — which is itself the argument for the site's own capture form, now live, being the durable channel rather than a supplement.
+**This is a fact, not a problem, and there is nothing to do about it.** *(Framing set by Iván, Aug 8, 2026, replacing an earlier read that called it "a halving in two years, and nobody was watching it" and asked for the cause to be investigated.)* The decline is entirely TrainingPeaks' — it's their checkout, their consent flow, their prompt placement, and Iván is an SMB seller with no account manager to escalate to. He does not control this lever and cannot influence it. Nothing should be built, escalated or worried about on account of it.
+
+**What it does mean, and this is the only actionable read:** the channel that used to supply half his buyers' contacts now supplies under a third, and that share will keep drifting wherever TrainingPeaks puts it. **The site's own capture form is therefore the durable channel, not a supplement** — which is exactly what shipped on Aug 6. Every future contact worth having is one the business captures itself.
 
 ## 9. Repeat purchase — small, and clustered at plan length
 
@@ -141,4 +143,4 @@ Most plans bought are 8, 12 or 16 weeks (56, 46 and 66 units respectively), so a
 
 ## Provenance, and why this file is here
 
-The July 18, 2026 analysis and its `plan_performance.csv` were named as companion files by `plan-storefront-project-brief.md` but were never committed. Every "what sells / what doesn't" claim in that brief — including the one used on August 6 to retire 17 race-stamped plans — rested on data nobody could re-check. Both are now regenerated from the source export and committed. **Standing rule: any figure quoted in the storefront brief must be reproducible from a file in `data/`.**
+The July 18, 2026 analysis and its `plan_performance.csv` were named as companion files by the (now retired) `plan-storefront-project-brief.md` but were never committed. Every "what sells / what doesn't" claim in that brief — including the one used on August 6 to retire 17 race-stamped plans — rested on data nobody could re-check. Both are now regenerated from the source export and committed. **Standing rule: any figure quoted in the storefront brief must be reproducible from a file in `data/`.**

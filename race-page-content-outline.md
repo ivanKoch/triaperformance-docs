@@ -29,7 +29,7 @@ This is where `methodology.md` earns its keep — training-zone framework, perio
 Live join per `plan_matching_rule` in the schema: Beginner / Intermediate / Advanced, filtered to durations that actually fit the countdown to `next_edition_date`. Same laddered-offer pattern already standard on plan pages: plan (one-time) → plan + 20-min onboarding call (+$50, top sellers only) → All-Access ($39.99/mo, pitched to marathon/tri/multi-goal athletes specifically — this is exactly the athlete profile All-Access targets).
 
 **5. All-Access module**
-Same promo block used on every plan page (per `plan-storefront-project-brief.md` §Decisions taken #6) — no new copy to write, reuse the existing module.
+Same promo block used on every plan page (per `growth-roadmap.md` §Training Plan Storefront, standing decision 6) — no new copy to write, reuse the existing module.
 
 **6. Email capture**
 Before any TrainingPeaks redirect, per the non-negotiable Phase 1 rule. "Get this race's training plan by email" framing reads more natural on a race page than the generic plan-page copy — worth a race-specific capture headline, not a big lift.

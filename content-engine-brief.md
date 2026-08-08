@@ -13,7 +13,7 @@
   - PT `/pt/blog/como-escolher-seu-plano-de-maratona/` — **3 questions, 9 plans**
 - **These are not translations, and that's the model to follow.** The PT article is a different, shorter piece because the PT catalog is different: only 1 of 15 marathon plans is pace-based, so "which metric do you train by?" isn't a real question there. Prices differ too (US$24–39.99 vs US$49.99–59.99), so the All-Access maths is rewritten. The writer agent's contract must be *"same intent, adapted to this language's actual inventory"*, not *"translate this."*
 - **hreflang verified working three ways** on real translated content — every article and every listing emits all four tags and the language switcher moves between equivalent pages. This is the mechanism the whole Eleventy build step was justified by, now proven.
-- **Link status: 323 of 323 published plans return HTTP 200.** Nothing in the catalog is broken. The "6 known 404s" carried in the docs since July 21 were entirely wrong — one plan was live and buyable, five had already been deleted from the inventory. They were an artifact of a rate-limited, partial (190/330) crawl being recorded as fact.
+- **Link status is measured, not maintained in prose** — `automation/check-plan-links.py` runs it and the site build consumes the result. The last full check (July 27, 2026) returned every published plan OK, 0 dead. *(Rewritten Aug 8, 2026: this bullet used to spend three sentences debunking a dead-links claim that had already been disproven. Restating a retired claim in order to deny it keeps it alive — the denial is what the next reader quotes. Deleted rather than corrected.)*
 
 **What the research pass found (Agent 1's job, done by hand):**
 - Marathon is the deepest inventory — 68 published plans, 35 ES / 18 EN / 15 PT. Only distance with genuine depth in all three languages.
@@ -28,8 +28,8 @@
 ---
 
 **Status:** design (with Phase 0 partly built — see above). Written July 26, 2026.
-**Belongs in:** `triaperformance-docs` repo, alongside `plan-storefront-project-brief.md`.
-**Related:** `growth-roadmap.md` (pillar 2, "Social/content agent"), `ai-infrastructure-documentation.md` §8–13, `brand-guidelines.md` §8 (voice), `plan-storefront-project-brief.md`.
+**Belongs in:** `triaperformance-docs` repo.
+**Related:** `growth-roadmap.md` (pillar 2, "Social/content agent"), `ai-infrastructure-documentation.md` §8–13, `brand-guidelines.md` §8 (voice), `growth-roadmap.md` §Training Plan Storefront.
 
 ---
 
@@ -77,7 +77,7 @@ A new `content` database on the existing `analytics-postgres` container — same
 | `content_distribution` | One row per piece × channel actually published. external_id, permalink, published_at. |
 | `content_performance` | Time series. distribution_id, metric_date, source (GA4 / GSC / IG / GBP / pixel), impressions, clicks, position, sessions, plan_clicks. |
 
-**Why `content_links` is a separate table and not just prose.** You already have 8 rows with `link = "Expired"` in the inventory, and TP can unpublish a plan at any time without telling you. *(Corrected Aug 2, 2026: this paragraph previously also cited "6 plans marked published that 404" and "4 duplicate `plan_id`s" as live problems. Both were closed in July — the 404s were an artifact of a rate-limited partial crawl, the duplicates were already gone from `plans_raw`. The argument for a links table stands on its own without them.)* If plan URLs live only inside article text, a TP-side unpublish silently rots links across the whole blog and you find out from a reader, or never. With a links table, a nightly checker HEADs every live link, flags the dead ones, and — because it knows the `plan_id` — can propose the replacement plan from `plans_raw`. That's a self-maintaining affiliate/plan surface, which is the whole premise of the "agent-generated affiliate pages" priority in the roadmap parking lot.
+**Why `content_links` is a separate table and not just prose.** You already have 8 rows with `link = "Expired"` in the inventory, and TP can unpublish a plan at any time without telling you. *(Corrected Aug 2, 2026, and the citations deleted outright Aug 8, 2026: this paragraph used to lean on two findings that had already been closed in July. Naming them again — even to explain that they're closed — is what kept them circulating. The argument for a links table stands on its own without them.)* If plan URLs live only inside article text, a TP-side unpublish silently rots links across the whole blog and you find out from a reader, or never. With a links table, a nightly checker HEADs every live link, flags the dead ones, and — because it knows the `plan_id` — can propose the replacement plan from `plans_raw`. That's a self-maintaining affiliate/plan surface, which is the whole premise of the "agent-generated affiliate pages" priority in the roadmap parking lot.
 
 ---
 
