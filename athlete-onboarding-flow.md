@@ -4,7 +4,11 @@
 
 **Scope:** from "the athlete has paid" to "the first training block is published". Pre-sale is out of scope (it lives in `methodology.md` §3 and is deliberately manual). Coaching content — what to prescribe — is owned by `methodology.md` and is not restated here.
 
-**Status: specification. Nothing below is built.** The task table is the deliverable; every row is either reuse-of-something-live or a genuinely new build, and it says which.
+**Status — August 8, 2026: Stages 1–4 are BUILT, TESTED AND LIVE.** An athlete who pays, through either channel, is now automatically classified, upserted into Twenty, granted members access, and sent a welcome email with their password and the intake form link, in their language. All of it verified end to end with real test runs the same day.
+
+**Stage 5 onward — reading the form back and storing athlete context — is still specification**, and is blocked on one thing: the intake form's actual questions (§5). The task table from §4 down describes those remaining stages; every row says whether it reuses something live or is a genuinely new build.
+
+*One consequence of shipping Stages 1–4: the workflow went from 28 to 49 nodes in a day. If it becomes hard to reason about, the split to consider is not by stage but by trigger — the resend-password webhook is already an unrelated tenant in this file.*
 
 ---
 
@@ -698,6 +702,114 @@ Welcome enviado en: {{ $('Build Welcome Email').item.json.langUsed }}{{ $('Build
 Re-run the Private payload with an address **you can actually read** — not `example.com`, since the point is to see the rendered email. Check: the form link resolves, the password matches the `subscriber_tokens` row, and the Spanish reads like you and not like a translation.
 
 Then delete the test Person, its token row, and re-run once more with a `preferredLanguage` of `ENGLISH` set on the record to confirm the branch switches.
+
+---
+
+## 3.5 The intake form — audit and redesign
+
+*August 8, 2026. Based on the real response exports (51 Spanish, 6 English), not on reading the form.*
+
+The form has **39 columns**. Both languages share an identical structure, so one parser covers both. It is, on the whole, a good form — identity, devices, goals, training history, testing, injuries, self-assessment. **One question is broken, and it happens to be the one that matters most for building a week.**
+
+### Why the availability grid fails
+
+`Disponibilidad semanal` is a 7-day × 5-option checkbox grid: *Día de descanso · Piscina disponible · Gimnasio disponible · Puedo hacer doble sesión · Ideal para entreno largo.* Iván already bypasses it and asks on WhatsApp instead. The exports show why:
+
+- **No time dimension at all.** The options capture *facilities and flags*. None express duration or time of day. "Gimnasio disponible" on Tuesday says a gym exists; not whether it's 45 minutes at 6am or two hours at night. `methodology.md` §3 names "morning/evening time caps" as part of the perfect-week interview — the form never asks.
+- **33% of athletes (17/51) never marked a rest day anywhere.** Not because they train seven days; because nothing forces it.
+- **18 cells tick `Día de descanso` together with another option.** The options aren't mutually exclusive, so "rest day with gym available" is expressible and meaningless.
+- **14% of cells are blank (51/357), and blank is unreadable** — no availability, rest day, or skipped? Some athletes use blank *as* rest while others use the explicit option, so the same mark means different things per athlete.
+- **It conflates four dimensions** in one list: facility access, capacity, preference, and a negation.
+
+**The decisive finding: across all 51 completed forms, exactly one athlete stated their available hours anywhere** — and only in passing, in the final catch-all question ("Trabajo de lunes a viernes de 7:30 a 15:30"). The single most important planning input is absent from 50 of 51 responses.
+
+> *Method note, worth keeping.* A first pass claimed "37 of 51 responses contain schedule information", which would have been a much more flattering finding. Checking the actual matches showed nearly all of them were **race times and paces** — `3:17` marathon, `6:30 min/km`, `2:11:47` half PR — caught by a regex looking for `H:MM`. The real count was one. **A number that makes the argument better is exactly the one to verify before using.**
+
+### The fix: stop fixing it
+
+Replace all seven grid columns with **one free-text question phrased the way Iván already asks on WhatsApp**, plus a worked example — the example is what makes free text work — and **one structured question for available hours**.
+
+**Why free text is now the right answer, and wasn't before.** A checkbox grid is a workaround for not being able to parse prose. That constraint is gone: a model reads the answer. Structuring the input to suit a parser that no longer needs it costs the very nuance ("la piscina solo abre martes y jueves", "los viernes depende del trabajo") that makes a week actually plannable.
+
+**And the parser's job includes reporting what's missing.** The briefing says *"no dijo horarios de mañana/tarde"* so Iván knows exactly what to chase on WhatsApp. That is what makes free text safe rather than a gamble — the failure mode becomes visible instead of silent.
+
+**Available hours is added as a separate structured question** because it's the one number worth not leaving to prose. The form already asks hours trained *in the last three months* (cols 19–22) — that's history, not capacity, and `methodology.md` §5's 16-week example is built off available hours the form never captures.
+
+### Two Google Forms gotchas that shape the build
+
+1. **Deleting a question does not delete its column** from the linked responses sheet. The seven grid columns stay, holding historical data, and simply go blank for new responses.
+2. **New questions are appended as new columns at the far right of the sheet, not in form order.** So sheet column *position* will not match form order after this edit.
+
+**Therefore the pipeline keys on question text, never on column index.** The Apps Script uses `e.namedValues`, which arrives as a header→value map — immune to both gotchas, and to any future form edit.
+
+---
+
+## 3.6 Stages 5–6 — receiving and storing the intake
+
+*August 9, 2026. Built as its own workflow, **not** added to `subscription-lifecycle-automation`.* That file is at 49 nodes and already carries an unrelated tenant (the resend-password webhook). The right split for n8n workflows is **by trigger, not by stage** — one IMAP-driven workflow, one webhook-driven workflow — because a trigger is what defines a workflow's failure domain and its execution history.
+
+### Decisions
+
+- **Apps Script → webhook, not the n8n Google Sheets trigger.** No Google credentials in n8n (an unstarted open item), no polling job, and it reuses the Caddy route pattern already debugged for the contact form. The cost — code living in Google, outside version control — is handled by mirroring it at `automation/athlete-intake/onFormSubmit.gs`, the same pattern used for `Caddyfile` and the VPS Python scripts. **Edit the repo copy, paste to Google; never the reverse.**
+- **The endpoint is authenticated by a shared secret header.** `/api/athlete-intake` is public. Without a check, anyone who finds it can inject fake athlete intakes into the database. A rejected POST returns 401 *and* sends a Telegram, because a wrong secret means either a broken deploy or someone probing — both worth knowing about.
+- **Split from the Gemini briefing deliberately.** This chunk receives and stores; the briefing is next. The Caddy `rewrite` gotcha cost real debugging time on `/api/contact-form` in July 2026, so the plumbing gets proven on its own before an LLM call is layered on top of it.
+
+### Keyed on question text, never column position
+
+Both gotchas from §3.5 are handled by using `e.namedValues`, which Google delivers as a **question-text → answer map**. Column order is irrelevant, deleted questions are simply absent, and new questions appear under their own name. The n8n normalizer matches the same way, with a trailing-space-and-case-tolerant lookup — the live form already contains `Disponibilidad semanal [Sábado ]`, with a trailing space, which an exact match would miss.
+
+**Language is detected from the question text too** (`Correo electrónico` vs `Email address`), not the sheet name — sheets get renamed and copied, and the current exports are literally named "Copy of ES" and "Copy of EN".
+
+### The two real test answers, and what they prove
+
+The first submissions on the redesigned form:
+
+> **ES:** *"Lunes: descanso / Martes y jueves: running, intensidad por la mañana / Sábado running regenerativo / Domingo running fondo / Los demás días ciclismo regenerativo opcional por la mañana o la tarde / Gimnasio miércoles y viernes"*
+
+> **EN:** *"Rest on Sundays / Saturday more time available / Monday to Friday: available only 1 hour in the morning"*
+
+Neither is the strict day-by-day list the example asked for, and that is the useful finding. Real answers **group days** ("Martes y jueves", "Monday to Friday"), use **implicit sets** ("los demás días"), **layer** activities across a week rather than listing them per day, and describe **constraints** rather than plans. No checkbox grid could have captured any of this — and equally, no regex will parse it. This is exactly the shape of input that justifies a model.
+
+**Both are also incomplete, in different ways.** The Spanish answer gives no durations. The English answer — from a triathlete with 6–8 hours a week — never says which sport happens on which day. **This is why "report what's missing" is a requirement of the briefing and not a nicety:** the gaps are specific, they differ per athlete, and they are precisely what Iván needs to ask on WhatsApp.
+
+### Build
+
+**1. Create the table** — run from Iván's terminal, as a heredoc:
+
+```bash
+docker exec -i analytics-postgres psql -U analytics -d members <<'SQL'
+CREATE TABLE IF NOT EXISTS athlete_intake (
+  id               bigserial PRIMARY KEY,
+  submitted_at     timestamptz NOT NULL DEFAULT now(),
+  form_language    text,
+  email            text NOT NULL,
+  full_name        text,
+  twenty_person_id uuid,
+  raw              jsonb NOT NULL,
+  briefing         text,
+  briefing_model   text,
+  briefing_at      timestamptz
+);
+CREATE INDEX IF NOT EXISTS athlete_intake_email_idx ON athlete_intake (email);
+CREATE INDEX IF NOT EXISTS athlete_intake_submitted_idx ON athlete_intake (submitted_at DESC);
+SQL
+```
+
+> **`docker exec -i`, not `-it`.** The `-t` flag allocates a TTY, which breaks heredoc input.
+>
+> *Corrected Aug 9, 2026.* This block was originally written as bare SQL, and was pasted straight into bash — which tried to execute each line as a shell command and produced a screen of `command not found`. Harmless, but avoidable. **Standing rule for this repo: every command written for Iván is copy-pasteable as-is into his shell.** SQL is never presented on its own; it always arrives inside the `docker exec` that runs it. Same for any future psql snippet here.
+
+`raw jsonb` holds the complete submission, always. The typed columns exist only for the fields automation actually branches on. **A schema that stores only what today's parser understands silently discards whatever the form gains next** — and this form has now changed once already.
+
+The `briefing*` columns are created empty here and filled by the next chunk, so the table doesn't need altering mid-build.
+
+**2. Caddy route** — added to `automation/Caddyfile`. Commit, push, and let the daily `deploy-website.sh` job diff and reload it, or trigger that job manually. Do not hand-edit `/etc/caddy/Caddyfile` on the box.
+
+**3. Apps Script** — `automation/athlete-intake/onFormSubmit.gs` carries its own setup instructions in the header. The trigger must be the **installable** "On form submit" from the spreadsheet, not the simple `onFormSubmit()`: simple triggers can't call external URLs, because `UrlFetchApp` requires authorization. Install it on **both** spreadsheets if ES and EN are separate files.
+
+The script emails Iván if the POST fails, and says explicitly that the response is still safe in the sheet. **A silently lost submission is the worst outcome in this whole flow** — the athlete believes they've done their part, and nothing downstream ever knows.
+
+**4. n8n** — new workflow named `Athlete Intake Form`, paste `automation/stage5-athlete-intake-paste.json`. Set the Postgres credential (arrives as `REPLACE_ME`) and put the shared secret into `Check Intake Secret`. Activate it — a webhook only serves its production URL while the workflow is active.
 
 ---
 

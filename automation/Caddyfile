@@ -66,6 +66,16 @@ triaperformance.com {
         reverse_proxy 100.70.89.17:5678
     }
 
+    # Athlete intake form (Google Forms -> Apps Script onFormSubmit -> here -> n8n).
+    # The `rewrite` line is mandatory, not cosmetic: n8n serves every webhook under
+    # an internal `webhook/` prefix, so proxying the raw path 404s at the Express
+    # layer even though the proxy itself is working. Cost real debugging time on
+    # /api/contact-form in July 2026 -- see contact-form-pipeline-runbook.md.
+    route /api/athlete-intake {
+        rewrite * /webhook/athlete-intake
+        reverse_proxy 100.70.89.17:5678
+    }
+
     redir /guias/zonas-de-entrenamiento.pdf /assets/guias/zonas-de-entrenamiento.pdf permanent
     redir /guias/pre-entreno.pdf /assets/guias/pre-entreno.pdf permanent
     redir /guias/intervalos.pdf /assets/guias/intervalos.pdf permanent

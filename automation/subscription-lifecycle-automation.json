@@ -752,27 +752,6 @@
       }
     },
     {
-      "id": "stage1-tg-private",
-      "name": "Telegram - Private Coaching Signup",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        1140,
-        -320
-      ],
-      "parameters": {
-        "chatId": "5952194741",
-        "text": "=🟢 Nuevo atleta PRIVATE (1-1 Coaching)\nNombre en el email: {{ $json.firstname }} {{ $json.lastname }}\nEmail: {{ $json.email }}\nProducto: {{ $json.subscription_name }}\nCobrado: ${{ $json.amount_charged }}\nFactura: {{ $json.invoice_number }}\n\nTodavia NO se escribio nada en Twenty -- cargar a mano por ahora.\nRevisar que el nombre este bien separado.",
-        "additionalFields": {}
-      },
-      "credentials": {
-        "telegramApi": {
-          "id": "dmG5jqW0zOMQXhUD",
-          "name": "Hermes Bot"
-        }
-      }
-    },
-    {
       "id": "stage1-tg-unknown",
       "name": "Telegram - Unknown Product",
       "type": "n8n-nodes-base.telegram",
@@ -841,23 +820,341 @@
       }
     },
     {
-      "id": "stage1-tg-cm",
-      "name": "Telegram - CoachMatch Signup",
+      "id": "s2-sticky",
+      "name": "STAGE 2+3 COACHING UPSERT -- Aug 8 2026",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        660,
+        1000
+      ],
+      "parameters": {
+        "width": 900,
+        "height": 190,
+        "content": "## Coaching athlete upsert + members access\n\nBoth coaching branches (Private via Route by Product, CoachMatch via Parse CoachMatch Hire) feed ONE normalizer, so downstream nodes have a single node name to reference.\n\n**Update path writes conversion fields ONLY** -- name, sport, leadSource, preferredLanguage, phones and athleteLevel are left alone, because a CoachMatch athlete is normally already a lead with real data in those fields.\n\nHome doc: `athlete-onboarding-flow.md` section 3.3"
+      }
+    },
+    {
+      "id": "s2-normalize",
+      "name": "Normalize Coaching Athlete",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        1220
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ONE normalizer fed by BOTH coaching branches, so everything downstream has a\n// single node name to reference. Referencing a branch-specific node that did not\n// run in this execution throws in n8n -- this avoids that entirely.\n// Shape detection: Private carries subscription_name, CoachMatch carries package_name.\n\nreturn $input.all().map(item => {\n  const d = item.json;\n  const isCoachMatch = Boolean(d.package_name);\n\n  if (isCoachMatch) {\n    return { json: {\n      channel: 'COACHMATCH',\n      email: (d.email || '').trim(),\n      full_name: d.full_name,\n      firstname: d.firstname,\n      lastname: d.lastname,\n      product: d.package_name,\n      signUpDate: d.sign_up_date,\n      // CoachMatch athletes CAN start in the future -- these two differ.\n      coachingStartDate: d.coaching_start_date,\n      // Set only on create; a CoachMatch athlete is normally already a lead\n      // with leadSource already COACHMATCH, and overwriting destroys attribution.\n      leadSourceOnCreate: 'COACHMATCH',\n      invoice_number: '',\n      amount_charged: '',\n    }};\n  }\n\n  // FIXED Aug 8 2026: this previously read d.source_date, which the upstream\n  // \"Map Language + Build Twenty Fields\" node does NOT pass through -- it emits\n  // only firstname/lastname/email/subscription_name/invoice_number/amount_charged\n  // /preferredLanguage. Result was an empty signUpDate and coachingStartDate on\n  // every Private signup. Using the run date instead, which is what the existing\n  // All-Access branch already does and is accurate to the minute in a live run.\n  const today = new Date().toISOString().slice(0, 10);\n\n  return { json: {\n    channel: 'PRIVATE',\n    email: (d.email || '').trim(),\n    full_name: [d.firstname, d.lastname].filter(Boolean).join(' '),\n    firstname: d.firstname,\n    lastname: d.lastname,\n    product: d.subscription_name,\n    signUpDate: today,\n    // No athlete-selectable start on TP Payments: payment IS the start.\n    coachingStartDate: today,\n    // The email carries NO signal about where this athlete came from.\n    // Null is honest; 'OTHER' would be a guess that looks like data.\n    leadSourceOnCreate: null,\n    invoice_number: d.invoice_number || '',\n    amount_charged: d.amount_charged || '',\n  }};\n});\n"
+      }
+    },
+    {
+      "id": "s2-check",
+      "name": "Check Existing Person (Coaching)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        900,
+        1220
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "http://100.70.89.17:3000/rest/people",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "filter",
+              "value": "=emails.primaryEmail[eq]:{{ $json.email }}"
+            }
+          ]
+        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "id": "s2-if",
+      "name": "Person Exists? (Coaching)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1100,
+        1220
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "pc1",
+              "leftValue": "={{ $json.data && $json.data.people && $json.data.people.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "s2-update",
+      "name": "Update Person (Coaching)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1300,
+        1120
+      ],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.data.people[0].id }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ customerType: 'OPT1_1_COACHING', leadStatus: 'WON_CUSTOMER', signUpDate: $('Normalize Coaching Athlete').item.json.signUpDate, coachingStartDate: $('Normalize Coaching Athlete').item.json.coachingStartDate, planPurchased: $('Normalize Coaching Athlete').item.json.product, churnDate: null }) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "id": "s2-create",
+      "name": "Create Person (Coaching)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1300,
+        1330
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://100.70.89.17:3000/rest/people",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify(Object.assign({ name: { firstName: $('Normalize Coaching Athlete').item.json.firstname, lastName: $('Normalize Coaching Athlete').item.json.lastname || '-' }, emails: { primaryEmail: $('Normalize Coaching Athlete').item.json.email }, customerType: 'OPT1_1_COACHING', leadStatus: 'WON_CUSTOMER', signUpDate: $('Normalize Coaching Athlete').item.json.signUpDate, coachingStartDate: $('Normalize Coaching Athlete').item.json.coachingStartDate, planPurchased: $('Normalize Coaching Athlete').item.json.product }, $('Normalize Coaching Athlete').item.json.leadSourceOnCreate ? { leadSource: $('Normalize Coaching Athlete').item.json.leadSourceOnCreate } : {})) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "id": "s2-upserted",
+      "name": "Coaching Athlete Upserted",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        1220
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "personId",
+              "type": "string",
+              "value": "={{ $json.data.updatePerson ? $json.data.updatePerson.id : $json.data.createPerson.id }}"
+            },
+            {
+              "id": "2",
+              "name": "wasExisting",
+              "type": "boolean",
+              "value": "={{ Boolean($json.data.updatePerson) }}"
+            },
+            {
+              "id": "3",
+              "name": "preferredLanguage",
+              "type": "string",
+              "value": "={{ ($('Check Existing Person (Coaching)').item.json.data?.people?.[0]?.preferredLanguage) || 'UNKNOWN' }}"
+            },
+            {
+              "id": "4",
+              "name": "leadSourceExisting",
+              "type": "string",
+              "value": "={{ ($('Check Existing Person (Coaching)').item.json.data?.people?.[0]?.leadSource) || 'UNKNOWN' }}"
+            }
+          ]
+        },
+        "includeOtherFields": true
+      }
+    },
+    {
+      "id": "s2-token",
+      "name": "Generate Coaching Token",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1720,
+        1220
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Same generator as Generate Member Token: ambiguous-character-free alphabet\n// because it doubles as a human-typed password. Math.random is deliberate --\n// n8n's sandboxed task runner disallows Node built-ins, and this only needs to\n// be unguessable, not cryptographic.\nconst alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';\n\nfunction genToken(length = 20) {\n  let out = '';\n  for (let i = 0; i < length; i++) out += alphabet[Math.floor(Math.random() * alphabet.length)];\n  return out;\n}\n\nreturn $input.all().map(item => ({ json: { ...item.json, member_token: genToken() } }));\n"
+      }
+    },
+    {
+      "id": "s2-pg",
+      "name": "Insert Coaching Token in Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1920,
+        1220
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)\nVALUES ($1, $2, $3, NULLIF($4, 'UNKNOWN'), TRUE)\nON CONFLICT (token) DO NOTHING;",
+        "options": {
+          "queryReplacement": "={{ $('Coaching Athlete Upserted').item.json.personId }},{{ $('Normalize Coaching Athlete').item.json.email }},{{ $json.member_token }},{{ $('Coaching Athlete Upserted').item.json.preferredLanguage }}"
+        }
+      },
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
+      }
+    },
+    {
+      "id": "s2-tg",
+      "name": "Telegram - Nuevo Atleta 1a1",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        480,
-        920
+        2120,
+        1220
       ],
       "parameters": {
         "chatId": "5952194741",
-        "text": "=🔵 Nuevo atleta COACHMATCH\nNombre en el email: {{ $json.full_name }}\nEmail: {{ $json.email }}\nPaquete: {{ $json.package_name }} (tier: {{ $json.tier }})\nContratado: {{ $json.sign_up_date }}\nEMPIEZA: {{ $json.coaching_start_date }}\nParse OK: {{ $json.parse_ok }}\n\nTodavia NO se escribio nada en Twenty -- cargar a mano por ahora.",
+        "text": "=🏆 NUEVO ATLETA 1:1 ({{ $('Normalize Coaching Athlete').item.json.channel }})\nNombre: {{ $('Normalize Coaching Athlete').item.json.full_name }}\nEmail: {{ $('Normalize Coaching Athlete').item.json.email }}\nProducto: {{ $('Normalize Coaching Athlete').item.json.product }}\nAlta: {{ $('Normalize Coaching Athlete').item.json.signUpDate }}\nEMPIEZA: {{ $('Normalize Coaching Athlete').item.json.coachingStartDate }}\nTwenty: {{ $('Coaching Athlete Upserted').item.json.wasExisting ? 'actualizado' : 'CREADO NUEVO' }}\nIdioma: {{ $('Coaching Athlete Upserted').item.json.preferredLanguage === 'UNKNOWN' ? 'FALTA -- ponelo en Twenty' : $('Coaching Athlete Upserted').item.json.preferredLanguage }}\nLead source: {{ $('Normalize Coaching Athlete').item.json.leadSourceOnCreate || ($('Coaching Athlete Upserted').item.json.leadSourceExisting === 'UNKNOWN' ? 'FALTA -- ponelo en Twenty' : $('Coaching Athlete Upserted').item.json.leadSourceExisting) }}\nPassword members: {{ $('Generate Coaching Token').item.json.member_token }}\nWelcome enviado en: {{ $('Build Welcome Email').item.json.langUsed }}{{ $('Build Welcome Email').item.json.langWasKnown ? '' : ' (default, idioma desconocido)' }}\n\nA mano: si es CREADO NUEVO revisar como quedo separado el nombre. Mandar welcome + formulario.",
         "additionalFields": {}
       },
       "credentials": {
         "telegramApi": {
           "id": "dmG5jqW0zOMQXhUD",
           "name": "Hermes Bot"
+        }
+      }
+    },
+    {
+      "id": "s2e-sticky",
+      "name": "CREATE ERROR CATCH -- Aug 8 2026",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        1480
+      ],
+      "parameters": {
+        "width": 620,
+        "height": 150,
+        "content": "## Duplicate-on-create catch\n\n`Check Existing Person (Coaching)` dedupes by EMAIL only. Twenty's own duplicate detection also considers NAME -- so a hand-created or backfilled athlete stored under a different email (or none) passes the check and is then rejected on create.\n\nThis is an expected business case, not an exception, so it gets its own message instead of the generic error workflow.\n\nSet `Create Person (Coaching)` -> Settings -> On Error -> **Continue (using error output)**, then wire its ERROR output here."
+      }
+    },
+    {
+      "id": "s2e-tg",
+      "name": "Telegram - Alta 1a1 Fallida",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1520,
+        1560
+      ],
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=⚠️ NO SE PUDO DAR DE ALTA EN TWENTY\nCanal: {{ $('Normalize Coaching Athlete').item.json.channel }}\nNombre: {{ $('Normalize Coaching Athlete').item.json.full_name }}\nEmail: {{ $('Normalize Coaching Athlete').item.json.email }}\nProducto: {{ $('Normalize Coaching Athlete').item.json.product }}\nEmpieza: {{ $('Normalize Coaching Athlete').item.json.coachingStartDate }}\n\nCausa mas probable: ya existe una persona con ese NOMBRE en Twenty pero con otro email, o sin email. El chequeo busca SOLO por email, asi que no la encontro, y Twenty rechazo el alta por duplicado.\n\nA mano: buscar en Twenty por nombre -> agregarle este email como principal -> volver a correr el pago pineado.\nOJO: no se genero password ni acceso a members para este atleta.\n\nDetalle: {{ JSON.stringify($json).slice(0, 300) }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      }
+    },
+    {
+      "id": "s4-sticky",
+      "name": "STAGE 4 WELCOME EMAIL -- Aug 8 2026",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        1400
+      ],
+      "parameters": {
+        "width": 660,
+        "height": 180,
+        "content": "## 1:1 welcome email\n\n**Set FORM_URL inside `Build Welcome Email` before activating.** The node throws on purpose if you don't -- better a failed run than a paying athlete receiving a dead link.\n\nSpanish is the fallback when `preferredLanguage` is UNKNOWN (Ivan's call). EN/PT are used only when Twenty actually says so, so a known English athlete never gets a Spanish email.\n\nHome doc: `athlete-onboarding-flow.md` section 3.4"
+      }
+    },
+    {
+      "id": "s4-build",
+      "name": "Build Welcome Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2120,
+        1220
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Builds the 1:1 welcome email. Spanish is the default when preferredLanguage\n// is UNKNOWN -- Ivan's call, Aug 8 2026. EN/PT are used only when Twenty\n// actually says so, so a known English athlete never gets a Spanish email.\n\n// >>>>>>>>>>>>>>>>  SET THIS ONCE  <<<<<<<<<<<<<<<<\nconst FORM_URL = 'PEGAR_AQUI_EL_LINK_DEL_FORMULARIO';\n// >>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<\n\nconst LOGIN_URL = 'https://triaperformance.com/members/login';\n\n// Fail loudly rather than emailing a broken link to a paying athlete.\nif (FORM_URL.startsWith('PEGAR_AQUI')) {\n  throw new Error('Build Welcome Email: FORM_URL no esta configurado. Poner el link real del formulario antes de activar.');\n}\n\nconst T = {\n  SPANISH: (n, tok) => ({\n    subject: `${n}, arrancamos con tu entrenamiento`,\n    body:\n`Hola ${n},\n\nGracias por confiar en mi para tu entrenamiento. Ya estas dentro del equipo.\n\nPara armarte el plan necesito conocerte primero. Son dos pasos.\n\n1) Completa este formulario\n${FORM_URL}\nHistorial, carreras recientes, como vienes entrenando y tus preferencias.\nTomate el tiempo de responderlo bien: de ahi sale todo lo demas.\n\n2) Hablamos por WhatsApp\nDentro de las 24 horas de que completes el formulario nos ponemos de acuerdo\nsobre tu semana real: que dias entrenas cada deporte, cuando tienes piscina,\nque dia prefieres descansar y cuanto tiempo tienes cada manana o cada tarde.\nCon eso te dejo cargados tus primeros dias de entrenamiento.\n\nTu acceso al Area de Miembros\nLink: ${LOGIN_URL}\nContrasena: ${tok}\nAhi estan las calculadoras, guias y herramientas. Guarda este correo: es tu\nunica copia de la contrasena.\n\nCualquier duda me escribes.\n\nGracias y nos hablamos,\nIvan Koch\nTriaperformance`\n  }),\n\n  ENGLISH: (n, tok) => ({\n    subject: `${n}, let's get your training started`,\n    body:\n`Hi ${n},\n\nThanks for trusting me with your training. You're on the team.\n\nBefore I can build your plan I need to know you. Two steps.\n\n1) Fill in this form\n${FORM_URL}\nBackground, recent races, how you've been training, and your preferences.\nTake your time with it: everything else is built from these answers.\n\n2) We talk on WhatsApp\nWithin 24 hours of you submitting the form we'll go through your real week:\nwhich days you train each sport, when you have pool access, which day you\nprefer to rest, and how much time you have each morning or evening.\nThen I load your first days of training.\n\nYour Members Area access\nLink: ${LOGIN_URL}\nPassword: ${tok}\nThat's where the calculators, guides and tools live. Keep this email: it's\nyour only copy of the password.\n\nAny questions, just write to me.\n\nThanks, and talk soon,\nIvan Koch\nTriaperformance`\n  }),\n\n  PORTUGUESE: (n, tok) => ({\n    subject: `${n}, vamos comecar o seu treino`,\n    body:\n`Ola ${n},\n\nObrigado por confiar em mim para o seu treino. Voce ja esta no time.\n\nPara montar o seu plano preciso te conhecer primeiro. Sao dois passos.\n\n1) Preencha este formulario\n${FORM_URL}\nHistorico, provas recentes, como voce vem treinando e suas preferencias.\nResponda com calma: e daqui que sai todo o resto.\n\n2) Conversamos pelo WhatsApp\nAte 24 horas depois de voce enviar o formulario combinamos a sua semana real:\nquais dias voce treina cada esporte, quando tem piscina, qual dia prefere\ndescansar e quanto tempo tem cada manha ou cada tarde.\nCom isso eu carrego os seus primeiros dias de treino.\n\nSeu acesso a Area de Membros\nLink: ${LOGIN_URL}\nSenha: ${tok}\nE la que estao as calculadoras, guias e ferramentas. Guarde este email: e a\nsua unica copia da senha.\n\nQualquer duvida e so me escrever.\n\nObrigado, ate ja,\nIvan Koch\nTriaperformance`\n  }),\n};\n\nreturn $input.all().map(() => {\n  const norm = $('Normalize Coaching Athlete').item.json;\n  const ups  = $('Coaching Athlete Upserted').item.json;\n  const tok  = $('Generate Coaching Token').item.json.member_token;\n\n  const lang = T[ups.preferredLanguage] ? ups.preferredLanguage : 'SPANISH';\n  const first = (norm.firstname || '').split(/\\s+/)[0] || norm.full_name || '';\n\n  const built = T[lang](first, tok);\n\n  return { json: {\n    to: norm.email,\n    langUsed: lang,\n    langWasKnown: Boolean(T[ups.preferredLanguage]),\n    subject: built.subject,\n    body: built.body,\n  }};\n});\n"
+      }
+    },
+    {
+      "id": "s4-send",
+      "name": "Send Coaching Welcome Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        2320,
+        1220
+      ],
+      "parameters": {
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $json.to }}",
+        "subject": "={{ $json.subject }}",
+        "emailFormat": "text",
+        "text": "={{ $json.body }}",
+        "options": {}
+      },
+      "credentials": {
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
         }
       }
     }
@@ -1153,7 +1450,7 @@
         ],
         [
           {
-            "node": "Telegram - Private Coaching Signup",
+            "node": "Normalize Coaching Athlete",
             "type": "main",
             "index": 0
           }
@@ -1182,7 +1479,131 @@
       "main": [
         [
           {
-            "node": "Telegram - CoachMatch Signup",
+            "node": "Normalize Coaching Athlete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Coaching Athlete": {
+      "main": [
+        [
+          {
+            "node": "Check Existing Person (Coaching)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Existing Person (Coaching)": {
+      "main": [
+        [
+          {
+            "node": "Person Exists? (Coaching)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Person Exists? (Coaching)": {
+      "main": [
+        [
+          {
+            "node": "Update Person (Coaching)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Person (Coaching)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Person (Coaching)": {
+      "main": [
+        [
+          {
+            "node": "Coaching Athlete Upserted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Person (Coaching)": {
+      "main": [
+        [
+          {
+            "node": "Coaching Athlete Upserted",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram - Alta 1a1 Fallida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Coaching Athlete Upserted": {
+      "main": [
+        [
+          {
+            "node": "Generate Coaching Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Coaching Token": {
+      "main": [
+        [
+          {
+            "node": "Insert Coaching Token in Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert Coaching Token in Postgres": {
+      "main": [
+        [
+          {
+            "node": "Build Welcome Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Welcome Email": {
+      "main": [
+        [
+          {
+            "node": "Send Coaching Welcome Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Coaching Welcome Email": {
+      "main": [
+        [
+          {
+            "node": "Telegram - Nuevo Atleta 1a1",
             "type": "main",
             "index": 0
           }

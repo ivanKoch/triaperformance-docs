@@ -24,7 +24,14 @@ This file replaces the open-item lists previously scattered across `ai-infrastru
 ### ✅ Fixed same day — the live bug this branch uncovered
 
 - [x] ~~**The subscription-lifecycle workflow tags every 1:1 coaching sale as `ALL_ACCESS`.**~~ **Found and fixed August 8, 2026, blast radius zero.** `Filter - Is New Subscription` matched on subject alone, and All-Access and Private coaching share that subject. Fixed with an explicit two-allowlist `Classify Product` node and a `Route by Product` Switch whose fallback output alerts and writes nothing; CoachMatch, which was being dropped silently, now has its own branch. All four test cases passed live. Audit found **no affected records** — no subscriptions of any kind since the workflow went live July 24. Full record: `ai-infrastructure-documentation.md` §12 addendum and `athlete-onboarding-flow.md` §3–3.2.
-- [ ] **Clean up the D1 test record** — `test-aa@example.com` was created for real in Twenty with a `subscriber_tokens` row and a welcome email sent to a non-existent address. Delete both (commands in `athlete-onboarding-flow.md` §3.2 Phase D). Belongs with the older Test Persons cleanup item in LATER.
+- [ ] **Clean up the D1 test record** — `test-aa@example.com` was created for real in Twenty with a `subscriber_tokens` row and a welcome email sent to a non-existent address. Delete both (commands in `athlete-onboarding-flow.md` §3.2 Phase D). *All later test athletes were cleaned up by Iván the same day; this is the only one outstanding.*
+
+### Shipped August 8, 2026 — Stages 1–4 of the onboarding branch
+
+An athlete who pays through either channel is now classified, upserted into Twenty, granted members access and sent a welcome email with password and intake-form link, in their language. 49 nodes, tested end to end. **Two follow-ups this created:**
+
+- [ ] **Set `Error Collector (global)` as the Error Workflow on the *other* workflows** — CoachMatch lead pipeline, contact form, plan-lead, publish-article. They all have the same silent-failure gap: a run that dies halfway just stops and nothing says so. One setting each.
+- [ ] **The All-Access welcome email is still hardcoded Spanish** regardless of `preferredLanguage`, which now sits next to a coaching branch that does switch language. Pre-existing, not introduced by this work, but the inconsistency is newly visible and EN/PT subscribers have been receiving Spanish all along.
 
 ### Carried over from the storefront branch — catalogue strategy, not build work
 
