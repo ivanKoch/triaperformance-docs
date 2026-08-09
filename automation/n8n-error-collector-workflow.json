@@ -1,0 +1,90 @@
+{
+  "name": "Error Collector (global)",
+  "nodes": [
+    {
+      "id": "ec-sticky",
+      "name": "READ ME",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -280,
+        -180
+      ],
+      "parameters": {
+        "width": 620,
+        "height": 230,
+        "content": "## Global error collector\n\nFires whenever ANY workflow that names this one as its Error Workflow fails, and writes one row to `n8n_errors`. It sends NOTHING in the moment -- `Daily Error Digest` mails the summary at 08:00.\n\nSet it per workflow: three dots -> Settings -> **Error Workflow** -> `Error Collector (global)`. Worth setting on every workflow.\n\nDeliberately NOT routed through here: `Telegram - Alta 1a1 Fallida` in subscription-lifecycle. A paying athlete stuck without access is worth interrupting for; a transient API error is not.\n\nUses the Postgres **Insert** operation, not Execute Query -- `queryReplacement` splits its input on commas, and error messages are full of commas."
+      }
+    },
+    {
+      "id": "ec-trigger",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        120
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "ec-insert",
+      "name": "Store Error in Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        240,
+        120
+      ],
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "name"
+        },
+        "table": {
+          "__rl": true,
+          "value": "n8n_errors",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "workflow_name": "={{ $json.workflow?.name || '' }}",
+            "workflow_id": "={{ $json.workflow?.id || '' }}",
+            "node_name": "={{ $json.execution?.lastNodeExecuted || '' }}",
+            "error_message": "={{ $json.execution?.error?.message || '' }}",
+            "execution_id": "={{ $json.execution?.id || '' }}",
+            "execution_url": "={{ $json.execution?.url || '' }}"
+          }
+        },
+        "options": {}
+      },
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Store Error in Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": []
+}

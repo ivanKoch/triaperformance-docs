@@ -1,0 +1,140 @@
+{
+  "name": "Daily Error Digest",
+  "nodes": [
+    {
+      "id": "dg-sticky",
+      "name": "READ ME",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -280,
+        -160
+      ],
+      "parameters": {
+        "width": 600,
+        "height": 180,
+        "content": "## Daily error digest — 08:00\n\nReads `n8n_errors` for the last 24h and mails a grouped summary.\n\n**Sends nothing on a clean day.** The trade-off: a broken digest looks identical to a quiet week. Mitigation is that failed executions are still visible in n8n's own Executions list, so this is a convenience layer, not the only record."
+      }
+    },
+    {
+      "id": "dg-cron",
+      "name": "Every day 08:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        120
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dg-q",
+      "name": "Read Last 24h Errors",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        240,
+        120
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT occurred_at, workflow_name, node_name, error_message, execution_url\nFROM n8n_errors\nWHERE occurred_at >= now() - interval '24 hours'\nORDER BY workflow_name, occurred_at;",
+        "options": {}
+      },
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
+      }
+    },
+    {
+      "id": "dg-fmt",
+      "name": "Format Digest",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        120
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const rows = $input.all().map(i => i.json);\n// Returning [] stops the chain, so a quiet day sends no email at all.\nif (!rows.length) return [];\n\nconst byWf = {};\nfor (const r of rows) {\n  const k = r.workflow_name || '(workflow sin nombre)';\n  (byWf[k] = byWf[k] || []).push(r);\n}\n\nlet body = `Errores de n8n en las ultimas 24 horas: ${rows.length}\\n`;\nbody += `Workflows afectados: ${Object.keys(byWf).length}\\n\\n`;\n\nfor (const [wf, list] of Object.entries(byWf)) {\n  body += `=== ${wf} — ${list.length} error(es) ===\\n`;\n  for (const r of list) {\n    const t = new Date(r.occurred_at).toISOString().replace('T', ' ').slice(0, 16);\n    body += `- ${t} UTC | nodo: ${r.node_name || '?'}\\n`;\n    body += `  ${String(r.error_message || '').slice(0, 400)}\\n`;\n    if (r.execution_url) body += `  ${r.execution_url}\\n`;\n  }\n  body += '\\n';\n}\n\nbody += 'Nada que hacer si esto llega vacio: solo se envia cuando hubo al menos un error.\\n';\n\nreturn [{ json: { subject: `n8n: ${rows.length} error(es) en 24h`, body } }];\n"
+      }
+    },
+    {
+      "id": "dg-mail",
+      "name": "Send Digest Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        120
+      ],
+      "parameters": {
+        "fromEmail": "Triaperformance n8n <coach@triaperformance.com>",
+        "toEmail": "coach@triaperformance.com",
+        "subject": "={{ $json.subject }}",
+        "emailFormat": "text",
+        "text": "={{ $json.body }}",
+        "options": {}
+      },
+      "credentials": {
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every day 08:00": {
+      "main": [
+        [
+          {
+            "node": "Read Last 24h Errors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Last 24h Errors": {
+      "main": [
+        [
+          {
+            "node": "Format Digest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Digest": {
+      "main": [
+        [
+          {
+            "node": "Send Digest Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": []
+}

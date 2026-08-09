@@ -1,0 +1,45 @@
+{
+  "nodes": [
+    {
+      "id": "s2e-sticky",
+      "name": "CREATE ERROR CATCH -- Aug 8 2026",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        1480
+      ],
+      "parameters": {
+        "width": 620,
+        "height": 150,
+        "content": "## Duplicate-on-create catch\n\n`Check Existing Person (Coaching)` dedupes by EMAIL only. Twenty's own duplicate detection also considers NAME -- so a hand-created or backfilled athlete stored under a different email (or none) passes the check and is then rejected on create.\n\nThis is an expected business case, not an exception, so it gets its own message instead of the generic error workflow.\n\nSet `Create Person (Coaching)` -> Settings -> On Error -> **Continue (using error output)**, then wire its ERROR output here."
+      }
+    },
+    {
+      "id": "s2e-tg",
+      "name": "Telegram - Alta 1a1 Fallida",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1520,
+        1560
+      ],
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=⚠️ NO SE PUDO DAR DE ALTA EN TWENTY\nCanal: {{ $('Normalize Coaching Athlete').item.json.channel }}\nNombre: {{ $('Normalize Coaching Athlete').item.json.full_name }}\nEmail: {{ $('Normalize Coaching Athlete').item.json.email }}\nProducto: {{ $('Normalize Coaching Athlete').item.json.product }}\nEmpieza: {{ $('Normalize Coaching Athlete').item.json.coachingStartDate }}\n\nCausa mas probable: ya existe una persona con ese NOMBRE en Twenty pero con otro email, o sin email. El chequeo busca SOLO por email, asi que no la encontro, y Twenty rechazo el alta por duplicado.\n\nA mano: buscar en Twenty por nombre -> agregarle este email como principal -> volver a correr el pago pineado.\nOJO: no se genero password ni acceso a members para este atleta.\n\nDetalle: {{ JSON.stringify($json).slice(0, 300) }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      }
+    }
+  ],
+  "connections": {},
+  "pinData": {},
+  "meta": {
+    "instanceId": "paste-snippet"
+  }
+}

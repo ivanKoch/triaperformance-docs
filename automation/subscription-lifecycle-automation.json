@@ -653,6 +653,213 @@
         "respondWith": "json",
         "responseBody": "={{ JSON.stringify({ ok: true, message: 'Si el email esta registrado, te enviamos la contraseña.' }) }}"
       }
+    },
+    {
+      "id": "stage1-sticky",
+      "name": "STAGE 1 CLASSIFIER -- added Aug 8 2026",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        600,
+        -560
+      ],
+      "parameters": {
+        "width": 720,
+        "height": 260,
+        "content": "## Stage 1 classifier (Aug 8, 2026)\n\n`Filter - Is New Subscription` matches on SUBJECT ONLY, and All-Access and Private 1-1 coaching share that subject. Before this change, a Private signup ran the All-Access chain and got customerType ALL_ACCESS + a members token + the All-Access welcome email.\n\n**Classify Product** sets productType from two explicit allowlists. **Route by Product** sends All-Access to the existing chain, Private to a Telegram, and anything unrecognised to a Telegram that writes NOTHING.\n\nThis step classifies only. Private/CoachMatch writes to Twenty come in the next step.\n\nHome doc: `athlete-onboarding-flow.md` sections 3.1 / 3.2"
+      }
+    },
+    {
+      "id": "stage1-classify",
+      "name": "Classify Product",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        -240
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Classifies a \"New subscription confirmation\" into a product family.\n// BOTH allowlists are explicit, and anything matching neither is UNKNOWN.\n// UNKNOWN must never fall through to a default customerType -- that was the\n// August 2026 bug: this branch had no UNKNOWN case, so an unrecognised product\n// proceeded with customerType 'ALL_ACCESS' hardcoded as an implicit default.\n\nconst ALL_ACCESS_MATCHERS = [\n  s => s.includes('suscripci') && s.includes('triaperformance'),\n  s => s.includes('full access'),\n  s => s.includes('acesso total'),\n];\n\n// Confirmed by Ivan, Aug 8 2026: exactly one active Private product,\n// \"Triaperformance 1-1 Coaching\" ($149/mo + $50 startup, promocode NOSTARTUP).\n// The retired \"Coaching personalizado - Un deporte (...)\" is deliberately NOT\n// listed -- if it ever reappears it should alert, not be silently accepted.\nconst PRIVATE_COACHING_MATCHERS = [\n  s => s.includes('1-1 coaching'),\n];\n\nreturn $input.all().map(item => {\n  const j = item.json;\n  const s = (j.subscription_name || '').toLowerCase();\n\n  let productType = 'UNKNOWN';\n  if (ALL_ACCESS_MATCHERS.some(fn => fn(s))) {\n    productType = 'ALL_ACCESS';\n  } else if (PRIVATE_COACHING_MATCHERS.some(fn => fn(s))) {\n    productType = 'PRIVATE_COACHING';\n  }\n\n  return { json: { ...j, productType } };\n});\n"
+      }
+    },
+    {
+      "id": "stage1-switch",
+      "name": "Route by Product",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        880,
+        -240
+      ],
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "r-aa",
+                    "leftValue": "={{ $json.productType }}",
+                    "rightValue": "ALL_ACCESS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "All-Access"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "r-pc",
+                    "leftValue": "={{ $json.productType }}",
+                    "rightValue": "PRIVATE_COACHING",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Private Coaching"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Unknown"
+        }
+      }
+    },
+    {
+      "id": "stage1-tg-private",
+      "name": "Telegram - Private Coaching Signup",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1140,
+        -320
+      ],
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=🟢 Nuevo atleta PRIVATE (1-1 Coaching)\nNombre en el email: {{ $json.firstname }} {{ $json.lastname }}\nEmail: {{ $json.email }}\nProducto: {{ $json.subscription_name }}\nCobrado: ${{ $json.amount_charged }}\nFactura: {{ $json.invoice_number }}\n\nTodavia NO se escribio nada en Twenty -- cargar a mano por ahora.\nRevisar que el nombre este bien separado.",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      }
+    },
+    {
+      "id": "stage1-tg-unknown",
+      "name": "Telegram - Unknown Product",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1140,
+        -140
+      ],
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=⚠️ PRODUCTO NO RECONOCIDO -- no se escribio nada en Twenty\nNombre: {{ $json.firstname }} {{ $json.lastname }}\nEmail: {{ $json.email }}\nProducto: {{ $json.subscription_name }}\nFactura: {{ $json.invoice_number }}\n\nProcesar a mano y agregar el producto a Classify Product.",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      }
+    },
+    {
+      "id": "stage1-cm-filter",
+      "name": "Filter - Is CoachMatch Hire",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        920
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f3",
+              "leftValue": "={{ $json.subject }}",
+              "rightValue": "Congratulations, You Have Been Hired by a New Athlete",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "stage1-cm-parse",
+      "name": "Parse CoachMatch Hire",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        920
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Parses the \"Congratulations, You Have Been Hired by a New Athlete\" email.\n// Date is MM/DD/YYYY -- evidenced, not assumed: the sample was sent Aug 4 2026\n// and reads 08/05/2026. Under DD/MM that would be four months in the past.\n\nreturn $input.all().map(item => {\n  const flat = (item.json.textPlain || '').replace(/\\s+/g, ' ').trim();\n\n  const m = flat.match(\n    /hired by\\s+(.+?)\\s*\\(([^)]+)\\)\\s+at the\\s+(.+?)\\s+package starting on\\s+(\\d{2})\\/(\\d{2})\\/(\\d{4})/i\n  );\n\n  const fullName = m ? m[1].trim() : '';\n  const nameParts = fullName.split(/\\s+/);\n  const lastname = nameParts.length > 1 ? nameParts.pop() : '';\n  const firstname = nameParts.join(' ');\n\n  const packageName = m ? m[3].trim() : '';\n  const tierMatch = packageName.match(/Coach Match\\s+(\\w+)\\s+level/i);\n\n  return {\n    json: {\n      // parse_ok is explicit on purpose: if TrainingPeaks rewords this email the\n      // regex returns null and every field goes blank, which looks identical to\n      // a real athlete with no name unless something says so.\n      parse_ok: Boolean(m),\n      full_name: fullName,\n      firstname,\n      lastname,\n      email: m ? m[2].trim() : '',\n      package_name: packageName,\n      tier: tierMatch ? tierMatch[1] : '',\n      coaching_start_date: m ? `${m[6]}-${m[4]}-${m[5]}` : '',\n      sign_up_date: (item.json.date || '').slice(0, 10),\n      source_subject: item.json.subject,\n    }\n  };\n});\n"
+      }
+    },
+    {
+      "id": "stage1-tg-cm",
+      "name": "Telegram - CoachMatch Signup",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        920
+      ],
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=🔵 Nuevo atleta COACHMATCH\nNombre en el email: {{ $json.full_name }}\nEmail: {{ $json.email }}\nPaquete: {{ $json.package_name }} (tier: {{ $json.tier }})\nContratado: {{ $json.sign_up_date }}\nEMPIEZA: {{ $json.coaching_start_date }}\nParse OK: {{ $json.parse_ok }}\n\nTodavia NO se escribio nada en Twenty -- cargar a mano por ahora.",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -667,6 +874,11 @@
           },
           {
             "node": "Filter - Is Churn Confirmed",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter - Is CoachMatch Hire",
             "type": "main",
             "index": 0
           }
@@ -699,7 +911,7 @@
       "main": [
         [
           {
-            "node": "Check Existing Person (New Sub)",
+            "node": "Classify Product",
             "type": "main",
             "index": 0
           }
@@ -913,6 +1125,64 @@
         [
           {
             "node": "Respond Generic Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify Product": {
+      "main": [
+        [
+          {
+            "node": "Route by Product",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Product": {
+      "main": [
+        [
+          {
+            "node": "Check Existing Person (New Sub)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram - Private Coaching Signup",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram - Unknown Product",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter - Is CoachMatch Hire": {
+      "main": [
+        [
+          {
+            "node": "Parse CoachMatch Hire",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse CoachMatch Hire": {
+      "main": [
+        [
+          {
+            "node": "Telegram - CoachMatch Signup",
             "type": "main",
             "index": 0
           }

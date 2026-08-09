@@ -21,9 +21,10 @@ This file replaces the open-item lists previously scattered across `ai-infrastru
 
 **Big branch: 1:1 athlete onboarding flow**, opened August 8, 2026. Specification written — `athlete-onboarding-flow.md` is now the home doc and owns every step, decision and open question for this initiative. Nothing is built yet; the spec lists six inputs blocked on Iván (§5) and a live bug to fix first (below). *Race landing pages (NEXT #1) remains the next branch after this one; it is researched and ungated, just not started.*
 
-### 🔴 Fix first — live bug, found August 8, 2026
+### ✅ Fixed same day — the live bug this branch uncovered
 
-- [ ] **The subscription-lifecycle workflow tags every 1:1 coaching sale as `ALL_ACCESS`.** `Filter - Is New Subscription` matches on subject alone (`"New subscription confirmation"`) with no product-name condition, and `Create Person (New Subscriber)` hardcodes `customerType: 'ALL_ACCESS'` — so a TP Payments coaching subscription runs the full All-Access branch: wrong `customerType`, a members-area token issued, and the All-Access welcome email sent. The `language_unrecognized` flag exists but **nothing branches on it**. Two actions: add the product filter (+ Telegram alert on unmatched products), then audit existing `ALL_ACCESS` records against `planPurchased` and `subscriber_tokens`. Until this is done, the athlete count and the All-Access subscriber count are both suspect. Detail: `athlete-onboarding-flow.md` §3.
+- [x] ~~**The subscription-lifecycle workflow tags every 1:1 coaching sale as `ALL_ACCESS`.**~~ **Found and fixed August 8, 2026, blast radius zero.** `Filter - Is New Subscription` matched on subject alone, and All-Access and Private coaching share that subject. Fixed with an explicit two-allowlist `Classify Product` node and a `Route by Product` Switch whose fallback output alerts and writes nothing; CoachMatch, which was being dropped silently, now has its own branch. All four test cases passed live. Audit found **no affected records** — no subscriptions of any kind since the workflow went live July 24. Full record: `ai-infrastructure-documentation.md` §12 addendum and `athlete-onboarding-flow.md` §3–3.2.
+- [ ] **Clean up the D1 test record** — `test-aa@example.com` was created for real in Twenty with a `subscriber_tokens` row and a welcome email sent to a non-existent address. Delete both (commands in `athlete-onboarding-flow.md` §3.2 Phase D). Belongs with the older Test Persons cleanup item in LATER.
 
 ### Carried over from the storefront branch — catalogue strategy, not build work
 
