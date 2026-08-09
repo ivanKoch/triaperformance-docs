@@ -805,7 +805,13 @@ The `briefing*` columns are created empty here and filled by the next chunk, so 
 
 **2. Caddy route** — added to `automation/Caddyfile`. Commit, push, and let the daily `deploy-website.sh` job diff and reload it, or trigger that job manually. Do not hand-edit `/etc/caddy/Caddyfile` on the box.
 
-**3. Apps Script** — `automation/athlete-intake/onFormSubmit.gs` carries its own setup instructions in the header. The trigger must be the **installable** "On form submit" from the spreadsheet, not the simple `onFormSubmit()`: simple triggers can't call external URLs, because `UrlFetchApp` requires authorization. Install it on **both** spreadsheets if ES and EN are separate files.
+**3. Apps Script** — `automation/athlete-intake/onFormSubmit.gs` carries its own setup instructions in the header. The trigger must be the **installable** "On form submit" from the spreadsheet, not the simple `onFormSubmit()`: simple triggers can't call external URLs, because `UrlFetchApp` requires authorization.
+
+> **Both forms write to one spreadsheet, on tabs `ES` and `EN`** *(confirmed by Iván, Aug 9, 2026)*. A spreadsheet-level form-submit trigger fires for **every** form linked to that spreadsheet, so this is **one script and one trigger**, not one per language.
+>
+> **Language is resolved from two independent signals, and disagreement is recorded.** The tab name is explicit and under Iván's control, but it's a *label*, and labels drift — the exported copies were already named "Copy of ES". The question text is derived from *content* and cannot be wrong. Content wins; the tab name is the fallback when a question gets reworded. Computing both costs nothing and catches a real misconfiguration class: a form rewired to the wrong tab would otherwise send English athletes a Spanish briefing with nothing anywhere saying so. The `language_mismatch` flag lands in `raw` and is surfaced in the briefing step.
+>
+> The file also carries `testReplayLastRow()` — run it once by hand from the Apps Script editor to prove the whole path (properties → Caddy → n8n → Postgres) without waiting for a real athlete. It replays the last row of a chosen tab as if it had just been submitted.
 
 The script emails Iván if the POST fails, and says explicitly that the response is still safe in the sheet. **A silently lost submission is the worst outcome in this whole flow** — the athlete believes they've done their part, and nothing downstream ever knows.
 
