@@ -51,20 +51,41 @@
         "url": "/all-access/"
       },
       {
-        "label": "Blog",
-        "url": "/blog/"
+        "label": "Recursos",
+        "menuOnly": true,
+        "children": [
+          {
+            "label": "Blog",
+            "url": "/blog/"
+          },
+          {
+            "label": "Calculadora de Zonas",
+            "url": "/calculadora-de-zonas/"
+          },
+          {
+            "label": "Zonas de Natación (CSS)",
+            "url": "/calculadora-de-zonas/natacion/"
+          },
+          {
+            "label": "Zonas de Ciclismo (FTP)",
+            "url": "/calculadora-de-zonas/ciclismo/"
+          },
+          {
+            "label": "Zonas de Running",
+            "url": "/calculadora-de-zonas/running/"
+          }
+        ]
       },
       {
         "label": "Contacto",
         "url": "/#contacto",
         "cta": true
-      },
-      {
-        "label": "Acceso Miembros",
-        "url": "/members/",
-        "member": true
       }
-    ]
+    ],
+    "utility": {
+      "label": "Acceso Miembros",
+      "url": "/members/"
+    }
   },
   "_blogNavNote": "All three languages now have a blog with at least one article, so Blog is in every nav.",
   "en": {
@@ -116,13 +137,12 @@
         "label": "Contact",
         "url": "/en/#contacto",
         "cta": true
-      },
-      {
-        "label": "Members Access",
-        "url": "/members/en/",
-        "member": true
       }
-    ]
+    ],
+    "utility": {
+      "label": "Members Access",
+      "url": "/members/en/"
+    }
   },
   "pt": {
     "menuLabel": "Abrir menu",
@@ -165,13 +185,12 @@
         "label": "Contato",
         "url": "/pt/#contacto",
         "cta": true
-      },
-      {
-        "label": "Acesso Membros",
-        "url": "/members/pt/",
-        "member": true
       }
-    ]
+    ],
+    "utility": {
+      "label": "Acesso Membros",
+      "url": "/members/pt/"
+    }
   },
   "_membersNote": "The members area grew three different nav shapes by hand: the members home (Biblioteca/FAQ + logout), the content pages (Área de Miembros/Biblioteca, no logout), and kettlebell (a plain back-link, and an English-language page that doesn't follow the site's design system at all). Both real variants are defined below and preserved as-is; kettlebell keeps its own inline nav. Worth unifying at some point — flagged, not silently changed.",
   "_membersI18nNote": "Restructured Aug 10, 2026 (members-area i18n branch): `membersHome` and `membersPage` were single ES-only objects with a hardcoded `/members/` home. They are now keyed by language, resolved in nav.njk off the page's own `lang`. The ES sub-objects are byte-identical to what was there before — nothing about the Spanish members area changed. Language lives in the URL segment (`/members/`, `/members/en/`, `/members/pt/`) rather than a language prefix like the public site, so that ONE Caddy `handle /members/*` forward_auth gate keeps covering all three; the area is noindex, so the URL shape costs nothing in SEO.",
@@ -265,5 +284,7 @@
         }
       ]
     }
-  }
+  },
+  "_navLayoutNote": "Two-tier as of Aug 10, 2026. A thin utility strip carries the language switcher and the Acceso Miembros button; the main row carries content only. The single row had run out of width — adding the members button pushed the language switcher onto a second line — and the underlying problem was that the nav mixed content items with utility items and made them compete for the same 1080px. Each row now has one job, and the main row has slack for the tools still to be built. The utility strip is hidden on mobile: its two items move into the hamburger drawer, where a second bar would just cost vertical space.",
+  "_recursosNote": "`Recursos` groups the blog with the calculators (Iván's call, Aug 10, 2026 — a truer label than 'Herramientas' for a mixed bag, and it takes the main row down to four content items). It is `menuOnly`: there is no /recursos/ page, and a dropdown parent that links nowhere real is worse than one that does not pretend to. **Building a real /recursos/ hub is the proper fix** and would double as the public landing page for lead magnets — see the open item about having nowhere to send cold traffic. **EN and PT deliberately keep Blog top-level**: their calculator pages do not exist yet, so a Recursos dropdown there would hold exactly one item. Give them the dropdown in the same pass that translates the calculator."
 }

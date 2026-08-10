@@ -58,6 +58,29 @@
 {% elif navVariant != "none" %}
 {%- set menu = nav[lang] -%}
 <div class="site-nav-sticky">
+
+{#- Utility strip (Aug 10, 2026). Language switcher + members access live here,
+    not in the main row. The single-row nav had run out of width and pushed the
+    language switcher onto a second line; the real problem was that content
+    items and utility items were competing for the same 1080px. Hidden below
+    860px — on mobile both items move into the hamburger drawer, where a second
+    bar would only cost vertical space. -#}
+<div class="nav-utility">
+  <div class="wrap">
+    <span class="lang-switch">
+      {%- set alts = collections.translations[transKey] -%}
+      {%- for code in site.langOrder -%}
+      {%- if not loop.first %}<span class="sep">·</span>{% endif -%}
+      {%- set target = alts[code] if alts and alts[code] else site.languages[code].home -%}
+      <a href="{{ target }}"{% if code == lang %} class="lang-active"{% endif %}>{{ site.languages[code].label }}</a>
+      {%- endfor -%}
+    </span>
+    {%- if menu.utility %}
+    <a href="{{ menu.utility.url }}" class="nav-member"><svg class="nav-member-lock" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="10.5" width="16" height="10.5" rx="2"></rect><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"></path></svg>{{ menu.utility.label }}</a>
+    {%- endif %}
+  </div>
+</div>
+
 <div class="wrap">
   <header>
     <a href="{{ site.languages[lang].home }}" class="logo">{{ site.name }}</a>
@@ -66,7 +89,16 @@
       {%- for item in menu.items %}
       {%- if item.children %}
       <div class="nav-dropdown">
+        {#- `menuOnly` renders the parent as a plain label rather than a link.
+            "Recursos" groups the blog and the calculators but has no page of its
+            own, and a dropdown parent that links nowhere real is worse than one
+            that doesn't pretend to. A /recursos/ hub would be the proper fix —
+            see the note in nav.json. -#}
+        {%- if item.menuOnly %}
+        <span class="nav-dropdown-label" tabindex="0" role="button" aria-haspopup="true">{{ item.label }}</span>
+        {%- else %}
         <a href="{{ item.url }}">{{ item.label }}</a>
+        {%- endif %}
         <div class="nav-dropdown-menu">
           {%- for child in item.children %}
           <a href="{{ child.url }}">{{ child.label }}</a>
@@ -75,25 +107,29 @@
       </div>
       {%- elif item.cta %}
       <a href="{{ item.url }}" class="nav-cta">{{ item.label }}</a>
-      {%- elif item.member %}
-      {#- Ghost button, deliberately secondary to the solid Contacto CTA. The
-          padlock is decorative and aria-hidden — it signals "gated", it isn't
-          information a screen reader needs read out. -#}
-      <a href="{{ item.url }}" class="nav-member"><svg class="nav-member-lock" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="10.5" width="16" height="10.5" rx="2"></rect><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"></path></svg>{{ item.label }}</a>
       {%- else %}
       {#- Highlight the nav item for the page you're on. Dropdown parents are
           excluded above, matching how the hand-written pages behaved. -#}
       <a href="{{ item.url }}"{% if item.url == page.url %} class="lang-active"{% endif %}>{{ item.label }}</a>
       {%- endif %}
       {%- endfor %}
-      <span class="lang-switch">
-        {%- set alts = collections.translations[transKey] -%}
-        {%- for code in site.langOrder -%}
-        {%- if not loop.first %}<span class="sep">·</span>{% endif -%}
-        {%- set target = alts[code] if alts and alts[code] else site.languages[code].home -%}
-        <a href="{{ target }}"{% if code == lang %} class="lang-active"{% endif %}>{{ site.languages[code].label }}</a>
-        {%- endfor -%}
-      </span>
+
+      {#- Mobile only. The utility strip above is hidden below 860px, so its two
+          items are repeated inside the drawer — otherwise a phone loses both the
+          language switcher and the members link entirely. -#}
+      <div class="nav-drawer-utility">
+        {%- if menu.utility %}
+        <a href="{{ menu.utility.url }}" class="nav-member"><svg class="nav-member-lock" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="10.5" width="16" height="10.5" rx="2"></rect><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"></path></svg>{{ menu.utility.label }}</a>
+        {%- endif %}
+        <span class="lang-switch">
+          {%- set alts = collections.translations[transKey] -%}
+          {%- for code in site.langOrder -%}
+          {%- if not loop.first %}<span class="sep">·</span>{% endif -%}
+          {%- set target = alts[code] if alts and alts[code] else site.languages[code].home -%}
+          <a href="{{ target }}"{% if code == lang %} class="lang-active"{% endif %}>{{ site.languages[code].label }}</a>
+          {%- endfor -%}
+        </span>
+      </div>
     </nav>
   </header>
 </div>

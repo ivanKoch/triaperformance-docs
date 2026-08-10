@@ -56,6 +56,20 @@ nav a:hover { color: var(--blue); }
    filled buttons side by side read as two equally-weighted asks. This one is for
    people who already paid, so it should look like a door they own rather than an
    offer being made to them — outlined, lock-marked, quiet until hovered. */
+/* Utility strip — language switcher + members access (Aug 10, 2026).
+   Sits above the main nav row. See the note in nav.njk for why it exists. */
+.nav-utility { border-bottom: 1px solid var(--mist); background: var(--wash); }
+.nav-utility .wrap {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 20px; padding-top: 7px; padding-bottom: 7px;
+}
+.nav-utility .lang-switch { margin-left: 0; font-size: 13px; }
+.nav-utility .nav-member {
+  border: none; padding: 0; font-weight: 700; font-size: 13px;
+  margin-left: 0; background: none;
+}
+.nav-utility .nav-member:hover { background: none; color: var(--blue-deep) !important; text-decoration: underline; }
+
 .nav-member {
   display: inline-flex; align-items: center; gap: 7px;
   border: 1.5px solid var(--blue); color: var(--blue) !important;
@@ -65,6 +79,18 @@ nav a:hover { color: var(--blue); }
 }
 .nav-member:hover { background: var(--blue); color: var(--white) !important; }
 .nav-member-lock { flex: 0 0 auto; }
+
+/* Dropdown parent with no page of its own ("Recursos"). Styled to match its
+   sibling links exactly so the row reads evenly — the only difference is that
+   it doesn't navigate. */
+.nav-dropdown-label {
+  color: var(--ink); font-size: 15px; cursor: default; user-select: none;
+}
+.nav-dropdown:hover .nav-dropdown-label { color: var(--blue); }
+
+/* Only visible inside the mobile drawer; the utility strip covers desktop. */
+.nav-drawer-utility { display: none; }
+
 .lang-switch { margin-left: 32px; font-size: 14px; }
 .lang-switch a { margin-left: 0; }
 .lang-switch .sep { color: var(--mist); margin: 0 4px; }
@@ -302,4 +328,17 @@ footer a { color: var(--slate); }
   }
   header nav .nav-dropdown-menu a { margin-bottom: 12px; }
   header nav .lang-switch { margin-left: 0; margin-top: 8px; }
+
+  /* The utility strip is desktop-only — a second bar on a phone costs vertical
+     space for two items that belong in the drawer anyway. */
+  .nav-utility { display: none; }
+  .nav-drawer-utility {
+    display: block; margin-top: 8px; padding-top: 20px;
+    border-top: 1px solid var(--mist);
+  }
+  .nav-drawer-utility .nav-member {
+    display: inline-flex; width: auto; margin: 0 0 16px; font-size: 16px;
+  }
+  .nav-drawer-utility .lang-switch { display: block; margin: 0; font-size: 15px; }
+  .nav-dropdown-label { font-size: 17px; display: block; margin-bottom: 20px; }
 }
