@@ -1,0 +1,39 @@
+---
+layout: layouts/base.njk
+pageCss:
+  - members.css
+  - zones-calculator.css
+zcSport: ""
+zcDark: true
+zcCapture: false
+title: "Calculadora de Zonas — Triaperformance All-Access"
+---
+{#- The members copy of the public calculator at /calculadora-de-zonas/.
+
+    Same component, two differences, both deliberate:
+      zcDark    — brand-guidelines.md §7.1: members-area interactive tools are dark.
+      zcCapture — false. Members already paid; the point of their version is the
+                  absence of the funnel. They get the tool with nothing asked of
+                  them, which is a real difference even though it is not a feature.
+
+    Saved values and re-test history are NOT here — parked by decision 17
+    (zones-calculator-brief.md). Do not add localStorage as a stopgap: it
+    survives a return visit but not a device change, and this is a number people
+    re-test every 2–3 months for years.
+
+    A separate URL from /members/zonas/ on purpose: decision 16 retires nothing
+    until the overlap is visible with the tool actually built. -#}
+<header class="artifact-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/members/#biblioteca">Biblioteca</a> / Calculadora de Zonas</div>
+    <span class="label">Calculadora</span>
+    <h1>Calculadora de Zonas</h1>
+    <p>Convertí el resultado de tu test en tus siete zonas — por ritmo, potencia y frecuencia cardíaca, según el deporte y lo que hayas medido.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    {% include "partials/zones-calculator.njk" %}
+  </div>
+</section>

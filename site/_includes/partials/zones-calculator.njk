@@ -1,0 +1,143 @@
+{#- Training-zones calculator — the whole tool, in one includable partial.
+
+    Used by four public pages (/calculadora-de-zonas/ + one per sport) and by
+    the members copy. One component, so a fix lands everywhere at once.
+
+    Page front matter controls it:
+      zcSport   — "swimming" | "cycling" | "running" to pre-select a sport, or
+                  omit for the hub's picker. The picker is always rendered so a
+                  pre-selected page is still a working hub if they change sport.
+      zcDark    — true on the members copy (brand-guidelines.md §7.1: public is
+                  white-first, members interactive tools are dark).
+      zcCapture — false on the members copy. Members already paid; the whole
+                  point of their version is the absence of the funnel.
+
+    Percentages come from data/zones.csv via _data/zones.js and are serialised
+    into the page below. Copy comes from _data/zonesUi.json. Neither is typed
+    into this file — that separation is why the article table and the
+    calculator cannot drift apart again. -#}
+
+{%- set ui = zonesUi[lang] or zonesUi.es -%}
+{%- set planLang = { es: "Spanish", en: "English", pt: "Portuguese" }[lang] or "Spanish" -%}
+
+<div class="zc{% if zcDark %} zc--dark{% endif %}" id="zc"
+     data-preselect="{{ zcSport or '' }}"
+     data-capture="{{ 'no' if zcCapture === false else 'yes' }}">
+
+  {#- ---------------------------------------------------------- 1. sport -#}
+  <div class="zc-step" id="zc-step-sport">
+    <h2>{{ ui.sportStep }}</h2>
+    <p class="zc-help">{{ ui.sportHelp }}</p>
+    <div class="zc-choices">
+      {%- for key in ["swimming", "cycling", "running"] %}
+      <button type="button" class="zc-choice" data-sport="{{ key }}" aria-pressed="false">
+        <strong>{{ ui.sports[key].label }}</strong>
+        <span>{{ ui.sports[key].blurb }}</span>
+      </button>
+      {%- endfor %}
+    </div>
+  </div>
+
+  {#- ------------------------------------------------------- 2. protocol -#}
+  {#- Only cycling has a choice to make: running has exactly one protocol
+      (decision 15) and swimming's test is fixed, so this step is skipped for
+      both rather than shown with a single option, which would read as a
+      decision the athlete has to make. -#}
+  <div class="zc-step" id="zc-step-protocol" hidden>
+    <h2>{{ ui.protocolStep }}</h2>
+    <p class="zc-help">{{ ui.protocolHelp }}</p>
+    <div class="zc-choices">
+      {%- for p in zones.protocols.cycling %}
+      {%- set k = "cycling." + p.id %}
+      <button type="button" class="zc-choice" data-protocol="{{ p.id }}" aria-pressed="false">
+        <strong>{{ ui.protocols[k].label }}</strong>
+        <span>{{ ui.protocols[k].blurb }}</span>
+      </button>
+      {%- endfor %}
+    </div>
+  </div>
+
+  {#- --------------------------------------------------------- 3. inputs -#}
+  <div class="zc-step" id="zc-step-input" hidden>
+    <div class="zc-protocol" id="zc-protocol-detail"></div>
+    <h2>{{ ui.inputStep }}</h2>
+    <div class="zc-fields" id="zc-fields"></div>
+    <div class="zc-actions">
+      <button type="button" class="zc-btn" id="zc-go">{{ ui.calculate }}</button>
+    </div>
+    <div class="zc-error" id="zc-error" hidden></div>
+  </div>
+
+  {#- -------------------------------------------------------- 4. results -#}
+  <div class="zc-step" id="zc-step-results" hidden>
+    <h2>{{ ui.resultsTitle }}</h2>
+    <div class="zc-threshold" id="zc-threshold"></div>
+    <div id="zc-tables"></div>
+    <p class="zc-help" id="zc-priority" hidden>{{ ui.priorityNote | safe }}</p>
+
+    <h3 class="zc-table-title">{{ ui.tpTitle }}</h3>
+    <ol id="zc-tp" class="zc-help"></ol>
+
+    <div class="zc-actions">
+      <button type="button" class="zc-btn" id="zc-again">{{ ui.recalculate }}</button>
+    </div>
+  </div>
+
+  {#- ------------------------------------------------- 5. capture + plans -#}
+  {%- if zcCapture !== false %}
+  <div class="zc-capture" id="zc-capture" hidden>
+    <div id="zc-capture-form">
+      <h2>{{ ui.captureTitle }}</h2>
+      <p>{{ ui.captureBody }}</p>
+      <div class="zc-capture-row">
+        <input type="email" id="zc-email" placeholder="{{ ui.capturePlaceholder }}" autocomplete="email">
+        <button type="button" class="zc-btn" id="zc-send">{{ ui.captureButton }}</button>
+      </div>
+      <p class="zc-fine">{{ ui.captureFine }}</p>
+      <div class="zc-error" id="zc-capture-error" hidden>{{ ui.captureError }}</div>
+    </div>
+    <p class="zc-thanks" id="zc-capture-thanks" hidden>{{ ui.captureThanks }}</p>
+  </div>
+
+  {#- Plans are rendered at BUILD time, one hidden block per sport, and revealed
+      by JS after the email is sent. Selected by rule — sport + language + goal
+      facet — never a hardcoded ID list, so the block stays correct as the
+      catalogue changes. Running has no threshold-goal facet (its plans are
+      organised by race distance), so it renders its empty state until Iván
+      supplies hand-picked IDs. -#}
+  <div id="zc-plans" hidden>
+    <h3 class="zc-table-title">{{ ui.plansTitle }}</h3>
+    <p class="zc-table-sub">{{ ui.plansIntro }}</p>
+    {%- set goals = { swimming: ["Speed"], cycling: ["FTP", "VO2Max"], running: [] } %}
+    {%- set sportNames = { swimming: "Swimming", cycling: "Cycling", running: "Running" } %}
+    {%- for sportKey in ["swimming", "cycling", "running"] %}
+    {%- set picks = plans.byLanguage[lang] | zonePlans(sportNames[sportKey], goals[sportKey], 3) %}
+    <div class="zc-plan-set" data-sport="{{ sportKey }}" hidden>
+      {%- if picks.length %}
+        {%- for p in picks %}
+        <div class="plan-pick">
+          <h3><a href="{{ p.pageUrl }}">{{ p.displayName }}</a></h3>
+          <p class="plan-pick-meta">{{ p.weeks }} {{ ui.weeksLabel }} · {{ p.difficulty }} · US$ {{ p.price }}</p>
+        </div>
+        {%- endfor %}
+      {%- else %}
+        {#- TODO(Iván): running threshold-improvement plan IDs. Deliberately an
+            honest empty state rather than a race-distance plan relabelled as a
+            threshold plan. -#}
+        <p class="zc-help">{{ ui.plansEmpty }}</p>
+      {%- endif %}
+    </div>
+    {%- endfor %}
+  </div>
+  {%- endif %}
+</div>
+
+<script id="zc-data" type="application/json">{{ {
+  "tables": zones.tables,
+  "order": zones.order,
+  "protocols": zones.protocols,
+  "ui": ui
+} | dump | safe }}</script>
+
+<script src="{{ '/assets/js/zones-calc.js' | v }}"></script>
+<script src="{{ '/assets/js/zones-ui.js' | v }}"></script>

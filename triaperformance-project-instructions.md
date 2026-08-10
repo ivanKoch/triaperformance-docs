@@ -67,13 +67,15 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 
 **Working docs (project-specific, may go stale by design)**
 
+- `zones-calculator-brief.md` — **home doc for the zones calculator** (opened Aug 10, 2026). Decisions, architecture, the corrections it triggers, and open questions. Owns nothing numeric: the zone percentages live in `data/zones.csv`.
+- `members-area-announcement-2026-08.md` — the un-told-cohort email: draft, audience checks, and the token rotation that rides along with it. Retire once sent.
 - `race-landing-pages-longlist.md`, `race-page-data-schema.md`, `race-page-content-outline.md` — the race-page initiative.
 - `en-listing-rewrites-2026-07.md`, `es-pt-listing-rewrites-2026-07.md` — the live TP listing experiment and its measurement plan.
 - `gbp-posts-2026-08.md` — the current Google Business Profile post set.
 
 **Data & code**
 
-- `data/` — `training_plans_inventory.csv` (the plan catalog, source of truth for the site build), `plan_weekly_breakdown.csv`, `plan_link_status.json`, `races.csv`, **`plan_sales.csv`** (every transaction since Jan 2023, de-identified) and **`plan_performance.csv`** (per-plan units/gross/earnings joined to the inventory). *Standing rule: customer names and emails never enter this repo — strip them before committing any export, same as the HubSpot contact CSV.*
+- `data/` — **`zones.csv`** (the seven-zone floor/ceiling percentages, six tables: running lthr/pace/rftp, cycling lthr/ftp, swimming cv — **the single home for every zone percentage**, added Aug 10, 2026; the three published articles print an older, contradicting table and are logged for correction), `training_plans_inventory.csv` (the plan catalog, source of truth for the site build), `plan_weekly_breakdown.csv`, `plan_link_status.json`, `races.csv`, **`plan_sales.csv`** (every transaction since Jan 2023, de-identified) and **`plan_performance.csv`** (per-plan units/gross/earnings joined to the inventory). *Standing rule: customer names and emails never enter this repo — strip them before committing any export, same as the HubSpot contact CSV.*
 - `automation/` — every VPS/cron Python script, the n8n workflow JSON reference copies, `Caddyfile`, `deploy-website.sh`. *Since Aug 9, 2026 this also covers code that executes **outside** the VPS: `automation/athlete-intake/onFormSubmit.gs` runs inside Google Apps Script. Same rule, same reason — edit the repo copy, paste it there, never the reverse.*
 - `site/` — the Eleventy source. `website/` holds only the permanent `hubfs` route TrainingPeaks hotlinks.
 

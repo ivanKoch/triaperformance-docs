@@ -1,0 +1,7 @@
+{
+  "_comment": "Directory data for the public zones calculator. Four pages — the hub plus one per sport — share everything except the pre-selected sport, their title/H1 and their intro copy. They are deliberately separate URLs rather than one page with a picker: 'calculadora CSS natación' and 'calculadora zonas FTP ciclismo' are different searches with different intent, and one page can only win one head term. See zones-calculator-brief.md §4. Public and indexable, unlike everything under /members/.",
+
+  "layout": "layouts/base.njk",
+  "lang": "es",
+  "pageCss": "zones-calculator.css"
+}

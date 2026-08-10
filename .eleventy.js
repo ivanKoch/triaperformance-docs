@@ -310,6 +310,27 @@ module.exports = function (eleventyConfig) {
     return out;
   });
 
+  // ---------------------------------------------------------------------------
+  // zonePlans — the plans the zones calculator offers after the email capture.
+  //
+  // Selected by RULE, not by a hardcoded ID list: sport + the inventory's
+  // `distance` column doubling as a goal facet (Cycling has FTP/VO2Max,
+  // Swimming has Speed). That keeps the block correct as the catalogue changes,
+  // instead of pointing at plan IDs that were true in August 2026.
+  //
+  // Running deliberately returns nothing: its plans are organised by race
+  // distance, so there is no "improve your threshold" set to select. The page
+  // renders an honest empty state rather than a marathon plan relabelled as a
+  // threshold plan. Hand-picked IDs pending — see zones-calculator-brief.md §4b.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addFilter("zonePlans", function (plansForLang, sportName, goals, limit) {
+    if (!plansForLang || !goals || !goals.length) return [];
+    return plansForLang
+      .filter((p) => p.sport === sportName && goals.includes(p.distance))
+      .sort((a, b) => (a.weeks || 0) - (b.weeks || 0))
+      .slice(0, limit || 3);
+  });
+
   // Absolute URL helper, for canonical and hreflang tags.
   eleventyConfig.addFilter("absoluteUrl", function (path) {
     const base = "https://triaperformance.com";

@@ -6,9 +6,12 @@
   "scripts": {
     "build": "eleventy",
     "serve": "eleventy --serve",
-    "clean": "rm -rf _site"
+    "clean": "rm -rf _site",
+    "test": "node tests/zones-calc.test.js && node tests/zones-ui.test.js",
+    "test:ui": "node tests/zones-ui.test.js"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.0.0"
+    "@11ty/eleventy": "^3.0.0",
+    "jsdom": "^30.0.1"
   }
 }

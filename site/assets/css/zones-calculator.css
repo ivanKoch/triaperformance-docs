@@ -1,0 +1,166 @@
+/* Training-zones calculator — component styles.
+ *
+ * Theme-agnostic on purpose. brand-guidelines.md §7.1 says the public site is
+ * white-first and the members area's interactive tools are dark, and this one
+ * component ships in BOTH. So every colour here reads from a variable defined
+ * on `.zc`, and the members page flips them by adding `.zc--dark` rather than
+ * by forking the stylesheet. One component, two skins, one place to fix a bug.
+ */
+
+.zc {
+  --zc-bg: transparent;
+  --zc-surface: #ffffff;
+  --zc-surface-2: #edf3fb;
+  --zc-border: #e4e6e1;
+  --zc-text: #1e2019;
+  --zc-dim: #565a52;
+  --zc-accent: #004aad;
+  --zc-accent-soft: rgba(0, 74, 173, 0.08);
+  --zc-on-accent: #ffffff;
+  margin: 0 auto;
+  max-width: 780px;
+}
+
+.zc--dark {
+  --zc-bg: transparent;
+  --zc-surface: #171b21;
+  --zc-surface-2: #1f242c;
+  --zc-border: #2a313b;
+  --zc-text: #f2f3f1;
+  --zc-dim: #8b9089;
+  --zc-accent: #4f8fdb;
+  --zc-accent-soft: rgba(0, 74, 173, 0.22);
+  --zc-on-accent: #ffffff;
+}
+
+.zc, .zc * { box-sizing: border-box; }
+.zc p { color: var(--zc-dim); }
+
+/* --- step scaffolding --- */
+.zc-step { margin-bottom: 40px; }
+.zc-step[hidden] { display: none; }
+.zc-step > h2 {
+  font-size: 20px; font-weight: 700; color: var(--zc-text);
+  margin: 0 0 6px; letter-spacing: -0.01em;
+}
+.zc-step > p.zc-help { font-size: 15px; margin: 0 0 20px; max-width: 60ch; }
+
+/* --- sport / protocol choice --- */
+.zc-choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 640px) { .zc-choices { grid-template-columns: 1fr; } }
+
+.zc-choice {
+  display: block; width: 100%; text-align: left; cursor: pointer;
+  background: var(--zc-surface); color: var(--zc-text);
+  border: 1.5px solid var(--zc-border); border-radius: 8px;
+  padding: 18px 20px; font: inherit; transition: border-color .15s, background .15s;
+}
+.zc-choice:hover { border-color: var(--zc-accent); }
+.zc-choice[aria-pressed="true"] { border-color: var(--zc-accent); background: var(--zc-accent-soft); }
+.zc-choice strong { display: block; font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+.zc-choice span { display: block; font-size: 13px; color: var(--zc-dim); line-height: 1.45; }
+
+/* --- protocol description --- */
+.zc-protocol {
+  background: var(--zc-surface-2); border: 1px solid var(--zc-border);
+  border-radius: 8px; padding: 20px 22px; margin-bottom: 24px;
+}
+.zc-protocol h3 { font-size: 15px; font-weight: 700; color: var(--zc-text); margin: 0 0 8px; }
+.zc-protocol p, .zc-protocol li { font-size: 14px; color: var(--zc-dim); margin: 0 0 8px; }
+.zc-protocol ul { margin: 0 0 4px; padding-left: 20px; }
+.zc-protocol p:last-child, .zc-protocol li:last-child { margin-bottom: 0; }
+
+/* --- inputs --- */
+.zc-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 640px) { .zc-fields { grid-template-columns: 1fr; } }
+.zc-field label {
+  display: block; font-size: 14px; font-weight: 700;
+  color: var(--zc-text); margin-bottom: 6px;
+}
+.zc-field .zc-note { font-size: 13px; color: var(--zc-dim); font-weight: 400; margin-top: 4px; }
+
+/* Split minute/second entry. A single free-text "4:32" box is the most common
+   data-entry failure in tools of this kind — two number inputs cannot be
+   mis-parsed, and mobile gets a numeric keypad for free. */
+.zc-time { display: flex; align-items: center; gap: 8px; }
+.zc-time span { color: var(--zc-dim); font-size: 13px; }
+.zc input[type="number"] {
+  width: 100%; background: var(--zc-surface); color: var(--zc-text);
+  border: 1px solid var(--zc-border); border-radius: 4px;
+  padding: 11px 12px; font-size: 16px; font-family: inherit;
+}
+.zc-time input[type="number"] { width: 84px; }
+.zc input[type="number"]:focus { outline: none; border-color: var(--zc-accent); }
+
+.zc-btn {
+  display: inline-block; background: var(--zc-accent); color: var(--zc-on-accent);
+  border: none; border-radius: 4px; padding: 13px 28px;
+  font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer;
+}
+.zc-btn:hover { filter: brightness(1.08); }
+.zc-btn[disabled] { opacity: .55; cursor: not-allowed; }
+.zc-actions { margin-top: 28px; }
+
+.zc-error {
+  background: #fdecea; color: #b3261e; font-size: 14px;
+  border-radius: 4px; padding: 10px 14px; margin-top: 16px;
+}
+.zc--dark .zc-error { background: rgba(179, 38, 30, .18); color: #f7b4b0; }
+
+/* --- results --- */
+.zc-threshold {
+  display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px;
+}
+.zc-threshold-card {
+  flex: 1 1 180px; background: var(--zc-accent-soft);
+  border-radius: 8px; padding: 16px 18px;
+}
+.zc-threshold-card .zc-k {
+  display: block; font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--zc-accent); margin-bottom: 4px;
+}
+.zc-threshold-card .zc-v { font-size: 26px; font-weight: 700; color: var(--zc-text); }
+.zc-threshold-card .zc-u { font-size: 14px; font-weight: 400; color: var(--zc-dim); }
+
+.zc-table-title { font-size: 16px; font-weight: 700; color: var(--zc-text); margin: 28px 0 4px; }
+.zc-table-sub { font-size: 13px; color: var(--zc-dim); margin: 0 0 12px; }
+.zc-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.zc-table th {
+  text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--zc-dim); font-weight: 700; padding: 0 10px 8px 0;
+  border-bottom: 1px solid var(--zc-border);
+}
+.zc-table td { padding: 11px 10px 11px 0; border-bottom: 1px solid var(--zc-border); color: var(--zc-text); }
+.zc-table td:last-child, .zc-table th:last-child { text-align: right; padding-right: 0; }
+.zc-table .zc-z { font-weight: 700; white-space: nowrap; }
+.zc-table .zc-pct { color: var(--zc-dim); font-size: 13px; white-space: nowrap; }
+.zc-table tr.zc-special td { background: var(--zc-accent-soft); }
+
+/* --- capture + plans --- */
+.zc-capture {
+  background: var(--zc-surface-2); border: 1px solid var(--zc-border);
+  border-radius: 8px; padding: 28px; margin-top: 40px;
+}
+.zc-capture h2 { font-size: 19px; font-weight: 700; color: var(--zc-text); margin: 0 0 8px; }
+.zc-capture p { font-size: 15px; margin: 0 0 18px; }
+.zc-capture-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.zc-capture input[type="email"] {
+  flex: 1 1 240px; background: var(--zc-surface); color: var(--zc-text);
+  border: 1px solid var(--zc-border); border-radius: 4px;
+  padding: 12px 14px; font-size: 16px; font-family: inherit;
+}
+.zc-capture input[type="email"]:focus { outline: none; border-color: var(--zc-accent); }
+.zc-capture .zc-fine { font-size: 12px; color: var(--zc-dim); margin: 12px 0 0; }
+.zc-thanks { font-size: 15px; color: var(--zc-text); margin: 0; }
+
+/* --- page furniture for the four public calculator pages --- */
+.zc-hero { padding: 72px 0 48px; border-bottom: 1px solid var(--mist); }
+.zc-hero h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.02em; margin: 8px 0 14px; max-width: 20ch; }
+.zc-hero .zc-lede { font-size: 18px; color: var(--slate); max-width: 62ch; margin: 0; }
+@media (max-width: 640px) { .zc-hero { padding: 48px 0 32px; } .zc-hero h1 { font-size: 28px; } }
+
+.zc-prose { max-width: 720px; }
+.zc-prose h2 { font-size: 22px; font-weight: 700; margin: 36px 0 10px; letter-spacing: -0.01em; }
+.zc-prose h2:first-child { margin-top: 0; }
+.zc-prose p { font-size: 16px; color: var(--slate); margin-bottom: 14px; max-width: none; }
+.zc-prose strong { color: var(--ink); }

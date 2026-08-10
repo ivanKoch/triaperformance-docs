@@ -6,7 +6,9 @@ pageCss: "members-forgot-password.css"
 title: "Password recovery — Triaperformance"
 ---
 {#- See the note in site/members/forgot-password/index.njk: same endpoint, and
-    the `lang` field is sent but not yet read by the n8n workflow. -#}
+    the email's language comes from the subscriber's row, not from the `lang`
+    sent here. *(Corrected Aug 10, 2026 — previously said "not yet read by the
+    n8n workflow," which described a state that lasted about two hours.)* -#}
 <div class="card">
   <h1>Password recovery</h1>
   <p class="sub" id="sub">Enter the email you subscribed to All-Access with. If it's registered, we'll send your password.</p>

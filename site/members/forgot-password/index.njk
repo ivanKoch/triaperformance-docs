@@ -6,11 +6,20 @@ pageCss: "members-forgot-password.css"
 title: "Recuperar contraseña — Triaperformance"
 ---
 {#- All three forgot-password pages POST to the same /members/forgot-password
-    route, which Caddy rewrites to the n8n `resend-password` webhook. As of
-    Aug 10, 2026 the JSON body carries a `lang` field so that workflow can send
-    the recovery email in the right language. NOTE: the workflow does not read it
-    yet — until Iván wires it up in n8n, an EN or PT athlete receives a Spanish
-    recovery email. Logged in open-loops.md; do not assume it is done. -#}
+    route, which Caddy rewrites to the n8n `resend-password` webhook.
+
+    The `lang` in the body is deliberately NOT what decides the email's
+    language. *(Corrected Aug 10, 2026 — this comment previously said the field
+    existed so the workflow could pick a language, and that the workflow "does
+    not read it yet." Both halves are now wrong.)* The `Build Resend Email` node
+    reads `preferred_language` off the subscriber_tokens row instead, which
+    `Look Up Active Token` already SELECTs. Same reasoning as the login routing
+    in auth_service/app.py: the database knows who the person is, the page only
+    knows which screen they happened to open — someone can land here from the
+    Spanish page and still be a Portuguese subscriber.
+
+    `lang` is kept because it costs nothing and the not-found branch may want it
+    one day. Nothing reads it today. Do not treat it as load-bearing. -#}
 <div class="card">
   <h1>Recuperar contraseña</h1>
   <p class="sub" id="sub">Ingresá el email con el que te suscribiste a All-Access. Si está registrado, te enviamos la contraseña.</p>

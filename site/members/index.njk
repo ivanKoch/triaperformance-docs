@@ -13,42 +13,16 @@ title: "Área de Miembros — Triaperformance"
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <span class="label">Empezá acá</span>
-    <h2>¿Recién llegás? Hacé estas cuatro cosas primero</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="num">1</div>
-        <div>
-          <h3>Testeá tu umbral</h3>
-          <p>Un test por deporte, bien hecho. <a href="/members/tests/">Ver los protocolos de testing →</a></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="num">2</div>
-        <div>
-          <h3>Configurá tus zonas en TrainingPeaks</h3>
-          <p>Con tu número de umbral, te mostramos exactamente dónde cargarlo. <a href="/members/zonas/">Ver la guía de zonas →</a></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="num">3</div>
-        <div>
-          <h3>Elegí tu plan en TrainingPeaks</h3>
-          <p>Explorá el catálogo completo desde tu cuenta y asignalo a tu calendario. <a href="#faq">¿Cómo encuentro los planes? →</a></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="num">4</div>
-        <div>
-          <h3>Guardá esta página</h3>
-          <p>Playbooks de carrera, calculadora de nutrición y la guía de carga de entrenamiento están acá cuando los necesites. <a href="#biblioteca">Ver la biblioteca ↓</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+{#- The "Empezá acá" four-step onboarding block was removed Aug 10, 2026 on
+    Iván's instruction. Two of its four steps existed only to point at
+    /members/tests/ and /members/zonas/, both of which are being retired in
+    favour of the zones calculator (zones-calculator-brief.md, decisions 7–8).
+    Step 3 (find your plans in TrainingPeaks) is already answered in the FAQ
+    below; step 4 was an instruction to bookmark the page you are on.
+
+    The members area is being curated rather than accumulated — the calculator
+    is the first entry. A new onboarding block belongs here once there is a
+    real sequence to walk someone through, not before. -#}
 
 <section id="biblioteca">
   <div class="wrap">
@@ -68,6 +42,12 @@ title: "Área de Miembros — Triaperformance"
     </div>
 
     <div class="grid-3" id="card-grid">
+      <div class="card" data-category="zonas">
+        <span class="tag">Calculadora</span>
+        <h3>Calculadora de Zonas</h3>
+        <p>Cargá el resultado de tu test y salen tus siete zonas — por ritmo, potencia y pulso, para natación, ciclismo y running.</p>
+        <a class="card-link" href="/members/calculadora-de-zonas/">Abrir calculadora →</a>
+      </div>
       <div class="card" data-category="zonas">
         <span class="tag">Guía</span>
         <h3>Guía de Zonas y Umbral</h3>

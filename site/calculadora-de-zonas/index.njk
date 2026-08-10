@@ -1,0 +1,36 @@
+---
+transKey: zones-calculator
+title: "Calculadora de Zonas de Entrenamiento — Natación, Ciclismo y Running"
+description: "Convertí el resultado de tu test en tus siete zonas de entrenamiento. Ritmo, potencia y frecuencia cardíaca, para natación, ciclismo y running. Gratis."
+ogTitle: "Calculadora de Zonas de Entrenamiento"
+---
+<section class="zc-hero">
+  <div class="wrap">
+    <span class="label">Calculadora</span>
+    <h1>Calculadora de zonas de entrenamiento</h1>
+    <p class="zc-lede">Hiciste el test. Ahora convertilo en las siete zonas con las que vas a entrenar — por ritmo, por potencia y por frecuencia cardíaca, según el deporte y lo que hayas medido. Es la misma tabla que uso con mis atletas.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    {% include "partials/zones-calculator.njk" %}
+  </div>
+</section>
+
+<section class="section--surface">
+  <div class="wrap zc-prose">
+    <h2>Por qué siete zonas y no cinco</h2>
+    <p>El modelo es polarizado 80/20: alrededor del 80% del volumen se mantiene suave y el 20% es realmente intenso. Sobre esa base hay dos zonas con granularidad extra, porque juntarlas con sus vecinas esconde algo que importa.</p>
+    <p><strong>La Zona X</strong> es la mitad superior de la Zona 2 — más o menos tu ritmo de maratón. Se separa porque acumula bastante más fatiga que la Z2 baja y no da mucho más beneficio aeróbico a cambio. Es la zona donde más gente entrena de más sin darse cuenta: salís a rodar suave, te sentís bien, el ritmo se acomoda solo unos segundos más rápido, y llegás al día de calidad sin piernas.</p>
+    <p><strong>La Zona Y</strong> es la parte baja de la Zona 4. Los beneficios reales de la Z4 aparecen más arriba dentro de la zona, así que la Y sola es un estímulo más liviano de lo que sugiere la etiqueta.</p>
+
+    <h2>Los porcentajes cambian según la métrica</h2>
+    <p>No hay una sola tabla. Las zonas de potencia, de ritmo y de pulso no caen en los mismos porcentajes, y tampoco son iguales entre deportes: la Zona 2 arranca en el 70% de tu FTP en bici, en el 76% de tu velocidad de umbral corriendo, en el 81% de tu LTHR y en el 84% de tu velocidad crítica en natación. La calculadora usa la tabla que corresponde a cada caso.</p>
+    <p>Un detalle que se calcula mal seguido: los porcentajes de ritmo van sobre la <strong>velocidad</strong>, no sobre el ritmo en minutos por kilómetro. Aplicar el 76% directo a un ritmo de 4:00/km da 3:02/km — más rápido que tu umbral, para una zona que debería ser más lenta. Todas las zonas quedan dadas vuelta y parecen perfectamente razonables.</p>
+
+    <h2>¿Cada cuánto hay que re-testear?</h2>
+    <p>Cada 2 o 3 meses si venís entrenando parejo. Antes si notás que las sesiones prescriptas te quedan fáciles, o si el desacople cardíaco a ritmos de umbral baja. Después de una lesión, una enfermedad o un parate largo: dos semanas suaves de vuelta a la carga, después el test, y esperá un número más bajo — resetear la expectativa es parte del proceso.</p>
+    <p>Un umbral desactualizado no te mueve una zona: te corre las siete por el mismo margen.</p>
+  </div>
+</section>

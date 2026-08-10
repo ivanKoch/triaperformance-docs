@@ -1,0 +1,142 @@
+{
+  "_note": "UI strings for the training-zones calculator, per language — same pattern as planUi.json. Spanish only for now (Iván's call, Aug 10 2026: build and test in ES, then translate EN and PT in one pass). The partial falls back to `es` for any language not present here, so an EN or PT page renders Spanish rather than blank. When adding a language, copy the whole `es` object and translate it — do not add keys to one language only. NUMBERS DO NOT LIVE HERE: every percentage comes from data/zones.csv via _data/zones.js.",
+
+  "es": {
+    "zoneNames": {
+      "1": "Recuperación",
+      "2": "Aeróbico base",
+      "X": "Aeróbico alto",
+      "3": "Tempo",
+      "Y": "Umbral bajo",
+      "4": "Umbral alto",
+      "5": "VO2máx"
+    },
+    "zoneNotes": {
+      "X": "Ritmo de maratón. La separamos de la Z2 porque suma bastante más fatiga sin sumar mucho más beneficio aeróbico — es la zona donde más gente entrena de más sin darse cuenta.",
+      "Y": "La franja justo alrededor del umbral. Los beneficios reales de la Z4 aparecen más arriba, así que la Y sola es un estímulo más liviano de lo que sugiere la etiqueta."
+    },
+
+    "sportStep": "¿Para qué deporte querés tus zonas?",
+    "sportHelp": "Cada deporte usa un test distinto y una métrica distinta. Elegí uno y te llevamos paso a paso.",
+    "sports": {
+      "swimming": { "label": "Natación", "blurb": "Test de 400m + 200m → tu velocidad crítica (CSS) y tus zonas por ritmo." },
+      "cycling": { "label": "Ciclismo", "blurb": "Test en bici → tu FTP y/o tu LTHR, y las zonas de cada uno." },
+      "running": { "label": "Running", "blurb": "Test de 30 minutos → ritmo de umbral, LTHR y potencia si tenés medidor." }
+    },
+
+    "protocolStep": "¿Qué test hiciste?",
+    "protocolHelp": "Hay más de un test válido y todos llegan al mismo lugar. Elegí el que hiciste — el cálculo cambia según cuál sea.",
+    "protocols": {
+      "cycling.30min": { "label": "30 minutos a fondo", "blurb": "El más completo: te da FTP y LTHR de una sola salida.", "tag": "Recomendado" },
+      "cycling.20min": { "label": "20 minutos a fondo", "blurb": "Más corto. También da FTP y LTHR." },
+      "cycling.2x8min": { "label": "2 × 8 minutos", "blurb": "Dos bloques de 8'. Solo da FTP — no zonas de pulso." }
+    },
+
+    "protocolDetail": {
+      "swimming": {
+        "title": "El test de 400m + 200m",
+        "body": [
+          "Bien descansado y después de un calentamiento corto: nadá <strong>400 metros a fondo</strong>, tomate unos minutos de recuperación completa, y después <strong>200 metros a fondo</strong>.",
+          "Anotá el tiempo total de cada uno. Eso es todo lo que necesitás para calcular tu velocidad crítica."
+        ]
+      },
+      "cycling": {
+        "title": "El test en bici",
+        "body": [
+          "Bien descansado, en un tramo sin semáforos ni bajadas — o en rodillo. Calentá bien y salí a fondo, parejo, todo el bloque.",
+          "Vas a necesitar: la <strong>potencia media</strong> del bloque (si tenés potenciómetro) y la <strong>frecuencia cardíaca media</strong> de la parte final del test. Banda de pecho, siempre — la muñeca no sirve para esto."
+        ]
+      },
+      "running": {
+        "title": "El test de 30 minutos",
+        "body": [
+          "Bien descansado, temprano, en un circuito plano y sin interrupciones. Calentá y corré <strong>30 minutos a fondo</strong>, lo más parejo que puedas.",
+          "Vas a necesitar: el <strong>ritmo medio</strong> de los 30 minutos, la <strong>frecuencia cardíaca media de los últimos 20 minutos</strong>, y la potencia media si usás medidor de potencia."
+        ]
+      }
+    },
+
+    "inputStep": "Cargá tus números",
+    "fields": {
+      "t400": "Tiempo de los 400m",
+      "t200": "Tiempo de los 200m",
+      "avgPace": "Ritmo medio de los 30 minutos",
+      "avgPaceNote": "min:seg por kilómetro",
+      "avgPower": "Potencia media del test",
+      "avgPowerBlocks": "Potencia media de los dos bloques",
+      "avgPowerNote": "watts — dejalo vacío si no usás potenciómetro",
+      "avgHr": "FC media de los últimos {n} minutos",
+      "avgHrNote": "pulsaciones por minuto — dejalo vacío si no tenés el dato",
+      "minutes": "min",
+      "seconds": "seg"
+    },
+    "calculate": "Calcular mis zonas",
+    "recalculate": "Cambiar mis números",
+
+    "errors": {
+      "nothing": "Cargá al menos un dato para poder calcular tus zonas.",
+      "swimOrder": "Revisá los tiempos: los 400m tienen que ser más lentos que los 200m. Si no, algo se anotó mal.",
+      "swimMissing": "Necesitamos los dos tiempos, el de 400m y el de 200m."
+    },
+
+    "resultsTitle": "Tus zonas",
+    "thresholdLabels": {
+      "cv": "Velocidad crítica (CSS)",
+      "pace": "Ritmo de umbral",
+      "ftp": "FTP",
+      "rftp": "Potencia de umbral",
+      "lthr": "LTHR"
+    },
+    "units": { "pace": "/ km", "cv": "/ 100m", "power": "watts", "hr": "ppm" },
+    "tableTitles": {
+      "cv": "Zonas por ritmo (natación)",
+      "pace": "Zonas por ritmo",
+      "ftp": "Zonas de potencia",
+      "rftp": "Zonas de potencia (running)",
+      "lthr": "Zonas de frecuencia cardíaca"
+    },
+    "tableSubs": {
+      "cv": "Sobre tu velocidad crítica. Ritmo por cada 100 metros.",
+      "pace": "Sobre tu velocidad de umbral. Ritmo por kilómetro.",
+      "ftp": "Sobre tu FTP, en watts.",
+      "rftp": "Sobre tu potencia de umbral, en watts.",
+      "lthr": "Sobre tu LTHR, en pulsaciones por minuto."
+    },
+    "columns": { "zone": "Zona", "pct": "% del umbral", "range": "Tu rango" },
+
+    "priorityNote": "Si tenés más de una métrica, el orden de confianza es: <strong>potencia &gt; ritmo &gt; frecuencia cardíaca</strong>. La FC reacciona con retraso al esfuerzo y se mueve con el calor, el sueño y la cafeína — sirve de respaldo, no de señal principal.",
+    "onlyPowerNote": "El test de 2 × 8 minutos solo sirve para potencia. Para tener zonas de pulso necesitás un test continuo de 20 o 30 minutos.",
+
+    "tpTitle": "Cómo cargarlo en TrainingPeaks",
+    "tpSteps": {
+      "swimming": [
+        "Entrá a <strong>Settings → Zones</strong> y elegí <strong>Natación</strong>.",
+        "Cargá tu velocidad crítica como ritmo de umbral y seleccioná el método <strong>80/20 Swimming</strong>: vas a obtener exactamente estos mismos valores.",
+        "Re-testeá cada 2–3 meses si venís entrenando parejo, y actualizá el número cada vez."
+      ],
+      "cycling": [
+        "Entrá a <strong>Settings → Zones</strong> y elegí <strong>Ciclismo</strong>.",
+        "Cargá tu FTP en watts y tu LTHR en pulsaciones. Las sesiones de tu plan ya están construidas sobre esta estructura de zonas, así que quedan alineadas solas.",
+        "Re-testeá cada 2–3 meses. Un umbral desactualizado te corre todas las zonas por el mismo margen."
+      ],
+      "running": [
+        "Entrá a <strong>Settings → Zones</strong> y elegí <strong>Running</strong>.",
+        "Cargá tu ritmo de umbral, tu LTHR y —si usás medidor— tu potencia de umbral.",
+        "Re-testeá cada 2–3 meses. Si venís de una lesión, una enfermedad o un parate largo: dos semanas suaves primero, después testeá, y esperá un número más bajo."
+      ]
+    },
+
+    "captureTitle": "¿Y ahora qué hago con estas zonas?",
+    "captureBody": "Tener los números es la mitad. La otra mitad es saber qué sesión hace crecer cada zona — cómo se construye una Z2 que no sea solo trotar despacio, la sesión a ritmo de maratón que justifica la Zona X, y cómo es una serie de Z4 de verdad. Te las mandamos por email.",
+    "capturePlaceholder": "tu@email.com",
+    "captureButton": "Mandame las sesiones",
+    "captureFine": "Un email con las sesiones por zona para el deporte que elegiste. Nada más, y te podés dar de baja cuando quieras.",
+    "captureThanks": "Listo — revisá tu bandeja de entrada en un rato. Mientras tanto, mirá abajo:",
+    "captureError": "Algo salió mal al enviar. Escribinos a coach@triaperformance.com y te las mandamos a mano.",
+
+    "weeksLabel": "semanas",
+    "plansTitle": "Planes para subir el número que acabás de calcular",
+    "plansIntro": "Los mismos que uso con mis atletas, construidos sobre esta estructura de zonas.",
+    "plansEmpty": "Todavía no tenemos un plan específico para esto en tu idioma — escribinos y te decimos por dónde empezar."
+  }
+}
