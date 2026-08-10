@@ -123,7 +123,14 @@ verify_failed=0
 # file was in it: they are passthrough assets, not pages, so a page-only check
 # would never have noticed. They are also the two files whose absence silently
 # costs indexing rather than producing a visible error.
-for path in "/" "/planes/running/" "/members/login/" "/blog/" "/robots.txt" "/sitemap.xml"; do
+# The three login paths are here for a specific reason (added Aug 10, 2026): they
+# are the only pages under /members/ that Caddy serves WITHOUT the auth gate, via
+# an explicit path list in @membersPublicPages. If that list ever drifts from what
+# the build actually emits, the symptom is a locked-out subscriber, not an error
+# anywhere — the page just redirects to itself. A 200 here is the cheap proof it
+# still lines up. (The gated pages can't be checked this way; unauthenticated they
+# correctly return a 302, which is a pass, not a failure.)
+for path in "/" "/planes/running/" "/members/login/" "/members/en/login/" "/members/pt/login/" "/blog/" "/robots.txt" "/sitemap.xml"; do
   code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 \
          --resolve "triaperformance.com:443:127.0.0.1" \
          "https://triaperformance.com${path}") || code="000"

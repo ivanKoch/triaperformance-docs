@@ -8,6 +8,24 @@
 
 ---
 
+## Closed — the big branch: 1:1 athlete onboarding flow (opened Aug 8, 2026 · shipped Aug 9 · moved here Aug 10 when the next branch opened)
+
+Home doc: `athlete-onboarding-flow.md`. Payment → classification → Twenty record → members access → welcome email (ES/EN/PT) → intake form → Postgres → Gemini briefing → email + Telegram, with no manual step in between. Technical record: `ai-infrastructure-documentation.md` §12 addendum and §21.
+
+**Closed August 9, 2026.** The exit path was the last gap: Private cancellation verified against a real email (the existing regex already matched — no change needed), and CoachMatch cancellation built from scratch, since it was never handled at all. Both tested live. Athletes are now churned, de-provisioned and sent a goodbye email automatically on either channel.
+
+Two traps found in the CoachMatch emails, both recorded in `athlete-onboarding-flow.md` §5: TrainingPeaks' *"Cancellation **Request**"* subject **contains** its *"Cancellation"* subject, so a `contains` filter would churn a paying athlete mid-service; and the confirmed email carries **no email address** — `Nelson Carrion ()` — so that branch matches by normalized name and writes nothing unless exactly one record matches.
+
+The live bug the branch uncovered, fixed the same day: **the subscription-lifecycle workflow tagged every 1:1 coaching sale as `ALL_ACCESS`.** `Filter - Is New Subscription` matched on subject alone, and All-Access and Private coaching share that subject. Fixed with an explicit two-allowlist `Classify Product` node and a `Route by Product` Switch whose fallback alerts and writes nothing; CoachMatch, previously dropped silently, got its own branch. Blast radius zero — no subscriptions of any kind since the workflow went live July 24.
+
+The home doc was split the same day: `athlete-onboarding-flow.md` (17 KB, decisions and live state) + `athlete-onboarding-build-log.md` (CLOSED, the build record). It had reached 96 KB, ~60 KB of it instructions for building something already built — the same shape `open-loops.md` was in before its own split.
+
+**What's left is in `athlete-onboarding-flow.md` §6** and is deliberately manual, except Stage 8 (persist the perfect week, and create `athlete_profile` with it). Not opened as a branch — see `ai-infrastructure-documentation.md` §21's closing note on why building a schema nothing writes to would be speculative.
+
+Follow-ups this branch created that closed with it: `Error Collector (global)` set as the Error Workflow on **all** workflows (Aug 9) · the All-Access welcome email rewritten in ES/EN/PT (Aug 10), which also caught a placeholder `NOTE:` line rendering as the first line of the subscriber email — never delivered, since there had been no All-Access signup since July 24. *Lesson kept: a note-to-self inside a live template is indistinguishable from copy.* · the seven dead `Disponibilidad semanal` columns — decided Aug 9 to **hide, not delete**: nothing reads them (`e.namedValues` comes from the form submission, not the sheet), those 51 rows are the evidence base for the §3.5 redesign, and deleting columns on a Forms-linked sheet is the operation most likely to disturb the linkage.
+
+---
+
 ## Closed — August 10, 2026 (confirmed by Iván)
 
 - [x] ~~**Clean up the D1 test record** (`test-aa@example.com`)~~ — **done.** Twenty record and `subscriber_tokens` row both deleted. No test athletes remain from the onboarding branch.

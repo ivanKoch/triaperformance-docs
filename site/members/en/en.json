@@ -1,0 +1,4 @@
+{
+  "_comment": "Directory data for the English members area. Everything else — noindex, navVariant, footerVariant, the analytics decision — is inherited from site/members/members.json one level up; this file exists only to flip the language. Added Aug 10, 2026 (members-area i18n branch).",
+  "lang": "en"
+}

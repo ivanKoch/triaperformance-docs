@@ -48,3 +48,19 @@ button:hover { background: var(--blue-deep); }
 .help { text-align: center; font-size: 13px; color: var(--slate); margin-top: 20px; }
 
 .help a { color: var(--blue); }
+
+/* Language switcher on the auth pages (Aug 10, 2026).
+   Caddy's forward_auth redirect is a single hardcoded path per members subtree,
+   so there are edge cases — a stale bookmark, a link forwarded between athletes —
+   where someone lands on a login screen in a language they don't read. This is
+   the one-click way out, and it costs nothing. It is a plain hardcoded list
+   rather than the site-wide `lang-switch` partial because these pages are
+   noindex and have no transKey; there is nothing for the build to resolve. */
+.auth-lang {
+  text-align: center; font-size: 13px; margin-top: 24px;
+  padding-top: 18px; border-top: 1px solid var(--mist); color: var(--slate);
+}
+.auth-lang a { color: var(--slate); text-decoration: none; margin: 0 2px; }
+.auth-lang a:hover { color: var(--blue); text-decoration: underline; }
+.auth-lang a.current { color: var(--blue); font-weight: 700; }
+.auth-lang .sep { color: var(--mist); margin: 0 4px; }

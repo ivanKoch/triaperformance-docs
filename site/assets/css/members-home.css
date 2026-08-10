@@ -135,6 +135,22 @@ h2 { font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 
 .card .card-link { font-weight: 700; font-size: 15px; text-decoration: none; }
 
+/* Empty library state (Aug 10, 2026) — used by the EN and PT members homes,
+   which ship with the shell built and no tools in it yet. Deliberately a real
+   designed state rather than a blank gap: a member who paid should see that the
+   room exists and is being furnished, not a page that looks broken. */
+.library-empty {
+  border: 1px dashed var(--border); border-radius: 8px;
+  padding: 48px 32px; text-align: center; background: var(--surface);
+}
+.library-empty h3 { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.library-empty p { color: var(--text-dim); font-size: 15px; max-width: 52ch; margin: 0 auto 16px; }
+.library-empty p:last-child { margin-bottom: 0; }
+.library-empty .empty-mark {
+  display: block; font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--blue-bright); margin-bottom: 12px;
+}
+
 .section--surface { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
 .faq-item { max-width: 760px; margin: 0 auto 28px; }

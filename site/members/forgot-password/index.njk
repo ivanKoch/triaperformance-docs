@@ -5,6 +5,12 @@ footerVariant: "none"
 pageCss: "members-forgot-password.css"
 title: "Recuperar contraseña — Triaperformance"
 ---
+{#- All three forgot-password pages POST to the same /members/forgot-password
+    route, which Caddy rewrites to the n8n `resend-password` webhook. As of
+    Aug 10, 2026 the JSON body carries a `lang` field so that workflow can send
+    the recovery email in the right language. NOTE: the workflow does not read it
+    yet — until Iván wires it up in n8n, an EN or PT athlete receives a Spanish
+    recovery email. Logged in open-loops.md; do not assume it is done. -#}
 <div class="card">
   <h1>Recuperar contraseña</h1>
   <p class="sub" id="sub">Ingresá el email con el que te suscribiste a All-Access. Si está registrado, te enviamos la contraseña.</p>
@@ -18,6 +24,10 @@ title: "Recuperar contraseña — Triaperformance"
   <p class="result" id="result"></p>
 
   <p class="help"><a href="/members/login">Volver al login</a></p>
+
+  <p class="auth-lang">
+    <a href="/members/forgot-password" class="current">Español</a><span class="sep">·</span><a href="/members/en/forgot-password">English</a><span class="sep">·</span><a href="/members/pt/forgot-password">Português</a>
+  </p>
 </div>
 
 <script>
@@ -34,7 +44,7 @@ title: "Recuperar contraseña — Triaperformance"
     fetch('/members/forgot-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: document.getElementById('email').value.trim() })
+      body: JSON.stringify({ email: document.getElementById('email').value.trim(), lang: 'es' })
     })
       .then(function () {
         result.textContent = 'Si el email está registrado, te enviamos la contraseña. Revisá tu bandeja de entrada.';

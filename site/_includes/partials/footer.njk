@@ -4,9 +4,15 @@
      "none"              — login / forgot-password (no footer), and kettlebell,
                            which carries its own inline. #}
 {%- if footerVariant == "members" %}
+{#- Localised Aug 10, 2026. The ES string is unchanged from what shipped. -#}
+{%- set fm = {
+  es: { area: "Área de Miembros", ask: "¿Dudas?" },
+  en: { area: "Member Area",      ask: "Questions?" },
+  pt: { area: "Área de Membros",  ask: "Dúvidas?" }
+}[lang] or { area: "Área de Miembros", ask: "¿Dudas?" } -%}
 <footer{% if noPrint %} class="no-print"{% endif %}>
   <div class="wrap">
-    <p>{{ site.name }} · Área de Miembros · ¿Dudas? <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+    <p>{{ site.name }} · {{ fm.area }} · {{ fm.ask }} <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
   </div>
 </footer>
 {%- elif footerVariant != "none" %}

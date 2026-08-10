@@ -5,6 +5,11 @@ footerVariant: "none"
 pageCss: "members-login.css"
 title: "Iniciar sesión — Área de Miembros"
 ---
+{#- All three login pages POST to the SAME endpoint, /members/login. The page a
+    person lands on only decides which language they read and where an error
+    sends them back to — it does not decide which members area they end up in.
+    That is resolved server-side from the token's own preferred_language
+    (auth_service/app.py), which is the only thing that actually knows. -#}
 <div class="login-card">
   <h1>Área de Miembros</h1>
   <p class="sub">Ingresá la contraseña que recibiste por email al suscribirte a All-Access.</p>
@@ -14,12 +19,20 @@ title: "Iniciar sesión — Área de Miembros"
   <form method="POST" action="/members/login" id="login-form">
     <label for="password">Contraseña</label>
     <input type="password" id="password" name="password" required autocomplete="current-password">
-    <input type="hidden" name="next" id="next-field" value="/members/">
+    {#- Empty on purpose. A hardcoded "/members/" here would override the
+        language routing for every subscriber in every language. It is filled in
+        by the script below only when Caddy actually gated a specific page. -#}
+    <input type="hidden" name="next" id="next-field" value="">
+    <input type="hidden" name="lang" value="es">
     <button type="submit">Ingresar</button>
   </form>
 
   <p class="help"><a href="/members/forgot-password">¿Olvidaste tu contraseña?</a></p>
   <p class="help">¿Problemas para ingresar? Escribinos a <a href="mailto:coach@triaperformance.com">coach@triaperformance.com</a></p>
+
+  <p class="auth-lang">
+    <a href="/members/login" class="current">Español</a><span class="sep">·</span><a href="/members/en/login">English</a><span class="sep">·</span><a href="/members/pt/login">Português</a>
+  </p>
 </div>
 
 <script>
@@ -27,7 +40,9 @@ title: "Iniciar sesión — Área de Miembros"
   if (new URLSearchParams(window.location.search).get('error') === '1') {
     document.getElementById('login-error').classList.add('show');
   }
-  // Preserve where the visitor was trying to go before being gated, if present
+  // Preserve where the visitor was trying to go before being gated, if present.
+  // Only same-site absolute paths are accepted: `next` arrives from the query
+  // string, so anything else is an open-redirect waiting to be found.
   var next = new URLSearchParams(window.location.search).get('next');
-  if (next) document.getElementById('next-field').value = next;
+  if (next && /^\/[^/\\]/.test(next)) document.getElementById('next-field').value = next;
 </script>

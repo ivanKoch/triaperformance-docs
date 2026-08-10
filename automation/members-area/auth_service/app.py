@@ -23,6 +23,61 @@ DB_DSN = os.environ["MEMBERS_DB_DSN"]
 COOKIE_NAME = "members_token"
 COOKIE_MAX_AGE = 60 * 60 * 24 * 365  # 1 year
 
+# ---------------------------------------------------------------------------
+# Language routing (added August 10, 2026, members-area i18n branch).
+#
+# The members area is one Caddy-gated tree with the language in a path segment
+# (/members/, /members/en/, /members/pt/) rather than a language prefix like the
+# public site, so a single `handle /members/*` forward_auth keeps covering all
+# three. Which language a subscriber sees is NOT decided by the login page they
+# happened to open -- it is decided here, from the token's own
+# `preferred_language`, which is the only thing that actually knows. That column
+# has existed since the schema was written and this is the first thing to use it
+# for anything beyond a debug read.
+#
+# DB values are SPANISH / ENGLISH / PORTUGUESE (cached from Twenty's enum), not
+# ISO codes -- see automation/members-area/schema.sql. Anything unrecognised
+# falls back to Spanish, which is both the majority and the safe default.
+# ---------------------------------------------------------------------------
+LANG_HOME = {
+    "SPANISH": "/members/",
+    "ENGLISH": "/members/en/",
+    "PORTUGUESE": "/members/pt/",
+}
+DEFAULT_HOME = "/members/"
+
+# Where to send someone back to when a login FAILS, or after logout. Keyed by
+# the ISO code the login page posts in its hidden `lang` field -- that is a
+# statement about which page they were looking at, not about who they are, and
+# on a failed login we have no token to ask.
+LOGIN_PAGE = {
+    "es": "/members/login",
+    "en": "/members/en/login",
+    "pt": "/members/pt/login",
+}
+DEFAULT_LOGIN = "/members/login"
+
+
+def login_page_for(form_lang):
+    return LOGIN_PAGE.get((form_lang or "").strip().lower(), DEFAULT_LOGIN)
+
+
+def safe_next(raw):
+    """Accept only same-site absolute paths.
+
+    `next` reaches us from a query string via a hidden form field, so it is
+    attacker-controlled in the ordinary sense: without this check, a crafted
+    link could bounce a subscriber to any host immediately after a successful
+    login, wearing our domain in the address bar on the way. "//evil.com" and
+    "/\\evil.com" are both protocol-relative and must be rejected along with
+    anything not starting with "/".
+    """
+    if not raw or not raw.startswith("/"):
+        return None
+    if raw.startswith("//") or raw.startswith("/\\"):
+        return None
+    return raw
+
 
 def get_conn():
     return psycopg2.connect(DB_DSN)
@@ -74,11 +129,21 @@ def check():
 
 @app.route("/members/login", methods=["POST"])
 def login():
+    """One endpoint for all three languages -- the ES, EN and PT login pages all
+    POST here. The page only supplies `lang` so a failed attempt lands back on
+    the screen the person was actually reading."""
     token = request.form.get("password", "").strip()
-    next_url = request.form.get("next") or "/members/"
+    form_lang = request.form.get("lang", "")
+    next_url = safe_next(request.form.get("next"))
     language = lookup_token(token)
     if not language:
-        return redirect("/members/login?error=1")
+        return redirect(login_page_for(form_lang) + "?error=1")
+    # No explicit destination means they came to the login page directly rather
+    # than being bounced off a gated page -- route them to their own language's
+    # members home. When `next` IS set, Caddy put it there because they were
+    # trying to reach a specific page, and that intent wins.
+    if not next_url:
+        next_url = LANG_HOME.get(language, DEFAULT_HOME)
     resp = make_response(redirect(next_url))
     resp.set_cookie(
         COOKIE_NAME,
@@ -94,7 +159,10 @@ def login():
 
 @app.route("/members/logout", methods=["POST"])
 def logout():
-    resp = make_response(redirect("/members/login"))
+    """The members-home nav posts a hidden `lang` so logging out returns you to
+    the login screen in the language you were just reading. Without it an EN
+    subscriber logs out and lands on the Spanish page."""
+    resp = make_response(redirect(login_page_for(request.form.get("lang", ""))))
     resp.delete_cookie(COOKIE_NAME, path="/")
     return resp
 

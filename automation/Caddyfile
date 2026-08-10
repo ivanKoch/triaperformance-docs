@@ -16,14 +16,32 @@ triaperformance.com {
         reverse_proxy 127.0.0.1:8092
     }
 
+    # Members area, three languages (extended August 10, 2026).
+    #
+    # Language lives in a path SEGMENT under /members/, not as a language prefix
+    # like the public site (/en/plans/, /pt/planos/). That was a deliberate
+    # choice: it keeps one auth tree, so the gate below cannot be accidentally
+    # bypassed for a whole language by an ordering mistake in this file. The
+    # area is noindex, so the URL shape costs nothing.
+    #
+    # Paths are listed explicitly rather than wildcarded. A wildcard typo here
+    # is the difference between "a page is public" and "paid content is public",
+    # and explicit paths cannot fail that way.
+    # All twelve paths on ONE `path` line: Caddy rejects the same matcher token
+    # appearing twice inside a single named matcher set, so splitting these
+    # across three readable lines fails to parse rather than doing what it looks
+    # like it does.
     @membersPublicPages {
-        path /members/login /members/login/ /members/forgot-password /members/forgot-password/
+        path /members/login /members/login/ /members/forgot-password /members/forgot-password/ /members/en/login /members/en/login/ /members/en/forgot-password /members/en/forgot-password/ /members/pt/login /members/pt/login/ /members/pt/forgot-password /members/pt/forgot-password/
         method GET
     }
     handle @membersPublicPages {
         file_server
     }
 
+    # One POST endpoint per action for all three languages -- the EN and PT login
+    # and recovery pages post here too. The language they should be treated as
+    # travels in the request body, not the URL.
     @membersAuthPost {
         path /members/login /members/logout
         method POST
@@ -39,6 +57,38 @@ triaperformance.com {
     handle @membersForgotPost {
         rewrite * /webhook/resend-password
         reverse_proxy 100.70.89.17:5678
+    }
+
+    # Three gates, identical except for the login page an unauthenticated
+    # visitor is bounced to. ORDER MATTERS: /members/en/* and /members/pt/* must
+    # be evaluated before the catch-all /members/*, or they never match and
+    # every gated EN/PT athlete lands on the Spanish login screen. Anything
+    # under /members/ that is not en/ or pt/ falls through to the ES gate, which
+    # is the correct default -- a new subtree is gated, not exposed.
+    handle /members/en/* {
+        forward_auth 127.0.0.1:8091 {
+            uri /members/check
+            copy_headers Cookie
+
+            @denied status 401
+            handle_response @denied {
+                redir * /members/en/login?next={http.request.orig_uri} 302
+            }
+        }
+        file_server
+    }
+
+    handle /members/pt/* {
+        forward_auth 127.0.0.1:8091 {
+            uri /members/check
+            copy_headers Cookie
+
+            @denied status 401
+            handle_response @denied {
+                redir * /members/pt/login?next={http.request.orig_uri} 302
+            }
+        }
+        file_server
     }
 
     handle /members/* {

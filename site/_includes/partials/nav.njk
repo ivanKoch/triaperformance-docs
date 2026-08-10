@@ -12,17 +12,27 @@
    Menu contents come from site/_data/nav.json. Editing the nav is one edit
    there rather than 19 edits across the site. #}
 
+{# Members nav menus are keyed by language as of Aug 10, 2026 — resolve off the
+   page's own `lang`, falling back to ES so a page that somehow has no lang set
+   renders the Spanish menu rather than crashing the build. #}
+{%- set mHome = nav.membersHome[lang] or nav.membersHome.es -%}
+{%- set mPage = nav.membersPage[lang] or nav.membersPage.es -%}
+
 {% if navVariant == "members-home" %}
 <nav class="site-nav">
   <div class="wrap">
-    <a href="{{ nav.membersHome.home }}" class="logo">{{ site.name }}</a>
-    <button class="nav-toggle" id="navToggle" aria-label="{{ nav.membersHome.menuLabel }}" onclick="toggleNav()"><span></span><span></span><span></span></button>
+    <a href="{{ mHome.home }}" class="logo">{{ site.name }}</a>
+    <button class="nav-toggle" id="navToggle" aria-label="{{ mHome.menuLabel }}" onclick="toggleNav()"><span></span><span></span><span></span></button>
     <nav id="siteNav">
-      {%- for item in nav.membersHome.items %}
+      {%- for item in mHome.items %}
       <a href="{{ item.url }}">{{ item.label }}</a>
       {%- endfor %}
+      {#- `lang` is posted so the auth service knows which language's login page
+          to drop the person back on after logging out. Without it, an EN
+          subscriber logs out and lands on the Spanish login screen. -#}
       <form method="POST" action="/members/logout" style="display:inline; margin:0;">
-        <button type="submit" class="nav-cta">{{ nav.membersHome.logoutLabel }}</button>
+        <input type="hidden" name="lang" value="{{ lang }}">
+        <button type="submit" class="nav-cta">{{ mHome.logoutLabel }}</button>
       </form>
     </nav>
   </div>
@@ -33,10 +43,10 @@
 <div class="site-nav-sticky{% if noPrint %} no-print{% endif %}">
 <div class="wrap">
   <header>
-    <a href="{{ nav.membersPage.home }}" class="logo">{{ site.name }}</a>
-    <button class="nav-toggle" id="navToggle" aria-label="{{ nav.membersPage.menuLabel }}" onclick="toggleNav()"><span></span><span></span><span></span></button>
+    <a href="{{ mPage.home }}" class="logo">{{ site.name }}</a>
+    <button class="nav-toggle" id="navToggle" aria-label="{{ mPage.menuLabel }}" onclick="toggleNav()"><span></span><span></span><span></span></button>
     <nav id="siteNav">
-      {%- for item in nav.membersPage.items %}
+      {%- for item in mPage.items %}
       <a href="{{ item.url }}">{{ item.label }}</a>
       {%- endfor %}
     </nav>
@@ -65,6 +75,11 @@
       </div>
       {%- elif item.cta %}
       <a href="{{ item.url }}" class="nav-cta">{{ item.label }}</a>
+      {%- elif item.member %}
+      {#- Ghost button, deliberately secondary to the solid Contacto CTA. The
+          padlock is decorative and aria-hidden — it signals "gated", it isn't
+          information a screen reader needs read out. -#}
+      <a href="{{ item.url }}" class="nav-member"><svg class="nav-member-lock" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="10.5" width="16" height="10.5" rx="2"></rect><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"></path></svg>{{ item.label }}</a>
       {%- else %}
       {#- Highlight the nav item for the page you're on. Dropdown parents are
           excluded above, matching how the hand-written pages behaved. -#}

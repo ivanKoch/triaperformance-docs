@@ -51,6 +51,20 @@ nav a:hover { color: var(--blue); }
   border-radius: 4px; font-weight: 700;
 }
 .nav-cta:hover { background: var(--blue-deep); }
+/* Members Access button (Aug 10, 2026). Deliberately a ghost/outline button, not
+   a second solid one: the nav already carries the blue Contacto CTA, and two
+   filled buttons side by side read as two equally-weighted asks. This one is for
+   people who already paid, so it should look like a door they own rather than an
+   offer being made to them — outlined, lock-marked, quiet until hovered. */
+.nav-member {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1.5px solid var(--blue); color: var(--blue) !important;
+  padding: 8px 16px; border-radius: 4px; font-weight: 700;
+  letter-spacing: 0.01em; margin-left: 14px; white-space: nowrap;
+  transition: background .15s ease, color .15s ease;
+}
+.nav-member:hover { background: var(--blue); color: var(--white) !important; }
+.nav-member-lock { flex: 0 0 auto; }
 .lang-switch { margin-left: 32px; font-size: 14px; }
 .lang-switch a { margin-left: 0; }
 .lang-switch .sep { color: var(--mist); margin: 0 4px; }
@@ -275,6 +289,12 @@ footer a { color: var(--slate); }
   }
   header nav.mobile-open { right: 0; }
   header nav a, header nav .nav-cta { margin-left: 0; margin-bottom: 20px; font-size: 17px; display: block; width: 100%; }
+  /* Stays inline-flex so the padlock and label sit on one line; the mobile
+     drawer stacks it full width like every other item. */
+  header nav .nav-member {
+    margin-left: 0; margin-bottom: 20px; font-size: 17px;
+    display: inline-flex; width: 100%; justify-content: center;
+  }
   header nav .nav-dropdown { margin-left: 0; width: 100%; }
   header nav .nav-dropdown-menu {
     display: block; position: static; box-shadow: none; border: none;

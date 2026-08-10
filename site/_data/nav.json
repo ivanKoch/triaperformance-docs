@@ -1,5 +1,6 @@
 {
   "_note": "Anchor targets are absolute (/#coaching, not #coaching) because the sections they point at live on the language homepage. That makes one nav definition correct on every page of that language — the hand-written site needed two variants, one for the homepage and one for everything else. From the homepage itself, /#coaching is still an in-page jump, not a reload.",
+  "_memberButtonNote": "Added Aug 10, 2026. `member: true` renders the ghost 'Acceso Miembros' button, deliberately styled secondary so the blue Contacto CTA stays the primary action — two solid buttons side by side would compete. It points at the language's members HOME, not its login page: a subscriber with a live cookie walks straight in, and everyone else is bounced to the right-language login by Caddy's forward_auth. Linking straight to /login would show the login form to someone already logged in.",
   "es": {
     "menuLabel": "Abrir menú",
     "items": [
@@ -57,6 +58,11 @@
         "label": "Contacto",
         "url": "/#contacto",
         "cta": true
+      },
+      {
+        "label": "Acceso Miembros",
+        "url": "/members/",
+        "member": true
       }
     ]
   },
@@ -110,6 +116,11 @@
         "label": "Contact",
         "url": "/en/#contacto",
         "cta": true
+      },
+      {
+        "label": "Members Access",
+        "url": "/members/en/",
+        "member": true
       }
     ]
   },
@@ -154,37 +165,105 @@
         "label": "Contato",
         "url": "/pt/#contacto",
         "cta": true
+      },
+      {
+        "label": "Acesso Membros",
+        "url": "/members/pt/",
+        "member": true
       }
     ]
   },
   "_membersNote": "The members area grew three different nav shapes by hand: the members home (Biblioteca/FAQ + logout), the content pages (Área de Miembros/Biblioteca, no logout), and kettlebell (a plain back-link, and an English-language page that doesn't follow the site's design system at all). Both real variants are defined below and preserved as-is; kettlebell keeps its own inline nav. Worth unifying at some point — flagged, not silently changed.",
+  "_membersI18nNote": "Restructured Aug 10, 2026 (members-area i18n branch): `membersHome` and `membersPage` were single ES-only objects with a hardcoded `/members/` home. They are now keyed by language, resolved in nav.njk off the page's own `lang`. The ES sub-objects are byte-identical to what was there before — nothing about the Spanish members area changed. Language lives in the URL segment (`/members/`, `/members/en/`, `/members/pt/`) rather than a language prefix like the public site, so that ONE Caddy `handle /members/*` forward_auth gate keeps covering all three; the area is noindex, so the URL shape costs nothing in SEO.",
   "membersHome": {
-    "menuLabel": "Abrir menú",
-    "home": "/members/",
-    "items": [
-      {
-        "label": "Biblioteca",
-        "url": "#biblioteca"
-      },
-      {
-        "label": "FAQ",
-        "url": "#faq"
-      }
-    ],
-    "logoutLabel": "Cerrar sesión"
+    "es": {
+      "menuLabel": "Abrir menú",
+      "home": "/members/",
+      "items": [
+        {
+          "label": "Biblioteca",
+          "url": "#biblioteca"
+        },
+        {
+          "label": "FAQ",
+          "url": "#faq"
+        }
+      ],
+      "logoutLabel": "Cerrar sesión"
+    },
+    "en": {
+      "menuLabel": "Open menu",
+      "home": "/members/en/",
+      "items": [
+        {
+          "label": "Library",
+          "url": "#biblioteca"
+        },
+        {
+          "label": "FAQ",
+          "url": "#faq"
+        }
+      ],
+      "logoutLabel": "Log out"
+    },
+    "pt": {
+      "menuLabel": "Abrir menu",
+      "home": "/members/pt/",
+      "items": [
+        {
+          "label": "Biblioteca",
+          "url": "#biblioteca"
+        },
+        {
+          "label": "FAQ",
+          "url": "#faq"
+        }
+      ],
+      "logoutLabel": "Sair"
+    }
   },
   "membersPage": {
-    "menuLabel": "Abrir menú",
-    "home": "/members/",
-    "items": [
-      {
-        "label": "Área de Miembros",
-        "url": "/members/"
-      },
-      {
-        "label": "Biblioteca",
-        "url": "/members/#biblioteca"
-      }
-    ]
+    "es": {
+      "menuLabel": "Abrir menú",
+      "home": "/members/",
+      "items": [
+        {
+          "label": "Área de Miembros",
+          "url": "/members/"
+        },
+        {
+          "label": "Biblioteca",
+          "url": "/members/#biblioteca"
+        }
+      ]
+    },
+    "en": {
+      "menuLabel": "Open menu",
+      "home": "/members/en/",
+      "items": [
+        {
+          "label": "Member Area",
+          "url": "/members/en/"
+        },
+        {
+          "label": "Library",
+          "url": "/members/en/#biblioteca"
+        }
+      ]
+    },
+    "pt": {
+      "menuLabel": "Abrir menu",
+      "home": "/members/pt/",
+      "items": [
+        {
+          "label": "Área de Membros",
+          "url": "/members/pt/"
+        },
+        {
+          "label": "Biblioteca",
+          "url": "/members/pt/#biblioteca"
+        }
+      ]
+    }
   }
 }

@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+navVariant: "none"
+footerVariant: "none"
+pageCss: "members-login.css"
+title: "Log in — Member Area"
+---
+{#- Posts to /members/login, the same single endpoint the ES and PT pages use.
+    See the note in site/members/login/index.njk. -#}
+<div class="login-card">
+  <h1>Member Area</h1>
+  <p class="sub">Enter the password you received by email when you subscribed to All-Access.</p>
+
+  <div class="error" id="login-error">Wrong password. Please try again.</div>
+
+  <form method="POST" action="/members/login" id="login-form">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required autocomplete="current-password">
+    <input type="hidden" name="next" id="next-field" value="">
+    <input type="hidden" name="lang" value="en">
+    <button type="submit">Log in</button>
+  </form>
+
+  <p class="help"><a href="/members/en/forgot-password">Forgot your password?</a></p>
+  <p class="help">Trouble getting in? Email us at <a href="mailto:coach@triaperformance.com">coach@triaperformance.com</a></p>
+
+  <p class="auth-lang">
+    <a href="/members/login">Español</a><span class="sep">·</span><a href="/members/en/login" class="current">English</a><span class="sep">·</span><a href="/members/pt/login">Português</a>
+  </p>
+</div>
+
+<script>
+  if (new URLSearchParams(window.location.search).get('error') === '1') {
+    document.getElementById('login-error').classList.add('show');
+  }
+  var next = new URLSearchParams(window.location.search).get('next');
+  if (next && /^\/[^/\\]/.test(next)) document.getElementById('next-field').value = next;
+</script>
