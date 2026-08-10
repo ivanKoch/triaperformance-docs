@@ -318,10 +318,10 @@
       ],
       "parameters": {
         "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
-        "toEmail": "={{ $('Map Language + Build Twenty Fields').item.json.email }}",
-        "subject": "={{ $('Map Language + Build Twenty Fields').item.json.firstname }}, bienvenido/a a All-Access",
+        "toEmail": "={{ $json.to }}",
+        "subject": "={{ $json.subject }}",
         "emailFormat": "text",
-        "text": "=NOTE: placeholder copy -- rewrite once the plan-application instructions and guide links are finalized (task: welcome email package).\n\nHola {{ $('Map Language + Build Twenty Fields').item.json.firstname }},\n\nGracias por suscribirte a All-Access.\n\nTu acceso al Area de Miembros:\nLink: https://triaperformance.com/members/login\nContraseña: {{ $('Generate Member Token').item.json.member_token }}\n\nGuarda este correo -- es tu unica copia de la contraseña.\n\nIvan Koch - Triaperformance",
+        "text": "={{ $json.body }}",
         "options": {}
       },
       "credentials": {
@@ -342,7 +342,7 @@
       ],
       "parameters": {
         "chatId": "5952194741",
-        "text": "=🎉 Nueva suscripción All-Access\nNombre: {{ $('Map Language + Build Twenty Fields').item.json.firstname }} {{ $('Map Language + Build Twenty Fields').item.json.lastname }}\nEmail: {{ $('Map Language + Build Twenty Fields').item.json.email }}\nProducto: {{ $('Map Language + Build Twenty Fields').item.json.subscription_name }}\nIdioma detectado: {{ $('Map Language + Build Twenty Fields').item.json.preferredLanguage || 'NO RECONOCIDO -- revisar' }}",
+        "text": "=🎉 Nueva suscripción All-Access\nNombre: {{ $('Map Language + Build Twenty Fields').item.json.firstname }} {{ $('Map Language + Build Twenty Fields').item.json.lastname }}\nEmail: {{ $('Map Language + Build Twenty Fields').item.json.email }}\nProducto: {{ $('Map Language + Build Twenty Fields').item.json.subscription_name }}\nIdioma detectado: {{ $('Map Language + Build Twenty Fields').item.json.preferredLanguage || 'NO RECONOCIDO -- revisar' }}\nWelcome enviado en: {{ $('Build All-Access Welcome').item.json.langUsed }}",
         "additionalFields": {}
       },
       "credentials": {
@@ -1157,6 +1157,35 @@
           "name": "SMTP account"
         }
       }
+    },
+    {
+      "id": "aa-sticky",
+      "name": "ALL-ACCESS WELCOME ES/EN/PT -- Aug 10 2026",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        -360
+      ],
+      "parameters": {
+        "width": 640,
+        "height": 180,
+        "content": "## Welcome All-Access en 3 idiomas\n\nReemplaza copy que era español fijo Y que empezaba con la línea literal *\"NOTE: placeholder copy -- rewrite once...\"* — se enviaba al suscriptor. Nunca le llegó a nadie: no hubo altas de All-Access desde que el workflow salió, el 24/7/2026.\n\nSin número de planes a propósito: el catálogo se movió cuatro veces en cinco días.\n\nDetalle: `athlete-onboarding-flow.md` §8"
+      }
+    },
+    {
+      "id": "aa-build",
+      "name": "Build All-Access Welcome",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1840,
+        -100
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// All-Access welcome email, ES/EN/PT.\n//\n// Replaces copy that was hardcoded Spanish AND began with the literal line\n// \"NOTE: placeholder copy -- rewrite once the plan-application instructions and\n// guide links are finalized\" -- which rendered as the first line of the email to\n// the subscriber. Never delivered to anyone: no All-Access signup had come in\n// since this workflow went live July 24 2026.\n//\n// No plan count anywhere on purpose. The catalogue number moved four times in\n// five days (open-loops.md). \"All the plans in your language\" is always true.\n\n// >>> One line you may want to sharpen: the exact TrainingPeaks steps to apply a\n// >>> plan. The default below is true regardless of TP's current UI wording.\nconst PLAN_HOWTO = {\n  SPANISH:    'Los aplicás desde tu cuenta de TrainingPeaks, y podés cambiar de plan cuando quieras.',\n  ENGLISH:    'You apply them from your TrainingPeaks account, and you can switch plans whenever you want.',\n  PORTUGUESE: 'Você aplica pela sua conta do TrainingPeaks e pode trocar de plano quando quiser.',\n};\n\nconst LOGIN_URL = 'https://triaperformance.com/members/login';\n\nconst T = {\n  SPANISH: (n, tok) => ({\n    subject: `${n}, tu acceso a All-Access`,\n    body:\n`Hola ${n},\n\nYa tenés All-Access activo. Esto es lo que incluye.\n\nTODOS LOS PLANES\nTenés acceso a todo el catálogo en español, y podés cambiar de plan las veces\nque quieras, sin costo extra.\n${PLAN_HOWTO.SPANISH}\n\nTRAININGPEAKS PREMIUM\nIncluido mientras tengas la suscripción activa.\n\nÁREA DE MIEMBROS\nLink: ${LOGIN_URL}\nContraseña: ${tok}\nAhí están las calculadoras y las guías, y subo herramientas nuevas todas las semanas.\n\nGuardá este correo: es tu única copia de la contraseña.\n\nIván Koch\nTriaperformance`\n  }),\n\n  ENGLISH: (n, tok) => ({\n    subject: `${n}, your All-Access is live`,\n    body:\n`Hi ${n},\n\nYour All-Access subscription is active. Here's what it includes.\n\nEVERY TRAINING PLAN\nYou have the full catalogue in English, and you can switch plans as many times\nas you want at no extra cost.\n${PLAN_HOWTO.ENGLISH}\n\nTRAININGPEAKS PREMIUM\nIncluded for as long as your subscription is active.\n\nMEMBERS AREA\nLink: ${LOGIN_URL}\nPassword: ${tok}\nThat's where the calculators and guides live, and I add new tools every week.\n\nKeep this email: it's your only copy of the password.\n\nIvan Koch\nTriaperformance`\n  }),\n\n  PORTUGUESE: (n, tok) => ({\n    subject: `${n}, seu All-Access está ativo`,\n    body:\n`Olá ${n},\n\nSua assinatura All-Access está ativa. Isto é o que ela inclui.\n\nTODOS OS PLANOS\nVocê tem acesso a todo o catálogo em português e pode trocar de plano quantas\nvezes quiser, sem custo adicional.\n${PLAN_HOWTO.PORTUGUESE}\n\nTRAININGPEAKS PREMIUM\nIncluído enquanto a sua assinatura estiver ativa.\n\nÁREA DE MEMBROS\nLink: ${LOGIN_URL}\nSenha: ${tok}\nÉ lá que ficam as calculadoras e os guias, e eu subo ferramentas novas toda semana.\n\nGuarde este email: é a sua única cópia da senha.\n\nIvan Koch\nTriaperformance`\n  }),\n};\n\nreturn $input.all().map(() => {\n  const d = $('Map Language + Build Twenty Fields').item.json;\n  const tok = $('Generate Member Token').item.json.member_token;\n\n  // detectLanguage upstream returns null only when the product name matches none\n  // of the three All-Access products -- which now cannot reach here at all, since\n  // Classify Product routes unknown products to an alert. Spanish stays as a\n  // last-resort fallback rather than an assumption.\n  const lang = T[d.preferredLanguage] ? d.preferredLanguage : 'SPANISH';\n  const first = String(d.firstname || '').trim().split(/\\s+/)[0] || '';\n  const built = T[lang](first, tok);\n\n  return { json: {\n    to: d.email,\n    langUsed: lang,\n    langWasKnown: Boolean(T[d.preferredLanguage]),\n    subject: built.subject,\n    body: built.body,\n  }};\n});\n"
+      }
     }
   ],
   "pinData": {},
@@ -1292,12 +1321,7 @@
       "main": [
         [
           {
-            "node": "Send Welcome Email",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Telegram Notify New Subscriber",
+            "node": "Build All-Access Welcome",
             "type": "main",
             "index": 0
           }
@@ -1604,6 +1628,28 @@
         [
           {
             "node": "Telegram - Nuevo Atleta 1a1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build All-Access Welcome": {
+      "main": [
+        [
+          {
+            "node": "Send Welcome Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Welcome Email": {
+      "main": [
+        [
+          {
+            "node": "Telegram Notify New Subscriber",
             "type": "main",
             "index": 0
           }

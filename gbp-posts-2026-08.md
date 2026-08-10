@@ -5,7 +5,7 @@
 | Slot | Activo | Destino | Imagen |
 |---|---|---|---|
 | 1 | Medal Monday — logro de atleta | Home | Foto real del atleta (ya la tienes) |
-| 2 | Catálogo de 301 planes | `/planes/` | Captura del catálogo o del desglose semanal |
+| 2 | Catálogo de 303 planes | `/planes/` | Captura del catálogo o del desglose semanal |
 | 3 | All-Access | `/all-access/` | Captura de la biblioteca / tarjeta azul |
 | 4 | Consejo de calor + zonas | Home | Captura de TrainingPeaks o foto de carrera con overlay |
 
@@ -48,7 +48,7 @@ https://triaperformance.com/planes/?utm_source=google&utm_medium=gbp_post&utm_ca
 
 > ¿No buscas coaching 1:1 pero quieres un plan que no armaste tú?
 >
-> 301 planes publicados en español, inglés y portugués: 5K, 10K, media, maratón, sprint, olímpico, 70.3, HYROX y fuerza. De principiante a atleta con potenciómetro.
+> 303 planes publicados en español, inglés y portugués: 5K, 10K, media, maratón, sprint, olímpico, 70.3, HYROX y fuerza. De principiante a atleta con potenciómetro.
 >
 > Antes de comprar ves el desglose semanal real: cuántas sesiones, cuántas horas, cuál es la más larga. Sabes exactamente en qué te metes.
 >
@@ -70,7 +70,7 @@ https://triaperformance.com/all-access/?utm_source=google&utm_medium=gbp_post&ut
 
 > Si vas a correr más de una carrera este año, comprar planes sueltos te sale caro.
 >
-> All-Access: los 301 planes, todos, por una suscripción mensual. Cambias de distancia sin volver a pagar. Terminas un maratón, empiezas un 70.3, pruebas fuerza — mismo precio.
+> All-Access: los 303 planes, todos, por una suscripción mensual. Cambias de distancia sin volver a pagar. Terminas un maratón, empiezas un 70.3, pruebas fuerza — mismo precio.
 >
 > Incluye TrainingPeaks Premium, que por sí solo cuesta unos 22 dólares al mes.
 >
@@ -125,7 +125,7 @@ Mantén los slots 1–3 fijos (Medal Monday · Planes · All-Access) y rota el s
 |---|---|---|
 | Medal Monday | Foto real del atleta | Ya la tienes. Es el único slot que necesita fotografía. |
 | Planes | Captura del catálogo con filtros, o de la tabla de desglose semanal | Responde "qué recibo exactamente". Imposible de falsificar. |
-| All-Access | Captura de la biblioteca completa, o tarjeta tipográfica azul TP con "301 planes · 1 suscripción" | Muestra volumen, que es el argumento de venta entero. |
+| All-Access | Captura de la biblioteca completa, o tarjeta tipográfica azul TP con "303 planes · 1 suscripción" | Muestra volumen, que es el argumento de venta entero. |
 | Herramienta / guía | Captura de la calculadora o portada del PDF | Es literalmente el producto. |
 | Consejo / educativo | Captura de TrainingPeaks, o foto de carrera + overlay Ink 35–50% | Tratamiento ya aprobado en las guías de marca. |
 

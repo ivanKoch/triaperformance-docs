@@ -38,7 +38,7 @@ Validated by reviews: adaptation-to-schedule/travel is the most-mentioned theme 
 
 | Tier | Price | What it is | Status |
 |---|---|---|---|
-| Passive plans | ~$60 one-time | Static plans, 4–24 weeks, 3 languages | Live, 301 listings |
+| Passive plans | ~$60 one-time | Static plans, 4–24 weeks, 3 languages | Live, 303 listings |
 | All-Access | $29.99–39.99/mo | Plans + TrainingPeaks Premium + light extras | Live, dormant (2 subscribers) |
 | AI Coach *(proposed)* | TBD, likely $25–40/mo | AI-guided self-coaching on Iván's own methodology | Not built |
 | 1:1 coaching | $75–149/mo | Weekly check-in, on-request adjustments/analysis, WhatsApp | Live — price set by segment, see above |

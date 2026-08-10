@@ -58,7 +58,7 @@ Against a build cost of 18 variants per race (2 durations × 3 volume tiers × 3
 
 ## 4. The long tail is half the catalogue
 
-- 301 published plans; **150 have never sold once (50%)** *(recomputed Aug 8, 2026 after the Rio 2026 plan was unpublished; was 302 / 151, same 50%)*
+- 303 published plans; **152 have never sold once (50%)** *(recomputed Aug 10, 2026 after the two EN full-distance Ironman plans were confirmed live and flagged `TRUE`; was 301 / 150, same 50%. Recomputed Aug 8, 2026 after the Rio 2026 plan was unpublished; was 302 / 151.)*
 - Top 20 plans = **$5,959 of $14,334 — 42% of all earnings**
 - 178 plans have ever sold; 218 never have
 
@@ -70,10 +70,12 @@ Consistent with the July 18 finding (55%) and not improving. The storefront's "e
 |---|---|---|---|---|
 | **Duathlon** | 47 | $1,819 | **15** | **$121** |
 | Strength | 6 | $140 | 2 | $70 |
-| Triathlon | 99 | $3,374 | 49 | $69 |
+| Triathlon | 99 | $3,374 | 51 | $66 |
 | Swimming | 80 | $1,638 | 40 | $41 |
 | Running | 195 | $5,001 | 135 | $37 |
 | **Cycling** | 57 | $1,769 | **60** | **$29** |
+
+*Updated Aug 10, 2026 — Triathlon's published count went 49 → 51 and its return per plan $69 → $66, after `442088` and `439815` were confirmed live on TrainingPeaks and their stale `is_published=FALSE` flags corrected. Both have sold zero units, so the numerator is unchanged; only the denominator moved. No other row changes. `data/plan_performance.csv` also carried a stale `is_published=TRUE` for `612978` (the Rio plan unpublished Aug 8) — corrected in the same pass, so the inventory and performance files now agree at 303 published.*
 
 Running earns the most in absolute terms and should keep its catalogue. But the build-effort question is different: **Cycling has 60 published plans returning $29 each, while Duathlon has 15 returning $121 each** — four times the return on a quarter of the inventory. Duathlon is the most under-built category in the catalogue and nobody had noticed, because it is small in absolute revenue.
 

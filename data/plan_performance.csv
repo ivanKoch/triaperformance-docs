@@ -221,7 +221,7 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 439421,Maratón de Boston 2026 - 18 semanas - Vol: <90km Semanales - Inicio 15 Diciembre 2026,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
 439428,Maratón de Londres 2026 - 18 semanas - Vol: 90-110km semanales - Inicio 22 Diciembre 2026,Spanish,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,TRUE
 439429,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-439815,24 Week Full Distance Peak: Triathlon 🏊‍♂️🚴🏃 (Advanced Polarized),English,Triathlon,Full,Advanced,24,79.99,FALSE,0,0.00,0.00,,,TRUE
+439815,24 Week Full Distance Peak: Triathlon 🏊‍♂️🚴🏃 (Advanced Polarized),English,Triathlon,Full,Advanced,24,79.99,TRUE,0,0.00,0.00,,,TRUE
 439845,Plan 24 Semanas: FULL / Larga Distancia Peak 🏊🚴🏃 (Avanzado),Spanish,Triathlon,Full,Advanced,24,79.99,TRUE,0,0.00,0.00,,,TRUE
 439860,Triathlon: Distância Completa | 23 Semanas | Avançado | Performance,Portuguese,Triathlon,Full,Advanced,23,46.00,TRUE,0,0.00,0.00,,,TRUE
 439919,Meia Maratona (21k) | 16 Semanas | Intermediário | Foco em Resistência,Portuguese,Running,21 km,Intermediate,16,32.00,TRUE,0,0.00,0.00,,,TRUE
@@ -230,7 +230,7 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 441223,19 Week Olympic Build: Triathlon 🏊‍♂️🚴🏃 (Intermediate to Advanced),English,Triathlon,Olympic,Advanced,19,59.99,TRUE,0,0.00,0.00,,,TRUE
 441256,Plan 20 Semanas: Triatlón Olímpico Build 🏊🚴🏃 (Polarizado 80/20),Spanish,Triathlon,Olympic,Advanced,20,59.99,TRUE,0,0.00,0.00,,,TRUE
 441721,22 Week Full Distance Prep: Triathlon 🏊‍♂️🚴🏃 (First Timer Focus),English,Triathlon,Full,Beginner,22,79.99,TRUE,0,0.00,0.00,,,TRUE
-442088,22 Week Full Distance Build: Triathlon 🏊‍♂️🚴🏃 (Polarized 80/20),English,Triathlon,Full,Intermediate,22,79.99,FALSE,0,0.00,0.00,,,TRUE
+442088,22 Week Full Distance Build: Triathlon 🏊‍♂️🚴🏃 (Polarized 80/20),English,Triathlon,Full,Intermediate,22,79.99,TRUE,0,0.00,0.00,,,TRUE
 442089,Plan 22 Semanas: FULL / Larga Distancia Build 🏊🚴🏃 (Polarizado 80/20),Spanish,Triathlon,Full,Intermediate,22,79.99,TRUE,0,0.00,0.00,,,TRUE
 442090,19 Week Half Distance Prep: Triathlon 🏊‍♂️🚴🏃 (First Timer Focus),English,Triathlon,Half,Beginner,19,69.99,TRUE,0,0.00,0.00,,,TRUE
 442098,19 Week Half Distance Build: Triathlon 🏊‍♂️🚴🏃 (Intermediate Polarized),English,Triathlon,Half,Intermediate,19,69.99,TRUE,0,0.00,0.00,,,TRUE
@@ -394,4 +394,4 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 612838,🇧🇷 Maratona de Rio 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,TRUE
 612970,🇨🇱 Maratón de Santiago 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
 612974,🇵🇪 Maratón de Lima 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-612978,🇧🇷 Maratón de Río de Janeiro 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,TRUE,0,0.00,0.00,,,TRUE
+612978,🇧🇷 Maratón de Río de Janeiro 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE

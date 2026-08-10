@@ -181,3 +181,66 @@ Follow-ups created by this branch live in `open-loops.md`, not here — one list
 5. **The intake form's availability question is free text, and stays free text.** §4.
 6. **Interrupt for a person, batch for a machine.** A paying athlete stuck without access gets an immediate Telegram; everything else waits for the 08:00 digest.
 7. **No exit survey, no win-back offer in the goodbye email.** `methodology.md` §2 — exit is cordial and ends cleanly at the billing boundary. Win-back is a separate, deliberate campaign.
+
+---
+
+## 8. All-Access welcome email — ES/EN/PT
+
+*August 10, 2026. Not part of the 1:1 branch — a neighbouring bug this work made visible.*
+
+> **LIVE. Tested August 10, 2026** on all three real products: Spanish, English and Portuguese welcome emails each sent and read, `planPurchased` correct on all three (including the Spanish name that carries its own ` - ` separator), tokens and test People cleaned up afterwards. Mirrored into `automation/subscription-lifecycle-automation.json`, now 51 nodes.
+
+**Two problems, and the second was worse than the one that was logged.**
+
+The logged issue was that the email was hardcoded Spanish regardless of `preferredLanguage`. The unlogged one, found on reading the node: **the body began with the literal line**
+
+> *"NOTE: placeholder copy -- rewrite once the plan-application instructions and guide links are finalized (task: welcome email package)."*
+
+It sat inside the `text` parameter after the `=` expression marker, so it rendered as the first line of the email to the subscriber. **Nobody received it** — no All-Access signup has come in since the workflow went live on July 24, and the two current subscribers predate it. *A note-to-self written inside a live template is indistinguishable from copy. If it must live there, it belongs in a comment, a sticky note, or a field that isn't sent.*
+
+**Contents, per Iván (Aug 10, 2026):** transactional only — every plan in the athlete's language with unlimited swapping, TrainingPeaks Premium included, and the members area with its login and password, described as getting **new tools every week**.
+
+- **Purely transactional, no invitation to reply.** All-Access is the passive product; open-ended replies are time that scales with subscribers, which fails the standing test of whether something costs Iván's time once or forever.
+- **No plan count anywhere.** `open-loops.md` records the catalogue number moving four times in five days. *"All the plans in your language"* is always true; a number is wrong within a week. **Never hardcode a figure into a template that outlives it.**
+- *"New tools every week" is now a promise sent to every subscriber*, against a backlog of one finished prototype and four unbuilt calculators (`open-loops.md`). Iván's call and a reasonable forcing function — recorded here so it isn't discovered later as an unexplained commitment.
+
+**Known gap at time of writing:** the members area and all five guides are Spanish-only — ten pages, zero EN/PT. The EN and PT emails describe a members area that does not yet serve them. Iván is closing this with a content push the same day, and exposure is small: the English product has **0 subscribers** and Portuguese has **1**. If that push slips, the EN/PT copy should drop the members-area paragraph rather than promise it.
+
+### Build
+
+Paste `automation/allaccess-welcome-paste.json` into `subscription-lifecycle-automation` (one Code node + sticky).
+
+1. Insert `Build All-Access Welcome` between `Insert Token in Postgres` and `Send Welcome Email`.
+2. In `Send Welcome Email`, replace all three fields with `={{ $json.to }}`, `={{ $json.subject }}`, `={{ $json.body }}` — deleting the old hardcoded Spanish body and its NOTE line.
+3. **Chain the Telegram instead of leaving it parallel.** `Insert Token in Postgres` originally fanned out to *both* `Send Welcome Email` and `Telegram Notify New Subscriber`. Delete that second connection and wire `Send Welcome Email` → `Telegram Notify New Subscriber`.
+
+*Optionally add to `Telegram Notify New Subscriber`:* `Welcome enviado en: {{ $('Build All-Access Welcome').item.json.langUsed }}`.
+
+> **Why step 3 matters, and it is not cosmetic.** If the Telegram runs on a sibling branch, that expression is a **forward reference** to a node on the other branch. It works today because of the order n8n happens to execute branches in, and would fail silently — a blank language, or an error on a node that only exists to notify — if that ordering ever changed. **An expression whose correctness depends on branch execution order is a latent bug, not a working design.** Chaining costs nothing and removes the question.
+
+### Test payloads
+
+Pin each on `Email Trigger (IMAP)` and run. These use the **real product names** from `triaperformance-pricing-and-positioning.md`, so they exercise `detectLanguage` against the actual strings rather than approximations — the earlier build-log payload used a shortened Spanish name that would not have caught a mismatch.
+
+```json
+[{"subject":"New subscription confirmation","date":"2026-08-10T12:00:00.000Z","textPlain":"Iván Koch - Triaperformance, way to close the deal! This email confirms the recent purchase of a subscription: Customer Name: Test AA Espanol (coach+aa-es@triaperformance.com) Subscription: Suscripción Triaperformance - Todos los planes y guías + Training Peaks Premium - $39.99/monthly Duration: monthly Amount Charged: $39.99 (including taxes) Invoice Number: TEST-AA-ES-01"}]
+```
+
+```json
+[{"subject":"New subscription confirmation","date":"2026-08-10T12:00:00.000Z","textPlain":"Iván Koch - Triaperformance, way to close the deal! This email confirms the recent purchase of a subscription: Customer Name: Test AA English (coach+aa-en@triaperformance.com) Subscription: FULL ACCESS: All training plans and guides + Training Peaks Premium - $39.99/monthly Duration: monthly Amount Charged: $39.99 (including taxes) Invoice Number: TEST-AA-EN-01"}]
+```
+
+```json
+[{"subject":"New subscription confirmation","date":"2026-08-10T12:00:00.000Z","textPlain":"Iván Koch - Triaperformance, way to close the deal! This email confirms the recent purchase of a subscription: Customer Name: Test AA Portugues (coach+aa-pt@triaperformance.com) Subscription: Acesso Total: Planos de Treino (Corrida + Ciclismo + Triatlo) - $29.99/monthly Duration: monthly Amount Charged: $29.99 (including taxes) Invoice Number: TEST-AA-PT-01"}]
+```
+
+**Watch the Spanish run specifically.** That product name contains its own ` - ` separator (`Suscripción Triaperformance **-** Todos los planes...`). The existing regex handles it — the non-greedy match only stops at ` - $` — but if `planPurchased` lands in Twenty truncated to `Suscripción Triaperformance`, that is where it broke.
+
+**These write for real.** Clean up afterwards:
+
+```bash
+docker exec -it analytics-postgres psql -U analytics -d members -c \
+  "DELETE FROM subscriber_tokens WHERE email LIKE 'coach+aa-%';"
+```
+
+Then delete the three test People in Twenty.
