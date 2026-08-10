@@ -30,6 +30,8 @@ however you prefer.
 *Alternative for multiple new athletes at once*: use `backfill_existing_customers.py`
 with a CSV instead of doing this one-by-one (see its docstring).
 
+> **The query below has no `token` column, on purpose.** *(Note added Aug 10, 2026, after the whole table — 36 live tokens — was pasted into a chat transcript twice in one session.)* A token is a working password into paid content; there is almost never a reason for one to appear in a full-table listing, a screenshot, or a message to anyone. Use §2 to look at the roster and §3 to pull **one** person's token when you actually need it. If you catch yourself adding `token` to §2, what you probably want is §3.
+
 ## 2. Query all tokens
 ```bash
 docker exec -it analytics-postgres psql -U analytics -d members -c \
@@ -85,6 +87,58 @@ only for cleaning up genuine test/junk data):
 ```bash
 docker exec -it analytics-postgres psql -U analytics -d members -c \
   "DELETE FROM subscriber_tokens WHERE email = 'someone@example.com';"
+```
+
+## QA fixtures — three permanent test rows, one per language
+
+*(Added August 10, 2026, during the members-area i18n branch.)*
+
+Three rows live in `subscriber_tokens` permanently, marked
+`twenty_person_id = 'QA-FIXTURE'`:
+
+| Email | Language |
+|---|---|
+| `coach+qa-es@triaperformance.com` | SPANISH |
+| `coach+qa-en@triaperformance.com` | ENGLISH |
+| `coach+qa-pt@triaperformance.com` | PORTUGUESE |
+
+**Read their tokens whenever you need them — this table is the log:**
+```bash
+docker exec -it analytics-postgres psql -U analytics -d members -c \
+  "SELECT email, token, preferred_language FROM subscriber_tokens WHERE twenty_person_id = 'QA-FIXTURE' ORDER BY email;"
+```
+The values are deliberately **not** written down anywhere else. They are live
+credentials into paid content; the no-secrets-in-docs rule applies to them
+exactly as it does to anything else, and the query above makes a written copy
+pointless. Bitwarden if you want them on a phone — never a repo file.
+
+**Why plus-aliases on `coach@` rather than `example.com` or `.invalid`.**
+These serve two different jobs and a non-deliverable address only covers one:
+auth and routing tests (login language routing, gate redirects, logout) never
+send mail, but email-content tests (welcome, resend-password) need a real
+inbox. Plus-addressing routes to Iván's own mailbox — confirmed working
+Aug 10, 2026 — so one set of fixtures covers both, instead of improvising a
+throwaway address every time an email template changes.
+
+**⚠️ Exclude them from every usage query.** These rows accumulate
+`access_count` and are otherwise indistinguishable from real athletes. Any
+"how many members actually use this" question must carry:
+```sql
+AND twenty_person_id <> 'QA-FIXTURE'
+```
+That is the entire reason the sentinel is a readable string rather than a
+random UUID. This is the same mistake already paid for once with the
+pixel data, where three personal IPs had to be excluded from
+`plan_views_clean` after the numbers had already been read (see
+`ai-infrastructure-documentation.md` §9) — the exclusion is cheap up front
+and expensive to retrofit.
+
+**Do not delete them in a test cleanup.** They are supposed to be there. The
+"no test rows remain" assertion below is written to allow exactly these three
+and nothing else:
+```bash
+docker exec -it analytics-postgres psql -U analytics -d members -c \
+  "SELECT email FROM subscriber_tokens WHERE (email LIKE '%example.com' OR email LIKE 'test%' OR email LIKE '%+%') AND twenty_person_id <> 'QA-FIXTURE';"
 ```
 
 **Check who has NOT been granted access at all** — that's a Twenty question,
