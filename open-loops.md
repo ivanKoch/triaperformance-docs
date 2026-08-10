@@ -19,19 +19,29 @@ This file replaces the open-item lists previously scattered across `ai-infrastru
 
 ## NOW
 
-**Big branch: 1:1 athlete onboarding flow**, opened August 8, 2026. Specification written — `athlete-onboarding-flow.md` is now the home doc and owns every step, decision and open question for this initiative. Nothing is built yet; the spec lists six inputs blocked on Iván (§5) and a live bug to fix first (below). *Race landing pages (NEXT #1) remains the next branch after this one; it is researched and ungated, just not started.*
+**Big branch: 1:1 athlete onboarding flow — opened Aug 8, 2026, Stages 1–7 SHIPPED Aug 9, 2026.** Home doc: `athlete-onboarding-flow.md`. Payment → classification → Twenty record → members access → welcome email (ES/EN/PT) → intake form → Postgres → Gemini briefing → email + Telegram, with no manual step in between. Technical record: `ai-infrastructure-documentation.md` §12 addendum and new §21.
+
+**BRANCH CLOSED August 9, 2026.** The exit path was the last gap and it is done: Private cancellation verified against a real email (the existing regex already matched — no change needed), and CoachMatch cancellation built from scratch, since it was never handled at all. Both tested live. Athletes are now churned, de-provisioned and sent a goodbye email automatically on either channel.
+
+Two traps found in the CoachMatch emails, both recorded in `athlete-onboarding-flow.md` §5: TrainingPeaks' *"Cancellation **Request**"* subject **contains** its *"Cancellation"* subject, so a `contains` filter would churn a paying athlete mid-service; and the confirmed email carries **no email address** — `Nelson Carrion ()` — so that branch matches by normalized name and writes nothing unless exactly one record matches.
+
+The home doc was split the same day: `athlete-onboarding-flow.md` (17 KB, decisions and live state) + `athlete-onboarding-build-log.md` (CLOSED, the build record). It had reached 96 KB, ~60 KB of it instructions for building something already built — the same shape `open-loops.md` was in before its own split.
+
+**What's left is in `athlete-onboarding-flow.md` §6** and is deliberately manual, except Stage 8 (persist the perfect week, and create `athlete_profile` with it). Not opened as a branch.
+
+**→ Next big branch: race landing pages (NEXT #1).** Researched, ungated, not started.
 
 ### ✅ Fixed same day — the live bug this branch uncovered
 
 - [x] ~~**The subscription-lifecycle workflow tags every 1:1 coaching sale as `ALL_ACCESS`.**~~ **Found and fixed August 8, 2026, blast radius zero.** `Filter - Is New Subscription` matched on subject alone, and All-Access and Private coaching share that subject. Fixed with an explicit two-allowlist `Classify Product` node and a `Route by Product` Switch whose fallback output alerts and writes nothing; CoachMatch, which was being dropped silently, now has its own branch. All four test cases passed live. Audit found **no affected records** — no subscriptions of any kind since the workflow went live July 24. Full record: `ai-infrastructure-documentation.md` §12 addendum and `athlete-onboarding-flow.md` §3–3.2.
 - [ ] **Clean up the D1 test record** — `test-aa@example.com` was created for real in Twenty with a `subscriber_tokens` row and a welcome email sent to a non-existent address. Delete both (commands in `athlete-onboarding-flow.md` §3.2 Phase D). *All later test athletes were cleaned up by Iván the same day; this is the only one outstanding.*
 
-### Shipped August 8, 2026 — Stages 1–4 of the onboarding branch
+### Follow-ups created by the onboarding branch (Aug 8–9, 2026)
 
-An athlete who pays through either channel is now classified, upserted into Twenty, granted members access and sent a welcome email with password and intake-form link, in their language. 49 nodes, tested end to end. **Two follow-ups this created:**
-
-- [ ] **Set `Error Collector (global)` as the Error Workflow on the *other* workflows** — CoachMatch lead pipeline, contact form, plan-lead, publish-article. They all have the same silent-failure gap: a run that dies halfway just stops and nothing says so. One setting each.
+- [x] ~~**Set `Error Collector (global)` as the Error Workflow on the *other* workflows.**~~ **Done Aug 9, 2026 — set on all workflows, confirmed by Iván.** Every workflow now reports failures into `n8n_errors` and the 08:00 digest.
 - [ ] **The All-Access welcome email is still hardcoded Spanish** regardless of `preferredLanguage`, which now sits next to a coaching branch that does switch language. Pre-existing, not introduced by this work, but the inconsistency is newly visible and EN/PT subscribers have been receiving Spanish all along.
+- [x] ~~**The seven dead `Disponibilidad semanal` columns.**~~ **Decided Aug 9, 2026: hide them in the sheet, don't delete.** Nothing reads them — `e.namedValues` comes from the form submission, not the sheet — so they cost nothing, and those 51 rows are the evidence base for the §3.5 redesign. Deleting columns on a Forms-linked responses sheet is also the operation most likely to disturb the linkage, for no gain. Right-click → Hide column gives a clean view at zero risk.
+- [ ] **Two Gemini-related items.** The API key is on **$30 prepaid with auto-reload deliberately off** and is now shared by Hermes, the content engine and athlete briefings — if it empties, briefings stop silently (the athlete is unaffected; only Iván's briefing is lost). And `gemini-3.1-pro-preview` is a **rolling `-preview` alias**, which contradicts the pinned-release preference recorded in `ai-infrastructure-documentation.md` §3. The content engine already uses it, so this follows existing practice — but both should move to a pinned release together.
 
 ### Carried over from the storefront branch — catalogue strategy, not build work
 

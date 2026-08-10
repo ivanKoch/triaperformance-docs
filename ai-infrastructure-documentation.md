@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** August 8, 2026 (KB consolidation — the "Open items / not yet done" section is **retired**; it had become a second, drifting copy of `open-loops.md`. Five items that lived only here were promoted there; the section now says so and explains what it cost. No technical content changed. *Previous entry, August 6, 2026: §17 — SEO metadata pass, intent hub pages, plan-page content sections generated from data, asset cache-busting after stale JS cost three debugging rounds; §17 also corrected — the Plan Storefront is live, not "not yet deployed".*)
+**Last updated:** August 9, 2026 (**§21 added — athlete intake pipeline live**: Google Form → Apps Script → Caddy → n8n → Postgres → Gemini briefing. Completes 1:1 onboarding from payment to planning brief. §12 also carries a same-week addendum: the product classifier, the ALL_ACCESS routing bug it uncovered, and the full coaching branch. *Previous entry, August 8, 2026: KB consolidation — the "Open items / not yet done" section is **retired**; it had become a second, drifting copy of `open-loops.md`. Five items that lived only here were promoted there; the section now says so and explains what it cost. No technical content changed. *Previous entry, August 6, 2026: §17 — SEO metadata pass, intent hub pages, plan-page content sections generated from data, asset cache-busting after stale JS cost three debugging rounds; §17 also corrected — the Plan Storefront is live, not "not yet deployed".*)
 **Status:** Live / operational
 
 ---
@@ -592,6 +592,29 @@ Every workflow that sends mail uses **`Coach Iván - Triaperformance <coach@tria
 ### Churn now sets a status, not just a date (August 6, 2026)
 
 `CHURNED_CUSTOMER` was added to Twenty's `leadStatus` enum (9 values now). Before this, a cancellation set `churnDate` and revoked the member token but left `leadStatus = WON_CUSTOMER`, so **a churned subscriber was indistinguishable from an active one on status alone** — which quietly made the win-back audience unqueryable. The `Mark Churned in Twenty` node's PATCH body now writes both fields. `automation/update_lead_status.py` accepts the value too, with a caveat recorded in the code: its lookup only searches leads at `MESSAGE_SENT`, so a churned subscriber can't actually be found by name through that script yet.
+
+## 21. Athlete intake pipeline — Google Form → Postgres → Gemini briefing (live, August 9, 2026)
+
+The last gap in 1:1 onboarding. An athlete completes the intake form; Iván receives a written briefing before he plans, and the raw answers are stored durably for the first time. Workflow: `automation/athlete-intake-workflow.json` (repo mirror; the n8n instance is the source of truth). Full design record and reasoning: `athlete-onboarding-flow.md` §3.5–3.7.
+
+**Path.** Google Form (one spreadsheet, tabs `ES`/`EN`) → Apps Script `onFormSubmit` → `https://triaperformance.com/api/athlete-intake` → Caddy → n8n webhook → `athlete_intake` table → Gemini → briefing email + Telegram.
+
+- **Apps Script** — `automation/athlete-intake/onFormSubmit.gs`, the source of truth for a file that executes in Google. Same rule as the VPS Python scripts and `Caddyfile` (§18): edit the repo copy, paste to Google, never the reverse. Must be the **installable** spreadsheet trigger — the simple `onFormSubmit()` cannot call external URLs because `UrlFetchApp` requires authorization. One script and one trigger covers both forms, because a spreadsheet-level trigger fires for every form linked to it.
+- **Caddy** — `route /api/athlete-intake` with the mandatory `rewrite * /webhook/athlete-intake`, same shape as `/api/contact-form` (§11).
+- **Auth** — n8n **Header Auth credential on the webhook node** (`X-Intake-Secret`), not a comparison inside the workflow. A literal secret in an IF node would be committed to this repo the moment the workflow mirror is updated. n8n 401s before any node runs. Trade-off accepted: no alert on rejected attempts.
+- **Postgres** — `athlete_intake` in the `members` database. `raw jsonb` holds the complete submission always; typed columns exist only for what automation branches on.
+- **Gemini** — `gemini-3.1-pro-preview`, the content engine writer's model, via `x-goog-api-key` Header Auth on the same `GOOGLE_API_KEY` Hermes uses. Pro rather than flash on the strength of lesson 7 below.
+
+**Four things worth carrying forward:**
+
+- **Key form data on question text, never column index.** Google Forms appends new questions as columns at the far right regardless of form order, and deleting a question leaves its column in place. The August 2026 form edit put the two new questions at columns 39–40, after seven now-dead columns. `e.namedValues` delivers a question-text → answer map and is immune to both.
+- **A column the database should fill must be omitted from an n8n Postgres mapping, never left blank.** On connecting the credential, n8n auto-populates every column: `id` arrives pre-filled with `0` (overriding the `bigserial` sequence — the second insert collides on the primary key) and `submitted_at` arrives blank, which sends NULL and defeats `DEFAULT now()`. **A default applies only when the column is absent from the INSERT.**
+- **Respond to a webhook before slow work, not after.** `Respond OK` sits mid-chain: n8n keeps executing after responding, so Apps Script gets its 200 as soon as the row is durable rather than holding a connection through a 10–30s LLM call.
+- **Compute dates in code, not in the prompt.** Athlete age drives a real structural decision (`methodology.md` §5 — 50+ gets 2+1 blocks and shortened ATL/CTL constants), and date arithmetic is what an LLM gets subtly wrong. It's computed in `Build Briefing Prompt` and handed to the model as a number.
+
+**The prompt is condensed from `methodology.md` §2, §3 and §5** — test-protocol table, red-flag list, the 50+ rule. If the methodology changes, `Build Briefing Prompt` is the thing to update. Its load-bearing instructions: never invent (say *"no lo dijo"*), tag every day of the proposed week `[dicho]` or `[inferido]`, and list injuries with *"derivar a médico"* without interpreting them (§11 red line).
+
+*Open, deliberately:* the `athlete_profile` table designed in `athlete-onboarding-flow.md` §2 **was not created** — only `athlete_intake` exists. Building a schema nothing writes to yet would be speculative. It belongs with the perfect-week capture (Stage 8), which is still manual.
 
 ## Open items — retired as a section (August 8, 2026)
 

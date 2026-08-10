@@ -1,0 +1,497 @@
+{
+  "nodes": [
+    {
+      "id": "cx-sticky",
+      "name": "COACHMATCH CANCELLATION -- Aug 9 2026",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        1400
+      ],
+      "parameters": {
+        "width": 760,
+        "height": 230,
+        "content": "## Baja de CoachMatch\n\n**Dos trampas reales en estos emails.**\n\n1. TrainingPeaks manda DOS: `...Cancellation Request - Athlete X` (aviso, con fecha futura) y `...Cancellation - Athlete X` (confirmada). **La primera CONTIENE a la segunda como substring**, igual que `Subscription cancellation` vs `...cancellation scheduled` en la seccion 12. El filtro usa `Cancellation - Athlete` exacto para no agarrar las dos.\n\n2. **El email confirmado NO trae la direccion de mail** — dice `Nelson Carrion ()`, parentesis vacios. El de aviso SI la trae. Por eso esta rama es la unica que matchea por NOMBRE contra Twenty.\n\nDetalle: `athlete-onboarding-flow.md` seccion 3.8"
+      }
+    },
+    {
+      "id": "cx-filter",
+      "name": "Filter - Is CoachMatch Cancellation",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        1620
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cx1",
+              "leftValue": "={{ $json.subject }}",
+              "rightValue": "Coaching Service Cancellation - Athlete",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "cx-parse",
+      "name": "Parse CoachMatch Cancellation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        1620
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Parses the CoachMatch \"cancellation CONFIRMED\" email.\n// NOT the \"cancellation request\" one -- see the filter for why they are easy to confuse.\n//\n// Real body (whitespace-flattened):\n//   \"Coach Match Cancellation Confirmation ... This is a confirmation that\n//    Nelson Carrion () has cancelled their Coach Match Bronze level coaching\n//    service subscription.\"\n//\n// Note the EMPTY parentheses. TrainingPeaks does not include the athlete's email\n// on this template -- it does on the \"request\" one, but not here. So this branch\n// cannot join on email like every other branch in this workflow does.\n\nreturn $input.all().map(item => {\n  const flat = (item.json.textPlain || '').replace(/\\s+/g, ' ').trim();\n  const subject = item.json.subject || '';\n\n  const m = flat.match(\n    /confirmation that\\s+(.+?)\\s*\\(([^)]*)\\)\\s+has cancelled their Coach Match\\s+(\\w+)\\s+level/i\n  );\n\n  // The athlete's name appears in the subject too. Two independent sources for the\n  // one field everything downstream depends on, so a template change shows up as a\n  // mismatch instead of a silent wrong match.\n  const s = subject.match(/Cancellation\\s*-\\s*Athlete\\s+(.+)$/i);\n\n  const nameFromBody = m ? m[1].trim() : '';\n  const nameFromSubject = s ? s[1].trim() : '';\n\n  return { json: {\n    parse_ok: Boolean(m || s),\n    athlete_name: nameFromBody || nameFromSubject,\n    name_from_body: nameFromBody,\n    name_from_subject: nameFromSubject,\n    name_mismatch: Boolean(nameFromBody && nameFromSubject &&\n                           nameFromBody.toLowerCase() !== nameFromSubject.toLowerCase()),\n    email_in_email: m ? m[2].trim() : '',   // expected empty; captured in case TP fixes it\n    tier: m ? m[3] : '',\n    cancelled_on: (item.json.date || '').slice(0, 10),\n  }};\n});\n"
+      }
+    },
+    {
+      "id": "cx-fetch",
+      "name": "Fetch Coaching Athletes",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        440,
+        1620
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "http://100.70.89.17:3000/rest/people",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "filter",
+              "value": "customerType[eq]:OPT1_1_COACHING"
+            },
+            {
+              "name": "limit",
+              "value": "200"
+            }
+          ]
+        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "id": "cx-match",
+      "name": "Match Athlete by Name",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        1620
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Matches the cancelled athlete to a Twenty record BY NAME, because the CoachMatch\n// cancellation email carries no email address.\n//\n// Strategy: fetch only 1:1 coaching athletes (a few dozen), then match in code.\n// Twenty's API name filters are brittle against how a name was split on the way in --\n// \"Rafael A Giraldo R\" could be stored several ways -- so the comparison is done here,\n// on a normalized token set, where accents, case, punctuation and word order stop mattering.\n\nfunction norm(s) {\n  return String(s || '')\n    .normalize('NFD').replace(/[̀-ͯ]/g, '')   // strip accents\n    .toLowerCase()\n    .replace(/[^a-z0-9 ]/g, ' ')\n    .split(/\\s+/).filter(Boolean).sort().join(' ');\n}\n\nconst wanted = norm($('Parse CoachMatch Cancellation').item.json.athlete_name);\nconst people = $json?.data?.people || [];\n\nconst scored = people.map(p => {\n  const full = [p?.name?.firstName, p?.name?.lastName].filter(Boolean).join(' ');\n  return { id: p.id, full, email: p?.emails?.primaryEmail || '',\n           lang: p?.preferredLanguage || '', key: norm(full) };\n});\n\nlet hits = scored.filter(p => p.key === wanted);\n\n// Fallback: same surname set, one name written more fully than the other\n// (\"Nelson Carrion\" vs \"Nelson Andres Carrion\"). Only used when the exact pass finds\n// nothing, and still requires a unique winner.\nif (hits.length === 0) {\n  const wt = wanted.split(' ');\n  hits = scored.filter(p => {\n    const pt = p.key.split(' ');\n    const shared = wt.filter(t => pt.includes(t));\n    return shared.length >= 2 && (shared.length === wt.length || shared.length === pt.length);\n  });\n}\n\nreturn [{ json: {\n  match_count: hits.length,\n  candidates_searched: scored.length,\n  person_id: hits.length === 1 ? hits[0].id : '',\n  email: hits.length === 1 ? hits[0].email : '',\n  full_name: hits.length === 1 ? hits[0].full : $('Parse CoachMatch Cancellation').item.json.athlete_name,\n  preferredLanguage: hits.length === 1 ? (hits[0].lang || 'UNKNOWN') : 'UNKNOWN',\n  near_misses: hits.length > 1 ? hits.map(h => h.full + ' <' + h.email + '>').join(' | ') : '',\n}}];\n"
+      }
+    },
+    {
+      "id": "cx-if",
+      "name": "Match Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        880,
+        1620
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cx2",
+              "leftValue": "={{ $json.match_count }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "cx-churn",
+      "name": "Mark Churned (CoachMatch)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1120,
+        1520
+      ],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.person_id }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ leadStatus: 'CHURNED_CUSTOMER', churnDate: new Date().toISOString() }) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "id": "cx-revoke",
+      "name": "Revoke Token (CoachMatch)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1340,
+        1520
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE subscriber_tokens SET active = FALSE, revoked_at = now() WHERE email = $1 AND active = TRUE;",
+        "options": {
+          "queryReplacement": "={{ $('Match Athlete by Name').item.json.email }}"
+        }
+      },
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
+      }
+    },
+    {
+      "id": "cx-set",
+      "name": "Churned Athlete (CoachMatch)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1560,
+        1520
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "email",
+              "type": "string",
+              "value": "={{ $('Match Athlete by Name').item.json.email }}"
+            },
+            {
+              "id": "2",
+              "name": "full_name",
+              "type": "string",
+              "value": "={{ $('Match Athlete by Name').item.json.full_name }}"
+            },
+            {
+              "id": "3",
+              "name": "preferredLanguage",
+              "type": "string",
+              "value": "={{ $('Match Athlete by Name').item.json.preferredLanguage }}"
+            },
+            {
+              "id": "4",
+              "name": "channel",
+              "type": "string",
+              "value": "COACHMATCH"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "cx-nomatch",
+      "name": "Telegram - Baja Sin Match",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        1740
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      },
+      "parameters": {
+        "chatId": "5952194741",
+        "additionalFields": {},
+        "text": "=⚠️ BAJA DE COACHMATCH SIN MATCH EN TWENTY\nNombre en el email: {{ $('Parse CoachMatch Cancellation').item.json.athlete_name }}\nCoincidencias encontradas: {{ $json.match_count }} sobre {{ $json.candidates_searched }} atletas 1:1\n{{ $json.near_misses ? 'Parecidos: ' + $json.near_misses : '' }}\n\nNO se escribio nada. Dar de baja a mano en Twenty y revocar el token.\nRecorda: este email de TP no trae la direccion de mail, solo el nombre."
+      }
+    },
+    {
+      "id": "cx-set2",
+      "name": "Churned Athlete (Subscription)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1300,
+        420
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "email",
+              "type": "string",
+              "value": "={{ $('Parse Churn Email').item.json.email }}"
+            },
+            {
+              "id": "2",
+              "name": "full_name",
+              "type": "string",
+              "value": "={{ $('Parse Churn Email').item.json.firstname }} {{ $('Parse Churn Email').item.json.lastname }}"
+            },
+            {
+              "id": "3",
+              "name": "preferredLanguage",
+              "type": "string",
+              "value": "={{ ($('Find Person by Email (Churn)').item.json.data?.people?.[0]?.preferredLanguage) || 'UNKNOWN' }}"
+            },
+            {
+              "id": "4",
+              "name": "channel",
+              "type": "string",
+              "value": "SUBSCRIPTION"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "cx-build",
+      "name": "Build Goodbye Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1800,
+        1620
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Goodbye email. Fed by BOTH churn branches, so it reads only $json and never\n// references an upstream node by name -- a node that did not run in this execution\n// throws when referenced.\n//\n// Deliberately NOT included: an exit survey, a \"why are you leaving?\", or a discount.\n// methodology.md section 2 documents the real practice -- exit is soft-framed, cordial,\n// and ends cleanly at the billing boundary with no post-cancellation analysis.\n// Automating a retention pitch here would contradict how Ivan actually coaches.\n\nconst T = {\n  SPANISH: (n) => ({\n    subject: `${n}, confirmación de baja`,\n    body:\n`Hola ${n},\n\nTe confirmo que tu suscripción quedó cancelada y no se va a cobrar nada más.\n\nTu acceso al Área de Miembros también quedó dado de baja.\n\nGracias por el tiempo que entrenamos juntos. Si en algún momento querés volver,\nla puerta queda abierta: escribime y lo retomamos.\n\nÉxitos con lo que venga,\nIván Koch\nTriaperformance`\n  }),\n  ENGLISH: (n) => ({\n    subject: `${n}, your subscription has been cancelled`,\n    body:\n`Hi ${n},\n\nConfirming that your subscription has been cancelled and nothing further will be charged.\n\nYour Members Area access has been closed as well.\n\nThanks for the time we trained together. If you ever want to come back, the door is\nopen — just write to me and we pick it up again.\n\nAll the best,\nIvan Koch\nTriaperformance`\n  }),\n  PORTUGUESE: (n) => ({\n    subject: `${n}, confirmação de cancelamento`,\n    body:\n`Olá ${n},\n\nConfirmo que a sua assinatura foi cancelada e nada mais será cobrado.\n\nO seu acesso à Área de Membros também foi encerrado.\n\nObrigado pelo tempo que treinamos juntos. Se em algum momento quiser voltar,\na porta fica aberta — é só me escrever e retomamos.\n\nSucesso no que vier,\nIvan Koch\nTriaperformance`\n  }),\n};\n\nreturn $input.all().map(item => {\n  const d = item.json;\n  const lang = T[d.preferredLanguage] ? d.preferredLanguage : 'SPANISH';\n  const first = String(d.full_name || '').trim().split(/\\s+/)[0] || '';\n  const built = T[lang](first);\n  return { json: { ...d, to: d.email, langUsed: lang,\n                   subject: built.subject, body: built.body,\n                   can_send: Boolean(d.email) } };\n});\n"
+      }
+    },
+    {
+      "id": "cx-send",
+      "name": "Send Goodbye Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        2020,
+        1620
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
+        }
+      },
+      "parameters": {
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $json.to }}",
+        "subject": "={{ $json.subject }}",
+        "emailFormat": "text",
+        "text": "={{ $json.body }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "cx-done",
+      "name": "Telegram - Baja Procesada",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2240,
+        1620
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      },
+      "parameters": {
+        "chatId": "5952194741",
+        "additionalFields": {},
+        "text": "=👋 Baja procesada ({{ $('Build Goodbye Email').item.json.channel }})\nAtleta: {{ $('Build Goodbye Email').item.json.full_name }}\nEmail: {{ $('Build Goodbye Email').item.json.email }}\nTwenty: CHURNED_CUSTOMER + churnDate\nAcceso a members: revocado\nMail de despedida: enviado en {{ $('Build Goodbye Email').item.json.langUsed }}"
+      }
+    }
+  ],
+  "connections": {
+    "Filter - Is CoachMatch Cancellation": {
+      "main": [
+        [
+          {
+            "node": "Parse CoachMatch Cancellation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse CoachMatch Cancellation": {
+      "main": [
+        [
+          {
+            "node": "Fetch Coaching Athletes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Coaching Athletes": {
+      "main": [
+        [
+          {
+            "node": "Match Athlete by Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Match Athlete by Name": {
+      "main": [
+        [
+          {
+            "node": "Match Found?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Match Found?": {
+      "main": [
+        [
+          {
+            "node": "Mark Churned (CoachMatch)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram - Baja Sin Match",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Churned (CoachMatch)": {
+      "main": [
+        [
+          {
+            "node": "Revoke Token (CoachMatch)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Revoke Token (CoachMatch)": {
+      "main": [
+        [
+          {
+            "node": "Churned Athlete (CoachMatch)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Churned Athlete (CoachMatch)": {
+      "main": [
+        [
+          {
+            "node": "Build Goodbye Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Churned Athlete (Subscription)": {
+      "main": [
+        [
+          {
+            "node": "Build Goodbye Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Goodbye Email": {
+      "main": [
+        [
+          {
+            "node": "Send Goodbye Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Goodbye Email": {
+      "main": [
+        [
+          {
+            "node": "Telegram - Baja Procesada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "paste-snippet"
+  }
+}

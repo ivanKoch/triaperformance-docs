@@ -43,7 +43,8 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 - `social-proof-and-reviews.md` — review inventory, quote bank, review-generation playbook, deployment status. Owns the review counts.
 - `content-engine-brief.md` — the status-driven content pipeline design: five agent contracts, data model, cadence, gates.
 - `methodology.md` — coaching methodology: testing protocols, zones, periodization, weekly decision loop, adjustment rules, fueling, race execution, communication voice, AI Coach red lines, worked athlete cases.
-- `athlete-onboarding-flow.md` *(added Aug 8, 2026)* — **home doc for 1:1 athlete onboarding.** Owns the end-to-end task list from "the athlete has paid" to "first block published", both acquisition-channel triggers, the 1:1 exit path, and **the athlete-data-store decision** (Postgres on `analytics-postgres`, keyed by `twenty_person_id` — Twenty holds the commercial record, Postgres the training context, TrainingPeaks a generated mirror). Pre-sale and coaching content stay owned by `methodology.md` §3; this doc points, never restates.
+- `athlete-onboarding-flow.md` *(added Aug 8, 2026; branch closed Aug 9)* — **home doc for 1:1 athlete onboarding, ~17 KB.** Owns what runs today, the athlete-data-store decision, the two acquisition channels, the intake-form redesign and its evidence, the traps that will bite again, what's left, and the standing decisions. Pre-sale and coaching content stay owned by `methodology.md`; technical systems by `ai-infrastructure-documentation.md` §12 and §21. **This doc owns the decisions, that one owns the systems.**
+- `athlete-onboarding-build-log.md` *(split out Aug 9, 2026 — CLOSED)* — the build record for the above: phases, wiring tables, test payloads, the exact shape of every TrainingPeaks email, and the bugs found along the way. **Read only when you need the reasoning behind a past decision or a real email's wording — never as current work.** Split off the day the branch closed, when the home doc had reached 96 KB of which ~60 KB were instructions for building something already built. Same split, same reason, as `open-loops.md` → `open-loops-archive.md`.
 
 **Build, brand & infrastructure**
 
@@ -73,7 +74,7 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 **Data & code**
 
 - `data/` — `training_plans_inventory.csv` (the plan catalog, source of truth for the site build), `plan_weekly_breakdown.csv`, `plan_link_status.json`, `races.csv`, **`plan_sales.csv`** (every transaction since Jan 2023, de-identified) and **`plan_performance.csv`** (per-plan units/gross/earnings joined to the inventory). *Standing rule: customer names and emails never enter this repo — strip them before committing any export, same as the HubSpot contact CSV.*
-- `automation/` — every VPS/cron Python script, the n8n workflow JSON reference copies, `Caddyfile`, `deploy-website.sh`.
+- `automation/` — every VPS/cron Python script, the n8n workflow JSON reference copies, `Caddyfile`, `deploy-website.sh`. *Since Aug 9, 2026 this also covers code that executes **outside** the VPS: `automation/athlete-intake/onFormSubmit.gs` runs inside Google Apps Script. Same rule, same reason — edit the repo copy, paste it there, never the reverse.*
 - `site/` — the Eleventy source. `website/` holds only the permanent `hubfs` route TrainingPeaks hotlinks.
 
 **Meta**
