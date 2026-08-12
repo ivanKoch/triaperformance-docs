@@ -10,6 +10,13 @@ API_URL = "http://100.70.89.17:3000/graphql"
 
 LOST_NO_RESPONSE_DAYS = 7  # days silent after touch 3 before auto-marking lost
 
+# Markets where the CoachMatch n8n workflow deliberately skips WhatsApp outreach
+# (the "Skip WhatsApp Outreach — BR/AR" filter node). Those leads still get
+# created as MESSAGE_SENT and still run the 3-email nurture, so this script --
+# which filtered on leadStatus alone -- kept building WhatsApp nudges for them.
+# Matched lowercased against Twenty's addressCountry.
+NO_WHATSAPP_COUNTRIES = {"brazil", "brasil", "argentina"}
+
 def load_api_key():
     key = os.environ.get("TWENTY_API_KEY")
     if key:
@@ -145,6 +152,7 @@ def main():
             lastTouchpoint
             emailTouchCount
             whatsappTouchCount
+            addressCountry
           }
         }
       }
@@ -172,16 +180,6 @@ def main():
         last = name_obj.get("lastName") or ""
         name = f"{first} {last}".strip() or f"Unknown (ID: {node.get('id')})"
 
-        phones_obj = node.get("phones") or {}
-        phone_number = phones_obj.get("primaryPhoneNumber")
-        calling_code = phones_obj.get("primaryPhoneCallingCode")
-
-        # No phone on file -- already being reached some other way (email),
-        # nothing for this WhatsApp watchdog to do. Skip entirely so it
-        # doesn't clutter the digest.
-        if not phone_number:
-            continue
-
         touchpoint_str = node.get("lastTouchpoint")
         days_since = None
         if touchpoint_str:
@@ -194,7 +192,30 @@ def main():
                 print(f"Error parsing date {touchpoint_str}: {parse_err}", file=sys.stderr)
 
         days_str = f"{int(days_since)} day{'s' if int(days_since) != 1 else ''}" if days_since is not None else "unknown time"
-        email_touch = node.get("emailTouchCount", 0)
+        email_touch = node.get("emailTouchCount") or 0
+
+        # BR/AR leads never get WhatsApp outreach, so there is no nudge to build
+        # and nothing to notify about. They close on the email sequence instead:
+        # all 3 nurture emails sent, then LOST_NO_RESPONSE_DAYS of silence.
+        if (node.get("addressCountry") or "").lower().strip() in NO_WHATSAPP_COUNTRIES:
+            if email_touch >= 3 and days_since is not None and days_since > LOST_NO_RESPONSE_DAYS:
+                result = mark_lost(node.get("id"))
+                if result is None:
+                    lost_lines.append(f"- {name} · ⚠️ tried to mark LOST_NO_RESPONSE but the Twenty update failed")
+                else:
+                    lost_lines.append(f"- {name} · {days_str} since last touch, no response after 3 emails · marked LOST_NO_RESPONSE")
+            continue
+
+        phones_obj = node.get("phones") or {}
+        phone_number = phones_obj.get("primaryPhoneNumber")
+        calling_code = phones_obj.get("primaryPhoneCallingCode")
+
+        # No phone on file -- already being reached some other way (email),
+        # nothing for this WhatsApp watchdog to do. Skip entirely so it
+        # doesn't clutter the digest.
+        if not phone_number:
+            continue
+
         # Every MESSAGE_SENT lead is created with whatsappTouchCount = 1 by the
         # n8n workflow, so this should never actually be missing -- the "or 1"
         # is just a defensive fallback, not an expected path.
