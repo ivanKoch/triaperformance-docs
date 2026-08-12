@@ -4,6 +4,75 @@ triaperformance.com {
         Referrer-Policy "no-referrer-when-downgrade"
     }
 
+    # -------------------------------------------------------------------------
+    # Cache-Control (added August 12, 2026)
+    #
+    # Until now Caddy sent no Cache-Control for anything, so every cache fell
+    # back to HEURISTIC freshness -- it guesses a lifetime from Last-Modified.
+    # That is what cost an afternoon on August 6 (see the `v` filter in
+    # .eleventy.js): a phone ran two-versions-old JS against current CSS, a
+    # combination that cannot work and looks exactly like a code bug.
+    #
+    # The `?v=<md5>` filter fixed correctness. These headers make the caching
+    # DELIBERATE rather than a guess, and -- more importantly -- the no-cache
+    # rule on documents below is what makes the `?v=` scheme actually work at
+    # all. Versioned asset URLs only help if the HTML carrying them is fresh;
+    # a heuristically-cached HTML page serves yesterday's ?v= values and pins
+    # the old assets. The two halves are one mechanism.
+    #
+    # THE TIERS ARE NOT COSMETIC -- `immutable` is only safe where the URL is
+    # content-addressed, and only css/js are. Verified against a clean build on
+    # August 12, 2026, not assumed:
+    #     /assets/css   755 of 755 refs carry ?v=   -> safe
+    #     /assets/js    334 of 334 refs carry ?v=   -> safe
+    #     /assets/images  0 of 1037                 -> NOT safe
+    #     /assets/guias   0 of 6                    -> NOT safe
+    # A blanket `/assets/* immutable` rule -- which is how this item was
+    # originally written down -- would have pinned every image and all five
+    # lead-magnet PDFs for a year with no way to bust them. Updating a guide
+    # would never have reached anyone who had already downloaded it, and the
+    # weight-loss nutrition guide is a planned new one. Keep the tiers separate.
+    #
+    # Matchers are mutually exclusive by construction, so their order here does
+    # not matter and cannot be broken by editing. That is deliberate: the
+    # members-area gates below DO depend on order, and one file should not have
+    # two different rules about whether order matters.
+    # -------------------------------------------------------------------------
+
+    # Content-addressed via ?v=<md5>. A changed file is a changed URL, so the
+    # old one can be cached forever. `immutable` additionally stops the
+    # revalidation request browsers send on reload.
+    @assetsHashed path /assets/css/* /assets/js/*
+    header @assetsHashed Cache-Control "public, max-age=31536000, immutable"
+
+    # Unversioned, but they change rarely. A week is long enough to be worth
+    # having and short enough that a replaced hero image self-corrects without
+    # a cache purge. No `immutable`: the URL is not content-addressed.
+    @assetsImages path /assets/images/*
+    header @assetsImages Cache-Control "public, max-age=604800"
+
+    # Lead-magnet PDFs. Deliberately the shortest asset lifetime: these are the
+    # deliverable of the nurture sequences, they get revised, and the redirects
+    # at the bottom of this block mean an old copy can outlive its own URL.
+    @assetsGuias path /assets/guias/*
+    header @assetsGuias Cache-Control "public, max-age=3600"
+
+    # Paid and admin content must never be stored by a shared cache. `private`
+    # excludes intermediaries; `no-store` also keeps it off local disk.
+    @gated path /members/* /admin/*
+    header @gated Cache-Control "private, no-store"
+
+    # Everything else = HTML documents. `no-cache` does NOT mean "do not
+    # store" -- it means "revalidate before serving", so a 304 still costs
+    # nothing when the page is unchanged. This is the rule the ?v= scheme
+    # depends on. Matched by exclusion because pages are served at
+    # extension-less paths (/planes/p/<slug>/), so there is no *.html to match.
+    # /api/* is excluded and left alone: those are proxied POSTs to n8n.
+    @documents {
+        not path /assets/* /members/* /admin/* /api/*
+    }
+    header @documents Cache-Control "no-cache"
+
     # Content-engine admin (idea review). Single user, so a basic_auth line is the
     # whole requirement — the members area needs per-subscriber tokens because
     # revoking one must not affect the others, which does not apply here.

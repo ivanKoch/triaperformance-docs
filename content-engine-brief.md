@@ -273,6 +273,14 @@ Each phase ships a durable asset — per the standing rule from `memory.md` that
 1. **Affiliate programs** — nothing exists yet. Which programs, and apply now (the Amazon 180-day clock argues for starting the application before the build).
 2. **Instagram account type** — is it currently a Business account linked to a Facebook Page? Graph API publishing requires it.
 3. **LinkedIn track identity** — personal profile, or a separate brand? Affects whether it's genuinely separable from Triaperformance later.
-4. **Blog architecture** — the site is currently hand-written static HTML. 100+ articles across 3 languages needs at least a build step (markdown → HTML with hreflang). Worth deciding before article #1, not article #40.
-5. **Where the blog lives in the site IA** — `/blog/`, `/es/blog/`, subdomain? Affects hreflang and the storefront SEO plan.
-6. **Does content sit inside or outside the paywall** — presumably outside (it's acquisition), but the tools library is inside. The boundary should be explicit.
+4. ~~**Blog architecture** — the site is currently hand-written static HTML. 100+ articles across 3 languages needs at least a build step (markdown → HTML with hreflang). Worth deciding before article #1, not article #40.~~
+5. ~~**Where the blog lives in the site IA** — `/blog/`, `/es/blog/`, subdomain? Affects hreflang and the storefront SEO plan.~~
+6. ~~**Does content sit inside or outside the paywall** — presumably outside (it's acquisition), but the tools library is inside. The boundary should be explicit.~~
+
+*Items 4, 5 and 6 closed August 12, 2026 — all three were **settled by the Eleventy build**, not by a decision taken in this list, which is why they sat here reading as open long after they had answers. Flagged as struck in `open-loops.md` on Aug 8; struck properly here today.*
+
+- **4 — decided: Eleventy.** The premise ("the site is currently hand-written static HTML") stopped being true at the cutover. Markdown → HTML with a real build step exists; hreflang is emitted automatically from the `transKey` front-matter field rather than hand-maintained per article. Detail: `website-build-cutover-runbook.md`.
+- **5 — decided: `/blog/` for Spanish, `/en/blog/` and `/pt/blog/` for the other two** — matching the public site's language-prefix convention, with Spanish unprefixed at the root. Not a subdomain. *(Note the deliberate contrast with the members area, which uses language as a path **segment** — `/members/en/` — so that one Caddy auth tree covers all three. Public site prefixes, gated area segments; both are correct for their own reason. See `open-loops.md` NOW.)*
+- **6 — decided: content sits outside the paywall, tools inside.** The boundary is exactly the one already enforced in Caddy: `/blog/*` is public and indexable, `/members/*` is gated and `noindex, nofollow`. Articles are acquisition and are supposed to be crawled; the tools library is the thing All-Access is actually selling.
+
+**Items 1, 2 and 3 above remain genuinely open** — affiliate programs is tracked as NEXT #9 in `open-loops.md`, Instagram account type and LinkedIn identity are parked in LATER. Do not strike those.

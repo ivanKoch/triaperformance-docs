@@ -295,7 +295,7 @@
       ],
       "parameters": {
         "operation": "executeQuery",
-        "query": "INSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)\nVALUES ($1, $2, $3, $4, TRUE)\nON CONFLICT (token) DO NOTHING;",
+        "query": "-- Same whitelist as the coaching insert below. This node had a bare $4,\n-- which cannot violate NOT NULL but WILL store whatever arrives verbatim --\n-- a literal 'UNKNOWN' or a leaked '=UNKNOWN' -- and app.py then silently\n-- routes that subscriber to Spanish. Corrected 2026-08-12: garbage becomes\n-- SPANISH in the column, so the stored value matches the behaviour.\nINSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)\nVALUES ($1, $2, $3, CASE WHEN $4 IN ('SPANISH', 'ENGLISH', 'PORTUGUESE') THEN $4 ELSE 'SPANISH' END, TRUE)\nON CONFLICT (token) DO NOTHING;",
         "options": {
           "queryReplacement": "={{ $('Subscriber Upserted').item.json.personId }},{{ $('Map Language + Build Twenty Fields').item.json.email }},{{ $json.member_token }},{{ $('Map Language + Build Twenty Fields').item.json.preferredLanguage }}"
         }
@@ -1050,7 +1050,7 @@
       ],
       "parameters": {
         "operation": "executeQuery",
-        "query": "INSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)\nVALUES ($1, $2, $3, NULLIF($4, 'UNKNOWN'), TRUE)\nON CONFLICT (token) DO NOTHING;",
+        "query": "-- preferred_language is NOT NULL DEFAULT 'SPANISH'. The DEFAULT does NOT\n-- rescue a NULL: a default applies only when the column is ABSENT from the\n-- INSERT, never when it is present and NULL. This used to read\n-- NULLIF($4, 'UNKNOWN'), which produces exactly that NULL and would have\n-- failed the insert -- leaving a new coaching athlete with a Twenty record\n-- and a welcome email but no members-area token. Corrected 2026-08-12.\n-- Whitelist rather than blacklist: any value that is not one of the three\n-- real enum members becomes SPANISH, which is the same fallback app.py\n-- already applies when it reads this column. NULL takes the ELSE branch too.\nINSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)\nVALUES ($1, $2, $3, CASE WHEN $4 IN ('SPANISH', 'ENGLISH', 'PORTUGUESE') THEN $4 ELSE 'SPANISH' END, TRUE)\nON CONFLICT (token) DO NOTHING;",
         "options": {
           "queryReplacement": "={{ $('Coaching Athlete Upserted').item.json.personId }},{{ $('Normalize Coaching Athlete').item.json.email }},{{ $json.member_token }},{{ $('Coaching Athlete Upserted').item.json.preferredLanguage }}"
         }

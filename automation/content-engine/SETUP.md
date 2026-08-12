@@ -83,10 +83,13 @@ pip3 install psycopg2-binary --break-system-packages
 ```
 
 ```bash
-export CONTENT_DB_DSN="postgres://analytics:PASSWORD@127.0.0.1:5432/content"
+export PG_HOST=127.0.0.1 PG_PORT=5432 PG_USER=analytics PG_DB_CONTENT=content
+export PG_PASSWORD=$(grep '^PG_PASSWORD=' ~/.analytics/.env | cut -d= -f2- | tr -d "\"'")
 export GOOGLE_API_KEY="the key already in ~/.hermes/.env"
 python3 research_agent.py --dry-run
 ```
+
+*Corrected August 12, 2026 — this block used to read `export CONTENT_DB_DSN="postgres://analytics:PASSWORD@127.0.0.1:5432/content"`. **Do not set `CONTENT_DB_DSN`.** The analytics Postgres password contains `:` and `@`, both of which are URI delimiters, so pasting it into a `postgres://` string silently truncates the password and the connection fails with an authentication error that points at the wrong thing. `research_agent.py` assembles the connection from discrete `PG_*` values at `connect()` (it reads `~/.analytics/.env` itself if the variables aren't exported), and `admin_service/app.py` prefers `CONTENT_DB_DSN` **only when it is set** — so leaving it unset is what makes the discrete path win. URL-encoding the password would also work and is the wrong fix: it puts a hand-encoded secret in a shell history.*
 
 Read the ideas. This is the moment that decides whether the whole approach is worth continuing — if the ideas are generic, the fix is the prompt and the asset inputs, not more automation downstream.
 
@@ -107,8 +110,21 @@ docker build -t tp-admin ~/.hermes/triaperformance-docs/automation/content-engin
 ```
 
 ```bash
-docker run -d --name tp-admin --restart unless-stopped --network host -e CONTENT_DB_DSN="postgres://analytics:$PGPW@127.0.0.1:5432/content" tp-admin
+docker run -d --name tp-admin --restart unless-stopped --network host \
+  -e PG_HOST=127.0.0.1 -e PG_PORT=5432 -e PG_USER=analytics -e PG_DB_CONTENT=content \
+  -e PG_PASSWORD="$PGPW" \
+  tp-admin
 ```
+
+*Corrected August 12, 2026 — this line used to pass `-e CONTENT_DB_DSN="postgres://analytics:$PGPW@127.0.0.1:5432/content"`. Same tripwire as Step 3: `$PGPW` contains `:` and `@`, so the URI form silently truncates the password. `app.py` uses `CONTENT_DB_DSN` when set and otherwise builds the connection from `PG_HOST`/`PG_PORT`/`PG_USER`/`PG_PASSWORD`/`PG_DB_CONTENT` — so the fix is to pass the discrete variables and never set the DSN. `PG_PASSWORD` is quoted for the same reason.*
+
+If the container is already running from the old DSN form, recreate it rather than editing it — Docker environment variables are fixed at `docker run`:
+
+```bash
+docker rm -f tp-admin
+```
+
+…then re-run the `docker run` command above.
 
 Check it can see the database:
 

@@ -62,7 +62,7 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 - `contact-form-pipeline-runbook.md` — website form → Caddy → n8n → Twenty.
 - `plan-lead-pipeline-runbook.md` — the plan-catalog email-capture backend spec. Caddy route deployed; n8n import + Twenty enum unconfirmed as of Aug 6, 2026.
 - `automation/members-area/OPERATIONS.md` — subscriber tokens, access grants/revocations, the psql queries.
-- `automation/content-engine/SETUP.md` — the content engine's setup. *(Corrected Aug 6, 2026 — this read "the research agent, written but not deployed"; both agents plus translation have been live on cron since Aug 4. Note the file itself still documents `tp-admin` with `CONTENT_DB_DSN`, which is wrong and is logged as an open item.)*
+- `automation/content-engine/SETUP.md` — the content engine's setup. *(Corrected Aug 6, 2026 — this read "the research agent, written but not deployed"; both agents plus translation have been live on cron since Aug 4. ~~Note the file itself still documents `tp-admin` with `CONTENT_DB_DSN`, which is wrong and is logged as an open item.~~ **Corrected Aug 12, 2026** — Steps 3 and 4 now both use discrete `PG_*` variables; do not re-raise.)*
 - `automation/coaching-checkin/monday-message-voice-guide.md` — voice for the Monday check-in.
 
 **Working docs (project-specific, may go stale by design)**
