@@ -1,208 +1,208 @@
 triaperformance.com {
-    root * /var/www/triaperformance
-    header {
-        Referrer-Policy "no-referrer-when-downgrade"
-    }
+	root * /var/www/triaperformance
+	header {
+		Referrer-Policy "no-referrer-when-downgrade"
+	}
 
-    # -------------------------------------------------------------------------
-    # Cache-Control (added August 12, 2026)
-    #
-    # Until now Caddy sent no Cache-Control for anything, so every cache fell
-    # back to HEURISTIC freshness -- it guesses a lifetime from Last-Modified.
-    # That is what cost an afternoon on August 6 (see the `v` filter in
-    # .eleventy.js): a phone ran two-versions-old JS against current CSS, a
-    # combination that cannot work and looks exactly like a code bug.
-    #
-    # The `?v=<md5>` filter fixed correctness. These headers make the caching
-    # DELIBERATE rather than a guess, and -- more importantly -- the no-cache
-    # rule on documents below is what makes the `?v=` scheme actually work at
-    # all. Versioned asset URLs only help if the HTML carrying them is fresh;
-    # a heuristically-cached HTML page serves yesterday's ?v= values and pins
-    # the old assets. The two halves are one mechanism.
-    #
-    # THE TIERS ARE NOT COSMETIC -- `immutable` is only safe where the URL is
-    # content-addressed, and only css/js are. Verified against a clean build on
-    # August 12, 2026, not assumed:
-    #     /assets/css   755 of 755 refs carry ?v=   -> safe
-    #     /assets/js    334 of 334 refs carry ?v=   -> safe
-    #     /assets/images  0 of 1037                 -> NOT safe
-    #     /assets/guias   0 of 6                    -> NOT safe
-    # A blanket `/assets/* immutable` rule -- which is how this item was
-    # originally written down -- would have pinned every image and all five
-    # lead-magnet PDFs for a year with no way to bust them. Updating a guide
-    # would never have reached anyone who had already downloaded it, and the
-    # weight-loss nutrition guide is a planned new one. Keep the tiers separate.
-    #
-    # Matchers are mutually exclusive by construction, so their order here does
-    # not matter and cannot be broken by editing. That is deliberate: the
-    # members-area gates below DO depend on order, and one file should not have
-    # two different rules about whether order matters.
-    # -------------------------------------------------------------------------
+	# -------------------------------------------------------------------------
+	# Cache-Control (added August 12, 2026)
+	#
+	# Until now Caddy sent no Cache-Control for anything, so every cache fell
+	# back to HEURISTIC freshness -- it guesses a lifetime from Last-Modified.
+	# That is what cost an afternoon on August 6 (see the `v` filter in
+	# .eleventy.js): a phone ran two-versions-old JS against current CSS, a
+	# combination that cannot work and looks exactly like a code bug.
+	#
+	# The `?v=<md5>` filter fixed correctness. These headers make the caching
+	# DELIBERATE rather than a guess, and -- more importantly -- the no-cache
+	# rule on documents below is what makes the `?v=` scheme actually work at
+	# all. Versioned asset URLs only help if the HTML carrying them is fresh;
+	# a heuristically-cached HTML page serves yesterday's ?v= values and pins
+	# the old assets. The two halves are one mechanism.
+	#
+	# THE TIERS ARE NOT COSMETIC -- `immutable` is only safe where the URL is
+	# content-addressed, and only css/js are. Verified against a clean build on
+	# August 12, 2026, not assumed:
+	#     /assets/css   755 of 755 refs carry ?v=   -> safe
+	#     /assets/js    334 of 334 refs carry ?v=   -> safe
+	#     /assets/images  0 of 1037                 -> NOT safe
+	#     /assets/guias   0 of 6                    -> NOT safe
+	# A blanket `/assets/* immutable` rule -- which is how this item was
+	# originally written down -- would have pinned every image and all five
+	# lead-magnet PDFs for a year with no way to bust them. Updating a guide
+	# would never have reached anyone who had already downloaded it, and the
+	# weight-loss nutrition guide is a planned new one. Keep the tiers separate.
+	#
+	# Matchers are mutually exclusive by construction, so their order here does
+	# not matter and cannot be broken by editing. That is deliberate: the
+	# members-area gates below DO depend on order, and one file should not have
+	# two different rules about whether order matters.
+	# -------------------------------------------------------------------------
 
-    # Content-addressed via ?v=<md5>. A changed file is a changed URL, so the
-    # old one can be cached forever. `immutable` additionally stops the
-    # revalidation request browsers send on reload.
-    @assetsHashed path /assets/css/* /assets/js/*
-    header @assetsHashed Cache-Control "public, max-age=31536000, immutable"
+	# Content-addressed via ?v=<md5>. A changed file is a changed URL, so the
+	# old one can be cached forever. `immutable` additionally stops the
+	# revalidation request browsers send on reload.
+	@assetsHashed path /assets/css/* /assets/js/*
+	header @assetsHashed Cache-Control "public, max-age=31536000, immutable"
 
-    # Unversioned, but they change rarely. A week is long enough to be worth
-    # having and short enough that a replaced hero image self-corrects without
-    # a cache purge. No `immutable`: the URL is not content-addressed.
-    @assetsImages path /assets/images/*
-    header @assetsImages Cache-Control "public, max-age=604800"
+	# Unversioned, but they change rarely. A week is long enough to be worth
+	# having and short enough that a replaced hero image self-corrects without
+	# a cache purge. No `immutable`: the URL is not content-addressed.
+	@assetsImages path /assets/images/*
+	header @assetsImages Cache-Control "public, max-age=604800"
 
-    # Lead-magnet PDFs. Deliberately the shortest asset lifetime: these are the
-    # deliverable of the nurture sequences, they get revised, and the redirects
-    # at the bottom of this block mean an old copy can outlive its own URL.
-    @assetsGuias path /assets/guias/*
-    header @assetsGuias Cache-Control "public, max-age=3600"
+	# Lead-magnet PDFs. Deliberately the shortest asset lifetime: these are the
+	# deliverable of the nurture sequences, they get revised, and the redirects
+	# at the bottom of this block mean an old copy can outlive its own URL.
+	@assetsGuias path /assets/guias/*
+	header @assetsGuias Cache-Control "public, max-age=3600"
 
-    # Paid and admin content must never be stored by a shared cache. `private`
-    # excludes intermediaries; `no-store` also keeps it off local disk.
-    @gated path /members/* /admin/*
-    header @gated Cache-Control "private, no-store"
+	# Paid and admin content must never be stored by a shared cache. `private`
+	# excludes intermediaries; `no-store` also keeps it off local disk.
+	@gated path /members/* /admin/*
+	header @gated Cache-Control "private, no-store"
 
-    # Everything else = HTML documents. `no-cache` does NOT mean "do not
-    # store" -- it means "revalidate before serving", so a 304 still costs
-    # nothing when the page is unchanged. This is the rule the ?v= scheme
-    # depends on. Matched by exclusion because pages are served at
-    # extension-less paths (/planes/p/<slug>/), so there is no *.html to match.
-    # /api/* is excluded and left alone: those are proxied POSTs to n8n.
-    @documents {
-        not path /assets/* /members/* /admin/* /api/*
-    }
-    header @documents Cache-Control "no-cache"
+	# Everything else = HTML documents. `no-cache` does NOT mean "do not
+	# store" -- it means "revalidate before serving", so a 304 still costs
+	# nothing when the page is unchanged. This is the rule the ?v= scheme
+	# depends on. Matched by exclusion because pages are served at
+	# extension-less paths (/planes/p/<slug>/), so there is no *.html to match.
+	# /api/* is excluded and left alone: those are proxied POSTs to n8n.
+	@documents {
+		not path /assets/* /members/* /admin/* /api/*
+	}
+	header @documents Cache-Control "no-cache"
 
-    # Content-engine admin (idea review). Single user, so a basic_auth line is the
-    # whole requirement — the members area needs per-subscriber tokens because
-    # revoking one must not affect the others, which does not apply here.
-    # Must sit above the general file_server or /admin/* is served from the static
-    # webroot, where it does not exist, and returns 404.
-    handle /admin/* {
-        basic_auth {
-            ivan $2a$14$adW9sEQJhHnRK3E5XB4UGOmbZ0cD5GgPhP3N8SpU0SsuZF9QhJpFS
-        }
-        reverse_proxy 127.0.0.1:8092
-    }
+	# Content-engine admin (idea review). Single user, so a basic_auth line is the
+	# whole requirement — the members area needs per-subscriber tokens because
+	# revoking one must not affect the others, which does not apply here.
+	# Must sit above the general file_server or /admin/* is served from the static
+	# webroot, where it does not exist, and returns 404.
+	handle /admin/* {
+		basic_auth {
+			ivan $2a$14$adW9sEQJhHnRK3E5XB4UGOmbZ0cD5GgPhP3N8SpU0SsuZF9QhJpFS
+		}
+		reverse_proxy 127.0.0.1:8092
+	}
 
-    # Members area, three languages (extended August 10, 2026).
-    #
-    # Language lives in a path SEGMENT under /members/, not as a language prefix
-    # like the public site (/en/plans/, /pt/planos/). That was a deliberate
-    # choice: it keeps one auth tree, so the gate below cannot be accidentally
-    # bypassed for a whole language by an ordering mistake in this file. The
-    # area is noindex, so the URL shape costs nothing.
-    #
-    # Paths are listed explicitly rather than wildcarded. A wildcard typo here
-    # is the difference between "a page is public" and "paid content is public",
-    # and explicit paths cannot fail that way.
-    # All twelve paths on ONE `path` line: Caddy rejects the same matcher token
-    # appearing twice inside a single named matcher set, so splitting these
-    # across three readable lines fails to parse rather than doing what it looks
-    # like it does.
-    @membersPublicPages {
-        path /members/login /members/login/ /members/forgot-password /members/forgot-password/ /members/en/login /members/en/login/ /members/en/forgot-password /members/en/forgot-password/ /members/pt/login /members/pt/login/ /members/pt/forgot-password /members/pt/forgot-password/
-        method GET
-    }
-    handle @membersPublicPages {
-        file_server
-    }
+	# Members area, three languages (extended August 10, 2026).
+	#
+	# Language lives in a path SEGMENT under /members/, not as a language prefix
+	# like the public site (/en/plans/, /pt/planos/). That was a deliberate
+	# choice: it keeps one auth tree, so the gate below cannot be accidentally
+	# bypassed for a whole language by an ordering mistake in this file. The
+	# area is noindex, so the URL shape costs nothing.
+	#
+	# Paths are listed explicitly rather than wildcarded. A wildcard typo here
+	# is the difference between "a page is public" and "paid content is public",
+	# and explicit paths cannot fail that way.
+	# All twelve paths on ONE `path` line: Caddy rejects the same matcher token
+	# appearing twice inside a single named matcher set, so splitting these
+	# across three readable lines fails to parse rather than doing what it looks
+	# like it does.
+	@membersPublicPages {
+		path /members/login /members/login/ /members/forgot-password /members/forgot-password/ /members/en/login /members/en/login/ /members/en/forgot-password /members/en/forgot-password/ /members/pt/login /members/pt/login/ /members/pt/forgot-password /members/pt/forgot-password/
+		method GET
+	}
+	handle @membersPublicPages {
+		file_server
+	}
 
-    # One POST endpoint per action for all three languages -- the EN and PT login
-    # and recovery pages post here too. The language they should be treated as
-    # travels in the request body, not the URL.
-    @membersAuthPost {
-        path /members/login /members/logout
-        method POST
-    }
-    handle @membersAuthPost {
-        reverse_proxy 127.0.0.1:8091
-    }
+	# One POST endpoint per action for all three languages -- the EN and PT login
+	# and recovery pages post here too. The language they should be treated as
+	# travels in the request body, not the URL.
+	@membersAuthPost {
+		path /members/login /members/logout
+		method POST
+	}
+	handle @membersAuthPost {
+		reverse_proxy 127.0.0.1:8091
+	}
 
-    @membersForgotPost {
-        path /members/forgot-password
-        method POST
-    }
-    handle @membersForgotPost {
-        rewrite * /webhook/resend-password
-        reverse_proxy 100.70.89.17:5678
-    }
+	@membersForgotPost {
+		path /members/forgot-password
+		method POST
+	}
+	handle @membersForgotPost {
+		rewrite * /webhook/resend-password
+		reverse_proxy 100.70.89.17:5678
+	}
 
-    # Three gates, identical except for the login page an unauthenticated
-    # visitor is bounced to. ORDER MATTERS: /members/en/* and /members/pt/* must
-    # be evaluated before the catch-all /members/*, or they never match and
-    # every gated EN/PT athlete lands on the Spanish login screen. Anything
-    # under /members/ that is not en/ or pt/ falls through to the ES gate, which
-    # is the correct default -- a new subtree is gated, not exposed.
-    handle /members/en/* {
-        forward_auth 127.0.0.1:8091 {
-            uri /members/check
-            copy_headers Cookie
+	# Three gates, identical except for the login page an unauthenticated
+	# visitor is bounced to. ORDER MATTERS: /members/en/* and /members/pt/* must
+	# be evaluated before the catch-all /members/*, or they never match and
+	# every gated EN/PT athlete lands on the Spanish login screen. Anything
+	# under /members/ that is not en/ or pt/ falls through to the ES gate, which
+	# is the correct default -- a new subtree is gated, not exposed.
+	handle /members/en/* {
+		forward_auth 127.0.0.1:8091 {
+			uri /members/check
+			copy_headers Cookie
 
-            @denied status 401
-            handle_response @denied {
-                redir * /members/en/login?next={http.request.orig_uri} 302
-            }
-        }
-        file_server
-    }
+			@denied status 401
+			handle_response @denied {
+				redir * /members/en/login?next={http.request.orig_uri} 302
+			}
+		}
+		file_server
+	}
 
-    handle /members/pt/* {
-        forward_auth 127.0.0.1:8091 {
-            uri /members/check
-            copy_headers Cookie
+	handle /members/pt/* {
+		forward_auth 127.0.0.1:8091 {
+			uri /members/check
+			copy_headers Cookie
 
-            @denied status 401
-            handle_response @denied {
-                redir * /members/pt/login?next={http.request.orig_uri} 302
-            }
-        }
-        file_server
-    }
+			@denied status 401
+			handle_response @denied {
+				redir * /members/pt/login?next={http.request.orig_uri} 302
+			}
+		}
+		file_server
+	}
 
-    handle /members/* {
-        forward_auth 127.0.0.1:8091 {
-            uri /members/check
-            copy_headers Cookie
+	handle /members/* {
+		forward_auth 127.0.0.1:8091 {
+			uri /members/check
+			copy_headers Cookie
 
-            @denied status 401
-            handle_response @denied {
-                redir * /members/login?next={http.request.orig_uri} 302
-            }
-        }
-        file_server
-    }
+			@denied status 401
+			handle_response @denied {
+				redir * /members/login?next={http.request.orig_uri} 302
+			}
+		}
+		file_server
+	}
 
-    route /api/plan-lead {
-        rewrite * /webhook/plan-lead
-        reverse_proxy 100.70.89.17:5678 {
-            header_up Host {upstream_hport}
-        }
-    }
+	route /api/plan-lead {
+		rewrite * /webhook/plan-lead
+		reverse_proxy 100.70.89.17:5678 {
+			header_up Host {upstream_hport}
+		}
+	}
 
-    route /api/contact-form {
-        rewrite * /webhook/contact-form
-        reverse_proxy 100.70.89.17:5678
-    }
+	route /api/contact-form {
+		rewrite * /webhook/contact-form
+		reverse_proxy 100.70.89.17:5678
+	}
 
-    # Athlete intake form (Google Forms -> Apps Script onFormSubmit -> here -> n8n).
-    # The `rewrite` line is mandatory, not cosmetic: n8n serves every webhook under
-    # an internal `webhook/` prefix, so proxying the raw path 404s at the Express
-    # layer even though the proxy itself is working. Cost real debugging time on
-    # /api/contact-form in July 2026 -- see contact-form-pipeline-runbook.md.
-    route /api/athlete-intake {
-        rewrite * /webhook/athlete-intake
-        reverse_proxy 100.70.89.17:5678
-    }
+	# Athlete intake form (Google Forms -> Apps Script onFormSubmit -> here -> n8n).
+	# The `rewrite` line is mandatory, not cosmetic: n8n serves every webhook under
+	# an internal `webhook/` prefix, so proxying the raw path 404s at the Express
+	# layer even though the proxy itself is working. Cost real debugging time on
+	# /api/contact-form in July 2026 -- see contact-form-pipeline-runbook.md.
+	route /api/athlete-intake {
+		rewrite * /webhook/athlete-intake
+		reverse_proxy 100.70.89.17:5678
+	}
 
-    redir /guias/zonas-de-entrenamiento.pdf /assets/guias/zonas-de-entrenamiento.pdf permanent
-    redir /guias/pre-entreno.pdf /assets/guias/pre-entreno.pdf permanent
-    redir /guias/intervalos.pdf /assets/guias/intervalos.pdf permanent
+	redir /guias/zonas-de-entrenamiento.pdf /assets/guias/zonas-de-entrenamiento.pdf permanent
+	redir /guias/pre-entreno.pdf /assets/guias/pre-entreno.pdf permanent
+	redir /guias/intervalos.pdf /assets/guias/intervalos.pdf permanent
 
-    file_server
-    encode gzip
+	file_server
+	encode gzip
 }
 
 www.triaperformance.com {
-    redir https://triaperformance.com{uri} permanent
+	redir https://triaperformance.com{uri} permanent
 }

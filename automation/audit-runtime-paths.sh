@@ -40,6 +40,18 @@ set -uo pipefail
 
 REPO="${REPO:-$HOME/.hermes/triaperformance-docs}"
 
+# Other absolute paths that ARE the same clone seen from somewhere else.
+#
+# Added after the first real run (Aug 12, 2026) reported both Hermes dispatchers
+# as orphans. They were correct: the §18 note of August 1 records that Hermes
+# runs in Docker with the host's ~/.hermes mounted as /opt/data, so a dispatcher
+# MUST reference /opt/data/triaperformance-docs to work at run time. A string
+# comparison against the host path calls that a bug. It is the opposite of a bug.
+#
+# The lesson is the same one this whole script is about, turned on itself: the
+# path a runtime uses is not always the path you type.
+REPO_ALIASES="${REPO_ALIASES:-/opt/data/triaperformance-docs}"
+
 ok=0; bad=0; manual=0
 
 c_ok=$'\033[32m';  c_bad=$'\033[31m';  c_man=$'\033[33m'
@@ -57,9 +69,31 @@ hdr()    { echo; echo "${c_hdr}=== $1 ===${c_off}"; }
 in_repo() {
   local p="${1:-}"
   [ -n "$p" ] || return 1
+  # Expand a leading ~ before comparing. Cron lines are written with tildes far
+  # more often than not, and the first real run flagged a perfectly correct
+  # `cd ~/.hermes/triaperformance-docs && git pull` line as suspect purely
+  # because "~" is not "/root".
+  case "$p" in "~/"*) p="$HOME/${p#\~/}" ;; esac
   local rp; rp="$(readlink -f "$p" 2>/dev/null || echo "$p")"
   local rr; rr="$(readlink -f "$REPO" 2>/dev/null || echo "$REPO")"
-  case "$rp" in "$rr"/*|"$rr") return 0 ;; *) return 1 ;; esac
+  case "$rp" in "$rr"/*|"$rr") return 0 ;; esac
+  local a
+  for a in $REPO_ALIASES; do
+    case "$rp" in "$a"/*|"$a") return 0 ;; esac
+  done
+  return 1
+}
+
+# Does this text reference the clone by ANY of its names? Used for cron lines and
+# dispatcher bodies, where we have a string rather than a path to resolve.
+mentions_repo() {
+  local s="${1:-}" a
+  case "$s" in *"$REPO"*) return 0 ;; esac
+  case "$s" in *"~/${REPO#$HOME/}"*) return 0 ;; esac
+  for a in $REPO_ALIASES; do
+    case "$s" in *"$a"*) return 0 ;; esac
+  done
+  return 1
 }
 
 echo "Runtime-path audit — $(date -Is)"
@@ -94,15 +128,35 @@ else
     src="${bctx:-${wdir:-$cfgf}}"
 
     if [ -n "$src" ] && [ "$src" != "<no value>" ]; then
-      if in_repo "$src"; then pass "container $name -> $src"
-      else fail "container $name -> $src   (compose builds from outside the clone)"; fi
+      if in_repo "$src"; then
+        pass "container $name -> $src"
+      elif [ -n "$bctx" ] && [ "$bctx" != "<no value>" ]; then
+        # A real build context outside the clone. This one is unambiguous.
+        fail "container $name build context $bctx   (compose builds from outside the clone)"
+      else
+        # ONLY working_dir was available -- that is where the compose FILE lives,
+        # which is NOT the same question as where the image is built from.
+        # The members-area compose file deliberately sits outside git because it
+        # holds the DB password, while its `build:` context points into the clone
+        # (fixed Aug 10, 2026). Reporting that as OUTSIDE, as the first version of
+        # this script did, says a fixed thing is broken -- the most expensive kind
+        # of false positive, because it invites re-fixing something correct.
+        review "container $name — compose file at $src, build context NOT recorded in labels. Where the compose file lives is not where the image is built from. Settle it by reading the file:
+             grep -n -A4 -E 'build:|image:' $src/docker-compose.y*ml"
+      fi
     else
-      # No compose labels. Bind mounts are the other way live code gets in.
-      mounts=$(docker inspect "$name" --format '{{range .Mounts}}{{if eq .Type "bind"}}{{.Source}} {{end}}{{end}}' 2>/dev/null)
+      # No compose labels. Bind mounts are the other way live code gets in --
+      # but MOST bind mounts are data, not code (a database's data directory, an
+      # app's state dir), and third-party containers legitimately live outside
+      # the clone entirely. The first run flagged the Postgres data volume as
+      # "live code from outside the clone", which is nonsense and buried the two
+      # findings that mattered under fourteen that didn't. Report, don't judge.
+      mounts=$(docker inspect "$name" --format '{{range .Mounts}}{{if eq .Type "bind"}}{{.Source}}:{{.Destination}} {{end}}{{end}}' 2>/dev/null)
       if [ -n "${mounts// /}" ]; then
         for m in $mounts; do
-          if in_repo "$m"; then pass "container $name bind-mounts $m"
-          else fail "container $name bind-mounts $m   (live code from outside the clone)"; fi
+          msrc="${m%%:*}"
+          if in_repo "$msrc"; then pass "container $name bind-mounts $m"
+          else review "container $name bind-mounts $m — data or third-party state is expected here and is fine. Only a concern if OUR source lives at $msrc."; fi
         done
       else
         review "container $name — no compose labels, no bind mounts. Built by a bare \`docker build\`, so its source path is NOT recorded anywhere. Find the Dockerfile you built from by hand and confirm it sits in the clone."
@@ -124,19 +178,28 @@ scan_cron() {
   local who="$1" lines="$2"
   while read -r line; do
     case "$line" in ''|MAILTO=*|PATH=*|SHELL=*) continue ;; esac
-    if echo "$line" | grep -q "$REPO"; then
+    if mentions_repo "$line"; then
       if echo "$line" | grep -q 'git pull'; then
         pass "cron($who): $line"
       else
         review "cron($who): points into the clone but does NOT \`git pull\` first — it will run whatever revision the box last happened to fetch: $line"
       fi
     else
-      review "cron($who): does not reference the clone — confirm the target is a dispatcher: $line"
+      review "cron($who): does not reference the clone — confirm the target is a dispatcher, or that it is packaged software: $line"
     fi
   done < <(echo "$lines" | grep -v '^\s*#' | grep -v '^\s*$')
 }
-scan_cron "user" "$(crontab -l 2>/dev/null)"
-scan_cron "root" "$(sudo crontab -l 2>/dev/null)"
+user_cron="$(crontab -l 2>/dev/null)"
+root_cron="$(sudo crontab -l 2>/dev/null)"
+scan_cron "user" "$user_cron"
+# Running as root makes these the same crontab, and reporting it twice doubles
+# every count in the summary — which is how the first run turned 8 real cron
+# lines into 16 findings. Compare before scanning.
+if [ "$root_cron" != "$user_cron" ]; then
+  scan_cron "root" "$root_cron"
+elif [ -n "$root_cron" ]; then
+  echo "  (root crontab is identical to the user crontab — you are root. Not re-scanned.)"
+fi
 
 # ---------------------------------------------------------------------------
 # 3. Fixed-path scripts (Hermes jobs and friends)
@@ -147,8 +210,22 @@ scan_cron "root" "$(sudo crontab -l 2>/dev/null)"
 # `git pull` + delegation check is the real one.
 # ---------------------------------------------------------------------------
 hdr "3. Fixed-path scripts (~/.hermes/scripts and similar)"
-for d in "$HOME/.hermes/scripts" "$HOME/.analytics" "$HOME/.members-auth" /root/.hermes/scripts /root/.members-auth; do
-  [ -d "$d" ] || continue
+# Deduplicated: when $HOME is /root these lists collide and every finding is
+# printed twice. `~/.hermes` itself is included (not just ~/.hermes/scripts)
+# because the first run found `deploy-website.sh` invoked from there by cron and
+# never scanned, since the old list only reached one directory deeper.
+# Collect first, dedupe, THEN judge. Deduping the directory list is not enough:
+# `~/.hermes` and `~/.hermes/scripts` are both scanned deliberately, and with
+# -maxdepth 2 they overlap, so every dispatcher was still reported twice. The
+# unit that must be unique is the resolved FILE, not the directory it was
+# reached through. `~/.hermes` itself is in the list because the first real run
+# found `deploy-website.sh` invoked from there by cron and never scanned at all.
+scan_dirs=""
+for d in "$HOME/.hermes" "$HOME/.hermes/scripts" "$HOME/.analytics" "$HOME/.analytics/scripts" \
+         "$HOME/.members-auth" /root/.hermes /root/.hermes/scripts /root/.analytics /root/.members-auth; do
+  [ -d "$d" ] && scan_dirs="$scan_dirs $d"
+done
+if [ -n "${scan_dirs// /}" ]; then
   while read -r f; do
     [ -n "$f" ] || continue
     in_repo "$f" && { pass "script $f (inside the clone)"; continue; }
@@ -159,7 +236,7 @@ for d in "$HOME/.hermes/scripts" "$HOME/.analytics" "$HOME/.members-auth" /root/
     # signals are required instead: it invokes git-pull in some form, AND it
     # names the clone it delegates into. A file doing both is a dispatcher
     # whatever language it is written in; a file doing only one is not.
-    if grep -qE 'git.{0,20}pull' "$f" 2>/dev/null && grep -qF "$REPO" "$f" 2>/dev/null; then
+    if grep -qE 'git.{0,20}pull' "$f" 2>/dev/null && mentions_repo "$(cat "$f" 2>/dev/null)"; then
       pass "dispatcher $f -> pulls and delegates into the clone"
     else
       n=$(wc -l < "$f" 2>/dev/null || echo '?')
@@ -169,8 +246,9 @@ for d in "$HOME/.hermes/scripts" "$HOME/.analytics" "$HOME/.members-auth" /root/
     # clone -- a legitimate and tidy arrangement -- is skipped entirely by
     # `-type f` and silently never audited. Silently-not-audited is the one
     # outcome this script exists to prevent.
-  done < <(find -L "$d" -maxdepth 2 -type f \( -name '*.py' -o -name '*.sh' \) 2>/dev/null)
-done
+  done < <(find -L $scan_dirs -maxdepth 2 -type f \( -name '*.py' -o -name '*.sh' \) -print0 2>/dev/null \
+             | xargs -0 -r readlink -f 2>/dev/null | sort -u)
+fi
 
 # ---------------------------------------------------------------------------
 # 4. systemd units
