@@ -1,0 +1,78 @@
+{
+  "_note": "Prose that wraps the zone NUMBERS in article tables. The numbers themselves live in data/zones.csv and reach templates through site/_data/zones.js -- never type a percentage into this file. Created August 12, 2026 when four published articles were converted from hand-typed zone tables to the generated `zoneTable` shortcode. OVERLAP TO RESOLVE: zonesUi.json also carries `zoneNames` (Spanish only), because the calculator UI predates this file. Two homes for the same seven labels is exactly the drift this whole exercise exists to stop -- fold zonesUi's names into this file during the EN/PT calculator translation pass, which is the natural moment because that pass has to add en/pt to zonesUi anyway. Logged in open-loops.md.",
+
+  "es": {
+    "zoneHeader": "Zona",
+    "purposeHeader": "Para qué sirve",
+    "metricLabels": { "pace": "% ritmo", "lthr": "% FC", "rftp": "% potencia", "ftp": "% potencia", "cv": "% velocidad" },
+    "zoneNames": {
+      "1": "Recuperación",
+      "2": "Aeróbico base",
+      "X": "Aeróbico alto",
+      "3": "Tempo",
+      "Y": "Umbral bajo",
+      "4": "Umbral alto",
+      "5": "VO2máx"
+    },
+    "zonePurpose": {
+      "1": "Circulación, movilidad, days off activos",
+      "2": "Donde vive el 80% de tu volumen. Base aeróbica real",
+      "X": "Ritmo de maratón. Ver abajo",
+      "3": "Extensivo de umbral. Sesión clave",
+      "Y": "La franja alrededor del umbral. Ver abajo",
+      "4": "Intensivo de umbral. La otra sesión clave",
+      "5": "Series cortas, poco volumen, alto costo"
+    },
+    "caption": "Porcentajes sobre tu umbral. Las tres columnas no coinciden y no deberían: el ritmo, el pulso y la potencia se comportan distinto en los extremos, y por eso una sola tabla para las tres nunca fue correcta."
+  },
+
+  "en": {
+    "zoneHeader": "Zone",
+    "purposeHeader": "What it's for",
+    "metricLabels": { "pace": "% pace", "lthr": "% HR", "rftp": "% power", "ftp": "% power", "cv": "% speed" },
+    "zoneNames": {
+      "1": "Recovery",
+      "2": "Aerobic base",
+      "X": "Upper aerobic",
+      "3": "Tempo",
+      "Y": "Lower threshold",
+      "4": "Upper threshold",
+      "5": "VO2max"
+    },
+    "zonePurpose": {
+      "1": "Circulation, mobility, active days off",
+      "2": "Where 80% of your volume lives. Real aerobic base",
+      "X": "Marathon pace. See below",
+      "3": "Extensive threshold work. Key session",
+      "Y": "The band around threshold. See below",
+      "4": "Intensive threshold work. The other key session",
+      "5": "Short reps, low volume, high cost"
+    },
+    "caption": "Percentages of your threshold. The three columns don't agree, and they shouldn't: pace, heart rate and power behave differently at the extremes, which is why one table for all three was never right."
+  },
+
+  "pt": {
+    "zoneHeader": "Zona",
+    "purposeHeader": "Para que serve",
+    "metricLabels": { "pace": "% ritmo", "lthr": "% FC", "rftp": "% potência", "ftp": "% potência", "cv": "% velocidade" },
+    "zoneNames": {
+      "1": "Recuperação",
+      "2": "Aeróbico base",
+      "X": "Aeróbico alto",
+      "3": "Tempo",
+      "Y": "Limiar baixo",
+      "4": "Limiar alto",
+      "5": "VO2máx"
+    },
+    "zonePurpose": {
+      "1": "Circulação, mobilidade, folgas ativas",
+      "2": "Onde vive 80% do seu volume. Base aeróbica real",
+      "X": "Ritmo de maratona. Ver abaixo",
+      "3": "Extensivo de limiar. Sessão chave",
+      "Y": "A faixa em torno do limiar. Ver abaixo",
+      "4": "Intensivo de limiar. A outra sessão chave",
+      "5": "Séries curtas, pouco volume, custo alto"
+    },
+    "caption": "Porcentagens sobre o seu limiar. As três colunas não coincidem, e não deveriam: ritmo, frequência cardíaca e potência se comportam de forma diferente nos extremos — por isso uma única tabela para as três nunca esteve certa."
+  }
+}

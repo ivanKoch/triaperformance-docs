@@ -58,6 +58,20 @@
 }
 .article-body td { vertical-align: top; }
 
+/* --- Zone tables, rendered by the zoneTable shortcode --------------------- */
+/* Four columns instead of the old three (one % column per metric), because the
+   metrics genuinely differ and printing one column for all of them was the bug.
+   That makes overflow real on a phone, so the table scrolls horizontally inside
+   its own wrapper rather than squeezing the prose column or forcing a font size
+   nobody can read. */
+.zone-table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 28px 0; }
+.article-body .zone-table { margin: 0; min-width: 520px; }
+.article-body .zone-table td:not(:first-child),
+.article-body .zone-table th:not(:first-child) { white-space: nowrap; }
+.article-body .zone-table .zone-purpose {
+  display: block; margin-top: 3px; font-size: 13px; line-height: 1.45; color: var(--slate, #5a6672);
+}
+
 /* --- Plan cards, rendered by the planCard shortcode ---------------------- */
 .plan-pick {
   border: 1px solid var(--mist); border-radius: 8px; padding: 24px;

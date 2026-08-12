@@ -123,6 +123,90 @@ module.exports = function (eleventyConfig) {
   });
 
   // ---------------------------------------------------------------------------
+  // zoneTable — renders a sport's zone table from data/zones.csv.
+  //
+  // Added August 12, 2026. Four published articles (the ES/EN/PT threshold piece
+  // and the ES Norwegian-method piece) each carried a HAND-TYPED seven-zone
+  // table, and all four disagreed with data/zones.csv on nearly every row. Worse,
+  // each printed ONE column of percentages while claiming it applied to both
+  // velocity and heart rate -- and the real model has a separate table per
+  // sport-and-metric precisely because those diverge. An athlete who read the
+  // article and then used the calculator got two different sets of zones.
+  //
+  // The fix is not to retype the numbers correctly. A second typed copy is how
+  // they diverged in the first place, and it would diverge again the next time
+  // the model is tuned. Numbers come from the CSV, prose comes from
+  // _data/zoneCopy.json, and the article supplies neither.
+  //
+  // Usage:  {% zoneTable "running" %}
+  // Language is taken from the page, so ES/EN/PT siblings use the identical tag.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addShortcode("zoneTable", function (sport) {
+    const ctx = this.ctx || {};
+    const zones = ctx.zones || this.context?.environments?.zones;
+    const copyAll = ctx.zoneCopy || this.context?.environments?.zoneCopy;
+    const lang = ctx.lang || "es";
+
+    // Fail the build rather than render an empty or partial table. A zone table
+    // that silently loses a column is indistinguishable from an editorial
+    // decision, which is the failure mode this shortcode exists to remove.
+    if (!zones || !zones.tables[sport]) {
+      throw new Error(
+        `zoneTable: no zone tables for sport "${sport}". Known sports: ` +
+        `${Object.keys((zones && zones.tables) || {}).join(", ") || "none loaded"}.`
+      );
+    }
+    const copy = copyAll && copyAll[lang];
+    if (!copy) {
+      throw new Error(
+        `zoneTable: no zoneCopy for language "${lang}". Add it to ` +
+        `site/_data/zoneCopy.json before publishing this article.`
+      );
+    }
+
+    const metrics = zones.metricsBySport[sport];
+    const missing = metrics.filter((m) => !copy.metricLabels[m]);
+    if (missing.length) {
+      throw new Error(
+        `zoneTable: zoneCopy.${lang}.metricLabels is missing [${missing.join(", ")}] ` +
+        `for sport "${sport}". Every metric with a zone table needs a column header.`
+      );
+    }
+
+    // Percentages are stored as floats (72.0). Render 72, not 72.0 -- but keep a
+    // real decimal if one is ever introduced, rather than rounding it away.
+    const n = (v) => (Number.isInteger(v) ? String(v) : String(v));
+
+    const head =
+      `<tr><th>${copy.zoneHeader}</th>` +
+      metrics.map((m) => `<th>${copy.metricLabels[m]}</th>`).join("") +
+      `</tr>`;
+
+    const rows = zones.order.map((z) => {
+      const label = copy.zoneNames[z] || z;
+      const purpose = copy.zonePurpose[z] || "";
+      const cells = metrics.map((m) => {
+        const band = zones.tables[sport][m].find((r) => r.zone === z);
+        return `<td>${n(band.floor)} – ${n(band.ceiling)}%</td>`;
+      }).join("");
+      const zLabel = /^\d+$/.test(z) ? `Z${z}` : z;
+      return `<tr><td><strong>${zLabel}</strong> — ${label}` +
+             (purpose ? `<span class="zone-purpose">${purpose}</span>` : "") +
+             `</td>${cells}</tr>`;
+    }).join("\n    ");
+
+    return `<div class="zone-table-wrap">
+  <table class="zone-table">
+    <thead>${head}</thead>
+    <tbody>
+    ${rows}
+    </tbody>
+  </table>
+</div>
+${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
+  });
+
+  // ---------------------------------------------------------------------------
   // withUtm — appends UTM + plan_id to a TrainingPeaks plan URL.
   //
   // Every outbound redirect from the storefront to a TP purchase page must

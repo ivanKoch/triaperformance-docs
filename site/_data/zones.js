@@ -14,6 +14,17 @@
  * discouraged. Do not hand-type these percentages anywhere else.
  * (Established August 10, 2026 — see zones-calculator-brief.md §2.)
  *
+ * Update, August 12, 2026 — the article half of that promise is now real. The
+ * `zoneTable` shortcode in .eleventy.js renders the tables straight from here,
+ * and the four articles carry `{% zoneTable "running" %}` instead of typed rows.
+ * TWO CORRECTIONS to the note above: it was FOUR articles, not three (the ES
+ * Norwegian-method piece carried the same table with different prose and no
+ * calculator CTA, so it was invisible to a search for the CTA); and the tables
+ * now print one column PER METRIC rather than one column labelled as covering
+ * all of them. That last part was the substantive error — running Z1 is 60-76%
+ * by pace and 72-81% by heart rate, so a single column was never a stale number,
+ * it was a claim this model does not make.
+ *
  * Shape:
  *   zones.tables.running.pace = [{ zone: "1", floor: 60, ceiling: 76 }, ...]
  *   zones.order                = ["1","2","X","3","Y","4","5"]
