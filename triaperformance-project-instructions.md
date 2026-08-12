@@ -28,9 +28,21 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 
 - First of all, for every new conversation, prompt the folder selector so Iván can give you edit access to the local repo and you can manage the files. Never add, commit or push.
 
+### The project knowledge is deliberately empty. The repo is the only source. *(Decided August 12, 2026.)*
+
+**Do not ask for documents to be uploaded to the project knowledge, and do not treat their absence as missing context.** Until this date the project knowledge held copies of 20 repo documents, re-uploaded by hand every morning. They were removed, and the daily upload stopped, for three reasons:
+
+1. **They were always stale, and stale in the most dangerous way.** The project knowledge loads automatically; the repo does not. So a session received last night's numbers *before* reading a single current file, and the stale copy won by default. On Aug 12 the uploaded `open-loops.md` asserted "303 published plans (ES 164 / EN 110 / PT 29)" while that same session was proving the number was 328 (ES 164 / EN 111 / PT 53).
+2. **They contradicted this project's own hygiene rule** — one owner per figure, every other mention is a copy to be corrected in the same session it moves. Twenty uploaded copies cannot be corrected in-session at all.
+3. **They cost Iván time every single day, forever**, which fails the test this project applies to everything else.
+
+**What replaces them: `grep`, not memory.** The index below is the map — it says which document owns what. The repo is the territory. Search it, then read only the sections that matched. Do not read a large document end-to-end to find out whether it is relevant; that is what searching is for. Loading 500 KB of documents does not make a fact easier to find, it makes finding it an attention problem instead of an exact-match one.
+
+**Standing rule: every figure about this business comes from a file read in this session.** Revenue, athlete counts, catalogue counts, prices, subscriber numbers. If you find yourself about to state one from memory or from something loaded before the conversation began, that is the moment to open the owning file instead. *This is not caution about being wrong in general — it is specific to this project, where the catalogue count moved five times in six days.*
+
 **Read first, every session**
 
-- `open-loops.md` — **the single NOW/NEXT/LATER list of open items across the whole project.** Read it at the start of any working session; update it at the end. Other docs keep the detail; this file is the list. WIP limit: 1 big branch + 1 small slot.
+- `open-loops.md` — **the single NOW/NEXT/LATER list of open items across the whole project. Read it from the repo at the start of any working session — this is now the first tool call of the session, not an assumption**; update it at the end. Other docs keep the detail; this file is the list. WIP limit: 1 big branch + 1 small slot.
 - `open-loops-archive.md` — closed items and the full session log, split out Aug 8, 2026 when `open-loops.md` hit 50 KB and was ~87% history. **Read only when you need the reasoning behind a past decision.** When an item closes, move it here with its closing note intact — do not summarise on the way out.
 - `kb-hygiene-prompt.md` — the weekly hygiene pass: the prompt Iván pastes into a fresh conversation, plus why each step is shaped the way it is. Added Aug 8, 2026. **Not read during normal work** — it's the input to its own session. Update it when a new failure mode is found worth checking for weekly.
 
