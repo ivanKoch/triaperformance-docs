@@ -66,7 +66,7 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 480020,Plan 17 Semanas: Triatlón Olímpico 🏊🚴🏃 (Principiantes),Spanish,Triathlon,Olympic,Intermediate,17,59.99,TRUE,2,102.33,68.87,2025-12-03,2026-06-16,TRUE
 480286,Plan 12 Semanas: Duatlón Sprint 🏃🚴 + Gym 🏋️ (Principiante),Spanish,Duathlon,Dua Sprint,Beginner,12,49.99,TRUE,2,99.99,68.59,2025-08-27,2025-12-20,TRUE
 493498,Plan 12 Semanas: Gran Fondo Build - Ciclismo 🚴 + Gimnasio 🏋️,Spanish,Cycling,FTP,Intermediate,12,49.99,TRUE,2,97.99,68.59,2025-05-05,2026-05-17,TRUE
-439349,Tokyo Marathon 2026: 12 Week Beginner Prep (Start Dec 8),English,Running,42 km,Beginner,12,49.99,FALSE,2,99.96,67.20,2024-12-06,2024-12-11,TRUE
+439349,Tokyo Marathon 2026: 12 Week Beginner Prep (Start Dec 8),English,Running,42 km,Beginner,12,49.99,FALSE,2,99.96,67.20,2024-12-06,2024-12-11,FALSE
 567303,Triathlon Olímpico | 16 Semanas | Iniciante | Base & Técnica,Portuguese,Triathlon,Olympic,Beginner,16,32.00,TRUE,3,96.00,67.20,2026-01-02,2026-07-23,TRUE
 603230,8 Week Weight Loss FAT-MAX progression: 4 Runs 🏃 + 2 Lifts 🏋️ (Full Gym),English,Running,Weight Loss,Beginner,8,44.99,TRUE,2,95.87,62.98,2026-04-06,2026-07-20,TRUE
 437638,16 Week Half Marathon Prep: Run 🏃 (Polarized 80/20),English,Running,21 km,Beginner,16,59.99,TRUE,2,88.99,62.29,2024-03-12,2025-08-08,TRUE
@@ -86,7 +86,7 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 443812,Ultra: Carrera de +42km a 100 millas - 18 semanas - Volumen semanal: entre 110 y 135 km,,,,,,,,1,67.39,45.36,2024-12-31,2024-12-31,FALSE
 434683,Plan 18 Semanas: Maratón Build - Frecuencia Cardíaca 💓 (Vol. 90-110km),Spanish,Running,42 km,Intermediate,18,59.99,TRUE,1,66.56,44.80,2025-11-02,2025-11-02,TRUE
 395435,8 Week 5 km Power: Run with Stryd ⚡ (Beginner),English,Running,5 km,Beginner,8,39.99,TRUE,3,69.43,44.77,2023-07-31,2026-05-15,TRUE
-439407,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Intermediate (90-110k),English,Running,42 km,Intermediate,18,59.99,FALSE,1,68.97,41.99,2026-01-22,2026-01-22,TRUE
+439407,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Intermediate (90-110k),English,Running,42 km,Intermediate,18,59.99,FALSE,1,68.97,41.99,2026-01-22,2026-01-22,FALSE
 480118,Plan 16 Semanas: Triatlón Olímpico + Gym 🏋️ (Intermedio),Spanish,Triathlon,Olympic,Intermediate,17,59.99,TRUE,1,62.39,41.99,2026-06-02,2026-06-02,TRUE
 491764,"Plan para ganar masa muscular - 8 semanas, 4 veces por semana",Spanish,Strength,Strength,Beginner,8,40.00,TRUE,2,62.39,41.99,2024-09-22,2025-09-21,TRUE
 493933,[Objetivo 2026] Plan 16 Semanas: Bajar de Peso - Triatlón 🏊🚴🏃 + Gym 🏋️,Spanish,Triathlon,Olympic,Beginner,16,59.99,TRUE,3,59.99,41.99,2025-05-26,2026-04-26,TRUE
@@ -94,10 +94,10 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 611863,16 Semanas HYROX Full Prep: Intermedio (🏃 Running + 🏋️‍♂️ Fuerza Integrada),Spanish,Running,HYROX,Intermediate,16,59.99,TRUE,1,62.39,41.99,2026-02-13,2026-02-13,TRUE
 612084,16 Semanas HYROX: Avanzados - 🏃 Running (Volumen y carga) + 🏋️‍♂️ Fuerza (Máxima + potencia),Spanish,Running,HYROX,Advanced,16,59.99,TRUE,1,62.39,41.99,2026-05-10,2026-05-10,TRUE
 612231,8 Semanas HYROX Race Ready: Competición 🏁 (🏃 Running + 🏋️‍♂️ Estaciones),Spanish,Running,HYROX,Beginner,8,34.99,TRUE,1,62.39,41.99,2026-04-13,2026-04-13,TRUE
-439403,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Advanced (110-135k) (Start Feb 2),English,Running,42 km,Advanced,12,49.99,FALSE,2,59.98,41.98,2024-01-12,2024-01-20,TRUE
+439403,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Advanced (110-135k) (Start Feb 2),English,Running,42 km,Advanced,12,49.99,FALSE,2,59.98,41.98,2024-01-12,2024-01-20,FALSE
 391113,Plan 12 Semanas: 10 km 🏃 (Intermedios),Spanish,Running,10 km,Intermediate,12,39.99,TRUE,3,59.77,41.27,2023-02-23,2024-04-20,TRUE
 390919,Plan 8 Semanas: 5 km base 🏃 (Principiantes),Spanish,Running,5 km,Beginner,8,39.99,TRUE,2,58.49,40.94,2024-06-24,2025-07-10,TRUE
-439406,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Advanced (110-135k) ,English,Running,42 km,Advanced,18,59.99,FALSE,1,57.99,40.59,2024-09-09,2024-09-09,TRUE
+439406,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Advanced (110-135k) ,English,Running,42 km,Advanced,18,59.99,FALSE,1,57.99,40.59,2024-09-09,2024-09-09,FALSE
 480285,Plan 16 Semanas: Duatlón Clásico 🏃🚴 + Gym 🏋️ (Principiante),Spanish,Duathlon,Dua Classic,Beginner,16,59.99,TRUE,1,57.60,40.32,2025-06-05,2025-06-05,TRUE
 391449,Plan 8 Semanas: 5 km build 🏃 (Intermedios),Spanish,Running,5 km,Intermediate,8,40.00,TRUE,3,56.97,39.87,2023-11-10,2024-10-12,TRUE
 393660,Plan 4 Semanas: Natación 1500m 🏊 - Domina la Distancia (Intermedio),Spanish,Swimming,1500m,Intermediate,4,24.99,TRUE,3,58.83,39.59,2023-10-21,2024-08-04,TRUE
@@ -108,10 +108,10 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 492333,Plan 14 Semanas: 21 km - Media Maratón 🏃 + Gym 🏋️ (Avanzados),Spanish,Running,21 km,Advanced,14,59.99,TRUE,1,50.40,35.28,2025-01-04,2025-01-04,TRUE
 414883,"12 Week Polarized 80/20 - Improve FTP, VO2Max, Speed and Endurance",English,Cycling,FTP,Intermediate,12,49.99,TRUE,1,53.49,34.99,2026-05-09,2026-05-09,TRUE
 441905,Plan 22 Semanas: Larga Distancia 🏊🚴🏃 (Tu Primer Full),Spanish,Triathlon,Full,Beginner,22,79.99,TRUE,1,51.99,34.99,2024-03-02,2024-03-02,TRUE
-522766,Maratón Barcelona 2026: Plan 12 Semanas - Vol: 90-110km semanales - Inicio 22 Dic,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,1,51.99,34.99,2025-12-15,2025-12-15,TRUE
+522766,Maratón Barcelona 2026: Plan 12 Semanas - Vol: 90-110km semanales - Inicio 22 Dic,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,1,51.99,34.99,2025-12-15,2025-12-15,FALSE
 606563,[Objetivo 2026] Plan para bajar de peso: Ciclismo 🚴 + Running 🏃 + Fuerza en Casa 🏋️🏠 ,Spanish,Duathlon,Weight Loss,Beginner,12,49.99,TRUE,1,49.99,34.99,2026-07-27,2026-07-27,TRUE
 606566,[Objetivo 2026] Plan para bajar de peso: Ciclismo 🚴 + Running 🏃 + Fuerza en Gimnasio 🏋️,Spanish,Duathlon,Weight Loss,Beginner,12,49.99,TRUE,1,49.99,34.99,2026-01-29,2026-01-29,TRUE
-439348,Tokyo Marathon 2026: 12 Week Intermediate - 90-110km Weekly - Start Dec 8,English,Running,42 km,Intermediate,12,49.99,FALSE,1,48.00,33.60,2025-11-13,2025-11-13,TRUE
+439348,Tokyo Marathon 2026: 12 Week Intermediate - 90-110km Weekly - Start Dec 8,English,Running,42 km,Intermediate,12,49.99,FALSE,1,48.00,33.60,2025-11-13,2025-11-13,FALSE
 474632,Maratón de Chicago 2025 - 12 semanas - Entre 110 y 135 km semanales - Empezar 21 de Julio 2025,,,,,,,,1,48.00,33.60,2025-09-02,2025-09-02,FALSE
 480131,Plan 22 Semanas: FULL / Larga Distancia + Gym 🏋️ (Intermedio),Spanish,Triathlon,Full,Intermediate,22,79.99,TRUE,1,49.92,33.60,2025-12-01,2025-12-01,TRUE
 492217,12 Week FTP Builder: Ride 🚴 + Lift 🏋️ (Hybrid Polarized),English,Cycling,FTP,Beginner,12,49.99,TRUE,1,48.00,33.60,2025-08-06,2025-08-06,TRUE
@@ -159,7 +159,7 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 415081,Plan 8 Semanas: Polarizado 80/20 - Mejora tu FTP 🚀,Spanish,Cycling,FTP,Beginner,8,39.99,TRUE,1,28.07,18.89,2024-06-07,2024-06-07,TRUE
 401098,8 Week Swim Speed: Polarized 80/20 (Beginner),English,Swimming,Speed,Beginner,8,49.99,TRUE,1,24.99,17.49,2023-06-21,2023-06-21,TRUE
 437630,Meia Maratona (21k) | 12 Semanas | Avançado | Foco em Performance | Sistema polarizado 80-20,Portuguese,Running,21 km,Advanced,12,24.00,TRUE,1,24.00,16.80,2026-03-21,2026-03-21,TRUE
-439343,Maratona de Tokyo 2026 - 12 semanas - Entre 110 e 135 km por semana - Início até 8 de dezembro,Portuguese,Running,42 km,Advanced,12,24.00,FALSE,1,24.00,16.80,2026-01-04,2026-01-04,TRUE
+439343,Maratona de Tokyo 2026 - 12 semanas - Entre 110 e 135 km por semana - Início até 8 de dezembro,Portuguese,Running,42 km,Advanced,12,24.00,FALSE,1,24.00,16.80,2026-01-04,2026-01-04,FALSE
 567302,Triathlon Sprint | 12 Semanas | Iniciante | Do Zero à Prova,Portuguese,Triathlon,Short - Sprint,Beginner,12,24.00,TRUE,1,24.00,16.80,2026-07-30,2026-07-30,TRUE
 401097,[Reusable] 6-Week Polarized training to improve speed (Garmin Structured Workouts),,,,,,,,1,20.99,14.69,2023-11-14,2023-11-14,FALSE
 392759,Plan 12 Semanas: 10 km Corre con Potencia ⚡ (Stryd Intermedios),Spanish,Running,10 km,Intermediate,12,34.99,TRUE,1,20.79,13.99,2024-03-01,2024-03-01,TRUE
@@ -204,23 +204,23 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 437866,Plan 12 Semanas: 10 km 🏃 (Avanzados),Spanish,Running,10 km,Advanced,12,39.99,TRUE,0,0.00,0.00,,,TRUE
 437868,10k Performance | 12 Semanas | Avançado | Sistema polarizado 80-20,Portuguese,Running,10 km,Advanced,12,24.00,TRUE,0,0.00,0.00,,,TRUE
 438913,Natação: 1500m (Olímpico) | 16 Semanas | Intermediário | Performance | Compatível Garmin,Portuguese,Swimming,1500m,Intermediate,16,32.00,TRUE,0,0.00,0.00,,,TRUE
-439342,Maratona de Tokyo 2026 - 12 semanas - Até 90 km por semana - Início até 8 de dezembro,Portuguese,Running,42 km,Beginner,12,24.00,FALSE,0,0.00,0.00,,,TRUE
-439344,Maratona de Tokyo 2026 - 12 semanas - Entre 90 e 110 km por semana - Início até 8 de dezembro,Portuguese,Running,42 km,Beginner,12,24.00,FALSE,0,0.00,0.00,,,TRUE
-439346,Tokyo Marathon 2026: 12 Week Advanced - 110-135km Weekly - Start Dec 8,English,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-439350,Maratón Tokyo 2026: Plan 12 Semanas - Vol: >110km semanales - Inicio 8-Dic,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-439351,Maratón Tokyo 2026: Plan 12 Semanas - Vol: 90-110km semanales - Inicio 8-Dic,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-439352,Maratón Tokyo 2026: Plan 12 Semanas - Vol: <90km Semanales - Inicio 8-Dic,Spanish,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-439394,Boston Marathon 2026: 18 weeks Advanced - 110-135 km weekly - Start December 15 2025,English,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-439396,Boston Marathon 2026: 18 weeks Intermediate - 90-110 km weekly - Start December 15 2025,English,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-439397,Boston Marathon 2026: 18 weeks Beginner Prep - Start December 15 2025,English,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-439404,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Intermediate (90-110k) (Start Feb 2),English,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-439405,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Beginner Prep (Start Feb 2),English,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-439408,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Beginner Prep,English,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-439419,Maratón de Boston 2026 - 18 semanas - Vol: >110km semanales - Inicio 15 Diciembre 2026,Spanish,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-439420,Maratón de Boston 2026 - 18 semanas - Vol: 90-110km semanales - Inicio 15 Diciembre 2026,Spanish,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-439421,Maratón de Boston 2026 - 18 semanas - Vol: <90km Semanales - Inicio 15 Diciembre 2026,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-439428,Maratón de Londres 2026 - 18 semanas - Vol: 90-110km semanales - Inicio 22 Diciembre 2026,Spanish,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-439429,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+439342,Maratona de Tokyo 2026 - 12 semanas - Até 90 km por semana - Início até 8 de dezembro,Portuguese,Running,42 km,Beginner,12,24.00,FALSE,0,0.00,0.00,,,FALSE
+439344,Maratona de Tokyo 2026 - 12 semanas - Entre 90 e 110 km por semana - Início até 8 de dezembro,Portuguese,Running,42 km,Beginner,12,24.00,FALSE,0,0.00,0.00,,,FALSE
+439346,Tokyo Marathon 2026: 12 Week Advanced - 110-135km Weekly - Start Dec 8,English,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+439350,Maratón Tokyo 2026: Plan 12 Semanas - Vol: >110km semanales - Inicio 8-Dic,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+439351,Maratón Tokyo 2026: Plan 12 Semanas - Vol: 90-110km semanales - Inicio 8-Dic,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+439352,Maratón Tokyo 2026: Plan 12 Semanas - Vol: <90km Semanales - Inicio 8-Dic,Spanish,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+439394,Boston Marathon 2026: 18 weeks Advanced - 110-135 km weekly - Start December 15 2025,English,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+439396,Boston Marathon 2026: 18 weeks Intermediate - 90-110 km weekly - Start December 15 2025,English,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+439397,Boston Marathon 2026: 18 weeks Beginner Prep - Start December 15 2025,English,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+439404,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Intermediate (90-110k) (Start Feb 2),English,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+439405,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Beginner Prep (Start Feb 2),English,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+439408,🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Beginner Prep,English,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+439419,Maratón de Boston 2026 - 18 semanas - Vol: >110km semanales - Inicio 15 Diciembre 2026,Spanish,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+439420,Maratón de Boston 2026 - 18 semanas - Vol: 90-110km semanales - Inicio 15 Diciembre 2026,Spanish,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+439421,Maratón de Boston 2026 - 18 semanas - Vol: <90km Semanales - Inicio 15 Diciembre 2026,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+439428,Maratón de Londres 2026 - 18 semanas - Vol: 90-110km semanales - Inicio 22 Diciembre 2026,Spanish,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+439429,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,FALSE
 439815,24 Week Full Distance Peak: Triathlon 🏊‍♂️🚴🏃 (Advanced Polarized),English,Triathlon,Full,Advanced,24,79.99,TRUE,0,0.00,0.00,,,TRUE
 439845,Plan 24 Semanas: FULL / Larga Distancia Peak 🏊🚴🏃 (Avanzado),Spanish,Triathlon,Full,Advanced,24,79.99,TRUE,0,0.00,0.00,,,TRUE
 439860,Triathlon: Distância Completa | 23 Semanas | Avançado | Performance,Portuguese,Triathlon,Full,Advanced,23,46.00,TRUE,0,0.00,0.00,,,TRUE
@@ -276,13 +276,13 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 493909,[Objetivo 2026] Plan 16 Semanas: Pérdida de Peso - Ciclismo 🚴 + Gimnasio 🏋️,Spanish,Cycling,FTP,Advanced,16,59.99,TRUE,0,0.00,0.00,,,TRUE
 500575,18 Week Marathon Peak: Pace Based ⏱️ (Advanced Vol: 110km+),English,Running,42 km,Advanced,18,59.99,TRUE,0,0.00,0.00,,,TRUE
 522290,[Objetivo 2026] Plan para bajar de peso: 24 Semanas: Running 🏃 + Gym 🏋️,Spanish,Running,21 km,Beginner,24,79.99,TRUE,0,0.00,0.00,,,TRUE
-522765,Maratón Barcelona 2026: Plan 12 Semanas - Vol: >110km semanales - Inicio 22 Dic,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-522769,Maratón Barcelona 2026: Plan 18 Semanas - Vol: >110km semanales - Inicio 10 Nov,Spanish,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-522770,Maratón Barcelona 2026: Plan 18 Semanas - Vol: 90-110km semanales - Inicio 10 Nov,Spanish,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-522771,Maratón Barcelona 2026: Plan 18 Semanas - Vol: <90km semanales - Inicio 10 Nov,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-522799,Barcelona Marathon 2026: 12 weeks Advanced - 110-135 km weekly - Start Dec 22,English,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-522800,Barcelona Marathon 2026: 12 weeks Intermediate - 90-110 km weekly - Start Dec 22,English,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-522801,Barcelona Marathon 2026: 12 weeks Beginner Prep - Start Dec 22,English,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,TRUE
+522765,Maratón Barcelona 2026: Plan 12 Semanas - Vol: >110km semanales - Inicio 22 Dic,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+522769,Maratón Barcelona 2026: Plan 18 Semanas - Vol: >110km semanales - Inicio 10 Nov,Spanish,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+522770,Maratón Barcelona 2026: Plan 18 Semanas - Vol: 90-110km semanales - Inicio 10 Nov,Spanish,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+522771,Maratón Barcelona 2026: Plan 18 Semanas - Vol: <90km semanales - Inicio 10 Nov,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+522799,Barcelona Marathon 2026: 12 weeks Advanced - 110-135 km weekly - Start Dec 22,English,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+522800,Barcelona Marathon 2026: 12 weeks Intermediate - 90-110 km weekly - Start Dec 22,English,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+522801,Barcelona Marathon 2026: 12 weeks Beginner Prep - Start Dec 22,English,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,FALSE
 528890,12 Week Marathon Base: Pace Based ⏱️ (Beginner Vol: <90km),English,Running,42 km,Beginner,12,49.99,TRUE,0,0.00,0.00,,,TRUE
 528891,12 Week Marathon Build: Pace Based ⏱️ (Intermediate Vol: 90-110km),English,Running,42 km,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
 528892,12 Week Marathon Peak: Pace Based ⏱️ (Advanced Vol: 110km+),English,Running,42 km,Advanced,12,49.99,TRUE,0,0.00,0.00,,,TRUE
@@ -319,13 +319,13 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 566796,Avanzado: Plan 9 Semanas: Bloque de FTP 🔥 - Sube tu Umbral (Nivel 3),Spanish,Cycling,FTP,Advanced,9,39.99,TRUE,0,0.00,0.00,,,TRUE
 567561,Triathlon Olímpico | 19 Semanas | Avançado | Alta Performance,Portuguese,Triathlon,Olympic,Advanced,19,38.00,TRUE,0,0.00,0.00,,,TRUE
 567562,20 Week Olympic Peak: Triathlon 🏊‍♂️🚴🏃 (Advanced Polarized),English,Triathlon,Olympic,Advanced,20,59.99,TRUE,0,0.00,0.00,,,TRUE
-567564,Plan 20 Semanas: Triatlón Olímpico Peak 🏊🚴🏃 (Polarizado 80/20 - Avanzado),Spanish,Triathlon,Olympic,Advanced,20,59.99,FALSE,0,0.00,0.00,,,TRUE
-597513,Barcelona Marathon 2026: 18 weeks Advanced - 110-135 km weekly - Start Nov 10,English,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-597514,Barcelona Marathon 2026: 18 weeks Intermediate - 90-110 km weekly - Start Nov 10,English,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-597515,Barcelona Marathon 2026: 18 weeks Beginner Prep - Start Nov 10,English,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-597519,Maratona de Barcelona 2026 - 18 semanas - Até 90 km por semana - Início até 10 de novembro,Portuguese,Running,42 km,Beginner,18,72.00,FALSE,0,0.00,0.00,,,TRUE
-597521,Maratona de Barcelona 2026 - 18 semanas - Entre 110 e 135 km por semana - Início até 10 de novembro,Portuguese,Running,42 km,Advanced,18,72.00,FALSE,0,0.00,0.00,,,TRUE
-597524,Maratona de Barcelona 2026 - 18 semanas - Entre 90 e 110 km por semana - Início até 11 de novembro,Portuguese,Running,42 km,Intermediate,18,72.00,FALSE,0,0.00,0.00,,,TRUE
+567564,Plan 20 Semanas: Triatlón Olímpico Peak 🏊🚴🏃 (Polarizado 80/20 - Avanzado),Spanish,Triathlon,Olympic,Advanced,20,59.99,FALSE,0,0.00,0.00,,,FALSE
+597513,Barcelona Marathon 2026: 18 weeks Advanced - 110-135 km weekly - Start Nov 10,English,Running,42 km,Advanced,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+597514,Barcelona Marathon 2026: 18 weeks Intermediate - 90-110 km weekly - Start Nov 10,English,Running,42 km,Intermediate,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+597515,Barcelona Marathon 2026: 18 weeks Beginner Prep - Start Nov 10,English,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+597519,Maratona de Barcelona 2026 - 18 semanas - Até 90 km por semana - Início até 10 de novembro,Portuguese,Running,42 km,Beginner,18,72.00,FALSE,0,0.00,0.00,,,FALSE
+597521,Maratona de Barcelona 2026 - 18 semanas - Entre 110 e 135 km por semana - Início até 10 de novembro,Portuguese,Running,42 km,Advanced,18,72.00,FALSE,0,0.00,0.00,,,FALSE
+597524,Maratona de Barcelona 2026 - 18 semanas - Entre 90 e 110 km por semana - Início até 11 de novembro,Portuguese,Running,42 km,Intermediate,18,72.00,FALSE,0,0.00,0.00,,,FALSE
 602951,8 Week Time-Crunched Weight Loss: Indoor Cycle 🚴 + Home Strength 🏠 (No Gym),English,Cycling,Weight Loss,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
 602954,4 Week Weight Loss Kickstart: Ride 🚴 + Home Strength 🏠 (No Gym),English,Cycling,Weight Loss,Beginner,4,19.99,TRUE,0,0.00,0.00,,,TRUE
 602958,8 Week Time-Crunched Weight Loss: Ride 🚴 + Full Gym Lifting 🏋️ - Body recomposition,English,Cycling,Weight Loss,Beginner,8,39.99,TRUE,0,0.00,0.00,,,TRUE
@@ -372,26 +372,26 @@ plan_id,plan_name,language,sport,distance,difficulty,weeks,price,is_published,un
 612081,16 Semanas HYROX Full Prep: Principiante (Tu Primera Meta) (🏃 Running + 🏋️‍♂️ Fuerza Progresiva),Spanish,Running,HYROX,Beginner,16,59.99,TRUE,0,0.00,0.00,,,TRUE
 612149,13 Semanas HYROX Foco em Corrida: Iniciante (Base e Resistência) 🏃,Portuguese,Running,HYROX,Beginner,13,49.99,TRUE,0,0.00,0.00,,,TRUE
 612168,13 Semanas HYROX Foco em Corrida: Intermediário (Ritmo de Prova) 🏃,Portuguese,Running,HYROX,Intermediate,13,49.99,TRUE,0,0.00,0.00,,,TRUE
-612178,13 Semanas HYROX Foco em Corrida: Avançado (Velocidade e Limiar) 🏃,Portuguese,Running,HYROX,Advanced,13,49.99,FALSE,0,0.00,0.00,,,TRUE
+612178,13 Semanas HYROX Foco em Corrida: Avançado (Velocidade e Limiar) 🏃,Portuguese,Running,HYROX,Advanced,13,49.99,TRUE,0,0.00,0.00,,,TRUE
 612551,Plan 12 Semanas: Maratón Base (Carrera 🏃 + Gym 🏋️) - Volumen principiante (55 a 90km),Spanish,Running,42 km,Beginner,12,49.99,TRUE,0,0.00,0.00,,,TRUE
 612554,Plan 12 Semanas: Maratón Build (Carrera 🏃 + Gym 🏋️) - Volumen intermedio (90-110km),Spanish,Running,42 km,Intermediate,12,49.99,TRUE,0,0.00,0.00,,,TRUE
 612555,Plan 12 Semanas: Maratón Peak (Carrera 🏃 + Gym 🏋️) - Volumen avanzado (>110km),Spanish,Running,42 km,Advanced,12,49.99,TRUE,0,0.00,0.00,,,TRUE
 612559,Plan 18 Semanas: Maratón Base (Carrera 🏃 + Gym 🏋️) - Volumen principiante (55 a 90km),Spanish,Running,42 km,Beginner,18,59.99,TRUE,0,0.00,0.00,,,TRUE
 612560,Plan 18 Semanas: Maratón Build (Carrera 🏃 + Gym 🏋️) - Volumen intermedio (90-110km),Spanish,Running,42 km,Intermediate,18,59.99,TRUE,0,0.00,0.00,,,TRUE
 612561,Plan 18 Semanas: Maratón Peak (Carrera 🏃 + Gym 🏋️) - Volumen avanzado (>110km),Spanish,Running,42 km,Advanced,18,64.00,TRUE,0,0.00,0.00,,,TRUE
-612568,🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Volumen 55-90 km,Spanish,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-612570,🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Intermedio 90-110km,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-612571,🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Avanzado >110km/sem,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-612572,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Volumen 55-90 km,Spanish,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-612573,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Intermedio 90-110km,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-612574,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Avanzado >110km/sem,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,TRUE
-612577,🇺🇸 Maratona de Boston 🦄 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,12,29.99,FALSE,0,0.00,0.00,,,TRUE
-612581,🇬🇧 Maratona de Londres 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,12,29.99,FALSE,0,0.00,0.00,,,TRUE
+612568,🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Volumen 55-90 km,Spanish,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+612570,🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Intermedio 90-110km,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+612571,🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Avanzado >110km/sem,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+612572,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Volumen 55-90 km,Spanish,Running,42 km,Beginner,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+612573,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Intermedio 90-110km,Spanish,Running,42 km,Intermediate,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+612574,🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Avanzado >110km/sem,Spanish,Running,42 km,Advanced,12,49.99,FALSE,0,0.00,0.00,,,FALSE
+612577,🇺🇸 Maratona de Boston 🦄 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,12,29.99,FALSE,0,0.00,0.00,,,FALSE
+612581,🇬🇧 Maratona de Londres 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,12,29.99,FALSE,0,0.00,0.00,,,FALSE
 612582,Plano 18 Semanas: Base Maratona (Corrida 🏃 + Gym 🏋️) - Volume 55 a 90km / semana,Portuguese,Running,42 km,Beginner,18,39.99,TRUE,0,0.00,0.00,,,TRUE
-612820,🇬🇧 Maratona de Londres 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,TRUE
-612829,🇨🇱 Maratona de Santiago 2026 - 🇧🇷 Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,TRUE
-612836,🇵🇪 Maratona de Lima 2026 - 🇧🇷 Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,TRUE
-612838,🇧🇷 Maratona de Rio 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,TRUE
-612970,🇨🇱 Maratón de Santiago 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-612974,🇵🇪 Maratón de Lima 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
-612978,🇧🇷 Maratón de Río de Janeiro 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,TRUE
+612820,🇬🇧 Maratona de Londres 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,FALSE
+612829,🇨🇱 Maratona de Santiago 2026 - 🇧🇷 Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,FALSE
+612836,🇵🇪 Maratona de Lima 2026 - 🇧🇷 Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,FALSE
+612838,🇧🇷 Maratona de Rio 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km,Portuguese,Running,42 km,Beginner,18,39.99,FALSE,0,0.00,0.00,,,FALSE
+612970,🇨🇱 Maratón de Santiago 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+612974,🇵🇪 Maratón de Lima 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,FALSE
+612978,🇧🇷 Maratón de Río de Janeiro 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km,Spanish,Running,42 km,Beginner,18,59.99,FALSE,0,0.00,0.00,,,FALSE

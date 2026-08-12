@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T19:02:07+00:00",
+  "generated_at": "2026-08-12T19:31:08+00:00",
   "note": "HTTP 200 means the URL resolves. It is EVIDENCE that a plan is live, not proof that it is purchasable -- TrainingPeaks may keep a page reachable after a plan stops selling. Treat this as a candidate list for Ivan to confirm by eye, never as an instruction to flip the flag automatically.",
   "flagged_FALSE_but_link_is_live": [
     {
@@ -189,48 +189,6 @@
       "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522801/barcelona-marathon-2026-12-weeks-beginner-prep-start-dec-22"
     },
     {
-      "plan_id": "567302",
-      "language": "Portuguese",
-      "name": "Triathlon Sprint | 12 Semanas | Iniciante | Do Zero à Prova",
-      "url": "https://www.trainingpeaks.com/training-plans/triathlon/sprint/tp-567302/seu-primeiro-triatlo-short-sprint-ideal-para-iniciantes"
-    },
-    {
-      "plan_id": "567303",
-      "language": "Portuguese",
-      "name": "Triathlon Olímpico | 16 Semanas | Iniciante | Base & Técnica",
-      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-567303/seu-primeiro-triatlo-olimpico-ideal-para-iniciantes"
-    },
-    {
-      "plan_id": "567304",
-      "language": "Portuguese",
-      "name": "Triathlon: Média Distância | 18 Semanas | Iniciante | Primeira Prova",
-      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-567304/seu-primeiro-triatlo-de-media-distancia-half-im"
-    },
-    {
-      "plan_id": "567305",
-      "language": "Portuguese",
-      "name": "Triathlon: Distância Completa | 21 Semanas | Iniciante | Cruzar a Linha",
-      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-567305/seu-primeiro-triatlo-de-distancia-completa-full-im-plano-reutilizavel-gratis"
-    },
-    {
-      "plan_id": "567560",
-      "language": "Portuguese",
-      "name": "Triatlo Olímpico: Plano de Treinamento Polarizado para Nível Intermediário",
-      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-567560/triatlo-olimpico-plano-de-treinamento-polarizado-para-nivel-intermediario"
-    },
-    {
-      "plan_id": "567561",
-      "language": "Portuguese",
-      "name": "Triathlon Olímpico | 19 Semanas | Avançado | Alta Performance",
-      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-567561/triatlo-olimpico-plano-de-treinamento-polarizado-para-atletas-avancados"
-    },
-    {
-      "plan_id": "567562",
-      "language": "English",
-      "name": "20 Week Olympic Peak: Triathlon 🏊‍♂️🚴🏃 (Advanced Polarized)",
-      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-567562/olympic-triathlon-polarized-training-plan-for-advanced-triathletes"
-    },
-    {
       "plan_id": "567564",
       "language": "Spanish",
       "name": "Plan 20 Semanas: Triatlón Olímpico Peak 🏊🚴🏃 (Polarizado 80/20 - Avanzado)",
@@ -271,108 +229,6 @@
       "language": "Portuguese",
       "name": "Maratona de Barcelona 2026 - 18 semanas - Entre 90 e 110 km por semana - Início até 11 de novembro",
       "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-597524/maratona-de-barcelona-2025-18-semanas-entre-90-e-110-km-por-semana-inicio-ate-11"
-    },
-    {
-      "plan_id": "604546",
-      "language": "Portuguese",
-      "name": "Corrida & Emagrecimento | 8 Semanas | Express | Força em Casa 🏋️🏠 (Sem Equipamento)",
-      "url": "https://www.trainingpeaks.com/training-plans/running/tp-604546/corrida-emagrecimento-8-semanas-forca-em-casa-express"
-    },
-    {
-      "plan_id": "604548",
-      "language": "Portuguese",
-      "name": "Desafio 4 Semanas: Corrida | Perda de Peso | Força em Casa 🏋️🏠 (Sem Equipamento)",
-      "url": "https://www.trainingpeaks.com/training-plans/running/tp-604548/desafio-4-semanas-corrida-perda-de-peso-forca-em-casa-sem-equipamento"
-    },
-    {
-      "plan_id": "604550",
-      "language": "Portuguese",
-      "name": "Corrida & Emagrecimento | 8 Semanas | Com Academia 🏋️ | Express",
-      "url": "https://www.trainingpeaks.com/training-plans/running/tp-604550/corrida-emagrecimento-8-semanas-com-academia-express"
-    },
-    {
-      "plan_id": "604555",
-      "language": "Portuguese",
-      "name": "Desafio 4 Semanas: Corrida | Perda de Peso | Força em Academia 🏋️",
-      "url": "https://www.trainingpeaks.com/training-plans/running/tp-604548/desafio-4-semanas-corrida-perda-de-peso-forca-em-casa-sem-equipamento"
-    },
-    {
-      "plan_id": "604571",
-      "language": "Portuguese",
-      "name": "Corrida: Queima de Gordura (Fat-Max) | 8 Semanas | Com Academia 🏋️",
-      "url": "https://www.trainingpeaks.com/training-plans/running/tp-604571/corrida-queima-de-gordura-fat-max-8-semanas-forca-em-casa-sem-equipamento"
-    },
-    {
-      "plan_id": "604762",
-      "language": "Portuguese",
-      "name": "Ciclismo & Emagrecimento | 8 Semanas | Força em Casa 🏋️🏠 (Sem Equipamento)",
-      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604762/ciclismo-emagrecimento-8-semanas-forca-em-casa-sem-equipamento"
-    },
-    {
-      "plan_id": "604765",
-      "language": "Portuguese",
-      "name": "Ciclismo & Emagrecimento | 8 Semanas | Força - Com Academia 🏋️ | Definição",
-      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604765/ciclismo-emagrecimento-8-semanas-forca-com-academia-definicao"
-    },
-    {
-      "plan_id": "604810",
-      "language": "Portuguese",
-      "name": "Desafio 4 Semanas: Ciclismo | Perda de Peso | Força em Casa 🏋️🏠 (Sem Equipamento)",
-      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604810/desafio-4-semanas-ciclismo-perda-de-peso-forca-em-casa-sem-equipamento"
-    },
-    {
-      "plan_id": "604812",
-      "language": "Portuguese",
-      "name": "Desafio 4 Semanas: Ciclismo | Perda de Peso | Força - Com Academia 🏋️ | Definição",
-      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604812/desafio-4-semanas-ciclismo-perda-de-peso-forca-com-academia-definicao"
-    },
-    {
-      "plan_id": "604816",
-      "language": "Portuguese",
-      "name": "[Objetivo 2026] Ciclismo: Emagrecimento & Watts/kg | 8 Semanas | Força em Casa 🏋️🏠",
-      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604816/objetivo-2026-ciclismo-emagrecimento-watts-kg-8-semanas-forca-em-casa"
-    },
-    {
-      "plan_id": "604820",
-      "language": "Portuguese",
-      "name": "[Objetivo 2026] Ciclismo: Emagrecimento & Watts/kg | 8 Semanas | Força - Com Academia 🏋️",
-      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604820/ciclismo-emagrecimento-watts-kg-8-semanas-forca-com-academia"
-    },
-    {
-      "plan_id": "604934",
-      "language": "Portuguese",
-      "name": "[Objetivo 2026] Emagrecimento & Base: Corrida 🏃 + Ciclismo 🚴 + Força em casa 🏋️🏠",
-      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-604934/objetivo-2026-emagrecimento-base-corrida-ciclismo-forca-em-casa"
-    },
-    {
-      "plan_id": "604937",
-      "language": "Portuguese",
-      "name": "[Objetivo 2026] Emagrecimento & Base: Corrida 🏃 + Ciclismo 🚴 + Força em Academia 🏋️",
-      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-604937/objetivo-2026-emagrecimento-base-corrida-ciclismo-forca-em-academia"
-    },
-    {
-      "plan_id": "604939",
-      "language": "Portuguese",
-      "name": "[Objetivo 2026] Corrida 🏃 + Ciclismo 🚴 + Força em casa 🏋️🏠 : Volume & Resistência",
-      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-604939/objetivo-2026-corrida-ciclismo-forca-em-casa-volume-resistencia"
-    },
-    {
-      "plan_id": "604998",
-      "language": "Portuguese",
-      "name": "[Objetivo 2026] Corrida 🏃 + Ciclismo 🚴 + Força em Academia 🏋️ : Volume & Resistência",
-      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-604998/objetivo-2026-corrida-ciclismo-forca-em-academia-volume-resistencia"
-    },
-    {
-      "plan_id": "612149",
-      "language": "Portuguese",
-      "name": "13 Semanas HYROX Foco em Corrida: Iniciante (Base e Resistência) 🏃",
-      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-612149/13-semanas-hyrox-run-focus-iniciante-base-e-resistencia"
-    },
-    {
-      "plan_id": "612168",
-      "language": "Portuguese",
-      "name": "13 Semanas HYROX Foco em Corrida: Intermediário (Ritmo de Prova) 🏃",
-      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-612168/13-semanas-hyrox-foco-em-corrida-intermediario-ritmo-de-prova"
     },
     {
       "plan_id": "612178",

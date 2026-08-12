@@ -465,31 +465,6 @@
       "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-438913/1500m-distancia-olimpica-plano-de-treinamento-polarizado-para-iniciantes-e-inter",
       "checked_at": "2026-07-26T23:06:30+00:00"
     },
-    "439350": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439350/plan-para-maraton-de-tokyo-2026-12-semanas-entre-110-y-135-km-semana-empezar-has?_gl=1*hybh1c*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDcwOSRqNDkkbDEkaDE4OTQwNTY2NzU.",
-      "checked_at": "2026-07-26T23:06:32+00:00"
-    },
-    "439351": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439351/plan-para-maraton-de-tokyo-2026-12-semanas-entre-90-y-110-km-semanales-empezar-h?_gl=1*hybh1c*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDcwOSRqNDkkbDEkaDE4OTQwNTY2NzU.",
-      "checked_at": "2026-07-26T23:06:34+00:00"
-    },
-    "439352": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439352/plan-para-maraton-de-tokyo-2026-12-semanas-hasta-90-km-semanales-empezar-hasta-e?_gl=1*hybh1c*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDcwOSRqNDkkbDEkaDE4OTQwNTY2NzU.",
-      "checked_at": "2026-07-26T23:06:36+00:00"
-    },
-    "439428": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439428/maraton-de-londres-2026-18-semanas-vol-90-110km-semanales-inicio-22-diciembre-20",
-      "checked_at": "2026-07-26T23:06:38+00:00"
-    },
-    "439429": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439421/maraton-de-boston-2026-18-semanas-vol-90km-semanales-inicio-15-diciembre-2026",
-      "checked_at": "2026-07-26T23:06:40+00:00"
-    },
     "439845": {
       "status": 200,
       "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-439845/triatlon-full-larga-distancia-para-avanzados-polarizado-soporte-por-email-ilimit",
@@ -990,16 +965,6 @@
       "url": "https://www.trainingpeaks.com/training-plans/running/tp-522290/2025-plan-para-perder-peso-24-semanas-correr-y-fuerza-incluye-rutina-de-gimnasio",
       "checked_at": "2026-07-26T23:10:00+00:00"
     },
-    "522765": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522765/maraton-de-barcelona-2025-12-semanas-entre-110-y-135-km-sem-empezar-h-22-de-dici",
-      "checked_at": "2026-07-26T23:10:02+00:00"
-    },
-    "522766": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522766/maraton-de-barcelona-2025-12-semanas-entre-90-y-110-km-sem-empezar-h-22-de-dicie",
-      "checked_at": "2026-07-26T23:10:04+00:00"
-    },
     "528890": {
       "status": 200,
       "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528890/marathon-12-weeks-up-to-90-km-weekly-pace-based",
@@ -1470,90 +1435,15 @@
       "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612555/plan-12-semanas-maraton-peak-carrera-gym-volumen-avanzado-110km",
       "checked_at": "2026-07-26T23:13:25+00:00"
     },
-    "612568": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612568/maraton-de-boston-2026-running-rutina-de-gym-volumen-55-90-km",
-      "checked_at": "2026-07-26T23:13:33+00:00"
-    },
-    "612570": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612570/maraton-de-boston-2026-running-rutina-de-gym-intermedio-90-110km",
-      "checked_at": "2026-07-26T23:13:35+00:00"
-    },
-    "612571": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612571/maraton-de-boston-2026-running-rutina-de-gym-avanzado-110km-sem",
-      "checked_at": "2026-07-26T23:13:37+00:00"
-    },
-    "612572": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612572/maraton-de-londres-2026-running-rutina-de-gym-volumen-55-90-km",
-      "checked_at": "2026-07-26T23:13:39+00:00"
-    },
-    "612573": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612573/maraton-de-londres-2026-running-rutina-de-gym-intermedio-90-110km",
-      "checked_at": "2026-07-26T23:13:41+00:00"
-    },
-    "612574": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612574/maraton-de-londres-2026-running-rutina-de-gym-avanzado-110km-sem",
-      "checked_at": "2026-07-26T23:13:43+00:00"
-    },
     "612575": {
       "status": 200,
       "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612575/plano-12-semanas-base-maratona-corrida-gym-volume-55-a-90km-semana",
       "checked_at": "2026-07-26T23:13:45+00:00"
     },
-    "612577": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612577/maratona-de-boston-2026-corrida-rotina-de-gym-volume-55-90-km",
-      "checked_at": "2026-07-26T23:13:47+00:00"
-    },
-    "612581": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612581/maratona-de-londres-2026-corrida-rotina-de-gym-volume-55-90-km",
-      "checked_at": "2026-07-26T23:13:49+00:00"
-    },
     "612582": {
       "status": 200,
       "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612582/plano-18-semanas-maratona-corrida-gym-volume-55-a-90km-semana",
       "checked_at": "2026-07-26T23:13:51+00:00"
-    },
-    "612820": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612820/maratona-de-londres-2026-corrida-rotina-de-gym-volume-55-90-km",
-      "checked_at": "2026-07-26T23:13:53+00:00"
-    },
-    "612829": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612829/maratona-de-santiago-2026-corrida-rotina-de-gym-volume-55-90-km",
-      "checked_at": "2026-07-26T23:13:55+00:00"
-    },
-    "612838": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612838/maratona-do-rio-2026-corrida-rotina-de-gym-volume-55-90-km",
-      "checked_at": "2026-07-26T23:13:56+00:00"
-    },
-    "612970": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612970/maraton-de-santiago-2026-running-rutina-de-gym-18-semanas-volumen-55-90-km",
-      "checked_at": "2026-07-26T23:13:58+00:00"
-    },
-    "612974": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612974/maraton-de-lima-2026-running-rutina-de-gym-18-semanas-volumen-55-90-km",
-      "checked_at": "2026-07-26T23:14:00+00:00"
-    },
-    "612836": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612836/maratona-de-lima-2026-corrida-rotina-de-gym-volume-55-90-km",
-      "checked_at": "2026-07-26T23:14:02+00:00"
-    },
-    "612978": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612978/maraton-de-rio-de-janeiro-2026-running-rutina-de-gym-18-semanas-volumen-55-90-km",
-      "checked_at": "2026-07-26T23:14:04+00:00"
     }
   },
   "note": "Entries for 13 plan_ids were dropped on 2026-08-12 because their `link` was corrected — a status recorded against the previous URL says nothing about the new one. They are simply unknown until the next crawl, which is safe: the build only excludes a plan on a definite 404/410, never on absence."

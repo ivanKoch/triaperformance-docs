@@ -56,6 +56,16 @@ Against a build cost of 18 variants per race (2 durations × 3 volume tiers × 3
 
 **Decision: do not republish. The race-stamped plan model is retired permanently.** Race demand is served by evergreen race landing pages joining the generic marathon plans. This closes the November 1 decision three months early.
 
+***Executed August 12, 2026 — 51 race-stamped plans removed from `data/training_plans_inventory.csv`.*** *(Iván's list; all 42 km Running — ES 22 / EN 18 / PT 11. Every one was already `is_published=FALSE`, so **the published count does not move: 327 before and after.** The inventory drops 381 → 330 rows.) This is the execution of the decision above, not a new decision.*
+
+***Deleted from the catalogue, kept in the ledger.*** *Seven of the 51 had sold — 9 units, $277.15 lifetime — so their rows stay in `plan_performance.csv` with `in_inventory=FALSE`, the same convention the 15 previously-retired plans already use. Total lifetime earnings in that file is unchanged at $14,333.54. **Removing them would have silently reduced every historical total in this document**, including the table above, which is the evidence base for the decision being executed. A catalogue and a ledger answer different questions: the catalogue says what is for sale, the ledger says what was ever earned, and only the first should shrink.*
+
+*Five ids on the list were already absent (`439427`, `522767`, `612539`, `612543`, `612545`) — nothing to remove. ~~One race-stamped plan survives the sweep: `612836`, the Portuguese Maratona de Lima 2026.~~ **`612836` deleted the same session; the sweep is complete at 52 plans. Zero race-stamped plans remain in the inventory.***
+
+***Final state of the catalogue after the day's work: 328 rows, 328 published, no unpublished remainder, no plan linking to another plan's page, no two plans sharing a link.*** *`567564` (duplicate of `480116`) was deleted and `612178` (PT HYROX Avançado) published, completing the PT HYROX ladder. **Portuguese finishes the day at 53 published, from 29 this morning.***
+
+*Note for NEXT #1 in `open-loops.md`: **this does not block race landing pages.** Those were always designed to join the *generic* marathon plans by distance/language/weeks-countdown at render time — never a static race-specific plan_id. That design choice is what lets the race pages outlive the race-stamped plans.*
+
 ## 4. The long tail is half the catalogue
 
 - 303 published plans; **152 have never sold once (50%)** *(recomputed Aug 10, 2026 after the two EN full-distance Ironman plans were confirmed live and flagged `TRUE`; was 301 / 150, same 50%. Recomputed Aug 8, 2026 after the Rio 2026 plan was unpublished; was 302 / 151.)*
