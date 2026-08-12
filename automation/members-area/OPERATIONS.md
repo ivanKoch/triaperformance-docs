@@ -30,13 +30,29 @@ however you prefer.
 *Alternative for multiple new athletes at once*: use `backfill_existing_customers.py`
 with a CSV instead of doing this one-by-one (see its docstring).
 
-> **The query below has no `token` column, on purpose.** *(Note added Aug 10, 2026, after the whole table — 36 live tokens — was pasted into a chat transcript twice in one session.)* A token is a working password into paid content; there is almost never a reason for one to appear in a full-table listing, a screenshot, or a message to anyone. Use §2 to look at the roster and §3 to pull **one** person's token when you actually need it. If you catch yourself adding `token` to §2, what you probably want is §3.
+> ~~**The query below has no `token` column, on purpose.**~~ *(Note added Aug 10, 2026, after the whole table — 36 live tokens — was pasted into a chat transcript twice in one session.)* **That warning failed. It happened again on Aug 12, which makes three times in three days, and the reason is not carelessness: the query anyone actually types is `SELECT *`, and the useful diagnostic is the same keystrokes as the dangerous one.**
+>
+> **So §2 below no longer queries the table at all — it queries `token_roster`, a view that does not contain the column.** You cannot leak a token through it by accident, including with `SELECT *`. Use it for anything roster-shaped: who has access, who has never logged in, language mix. Use §3 to pull **one** person's token, which is the only case that ever legitimately needs one.
+>
+> *If you find yourself typing `SELECT * FROM subscriber_tokens`, that is the thing to stop doing — and it is now the only way to get it wrong, which is the point.*
 
-## 2. Query all tokens
+## 2. Query the roster (no tokens — use this by default)
+
 ```bash
 docker exec -it analytics-postgres psql -U analytics -d members -c \
-  "SELECT email, active, access_count, last_accessed_at, created_at FROM subscriber_tokens ORDER BY created_at DESC;"
+  "SELECT * FROM token_roster ORDER BY created_at DESC;"
 ```
+
+Sorted by language instead, which is the useful cut when checking that nobody is on the wrong one:
+
+```bash
+docker exec -it analytics-postgres psql -U analytics -d members -c \
+  "SELECT preferred_language, email, active, access_count
+     FROM token_roster
+    ORDER BY CASE preferred_language WHEN 'ENGLISH' THEN 1 WHEN 'PORTUGUESE' THEN 2 ELSE 3 END, email;"
+```
+
+*The view is defined in `schema.sql`. If it does not exist yet on a given box, re-run that file — it is `CREATE OR REPLACE`, so it is safe to run against a live database.*
 
 ## 3. Query a specific person
 ```bash

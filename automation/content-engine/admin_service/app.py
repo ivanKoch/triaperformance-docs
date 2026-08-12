@@ -264,11 +264,48 @@ def drafts():
         rows = cur.fetchall()
         cur.execute("SELECT count(*) AS n FROM ideas_awaiting_draft")
         waiting = cur.fetchone()["n"]
+        # Approved but never published. See the view's comment in schema.sql:
+        # approving removes a piece from this page, so a failed publish call
+        # leaves it invisible AND unreachable. This is the only place it shows.
+        cur.execute("SELECT * FROM approved_unpublished")
+        stuck = cur.fetchall()
+
+    stuck_html = ""
+    if stuck:
+        items = "".join(
+            f"""
+      <label class="stuck-row">
+        <input type="checkbox" name="retry" value="{s['id']}" checked>
+        <span><strong>{esc(s['headline'])}</strong><br>
+          <span class="meta">{LANG_LABEL.get(s['language'], s['language'])} ·
+          aprobado {s['decided_at'].strftime('%d/%m %H:%M') if s['decided_at'] else '—'} ·
+          <code>{esc(s['file_path'])}</code></span></span>
+      </label>""" for s in stuck)
+        stuck_html = f"""
+<form method="POST" action="/admin/drafts/republish">
+  <div class="card" style="border-left:4px solid #b45309;">
+    <h2 style="margin-top:0;">{len(stuck)} pieza(s) aprobadas que nunca se publicaron</h2>
+    <p class="why">Se aprobaron, pero el aviso a n8n no llegó o falló, así que el
+      artículo no existe todavía. Reintentar es seguro: n8n vuelve a commitear el
+      mismo archivo y no duplica nada.</p>
+    {items}
+    <div class="bar" style="margin-top:14px;">
+      <button type="submit" class="primary">Reintentar publicación</button>
+    </div>
+  </div>
+</form>"""
 
     if not rows:
-        msg = (f'<p class="empty">No hay borradores esperando revisión.'
-               f'{f" {waiting} idea(s) aprobadas esperan al redactor." if waiting else ""}</p>')
-        return page("Borradores", "0 esperando revisión", msg, active="drafts")
+        msg = stuck_html + (
+            f'<p class="empty">No hay borradores esperando revisión.'
+            f'{f" {waiting} idea(s) aprobadas esperan al redactor." if waiting else ""}</p>')
+        # NOTE: stuck_html goes FIRST and this return is no longer an early exit
+        # from the stuck check. Before Aug 12, 2026 this branch returned before
+        # anything looked at approved-but-unpublished pieces, so the one state
+        # you most needed to see was the one guaranteed to be hidden.
+        return page("Borradores",
+                    f"0 esperando revisión{f' · {len(stuck)} sin publicar' if stuck else ''}",
+                    msg, active="drafts")
 
     cards = []
     for p in rows:
@@ -292,7 +329,7 @@ def drafts():
       <textarea class="hidden" id="edit_{p['id']}" name="body_{p['id']}">{esc(p['body'])}</textarea>
     </div>""")
 
-    body = f"""<form method="POST" action="/admin/drafts/decide">
+    body = stuck_html + f"""<form method="POST" action="/admin/drafts/decide">
   <div class="bar">
     <button type="button" onclick="setAll('approve')">Publicar todos</button>
     <button type="button" onclick="setAll('skip')">Dejar pendientes</button>
@@ -302,7 +339,9 @@ def drafts():
 </form>
 <footer>Editar el HTML y guardar conserva tu versión; el original del modelo se guarda aparte
 para comparar qué corrige siempre.</footer>"""
-    return page("Borradores", f"{len(rows)} esperando revisión · {waiting} idea(s) en cola del redactor",
+    return page("Borradores",
+                f"{len(rows)} esperando revisión · {waiting} idea(s) en cola del redactor"
+                + (f" · {len(stuck)} sin publicar" if stuck else ""),
                 body, active="drafts")
 
 

@@ -191,6 +191,30 @@ LEFT JOIN content_ideas i ON i.id = p.idea_id
 WHERE p.status = 'DRAFTED'
 ORDER BY p.generated_at DESC;
 
+-- ---------------------------------------------------------------------------
+-- approved_unpublished — pieces that were approved and then went nowhere.
+--
+-- Added August 12, 2026. Approving a piece flips it DRAFTED -> APPROVED, which
+-- removes it from `pending_drafts` and therefore from /admin/drafts/, the only
+-- page that can act on it. Publishing then happens by POSTing to n8n, and that
+-- call is wrapped in a try/except that PRINTS the failure and returns a 303 to
+-- a page which, by then, no longer lists the piece.
+--
+-- So the failure mode is: you click Publicar, the screen says nothing is
+-- pending, and the article does not exist. Every subsequent visit agrees that
+-- there is nothing to do. This view is what makes that state visible.
+--
+-- `published_at IS NULL` rather than a status check, deliberately: the piece is
+-- stuck precisely because nothing has written back to it, so its status is the
+-- one field guaranteed not to have moved.
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE VIEW approved_unpublished AS
+SELECT p.*, i.article_type, i.cta_type, i.target_query
+FROM content_pieces p
+LEFT JOIN content_ideas i ON i.id = p.idea_id
+WHERE p.status = 'APPROVED' AND p.published_at IS NULL
+ORDER BY p.decided_at;
+
 -- Ideas cleared for writing that don't have a draft yet — the writer's queue.
 CREATE OR REPLACE VIEW ideas_awaiting_draft AS
 SELECT i.*
