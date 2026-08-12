@@ -113,8 +113,19 @@ docker build -t tp-admin ~/.hermes/triaperformance-docs/automation/content-engin
 docker run -d --name tp-admin --restart unless-stopped --network host \
   -e PG_HOST=127.0.0.1 -e PG_PORT=5432 -e PG_USER=analytics -e PG_DB_CONTENT=content \
   -e PG_PASSWORD="$PGPW" \
+  -e PUBLISH_WEBHOOK=http://100.70.89.17:5678/webhook/publish-article \
   tp-admin
 ```
+
+*`PUBLISH_WEBHOOK` added August 12, 2026 — **it was missing from this command while being set on the live container**, which is the worst combination: the runbook worked well enough to produce a healthy container, and the thing it silently dropped was the entire publishing step. Approving a piece would have flipped it to `APPROVED`, POSTed nowhere, and removed it from `/admin/drafts/`, with no error anywhere. Found while rebuilding for the `approved_unpublished` view — by inspecting the live container's env before destroying it, which is now the standing habit below.*
+
+> **Before `docker rm -f` on any container, list its environment.** Docker fixes env at `docker run`, so anything set on the live container and absent from this file disappears on recreate, permanently and silently. The `grep -v PASSWORD` keeps the credential off your screen:
+>
+> ```bash
+> docker inspect tp-admin --format '{{range .Config.Env}}{{println .}}{{end}}' | grep -v PASSWORD
+> ```
+>
+> Anything in that output which is not in the `docker run` command above is drift, and the fix is to add it here — not to remember it next time.
 
 *Corrected August 12, 2026 — this line used to pass `-e CONTENT_DB_DSN="postgres://analytics:$PGPW@127.0.0.1:5432/content"`. Same tripwire as Step 3: `$PGPW` contains `:` and `@`, so the URI form silently truncates the password. `app.py` uses `CONTENT_DB_DSN` when set and otherwise builds the connection from `PG_HOST`/`PG_PORT`/`PG_USER`/`PG_PASSWORD`/`PG_DB_CONTENT` — so the fix is to pass the discrete variables and never set the DSN. `PG_PASSWORD` is quoted for the same reason.*
 
