@@ -8,6 +8,18 @@
 
 ---
 
+## Closed — August 12, 2026 (sales transcript review)
+
+*13 real converted-athlete WhatsApp transcripts (Dec 2025 – Aug 2026) read in full. Produced `sales-playbook.md` — the pre-sale and onboarding message library — plus one decision, one duplicate found, and a lesson about this file.*
+
+- [x] ~~**How far ahead is the plan published?**~~ — **DECIDED, Iván, Aug 12, 2026, and recorded in `methodology.md` §6.4:** week by week before the first test, four weeks loaded ahead after it. **The trigger is the test, not a date** — that's the point where zones are real and the athlete's actual week is known, so building ahead stops being work that gets reworked. *Opened and closed the same session; it existed as an item for about an hour.* **It was the only service complaint two different athletes raised unprompted, and they had been given opposite answers:** Roberto Palacios, Aug 11 — *"No me ha llegado el plan de la semana"*, three weeks past his test, looking at an empty calendar, promised 3–4 weeks ahead *"así no vuelve a pasar"*; Sergio, May 16 — *"¿Cuándo pondrás la rutina para las próximas semanas?"*, told the wait is deliberate so Monday's feedback shapes the week. Both answers were defensible, which is exactly why it survived: neither conversation felt like a mistake at the time.
+- [x] ~~**Test-hygiene message inconsistency**~~ — **not a new item; a duplicate.** Already open as `athlete-onboarding-flow.md` §6 Stage 9 (*"lowest-hanging item since day one"*). Re-raised with fresh transcript evidence attached, which is the second-copy-that-drifts failure the hygiene rules exist to prevent. The evidence was appended to the original entry and the duplicate deleted. *Confirmed rather than suspected now: delivered three different ways in three conversations — "revisa las instrucciones del test" (Roberto P), two voice notes (Alfonso), a verbal explanation of ritmos (Christian).*
+
+> ***The lesson worth keeping from this session, and it is about this file rather than about sales.*** *The review was written up as **13 open items, and cut to 1** the same day on Iván's push-back — he had spent the day removing items and this added more than he had closed. On inspection ten of the thirteen were never open loops. **Five were notes about habits that the new playbook already fixes in text** (the discount frame, the price menu, a wrong `{DEPORTES}` variable that shipped to a real buyer, the missing "what failed before" question, social proof sent as a greeting) — a habit to hold is a standing decision and belongs in the doc that owns the behaviour, not on a checklist. **One was the duplicate above. Four folded into items that already existed and needed a line, not an entry** — semana-ideal automation → Stage 9; the Loom video → the TSS/PMC explainer now in NEXT; the EN/PT library → the members-area translation pass; the All-Access→coaching downsell → the win-back sequence in the small slot.*
+> ***A finding is not an open item.*** *Most of what a review produces is a decision to record or a line to append. Writing each finding as its own checkbox is how this file got to 50 KB in the first place, and the failure mode is not laziness — it is thoroughness pointed at the wrong artefact.*
+
+---
+
 ## Closed — August 12, 2026 (small-items session)
 
 *A deliberate low-stakes session: no branch work, five small items picked off the list. Two closed outright; three moved forward and stayed open with sharper triggers. Recorded here because the pattern repeated — **in four of the five, the item as written down was not quite the item that existed.***

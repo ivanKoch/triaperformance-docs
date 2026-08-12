@@ -19,6 +19,8 @@ A triathlon and running coaching business, founded roughly three years ago, run 
 
 **Target:** $5,000+/month. Current gap: ~$900/month (~22% of current run rate).
 
+> ***Note, August 12, 2026 — the athlete counts in the table above do not reconcile with `data/athlete_tenure.csv`, and which is right is unresolved.*** *That file (98 rows, full signup/churn history) puts **40 active on June 30** — 34 CoachMatch, 6 Private — against the **30 / 5** in this table; and **31 CoachMatch on July 31** against the **33** implied by the July book table below. **The two disagree in opposite directions a month apart**, so it isn't a constant definitional offset. Detail, candidate causes and the survival analysis: **`tenure-analysis.md`** §5. **This doc remains the owner of the active-athlete count and the revenue figures; `tenure-analysis.md` owns tenure, churn and retention.** Neither file should be edited to agree with the other until the cause is known — the disagreement is the evidence.*
+
 **Trend context:** February 2026 total was $4,862 (CoachMatch $3,311 / Private $799 / Plans $752) — a period of active full-time coaching alongside a demanding job. June's mix shift (Plans growing while CoachMatch and Private declined) reflects several months of deliberate maintenance mode, not a structural problem with those channels. CoachMatch specifically may already be inflecting: recent acquisitions have consistently landed at the higher $149 price point.
 
 ## Existing assets (built, under-distributed)

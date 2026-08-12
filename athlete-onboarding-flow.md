@@ -153,6 +153,8 @@ Two more, technical, recorded in `ai-infrastructure-documentation.md` §12 and �
 ## 6. What's left
 
 ### Stage 8 — capture the perfect week · the one worth automating
+*Update, August 12, 2026 — both templates now exist, written from the transcript review: **`sales-playbook.md` C2** (semana ideal, with the worked example that makes free text answerable) and **C4** (test hygiene). The review also confirmed the cost of not having had them. The semana-ideal question was improvised every time and sometimes never landed: José was still being asked **three weeks after starting** — *"no me queda todavía muy claro cómo es una semana normal tuya"* — and Rafael was asked twice in one morning. Test hygiene went out three different ways in three conversations: a "revisa las instrucciones del test" (Roberto P), two voice notes (Alfonso), a verbal explanation of ritmos (Christian). **Nothing about this stage changed — the inconsistency is now confirmed rather than suspected, and the text no longer has to be written before it can be automated.***
+
 The WhatsApp conversation stays manual; it's a conversation, not a form. What should change is where the answer lands: today it's typed into a TrainingPeaks note, which has **no programmatic access**, so it's invisible to the AI Coach, to a hired-coach handoff, and to every automation here. Store it as structured `perfect_week` data and *generate* the TP note from it.
 
 This is where **`athlete_profile`** gets created. §2 designed two tables; only `athlete_intake` exists, deliberately — a schema nothing writes to is speculative. It belongs with this stage.
