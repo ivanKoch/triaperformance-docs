@@ -241,8 +241,32 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
         const file = path.join(__dirname, "site", url.replace(/^\//, ""));
         hash = crypto.createHash("md5").update(fs.readFileSync(file)).digest("hex").slice(0, 8);
       } catch (e) {
-        // Missing file: fail open with an unversioned URL rather than a broken build.
-        console.warn("[cache-bust] could not hash " + url + " — serving unversioned");
+        /* Changed from fail-open to fail-loud, August 12, 2026.
+         *
+         * This used to warn and emit the bare URL. That was the right trade
+         * when the only cost was a stale file for a few hours. It stopped being
+         * right the same day Caddy started sending
+         * `Cache-Control: public, max-age=31536000, immutable` for /assets/css
+         * and /assets/js: an asset that slips through WITHOUT a ?v= fingerprint
+         * is now pinned in every visitor's browser for a year, with no way to
+         * bust it short of renaming the file.
+         *
+         * So the two possible failures are no longer comparable. Fail open: a
+         * year of serving stale CSS to people who cannot clear it, announced by
+         * one warning line in a build log nobody reads. Fail closed: a build
+         * that stops, names the file, and is fixed in about thirty seconds.
+         *
+         * The realistic trigger is a typo in a page's `pageCss` front matter,
+         * which is exactly the case where a silent fallback looks like it
+         * worked and ships a page with no stylesheet.
+         */
+        throw new Error(
+          `cache-bust: cannot read "${url}" (looked in site${url}).\n` +
+          `Every CSS/JS URL must be fingerprinted, because Caddy now serves ` +
+          `/assets/css and /assets/js as immutable for a year — an unfingerprinted ` +
+          `file would be uncacheable-to-fix for that long.\n` +
+          `Check the filename, or the pageCss/css value in the page's front matter.`
+        );
       }
       assetHashes.set(url, hash ? url + "?v=" + hash : url);
     }

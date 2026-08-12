@@ -75,6 +75,11 @@ CSS = """
 body { font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
        color:var(--ink); background:var(--white); line-height:1.6; }
 .wrap { max-width:1080px; margin:0 auto; padding:0 24px 60px; }
+/* Stuck-publish rows (added Aug 12, 2026). Amber, not red: nothing is broken
+   or lost, a step just didn't complete and can be re-run. */
+.stuck-row { display:flex; gap:10px; align-items:flex-start; padding:8px 0;
+             border-top:1px solid var(--mist); }
+.stuck-row input { margin-top:6px; }
 header { border-bottom:1px solid var(--mist); padding:28px 0 20px; }
 h1 { font-size:30px; font-weight:700; letter-spacing:-0.02em; }
 .sub { color:var(--slate); font-size:15px; margin-top:4px; }
@@ -375,24 +380,70 @@ def drafts_decide():
                         "WHERE id = ANY(%s) AND status='DRAFTED'", (reject,))
         conn.commit()
 
-    # Hand approved pieces to n8n, which commits the .njk file to GitHub. The
-    # VPS itself has no push access, deliberately — see the diverged-branch
-    # failure in website-build-cutover-runbook.md.
-    hook = os.environ.get("PUBLISH_WEBHOOK")
-    if approve and hook:
-        import urllib.request
-        try:
-            req = urllib.request.Request(
-                hook, data=json.dumps({"piece_ids": approve}).encode(),
-                headers={"Content-Type": "application/json"}, method="POST")
-            with urllib.request.urlopen(req, timeout=20) as r:
-                print(f"[drafts] publish webhook returned {r.status}")
-        except Exception as e:
-            print(f"[drafts] publish webhook failed: {e}")
-    elif approve:
-        print("[drafts] PUBLISH_WEBHOOK not set — approved but not published")
+    ok, note = publish_webhook(approve)
+    print(f"[drafts] approved={len(approve)} rejected={len(reject)} "
+          f"edited={len(edits)} publish={note}")
+    return redirect("/admin/drafts/", code=303)
 
-    print(f"[drafts] approved={len(approve)} rejected={len(reject)} edited={len(edits)}")
+
+def publish_webhook(piece_ids):
+    """Hand approved pieces to n8n, which commits the .njk file to GitHub. The
+    VPS itself has no push access, deliberately — see the diverged-branch
+    failure in website-build-cutover-runbook.md.
+
+    Extracted August 12, 2026 so the approve path and the retry path cannot
+    drift into two slightly different requests. A retry that differs from the
+    original call is not a retry.
+
+    Failure is swallowed on purpose — an approval must not be lost because n8n
+    was briefly down — but that is only defensible now that a failed publish is
+    VISIBLE. It shows up in `approved_unpublished` and on /admin/drafts/ with a
+    retry button. Before that view existed, this except block was the whole
+    reason a piece could vanish: the failure was printed to a container log and
+    nothing in the UI ever mentioned it again.
+    """
+    if not piece_ids:
+        return True, "nothing to publish"
+    hook = os.environ.get("PUBLISH_WEBHOOK")
+    if not hook:
+        print("[publish] PUBLISH_WEBHOOK not set — approved but not published")
+        return False, "PUBLISH_WEBHOOK not set"
+    import urllib.request
+    try:
+        req = urllib.request.Request(
+            hook, data=json.dumps({"piece_ids": piece_ids}).encode(),
+            headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(req, timeout=20) as r:
+            print(f"[publish] webhook returned {r.status} for {piece_ids}")
+            return True, f"HTTP {r.status}"
+    except Exception as e:
+        print(f"[publish] webhook FAILED for {piece_ids}: {e}")
+        return False, f"failed: {e}"
+
+
+@app.post("/admin/drafts/republish")
+def drafts_republish():
+    """Re-fire the publish webhook for pieces stuck in APPROVED.
+
+    Safe to press repeatedly: n8n commits the same file path from the same row,
+    so a duplicate call overwrites identical content rather than creating a
+    second article. That property is what makes a retry button the right fix
+    here instead of a manual database edit.
+    """
+    ids = []
+    for v in request.form.getlist("retry"):
+        try:
+            ids.append(int(v))
+        except ValueError:
+            continue
+    # Re-check status server-side. The page may have been open for a while, and
+    # retrying something that has since published would be a confusing no-op.
+    if ids:
+        with db() as conn, conn.cursor() as cur:
+            cur.execute("SELECT id FROM approved_unpublished WHERE id = ANY(%s)", (ids,))
+            ids = [r["id"] for r in cur.fetchall()]
+    ok, note = publish_webhook(ids)
+    print(f"[drafts] republish requested={len(ids)} result={note}")
     return redirect("/admin/drafts/", code=303)
 
 
