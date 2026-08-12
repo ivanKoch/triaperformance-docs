@@ -48,7 +48,27 @@ STATUS = os.environ.get("PLAN_LINK_STATUS") or os.path.join(
 UA = "Mozilla/5.0 (compatible; TriaperformanceLinkCheck/1.0; +https://triaperformance.com)"
 
 
-def load_inventory():
+def load_inventory(include_unpublished=False):
+    """Plans to check.
+
+    THE `include_unpublished` FLAG IS THE WHOLE POINT OF THE AUDIT MODE.
+
+    By default this function skips every row where is_published != TRUE, which
+    is right for the build guard: the build only ever links to published plans,
+    so checking the rest is wasted requests against a throttling host.
+
+    But it makes this script structurally incapable of finding the error that
+    has actually occurred four times in a week -- a plan flagged FALSE that is
+    live and buyable on TrainingPeaks. The filter takes `is_published` as its
+    INPUT, so the output can only ever confirm the TRUE set. Three of the four
+    known cases (Lima, the PT triathlon siblings, both EN Ironman plans) were
+    FALSE-but-live, and every one of them was found by hand.
+
+    This is the same trap `open-loops.md` warns about in words -- "do not verify
+    the inventory against a file derived from the inventory" -- sitting in code,
+    where the derivation is the filter on line one. A checker that only looks
+    where the flag tells it to look cannot audit the flag.
+    """
     with open(INVENTORY, encoding="utf-8-sig", newline="") as fh:
         rows = list(csv.DictReader(fh))
     plans = []
@@ -57,11 +77,13 @@ def load_inventory():
         link = (r.get("link") or "").strip()
         if not pid or pid == "Not built":
             continue
-        if (r.get("is_published") or "").strip() != "TRUE":
+        published = (r.get("is_published") or "").strip() == "TRUE"
+        if not published and not include_unpublished:
             continue
         if not link or link == "Expired":
             continue
-        plans.append({"id": pid, "url": link, "name": (r.get("plan_name") or "").strip()})
+        plans.append({"id": pid, "url": link, "name": (r.get("plan_name") or "").strip(),
+                      "published": published, "language": (r.get("language") or "").strip()})
     # de-duplicate by id, first row wins (the inventory has a few duplicate IDs)
     seen, out = set(), []
     for p in plans:
@@ -90,9 +112,13 @@ def main():
     ap.add_argument("--limit", type=int, default=0, help="check only the first N plans")
     ap.add_argument("--only-unknown", action="store_true",
                     help="skip plans already recorded as ok")
+    ap.add_argument("--audit", action="store_true",
+                    help="check UNPUBLISHED plans too and report is_published "
+                         "disagreements in both directions. Writes a separate "
+                         "report and leaves plan_link_status.json untouched.")
     args = ap.parse_args()
 
-    plans = load_inventory()
+    plans = load_inventory(include_unpublished=args.audit)
     previous = {}
     if os.path.exists(STATUS):
         with open(STATUS, encoding="utf-8") as fh:
@@ -152,6 +178,54 @@ def main():
         "inconclusive": inconclusive,
         "plans": results,
     }
+
+    if args.audit:
+        # Deliberately a SEPARATE file. plan_link_status.json is an input to the
+        # website build; an audit run covers a different population (it includes
+        # unpublished plans), so writing it there would silently change what the
+        # build believes it knows about. The audit reads, it does not overwrite.
+        report = os.path.join(REPO, "data", "plan_publish_audit.json")
+        should_be_false, should_be_true, unresolved = [], [], []
+        for p in plans:
+            st = results.get(p["id"], {}).get("status")
+            if st == 200 and not p["published"]:
+                should_be_true.append(p)
+            elif st in (404, 410) and p["published"]:
+                should_be_false.append(p)
+            elif st not in (200, 404, 410):
+                unresolved.append(p)
+
+        with open(report, "w", encoding="utf-8") as fh:
+            json.dump({
+                "generated_at": payload["generated_at"],
+                "note": ("HTTP 200 means the URL resolves. It is EVIDENCE that a plan is "
+                         "live, not proof that it is purchasable -- TrainingPeaks may keep "
+                         "a page reachable after a plan stops selling. Treat this as a "
+                         "candidate list for Ivan to confirm by eye, never as an "
+                         "instruction to flip the flag automatically."),
+                "flagged_FALSE_but_link_is_live": [
+                    {"plan_id": p["id"], "language": p["language"], "name": p["name"], "url": p["url"]}
+                    for p in should_be_true],
+                "flagged_TRUE_but_link_is_dead": [
+                    {"plan_id": p["id"], "language": p["language"], "name": p["name"], "url": p["url"]}
+                    for p in should_be_false],
+                "unresolved": [{"plan_id": p["id"], "name": p["name"]} for p in unresolved],
+            }, fh, indent=2, ensure_ascii=False)
+
+        print(f"\n=== AUDIT ===")
+        print(f"  flagged FALSE but the link is LIVE : {len(should_be_true)}")
+        for p in should_be_true:
+            print(f"      {p['id']}  {p['language'][:3]:<3} {p['name'][:66]}")
+        print(f"  flagged TRUE but the link is DEAD  : {len(should_be_false)}")
+        for p in should_be_false:
+            print(f"      {p['id']}  {p['language'][:3]:<3} {p['name'][:66]}")
+        print(f"  unresolved (throttled/timeout)     : {len(unresolved)}")
+        print(f"\n  report written to {report}")
+        print("  plan_link_status.json deliberately NOT modified by an audit run.")
+        print("  A live URL is evidence, not proof — confirm each one in TrainingPeaks")
+        print("  before changing the flag.")
+        return
+
     with open(STATUS, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, indent=2, ensure_ascii=False)
 

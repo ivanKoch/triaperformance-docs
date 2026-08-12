@@ -348,6 +348,37 @@ module.exports = function () {
     };
   }
 
+  /* ---------------------------------------------------------------------
+     GUARD: a plan's `link` must point at that plan.
+
+     Added August 12, 2026, after finding TWELVE published plans whose link
+     pointed at a different plan's TrainingPeaks page. The cause was copy-paste
+     between sibling rows: the "+ Gym Lifting" variants were created from their
+     pace-based siblings and the link column was never updated, so a buyer
+     clicking "18 Week Marathon Peak: Run + Gym Lifting" landed on the pace-based
+     plan with no gym work in it. Two weight-loss plans (606085/606087) had their
+     links swapped with each other outright.
+
+     Nothing caught it for months, and it is worth being precise about why:
+     check-plan-links.py verifies that a URL is ALIVE. Every one of these was
+     alive — it was just the wrong plan. Liveness and correctness are different
+     properties, and only one of them was being tested.
+
+     This is a cheap, total test for the other one. It runs on published plans
+     only, since those are the ones a customer can click.
+     --------------------------------------------------------------------- */
+  const misrouted = all.filter((p) => p.url && !p.url.includes(`/tp-${p.id}/`));
+  if (misrouted.length) {
+    throw new Error(
+      `plans.js: ${misrouted.length} plan(s) link to a DIFFERENT plan's TrainingPeaks page. ` +
+      `A buyer clicking these pays for the wrong product, so the build fails rather than ship it.\n` +
+      misrouted.map((p) => `  ${p.id} -> ${p.url}`).join("\n") +
+      `\nFix the 'link' column in data/training_plans_inventory.csv. Get the real URL from ` +
+      `TrainingPeaks — do not construct one that looks right, because a plausible URL that ` +
+      `returns 200 is harder to spot than an obviously broken one.`
+    );
+  }
+
   console.log(
     `[plans] ${all.length} linkable plans loaded ` +
     `(excluded: ${problems.dead.length} known-dead, ` +

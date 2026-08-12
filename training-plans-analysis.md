@@ -143,6 +143,53 @@ Most plans bought are 8, 12 or 16 weeks (56, 46 and 66 units respectively), so a
 
 ---
 
+## 11. Sales as an independent check on `is_published` (August 12, 2026)
+
+The `is_published` flag has been confirmed stale four times in a week and every one of those was found by hand. The reason no check caught them is worth stating precisely, because it is a method problem and not an attention problem: **`automation/check-plan-links.py` skipped every row where `is_published != TRUE`.** The flag was the checker's input filter, so its output could only ever confirm the TRUE set. Three of the four known cases were FALSE-but-live, which that script structurally could not see. *(Fixed the same day — `--audit` mode now checks unpublished plans too and reports disagreements in both directions.)*
+
+**`plan_sales.csv` is the independent source the audit was missing.** Transactions come from TrainingPeaks payouts, not from the inventory, so they are not derived from the thing being tested. That gives a one-line assertion with no network calls behind it:
+
+> **A plan cannot have sold without having been published at the time of the sale.** So `is_published = FALSE` combined with a recent sale is not a candidate for review — it is a contradiction.
+
+Run against the full catalogue, 12 plans are flagged FALSE and carry sales. Seven are race-dated for 2026 races already run (Tokyo, London, Barcelona) and are correctly retired. **The other five are not, and they are all Portuguese triathlon:**
+
+| plan_id | plan | units | earnings | last sale |
+|---|---|---|---|---|
+| 567302 | Triathlon Sprint, 12 wk, Iniciante | 1 | $16.80 | **2026-07-30** |
+| 567303 | Triathlon Olímpico, 16 wk, Iniciante | 3 | $67.20 | **2026-07-23** |
+| 567560 | Triatlo Olímpico, polarizado | 1 | $26.60 | 2026-06-22 |
+| 567305 | Distância Completa, 21 wk, Iniciante | 3 | $88.20 | 2026-06-10 |
+| 567304 | Média Distância, 18 wk, Iniciante | 2 | $50.40 | 2026-05-27 |
+
+A sale thirteen days ago is not a stale record. **A sixth plan, `567561` (Olímpico 19 wk, Avançado), has no sales but sits in the same family and the same FALSE state** — it completes the ladder, and it is the one a zero-sales rule would miss. Same for `567564`, its Spanish sibling.
+
+**Why this matters more than five plans normally would:** Portuguese publishes **29** plans. These six take it to 35, a 21% increase in the thinnest catalogue, and they are the entire PT beginner triathlon ladder — Sprint 12 wk → Olympic 16 wk → Middle 18 wk → Full 21 wk, plus the advanced Olympic. That is a complete distance progression currently invisible on the site, in the language where §6 shows the least inventory. *(These are the "PT triathlon siblings" already named in `open-loops.md` as one of the four confirmed staleness cases — they were identified and never actually flipped.)*
+
+**The remaining 21 unpublished non-race plans have zero sales all-time** and are genuinely ambiguous: built-and-never-published and published-then-retired look identical from here. They need the link check, not this one.
+
+**Standing method, now that it exists:** before spending eight minutes crawling TrainingPeaks, run the sales join. It is instant, it needs no network, and it produces near-certainty rather than evidence — a live URL only shows a page resolves, whereas a sale shows money changed hands.
+
+### Outcome, same day — the catalogue was understated by 24 plans
+
+Iván checked the unpublished set against TrainingPeaks directly and confirmed **24 plans were live all along**. Flipped in both CSVs. **The catalogue is 303 → 327 (ES 164 / EN 111 / PT 52).**
+
+**Portuguese went 29 → 52, up 79%.** Every doc in this repo has described PT as the thin catalogue — §6 below, the three-thin-PT-hubs probe, the "PT is a marathon-only play" conclusion in the race-page longlist. **That premise was an artefact of a wrong flag, not a fact about the business**, and anything resting on it needs re-reading before it is acted on. The PT hub pages in particular shipped "deliberately under-stocked as a demand probe" against inventory that was not actually missing.
+
+**Denominators that moved with it — §5 recomputed at 327 published:**
+
+| sport | plans | per published plan |
+|---|---|---|
+| Duathlon | 19 | **$96** |
+| Strength | 2 | $70 |
+| Triathlon | 58 | $58 |
+| Swimming | 40 | $41 |
+| Running | 142 | $33 |
+| Cycling | 66 | **$27** |
+
+*The §5 ranking is unchanged and its conclusion survives: Duathlon still returns roughly 3.5× Cycling per plan built. But every absolute figure in §5 was computed on 303 and is now low — Duathlon reads $121 there and is $96 here. Never-sold among published is 171/327 = **52%**, up from 50%, which is arithmetic rather than news: 24 plans were added and only 5 of them had ever sold.*
+
+**One plan was deliberately NOT published: `567564`.** Iván flagged it as "really 480116" — and `480116` is a separate inventory row that is already published, already carries 10 sales / $436, and holds the same TrainingPeaks link. So `567564` is a duplicate row for a plan that is already in the catalogue, not a missing plan. Publishing it would have put two cards on the site pointing at one purchase page, under two different names, and split its pixel analytics across two `plan_id`s. **Left `FALSE`; it should be retired from the inventory rather than fixed.**
+
 ## Provenance, and why this file is here
 
 The July 18, 2026 analysis and its `plan_performance.csv` were named as companion files by the (now retired) `plan-storefront-project-brief.md` but were never committed. Every "what sells / what doesn't" claim in that brief — including the one used on August 6 to retire 17 race-stamped plans — rested on data nobody could re-check. Both are now regenerated from the source export and committed. **Standing rule: any figure quoted in the storefront brief must be reproducible from a file in `data/`.**

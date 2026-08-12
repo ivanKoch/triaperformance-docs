@@ -85,11 +85,6 @@
       "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-392759/10-km-principiantes-extendido-stryd-potencia-polarizado-80-20-soporte-por-mail-i",
       "checked_at": "2026-07-26T23:03:57+00:00"
     },
-    "393660": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-408606/tus-primeros-1500m-en-4-semanas-sincroniza-con-garmin-soporte-ilimitado-por-mail",
-      "checked_at": "2026-07-26T23:03:59+00:00"
-    },
     "393663": {
       "status": 200,
       "url": "https://www.trainingpeaks.com/training-plans/other/swimming/tp-393663/domina-los-1900m-en-4-semanas-con-el-sistema-polarizado-80-20-sincroniza-con-gar",
@@ -629,11 +624,6 @@
       "status": 200,
       "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476496/maraton-18-semanas-entre-110-y-135-km-semanales-zonas-por-ritmo-pace",
       "checked_at": "2026-07-26T23:07:33+00:00"
-    },
-    "476497": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476497/maraton-18-semanas-entre-90-y-110-km-semanales-zonas-por-ritmo-pace",
-      "checked_at": "2026-07-26T23:07:35+00:00"
     },
     "476498": {
       "status": 200,
@@ -1375,36 +1365,6 @@
       "url": "https://www.trainingpeaks.com/training-plans/cycling/gran-fondo-century/tp-603523/16-week-gran-fondo-weight-loss-climb-faster-prep-full-gym-periodized-strength",
       "checked_at": "2026-07-26T23:12:28+00:00"
     },
-    "604334": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528890/marathon-12-weeks-up-to-90-km-weekly-pace-based",
-      "checked_at": "2026-07-26T23:12:30+00:00"
-    },
-    "604335": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528891/marathon-12-weeks-90-to-110-km-weekly-pace-based",
-      "checked_at": "2026-07-26T23:12:32+00:00"
-    },
-    "604336": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528892/marathon-12-weeks-110-to-135-km-weekly-pace-based",
-      "checked_at": "2026-07-26T23:12:34+00:00"
-    },
-    "604337": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528894/marathon-18-weeks-up-to-90-km-weekly-pace-based",
-      "checked_at": "2026-07-26T23:12:36+00:00"
-    },
-    "604339": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-528893/marathon-18-weeks-90-to-110-km-weekly-pace-based",
-      "checked_at": "2026-07-26T23:12:38+00:00"
-    },
-    "604340": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-500575/marathon-18-weeks-110-to-135-km-weekly-pace",
-      "checked_at": "2026-07-26T23:12:40+00:00"
-    },
     "605018": {
       "status": 200,
       "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-605018/objetivo-2026-plan-para-bajar-de-peso-ciclismo-fuerza-en-casa-sin-equipamiento",
@@ -1429,16 +1389,6 @@
       "status": 200,
       "url": "https://www.trainingpeaks.com/training-plans/running/tp-606077/objetivo-2026-plan-para-bajar-de-peso-running-fuerza-en-casa-sin-equipamiento",
       "checked_at": "2026-07-26T23:12:49+00:00"
-    },
-    "606085": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/tp-606087/objetivo-2026-plan-para-bajar-de-peso-running-fuerza-en-gimnasio",
-      "checked_at": "2026-07-26T23:12:51+00:00"
-    },
-    "606087": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/tp-606085/objetivo-2026-inicia-la-perdida-de-peso-running-fuerza-en-casa-sin-equipamiento",
-      "checked_at": "2026-07-26T23:12:53+00:00"
     },
     "606091": {
       "status": 200,
@@ -1519,21 +1469,6 @@
       "status": 200,
       "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612555/plan-12-semanas-maraton-peak-carrera-gym-volumen-avanzado-110km",
       "checked_at": "2026-07-26T23:13:25+00:00"
-    },
-    "612559": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476498/maraton-18-semanas-hasta-90-km-semanales-zonas-por-ritmo-pace",
-      "checked_at": "2026-07-26T23:13:27+00:00"
-    },
-    "612560": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476497/maraton-18-semanas-entre-90-y-110-km-semanales-zonas-por-ritmo-pace",
-      "checked_at": "2026-07-26T23:13:29+00:00"
-    },
-    "612561": {
-      "status": 200,
-      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-476496/maraton-18-semanas-entre-110-y-135-km-semanales-zonas-por-ritmo-pace",
-      "checked_at": "2026-07-26T23:13:31+00:00"
     },
     "612568": {
       "status": 200,
@@ -1620,5 +1555,6 @@
       "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612978/maraton-de-rio-de-janeiro-2026-running-rutina-de-gym-18-semanas-volumen-55-90-km",
       "checked_at": "2026-07-26T23:14:04+00:00"
     }
-  }
+  },
+  "note": "Entries for 13 plan_ids were dropped on 2026-08-12 because their `link` was corrected — a status recorded against the previous URL says nothing about the new one. They are simply unknown until the next crawl, which is safe: the build only excludes a plan on a definite 404/410, never on absence."
 }

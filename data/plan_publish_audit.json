@@ -1,0 +1,476 @@
+{
+  "generated_at": "2026-08-12T19:02:07+00:00",
+  "note": "HTTP 200 means the URL resolves. It is EVIDENCE that a plan is live, not proof that it is purchasable -- TrainingPeaks may keep a page reachable after a plan stops selling. Treat this as a candidate list for Ivan to confirm by eye, never as an instruction to flip the flag automatically.",
+  "flagged_FALSE_but_link_is_live": [
+    {
+      "plan_id": "439342",
+      "language": "Portuguese",
+      "name": "Maratona de Tokyo 2026 - 12 semanas - Até 90 km por semana - Início até 8 de dezembro",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439342/maratona-de-tokyo-2026-12-semanas-ate-90-km-por-semana-inicio-ate-8-de-dezembro?_gl=1*1krhysq*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDgwMCRqNTEkbDAkaDE4OTQwNTY2NzU."
+    },
+    {
+      "plan_id": "439343",
+      "language": "Portuguese",
+      "name": "Maratona de Tokyo 2026 - 12 semanas - Entre 110 e 135 km por semana - Início até 8 de dezembro",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439343/maratona-de-tokyo-2026-12-semanas-entre-110-e-135-km-por-semana-inicio-ate-8-de-dezembro?_gl=1*1krhysq*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDgwMCRqNTEkbDAkaDE4OTQwNTY2NzU."
+    },
+    {
+      "plan_id": "439344",
+      "language": "Portuguese",
+      "name": "Maratona de Tokyo 2026 - 12 semanas - Entre 90 e 110 km por semana - Início até 8 de dezembro",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439344/maratona-de-tokyo-2026-12-semanas-entre-90-e-110-km-por-semana-inicio-ate-8-de-d?_gl=1*1krhysq*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDgwMCRqNTEkbDAkaDE4OTQwNTY2NzU."
+    },
+    {
+      "plan_id": "439346",
+      "language": "English",
+      "name": "Tokyo Marathon 2026: 12 Week Advanced - 110-135km Weekly - Start Dec 8",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439346/2026-tokyo-marathon-prep-12-weeks-110-to-135-km-weekly-start-by-december-8-2025"
+    },
+    {
+      "plan_id": "439348",
+      "language": "English",
+      "name": "Tokyo Marathon 2026: 12 Week Intermediate - 90-110km Weekly - Start Dec 8",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439348/2026-tokyo-marathon-prep-12-weeks-90-to-110km-weekly-start-by-december-8"
+    },
+    {
+      "plan_id": "439349",
+      "language": "English",
+      "name": "Tokyo Marathon 2026: 12 Week Beginner Prep (Start Dec 8)",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439349/2026-tokyo-marathon-prep-12-weeks-up-to-90-km-weekly-start-by-december-8"
+    },
+    {
+      "plan_id": "439350",
+      "language": "Spanish",
+      "name": "Maratón Tokyo 2026: Plan 12 Semanas - Vol: >110km semanales - Inicio 8-Dic",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439350/plan-para-maraton-de-tokyo-2026-12-semanas-entre-110-y-135-km-semana-empezar-has?_gl=1*hybh1c*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDcwOSRqNDkkbDEkaDE4OTQwNTY2NzU."
+    },
+    {
+      "plan_id": "439351",
+      "language": "Spanish",
+      "name": "Maratón Tokyo 2026: Plan 12 Semanas - Vol: 90-110km semanales - Inicio 8-Dic",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439351/plan-para-maraton-de-tokyo-2026-12-semanas-entre-90-y-110-km-semanales-empezar-h?_gl=1*hybh1c*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDcwOSRqNDkkbDEkaDE4OTQwNTY2NzU."
+    },
+    {
+      "plan_id": "439352",
+      "language": "Spanish",
+      "name": "Maratón Tokyo 2026: Plan 12 Semanas - Vol: <90km Semanales - Inicio 8-Dic",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439352/plan-para-maraton-de-tokyo-2026-12-semanas-hasta-90-km-semanales-empezar-hasta-e?_gl=1*hybh1c*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDcwOSRqNDkkbDEkaDE4OTQwNTY2NzU."
+    },
+    {
+      "plan_id": "439394",
+      "language": "English",
+      "name": "Boston Marathon 2026: 18 weeks Advanced - 110-135 km weekly - Start December 15 2025",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439394/boston-marathon-2026-18-weeks-advanced-110-135-km-weekly-start-december-15-2025"
+    },
+    {
+      "plan_id": "439396",
+      "language": "English",
+      "name": "Boston Marathon 2026: 18 weeks Intermediate - 90-110 km weekly - Start December 15 2025",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439396/boston-marathon-2026-18-weeks-intermediate-90-110-km-weekly-start-december-15-20"
+    },
+    {
+      "plan_id": "439397",
+      "language": "English",
+      "name": "Boston Marathon 2026: 18 weeks Beginner Prep - Start December 15 2025",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439397/boston-marathon-2026-18-weeks-beginner-prep-start-december-15-2025"
+    },
+    {
+      "plan_id": "439403",
+      "language": "English",
+      "name": "🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Advanced (110-135k) (Start Feb 2)",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439403/london-marathon-2026-run-gym-12-wk-advanced-110-135k-start-feb-2"
+    },
+    {
+      "plan_id": "439404",
+      "language": "English",
+      "name": "🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Intermediate (90-110k) (Start Feb 2)",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439404/london-marathon-2026-run-gym-12-wk-intermediate-90-110k-start-feb-2"
+    },
+    {
+      "plan_id": "439405",
+      "language": "English",
+      "name": "🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 12 Wk Beginner Prep (Start Feb 2)",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439405/london-marathon-2026-run-gym-12-wk-beginner-prep-start-feb-2"
+    },
+    {
+      "plan_id": "439406",
+      "language": "English",
+      "name": "🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Advanced (110-135k)",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439406/london-marathon-2026-run-gym-18-wk-advanced-110-135k"
+    },
+    {
+      "plan_id": "439407",
+      "language": "English",
+      "name": "🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Intermediate (90-110k)",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439407/london-marathon-2026-run-gym-18-wk-intermediate-90-110k"
+    },
+    {
+      "plan_id": "439408",
+      "language": "English",
+      "name": "🇬🇧 London Marathon 2026: Run 🏃 + Gym 💪 | 18 Wk Beginner Prep",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439408/london-marathon-2026-run-gym-18-wk-beginner-prep"
+    },
+    {
+      "plan_id": "439419",
+      "language": "Spanish",
+      "name": "Maratón de Boston 2026 - 18 semanas - Vol: >110km semanales - Inicio 15 Diciembre 2026",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439419/maraton-de-boston-2026-18-semanas-vol-90-110km-semanales-inicio-15-diciembre-202"
+    },
+    {
+      "plan_id": "439420",
+      "language": "Spanish",
+      "name": "Maratón de Boston 2026 - 18 semanas - Vol: 90-110km semanales - Inicio 15 Diciembre 2026",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439420/maraton-de-boston-2026-18-semanas-vol-90-110km-semanales-inicio-15-diciembre-202"
+    },
+    {
+      "plan_id": "439421",
+      "language": "Spanish",
+      "name": "Maratón de Boston 2026 - 18 semanas - Vol: <90km Semanales - Inicio 15 Diciembre 2026",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439421/maraton-de-boston-2026-18-semanas-vol-90km-semanales-inicio-15-diciembre-2026"
+    },
+    {
+      "plan_id": "439428",
+      "language": "Spanish",
+      "name": "Maratón de Londres 2026 - 18 semanas - Vol: 90-110km semanales - Inicio 22 Diciembre 2026",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439428/maraton-de-londres-2026-18-semanas-vol-90-110km-semanales-inicio-22-diciembre-20"
+    },
+    {
+      "plan_id": "439429",
+      "language": "Spanish",
+      "name": "🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-439421/maraton-de-boston-2026-18-semanas-vol-90km-semanales-inicio-15-diciembre-2026"
+    },
+    {
+      "plan_id": "522765",
+      "language": "Spanish",
+      "name": "Maratón Barcelona 2026: Plan 12 Semanas - Vol: >110km semanales - Inicio 22 Dic",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522765/maraton-de-barcelona-2025-12-semanas-entre-110-y-135-km-sem-empezar-h-22-de-dici"
+    },
+    {
+      "plan_id": "522766",
+      "language": "Spanish",
+      "name": "Maratón Barcelona 2026: Plan 12 Semanas - Vol: 90-110km semanales - Inicio 22 Dic",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522766/maraton-de-barcelona-2025-12-semanas-entre-90-y-110-km-sem-empezar-h-22-de-dicie"
+    },
+    {
+      "plan_id": "522769",
+      "language": "Spanish",
+      "name": "Maratón Barcelona 2026: Plan 18 Semanas - Vol: >110km semanales - Inicio 10 Nov",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522769/maraton-de-barcelona-2026-18-semanas-entre-110-y-135-km-semana-empezar-el-10-nov?_gl=1*llofdy*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDY5OSRqNTkkbDAkaDE4OTQwNTY2NzU."
+    },
+    {
+      "plan_id": "522770",
+      "language": "Spanish",
+      "name": "Maratón Barcelona 2026: Plan 18 Semanas - Vol: 90-110km semanales - Inicio 10 Nov",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522770/maraton-de-barcelona-2026-18-semanas-entre-90-y-110-km-semana-empezar-el-10-nov-2025?_gl=1*llofdy*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDY5OSRqNTkkbDAkaDE4OTQwNTY2NzU."
+    },
+    {
+      "plan_id": "522771",
+      "language": "Spanish",
+      "name": "Maratón Barcelona 2026: Plan 18 Semanas - Vol: <90km semanales - Inicio 10 Nov",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522771/maraton-de-barcelona-2026-18-semanas-hasta-90-km-semanales-empezar-el-10-nov-202?_gl=1*llofdy*_gcl_au*MTI4MjI0MjM2Mi4xNzYxNzU3MDAwLjIwNTQ4MDk1NDAuMTc2Mjk3Nzk2Ny4xNzYyOTc5MDk5*_ga*MTE2NTQxNzA2Mi4xNzEzNzk2OTA5*_ga_Z2LEWBWKBD*czE3NjI5ODQ0ODMkbzY1OSRnMSR0MTc2Mjk4NDY5OSRqNTkkbDAkaDE4OTQwNTY2NzU."
+    },
+    {
+      "plan_id": "522799",
+      "language": "English",
+      "name": "Barcelona Marathon 2026: 12 weeks Advanced - 110-135 km weekly - Start Dec 22",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522799/barcelona-marathon-2026-12-weeks-advanced-110-135-km-weekly-start-dec-22"
+    },
+    {
+      "plan_id": "522800",
+      "language": "English",
+      "name": "Barcelona Marathon 2026: 12 weeks Intermediate - 90-110 km weekly - Start Dec 22",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522800/barcelona-marathon-2026-12-weeks-intermediate-90-110-km-weekly-start-dec-22"
+    },
+    {
+      "plan_id": "522801",
+      "language": "English",
+      "name": "Barcelona Marathon 2026: 12 weeks Beginner Prep - Start Dec 22",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-522801/barcelona-marathon-2026-12-weeks-beginner-prep-start-dec-22"
+    },
+    {
+      "plan_id": "567302",
+      "language": "Portuguese",
+      "name": "Triathlon Sprint | 12 Semanas | Iniciante | Do Zero à Prova",
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/sprint/tp-567302/seu-primeiro-triatlo-short-sprint-ideal-para-iniciantes"
+    },
+    {
+      "plan_id": "567303",
+      "language": "Portuguese",
+      "name": "Triathlon Olímpico | 16 Semanas | Iniciante | Base & Técnica",
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-567303/seu-primeiro-triatlo-olimpico-ideal-para-iniciantes"
+    },
+    {
+      "plan_id": "567304",
+      "language": "Portuguese",
+      "name": "Triathlon: Média Distância | 18 Semanas | Iniciante | Primeira Prova",
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/half-ironman/tp-567304/seu-primeiro-triatlo-de-media-distancia-half-im"
+    },
+    {
+      "plan_id": "567305",
+      "language": "Portuguese",
+      "name": "Triathlon: Distância Completa | 21 Semanas | Iniciante | Cruzar a Linha",
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/ironman/tp-567305/seu-primeiro-triatlo-de-distancia-completa-full-im-plano-reutilizavel-gratis"
+    },
+    {
+      "plan_id": "567560",
+      "language": "Portuguese",
+      "name": "Triatlo Olímpico: Plano de Treinamento Polarizado para Nível Intermediário",
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-567560/triatlo-olimpico-plano-de-treinamento-polarizado-para-nivel-intermediario"
+    },
+    {
+      "plan_id": "567561",
+      "language": "Portuguese",
+      "name": "Triathlon Olímpico | 19 Semanas | Avançado | Alta Performance",
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-567561/triatlo-olimpico-plano-de-treinamento-polarizado-para-atletas-avancados"
+    },
+    {
+      "plan_id": "567562",
+      "language": "English",
+      "name": "20 Week Olympic Peak: Triathlon 🏊‍♂️🚴🏃 (Advanced Polarized)",
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-567562/olympic-triathlon-polarized-training-plan-for-advanced-triathletes"
+    },
+    {
+      "plan_id": "567564",
+      "language": "Spanish",
+      "name": "Plan 20 Semanas: Triatlón Olímpico Peak 🏊🚴🏃 (Polarizado 80/20 - Avanzado)",
+      "url": "https://www.trainingpeaks.com/training-plans/triathlon/olympic/tp-480116/triatlon-fortalecimiento-plan-para-distancia-olimpica-protocolo-de-gimnasio-avan"
+    },
+    {
+      "plan_id": "597513",
+      "language": "English",
+      "name": "Barcelona Marathon 2026: 18 weeks Advanced - 110-135 km weekly - Start Nov 10",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-597513/barcelona-marathon-2026-18-weeks-110-to-135-km-weekly-start-by-november-10-2025"
+    },
+    {
+      "plan_id": "597514",
+      "language": "English",
+      "name": "Barcelona Marathon 2026: 18 weeks Intermediate - 90-110 km weekly - Start Nov 10",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-597514/barcelona-marathon-2026-18-weeks-90-to-110-km-weekly-start-by-november-10-2025"
+    },
+    {
+      "plan_id": "597515",
+      "language": "English",
+      "name": "Barcelona Marathon 2026: 18 weeks Beginner Prep - Start Nov 10",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-597515/barcelona-marathon-2026-18-weeks-up-to-90-km-weekly-start-by-november-10-2025"
+    },
+    {
+      "plan_id": "597519",
+      "language": "Portuguese",
+      "name": "Maratona de Barcelona 2026 - 18 semanas - Até 90 km por semana - Início até 10 de novembro",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-597519/maratona-de-barcelona-2025-18-semanas-ate-90-km-por-semana-inicio-ate-10-de-nove"
+    },
+    {
+      "plan_id": "597521",
+      "language": "Portuguese",
+      "name": "Maratona de Barcelona 2026 - 18 semanas - Entre 110 e 135 km por semana - Início até 10 de novembro",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-597521/maratona-de-barcelona-2025-18-semanas-entre-110-e-135-km-por-semana-inicio-ate-1"
+    },
+    {
+      "plan_id": "597524",
+      "language": "Portuguese",
+      "name": "Maratona de Barcelona 2026 - 18 semanas - Entre 90 e 110 km por semana - Início até 11 de novembro",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-597524/maratona-de-barcelona-2025-18-semanas-entre-90-e-110-km-por-semana-inicio-ate-11"
+    },
+    {
+      "plan_id": "604546",
+      "language": "Portuguese",
+      "name": "Corrida & Emagrecimento | 8 Semanas | Express | Força em Casa 🏋️🏠 (Sem Equipamento)",
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-604546/corrida-emagrecimento-8-semanas-forca-em-casa-express"
+    },
+    {
+      "plan_id": "604548",
+      "language": "Portuguese",
+      "name": "Desafio 4 Semanas: Corrida | Perda de Peso | Força em Casa 🏋️🏠 (Sem Equipamento)",
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-604548/desafio-4-semanas-corrida-perda-de-peso-forca-em-casa-sem-equipamento"
+    },
+    {
+      "plan_id": "604550",
+      "language": "Portuguese",
+      "name": "Corrida & Emagrecimento | 8 Semanas | Com Academia 🏋️ | Express",
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-604550/corrida-emagrecimento-8-semanas-com-academia-express"
+    },
+    {
+      "plan_id": "604555",
+      "language": "Portuguese",
+      "name": "Desafio 4 Semanas: Corrida | Perda de Peso | Força em Academia 🏋️",
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-604548/desafio-4-semanas-corrida-perda-de-peso-forca-em-casa-sem-equipamento"
+    },
+    {
+      "plan_id": "604571",
+      "language": "Portuguese",
+      "name": "Corrida: Queima de Gordura (Fat-Max) | 8 Semanas | Com Academia 🏋️",
+      "url": "https://www.trainingpeaks.com/training-plans/running/tp-604571/corrida-queima-de-gordura-fat-max-8-semanas-forca-em-casa-sem-equipamento"
+    },
+    {
+      "plan_id": "604762",
+      "language": "Portuguese",
+      "name": "Ciclismo & Emagrecimento | 8 Semanas | Força em Casa 🏋️🏠 (Sem Equipamento)",
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604762/ciclismo-emagrecimento-8-semanas-forca-em-casa-sem-equipamento"
+    },
+    {
+      "plan_id": "604765",
+      "language": "Portuguese",
+      "name": "Ciclismo & Emagrecimento | 8 Semanas | Força - Com Academia 🏋️ | Definição",
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604765/ciclismo-emagrecimento-8-semanas-forca-com-academia-definicao"
+    },
+    {
+      "plan_id": "604810",
+      "language": "Portuguese",
+      "name": "Desafio 4 Semanas: Ciclismo | Perda de Peso | Força em Casa 🏋️🏠 (Sem Equipamento)",
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604810/desafio-4-semanas-ciclismo-perda-de-peso-forca-em-casa-sem-equipamento"
+    },
+    {
+      "plan_id": "604812",
+      "language": "Portuguese",
+      "name": "Desafio 4 Semanas: Ciclismo | Perda de Peso | Força - Com Academia 🏋️ | Definição",
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604812/desafio-4-semanas-ciclismo-perda-de-peso-forca-com-academia-definicao"
+    },
+    {
+      "plan_id": "604816",
+      "language": "Portuguese",
+      "name": "[Objetivo 2026] Ciclismo: Emagrecimento & Watts/kg | 8 Semanas | Força em Casa 🏋️🏠",
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604816/objetivo-2026-ciclismo-emagrecimento-watts-kg-8-semanas-forca-em-casa"
+    },
+    {
+      "plan_id": "604820",
+      "language": "Portuguese",
+      "name": "[Objetivo 2026] Ciclismo: Emagrecimento & Watts/kg | 8 Semanas | Força - Com Academia 🏋️",
+      "url": "https://www.trainingpeaks.com/training-plans/cycling/tp-604820/ciclismo-emagrecimento-watts-kg-8-semanas-forca-com-academia"
+    },
+    {
+      "plan_id": "604934",
+      "language": "Portuguese",
+      "name": "[Objetivo 2026] Emagrecimento & Base: Corrida 🏃 + Ciclismo 🚴 + Força em casa 🏋️🏠",
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-604934/objetivo-2026-emagrecimento-base-corrida-ciclismo-forca-em-casa"
+    },
+    {
+      "plan_id": "604937",
+      "language": "Portuguese",
+      "name": "[Objetivo 2026] Emagrecimento & Base: Corrida 🏃 + Ciclismo 🚴 + Força em Academia 🏋️",
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-604937/objetivo-2026-emagrecimento-base-corrida-ciclismo-forca-em-academia"
+    },
+    {
+      "plan_id": "604939",
+      "language": "Portuguese",
+      "name": "[Objetivo 2026] Corrida 🏃 + Ciclismo 🚴 + Força em casa 🏋️🏠 : Volume & Resistência",
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-604939/objetivo-2026-corrida-ciclismo-forca-em-casa-volume-resistencia"
+    },
+    {
+      "plan_id": "604998",
+      "language": "Portuguese",
+      "name": "[Objetivo 2026] Corrida 🏃 + Ciclismo 🚴 + Força em Academia 🏋️ : Volume & Resistência",
+      "url": "https://www.trainingpeaks.com/training-plans/other/duathlon/tp-604998/objetivo-2026-corrida-ciclismo-forca-em-academia-volume-resistencia"
+    },
+    {
+      "plan_id": "612149",
+      "language": "Portuguese",
+      "name": "13 Semanas HYROX Foco em Corrida: Iniciante (Base e Resistência) 🏃",
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-612149/13-semanas-hyrox-run-focus-iniciante-base-e-resistencia"
+    },
+    {
+      "plan_id": "612168",
+      "language": "Portuguese",
+      "name": "13 Semanas HYROX Foco em Corrida: Intermediário (Ritmo de Prova) 🏃",
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-612168/13-semanas-hyrox-foco-em-corrida-intermediario-ritmo-de-prova"
+    },
+    {
+      "plan_id": "612178",
+      "language": "Portuguese",
+      "name": "13 Semanas HYROX Foco em Corrida: Avançado (Velocidade e Limiar) 🏃",
+      "url": "https://www.trainingpeaks.com/training-plans/running/10km/tp-612178/13-semanas-hyrox-foco-em-corrida-avancado-velocidade-e-limiar"
+    },
+    {
+      "plan_id": "612568",
+      "language": "Spanish",
+      "name": "🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Volumen 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612568/maraton-de-boston-2026-running-rutina-de-gym-volumen-55-90-km"
+    },
+    {
+      "plan_id": "612570",
+      "language": "Spanish",
+      "name": "🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Intermedio 90-110km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612570/maraton-de-boston-2026-running-rutina-de-gym-intermedio-90-110km"
+    },
+    {
+      "plan_id": "612571",
+      "language": "Spanish",
+      "name": "🇺🇸 Maratón de Boston 🦄 2026 - Running 🏃 + Rutina de Gym 🏋️ - Avanzado >110km/sem",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612571/maraton-de-boston-2026-running-rutina-de-gym-avanzado-110km-sem"
+    },
+    {
+      "plan_id": "612572",
+      "language": "Spanish",
+      "name": "🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Volumen 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612572/maraton-de-londres-2026-running-rutina-de-gym-volumen-55-90-km"
+    },
+    {
+      "plan_id": "612573",
+      "language": "Spanish",
+      "name": "🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Intermedio 90-110km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612573/maraton-de-londres-2026-running-rutina-de-gym-intermedio-90-110km"
+    },
+    {
+      "plan_id": "612574",
+      "language": "Spanish",
+      "name": "🇬🇧 Maratón de Londres 2026 - Running 🏃 + Rutina de Gym 🏋️ - Avanzado >110km/sem",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612574/maraton-de-londres-2026-running-rutina-de-gym-avanzado-110km-sem"
+    },
+    {
+      "plan_id": "612577",
+      "language": "Portuguese",
+      "name": "🇺🇸 Maratona de Boston 🦄 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612577/maratona-de-boston-2026-corrida-rotina-de-gym-volume-55-90-km"
+    },
+    {
+      "plan_id": "612581",
+      "language": "Portuguese",
+      "name": "🇬🇧 Maratona de Londres 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612581/maratona-de-londres-2026-corrida-rotina-de-gym-volume-55-90-km"
+    },
+    {
+      "plan_id": "612820",
+      "language": "Portuguese",
+      "name": "🇬🇧 Maratona de Londres 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612820/maratona-de-londres-2026-corrida-rotina-de-gym-volume-55-90-km"
+    },
+    {
+      "plan_id": "612829",
+      "language": "Portuguese",
+      "name": "🇨🇱 Maratona de Santiago 2026 - 🇧🇷 Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612829/maratona-de-santiago-2026-corrida-rotina-de-gym-volume-55-90-km"
+    },
+    {
+      "plan_id": "612838",
+      "language": "Portuguese",
+      "name": "🇧🇷 Maratona de Rio 2026 - Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612838/maratona-do-rio-2026-corrida-rotina-de-gym-volume-55-90-km"
+    },
+    {
+      "plan_id": "612970",
+      "language": "Spanish",
+      "name": "🇨🇱 Maratón de Santiago 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612970/maraton-de-santiago-2026-running-rutina-de-gym-18-semanas-volumen-55-90-km"
+    },
+    {
+      "plan_id": "612974",
+      "language": "Spanish",
+      "name": "🇵🇪 Maratón de Lima 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612974/maraton-de-lima-2026-running-rutina-de-gym-18-semanas-volumen-55-90-km"
+    },
+    {
+      "plan_id": "612836",
+      "language": "Portuguese",
+      "name": "🇵🇪 Maratona de Lima 2026 - 🇧🇷 Corrida 🏃 + Rotina de Gym 🏋️ - Volume 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612836/maratona-de-lima-2026-corrida-rotina-de-gym-volume-55-90-km"
+    },
+    {
+      "plan_id": "612978",
+      "language": "Spanish",
+      "name": "🇧🇷 Maratón de Río de Janeiro 2026 - Running 🏃 + Rutina de Gym 🏋️ - 18 semanas - Volumen 55-90 km",
+      "url": "https://www.trainingpeaks.com/training-plans/running/marathon/tp-612978/maraton-de-rio-de-janeiro-2026-running-rutina-de-gym-18-semanas-volumen-55-90-km"
+    }
+  ],
+  "flagged_TRUE_but_link_is_dead": [],
+  "unresolved": []
+}
