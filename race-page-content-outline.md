@@ -26,7 +26,7 @@ The actual differentiator. Renders `course_profile`, `elevation_gain_m`, and `co
 This is where `methodology.md` earns its keep — training-zone framework, periodization logic, and fueling guidance adapted to the specific demands the course guide just raised (altitude pacing for CDMX, heat/hydration for Cartagena, hill-specific work for São Paulo, downhill-quad prep for Boston). Not a rehash of the course section; it answers "so what do I actually do differently because of that."
 
 **4. Plan recommendations, laddered by level**
-Live join per `plan_matching_rule` in the schema: Beginner / Intermediate / Advanced, filtered to durations that actually fit the countdown to `next_edition_date`. Same laddered-offer pattern already standard on plan pages: plan (one-time) → plan + 20-min onboarding call (+$50, top sellers only) → All-Access ($39.99/mo, pitched to marathon/tri/multi-goal athletes specifically — this is exactly the athlete profile All-Access targets).
+Live join per `plan_matching_rule` in the schema: Beginner / Intermediate / Advanced, filtered to durations that actually fit the countdown to `next_edition_date`. Same laddered-offer pattern already standard on plan pages: plan (one-time) → plan + testing-and-zones consultation (+$50, top 20 sellers only — offer owned by `growth-roadmap.md` §Storefront decision 3; *updated Aug 11, 2026, this read "20-min onboarding call … top sellers only"*) → All-Access ($39.99/mo, pitched to marathon/tri/multi-goal athletes specifically — this is exactly the athlete profile All-Access targets).
 
 **5. All-Access module**
 Same promo block used on every plan page (per `growth-roadmap.md` §Training Plan Storefront, standing decision 6) — no new copy to write, reuse the existing module.
