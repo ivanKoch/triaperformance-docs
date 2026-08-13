@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.njk
 pageCss: "members-respiracion.css"
-title: "Respiración en Caja — Triaperformance All-Access"
+title: "Box Breathing — Triaperformance All-Access"
 ---
 {#- Box breathing. Its own page rather than the activation-tool template: that
     engine beeps, vibrates and counts down hard, which is correct for a warm-up
@@ -10,25 +10,25 @@ title: "Respiración en Caja — Triaperformance All-Access"
 <div class="bb" id="bb">
 
   <div class="crumb-bar">
-    <a href="/members/#biblioteca">Biblioteca</a> / Respiración
+    <a href="/members/en/#biblioteca">Library</a> / Breathing
   </div>
 
   <div class="bb-head">
-    <span class="label">Respiración</span>
-    <h1>Respiración en caja</h1>
-    <p>Cuatro tiempos inhalando, cuatro sosteniendo, cuatro exhalando, cuatro sosteniendo. Sirve para bajar revoluciones: alarga la exhalación, sube el tono parasimpático y le avisa al sistema nervioso que la sesión terminó. Úsala cuando el cuerpo quedó acelerado y necesitás soltar.</p>
+    <span class="label">Breathing</span>
+    <h1>Box breathing</h1>
+    <p>Four counts in, four holding, four out, four holding. It exists to bring you down: it lengthens the exhale, raises parasympathetic tone and tells the nervous system the session is over. Use it when the body is still revving and you need to let go.</p>
   </div>
 
   <div class="bb-setup" id="bbSetup">
-    <div class="bb-q">¿Cuánto tiempo?</div>
+    <div class="bb-q">How long?</div>
     <div class="bb-mins">
       <button type="button" class="bb-min" data-min="3" aria-pressed="false">3 min</button>
       <button type="button" class="bb-min" data-min="5" aria-pressed="true">5 min</button>
       <button type="button" class="bb-min" data-min="10" aria-pressed="false">10 min</button>
     </div>
-    <button type="button" class="bb-btn" id="bbStart">Empezar</button>
+    <button type="button" class="bb-btn" id="bbStart">Start</button>
     <div class="bb-sound">
-      <button type="button" class="bb-ghost bb-sound-toggle" aria-pressed="false">Activar sonido suave</button>
+      <button type="button" class="bb-ghost bb-sound-toggle" aria-pressed="false">Turn on soft sound</button>
     </div>
   </div>
 
@@ -43,29 +43,29 @@ title: "Respiración en Caja — Triaperformance All-Access"
         <circle class="bb-dot" id="bbDot" cx="30" cy="170" r="7"/>
       </svg>
       <div class="bb-readout">
-        <div class="bb-phase" id="bbPhase">Inhalá</div>
+        <div class="bb-phase" id="bbPhase">Breathe in</div>
         <div class="bb-count" id="bbCount">4</div>
       </div>
     </div>
 
     <div class="bb-progress-track"><div class="bb-progress" id="bbProgress"></div></div>
     <div class="bb-session-actions">
-      <button type="button" class="bb-ghost bb-sound-toggle" aria-pressed="false">Activar sonido suave</button>
-      <button type="button" class="bb-ghost bb-stop" id="bbStop">Terminar</button>
+      <button type="button" class="bb-ghost bb-sound-toggle" aria-pressed="false">Turn on soft sound</button>
+      <button type="button" class="bb-ghost bb-stop" id="bbStop">End</button>
     </div>
   </div>
 
   <div class="bb-done" id="bbDone" hidden>
-    <h2>Listo</h2>
-    <p>Quedate un momento antes de levantarte. Si te cuesta dormir después de una sesión fuerte, repetila en la cama con los ojos cerrados.</p>
-    <button type="button" class="bb-ghost" id="bbAgain">Hacerlo de nuevo</button>
+    <h2>Done</h2>
+    <p>Stay where you are for a moment before you get up. If you struggle to sleep after a hard session, do it again in bed with your eyes closed.</p>
+    <button type="button" class="bb-ghost" id="bbAgain">Do it again</button>
   </div>
 
 </div>
 
 <script id="bb-copy" type="application/json">{{ {
-  "phases": ["Inhalá", "Sostené", "Exhalá", "Sostené"],
-  "soundOn": "Sonido suave activado",
-  "soundOff": "Activar sonido suave"
+  "phases": ["Breathe in", "Hold", "Breathe out", "Hold"],
+  "soundOn": "Soft sound on",
+  "soundOff": "Turn on soft sound"
 } | dump | safe }}</script>
 <script src="{{ '/assets/js/box-breathing.js' | v }}"></script>

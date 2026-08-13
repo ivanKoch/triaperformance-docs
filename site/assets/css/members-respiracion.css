@@ -143,3 +143,9 @@ footer a { color: var(--text-dim); }
 @media (prefers-reduced-motion: reduce) {
   .bb-fill { transition: none; }
 }
+
+/* Both sound toggles share a class and a state — see box-breathing.js. The
+   in-session one sits with the stop link, deliberately the same weight: neither
+   should compete with the box for attention. */
+.bb-session-actions { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 24px; }
+.bb-stop { margin-top: 0; }

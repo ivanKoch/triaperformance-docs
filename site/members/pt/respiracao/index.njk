@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.njk
 pageCss: "members-respiracion.css"
-title: "Respiración en Caja — Triaperformance All-Access"
+title: "Respiração em Caixa — Triaperformance All-Access"
 ---
 {#- Box breathing. Its own page rather than the activation-tool template: that
     engine beeps, vibrates and counts down hard, which is correct for a warm-up
@@ -10,25 +10,25 @@ title: "Respiración en Caja — Triaperformance All-Access"
 <div class="bb" id="bb">
 
   <div class="crumb-bar">
-    <a href="/members/#biblioteca">Biblioteca</a> / Respiración
+    <a href="/members/pt/#biblioteca">Biblioteca</a> / Respiração
   </div>
 
   <div class="bb-head">
-    <span class="label">Respiración</span>
-    <h1>Respiración en caja</h1>
-    <p>Cuatro tiempos inhalando, cuatro sosteniendo, cuatro exhalando, cuatro sosteniendo. Sirve para bajar revoluciones: alarga la exhalación, sube el tono parasimpático y le avisa al sistema nervioso que la sesión terminó. Úsala cuando el cuerpo quedó acelerado y necesitás soltar.</p>
+    <span class="label">Respiração</span>
+    <h1>Respiração em caixa</h1>
+    <p>Quatro tempos inspirando, quatro segurando, quatro expirando, quatro segurando. Serve para baixar a rotação: alonga a expiração, sobe o tônus parassimpático e avisa o sistema nervoso de que a sessão acabou. Use quando o corpo ficou acelerado e você precisa soltar.</p>
   </div>
 
   <div class="bb-setup" id="bbSetup">
-    <div class="bb-q">¿Cuánto tiempo?</div>
+    <div class="bb-q">Quanto tempo?</div>
     <div class="bb-mins">
       <button type="button" class="bb-min" data-min="3" aria-pressed="false">3 min</button>
       <button type="button" class="bb-min" data-min="5" aria-pressed="true">5 min</button>
       <button type="button" class="bb-min" data-min="10" aria-pressed="false">10 min</button>
     </div>
-    <button type="button" class="bb-btn" id="bbStart">Empezar</button>
+    <button type="button" class="bb-btn" id="bbStart">Começar</button>
     <div class="bb-sound">
-      <button type="button" class="bb-ghost bb-sound-toggle" aria-pressed="false">Activar sonido suave</button>
+      <button type="button" class="bb-ghost bb-sound-toggle" aria-pressed="false">Ativar som suave</button>
     </div>
   </div>
 
@@ -43,29 +43,29 @@ title: "Respiración en Caja — Triaperformance All-Access"
         <circle class="bb-dot" id="bbDot" cx="30" cy="170" r="7"/>
       </svg>
       <div class="bb-readout">
-        <div class="bb-phase" id="bbPhase">Inhalá</div>
+        <div class="bb-phase" id="bbPhase">Inspire</div>
         <div class="bb-count" id="bbCount">4</div>
       </div>
     </div>
 
     <div class="bb-progress-track"><div class="bb-progress" id="bbProgress"></div></div>
     <div class="bb-session-actions">
-      <button type="button" class="bb-ghost bb-sound-toggle" aria-pressed="false">Activar sonido suave</button>
-      <button type="button" class="bb-ghost bb-stop" id="bbStop">Terminar</button>
+      <button type="button" class="bb-ghost bb-sound-toggle" aria-pressed="false">Ativar som suave</button>
+      <button type="button" class="bb-ghost bb-stop" id="bbStop">Encerrar</button>
     </div>
   </div>
 
   <div class="bb-done" id="bbDone" hidden>
-    <h2>Listo</h2>
-    <p>Quedate un momento antes de levantarte. Si te cuesta dormir después de una sesión fuerte, repetila en la cama con los ojos cerrados.</p>
-    <button type="button" class="bb-ghost" id="bbAgain">Hacerlo de nuevo</button>
+    <h2>Pronto</h2>
+    <p>Fique um momento antes de levantar. Se você tem dificuldade para dormir depois de uma sessão forte, repita na cama com os olhos fechados.</p>
+    <button type="button" class="bb-ghost" id="bbAgain">Fazer de novo</button>
   </div>
 
 </div>
 
 <script id="bb-copy" type="application/json">{{ {
-  "phases": ["Inhalá", "Sostené", "Exhalá", "Sostené"],
-  "soundOn": "Sonido suave activado",
-  "soundOff": "Activar sonido suave"
+  "phases": ["Inspire", "Segure", "Expire", "Segure"],
+  "soundOn": "Som suave ativado",
+  "soundOff": "Ativar som suave"
 } | dump | safe }}</script>
 <script src="{{ '/assets/js/box-breathing.js' | v }}"></script>

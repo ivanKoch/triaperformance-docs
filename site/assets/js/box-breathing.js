@@ -148,11 +148,18 @@
     });
   });
 
-  $("bbSound").addEventListener("click", () => {
-    sound = !sound;
-    $("bbSound").setAttribute("aria-pressed", String(sound));
-    $("bbSound").textContent = sound ? T.soundOn : T.soundOff;
-    if (sound) tone(342);   // also unlocks the audio context on iOS
+  // Two toggles, one state: one on the setup screen and one inside the session,
+  // because the decision to want a cue usually arrives after the first cycle —
+  // and going back to setup to get it would mean abandoning the session.
+  document.querySelectorAll(".bb-sound-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      sound = !sound;
+      document.querySelectorAll(".bb-sound-toggle").forEach((b) => {
+        b.setAttribute("aria-pressed", String(sound));
+        b.textContent = sound ? T.soundOn : T.soundOff;
+      });
+      if (sound) tone(342);   // doubles as the iOS audio-context unlock
+    });
   });
 
   $("bbStart").addEventListener("click", start);
