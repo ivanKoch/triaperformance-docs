@@ -233,3 +233,8 @@
 }
 .plan-pick--goal .goal-label strong { color: var(--zc-text); font-weight: 700; }
 .plan-pick--goal h3 { font-size: 16px; font-weight: 700; margin: 0 0 2px; }
+
+/* The single link back to the long-form threshold article, shown with the
+   protocol description at the moment someone is about to test. Deliberately
+   understated — it is a way out of the page, not a call to action. */
+.zc-article-link { margin: -12px 0 22px; font-size: 14px; }

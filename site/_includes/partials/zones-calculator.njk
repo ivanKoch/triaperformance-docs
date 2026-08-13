@@ -71,6 +71,13 @@
   {#- --------------------------------------------------------- 3. inputs -#}
   <div class="zc-step" id="zc-step-input" hidden>
     <div class="zc-protocol" id="zc-protocol-detail"></div>
+    {#- The one link back to the long-form article. The explanatory prose that
+        used to sit under these pages was removed (decision 23) because it
+        duplicated that article — but removing it left the pages dead-ending for
+        someone who wants to know how to execute the test properly. A link is not
+        prose: it points at the piece that owns the explanation, ranks for it, and
+        is the thing to send an athlete who asks. -#}
+    <p class="zc-help zc-article-link"><a href="{{ ui.articleUrl }}">{{ ui.articleLink }}</a></p>
     <h2>{{ ui.inputStep }}</h2>
     <div class="zc-fields" id="zc-fields"></div>
     <div class="zc-actions">

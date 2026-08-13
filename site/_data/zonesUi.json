@@ -71,6 +71,8 @@
       }
     },
     "inputStep": "Cargá tus números",
+    "articleUrl": "/blog/entrenar-el-umbral-sin-tiras-de-lactato/",
+    "articleLink": "¿Cómo se ejecuta el test para que el número sirva? Está todo en la guía completa de umbral →",
     "fields": {
       "t400": "Tiempo de los 400m",
       "t200": "Tiempo de los 200m",
@@ -238,6 +240,8 @@
       }
     },
     "inputStep": "Enter your numbers",
+    "articleUrl": "/en/blog/threshold-training-without-lactate-strips/",
+    "articleLink": "How do you execute the test so the number is worth having? It's all in the full threshold guide →",
     "fields": {
       "t400": "400m time",
       "t200": "200m time",
@@ -405,6 +409,8 @@
       }
     },
     "inputStep": "Coloque seus números",
+    "articleUrl": "/pt/blog/treinar-o-limiar-sem-tiras-de-lactato/",
+    "articleLink": "Como executar o teste para que o número valha? Está tudo no guia completo de limiar →",
     "fields": {
       "t400": "Tempo dos 400m",
       "t200": "Tempo dos 200m",

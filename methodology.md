@@ -64,7 +64,9 @@
 
 ## 4. Zones & intensity
 
-- **Model:** 80/20 7-zone system. Zone X = upper half of zone 2 (marathon pace; separated because it adds fatigue without extra benefit vs. low z2). Zone Y = lower zone 4 (real z4 benefits are higher up).
+> ***The numbers live in `data/zones.csv`, not here.*** *(Confirmed by Iván, August 13, 2026 — item closed.)* That file is the single source for all six tables (running lthr/pace/rftp, cycling lthr/ftp, swimming cv), and it already feeds the calculator, the article zone tables and the sessions guide at build time. **This section describes the model; it must never restate a percentage.** A fourth hand-typed copy is exactly how the published articles and the members pages drifted apart in the first place. Reader-facing explanation of the same model, in three languages: [`/blog/entrenar-el-umbral-sin-tiras-de-lactato/`](https://triaperformance.com/blog/entrenar-el-umbral-sin-tiras-de-lactato/) and its EN/PT siblings.
+
+- **Model:** 80/20 7-zone system, in order 1 · 2 · X · 3 · Y · 4 · 5. Zone X is the upper half of zone 2 (marathon pace) — carved out and avoided because it costs considerably more fatigue than low z2 and returns roughly the same aerobic stimulus. Zone Y is the floor of zone 4, avoided for the opposite reason: threshold is not a fixed line, so training at exactly 100% guarantees nothing, and the adaptations need the band above it. Both are house conventions, not standard.
 - **Metric priority:** Bike: power > HR. Run: power > pace > HR. Swim: pace > RPE.
 - **Prescription:** structured workouts in TrainingPeaks synced to any device via FIT file (Garmin/Polar/Wahoo/Apple — vendor-neutral). RPE used only for tests. Athletes are taught to self-correct mid-session: hit the physiological target (e.g., time above LTHR) even if it means overriding the prescribed pace for the day's heat/conditions.
 - **Re-test cadence:** every 2–3 months if consistent. Early re-test triggers: low RPE + low/negative decoupling at prescribed paces. After inconsistency/illness/travel: 2 "comeback weeks" (easy z1–2 + activations), then re-test — expect a lower threshold, and reset expectations.

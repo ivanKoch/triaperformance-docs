@@ -184,7 +184,7 @@ The real cost is not size, it is **category**: the members area is 100% static H
 - [ ] **Rescue the test-hygiene rules before deleting `/members/tests/`.** That page carries the rules that make a test *valid* — early morning, rested, fed, flat uninterrupted route, chest strap mandatory, stopping invalidates the test, salvage off the last clean 10'. A calculator that accepts a number from a badly executed test produces confidently wrong zones. See Q14.
 - [x] ~~**`/members/zonas/` is serving a note-to-self as live copy.**~~ **Removed August 10, 2026.** The calculator box contained, visible to paying members: *"Todavía falta cargar los porcentajes exactos… mandame esos porcentajes y lo dejamos funcionando en una sola pasada."* Three dead input fields sat above it. **Second instance in one day** of a note addressed to Iván rendering as production copy — the All-Access welcome email was the first, found the same morning. Unlike that one, **this had been delivered.**
 - [ ] **`methodology.md` §3** gains the 30' bike test as a power protocol (FTP = 100% of the 30' average). Nothing is removed — decision 12 keeps 1×20' and 2×8'.
-- [ ] **`methodology.md` §4** should point at `data/zones.csv` rather than gain a fourth copy of the numbers.
+- [x] ~~**`methodology.md` §4** should point at `data/zones.csv` rather than gain a fourth copy of the numbers.~~ **Done August 13, 2026, confirmed by Iván.** §4 now opens with a standing rule — it describes the model and must never restate a percentage — and points at `data/zones.csv` plus the reader-facing article in three languages.
 - [ ] **Write the "workouts to improve each zone" sequence** (decision 6). This is a content project in its own right, not a side-effect of the build. See Q11.
 - [ ] **Wire the email capture.** `plan-lead-pipeline-runbook.md` already specifies a lead backend and its Caddy route is deployed; reuse rather than build a second one.
 
@@ -276,3 +276,18 @@ Verified live in all three languages: four rows each, all Intermediate-tier, no 
 **What this costs, stated plainly:** the hubs are now nearly text-free, and the hub is the page targeting the head term. Accepted on the grounds that the three sport pages keep their prose and rank better anyway. *If it turns out to cost real traffic, the fix is not to paste the old copy back — it is to write something for a reader who has already used the tool.*
 
 **Corollary, same decision:** the members copy shows no capture and hands over the guide PDF directly. A subscriber has already paid for it; asking for an email would charge them twice, once in money and once in friction.
+
+
+## Decision 23a — the article owns the explanation (Iván, August 13, 2026)
+
+Extends decision 23 from the hubs to the sport pages: **all twelve public calculator pages now carry no explanatory prose.** The long-form threshold article owns that material instead —
+
+- ES `/blog/entrenar-el-umbral-sin-tiras-de-lactato/`
+- EN `/en/blog/threshold-training-without-lactate-strips/`
+- PT `/pt/blog/treinar-o-limiar-sem-tiras-de-lactato/`
+
+All three exist, share a `transKey`, and cover the test, its execution and validity rules, the seven zones, the X and Y anomalies, the two threshold sessions and re-test cadence. **One owner per explanation, the same rule this project already applies to figures.**
+
+*The article is also the better commercial surface:* it ranks for the informational query, it can carry the All-Access pitch at length, and it is the link to send an athlete who asks how to test. A calculator page competing with it for the same query would have split the signal between two pages neither of which wins.
+
+**One thing was added back, deliberately, and it is a link rather than prose.** Stripping the prose left every calculator page dead-ending for someone who wants to know how to execute the test — so the input step now carries a single line pointing at the article in the reader's language. *Removing duplicated explanation and removing the way out of the page are different edits; the first was the decision, the second would have been a side effect.*
