@@ -1,0 +1,145 @@
+/* Box breathing — dark members artifact (brand-guidelines.md §7.1).
+ *
+ * Quieter than the other tools on purpose. This one is used at night, often in
+ * the dark, by someone trying to come down after a hard session — so it is
+ * darker, lower-contrast and slower than the activation tools, and while a
+ * session is running the page strips back to just the box.
+ */
+
+:root {
+  --bg: #0d1117;
+  --surface: #171b21;
+  --surface2: #1f242c;
+  --border: #2a313b;
+  --blue: #004aad;
+  --blue-deep: #003a89;
+  --blue-bright: #4f8fdb;
+  --blue-dim: rgba(0, 74, 173, 0.22);
+  --white: #ffffff;
+  --text: #f2f3f1;
+  --text-dim: #8b9089;
+}
+
+body { color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
+
+/* --- nav & footer, matching the other dark members tools --- */
+.site-nav-sticky {
+  background: rgba(13, 17, 23, 0.85);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.site-nav-sticky .logo { color: var(--white); }
+.site-nav-sticky nav a { color: var(--text-dim); }
+.site-nav-sticky nav a:hover { color: var(--blue-bright); }
+.nav-toggle span { background: var(--text); }
+@media (max-width: 860px) {
+  header nav { background: var(--surface); box-shadow: none; border-left: 1px solid var(--border); }
+  /* Same backdrop-filter fix as the other dark pages: the blur makes the header
+     a containing block for the fixed slide-out menu, which then counts its
+     off-screen parking spot toward document width. See members-activacion.css. */
+  .site-nav-sticky { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+footer { border-top: 1px solid var(--border); color: var(--text-dim); }
+footer a { color: var(--text-dim); }
+
+/* --- shell --- */
+.bb { max-width: 520px; margin: 0 auto; padding: 0 16px 64px; }
+.bb .crumb-bar { padding: 16px 0 8px; font-size: 14px; color: var(--text-dim); }
+.bb .crumb-bar a { color: var(--text-dim); }
+.bb .crumb-bar a:hover { color: var(--blue-bright); }
+
+.bb-head { text-align: center; padding: 24px 0 8px; }
+.bb-head .label {
+  display: block; font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em; color: var(--blue-bright); margin-bottom: 8px;
+}
+.bb-head h1 {
+  font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;
+  color: var(--white); margin: 0 0 10px;
+}
+.bb-head p { font-size: 15px; color: var(--text-dim); line-height: 1.6; max-width: 42ch; margin: 0 auto; }
+
+/* While a session runs, everything except the box gets out of the way. */
+.bb--running ~ * , .bb--running .bb-head, .bb--running .crumb-bar { display: none; }
+
+/* --- setup --- */
+.bb-setup { text-align: center; padding-top: 24px; }
+.bb-setup .bb-q {
+  font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--text-dim); margin-bottom: 12px;
+}
+.bb-mins { display: flex; gap: 8px; justify-content: center; margin-bottom: 28px; }
+.bb-min {
+  flex: 1; max-width: 120px; cursor: pointer; font-family: inherit;
+  background: var(--surface); color: var(--text);
+  border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 16px 0; font-size: 17px; font-weight: 700;
+}
+.bb-min:hover { border-color: var(--blue-bright); }
+.bb-min[aria-pressed="true"] { border-color: var(--blue-bright); background: var(--blue-dim); color: var(--blue-bright); }
+
+.bb-btn {
+  display: inline-block; width: 100%; cursor: pointer; font-family: inherit;
+  background: var(--blue); color: var(--white); border: none;
+  border-radius: 4px; padding: 15px 28px; font-size: 16px; font-weight: 700;
+}
+.bb-btn:hover { background: var(--blue-deep); }
+.bb-ghost {
+  background: transparent; color: var(--text-dim); border: none; cursor: pointer;
+  font-family: inherit; font-size: 13px; text-decoration: underline; padding: 10px;
+}
+.bb-ghost:hover { color: var(--blue-bright); }
+.bb-sound { margin-top: 14px; }
+
+/* --- session --- */
+.bb-session { padding: 8vh 0 0; text-align: center; }
+.bb-stage { position: relative; width: min(78vw, 320px); margin: 0 auto; }
+.bb-svg { display: block; width: 100%; height: auto; }
+
+.bb-track { fill: none; stroke: var(--border); stroke-width: 2; }
+.bb-trace {
+  fill: none; stroke: var(--blue-bright); stroke-width: 2; stroke-linecap: round;
+}
+.bb-fill {
+  fill: var(--blue-dim);
+  transform-origin: 100px 100px;
+  transition: transform .12s linear;   /* smooths the per-frame scale, no bounce */
+}
+.bb-dot { fill: var(--blue-bright); }
+
+.bb-readout {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.bb-phase {
+  font-size: 19px; font-weight: 700; color: var(--white);
+  letter-spacing: -0.01em; min-height: 26px;
+}
+.bb-count {
+  font-size: 40px; font-weight: 700; color: var(--text-dim);
+  line-height: 1.1; font-variant-numeric: tabular-nums;
+}
+
+/* A hairline, not a clock. Knowing exactly how long is left is a reason to keep
+   checking how long is left. */
+.bb-progress-track { height: 1px; background: var(--border); margin: 40px auto 0; max-width: 320px; }
+.bb-progress { height: 100%; background: var(--blue-bright); width: 0%; opacity: .5; }
+
+.bb-stop { margin-top: 28px; }
+
+/* --- done --- */
+.bb-done { text-align: center; padding: 8vh 0 0; }
+.bb-done h2 { font-size: 24px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.bb-done p { font-size: 15px; color: var(--text-dim); max-width: 34ch; margin: 0 auto 24px; }
+
+@media (max-width: 480px) {
+  .bb-head h1 { font-size: 27px; }
+  .bb-count { font-size: 34px; }
+}
+
+/* Someone reaching for a breathing tool after a hard session may also be the
+   person who has motion sensitivity. Keep the mechanism, drop the motion. */
+@media (prefers-reduced-motion: reduce) {
+  .bb-fill { transition: none; }
+}

@@ -1,0 +1,68 @@
+---
+layout: layouts/base.njk
+pageCss: "members-respiracion.css"
+title: "Respiración en Caja — Triaperformance All-Access"
+---
+{#- Box breathing. Its own page rather than the activation-tool template: that
+    engine beeps, vibrates and counts down hard, which is correct for a warm-up
+    and wrong for a wind-down. Everything here is the quiet version of the same
+    decisions — silent by default, no vibration ever, no visible clock. -#}
+<div class="bb" id="bb">
+
+  <div class="crumb-bar">
+    <a href="/members/#biblioteca">Biblioteca</a> / Respiración
+  </div>
+
+  <div class="bb-head">
+    <span class="label">Respiración</span>
+    <h1>Respiración en caja</h1>
+    <p>Cuatro tiempos inhalando, cuatro sosteniendo, cuatro exhalando, cuatro sosteniendo. Sirve para bajar revoluciones: alarga la exhalación, sube el tono parasimpático y le avisa al sistema nervioso que la sesión terminó. Úsala cuando el cuerpo quedó acelerado y necesitás soltar.</p>
+  </div>
+
+  <div class="bb-setup" id="bbSetup">
+    <div class="bb-q">¿Cuánto tiempo?</div>
+    <div class="bb-mins">
+      <button type="button" class="bb-min" data-min="3" aria-pressed="false">3 min</button>
+      <button type="button" class="bb-min" data-min="5" aria-pressed="true">5 min</button>
+      <button type="button" class="bb-min" data-min="10" aria-pressed="false">10 min</button>
+    </div>
+    <button type="button" class="bb-btn" id="bbStart">Empezar</button>
+    <div class="bb-sound">
+      <button type="button" class="bb-ghost" id="bbSound" aria-pressed="false">Activar sonido suave</button>
+    </div>
+  </div>
+
+  <div class="bb-session" id="bbSession" hidden>
+    <div class="bb-stage">
+      <svg class="bb-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect class="bb-fill" id="bbFill" x="30" y="30" width="140" height="140" rx="10"/>
+        <rect class="bb-track" x="30" y="30" width="140" height="140" rx="10"/>
+        {#- Drawn as a path, not a rect, so the trace starts at the bottom-left
+            corner and runs anticlockwise — the same direction the dot travels. -#}
+        <path class="bb-trace" id="bbTrace" d="M30 170 L30 30 L170 30 L170 170 L30 170" pathLength="560"/>
+        <circle class="bb-dot" id="bbDot" cx="30" cy="170" r="7"/>
+      </svg>
+      <div class="bb-readout">
+        <div class="bb-phase" id="bbPhase">Inhalá</div>
+        <div class="bb-count" id="bbCount">4</div>
+      </div>
+    </div>
+
+    <div class="bb-progress-track"><div class="bb-progress" id="bbProgress"></div></div>
+    <button type="button" class="bb-ghost bb-stop" id="bbStop">Terminar</button>
+  </div>
+
+  <div class="bb-done" id="bbDone" hidden>
+    <h2>Listo</h2>
+    <p>Quedate un momento antes de levantarte. Si te cuesta dormir después de una sesión fuerte, repetila en la cama con los ojos cerrados.</p>
+    <button type="button" class="bb-ghost" id="bbAgain">Hacerlo de nuevo</button>
+  </div>
+
+</div>
+
+<script id="bb-copy" type="application/json">{{ {
+  "phases": ["Inhalá", "Sostené", "Exhalá", "Sostené"],
+  "soundOn": "Sonido suave activado",
+  "soundOff": "Activar sonido suave"
+} | dump | safe }}</script>
+<script src="{{ '/assets/js/box-breathing.js' | v }}"></script>
