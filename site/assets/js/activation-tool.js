@@ -9,10 +9,14 @@
   const D = window.ACTIVATION_DATA;
   const WORK = D.workSeconds || 40;
   const REST = D.restSeconds || 15;
-  const MODE_LABEL = {
-    bi: WORK + "s",
-    uni: WORK + "s por lado",
-    alt: "alternado · " + WORK + "s"
+  // Per-exercise duration override. Deep mobility holds want longer than the
+  // activation blocks in the same routine, and a single global value forced each
+  // routine into one compromise — which for a 60-second hold is the difference
+  // between a stretch and a gesture at one. Falls back to the routine's default.
+  const secsOf = (ex) => (ex && ex.secs) || WORK;
+  const MODE_LABEL = (ex) => {
+    const n = secsOf(ex);
+    return { bi: n + "s", uni: n + "s por lado", alt: "alternado · " + n + "s" }[ex.mode];
   };
   const CIRC = 2 * Math.PI * 52;
 
@@ -28,7 +32,10 @@
   const blocksOf = ex => ex.mode === "uni" ? 2 : 1;
   const totalBlocks = () => exercises.reduce((a, e) => a + blocksOf(e), 0);
   const blocksDone = () => exercises.slice(0, idx).reduce((a, e) => a + blocksOf(e), 0) + (side === 2 ? 1 : 0);
-  const estMinutes = () => { const b = totalBlocks(); return Math.round((b * WORK + (b - 1) * REST) / 60); };
+  const estMinutes = () => {
+    const work = exercises.reduce((a, e) => a + secsOf(e) * blocksOf(e), 0);
+    return Math.round((work + (totalBlocks() - 1) * REST) / 60);
+  };
 
   function fmt(s) { return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
 
@@ -89,7 +96,7 @@
     updateUI();
   }
 
-  function startWork() { phase = "work"; remaining = WORK; }
+  function startWork() { phase = "work"; remaining = secsOf(exercises[idx]); }
 
   function endWorkBlock() {
     const ex = exercises[idx];
@@ -159,7 +166,7 @@
     if (!ex.variants || !ex.variants.length) return;
     $("variantList").innerHTML = ex.variants.map((v, i) =>
       '<button class="variant" data-i="' + i + '"><span class="v-name">' + v.name +
-      '</span><span class="v-meta">' + MODE_LABEL[v.mode] + '</span></button>').join("");
+      '</span><span class="v-meta">' + MODE_LABEL(v) + '</span></button>').join("");
     $("variantOverlay").classList.add("open");
   });
 
@@ -176,7 +183,7 @@
     });
     replaced++;
     side = 1;
-    if (phase === "work") remaining = WORK; // restart block with new exercise; during rest keep the countdown
+    if (phase === "work") remaining = secsOf(exercises[idx]); // restart block; during rest keep the countdown
     $("variantOverlay").classList.remove("open");
     updateUI();
   });
@@ -212,12 +219,12 @@
     $("exNum").textContent = "Ejercicio " + (idx + 1) + " de " + exercises.length;
     $("exName").textContent = ex.name;
     $("exTag").textContent = ex.phase + (ex.tag ? " · " + ex.tag : "");
-    $("exSpec").textContent = MODE_LABEL[ex.mode];
+    $("exSpec").textContent = MODE_LABEL(ex);
     $("exCue").textContent = ex.cue || "";
     $("exCue").style.display = ex.cue ? "block" : "none";
-    $("ringTime").textContent = fmt(phase === "rest" ? WORK : remaining);
+    $("ringTime").textContent = fmt(phase === "rest" ? secsOf(ex) : remaining);
     $("ringLbl").textContent = ex.mode === "uni" ? "Lado " + side : (ex.mode === "alt" ? "alternado" : "");
-    const pct = phase === "work" ? remaining / WORK : 1;
+    const pct = phase === "work" ? remaining / secsOf(ex) : 1;
     $("ringArc").style.strokeDashoffset = CIRC * (1 - pct);
 
     const nx = nextBlockInfo();
@@ -245,7 +252,7 @@
       }
       html += '<div class="list-ex"><div class="list-ex-num">' + (i + 1) + '</div><div class="list-ex-content">' +
         '<div class="list-ex-name">' + ex.name + '</div>' +
-        '<div class="list-ex-detail">' + MODE_LABEL[ex.mode] + (ex.tag ? " · " + ex.tag : "") + '</div>' +
+        '<div class="list-ex-detail">' + MODE_LABEL(ex) + (ex.tag ? " · " + ex.tag : "") + '</div>' +
         (ex.cue ? '<div class="list-ex-cue">' + ex.cue + '</div>' : "") +
         (ex.variants && ex.variants.length
           ? '<div class="list-ex-variants">Variantes: ' + ex.variants.map(v => v.name).join(" · ") + '</div>' : "") +
