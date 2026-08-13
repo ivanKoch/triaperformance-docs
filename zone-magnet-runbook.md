@@ -62,12 +62,32 @@ Test: `curl -i -X POST https://triaperformance.com/api/zone-workouts -H 'Content
 ### Step 3 — n8n: import the workflow
 
 1. n8n → Workflows → Import from File → `automation/zone-workouts-workflow.json`.
+
+   **If that fails with "Could not import file / The file does not contain valid JSON data":** the file is valid — verified against both Python's and Node's parsers — so the failure is in n8n's own file reader, not the content. Two fallbacks, in order:
+
+   - **Paste it onto the canvas instead.** Open a new empty workflow, select the whole file, copy, click the canvas, `Cmd/Ctrl+V`. n8n parses pasted workflow JSON directly and this path skips the file reader entirely. It is the more reliable of the two.
+   - **Try `automation/zone-workouts-workflow.ascii.json`** — byte-identical in content, but with every non-ASCII character escaped, for the case where the reader really is mangling the encoding.
+
+   *(Both files are kept. If the plain one imports cleanly on a later n8n version, delete the `.ascii` twin rather than maintaining two copies of a workflow — that is exactly the drift this repo has a rule against.)*
+
 2. Read the sticky note on the canvas.
 3. Attach the same three credentials the contact-form and plan-lead workflows already use: **Twenty API** (HTTP Header Auth), **Gmail SMTP**, **Telegram bot**. No new credentials.
 4. Set `TELEGRAM_CHAT_ID` in the **Config** node — same value as the other two workflows.
 5. **Check the Code/Set node execution modes** before activating. This workflow is a clone, so it inherits whatever the original had; per the standing rule, every node that processes items must have `Run Once for All Items` vs `Run Once for Each Item` set *explicitly*. A single-item manual test cannot catch a mistake here — it needs a real multi-item execution.
-6. "Listen for test event", then submit the capture form for real from `/calculadora-de-zonas/`.
-7. Only then set the workflow **Active**.
+6. **Test before activating — but not from the website.** *(Corrected Aug 13, 2026. The instruction inherited from `plan-lead-pipeline-runbook.md` said "Listen for test event, then submit the form for real from a live page." **That cannot work.** n8n registers the test webhook at `/webhook-test/<path>` and only registers `/webhook/<path>` when the workflow is Active — and Caddy rewrites to the production path. A real submission during "Listen for test event" 404s, which reads exactly like a broken route and sends you back to re-checking Caddy. The same wrong instruction is still sitting in the plan-lead runbook.)*
+
+   With **Listen for test event** armed, POST straight to n8n over Tailscale, bypassing Caddy:
+
+   ```bash
+   curl -i -X POST http://100.70.89.17:5678/webhook-test/zone-workouts \
+     -H 'Content-Type: application/json' \
+     -d '{"email":"coach+zonetest@triaperformance.com","sport":"running","protocol":null,"language":"es","source":"zone_calculator","page_url":"https://triaperformance.com/calculadora-de-zonas/running/","submitted_at":"2026-08-13T15:00:00.000Z"}'
+   ```
+
+   That payload is the exact shape the front end sends, captured from a real browser submission. Work through the Step 4 checks on this before going further.
+
+7. Set the workflow **Active**.
+8. **Then** submit the capture form for real from `/calculadora-de-zonas/` — this is the run that proves Caddy, the front end and the production webhook together, and it is the only one that does. It appears in the **Executions** list, not on the canvas. Use a different email than the curl test, or you will be testing the duplicate branch by accident.
 
 ### Step 4 — verify end to end
 
