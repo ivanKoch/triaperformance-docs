@@ -132,10 +132,17 @@
         </div>
         {%- endfor %}
       {%- else %}
-        {#- TODO(Iván): running threshold-improvement plan IDs. Deliberately an
-            honest empty state rather than a race-distance plan relabelled as a
-            threshold plan. -#}
-        <p class="zc-help">{{ ui.plansEmpty }}</p>
+        {#- Running always lands here: `zonePlans` returns nothing for it by rule,
+            because running plans are organised by race distance and there is no
+            threshold-goal set to select. That is deliberate — a marathon plan
+            relabelled as a threshold plan would be worse than an empty state.
+
+            But it needs its OWN copy. The shared `plansEmpty` says "not in your
+            language yet", which is true only for a genuine catalogue gap and was
+            simply wrong here: it told an English visitor the site wasn't really
+            translated, on the day the English pages launched. Same wrong message
+            had been showing in Spanish since Aug 10. (Found by Iván, Aug 13.) -#}
+        <p class="zc-help">{{ (ui.plansEmptyRunning if sportKey == "running" else ui.plansEmpty) | safe }}</p>
       {%- endif %}
     </div>
     {%- endfor %}
