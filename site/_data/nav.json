@@ -133,8 +133,33 @@
         "url": "/en/all-access/"
       },
       {
-        "label": "Blog",
-        "url": "/en/blog/"
+        "label": "Resources",
+        "menuOnly": true,
+        "children": [
+          {
+            "label": "Blog",
+            "url": "/en/blog/"
+          },
+          {
+            "label": "Training Zones Calculator",
+            "url": "/en/training-zones-calculator/"
+          },
+          {
+            "label": "Running",
+            "url": "/en/training-zones-calculator/running/",
+            "sub": true
+          },
+          {
+            "label": "Cycling",
+            "url": "/en/training-zones-calculator/cycling/",
+            "sub": true
+          },
+          {
+            "label": "Swimming",
+            "url": "/en/training-zones-calculator/swimming/",
+            "sub": true
+          }
+        ]
       },
       {
         "label": "Contact",
@@ -181,8 +206,33 @@
         "url": "/pt/all-access/"
       },
       {
-        "label": "Blog",
-        "url": "/pt/blog/"
+        "label": "Recursos",
+        "menuOnly": true,
+        "children": [
+          {
+            "label": "Blog",
+            "url": "/pt/blog/"
+          },
+          {
+            "label": "Calculadora de Zonas",
+            "url": "/pt/calculadora-de-zonas/"
+          },
+          {
+            "label": "Corrida",
+            "url": "/pt/calculadora-de-zonas/corrida/",
+            "sub": true
+          },
+          {
+            "label": "Ciclismo",
+            "url": "/pt/calculadora-de-zonas/ciclismo/",
+            "sub": true
+          },
+          {
+            "label": "Natação",
+            "url": "/pt/calculadora-de-zonas/natacao/",
+            "sub": true
+          }
+        ]
       },
       {
         "label": "Contato",
@@ -289,5 +339,5 @@
     }
   },
   "_navLayoutNote": "Two-tier as of Aug 10, 2026. A thin utility strip carries the language switcher and the Acceso Miembros button; the main row carries content only. The single row had run out of width — adding the members button pushed the language switcher onto a second line — and the underlying problem was that the nav mixed content items with utility items and made them compete for the same 1080px. Each row now has one job, and the main row has slack for the tools still to be built. The utility strip is hidden on mobile: its two items move into the hamburger drawer, where a second bar would just cost vertical space.",
-  "_recursosNote": "`Recursos` groups the blog with the calculators (Iván's call, Aug 10, 2026 — a truer label than 'Herramientas' for a mixed bag, and it takes the main row down to four content items). It is `menuOnly`: there is no /recursos/ page, and a dropdown parent that links nowhere real is worse than one that does not pretend to. **Building a real /recursos/ hub is the proper fix** and would double as the public landing page for lead magnets — see the open item about having nowhere to send cold traffic. **EN and PT deliberately keep Blog top-level**: their calculator pages do not exist yet, so a Recursos dropdown there would hold exactly one item. Give them the dropdown in the same pass that translates the calculator."
+  "_recursosNote": "`Recursos` groups the blog with the calculators (Iván's call, Aug 10, 2026 — a truer label than 'Herramientas' for a mixed bag, and it takes the main row down to four content items). It is `menuOnly`: there is no /recursos/ page, and a dropdown parent that links nowhere real is worse than one that does not pretend to. **Building a real /recursos/ hub is the proper fix** and would double as the public landing page for lead magnets — see the open item about having nowhere to send cold traffic. ~~**EN and PT deliberately keep Blog top-level**: their calculator pages do not exist yet.~~ **Resolved August 13, 2026** — the calculator shipped in all three languages, so EN and PT now carry the same two-level dropdown (Blog, then the hub, then the three sport pages indented). Labels are localised; the English hub sits on `/en/training-zones-calculator/` rather than a Spanish slug, because an English page on a Spanish URL competes badly for its own head term."
 }

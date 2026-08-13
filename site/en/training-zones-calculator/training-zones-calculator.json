@@ -1,0 +1,7 @@
+{
+  "_comment": "Directory data for the English zones calculator — mirror of site/calculadora-de-zonas/calculadora-de-zonas.json. Four pages, hub plus one per sport, on localised slugs: 'training zones calculator' and 'CSS calculator swimming' are English searches and an English page sitting on a Spanish URL competes badly for both. transKey values match the Spanish siblings exactly, which is what wires hreflang across the three languages. See zones-calculator-brief.md §4.",
+
+  "layout": "layouts/base.njk",
+  "lang": "en",
+  "pageCss": "zones-calculator.css"
+}

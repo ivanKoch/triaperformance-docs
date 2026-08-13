@@ -155,5 +155,317 @@
     "plansTitle": "Planes para subir el número que acabás de calcular",
     "plansIntro": "Los mismos que uso con mis atletas, construidos sobre esta estructura de zonas.",
     "plansEmpty": "Todavía no tenemos un plan específico para esto en tu idioma — escribinos y te decimos por dónde empezar."
+  },
+  "en": {
+    "zoneNames": {
+      "1": "Recovery",
+      "2": "Aerobic base",
+      "X": "High aerobic",
+      "3": "Tempo",
+      "Y": "Low threshold",
+      "4": "High threshold",
+      "5": "VO2max"
+    },
+    "zoneNotes": {
+      "X": "Marathon pace. We split it out from Z2 because it adds a lot more fatigue without adding much more aerobic benefit — it's the zone most people overtrain in without noticing.",
+      "Y": "The narrow band right around threshold. The real Z4 benefits show up higher than this, so Y on its own is a lighter stimulus than the label suggests."
+    },
+    "sportStep": "Which sport do you want zones for?",
+    "sportHelp": "Each sport uses a different test and a different metric. Pick one and we'll walk you through it.",
+    "sports": {
+      "swimming": {
+        "label": "Swimming",
+        "blurb": "400m + 200m test → your critical swim speed (CSS) and your pace zones."
+      },
+      "cycling": {
+        "label": "Cycling",
+        "blurb": "Bike test → your FTP and/or your LTHR, and the zones for each."
+      },
+      "running": {
+        "label": "Running",
+        "blurb": "30-minute test → threshold pace, LTHR, and power if you run with a meter."
+      }
+    },
+    "protocolStep": "Which test did you do?",
+    "protocolHelp": "More than one test is valid and they all get you to the same place. Pick the one you did — the maths changes depending on which.",
+    "protocols": {
+      "cycling.30min": {
+        "label": "30 minutes all-out",
+        "blurb": "The most complete: gives you FTP and LTHR from one ride.",
+        "tag": "Recommended"
+      },
+      "cycling.20min": {
+        "label": "20 minutes all-out",
+        "blurb": "Shorter. Also gives FTP and LTHR."
+      },
+      "cycling.2x8min": {
+        "label": "2 × 8 minutes",
+        "blurb": "Two 8-minute blocks. Power only — no heart-rate zones."
+      }
+    },
+    "protocolDetail": {
+      "swimming": {
+        "title": "The 400m + 200m test",
+        "body": [
+          "Well rested, after a short warm-up: swim <strong>400 metres all-out</strong>, take a few minutes of full recovery, then <strong>200 metres all-out</strong>.",
+          "Write down the total time for each. That's everything you need to work out your critical swim speed."
+        ]
+      },
+      "cycling": {
+        "title": "The bike test",
+        "body": [
+          "Well rested, on a stretch with no traffic lights or descents — or on the trainer. Warm up properly, then go hard and even for the whole block.",
+          "You'll need: the <strong>average power</strong> for the block (if you have a meter) and the <strong>average heart rate</strong> from the final part of the test. Chest strap, always — a wrist reading isn't good enough for this."
+        ]
+      },
+      "running": {
+        "title": "The 30-minute test",
+        "body": [
+          "Well rested, early, on a flat uninterrupted loop. Warm up, then run <strong>30 minutes all-out</strong>, as even as you can hold it.",
+          "You'll need: the <strong>average pace</strong> for the 30 minutes, the <strong>average heart rate for the last 20 minutes</strong>, and average power if you run with a meter."
+        ]
+      }
+    },
+    "inputStep": "Enter your numbers",
+    "fields": {
+      "t400": "400m time",
+      "t200": "200m time",
+      "avgPace": "Average pace for the 30 minutes",
+      "avgPaceNote": "min:sec per kilometre",
+      "avgPower": "Average power for the test",
+      "avgPowerBlocks": "Average power across both blocks",
+      "avgPowerNote": "watts — leave blank if you don't use a power meter",
+      "avgHr": "Average HR for the last {n} minutes",
+      "avgHrNote": "beats per minute — leave blank if you don't have it",
+      "minutes": "min",
+      "seconds": "sec"
+    },
+    "calculate": "Calculate my zones",
+    "recalculate": "Change my numbers",
+    "errors": {
+      "nothing": "Enter at least one number so we can work out your zones.",
+      "swimOrder": "Check the times: the 400m has to be slower than the 200m. If it isn't, something was written down wrong.",
+      "swimMissing": "We need both times, the 400m and the 200m."
+    },
+    "resultsTitle": "Your zones",
+    "thresholdLabels": {
+      "cv": "Critical swim speed (CSS)",
+      "pace": "Threshold pace",
+      "ftp": "FTP",
+      "rftp": "Threshold power",
+      "lthr": "LTHR"
+    },
+    "units": {
+      "pace": "/ km",
+      "cv": "/ 100m",
+      "power": "watts",
+      "hr": "bpm"
+    },
+    "tableTitles": {
+      "cv": "Pace zones (swimming)",
+      "pace": "Pace zones",
+      "ftp": "Power zones",
+      "rftp": "Power zones (running)",
+      "lthr": "Heart-rate zones"
+    },
+    "tableSubs": {
+      "cv": "Based on your critical swim speed. Pace per 100 metres.",
+      "pace": "Based on your threshold velocity. Pace per kilometre.",
+      "ftp": "Based on your FTP, in watts.",
+      "rftp": "Based on your threshold power, in watts.",
+      "lthr": "Based on your LTHR, in beats per minute."
+    },
+    "columns": {
+      "zone": "Zone",
+      "pct": "% of threshold",
+      "range": "Your range"
+    },
+    "priorityNote": "If you have more than one metric, trust them in this order: <strong>power &gt; pace &gt; heart rate</strong>. HR lags behind the effort and drifts with heat, sleep and caffeine — it's the backup, not the main signal.",
+    "onlyPowerNote": "The 2 × 8 minute test only gives you power. For heart-rate zones you need a continuous 20 or 30 minute test.",
+    "tpTitle": "How to load this into TrainingPeaks",
+    "tpSteps": {
+      "swimming": [
+        "Go to <strong>Settings → Zones</strong> and choose <strong>Swim</strong>.",
+        "Enter your critical swim speed as threshold pace and select the <strong>80/20 Swimming</strong> method: you'll get exactly these values.",
+        "Retest every 2–3 months if you're training consistently, and update the number each time."
+      ],
+      "cycling": [
+        "Go to <strong>Settings → Zones</strong> and choose <strong>Bike</strong>.",
+        "Enter your FTP in watts and your LTHR in beats. The sessions in your plan are already built on this zone structure, so they line up on their own.",
+        "Retest every 2–3 months. An out-of-date threshold doesn't shift one zone, it shifts all seven by the same margin."
+      ],
+      "running": [
+        "Go to <strong>Settings → Zones</strong> and choose <strong>Run</strong>.",
+        "Enter your threshold pace, your LTHR and — if you use one — your threshold power.",
+        "Retest every 2–3 months. Coming back from injury, illness or a long break: two easy weeks first, then test, and expect a lower number."
+      ]
+    },
+    "captureTitle": "So what do I actually do with these zones?",
+    "captureBody": "Having the numbers is half of it. The other half is knowing which session grows each zone — how to build a Z2 that's more than easy miles, the marathon-pace session that justifies Zone X, and what a real threshold set looks like. We'll email you the full guide.",
+    "capturePlaceholder": "you@email.com",
+    "captureButton": "Send me the sessions",
+    "captureFine": "The full PDF guide: the sessions for every zone, for swimming, cycling and running. One email, nothing else, and you can unsubscribe whenever you want.",
+    "captureThanks": "Done — check your inbox shortly. In the meantime, have a look below:",
+    "captureError": "Something went wrong sending that. Email us at coach@triaperformance.com and we'll send it by hand.",
+    "weeksLabel": "weeks",
+    "plansTitle": "Plans built to raise the number you just calculated",
+    "plansIntro": "The same ones I use with my athletes, built on this zone structure.",
+    "plansEmpty": "We don't have a specific plan for this in your language yet — write to us and we'll tell you where to start."
+  },
+  "pt": {
+    "zoneNames": {
+      "1": "Recuperação",
+      "2": "Aeróbico base",
+      "X": "Aeróbico alto",
+      "3": "Tempo",
+      "Y": "Limiar baixo",
+      "4": "Limiar alto",
+      "5": "VO2máx"
+    },
+    "zoneNotes": {
+      "X": "Ritmo de maratona. Separamos da Z2 porque acumula bem mais fadiga sem somar muito mais benefício aeróbico — é a zona em que mais gente treina demais sem perceber.",
+      "Y": "A faixa estreita bem em volta do limiar. Os benefícios reais da Z4 aparecem mais acima, então a Y sozinha é um estímulo mais leve do que o nome sugere."
+    },
+    "sportStep": "Para qual esporte você quer suas zonas?",
+    "sportHelp": "Cada esporte usa um teste diferente e uma métrica diferente. Escolha um e a gente te leva passo a passo.",
+    "sports": {
+      "swimming": {
+        "label": "Natação",
+        "blurb": "Teste de 400m + 200m → sua velocidade crítica (CSS) e suas zonas por ritmo."
+      },
+      "cycling": {
+        "label": "Ciclismo",
+        "blurb": "Teste na bike → seu FTP e/ou seu LTHR, e as zonas de cada um."
+      },
+      "running": {
+        "label": "Corrida",
+        "blurb": "Teste de 30 minutos → ritmo de limiar, LTHR e potência se você usa medidor."
+      }
+    },
+    "protocolStep": "Qual teste você fez?",
+    "protocolHelp": "Existe mais de um teste válido e todos chegam ao mesmo lugar. Escolha o que você fez — o cálculo muda conforme o teste.",
+    "protocols": {
+      "cycling.30min": {
+        "label": "30 minutos no máximo",
+        "blurb": "O mais completo: dá FTP e LTHR num pedal só.",
+        "tag": "Recomendado"
+      },
+      "cycling.20min": {
+        "label": "20 minutos no máximo",
+        "blurb": "Mais curto. Também dá FTP e LTHR."
+      },
+      "cycling.2x8min": {
+        "label": "2 × 8 minutos",
+        "blurb": "Dois blocos de 8'. Só dá potência — sem zonas de frequência cardíaca."
+      }
+    },
+    "protocolDetail": {
+      "swimming": {
+        "title": "O teste de 400m + 200m",
+        "body": [
+          "Bem descansado e depois de um aquecimento curto: nade <strong>400 metros no máximo</strong>, descanse alguns minutos até recuperar de verdade, e então <strong>200 metros no máximo</strong>.",
+          "Anote o tempo total de cada um. É tudo o que você precisa para calcular sua velocidade crítica."
+        ]
+      },
+      "cycling": {
+        "title": "O teste na bike",
+        "body": [
+          "Bem descansado, num trecho sem semáforos nem descidas — ou no rolo. Aqueça bem e vá forte e constante o bloco inteiro.",
+          "Você vai precisar: da <strong>potência média</strong> do bloco (se tiver medidor) e da <strong>frequência cardíaca média</strong> da parte final do teste. Cinta peitoral, sempre — o sensor de pulso não serve para isso."
+        ]
+      },
+      "running": {
+        "title": "O teste de 30 minutos",
+        "body": [
+          "Bem descansado, cedo, num circuito plano e sem interrupções. Aqueça e corra <strong>30 minutos no máximo</strong>, o mais constante que conseguir.",
+          "Você vai precisar: do <strong>ritmo médio</strong> dos 30 minutos, da <strong>frequência cardíaca média dos últimos 20 minutos</strong>, e da potência média se usar medidor."
+        ]
+      }
+    },
+    "inputStep": "Coloque seus números",
+    "fields": {
+      "t400": "Tempo dos 400m",
+      "t200": "Tempo dos 200m",
+      "avgPace": "Ritmo médio dos 30 minutos",
+      "avgPaceNote": "min:seg por quilômetro",
+      "avgPower": "Potência média do teste",
+      "avgPowerBlocks": "Potência média dos dois blocos",
+      "avgPowerNote": "watts — deixe em branco se não usa medidor",
+      "avgHr": "FC média dos últimos {n} minutos",
+      "avgHrNote": "batimentos por minuto — deixe em branco se não tem o dado",
+      "minutes": "min",
+      "seconds": "seg"
+    },
+    "calculate": "Calcular minhas zonas",
+    "recalculate": "Mudar meus números",
+    "errors": {
+      "nothing": "Coloque pelo menos um dado para conseguirmos calcular suas zonas.",
+      "swimOrder": "Confira os tempos: os 400m têm que ser mais lentos que os 200m. Se não, algo foi anotado errado.",
+      "swimMissing": "Precisamos dos dois tempos, o de 400m e o de 200m."
+    },
+    "resultsTitle": "Suas zonas",
+    "thresholdLabels": {
+      "cv": "Velocidade crítica (CSS)",
+      "pace": "Ritmo de limiar",
+      "ftp": "FTP",
+      "rftp": "Potência de limiar",
+      "lthr": "LTHR"
+    },
+    "units": {
+      "pace": "/ km",
+      "cv": "/ 100m",
+      "power": "watts",
+      "hr": "bpm"
+    },
+    "tableTitles": {
+      "cv": "Zonas por ritmo (natação)",
+      "pace": "Zonas por ritmo",
+      "ftp": "Zonas de potência",
+      "rftp": "Zonas de potência (corrida)",
+      "lthr": "Zonas de frequência cardíaca"
+    },
+    "tableSubs": {
+      "cv": "Sobre sua velocidade crítica. Ritmo a cada 100 metros.",
+      "pace": "Sobre sua velocidade de limiar. Ritmo por quilômetro.",
+      "ftp": "Sobre seu FTP, em watts.",
+      "rftp": "Sobre sua potência de limiar, em watts.",
+      "lthr": "Sobre seu LTHR, em batimentos por minuto."
+    },
+    "columns": {
+      "zone": "Zona",
+      "pct": "% do limiar",
+      "range": "Sua faixa"
+    },
+    "priorityNote": "Se você tem mais de uma métrica, a ordem de confiança é: <strong>potência &gt; ritmo &gt; frequência cardíaca</strong>. A FC reage com atraso ao esforço e se mexe com calor, sono e cafeína — serve de apoio, não de sinal principal.",
+    "onlyPowerNote": "O teste de 2 × 8 minutos só serve para potência. Para ter zonas de frequência cardíaca você precisa de um teste contínuo de 20 ou 30 minutos.",
+    "tpTitle": "Como carregar no TrainingPeaks",
+    "tpSteps": {
+      "swimming": [
+        "Entre em <strong>Settings → Zones</strong> e escolha <strong>Natação</strong>.",
+        "Coloque sua velocidade crítica como ritmo de limiar e selecione o método <strong>80/20 Swimming</strong>: você vai obter exatamente estes mesmos valores.",
+        "Refaça o teste a cada 2–3 meses se estiver treinando constante, e atualize o número toda vez."
+      ],
+      "cycling": [
+        "Entre em <strong>Settings → Zones</strong> e escolha <strong>Ciclismo</strong>.",
+        "Coloque seu FTP em watts e seu LTHR em batimentos. As sessões do seu plano já são construídas sobre esta estrutura de zonas, então elas se alinham sozinhas.",
+        "Refaça o teste a cada 2–3 meses. Um limiar desatualizado não desloca uma zona, desloca as sete pela mesma margem."
+      ],
+      "running": [
+        "Entre em <strong>Settings → Zones</strong> e escolha <strong>Corrida</strong>.",
+        "Coloque seu ritmo de limiar, seu LTHR e — se usar medidor — sua potência de limiar.",
+        "Refaça o teste a cada 2–3 meses. Voltando de lesão, doença ou uma parada longa: duas semanas leves primeiro, depois teste, e espere um número mais baixo."
+      ]
+    },
+    "captureTitle": "E agora, o que eu faço com estas zonas?",
+    "captureBody": "Ter os números é metade. A outra metade é saber qual sessão faz cada zona crescer — como se constrói uma Z2 que não seja só trote lento, a sessão a ritmo de maratona que justifica a Zona X, e como é uma série de limiar de verdade. Enviamos o guia completo por email.",
+    "capturePlaceholder": "seu@email.com",
+    "captureButton": "Manda as sessões",
+    "captureFine": "O guia completo em PDF: as sessões por zona para natação, ciclismo e corrida. Um único email, nada mais, e você pode cancelar quando quiser.",
+    "captureThanks": "Pronto — confira sua caixa de entrada daqui a pouco. Enquanto isso, veja abaixo:",
+    "captureError": "Algo deu errado no envio. Escreva para coach@triaperformance.com e mandamos na mão.",
+    "weeksLabel": "semanas",
+    "plansTitle": "Planos para subir o número que você acabou de calcular",
+    "plansIntro": "Os mesmos que uso com meus atletas, construídos sobre esta estrutura de zonas.",
+    "plansEmpty": "Ainda não temos um plano específico para isso no seu idioma — escreva para a gente e dizemos por onde começar."
   }
 }

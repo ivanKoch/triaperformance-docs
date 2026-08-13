@@ -2,7 +2,7 @@
 
 **Home doc for this deliverable.** Source content for the PDF promised by the zone calculator's email capture ("Un email con las sesiones por zona para el deporte que elegiste"). Decisions and open questions live here; the build record goes to `ai-infrastructure-documentation.md`.
 
-**Status:** content approved and **built as a PDF, August 13, 2026** — `site/assets/guias/sesiones-por-zona.pdf`, 16 pages, three sports. **Not yet wired to `/api/zone-workouts`**, which is the remaining blocker: the calculator's capture posts to an endpoint that does not exist, so nothing delivers this file yet.
+**Status:** content approved and **built as three PDFs — ES, EN and PT — August 13, 2026** — `sesiones-por-zona.pdf` / `training-zone-sessions.pdf` / `sessoes-por-zona.pdf` in `site/assets/guias/`, 16 pages each, three sports each. Every word lives in `automation/lead-magnet-content.js`, keyed by language; the builder is template only. Build one with `node automation/build-lead-magnet-pdf.js <es|en|pt>`. **Not yet wired to `/api/zone-workouts`**, which is the remaining blocker: the calculator's capture posts to an endpoint that does not exist, so nothing delivers this file yet.
 
 **The PDF is generated, not hand-made:** `automation/build-lead-magnet-pdf.js` renders branded HTML through headless Chromium. Re-running it is one command, which is the point — the zone percentages in this guide are copies of `data/zones.csv`, and the whole reason the source doc needed correcting in the first place was a copy that drifted. *The session text lives in the script's DATA block, not parsed out of this markdown: parsing prose to rebuild prose is fragile. If the two disagree, this file is the doc and the script is the artefact — fix both in the same session.*
 
@@ -461,3 +461,16 @@ El agua neutraliza la frecuencia cardíaca: es imprecisa y encima no la podés m
 En triatlón las zonas se ven afectadas por la fatiga acumulada, y ahí la regla de métricas cambia. Correr en "Zona 2" apenas bajado de la bici ignora que el costo fisiológico de la bici ya te subió el pulso: el ritmo que ayer era fácil, hoy es metabólicamente caro.
 
 En un brick, **la FC manda sobre el ritmo** — es la única de las dos que sabe lo que pasó en las tres horas anteriores. Si el pulso se te va a Z3, frená el ritmo aunque el reloj diga que vas suave. Es la única situación de todo este documento donde el pulso gana.
+
+
+---
+
+## Translation notes (August 13, 2026)
+
+Written natively per language rather than translated line by line, per `brand-guidelines.md` §8. Three decisions inside that worth recording:
+
+**Each language's PDF links its own products.** The English guide points at the English All-Access checkout at **US$ 39.99**; the Portuguese one points at the Portuguese product at **US$ 29,99**, which is the real price of that edition and not a rounding of the Spanish one. Copies of `triaperformance-pricing-and-positioning.md` — if those move, they move here.
+
+**The Portuguese guide carries Spanish testimonials.** There are zero Portuguese reviews (`social-proof-and-reviews.md`), so the quotes are the Chilean and Mexican ones, in the original Spanish, attributed to their countries. **Translating a testimonial would misrepresent what the person said**, and inventing a Portuguese one is not an option. A Brazilian reader gets a quote in Spanish from a Chilean athlete, which is honest but visibly thin — *this is the clearest argument yet for the PT review-generation item in `open-loops.md`, and the guide is where the gap now shows.*
+
+**The seven-zone table is identical across all three** because it comes from `data/zones.csv`. Only the prose around it is per-language. That is deliberate: the zone model is the same model, and three hand-written copies of the same numbers is the exact failure this project has a standing rule against.

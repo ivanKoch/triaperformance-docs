@@ -1,0 +1,36 @@
+---
+transKey: zones-calculator
+title: "Calculadora de Zonas de Treino — Natação, Ciclismo e Corrida"
+description: "Transforme o resultado do seu teste nas suas sete zonas de treino. Ritmo, potência e frequência cardíaca, para natação, ciclismo e corrida. Grátis."
+ogTitle: "Calculadora de Zonas de Treino"
+---
+<section class="zc-hero">
+  <div class="wrap">
+    <span class="label">Calculadora</span>
+    <h1>Calculadora de zonas de treino</h1>
+    <p class="zc-lede">Você fez o teste. Agora transforme ele nas sete zonas em que vai treinar de verdade — por ritmo, por potência e por frequência cardíaca, conforme o esporte e o que você mediu. É a mesma tabela que uso com meus atletas.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    {% include "partials/zones-calculator.njk" %}
+  </div>
+</section>
+
+<section class="section--surface">
+  <div class="wrap zc-prose">
+    <h2>Por que sete zonas e não cinco</h2>
+    <p>O modelo é polarizado 80/20: cerca de 80% do volume fica leve e 20% é realmente intenso. Sobre essa base, duas zonas ganham granularidade extra, porque juntá-las com as vizinhas esconde algo que importa.</p>
+    <p>A <strong>Zona X</strong> é a metade de cima da Zona 2 — mais ou menos o seu ritmo de maratona. Ela ganha nome próprio porque acumula bem mais fadiga que a Z2 baixa sem devolver muito mais benefício aeróbico. É a zona em que mais gente treina demais sem ter decidido isso: você sai para um rodagem leve, se sente bem, o ritmo sobe alguns segundos sozinho, e você chega no dia de qualidade sem perna nenhuma.</p>
+    <p>A <strong>Zona Y</strong> é a parte de baixo da Zona 4. Os benefícios reais da Z4 aparecem mais acima dentro da zona, então a Y sozinha é um estímulo mais leve do que o nome sugere.</p>
+
+    <h2>As porcentagens mudam conforme a métrica</h2>
+    <p>Não existe uma tabela só. As zonas de potência, de ritmo e de frequência cardíaca não caem nas mesmas porcentagens, e também não são iguais entre esportes: a Zona 2 começa em 70% do seu FTP na bike, 76% da sua velocidade de limiar na corrida, 81% do seu LTHR e 84% da sua velocidade crítica na natação. A calculadora usa a tabela que corresponde a cada caso.</p>
+    <p>Um detalhe que é calculado errado o tempo todo: as porcentagens de ritmo se aplicam à <strong>velocidade</strong>, não ao ritmo em minutos por quilômetro. Aplicar 76% direto num ritmo de 4:00/km dá 3:02/km — mais rápido que o seu limiar, para uma zona que deveria ser mais lenta. Todas as zonas saem invertidas, e todas parecem perfeitamente razoáveis.</p>
+
+    <h2>De quanto em quanto tempo refazer o teste?</h2>
+    <p>A cada 2 ou 3 meses se você estiver treinando constante. Antes disso se as sessões prescritas começarem a parecer fáceis, ou se o desacoplamento cardíaco em ritmos de limiar cair. Depois de lesão, doença ou uma parada longa: duas semanas leves voltando à carga, depois o teste — e espere um número mais baixo. Reajustar a expectativa faz parte do processo.</p>
+    <p>Um limiar desatualizado não mexe numa zona. Ele desloca as sete pela mesma margem.</p>
+  </div>
+</section>

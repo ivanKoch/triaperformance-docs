@@ -1,0 +1,7 @@
+{
+  "_comment": "Directory data for the Portuguese zones calculator — mirror of site/calculadora-de-zonas/calculadora-de-zonas.json. The Portuguese slug happens to match the Spanish one word for word; the pages are still distinct URLs under /pt/ and carry their own lang, title and prose. transKey values match the Spanish and English siblings, which is what wires hreflang. See zones-calculator-brief.md §4.",
+
+  "layout": "layouts/base.njk",
+  "lang": "pt",
+  "pageCss": "zones-calculator.css"
+}

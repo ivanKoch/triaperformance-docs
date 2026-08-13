@@ -1,6 +1,6 @@
 # Zones Calculator — design brief
 
-**Status:** **v1 BUILT in Spanish, August 10, 2026** — public tool live on four URLs, members copy live, 35 tests passing. Not yet translated; not yet wired to a real capture endpoint. Opened the same day.
+**Status:** **v1 BUILT in Spanish Aug 10, 2026; TRANSLATED to EN and PT Aug 13, 2026** — public tool live on twelve URLs (four per language, localised slugs), members copy live, 35 unit tests passing plus a browser layout/behaviour check across every page. Capture endpoint spec'd and built (`zone-magnet-runbook.md`); three steps outstanding, all on Iván's side. Opened the same day.
 **Home doc for this initiative.** Decisions, structure and open questions live here and nowhere else. Build record goes to `ai-infrastructure-documentation.md` when there is one; the open-item line lives in `open-loops.md`.
 
 **Why it exists:** it is the definition of done for the members-area i18n branch, the only tools-library item with a live promise attached (three published articles say a calculator turns your test result into your seven zones), and — as of the decisions below — the site's first public tool.
@@ -107,7 +107,9 @@ This deserves a unit test with a known-good fixture, not a visual check — inve
 /calculadora-de-zonas/running/    same tool, run pre-selected
 ```
 
-One tool, four URLs, each with its own `<title>`, H1 and intro copy. "Calculadora CSS natación" and "calculadora zonas FTP ciclismo" are different searches with different intent; one page wins one head term, four can win four. All indexable, in `sitemap.xml`, `transKey` set so hreflang wires up when EN/PT land.
+*Update, August 13, 2026 — now twelve URLs, not four: the same four in English under `/en/training-zones-calculator/` and in Portuguese under `/pt/calculadora-de-zonas/`, on localised slugs so each competes for its own language's head term. `transKey` values match across languages, which is what wires hreflang. Detail: `ai-infrastructure-documentation.md` §25.*
+
+One tool, four URLs per language, each with its own `<title>`, H1 and intro copy. "Calculadora CSS natación" and "calculadora zonas FTP ciclismo" are different searches with different intent; one page wins one head term, four can win four. All indexable, in `sitemap.xml`, `transKey` set so hreflang wires up when EN/PT land.
 
 **Fully functional, results free, no wall.** That is what makes it rank and what stops it reading as a trap.
 

@@ -1,0 +1,36 @@
+---
+transKey: zones-calculator
+title: "Training Zones Calculator — Swim, Bike and Run"
+description: "Turn your test result into your seven training zones. Pace, power and heart rate, for swimming, cycling and running. Free."
+ogTitle: "Training Zones Calculator"
+---
+<section class="zc-hero">
+  <div class="wrap">
+    <span class="label">Calculator</span>
+    <h1>Training zones calculator</h1>
+    <p class="zc-lede">You did the test. Now turn it into the seven zones you'll actually train in — by pace, by power and by heart rate, depending on the sport and on what you measured. It's the same table I use with my athletes.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    {% include "partials/zones-calculator.njk" %}
+  </div>
+</section>
+
+<section class="section--surface">
+  <div class="wrap zc-prose">
+    <h2>Why seven zones and not five</h2>
+    <p>The model is polarised 80/20: roughly 80% of your volume stays easy and 20% is genuinely hard. On top of that base, two zones get extra granularity, because folding them into their neighbours hides something that matters.</p>
+    <p><strong>Zone X</strong> is the top half of Zone 2 — near enough your marathon pace. It gets its own name because it accumulates a lot more fatigue than low Z2 without returning much more aerobic benefit. It's the zone most people overtrain in without deciding to: you head out easy, you feel good, the pace settles a few seconds quicker on its own, and you arrive at your quality day with nothing in your legs.</p>
+    <p><strong>Zone Y</strong> is the bottom of Zone 4. The real Z4 adaptations show up higher in the zone, so Y on its own is a lighter stimulus than the label suggests.</p>
+
+    <h2>The percentages change with the metric</h2>
+    <p>There is no single table. Power, pace and heart-rate zones don't land on the same percentages, and they aren't the same between sports either: Zone 2 starts at 70% of your FTP on the bike, 76% of threshold velocity running, 81% of your LTHR, and 84% of your critical speed swimming. The calculator uses whichever table applies to your case.</p>
+    <p>One detail that gets miscalculated constantly: pace percentages apply to <strong>velocity</strong>, not to minutes per kilometre. Applying 76% directly to a 4:00/km pace gives 3:02/km — faster than your threshold, for a zone that should be slower. Every zone comes out inverted, and every one of them looks perfectly reasonable.</p>
+
+    <h2>How often should you retest?</h2>
+    <p>Every 2 to 3 months if you're training consistently. Sooner if the prescribed sessions start feeling easy, or if your cardiac decoupling at threshold paces drops. After injury, illness or a long break: two easy weeks back into load, then the test — and expect a lower number. Resetting the expectation is part of the process.</p>
+    <p>An out-of-date threshold doesn't move one zone. It shifts all seven by the same margin.</p>
+  </div>
+</section>

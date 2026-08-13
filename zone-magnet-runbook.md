@@ -104,6 +104,54 @@ Confirm, in this order:
 
 Set the workflow Inactive, or remove the `/api/zone-workouts` route from `automation/Caddyfile` and let the deploy job reload. The capture form goes back to showing its error message; the calculator is unaffected either way.
 
+## The email sends before the duplicate check — corrected August 13, 2026
+
+**Found by Iván within minutes of the pipeline going green:** "when the lead already exists in Twenty it doesn't send the email?" It didn't. `Already exists? → true` went straight to the Telegram notice and the success response, with the email node sitting only on the create-Person branch.
+
+**Why that was inherited, and why it was wrong here.** In `plan-lead-workflow.json` the email is a personal *"tell me your goal and I'll pick a plan"* reply; sending it twice to the same person reads badly, so gating it behind the duplicate check is correct there. In this workflow **the email is the deliverable**. Suppressing it for known contacts means every 1:1 athlete, every All-Access subscriber, every prior contact-form or CoachMatch lead — and eventually the 2,073 migrated HubSpot contacts — asks for the guide, is told *"revisá tu bandeja de entrada"*, and receives nothing. **The most engaged part of the list was the part being silently dropped.**
+
+***The general lesson, which is why this is written up rather than just fixed:*** deduplicating a CRM record and withholding a deliverable are two different decisions. The clone inherited one node placement that quietly bundled them. Any future workflow cloned from a pattern needs its terminal actions re-read against the new purpose, not just its wiring checked for correctness — this wiring was correct, it was correct *for a different job*.
+
+**The fix, on the main line rather than a second email node:**
+
+```
+before   Config -> Check Twenty -> [dup?] -> ... -> Person Created -> Send reply email -> Set leadStatus
+after    Config -> Send reply email -> Check Twenty -> [dup?] -> ... -> Person Created -> Set leadStatus
+```
+
+One email node, not two — a duplicate node would mean two copies of the guide copy drifting apart the first time it is edited. **Deliberate side effect: delivery no longer depends on Twenty.** If Twenty is down or rejects the write, the athlete still gets the guide and the only thing lost is the CRM record, which is the right way round for a lead magnet.
+
+## Duplicate branch — annotate the existing Person (spec, August 13, 2026)
+
+Once the email sends to everyone, a returning contact leaves no trace at all: no new Person, and nothing on the existing one. That loses a real signal — *an athlete already in the CRM chose to download the guide.* One node fixes it.
+
+**Add an HTTP Request node, `Append guide download to leadNotes`**, between `Already exists?` (true) and `Telegram notify (duplicate)`:
+
+| Field | Value |
+|---|---|
+| Method | `PATCH` |
+| URL | `={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people/{{ $('Check Twenty for existing Person').item.json.data.people[0].id }}` |
+| Send Body | on, JSON |
+| Credential | Twenty API (the same one the other three Twenty nodes use) |
+| On Error | **Continue** |
+
+Body:
+
+```
+={{ JSON.stringify({ leadNotes: (($('Check Twenty for existing Person').item.json.data.people[0].leadNotes || '') + '\n[' + new Date().toISOString().slice(0,10) + '] Descargo la guia de sesiones por zona. Deporte: ' + (({swimming:'natacion',cycling:'ciclismo',running:'running'})[$('Webhook - Zone Workouts').item.json.body.sport] || 'n/a')).trim() }) }}
+```
+
+**Four constraints, each of which is the whole point of specifying this rather than improvising it:**
+
+1. **Append, never overwrite.** `leadNotes` on an existing Person may hold real coaching history. The expression reads the current value and concatenates; a plain `leadNotes: '...'` would delete it.
+2. **Do not touch `leadSource`.** A returning downloader may be a 1:1 athlete acquired through CoachMatch or a referral. Stamping `ZONE_CALCULATOR` over that destroys the attribution permanently, for a signal that belongs in a note.
+3. **Do not touch `leadStatus`.** It would reset a lead that is mid-pipeline back to a state a human didn't put it in.
+4. **Do not touch `lastTouchpoint`.** `twenty_followup_check.py` reads that field to decide when a lead is overdue a nudge. Writing it here tells the watchdog a human made contact when nobody did — the lead goes quiet and no follow-up ever fires. *This is the one that would have been invisible: everything would look correct in Twenty and a different system would silently stop working.*
+
+**On Error → Continue** matters too: by this point the athlete already has the guide, and a CRM annotation failing must not turn the request into a 500 and show them an error for something that worked.
+
+**Test:** submit twice with an address already in Twenty. Expect the guide email both times, the note appended once per submission, one Telegram duplicate notice, no second Person, and `leadSource`/`leadStatus` unchanged from whatever they were.
+
 ## Decisions taken here (Iván, August 13, 2026)
 
 **Delivery is a link, not an attachment.** Consistent with the three existing lead magnets, lets the guide be corrected without stale copies sitting in inboxes, and the click is a trackable signal. The trade-off, accepted knowingly: the URL is public, so the guide is reachable without giving an email — already true of the other three.
@@ -116,4 +164,4 @@ Set the workflow Inactive, or remove the `/api/zone-workouts` route from `automa
 
 - **No consent/unsubscribe copy on the capture form**, only the "te podés dar de baja" line in the fine print with no mechanism behind it. Fine for a single transactional send; not fine the moment this list gets a sequence. Same open item as the plan-catalog capture, now on two forms.
 - **`name.firstName` is derived from the email's local part** (`athlete@` → `athlete`). Placeholder, not a real name — do not use it in a greeting. The delivery email deliberately opens with "Hola," and no name.
-- **The guide is Spanish-only.** The workflow maps `en`/`pt` to their enums and sends English/Portuguese email copy, but the linked PDF is Spanish. Today this cannot fire — the calculator is only public in Spanish — but it will the moment the EN/PT calculators ship, which is the definition of done for the members-i18n branch. **Translate the guide in that same pass, or the English email links a Spanish PDF.**
+- ~~**The guide is Spanish-only.**~~ **Closed August 13, 2026.** Three PDFs exist and the `Send reply email` node selects by `body.language` with a Spanish fallback. The EN/PT calculators shipped the same day, so the gap never opened. *If you re-import the workflow from the repo, this is one of the changes you would lose by importing an older copy — the file in `automation/` is current.*

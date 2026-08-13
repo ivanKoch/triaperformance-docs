@@ -14,12 +14,20 @@
  *     (cd /tmp/_site-check && python3 -m http.server 8099 &)
  *     node automation/layout-check.js
  *
+ * Scope it while iterating:
+ *     LAYOUT_CHECK_ONLY=/en/ LAYOUT_CHECK_VIEWPORTS=1440 node automation/layout-check.js
+ *
  * First run needs a browser:  npx playwright install chromium
  * Exits non-zero on any failed assertion, so it can gate a deploy later.
  */
 
 const BASE = process.env.LAYOUT_CHECK_BASE || "http://localhost:8099";
-const VIEWPORTS = [390, 768, 1440];
+const VIEWPORTS = (process.env.LAYOUT_CHECK_VIEWPORTS || "390,768,1440").split(",").map(Number);
+// LAYOUT_CHECK_ONLY filters the case list by URL substring. The full run is 13
+// pages x 3 viewports and takes several minutes; being able to run just the
+// language or page you touched is what keeps this from becoming a check that
+// exists but never gets run.
+const ONLY = process.env.LAYOUT_CHECK_ONLY || "";
 
 // [url, sport, input values in field order, sport-locked?]
 // Locked pages must not offer a sport switch: the prose under the tool is
@@ -30,6 +38,14 @@ const CASES = [
   ["/calculadora-de-zonas/natacion/", "swimming", ["6", "40", "3", "5"], true],
   ["/calculadora-de-zonas/ciclismo/", "cycling", ["250"], true],
   ["/calculadora-de-zonas/running/", "running", ["4", "0"], true],
+  ["/en/training-zones-calculator/", "swimming", ["6", "40", "3", "5"], false],
+  ["/en/training-zones-calculator/swimming/", "swimming", ["6", "40", "3", "5"], true],
+  ["/en/training-zones-calculator/cycling/", "cycling", ["250"], true],
+  ["/en/training-zones-calculator/running/", "running", ["4", "0"], true],
+  ["/pt/calculadora-de-zonas/", "swimming", ["6", "40", "3", "5"], false],
+  ["/pt/calculadora-de-zonas/natacao/", "swimming", ["6", "40", "3", "5"], true],
+  ["/pt/calculadora-de-zonas/ciclismo/", "cycling", ["250"], true],
+  ["/pt/calculadora-de-zonas/corrida/", "running", ["4", "0"], true],
   // The members copy shares the component and a different theme. It is in this
   // list because "same component, therefore fine" is an assumption, and the
   // whole point of this file is to stop assuming things about rendering.
@@ -48,8 +64,9 @@ const CASES = [
   const browser = await chromium.launch();
   let failures = 0, checks = 0;
 
+  const cases = ONLY ? CASES.filter(([u]) => u.includes(ONLY)) : CASES;
   for (const width of VIEWPORTS) {
-    for (const [url, sport, values, isLocked] of CASES) {
+    for (const [url, sport, values, isLocked] of cases) {
       const page = await browser.newPage({ viewport: { width, height: 900 } });
       try {
         await page.goto(BASE + url, { waitUntil: "networkidle" });
@@ -129,7 +146,7 @@ const CASES = [
   console.log(
     failures
       ? `\n${failures} of ${checks} assertions FAILED`
-      : `\nAll ${checks} assertions passed (${CASES.length} pages x ${VIEWPORTS.length} viewports)`
+      : `\nAll ${checks} assertions passed (${cases.length} pages x ${VIEWPORTS.length} viewports)`
   );
   process.exit(failures ? 1 : 0);
 })();
