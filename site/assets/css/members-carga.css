@@ -1,6 +1,9 @@
-/* carga — extra rules on top of site.css + members.css. */
+/* carga — extra rules on top of site.css + members.css.
+   Expanded Aug 13, 2026 when the page was rewritten from Iván's TrainingPeaks
+   metrics doc: added the warning callout, figures, and the TSB table. */
 
 h3 { font-size: 19px; font-weight: 700; margin-bottom: 8px; margin-top: 24px; }
+h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; margin-top: 20px; }
 
 table.tp-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px; }
 
@@ -8,6 +11,70 @@ table.tp-table th, table.tp-table td { border: 1px solid var(--mist); padding: 1
 
 table.tp-table th { background: var(--wash); font-weight: 700; }
 
+/* The TSB band column is the row's label, not data — it reads as a heading and
+   must never wrap mid-range ("−30 a" / "−10" on two lines is unreadable). */
+table.tp-table td.tsb-band { font-weight: 700; white-space: nowrap; vertical-align: top; }
+
 .callout { background: var(--wash); border-radius: 8px; padding: 24px 28px; margin: 24px 0; }
 
-.callout p:last-child { margin-bottom: 0; }
+.callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+
+.callout ul { margin: 0 0 16px; padding-left: 20px; }
+
+.callout li { margin-bottom: 8px; }
+
+.callout-title { margin-top: 0; }
+
+/* The threshold warning. Every number on this page is downstream of it, so it
+   opens the page and gets a colour the rest of the page doesn't use. Deliberately
+   the brand blue rather than a red alert bar: this is the load-bearing
+   instruction, not an error. */
+.callout--warn { border-left: 3px solid var(--blue); background: #f4f8fd; }
+
+/* --- figures: the two TrainingPeaks screenshots --- */
+.fig { margin: 28px 0; }
+
+.fig img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--mist); border-radius: 8px; background: var(--white);
+}
+
+/* The phone screenshot is portrait — full width it would tower over the text
+   and push the explanation of it off the screen, which is the one thing that
+   must stay next to it. */
+.fig--narrow { max-width: 380px; }
+
+.fig figcaption { font-size: 14px; color: var(--slate); margin-top: 10px; line-height: 1.5; }
+
+.fineprint { color: var(--slate); font-size: 14px; }
+
+/* --- mobile: the tables ---------------------------------------------------
+   Pre-existing bug found Aug 13, 2026 and inherited by the rewrite: .tp-table
+   rendered 399px wide inside a 342px column at 390px, scrolling the whole page
+   sideways. Two fixes, because the three tables fail differently.
+
+   The TSS table holds short values and only needs to be smaller. The TSB and
+   taper tables hold a sentence in every cell — no font size rescues three
+   columns of prose on a phone, so those stack into one card per row, with the
+   column header reprinted from data-label. */
+@media (max-width: 640px) {
+  table.tp-table { font-size: 14px; }
+  table.tp-table th, table.tp-table td { padding: 10px 12px; }
+
+  table.tp-table--stack, .tp-table--stack tbody, .tp-table--stack tr, .tp-table--stack td {
+    display: block; width: 100%;
+  }
+  .tp-table--stack thead { display: none; }
+  .tp-table--stack tr {
+    border: 1px solid var(--mist); border-radius: 8px; margin-bottom: 14px; overflow: hidden;
+  }
+  .tp-table--stack td { border: none; padding: 0 16px 14px; }
+  .tp-table--stack td.tsb-band {
+    background: var(--wash); padding: 12px 16px; margin-bottom: 14px; white-space: normal;
+  }
+  .tp-table--stack td[data-label]::before {
+    content: attr(data-label);
+    display: block; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .06em; color: var(--slate); margin-bottom: 4px;
+  }
+}

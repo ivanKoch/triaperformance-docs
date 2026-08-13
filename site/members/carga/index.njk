@@ -6,34 +6,71 @@ pageCss:
 
 title: "Carga de Entrenamiento Explicada — Triaperformance All-Access"
 ---
+{#- Rewritten Aug 13, 2026 from Iván's `Metricas de training peaks.md`, with four
+    corrections made on the way in — see the dated note in
+    `ai-infrastructure-documentation.md` §28. The two screenshots are Iván's own
+    real TrainingPeaks data from Aug 13, 2026; the Fitness 91 / Fatiga 96 /
+    Forma 13 numbers are quoted in the body on purpose, because the whole point
+    of that section is that 91 − 96 does not equal 13. If the image is ever
+    swapped, the numbers in the prose have to move with it. -#}
 <header class="artifact-hero">
   <div class="wrap">
     <div class="breadcrumb"><a href="/members/#biblioteca">Biblioteca</a> / Carga de Entrenamiento</div>
     <span class="label">Guía</span>
     <h1>Carga de Entrenamiento Explicada</h1>
-    <p>TSS, CTL, ATL, TSB y el gráfico PMC — los cuatro números y un gráfico que aparecen todo el tiempo en TrainingPeaks, explicados una vez para no tener que preguntar cada vez.</p>
+    <p>IF, TSS, CTL, ATL, TSB y el gráfico PMC — los números que aparecen todo el tiempo en TrainingPeaks, explicados una vez para no tener que preguntar cada vez.</p>
   </div>
 </header>
 
 <section>
   <div class="wrap">
-    <h3>TSS — Training Stress Score</h3>
-    <p>Un número único para cuánto costó un entrenamiento, combinando intensidad y duración. 100 TSS ≈ una hora a tu umbral. Una rodada suave de 45 minutos puede ser 40 TSS; una sesión de bici de 90 minutos al umbral puede ser 140 TSS. Es la base de todos los demás números de esta página.</p>
-
-    <h3>CTL — Chronic Training Load ("Fitness")</h3>
-    <p>Un promedio móvil y ponderado de tu TSS de los últimos ~42 días. Sube despacio y baja despacio — el fitness construido durante meses no desaparece en una semana, y tampoco se construye en una semana. Un CTL más alto generalmente indica un motor aeróbico más grande, construido con el tiempo.</p>
-
-    <h3>ATL — Acute Training Load ("Fatiga")</h3>
-    <p>La misma idea pero en una ventana mucho más corta — los últimos ~7 días. Se mueve rápido: un bloque duro lo dispara, una semana suave lo baja rápido. El ATL es lo que un taper está diseñado para bajar.</p>
-
-    <h3>TSB — Training Stress Balance ("Forma")</h3>
-    <div class="callout">
-      <p><strong>TSB = CTL de ayer − ATL de ayer.</strong></p>
-      <p>TSB negativo significa que estás cargando más fatiga que fitness — normal y esperable en medio de un bloque. TSB positivo significa que la fatiga bajó y el fitness se nota — lo que querés que pase el día de la carrera. Buscar un TSB siempre positivo significa que no estás entrenando lo suficientemente fuerte como para construir fitness real.</p>
+    <div class="callout callout--warn">
+      <h3 class="callout-title">Antes de mirar un solo gráfico: el umbral</h3>
+      <p>Todo este modelo depende de una sola cosa: que tu umbral esté bien configurado. Si tu FTP, tu ritmo de umbral o tu FC de umbral están desactualizados o mal medidos, tu IF es falso, tu TSS está mal calculado, y tu fatiga y tu forma muestran una historia que no pasó. <strong>No es el primer paso: es el paso cero.</strong></p>
+      <p>Sin él, estos números no están un poco corridos — no sirven. Y el error no se nota, porque un TSS mal calculado se ve exactamente igual que uno bien calculado.</p>
+      <p>Dos lugares para resolverlo, en este orden:</p>
+      <ul>
+        <li><a href="/blog/entrenar-el-umbral-sin-tiras-de-lactato/">Entrenar el umbral sin tiras de lactato</a> — qué es el umbral, cómo testearlo bien y cada cuánto retestear.</li>
+        <li><a href="/members/calculadora-de-zonas/">Calculadora de Zonas</a> — metés el resultado de tu test y salen tus siete zonas en los tres deportes, más el registro para saber cuándo toca volver a testear.</li>
+      </ul>
     </div>
 
-    <h3>El PMC — Performance Management Chart</h3>
-    <p>El gráfico de TrainingPeaks que muestra CTL, ATL y TSB juntos en el tiempo. Es la forma más rápida de ver un bloque construyéndose (CTL subiendo), una semana dura pegando (ATL disparado, TSB bajando), o un taper haciendo su trabajo (ATL bajando, TSB volviendo a positivo) — sin leer cada entrenamiento uno por uno.</p>
+    <h2>1. Las métricas de la sesión</h2>
+    <p>Estas dos te dicen qué tan duro fue el entrenamiento de hoy.</p>
+
+    <h3>IF — Intensity Factor (Factor de Intensidad)</h3>
+    <p>Qué tan intensa fue la sesión en relación con tu umbral. Un IF de 1.0 significa que sostuviste el 100% de tu umbral durante toda la sesión. Un IF de 0.50 significa que fuiste a la mitad. Es un número relativo a vos: el mismo trote es IF 0.65 para uno e IF 0.85 para otro.</p>
+
+    <h3>TSS — Training Stress Score</h3>
+    <p>El costo fisiológico total de la sesión: duración por intensidad, en un solo número. La referencia que conviene memorizar es <strong>una hora exacta a tu umbral = 100 TSS</strong>. Todo lo demás se acomoda alrededor de eso.</p>
+
+    <h4>Por qué la intensidad pesa tanto más que el tiempo</h4>
+    <p>El TSS no suma la intensidad, la eleva al cuadrado. Por eso la duración necesaria para llegar al mismo estrés se dispara apenas bajás el ritmo. Tres sesiones que dan exactamente <strong>50 TSS</strong>:</p>
+    <table class="tp-table">
+      <thead><tr><th>Sesión</th><th>IF</th><th>Duración</th><th>TSS</th></tr></thead>
+      <tbody>
+        <tr><td>Al límite de tu umbral</td><td>1.00</td><td>30 min</td><td>50</td></tr>
+        <tr><td>Aeróbico moderado</td><td>0.71</td><td>1 h</td><td>50</td></tr>
+        <tr><td>Recuperación / muy suave</td><td>0.50</td><td>2 h</td><td>50</td></tr>
+      </tbody>
+    </table>
+    <p class="fineprint">Bajar el IF a la mitad (de 1.00 a 0.50) no duplica el tiempo necesario: lo cuadruplica. Eso es la parte "al cuadrado" de la fórmula, y es también por qué una semana de puro volumen suave acumula mucho menos TSS del que la sensación de cansancio sugiere.</p>
+
+    <h2>2. Las métricas acumuladas</h2>
+    <p>Una sesión aislada no te hace más rápido. Estas tres miran cómo el TSS diario se acumula a lo largo de semanas.</p>
+
+    <h3>CTL — Chronic Training Load ("Fitness" / Condición física)</h3>
+    <p>Un promedio <strong>ponderado</strong> de tu TSS diario sobre una ventana larga — por defecto, unos 42 días. Ponderado, no simple: los días recientes pesan más que los de hace seis semanas, que es por qué una sola sesión enorme casi no lo mueve y seis semanas consistentes sí. Representa lo que tu cuerpo está acostumbrado a soportar. Sube despacio y baja despacio.</p>
+    <p class="fineprint">Los 42 días son el valor por defecto de TrainingPeaks, no una ley. Si sos atleta mío y tenés 50+, tus constantes están deliberadamente más cortas, para que la fatiga modelada suba más rápido y fuerce la recuperación antes.</p>
+
+    <h3>ATL — Acute Training Load ("Fatiga")</h3>
+    <p>Lo mismo, en una ventana mucho más corta — unos 7 días. Se mueve rápido: un bloque duro lo dispara, una semana suave lo baja en días. El ATL es exactamente lo que un taper está diseñado para bajar.</p>
+
+    <h3>TSB — Training Stress Balance ("Forma" / Frescura)</h3>
+    <div class="callout">
+      <p><strong>TSB = CTL de ayer − ATL de ayer.</strong></p>
+      <p>Negativo: cargás más fatiga que fitness. Normal y esperable en medio de un bloque. Positivo: la fatiga bajó y el fitness quedó — lo que querés el día de la carrera. Buscar un TSB siempre positivo significa que no estás entrenando lo suficientemente fuerte como para construir nada.</p>
+    </div>
 
     <div class="video-slot">Video explicativo — próximamente</div>
   </div>
@@ -41,24 +78,109 @@ title: "Carga de Entrenamiento Explicada — Triaperformance All-Access"
 
 <section class="section--wash">
   <div class="wrap">
-    <h2>Ejemplo real: un taper</h2>
-    <p>Un atleta preparando un Ironman completo planificó sus últimas tres semanas de atrás para adelante, apuntando a un TSB cercano a +20 en la largada:</p>
-    <table class="tp-table">
-      <thead><tr><th>Semana</th><th>Carga</th><th>Qué pasa con el TSB</th></tr></thead>
-      <tbody>
-        <tr><td>3 semanas antes</td><td>Semana de descarga, ~10h</td><td>El ATL baja, el TSB empieza a subir desde el déficit del bloque</td></tr>
-        <tr><td>2 semanas antes</td><td>La semana más grande, ~19h incl. una rodada de 6h</td><td>Un último golpe de carga real — el TSB baja de nuevo, a propósito</td></tr>
-        <tr><td>1 semana antes</td><td>~12h</td><td>El ATL baja más rápido que el CTL — el TSB sube</td></tr>
-        <tr><td>Semana de carrera</td><td>Suave, solo activaciones cortas</td><td>El TSB llega positivo — fatiga eliminada, fitness intacto</td></tr>
-      </tbody>
-    </table>
-    <p style="color:var(--slate); font-size:14px;">La trampa: dos semanas antes se siente como el momento de "sumar más" porque la forma se siente bien. Para eso está exactamente la semana de descarga de tres semanas antes — resistí las ganas de seguir entrenando fuerte durante un taper.</p>
+    <h2>Los tres números que ves todos los días</h2>
+    <p>Esta es la pantalla de TrainingPeaks que vas a mirar más que ninguna otra. Son mis propios números del 13 de agosto de 2026:</p>
+
+    <figure class="fig fig--narrow">
+      <img src="/assets/images/tp-fitness-fatiga-forma.jpg" alt="Pantalla de TrainingPeaks mostrando Fitness 91, Forma 13 y Fatiga 96 para el 13 de agosto de 2026, sobre el gráfico de los últimos 180 días." width="900" height="1115" loading="lazy">
+      <figcaption>Fitness (CTL) en azul, Fatiga (ATL) en rosa, Forma (TSB) en naranja. La zona sombreada es el TSS de cada día.</figcaption>
+    </figure>
+
+    <h3>"Pará: 91 menos 96 no da 13"</h3>
+    <p>Correcto, y es la pregunta que me hacen más seguido. La tarjeta te muestra el <strong>Fitness y la Fatiga de hoy</strong>, pero la <strong>Forma de ayer</strong>. Tiene sentido: la forma con la que arrancás el día se decidió anoche, antes de que entrenaras. Si mostrara la resta de hoy, la sesión que estás por hacer ya te habría bajado la forma antes de hacerla, y el número no serviría para decidir nada.</p>
+    <p>Traducido a este caso: ayer terminé con un CTL de ~91 y un ATL de ~78, y esa resta es el 13. Hoy hice una sesión grande, la fatiga saltó a 96, y ese salto va a aparecer en la Forma <em>mañana</em>. <strong>Si vas a usar un número para decidir cómo entrenar hoy, es el 13 — no el −5.</strong></p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
+    <h2>3. Cómo leer tu TSB</h2>
+    <p>El TSB no es un número suelto: es la brújula para saber si apretar, descansar o competir.</p>
+
+    <table class="tp-table tp-table--stack">
+      <thead><tr><th>TSB</th><th>Qué significa</th><th>Qué hacer</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tsb-band">Menor a −30</td>
+          <td data-label="Qué significa"><strong>Riesgo.</strong> Tu fatiga está 30 puntos por encima de tu condición. Le estás pidiendo al cuerpo mucho más de lo que su fitness actual sostiene.</td>
+          <td data-label="Qué hacer">Sostenido en el tiempo, acá es donde aparecen las lesiones, las enfermedades y el estancamiento. No es un lugar donde quedarse.</td>
+        </tr>
+        <tr>
+          <td class="tsb-band">−30 a −10</td>
+          <td data-label="Qué significa"><strong>Entrenamiento productivo.</strong> Estás estresando el sistema un poco más de lo que está acostumbrado. Ese es el estímulo que fuerza la adaptación.</td>
+          <td data-label="Qué hacer">Acá es donde se construye. Con los descansos en su lugar, el CTL sube de forma sostenible.</td>
+        </tr>
+        <tr>
+          <td class="tsb-band">−10 a +10</td>
+          <td data-label="Qué significa"><strong>Mantenimiento.</strong> Fatiga y condición equilibradas. No perdés forma, pero el estímulo tampoco alcanza para grandes mejoras.</td>
+          <td data-label="Qué hacer">Normal en semanas de descarga o entre bloques. Un problema solo si es donde vivís todo el año.</td>
+        </tr>
+        <tr>
+          <td class="tsb-band">+5 a +20</td>
+          <td data-label="Qué significa"><strong>Puesta a punto.</strong> El taper hizo su trabajo: el ATL cayó rápido y el CTL se mantuvo. Motor grande, cuerpo fresco.</td>
+          <td data-label="Qué hacer">Es la zona a la que apuntás el día de tu carrera A.</td>
+        </tr>
+        <tr>
+          <td class="tsb-band">Mayor a +20</td>
+          <td data-label="Qué significa"><strong>Transición.</strong> Ya no hay fatiga, pero la inactividad prolongada está bajando el CTL.</td>
+          <td data-label="Qué hacer">Correcto a fin de temporada. Caro en cualquier otro momento.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <p><strong>Sí, +5 a +10 aparece en dos filas. Está bien que así sea.</strong></p>
+      <p>El mismo +7 puede ser mantenimiento o puede ser estar listo para competir, y lo que decide no es el número: es el contexto. Para una carrera B, o para una distancia corta, llegar con la forma en +5 puede ser exactamente lo correcto — no necesitás tres semanas de taper para un 10k. Para un Ironman al que le dedicaste seis meses, +7 probablemente signifique que todavía te falta descargar.</p>
+      <p>Lo que importa no es en qué franja cae el número, sino <strong>hacia dónde viene viajando</strong>. Un +7 subiendo desde −15 es un taper funcionando. Un +7 bajando desde +25 es alguien volviendo a entrenar. Son la misma cifra y situaciones opuestas.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--wash">
+  <div class="wrap">
+    <h2>4. El PMC — Performance Management Chart</h2>
+    <p>El panel donde todo esto se cruza en un solo gráfico. Es la forma más rápida de ver una temporada entera sin abrir un entrenamiento.</p>
+
+    <figure class="fig">
+      <img src="/assets/images/pmc-ejemplo.jpg" alt="Performance Management Chart de TrainingPeaks: la línea azul del CTL subiendo a lo largo de casi dos temporadas, la línea rosa del ATL oscilando por encima y por debajo, la línea naranja del TSB y los puntos rojos del TSS de cada día." width="1400" height="687" loading="lazy">
+      <figcaption>Casi dos temporadas completas. Cada punto rojo es un entrenamiento; la línea azul es el fitness que construyeron entre todos.</figcaption>
+    </figure>
+
+    <p>Qué buscar, en este orden:</p>
+    <ul>
+      <li><strong>La línea azul (CTL).</strong> ¿Sube a lo largo de los meses? Esa es la única pregunta que importa a nivel temporada. Fijate cómo escalona: sube, se aplana en la descarga, vuelve a subir desde más arriba.</li>
+      <li><strong>Los dientes de sierra rosas (ATL).</strong> Tienen que subir y bajar. Un ATL plano significa semanas todas iguales, que es la forma más común de entrenar mucho y mejorar poco.</li>
+      <li><strong>La naranja (TSB) antes de tus fechas.</strong> Buscá si emerge hacia positivo justo antes de las carreras que te importaban, o si llegaste hundido sin darte cuenta.</li>
+      <li><strong>Los huecos.</strong> Las zonas sin puntos rojos cuentan la historia real de una temporada mucho mejor que cualquier promedio.</li>
+    </ul>
+
+    <h3>¿A qué ritmo debería subir el CTL?</h3>
+    <p>La referencia general que se usa en el ambiente es <strong>entre 3 y 7 puntos de CTL por semana</strong> durante un bloque de construcción: cerca de 3 para alguien que vuelve o que tiene poca base, cerca de 7 para un atleta experimentado y bien descansado. Por encima de eso, el CTL sube en el gráfico más rápido de lo que el cuerpo se adapta por debajo, y lo que sigue no suele ser una mejora.</p>
+    <p class="fineprint">Es una guía general del ambiente, no una prescripción individual. En mis planes la rampa ya está construida dentro del plan — no hace falta que la calcules. Sirve para leer tu propio gráfico, no para corregirlo por tu cuenta.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Ejemplo real: un taper</h2>
+    <p>Un atleta preparando un Ironman completo planificó sus últimas tres semanas de atrás para adelante, apuntando a un TSB cercano a +20 en la largada:</p>
+    <table class="tp-table tp-table--stack">
+      <thead><tr><th>Semana</th><th>Carga</th><th>Qué pasa con el TSB</th></tr></thead>
+      <tbody>
+        <tr><td class="tsb-band">3 semanas antes</td><td data-label="Carga">Semana de descarga, ~10h</td><td data-label="Qué pasa con el TSB">El ATL baja, el TSB empieza a subir desde el déficit del bloque</td></tr>
+        <tr><td class="tsb-band">2 semanas antes</td><td data-label="Carga">La semana más grande, ~19h incl. una rodada de 6h</td><td data-label="Qué pasa con el TSB">Un último golpe de carga real — el TSB baja de nuevo, a propósito</td></tr>
+        <tr><td class="tsb-band">1 semana antes</td><td data-label="Carga">~12h</td><td data-label="Qué pasa con el TSB">El ATL baja más rápido que el CTL — el TSB sube</td></tr>
+        <tr><td class="tsb-band">Semana de carrera</td><td data-label="Carga">Suave, solo activaciones cortas</td><td data-label="Qué pasa con el TSB">El TSB llega positivo — fatiga eliminada, fitness intacto</td></tr>
+      </tbody>
+    </table>
+    <p class="fineprint">La trampa: dos semanas antes se siente como el momento de "sumar más" porque la forma se siente bien. Para eso está exactamente la semana de descarga de tres semanas antes — resistí las ganas de seguir entrenando fuerte durante un taper.</p>
+  </div>
+</section>
+
+<section class="section--wash">
+  <div class="wrap">
     <h2>Dónde verlo</h2>
-    <p>En TrainingPeaks: <strong>Dashboard → Performance Management Chart</strong>, o tocá cualquier día individual para ver los valores de CTL/ATL/TSB de ese día. Solo significa lo que tiene que significar si tus zonas y tu umbral están bien configurados primero — mirá la <a href="/members/zonas/">Guía de Zonas y Umbral</a> si todavía no lo hiciste.</p>
+    <p>En TrainingPeaks: <strong>Dashboard → Performance Management Chart</strong>, o tocá cualquier día individual para ver los valores de CTL, ATL y TSB de ese día.</p>
+    <p>Y para cerrar por donde empezamos: todo esto cuenta la historia real de tu entrenamiento <strong>solo si tu umbral está bien configurado y actualizado</strong>. Revisalo, retesteá cuando toque, y mantenelo al día en TrainingPeaks. Si hace más de unos meses que no lo tocás, empezá por la <a href="/members/calculadora-de-zonas/">Calculadora de Zonas</a>.</p>
   </div>
 </section>
