@@ -34,7 +34,6 @@ title: "Área de Miembros — Triaperformance"
       <button class="chip active" data-filter="all">Todo</button>
       <button class="chip" data-filter="zonas">Zonas y testing</button>
       <button class="chip" data-filter="carga">Carga de entrenamiento</button>
-      <button class="chip" data-filter="carrera">Ejecución de carrera</button>
       <button class="chip" data-filter="nutricion">Nutrición</button>
       <button class="chip" data-filter="fuerza">Fuerza</button>
       <button class="chip" data-filter="activacion">Activación</button>
@@ -42,6 +41,12 @@ title: "Área de Miembros — Triaperformance"
       <button class="chip" data-filter="guias">Guías</button>
     </div>
 
+    {#- *Retired Aug 13, 2026, on Iván's instruction:* the "Ejecución de Carrera y
+        Pacing" guide and the kettlebell routine, along with the now-empty
+        "Ejecución de carrera" filter chip. Content deliberately not moved
+        anywhere — the pacing guide is gone, and the kettlebell routine was
+        English copy sitting on the Spanish members page and will be rebuilt
+        from scratch. Do not restore either from git history. -#}
     <div class="grid-3" id="card-grid">
       <div class="card" data-category="zonas">
         <span class="tag">Calculadora</span>
@@ -55,12 +60,6 @@ title: "Área de Miembros — Triaperformance"
         <p>TSS, CTL, ATL, TSB y el gráfico PMC — qué significan y cómo leerlos de verdad.</p>
         <a class="card-link" href="/members/carga/">Ver guía →</a>
       </div>
-      <div class="card" data-category="carrera">
-        <span class="tag">Playbook</span>
-        <h3>Ejecución de Carrera y Pacing</h3>
-        <p>Estrategia de pacing y plan de carrera por distancia — 5k/10k, maratón, tri olímpico/sprint, 70.3 e Ironman completo.</p>
-        <a class="card-link" href="/members/carrera/">Ver guía →</a>
-      </div>
       <div class="card" data-category="nutricion">
         <span class="tag">Calculadora</span>
         <h3>Nutrición y Carga de Carbohidratos</h3>
@@ -72,12 +71,6 @@ title: "Área de Miembros — Triaperformance"
         <h3>Core Sin Excusas</h3>
         <p>Activación, core y movilidad en una sola rutina cronometrada — sin equipo, sin más espacio que el largo de tu cuerpo. Para viajes y semanas complicadas.</p>
         <a class="card-link" href="/members/core/">Ver rutina →</a>
-      </div>
-      <div class="card" data-category="fuerza">
-        <span class="tag">Rutina</span>
-        <h3>Rutina de Kettlebell</h3>
-        <p>Rutina de fuerza en casa, con seguimiento interactivo de series y timer de descanso incorporado.</p>
-        <a class="card-link" href="/members/kettlebell/">Ver rutina →</a>
       </div>
       <div class="card" data-category="activacion">
         <span class="tag">Rutina</span>
@@ -99,8 +92,8 @@ title: "Área de Miembros — Triaperformance"
       </div>
       <div class="card" data-category="guias">
         <span class="tag">Descargas</span>
-        <h3>Guías de Nutrición, Prep. Mental y Zonas</h3>
-        <p>Las tres guías descargables en PDF — disponibles cuando quieras.</p>
+        <h3>Guías descargables</h3>
+        <p>Sesiones por zona, nutrición y preparación mental — cinco guías en PDF, disponibles cuando quieras.</p>
         <a class="card-link" href="/members/guias/">Ver descargas →</a>
       </div>
     </div>

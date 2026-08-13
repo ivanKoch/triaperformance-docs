@@ -1,0 +1,84 @@
+/* Downloads (guías / guides / guias) — dark members page, brand-guidelines.md §7.1.
+ *
+ * Its own stylesheet rather than members.css (light) because every other members
+ * page is now dark and this one was the last light page in the area. Structure
+ * is deliberately identical to the card grid on the members home, so the two
+ * pages read as the same room — but the nav here is the `members-page` variant
+ * (.site-nav-sticky), not the home's .site-nav, which is why the dark nav rules
+ * are repeated rather than borrowed from members-home.css.
+ */
+
+:root {
+  --bg: #0d1117;
+  --surface: #171b21;
+  --surface2: #1f242c;
+  --border: #2a313b;
+  --blue: #004aad;
+  --blue-deep: #003a89;
+  --blue-bright: #4f8fdb;
+  --blue-dim: rgba(0, 74, 173, 0.22);
+  --white: #ffffff;
+  --text: #f2f3f1;
+  --text-dim: #8b9089;
+}
+
+body { color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
+a { color: var(--blue-bright); }
+p { margin-bottom: 16px; max-width: 65ch; }
+
+/* --- nav & footer, matching the other dark members tools --- */
+.site-nav-sticky {
+  background: rgba(13, 17, 23, 0.85);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.site-nav-sticky .logo { color: var(--white); }
+.site-nav-sticky nav a { color: var(--text-dim); }
+.site-nav-sticky nav a:hover { color: var(--blue-bright); }
+.nav-toggle span { background: var(--text); }
+@media (max-width: 860px) {
+  header nav { background: var(--surface); box-shadow: none; border-left: 1px solid var(--border); }
+  /* Same backdrop-filter fix as every other dark members page: the blur makes
+     the header a containing block for the fixed slide-out menu, which then
+     counts its off-screen parking spot toward document width. See
+     members-activacion.css for the three fixes that did NOT work. */
+  .site-nav-sticky { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+footer { border-top: 1px solid var(--border); color: var(--text-dim); }
+footer a { color: var(--text-dim); }
+
+/* --- hero --- */
+.artifact-hero { border-bottom: 1px solid var(--border); padding-bottom: 40px; }
+.artifact-hero h1 {
+  font-size: 40px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;
+  color: var(--white); margin-bottom: 16px;
+}
+.artifact-hero p { color: var(--text-dim); font-size: 17px; margin-bottom: 0; }
+.artifact-hero .label {
+  display: block; font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em; color: var(--blue-bright); margin-bottom: 12px;
+}
+.breadcrumb { font-size: 14px; color: var(--text-dim); margin-bottom: 16px; }
+.breadcrumb a { color: var(--text-dim); }
+.breadcrumb a:hover { color: var(--blue-bright); }
+
+@media (max-width: 640px) { .artifact-hero h1 { font-size: 28px; } }
+
+/* --- cards: same shape as the members-home library grid --- */
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  padding: 32px; transition: border-color .15s; display: flex; flex-direction: column; gap: 8px;
+}
+.card:hover { border-color: var(--blue); }
+.card .label {
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--blue-bright); margin-bottom: 0; display: block;
+}
+.card h3 { font-size: 19px; font-weight: 700; color: var(--text); }
+.card p { color: var(--text-dim); font-size: 15px; margin-bottom: 8px; }
+.card a { font-weight: 700; font-size: 15px; text-decoration: none; margin-top: auto; }
+
+/* Note under the grid on the EN and PT pages, which each hold one guide today.
+   Same honesty as the empty-library state on those homes: say what is coming
+   rather than padding the grid. */
+.downloads-note { color: var(--text-dim); font-size: 15px; margin-top: 32px; }

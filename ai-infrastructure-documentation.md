@@ -784,6 +784,18 @@ Also: the guide block's title lost its joke (*"sin pedirte nada"* referred to a 
 
 ***The regression is the instructive part: fixing link contrast broke button contrast.*** The `.zc a` rule added an hour earlier scores (0,2,0) and `.zc-btn` only (0,1,0), so the download button — an `<a>` carrying `.zc-btn` — had its label repainted in the accent colour, on top of an accent-coloured background. Invisible in every existing assertion and invisible in the screenshot I took, because that screenshot was framed on the plan links the rule was added to fix. Now `.zc a:not(.zc-btn)`, with a `button label readable` assertion in `layout-check.js` that compares the computed label colour against the computed background. **A component-wide element selector will find things that are not what you were thinking about — buttons, breadcrumbs, anything that happens to be an anchor.**
 
+## 27. Members library pruned, and the downloads page went dark (August 13, 2026)
+
+Iván's call, in one pass: retire `/members/carrera/` (race pacing) and `/members/kettlebell/`, retire the `zonas-de-entrenamiento.pdf` card from `/members/guias/`, add the new zone-sessions guide in its place, and open EN/PT downloads pages.
+
+**Content deliberately not moved anywhere.** The pacing guide is simply gone. The kettlebell routine was English copy sitting on the Spanish members area with its own inline nav and 173 lines of unique CSS — it has been the named counter-example in the artifact runbook since §20, and Iván will rebuild it rather than port it. *Both directories were deleted, not redirected: they are `noindex` and gated, so the only traffic that can reach them is a subscriber's own bookmark, and a 404 tells that subscriber the truth.* **This also closes the "kettlebell keeps its own inline nav" item that had been carried since the nav unification — it closed by deletion, which is a legitimate way for a cosmetic item to close.**
+
+**The retired guide's file is still on disk, on purpose.** `/blog/como-elegir-tu-plan-de-maraton/` links it publicly, and there are three Caddy redirects (§16) serving it to already-sent email sequences. Removing the card retires it from the members area; it does not retire it from the internet. *That gap is logged in `open-loops.md` rather than silently accepted — a guide the owner considers below standard is still being handed to cold traffic from a blog post that ranks.*
+
+**`members-downloads.css` — the fourth dark members stylesheet, and the second attempt at this page.** The first attempt at a dark `/members/guias/` (§19, July 28) reached for `members-home.css` and produced dark content under a white nav, because `members-home.css` themes `.site-nav` (the home's variant) and every subpage uses `.site-nav-sticky`. That attempt was reverted to light. The fix this time is the same one the activation and breathing tools use: a page-scoped stylesheet that themes `.site-nav-sticky` itself, including the `backdrop-filter` mobile-overflow fix from §26. **The nav variant is what decides which selector to theme — not the page's role.**
+
+The EN and PT pages each hold exactly one guide, with a line saying more are coming. Same reasoning as the empty-library state those homes shipped with in §22: the other four PDFs are Spanish-only, and a translated card pointing at a Spanish file is worse than a short honest list.
+
 ## Open items — retired as a section (August 8, 2026)
 
 **This section no longer exists. Every open item across the project lives in `open-loops.md`, and closed ones in `open-loops-archive.md`. Do not start a second list here.**

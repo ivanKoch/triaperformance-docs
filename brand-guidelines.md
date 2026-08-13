@@ -95,7 +95,7 @@ Rules: no italics, no light weights, no more than two weights (400/700) anywhere
 
 ## 7.1 Members-area dark theme (interactive tools / artifacts)
 
-*Added August 1, 2026.* The members home and interactive tools (starting with the kettlebell routine, formalized with the running-activation tool) use a dark variant of the brand. **Dark is the default for members-area interactive artifacts**; static guide pages built earlier (`zonas`, `tests`, `carga`, `carrera`, `nutricion`) remain light until unified. The public site stays white-first — this system never appears on public pages.
+*Added August 1, 2026.* The members home and interactive tools (starting with the kettlebell routine, formalized with the running-activation tool) use a dark variant of the brand. **Dark is the default for members-area interactive artifacts**; static guide pages built earlier remain light until unified — as of Aug 13, 2026 that is only `carga` and `nutricion`. (`zonas` and `tests` were retired into the calculator; `carrera` and `kettlebell` were retired outright; `guias` went dark with `members-downloads.css`, which also covers the new `/members/en/downloads/` and `/members/pt/downloads/`.) The public site stays white-first — this system never appears on public pages.
 
 Token set (matches `assets/css/members-home.css`):
 
