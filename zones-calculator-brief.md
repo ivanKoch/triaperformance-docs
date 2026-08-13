@@ -265,3 +265,14 @@ Running returned no plan picks because `zonePlans` selects on a threshold-goal f
 **Selection is a rule, not a plan-ID list** (`zoneGoalPlan` in `.eleventy.js`): Intermediate first, then Beginner, then Advanced; then fewest weeks; then plan ID for determinism. Weight-loss plans are excluded — several are filed under a race distance and recommending one to somebody asking how to raise their VO2max is wrong. **This survives catalogue changes**, which a hardcoded ID list would not; the same reasoning as the original `zonePlans` filter.
 
 Verified live in all three languages: four rows each, all Intermediate-tier, no horizontal overflow. The `plansEmptyRunning` copy remains as the fallback if a language ever has nothing at a distance.
+
+
+## Decision 23 — the tool carries the page, not prose (Iván, August 13, 2026)
+
+`/members/zonas/` and `/members/tests/` were retired into `/members/calculadora-de-zonas/` (decision 16's trigger, finally fired), their unique content carried across — and then removed again the same day, along with the explanatory prose on all three public hubs.
+
+**The reasoning is worth keeping because it reverses an assumption baked into the original design.** §4 assumed the calculator pages needed prose around the tool: for SEO, and to explain the model. In practice, once the tool worked, that prose read as filler. The tool already explains the protocol at the protocol step, the X and Y anomalies in the results table, and the metric priority under the tables — each at the moment the reader needs it. Prose below repeated all three to someone who had just read them.
+
+**What this costs, stated plainly:** the hubs are now nearly text-free, and the hub is the page targeting the head term. Accepted on the grounds that the three sport pages keep their prose and rank better anyway. *If it turns out to cost real traffic, the fix is not to paste the old copy back — it is to write something for a reader who has already used the tool.*
+
+**Corollary, same decision:** the members copy shows no capture and hands over the guide PDF directly. A subscriber has already paid for it; asking for an email would charge them twice, once in money and once in friction.

@@ -776,6 +776,10 @@ Decision 16 in `zones-calculator-brief.md` parked the retirement of `/members/zo
 
 ***The through-line in all three: an assertion that passes is not a page that works.*** Two of them were invisible to every check in the repo and visible in one screenshot; the third was invisible in a screenshot and only showed up when the check asked whether the page could actually be scrolled, rather than what its `scrollWidth` reported.
 
+*Update, same day — Iván's review of the finished page, six changes.* **The rescued prose came straight back out**, on both the members page and the three public hubs. Under a working tool it read as unlinked filler answering questions the tool already answers where they are actually asked — the protocol step explains how to test, the zone notes explain X and Y. *Removed rather than commented out: a dead 90-line block in a template is what a future session quotes back as current.* **The SEO trade-off is deliberate and worth re-reading before anyone "fixes" it**: the three hubs now carry almost no body copy, and the hub is the page targeting the head term. The sport pages keep their prose and are the stronger ranking surfaces; if copy returns to a hub it should be written for someone who has already used the tool.
+
+Also: the guide block's title lost its joke (*"sin pedirte nada"* referred to a contrast — the public version's email form — that a subscriber has never seen, so it read as a non-sequitur); `.zc a` now takes the theme accent, because without it links fell through to the browser's default blue, which on `#0d1117` was effectively unreadable and was how the plan recommendations shipped; and `membersPage` lost its "Área de Miembros" item in all three languages — the logo in the same bar already went there, so the bar had two links plus a breadcrumb pointing at one destination.
+
 ## Open items — retired as a section (August 8, 2026)
 
 **This section no longer exists. Every open item across the project lives in `open-loops.md`, and closed ones in `open-loops-archive.md`. Do not start a second list here.**

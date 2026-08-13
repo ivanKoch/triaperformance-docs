@@ -43,6 +43,14 @@
 .zc, .zc * { box-sizing: border-box; }
 .zc p { color: var(--zc-dim); }
 
+/* Links inside the component follow the theme accent. Without this they fall
+   through to the browser's default link blue, which on the dark members page is
+   near-black-on-near-black — the plan recommendations were effectively
+   unreadable. --zc-accent is #004aad on light and #4f8fdb on dark, so one rule
+   is correct in both skins. */
+.zc a { color: var(--zc-accent); }
+.zc a:hover { text-decoration: underline; }
+
 /* --- step scaffolding --- */
 .zc-step { margin-bottom: 40px; }
 .zc-step[hidden] { display: none; }
