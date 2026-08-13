@@ -63,16 +63,19 @@
             "url": "/calculadora-de-zonas/"
           },
           {
-            "label": "Zonas de Natación (CSS)",
-            "url": "/calculadora-de-zonas/natacion/"
+            "label": "Running",
+            "url": "/calculadora-de-zonas/running/",
+            "sub": true
           },
           {
-            "label": "Zonas de Ciclismo (FTP)",
-            "url": "/calculadora-de-zonas/ciclismo/"
+            "label": "Ciclismo",
+            "url": "/calculadora-de-zonas/ciclismo/",
+            "sub": true
           },
           {
-            "label": "Zonas de Running",
-            "url": "/calculadora-de-zonas/running/"
+            "label": "Natación",
+            "url": "/calculadora-de-zonas/natacion/",
+            "sub": true
           }
         ]
       },

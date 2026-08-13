@@ -100,8 +100,13 @@
         <a href="{{ item.url }}">{{ item.label }}</a>
         {%- endif %}
         <div class="nav-dropdown-menu">
+          {#- `sub: true` marks a child as subordinate to the child above it —
+              the three sport calculators sit under "Calculadora de Zonas".
+              Indentation carries the hierarchy; they are siblings in the DOM
+              because they are siblings in the IA (four indexable pages), and
+              only the reading order is nested. -#}
           {%- for child in item.children %}
-          <a href="{{ child.url }}">{{ child.label }}</a>
+          <a href="{{ child.url }}"{% if child.sub %} class="nav-sub"{% endif %}>{{ child.label }}</a>
           {%- endfor %}
         </div>
       </div>

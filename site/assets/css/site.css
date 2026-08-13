@@ -107,6 +107,14 @@ nav a:hover { color: var(--blue); }
   display: block; margin-left: 0; padding: 10px 16px; font-size: 14px; white-space: nowrap;
 }
 .nav-dropdown-menu a:hover { background: var(--wash); color: var(--blue); }
+/* Sub-items (the three sport calculators under "Calculadora de Zonas").
+   Indented and set in Slate so the dropdown reads as two levels rather than a
+   flat list of five equal things — which is what made four functionally
+   identical calculator URLs look like duplication in the nav. */
+.nav-dropdown-menu a.nav-sub {
+  padding-left: 32px; font-size: 13px; color: var(--slate);
+}
+.nav-dropdown-menu a.nav-sub:hover { color: var(--blue); }
 .card-links { list-style: none; margin-top: 16px; }
 .card-links li { margin-bottom: 8px; }
 .card-links a { color: var(--blue); font-size: 14px; font-weight: 700; text-decoration: none; }
@@ -327,6 +335,9 @@ footer a { color: var(--slate); }
     background: none; padding: 8px 0 0 12px; min-width: 0;
   }
   header nav .nav-dropdown-menu a { margin-bottom: 12px; }
+  /* The mobile menu already indents the whole dropdown by 12px, so the sub
+     items step in from there rather than from the desktop 16px baseline. */
+  header nav .nav-dropdown-menu a.nav-sub { padding-left: 16px; }
   header nav .lang-switch { margin-left: 0; margin-top: 8px; }
 
   /* The utility strip is desktop-only — a second bar on a phone costs vertical

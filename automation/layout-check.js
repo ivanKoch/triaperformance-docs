@@ -21,16 +21,19 @@
 const BASE = process.env.LAYOUT_CHECK_BASE || "http://localhost:8099";
 const VIEWPORTS = [390, 768, 1440];
 
-// [url, sport to pick, input values in field order]
+// [url, sport, input values in field order, sport-locked?]
+// Locked pages must not offer a sport switch: the prose under the tool is
+// per-page and static, so a switch there produces a page that contradicts
+// itself (bike zones under the 30-minute run-test explanation).
 const CASES = [
-  ["/calculadora-de-zonas/", "swimming", ["6", "40", "3", "5"]],
-  ["/calculadora-de-zonas/natacion/", "swimming", ["6", "40", "3", "5"]],
-  ["/calculadora-de-zonas/ciclismo/", "cycling", ["250"]],
-  ["/calculadora-de-zonas/running/", "running", ["4", "0"]],
+  ["/calculadora-de-zonas/", "swimming", ["6", "40", "3", "5"], false],
+  ["/calculadora-de-zonas/natacion/", "swimming", ["6", "40", "3", "5"], true],
+  ["/calculadora-de-zonas/ciclismo/", "cycling", ["250"], true],
+  ["/calculadora-de-zonas/running/", "running", ["4", "0"], true],
   // The members copy shares the component and a different theme. It is in this
   // list because "same component, therefore fine" is an assumption, and the
   // whole point of this file is to stop assuming things about rendering.
-  ["/members/calculadora-de-zonas/", "swimming", ["6", "40", "3", "5"]],
+  ["/members/calculadora-de-zonas/", "swimming", ["6", "40", "3", "5"], false],
 ];
 
 (async () => {
@@ -46,18 +49,33 @@ const CASES = [
   let failures = 0, checks = 0;
 
   for (const width of VIEWPORTS) {
-    for (const [url, sport, values] of CASES) {
+    for (const [url, sport, values, isLocked] of CASES) {
       const page = await browser.newPage({ viewport: { width, height: 900 } });
       try {
         await page.goto(BASE + url, { waitUntil: "networkidle" });
 
+        // Sport picker: visible and usable on the hub, gone on locked pages.
+        // Checked before calculating, because on a locked page the step must
+        // never appear — not at load, and not after "recalculate" below.
+        const pickerAtLoad = await page.isVisible("#zc-step-sport");
+
         // drive the tool to its results state — the bugs only appear there
-        await page.click(`.zc-choice[data-sport="${sport}"]`);
-        await page.waitForTimeout(150);
+        if (!isLocked) {
+          await page.click(`.zc-choice[data-sport="${sport}"]`);
+          await page.waitForTimeout(150);
+        }
         const protocol = await page.$("#zc-step-protocol:not([hidden]) .zc-choice");
         if (protocol) { await protocol.click(); await page.waitForTimeout(150); }
         const inputs = await page.$$("#zc-fields input[type=number]");
         for (let i = 0; i < inputs.length; i++) await inputs[i].fill(values[i] ?? "30");
+        await page.click("#zc-go");
+        await page.waitForTimeout(300);
+
+        // "Cambiar mis números" must reopen the inputs, never the sport picker
+        // on a locked page — that was the original bug's second door.
+        await page.click("#zc-again");
+        await page.waitForTimeout(200);
+        const pickerAfterAgain = await page.isVisible("#zc-step-sport");
         await page.click("#zc-go");
         await page.waitForTimeout(300);
 
@@ -81,6 +99,10 @@ const CASES = [
 
         const assertions = [
           ["results rendered", m.resultsShown],
+          [isLocked ? "sport picker hidden (locked page)" : "sport picker offered (hub)",
+            pickerAtLoad === !isLocked],
+          [isLocked ? "picker stays hidden after recalculate" : "picker returns after recalculate",
+            pickerAfterAgain === !isLocked],
           ["one left edge", m.zc === m.h1 && m.table === m.h1 && (m.capture === null || m.capture === m.h1)],
           ["table within container", m.tableW !== null && m.tableW <= m.zcW],
           ["zone note left-aligned", m.noteAlign === "left"],

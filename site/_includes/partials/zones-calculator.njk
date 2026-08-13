@@ -4,9 +4,16 @@
     the members copy. One component, so a fix lands everywhere at once.
 
     Page front matter controls it:
-      zcSport   — "swimming" | "cycling" | "running" to pre-select a sport, or
-                  omit for the hub's picker. The picker is always rendered so a
-                  pre-selected page is still a working hub if they change sport.
+      zcSport   — "swimming" | "cycling" | "running" to LOCK the page to a sport,
+                  or omit for the hub's picker.
+
+                  *Reversed August 13, 2026.* This used to only pre-select, and
+                  the picker stayed live "so a pre-selected page is still a
+                  working hub". That was wrong: the prose under the tool is
+                  per-page and static, so switching to cycling on /running/ left
+                  the 30-minute run-test explanation sitting under a set of bike
+                  zones. A page that can contradict itself is worse than a page
+                  that does one thing. Sport pages now lock; the hub picks.
       zcDark    — true on the members copy (brand-guidelines.md §7.1: public is
                   white-first, members interactive tools are dark).
       zcCapture — false on the members copy. Members already paid; the whole
@@ -22,10 +29,14 @@
 
 <div class="zc{% if zcDark %} zc--dark{% endif %}" id="zc"
      data-preselect="{{ zcSport or '' }}"
+     data-lock="{{ 'yes' if zcSport else 'no' }}"
      data-capture="{{ 'no' if zcCapture === false else 'yes' }}">
 
   {#- ---------------------------------------------------------- 1. sport -#}
-  <div class="zc-step" id="zc-step-sport">
+  {#- Hidden, not omitted, when the page locks a sport: pickSport() still needs
+      these buttons to set state and aria-pressed, and keeping one DOM shape for
+      both modes means the JS has one path, not two. -#}
+  <div class="zc-step" id="zc-step-sport"{% if zcSport %} hidden{% endif %}>
     <h2>{{ ui.sportStep }}</h2>
     <p class="zc-help">{{ ui.sportHelp }}</p>
     <div class="zc-choices">

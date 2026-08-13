@@ -113,9 +113,31 @@ One tool, four URLs, each with its own `<title>`, H1 and intro copy. "Calculador
 
 *Note, August 13, 2026 — Iván, seeing this live for the first time: "It looks like at `/calculadora-de-zonas/` I can calculate my swimming zones without reaching `/calculadora-de-zonas/natacion/`. Is that by design? Isn't that duplicated?"*
 
-**Yes, by design, and the four pages are functionally identical** — the sport picker renders on all of them; `zcSport` only pre-selects, it never restricts, so a visitor who lands on the swim page can switch to bike without leaving. That is deliberate (a pre-selected page still works as a hub) and it is what makes them true duplicates in function. They differ only in `<title>`, H1, intro and the sport-specific prose below the tool, which is the whole point of the split above: four head terms, four pages.
+~~**Yes, by design, and the four pages are functionally identical** — the sport picker renders on all of them; `zcSport` only pre-selects, it never restricts, so a visitor who lands on the swim page can switch to bike without leaving. That is deliberate (a pre-selected page still works as a hub) and it is what makes them true duplicates in function.~~ **Half wrong, corrected the same day — see decision 21 below.** The URL split is right; "the picker stays live everywhere" was a defect I described as a design. Iván found it within the hour: on `/running/`, switching to cycling left the 30-minute *run*-test explanation sitting under a set of bike zones. The pages differ in `<title>`, H1, intro and the sport-specific prose below the tool, and **that prose is static per page** — which is exactly why the sport can't be free to change on them.
 
-**The thing that is actually wrong is the navigation, not the URL structure.** All four sit in the `Recursos` dropdown, which puts an SEO structure in front of a member as if it were a product structure — and invites exactly the question Iván asked. Search landing pages do not need to be navigation items; they need to be indexable and internally linked, which they already are (the articles and the hub link to them). **Proposed: `Recursos` lists "Calculadora de Zonas" only**, and the hub links onward to the three sport pages in its prose. One entry in `nav.json`, no page deleted, no canonical change, nothing lost for SEO. *Iván's call — not changed unilaterally, since it is a visible product decision rather than a bug.*
+**The navigation was also wrong, though not in the way I first proposed.** All four sat in the `Recursos` dropdown as five flat, equal-looking entries, which puts an SEO structure in front of a reader as if it were a product structure. ~~Proposed: list the hub only.~~ **Iván's call, and better: keep all four and show the hierarchy** —
+
+```
+Blog
+Calculadora de Zonas
+    Running
+    Ciclismo
+    Natación
+```
+
+Indentation (32px vs 16px) plus Slate at 13px, so the dropdown reads as two levels. *Hiding the three pages would have cost the discoverability they were built for; the problem was never that they were listed, it was that nothing said how they relate.*
+
+## Decision 21 — sport pages lock, the hub picks (Iván, August 13, 2026)
+
+| Surface | Sport picker | Why |
+|---|---|---|
+| `/calculadora-de-zonas/` (hub) | **Shown.** Switch freely. | No sport-specific prose on the page, so nothing can contradict the result. |
+| `/calculadora-de-zonas/<sport>/` | **Hidden.** Sport is fixed. | The prose under the tool is static and sport-specific. A switch here produces a page that argues with itself. |
+| `/members/calculadora-de-zonas/` | **Shown.** | Behaves as a hub — one tool for all three sports, no per-sport prose. |
+
+Implementation: `zcSport` in front matter now *locks* rather than pre-selects. The partial renders the sport step `hidden`, `.zc` carries `data-lock`, and the "Cambiar mis números" path re-opens the inputs without re-opening the picker — which was the same bug's second door. Asserted in `automation/layout-check.js` (both at load and after recalculate, 5 pages × 3 viewports).
+
+***The general rule this is an instance of: when one component is embedded in pages that wrap it in different fixed copy, the component's freedom has to shrink to match the page's claims.*** The picker was written before the sport pages existed, when "always let them switch" was unambiguously right.
 
 ### Surface 2 — the lead magnet, below the result
 

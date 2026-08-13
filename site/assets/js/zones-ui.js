@@ -16,6 +16,10 @@
   var dataEl = document.getElementById("zc-data");
   if (!root || !dataEl || !window.ZonesCalc) return;
 
+  // Sport-locked page (one of the three /calculadora-de-zonas/<sport>/ URLs)
+  // vs the hub's free picker. Set from `zcSport` in the page's front matter.
+  var locked = root.getAttribute("data-lock") === "yes";
+
   var Z = window.ZonesCalc;
   var D = JSON.parse(dataEl.textContent);
   var UI = D.ui;
@@ -245,7 +249,10 @@
   $("zc-again").addEventListener("click", function () {
     hide($("zc-step-results"));
     hide($("zc-capture"));
-    show($("zc-step-sport"));
+    // On a sport-locked page, "recalculate" means "change my numbers", never
+    // "change my sport" — re-showing the picker here would reopen exactly the
+    // contradiction the lock exists to prevent (see the partial's header).
+    if (!locked) show($("zc-step-sport"));
     if (state.sport === "cycling") show($("zc-step-protocol"));
     show($("zc-step-input"));
     $("zc-step-input").scrollIntoView({ behavior: "smooth", block: "center" });
@@ -292,4 +299,7 @@
 
   var pre = root.getAttribute("data-preselect");
   if (pre) pickSport(pre);
+  // pickSport() shows the step it needs and hides the rest; on a locked page the
+  // sport step must stay hidden regardless of what it did.
+  if (locked) hide($("zc-step-sport"));
 })();
