@@ -431,6 +431,42 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
   // renders an honest empty state rather than a marathon plan relabelled as a
   // threshold plan. Hand-picked IDs pending — see zones-calculator-brief.md §4b.
   // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // zoneGoalPlan — one running plan per zone-improvement goal (August 13, 2026).
+  //
+  // Running has no threshold-goal facet, which is why `zonePlans` returns nothing
+  // for it. But the mapping athletes actually reason with is race distance, and
+  // it is physiologically honest rather than a relabelling: a 5 km build is
+  // mostly VO2max work, a 10 km build lives at high threshold, a half is tempo,
+  // and a marathon build is Zone X. So the offer is "here is the zone you want
+  // to raise → here is the plan that spends its weeks there".
+  //
+  // Selection rule, so the block stays right as the catalogue moves:
+  //   1. Intermediate first, then Beginner, then Advanced — the calculator's
+  //      audience skews toward "just measured myself for the first time".
+  //   2. Then fewest weeks — a lower commitment converts better cold.
+  //   3. Then plan_id, purely so the choice is deterministic across builds.
+  // Weight-loss plans are excluded: several are filed under a race distance, and
+  // recommending one to somebody asking how to raise their VO2max is wrong.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addFilter("zoneGoalPlan", function (plansForLang, distance) {
+    if (!plansForLang) return null;
+    const rank = (d) => ({ Intermediate: 0, Beginner: 1, Advanced: 2 }[d] ?? 3);
+    const isWeightLoss = (p) =>
+      /weight\s?loss|bajar de peso|perda de peso|emagrec/i.test(
+        `${p.name || ""} ${p.displayName || ""}`
+      );
+    const picks = plansForLang
+      .filter((p) => p.sport === "Running" && p.distance === distance && !isWeightLoss(p))
+      .sort(
+        (a, b) =>
+          rank(a.difficulty) - rank(b.difficulty) ||
+          (a.weeks || 99) - (b.weeks || 99) ||
+          String(a.id).localeCompare(String(b.id))
+      );
+    return picks[0] || null;
+  });
+
   eleventyConfig.addFilter("zonePlans", function (plansForLang, sportName, goals, limit) {
     if (!plansForLang || !goals || !goals.length) return [];
     return plansForLang

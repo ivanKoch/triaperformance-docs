@@ -245,3 +245,23 @@ Spanish first, tested, then EN and PT in one pass — Iván's call, August 10, 2
 - **No saved values** (decision 17). Not even `localStorage` — see §4.
 - **No nav entry.** The four public pages are not linked from the site nav; internal links currently come only from the members library card. Worth deciding where they belong, since an unlinked page ranks worse and is harder to find.
 
+
+
+## Decision 22 — running gets goal→distance plan recommendations (Iván, August 13, 2026)
+
+Running returned no plan picks because `zonePlans` selects on a threshold-goal facet that running's inventory does not have — its plans are organised by race distance. The page showed an empty state, and the empty state's copy wrongly blamed language.
+
+**Iván's call, and it inverts the original objection.** The earlier reasoning was "a marathon plan relabelled as a threshold plan would be dishonest." That is true of relabelling, and false of what he proposed: *offer the zone, and name the distance whose build actually spends its weeks there.*
+
+| Zone the athlete wants to raise | Plan offered | Why it is honest |
+|---|---|---|
+| 5 · VO2máx | 5 km | A 5 km build genuinely is mostly VO2max work |
+| 4 · Umbral alto | 10 km | A 10 km build lives at high threshold |
+| 3 · Tempo | 21 km | Half-marathon builds are tempo-dominant |
+| X · Aeróbico alto | 42 km | A marathon build *is* Zone X work |
+
+*The fourth row is an addition to Iván's three.* Zone X is the zone this whole model makes the most fuss about, and until now the site explained it at length and offered nothing to do about it. The marathon plans are the answer and were sitting right there.
+
+**Selection is a rule, not a plan-ID list** (`zoneGoalPlan` in `.eleventy.js`): Intermediate first, then Beginner, then Advanced; then fewest weeks; then plan ID for determinism. Weight-loss plans are excluded — several are filed under a race distance and recommending one to somebody asking how to raise their VO2max is wrong. **This survives catalogue changes**, which a hardcoded ID list would not; the same reasoning as the original `zonePlans` filter.
+
+Verified live in all three languages: four rows each, all Intermediate-tier, no horizontal overflow. The `plansEmptyRunning` copy remains as the fallback if a language ever has nothing at a distance.

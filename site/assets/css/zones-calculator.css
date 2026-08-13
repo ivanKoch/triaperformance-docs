@@ -196,3 +196,13 @@
 .zc-prose h2:first-child { margin-top: 0; }
 .zc-prose p { font-size: 16px; color: var(--slate); margin-bottom: 14px; max-width: none; }
 .zc-prose strong { color: var(--ink); }
+
+/* Running goal→distance recommendations (Aug 13, 2026). Each row leads with the
+   zone the athlete wants to raise, because that is what they just learned about
+   themselves two screens up — the plan name is the answer, not the question. */
+.plan-pick--goal { border-left: 2px solid var(--zc-accent); padding-left: 14px; margin-bottom: 18px; }
+.plan-pick--goal .goal-label {
+  font-size: 13px; color: var(--zc-dim); margin: 0 0 2px;
+}
+.plan-pick--goal .goal-label strong { color: var(--zc-text); font-weight: 700; }
+.plan-pick--goal h3 { font-size: 16px; font-weight: 700; margin: 0 0 2px; }

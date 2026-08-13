@@ -155,7 +155,14 @@
     "plansTitle": "Planes para subir el número que acabás de calcular",
     "plansIntro": "Los mismos que uso con mis atletas, construidos sobre esta estructura de zonas.",
     "plansEmpty": "Todavía no tenemos un plan específico para esto en tu idioma — escribinos y te decimos por dónde empezar.",
-    "plansEmptyRunning": "Los planes de running se organizan por distancia de carrera, no por zona — elegí tu distancia en <a href=\"/planes/running/\">los planes de running</a> y las zonas que acabás de calcular ya están adentro."
+    "plansEmptyRunning": "Los planes de running se organizan por distancia de carrera, no por zona — elegí tu distancia en <a href=\"/planes/running/\">los planes de running</a> y las zonas que acabás de calcular ya están adentro.",
+    "runGoalsIntro": "Cada distancia entrena una zona distinta. Elegí la que querés subir:",
+    "runGoals": {
+      "5 km": "Subir tu <strong>VO2máx</strong> (Z5)",
+      "10 km": "Subir tu <strong>umbral alto</strong> (Z4)",
+      "21 km": "Sostener más tiempo tu <strong>tempo</strong> (Z3)",
+      "42 km": "Mejorar tu <strong>ritmo de maratón</strong> (Zona X)"
+    }
   },
   "en": {
     "zoneNames": {
@@ -312,7 +319,14 @@
     "plansTitle": "Plans built to raise the number you just calculated",
     "plansIntro": "The same ones I use with my athletes, built on this zone structure.",
     "plansEmpty": "We don't have a specific plan for this in your language yet — write to us and we'll tell you where to start.",
-    "plansEmptyRunning": "Running plans are organised by race distance rather than by zone — pick your distance in <a href=\"/en/plans/running/\">the running plans</a>, and the zones you just calculated are already built into them."
+    "plansEmptyRunning": "Running plans are organised by race distance rather than by zone — pick your distance in <a href=\"/en/plans/running/\">the running plans</a>, and the zones you just calculated are already built into them.",
+    "runGoalsIntro": "Each distance trains a different zone. Pick the one you want to raise:",
+    "runGoals": {
+      "5 km": "Raise your <strong>VO2max</strong> (Z5)",
+      "10 km": "Raise your <strong>high threshold</strong> (Z4)",
+      "21 km": "Hold your <strong>tempo</strong> for longer (Z3)",
+      "42 km": "Improve your <strong>marathon pace</strong> (Zone X)"
+    }
   },
   "pt": {
     "zoneNames": {
@@ -469,6 +483,13 @@
     "plansTitle": "Planos para subir o número que você acabou de calcular",
     "plansIntro": "Os mesmos que uso com meus atletas, construídos sobre esta estrutura de zonas.",
     "plansEmpty": "Ainda não temos um plano específico para isso no seu idioma — escreva para a gente e dizemos por onde começar.",
-    "plansEmptyRunning": "Os planos de corrida são organizados por distância de prova, não por zona — escolha a sua distância em <a href=\"/pt/planos/\">os planos</a>, e as zonas que você acabou de calcular já estão dentro deles."
+    "plansEmptyRunning": "Os planos de corrida são organizados por distância de prova, não por zona — escolha a sua distância em <a href=\"/pt/planos/\">os planos</a>, e as zonas que você acabou de calcular já estão dentro deles.",
+    "runGoalsIntro": "Cada distância treina uma zona diferente. Escolha a que você quer subir:",
+    "runGoals": {
+      "5 km": "Subir o seu <strong>VO2máx</strong> (Z5)",
+      "10 km": "Subir o seu <strong>limiar alto</strong> (Z4)",
+      "21 km": "Sustentar por mais tempo o seu <strong>tempo</strong> (Z3)",
+      "42 km": "Melhorar o seu <strong>ritmo de maratona</strong> (Zona X)"
+    }
   }
 }

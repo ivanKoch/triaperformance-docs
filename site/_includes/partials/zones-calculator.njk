@@ -132,17 +132,36 @@
         </div>
         {%- endfor %}
       {%- else %}
-        {#- Running always lands here: `zonePlans` returns nothing for it by rule,
-            because running plans are organised by race distance and there is no
-            threshold-goal set to select. That is deliberate — a marathon plan
-            relabelled as a threshold plan would be worse than an empty state.
+        {#- Running reaches here because `zonePlans` returns nothing for it: its
+            plans are organised by race distance, not by a threshold goal.
 
-            But it needs its OWN copy. The shared `plansEmpty` says "not in your
-            language yet", which is true only for a genuine catalogue gap and was
-            simply wrong here: it told an English visitor the site wasn't really
-            translated, on the day the English pages launched. Same wrong message
-            had been showing in Spanish since Aug 10. (Found by Iván, Aug 13.) -#}
-        <p class="zc-help">{{ (ui.plansEmptyRunning if sportKey == "running" else ui.plansEmpty) | safe }}</p>
+            Rather than an empty state, offer the mapping athletes actually reason
+            with — zone to raise → race distance whose build spends its weeks
+            there. Honest rather than a relabelling: a 5 km build really is mostly
+            VO2max, a marathon build really is Zone X. (Iván's idea, Aug 13, 2026;
+            it also gives Zone X the only concrete "here is what to do about it"
+            anywhere on the page, which is the zone the model makes most fuss of.)
+
+            Falls back to `plansEmptyRunning` if the catalogue has nothing at all
+            for a language — that copy no longer blames "your language", which it
+            wrongly did until today. -#}
+        {%- set runGoalPicks = [] %}
+        {%- for dist, goalLabel in ui.runGoals %}
+          {%- set gp = plans.byLanguage[lang] | zoneGoalPlan(dist) %}
+          {%- if gp %}{% set runGoalPicks = (runGoalPicks.push([goalLabel, gp]), runGoalPicks) %}{% endif %}
+        {%- endfor %}
+        {%- if runGoalPicks.length %}
+        <p class="zc-table-sub">{{ ui.runGoalsIntro }}</p>
+        {%- for row in runGoalPicks %}
+        <div class="plan-pick plan-pick--goal">
+          <p class="goal-label">{{ row[0] | safe }}</p>
+          <h3><a href="{{ row[1].pageUrl }}">{{ row[1].displayName }}</a></h3>
+          <p class="plan-pick-meta">{{ row[1].weeks }} {{ ui.weeksLabel }} · {{ row[1].difficulty }} · US$ {{ row[1].price }}</p>
+        </div>
+        {%- endfor %}
+        {%- else %}
+        <p class="zc-help">{{ ui.plansEmptyRunning | safe }}</p>
+        {%- endif %}
       {%- endif %}
     </div>
     {%- endfor %}
