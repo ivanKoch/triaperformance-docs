@@ -122,7 +122,10 @@
         '<td class="zc-pct">' + r.floorPct + "–" + r.ceilingPct + "%</td>" +
         "<td>" + esc(r.display) + "</td></tr>";
       if (special && UI.zoneNotes[r.zone]) {
-        html += '<tr class="zc-special"><td colspan="3" class="zc-pct">' + esc(UI.zoneNotes[r.zone]) + "</td></tr>";
+        // .zc-zone-note, not .zc-pct: the latter is nowrap (correct for
+        // "100–102%", fatal for a full sentence — it blew the table past its
+        // container). See the note in zones-calculator.css.
+        html += '<tr class="zc-special"><td colspan="3" class="zc-zone-note">' + esc(UI.zoneNotes[r.zone]) + "</td></tr>";
       }
     });
     return html + "</tbody></table>";

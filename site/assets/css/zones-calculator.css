@@ -17,7 +17,14 @@
   --zc-accent: #004aad;
   --zc-accent-soft: rgba(0, 74, 173, 0.08);
   --zc-on-accent: #ffffff;
-  margin: 0 auto;
+  /* Left-aligned, NOT centred. `margin: 0 auto` here centred the 780px
+     component inside the 1032px `.wrap` content box, putting its left edge
+     126px right of the hero and the nav — the page then had three different
+     left edges. Measured Aug 13, 2026: hero at 204px, calculator at 330px,
+     prose at 360px on a 1440px viewport. Everything on these pages aligns to
+     the wrap's content edge; a max-width sets how wide a block is, never
+     where it starts. */
+  margin: 0;
   max-width: 780px;
 }
 
@@ -134,6 +141,25 @@
 .zc-table td:last-child, .zc-table th:last-child { text-align: right; padding-right: 0; }
 .zc-table .zc-z { font-weight: 700; white-space: nowrap; }
 .zc-table .zc-pct { color: var(--zc-dim); font-size: 13px; white-space: nowrap; }
+/* The Zone X / Zone Y explanation row. Looks like `.zc-pct` (small, dim) and
+   used to reuse that class — but `.zc-pct` carries `white-space: nowrap`, which
+   is right for "100–102%" and catastrophic for a 172-character sentence: it set
+   the table's min-content width to ~1060px inside a 780px container, so the
+   table overhung every other element on the page. Same styling, no nowrap.
+
+   `text-align: left` is not redundant: the note is a colspan cell and therefore
+   also the row's LAST cell, so it inherited `td:last-child { text-align: right }`
+   and rendered ragged-left. Invisible while it was nowrap on a single line.
+
+   Named `.zc-zone-note`, not `.zc-note` — that name is already taken by the
+   input-field hint (`.zc-field .zc-note`). Two different things sharing one
+   class name is how this bug started.
+
+   The `td` in the selector is load-bearing: `.zc-table td:last-child` scores
+   (0,2,1) and a plain `.zc-table .zc-zone-note` only (0,2,0), so the class alone
+   lost to the right-align rule. `td.zc-zone-note` ties on specificity and wins
+   on source order. */
+.zc-table td.zc-zone-note { color: var(--zc-dim); font-size: 13px; text-align: left; }
 .zc-table tr.zc-special td { background: var(--zc-accent-soft); }
 
 /* --- capture + plans --- */
@@ -159,7 +185,13 @@
 .zc-hero .zc-lede { font-size: 18px; color: var(--slate); max-width: 62ch; margin: 0; }
 @media (max-width: 640px) { .zc-hero { padding: 48px 0 32px; } .zc-hero h1 { font-size: 28px; } }
 
-.zc-prose { max-width: 720px; }
+/* `.wrap.zc-prose` — constrain the TEXT, not the wrap. Setting `max-width: 720px`
+   on the element itself overrode .wrap's 1080px box, and .wrap's `margin: 0 auto`
+   then centred that narrower box — putting the prose 156px right of the hero.
+   Pinning the margin instead just moved the problem (the block went flush to the
+   viewport edge, losing the page gutter). The wrap keeps its own centred 1080px
+   box; only the paragraphs get a reading measure, same as the rest of the site. */
+.zc-prose > * { max-width: 720px; }
 .zc-prose h2 { font-size: 22px; font-weight: 700; margin: 36px 0 10px; letter-spacing: -0.01em; }
 .zc-prose h2:first-child { margin-top: 0; }
 .zc-prose p { font-size: 16px; color: var(--slate); margin-bottom: 14px; max-width: none; }

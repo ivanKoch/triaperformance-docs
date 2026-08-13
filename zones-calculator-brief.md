@@ -111,6 +111,12 @@ One tool, four URLs, each with its own `<title>`, H1 and intro copy. "Calculador
 
 **Fully functional, results free, no wall.** That is what makes it rank and what stops it reading as a trap.
 
+*Note, August 13, 2026 — Iván, seeing this live for the first time: "It looks like at `/calculadora-de-zonas/` I can calculate my swimming zones without reaching `/calculadora-de-zonas/natacion/`. Is that by design? Isn't that duplicated?"*
+
+**Yes, by design, and the four pages are functionally identical** — the sport picker renders on all of them; `zcSport` only pre-selects, it never restricts, so a visitor who lands on the swim page can switch to bike without leaving. That is deliberate (a pre-selected page still works as a hub) and it is what makes them true duplicates in function. They differ only in `<title>`, H1, intro and the sport-specific prose below the tool, which is the whole point of the split above: four head terms, four pages.
+
+**The thing that is actually wrong is the navigation, not the URL structure.** All four sit in the `Recursos` dropdown, which puts an SEO structure in front of a member as if it were a product structure — and invites exactly the question Iván asked. Search landing pages do not need to be navigation items; they need to be indexable and internally linked, which they already are (the articles and the hub link to them). **Proposed: `Recursos` lists "Calculadora de Zonas" only**, and the hub links onward to the three sport pages in its prose. One entry in `nav.json`, no page deleted, no canonical change, nothing lost for SEO. *Iván's call — not changed unilaterally, since it is a visible product decision rather than a bug.*
+
 ### Surface 2 — the lead magnet, below the result
 
 The zones are on screen first. Underneath: the offer of the workouts that actually move each zone — how to build Z2 that is more than slow miles, the marathon-pace session that earns Zone X rather than drifting into it, what a real Z4 set looks like against what most people do.
