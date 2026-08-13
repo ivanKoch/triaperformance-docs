@@ -1,0 +1,107 @@
+---
+layout: layouts/base.njk
+pageCss: "members-activacion.css"
+title: "No-Excuses Core — Triaperformance All-Access"
+---
+{% raw %}
+<script>
+// English edition of /members/core/. Same structure, same durations — written
+// natively rather than translated line by line (brand-guidelines.md §8).
+window.ACTIVATION_DATA = {
+  title: "No-excuses core",
+  crumb: "Core",
+  subtitle: "Activation, core and mobility in one routine, no equipment. Everything is timed: 45 seconds a block, 60 on the deep holds. Single-sided moves are per side.",
+  context: "Hotel room · no equipment",
+  why: "Travel breaks the routine: flights, chairs, someone else's bed, food out. This does the three things a trip takes away — waking the glutes and core, holding the trunk together, and giving the hip its range back — with no equipment and no more space than your own body length. It doesn't replace a session, but it stops you coming home three weeks behind.",
+  doneSub: "Done. Travel isn't an excuse.",
+  workSeconds: 45,
+  phases: [
+    { name: "Activation", exercises: [
+      { name: "Dead bug", mode: "alt", tag: "On your back", video: null,
+        cue: "On your back, arms to the ceiling, knees at 90°. Extend opposite arm and leg, slowly, without the lower back leaving the floor. Exhale hard as the leg extends — it's the exhale that flattens your back into the ground, not abdominal force. If the lower back lifts, take the leg less far.",
+        variants: [
+          { name: "Isometric dead bug", mode: "bi", cue: "Arms and knees at 90°, press hands into knees and hold the tension, breathing normally. The right regression if the lower back won't stay put." },
+          { name: "Leg lowers", mode: "alt", cue: "No arms: legs at 90°, lower one at a time until the heel grazes the floor, lower back stays down throughout." }
+        ]},
+      { name: "Ankle taps (penguins)", mode: "alt", tag: "On your back", video: null,
+        cue: "Knees bent, feet down, shoulder blades just off the floor and they stay there for the whole block. Crunch to one side to tap the heel, then the other. Short and quick — this is obliques, not magazine abs. If your head rests down between reps, the stimulus stops.",
+        variants: [
+          { name: "Short crunch", mode: "bi", cue: "Hands behind the head without pulling on the neck, lift only the shoulder blades. Short range, constant tension." },
+          { name: "Slow bicycle", mode: "alt", cue: "Elbow toward the opposite knee while the other leg extends without touching down. Slow, with real trunk rotation." }
+        ]},
+      { name: "Glute bridge", mode: "bi", tag: "On your back", video: null,
+        cue: "Feet flat and close to your backside. Drive the hips up through the heels and <strong>pause two seconds at the top, squeezing the glutes hard</strong> — the pause is the exercise, the movement is just how you get there. You're opening the front of the hip, which is exactly what the plane and the chair closed. If you feel it in the hamstrings, bring the feet closer.",
+        variants: [
+          { name: "Single-leg bridge", mode: "uni", cue: "One leg extended in the air, the other drives. The pelvis must not drop to either side." },
+          { name: "Bridge march", mode: "alt", cue: "Hips up and locked; lift one foot at a time without the pelvis moving." }
+        ]},
+      { name: "Cat-cow", mode: "bi", tag: "All fours", video: null,
+        cue: "On hands and knees. Exhale as you round, inhale as you arch, slowly. Move from the pelvis and let the spine follow it vertebra by vertebra — most people do the opposite and only move the neck and shoulders. Comfortable range, not maximum: you just got out of bed.",
+        variants: [
+          { name: "Seated cat-cow", mode: "bi", cue: "Sat on the edge of the bed, hands on knees, same sequence. For when the floor isn't an option." },
+          { name: "Thread the needle", mode: "uni", cue: "From all fours, thread one arm under the body until the shoulder rests, then open back up toward the ceiling." }
+        ]},
+      { name: "Bird dog", mode: "alt", tag: "All fours", video: null,
+        cue: "Extend opposite arm and leg to the line of the trunk and <strong>hold two seconds there</strong>. The hips stay square to the floor: if one side opens up, you lowered the standard to reach further. Picture a glass of water balanced on your lower back that can't spill.",
+        variants: [
+          { name: "Isometric bird dog", mode: "uni", cue: "Same extended position, held for the whole block. Less coordination, more tension." },
+          { name: "Bird dog elbow-to-knee", mode: "alt", cue: "Between reps, bring elbow and knee together under the body before extending again." }
+        ]}
+    ]},
+    { name: "Core", exercises: [
+      { name: "High plank with shoulder taps", mode: "alt", tag: "Face down", video: null,
+        cue: "High plank with your <strong>feet set wide</strong> — the closer they are, the harder this is to stabilise. Tap the opposite shoulder and return. The goal isn't tapping fast: it's the hips not moving a centimetre, not sideways and not rotating. If the hips dance, widen the feet or drop to your knees.",
+        variants: [
+          { name: "Isometric high plank", mode: "bi", cue: "Hold the high plank, pushing the floor away, back broad. No movement." },
+          { name: "Shoulder taps from knees", mode: "alt", cue: "Same tap with knees on the floor. The correct regression, not a lesser version." }
+        ]},
+      { name: "Side plank", mode: "uni", tag: "On your side", video: null,
+        cue: "Elbow under the shoulder, body in a line from head to feet. <strong>Push the bottom hip up toward the ceiling</strong> rather than just surviving the position — that's the difference between holding and working. Shaking is fine; the hip dropping is not, so cut the block short if it does.",
+        variants: [
+          { name: "Side plank from knees", mode: "uni", cue: "Knees bent and down. Same trunk line, less leverage." },
+          { name: "Side plank + leg lift", mode: "uni", cue: "In the side plank, raise and lower the top leg under control. Adds glute med." }
+        ]},
+      { name: "High plank to downward dog", mode: "bi", tag: "Face down", video: null,
+        cue: "From the high plank, push the hips up and back into downward dog, reaching the heels toward the floor, then return. It's the bridge between the core and the mobility work: it stretches calves and hamstrings while still asking the trunk for tension. Bend the knees slightly if the hamstrings are tight — a flat back beats straight legs.",
+        variants: [
+          { name: "Downward dog hold", mode: "bi", cue: "Stay in downward dog for the block, cycling the heels gently." },
+          { name: "High plank to knees", mode: "bi", cue: "From the high plank, lower to the knees and back up. For when the shoulder objects to downward dog." }
+        ]}
+    ]},
+    { name: "Mobility", exercises: [
+      { name: "World's greatest stretch", mode: "uni", tag: "Standing to lunge", video: null,
+        cue: "Deep lunge with the front foot outside the hand. Drop the inside elbow toward the floor, hold a second, then rotate that arm open toward the ceiling, following the hand with your eyes. It's the best transition there is into the deep stretches: hip, thoracic spine and ankle in one movement.",
+        variants: [
+          { name: "Low lunge with rotation", mode: "uni", cue: "Back knee down, same trunk rotation. Less demanding on balance." },
+          { name: "Deep lunge, hands down", mode: "uni", cue: "No rotation: stay in the deep lunge with both hands on the floor, letting the hip sink." }
+        ]},
+      { name: "Hip 90-90 sweeps", mode: "alt", tag: "Seated", video: null,
+        cue: "Sitting, one leg at 90° in front and the other at 90° to the side. Windshield-wiper the knees from one side to the other, slowly. <strong>The chest stays tall</strong>: the moment you round, the movement comes from the lower back instead of the hip and stops doing anything. Hands behind you for support if needed.",
+        variants: [
+          { name: "90-90 hold", mode: "uni", cue: "Stay in the 90-90 position on one side, chest tall, leaning gently forward." },
+          { name: "Seated butterfly", mode: "bi", cue: "Soles together, knees out, gentle forward hinge from the hip." }
+        ]},
+      { name: "Pigeon pose", mode: "uni", secs: 60, tag: "Floor", video: null,
+        cue: "Front leg folded across under the body, <strong>back leg straight and in line</strong>, not splayed out to the side. Actively press the front shin into the floor instead of collapsing onto it. Sixty seconds: the glute and piriformis need time, not force. If the knee complains, put a pillow under that hip.",
+        variants: [
+          { name: "Supine figure 4", mode: "uni", cue: "On your back, cross the ankle over the opposite knee and pull the thigh in. Same target, no load on the knee." },
+          { name: "Seated figure 4", mode: "uni", cue: "Sat on the edge of the bed, ankle over the opposite knee, gentle lean forward." }
+        ]},
+      { name: "Couch stretch (using the bed)", mode: "uni", secs: 60, tag: "Bed or wall", video: null,
+        cue: "Back knee on the floor against the base of the bed with the shin up on it; other leg forward in a lunge. The best hip-flexor and quad opener there is. <strong>Squeeze the glute of the stretched leg</strong> — without that, the pelvis tips and the lower back takes the stretch instead of the psoas. Sixty seconds a side and you'll feel the whole trip leave.",
+        variants: [
+          { name: "Low lunge, glute engaged", mode: "uni", cue: "Without the foot on the bed: low lunge, back knee down, glute squeezed, hips forward." },
+          { name: "Standing quad stretch", mode: "uni", cue: "Standing, heel to backside, knees together, pelvis tucked. For when the floor isn't an option." }
+        ]},
+      { name: "Child's pose to cobra", mode: "bi", tag: "Floor", video: null,
+        cue: "Slow flow: sit back onto the heels with the arms stretched forward, then sweep forward, dropping the hips to the floor and lifting the chest. Back and forth, breathing. It closes the routine by moving the whole spine in both directions — <strong>finish by staying in child's pose until the timer goes</strong>.",
+        variants: [
+          { name: "Child's pose hold", mode: "bi", cue: "Sat back on the heels, arms forward, forehead down. No flow, just breathing." },
+          { name: "Cobra hold", mode: "bi", cue: "Face down, hands under the shoulders, chest up and hips on the floor. If extension is what you need." }
+        ]}
+    ]}
+  ]
+};
+</script>
+{% endraw %}
+{% include "partials/activation-tool.njk" %}

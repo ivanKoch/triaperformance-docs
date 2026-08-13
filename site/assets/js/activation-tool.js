@@ -220,7 +220,11 @@
     $("exName").textContent = ex.name;
     $("exTag").textContent = ex.phase + (ex.tag ? " · " + ex.tag : "");
     $("exSpec").textContent = MODE_LABEL(ex);
-    $("exCue").textContent = ex.cue || "";
+    // innerHTML, not textContent: cues carry <strong> to mark the one instruction
+    // that actually makes the exercise work. The Ejercicios tab already rendered
+    // them as HTML, so textContent here meant the same cue displayed correctly in
+    // one tab and as raw `<strong>` tags in the other. Content is ours, not input.
+    $("exCue").innerHTML = ex.cue || "";
     $("exCue").style.display = ex.cue ? "block" : "none";
     $("ringTime").textContent = fmt(phase === "rest" ? secsOf(ex) : remaining);
     $("ringLbl").textContent = ex.mode === "uni" ? "Lado " + side : (ex.mode === "alt" ? "alternado" : "");
