@@ -1,0 +1,536 @@
+{
+  "name": "Zone Calculator Lead Magnet -> Twenty + Guide Email + Telegram",
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "nodes": [
+    {
+      "id": "sticky-readme",
+      "name": "READ ME BEFORE ACTIVATING",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -260
+      ],
+      "parameters": {
+        "width": 660,
+        "height": 380,
+        "content": "## LEE ESTO ANTES DE ACTIVAR\n\n**Zone Calculator lead magnet.** Entrega la guia `sesiones-por-zona.pdf` por email y crea la Person en Twenty.\n\nClonado de `plan-lead-workflow.json` — misma estructura, mismas 3 credenciales (Twenty API, Gmail SMTP, Telegram). No hace falta ninguna credencial nueva.\n\n### Antes de activar\n1. **Twenty**: agregar `ZONE_CALCULATOR` al enum `leadSource` (Settings > Data Model > Person). Sin esto, `Create Person` devuelve 400 y no se crea nada.\n2. **Config**: poner `TELEGRAM_CHAT_ID` (el mismo del contact-form).\n3. **Caddy**: la ruta `/api/zone-workouts` tiene que estar publicada (ver `zone-magnet-runbook.md`).\n\n### Diferencia deliberada con plan-lead\n`excludeFromSequence` = **true**, no false. El lead de catalogo pidio ayuda para elegir un plan (es un pedido de contacto); este pidio un PDF gratis. Ademas el formulario todavia no tiene texto de consentimiento ni de baja. Decidido por Ivan el 13 de agosto de 2026.\n\n### Verificacion\nEl email tiene que llegar con el link al PDF **y** el link de All-Access. Si el PDF da 404, el email sigue saliendo igual — no hay chequeo. Probar el link antes de activar."
+      }
+    },
+    {
+      "id": "webhook-trigger",
+      "name": "Webhook - Zone Workouts",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        60
+      ],
+      "webhookId": "plan-lead",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "zone-workouts",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        40,
+        60
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "TWENTY_BASE_URL",
+              "type": "string",
+              "value": "http://100.70.89.17:3000"
+            },
+            {
+              "id": "2",
+              "name": "TELEGRAM_CHAT_ID",
+              "type": "string",
+              "value": "REPLACE_WITH_IVAN_CHAT_ID"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "check-duplicate",
+      "name": "Check Twenty for existing Person",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        280,
+        60
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.TWENTY_BASE_URL }}/rest/people",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "filter",
+              "value": "=emails.primaryEmail[eq]:{{ $('Webhook - Zone Workouts').item.json.body.email }}"
+            }
+          ]
+        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ME",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "id": "is-duplicate",
+      "name": "Already exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        520,
+        60
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.data && $json.data.people && $json.data.people.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "build-payload",
+      "name": "Build Twenty payload",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        760,
+        180
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "name.firstName",
+              "type": "string",
+              "value": "={{ $('Webhook - Zone Workouts').item.json.body.email.split('@')[0] }}"
+            },
+            {
+              "id": "2",
+              "name": "name.lastName",
+              "type": "string",
+              "value": "-"
+            },
+            {
+              "id": "3",
+              "name": "emails.primaryEmail",
+              "type": "string",
+              "value": "={{ $('Webhook - Zone Workouts').item.json.body.email }}"
+            },
+            {
+              "id": "4",
+              "name": "leadNotes",
+              "type": "string",
+              "value": "={{ 'Descarga de la guia de sesiones por zona (calculadora de zonas). Deporte: ' + (({swimming:'natacion',cycling:'ciclismo',running:'running'})[$('Webhook - Zone Workouts').item.json.body.sport] || $('Webhook - Zone Workouts').item.json.body.sport || 'no indicado') + '. Protocolo: ' + ($('Webhook - Zone Workouts').item.json.body.protocol || 'n/a') + '. Pagina: ' + ($('Webhook - Zone Workouts').item.json.body.page_url || 'n/a') }}"
+            },
+            {
+              "id": "5",
+              "name": "leadSource",
+              "type": "string",
+              "value": "ZONE_CALCULATOR"
+            },
+            {
+              "id": "6",
+              "name": "leadStatus",
+              "type": "string",
+              "value": "NEW"
+            },
+            {
+              "id": "7",
+              "name": "preferredLanguage",
+              "type": "string",
+              "value": "={{ ({es:'SPANISH',en:'ENGLISH',pt:'PORTUGUESE'})[$('Webhook - Zone Workouts').item.json.body.language] || 'SPANISH' }}"
+            },
+            {
+              "id": "8",
+              "name": "excludeFromSequence",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "create-person",
+      "name": "Create Person in Twenty",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1000,
+        180
+      ],
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ME",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "id": "person-created",
+      "name": "Person Created",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1240,
+        180
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "personId",
+              "type": "string",
+              "value": "={{ $json.data.createPerson.id }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "twenty-error-alert",
+      "name": "Telegram alert - Twenty error",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1240,
+        380
+      ],
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=⚠️ No se pudo crear el lead de catálogo de planes en Twenty. Revisar manualmente.\nEmail: {{ $('Webhook - Zone Workouts').item.json.body.email }}\nPlan: {{ $('Webhook - Zone Workouts').item.json.body.plan_name }} ({{ $('Webhook - Zone Workouts').item.json.body.plan_id }})\nPagina: {{ $('Webhook - Zone Workouts').item.json.body.page_url }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_ME",
+          "name": "Telegram bot"
+        }
+      }
+    },
+    {
+      "id": "send-plan-email",
+      "name": "Send reply email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1240,
+        180
+      ],
+      "parameters": {
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $('Webhook - Zone Workouts').item.json.body.email }}",
+        "subject": "={{ ({es:'Tus sesiones por zona',en:'Your sessions, zone by zone',pt:'Suas sessoes por zona'})[$('Webhook - Zone Workouts').item.json.body.language] || 'Tus sesiones por zona' }}",
+        "emailFormat": "text",
+        "text": "={{ ({es: 'Hola,\\n\\nAca esta la guia: las sesiones que hacen crecer cada zona, en natacion, ciclismo y running.\\n\\nhttps://triaperformance.com/assets/guias/sesiones-por-zona.pdf\\n\\nPara cada zona vas a encontrar que entrena, dos o tres sesiones concretas, el error mas comun, y cuanto de tu semana deberia vivir ahi. Tambien por que existen la Zona X y la Zona Y, que es lo que mas confunde del modelo.\\n\\nUn consejo antes de empezar: no intentes usar las siete zonas la misma semana. Elegi las dos sesiones de calidad que te correspondan segun tu objetivo y deja el resto del volumen en Z2.\\n\\nSi preferis que las sesiones ya vengan ordenadas semana a semana, eso es exactamente lo que hace la membresia All-Access: todos los planes del catalogo construidos con estas zonas, mas TrainingPeaks Premium, por US$ 39,99 al mes.\\nhttps://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd4edb446f3\\n\\nCualquier duda, respondeme este mismo mail.\\n\\nIvan Koch - Triaperformance', en: 'Hi,\\n\\nHere is the guide: the sessions that grow each zone, for swimming, cycling and running.\\n\\nhttps://triaperformance.com/assets/guias/sesiones-por-zona.pdf\\n\\nFor every zone you get what it trains, two or three concrete sessions, the most common mistake, and how much of your week should live there. Plus why Zone X and Zone Y exist, which is the part of the model that confuses people most.\\n\\nOne piece of advice before you start: do not try to use all seven zones in the same week. Pick the two quality sessions that match your goal and leave the rest of the volume in Z2.\\n\\nIf you would rather have the sessions already sequenced week by week, that is exactly what the All-Access membership does: every plan in the catalogue built on these zones, plus TrainingPeaks Premium, for US$ 39.99 a month.\\nhttps://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd4edb446f3\\n\\nAny questions, just reply to this email.\\n\\nIvan Koch - Triaperformance', pt: 'Ola,\\n\\nAqui esta o guia: as sessoes que fazem cada zona crescer, em natacao, ciclismo e corrida.\\n\\nhttps://triaperformance.com/assets/guias/sesiones-por-zona.pdf\\n\\nPara cada zona voce encontra o que ela treina, duas ou tres sessoes concretas, o erro mais comum, e quanto da sua semana deveria estar ali. Tambem por que existem a Zona X e a Zona Y, que e o que mais confunde no modelo.\\n\\nUm conselho antes de comecar: nao tente usar as sete zonas na mesma semana. Escolha as duas sessoes de qualidade que combinam com o seu objetivo e deixe o resto do volume na Z2.\\n\\nSe preferir as sessoes ja organizadas semana a semana, e exatamente isso que a assinatura All-Access faz: todos os planos do catalogo construidos com estas zonas, mais TrainingPeaks Premium.\\nhttps://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd4edb446f3\\n\\nQualquer duvida, responda este mesmo email.\\n\\nIvan Koch - Triaperformance'})[$('Webhook - Zone Workouts').item.json.body.language] || ({es:'Hola,\\n\\nAca esta la guia: las sesiones que hacen crecer cada zona, en natacion, ciclismo y running.\\n\\nhttps://triaperformance.com/assets/guias/sesiones-por-zona.pdf\\n\\nPara cada zona vas a encontrar que entrena, dos o tres sesiones concretas, el error mas comun, y cuanto de tu semana deberia vivir ahi. Tambien por que existen la Zona X y la Zona Y, que es lo que mas confunde del modelo.\\n\\nUn consejo antes de empezar: no intentes usar las siete zonas la misma semana. Elegi las dos sesiones de calidad que te correspondan segun tu objetivo y deja el resto del volumen en Z2.\\n\\nSi preferis que las sesiones ya vengan ordenadas semana a semana, eso es exactamente lo que hace la membresia All-Access: todos los planes del catalogo construidos con estas zonas, mas TrainingPeaks Premium, por US$ 39,99 al mes.\\nhttps://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd4edb446f3\\n\\nCualquier duda, respondeme este mismo mail.\\n\\nIvan Koch - Triaperformance'}).es }}"
+      },
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_ME",
+          "name": "Gmail SMTP"
+        }
+      }
+    },
+    {
+      "id": "mark-message-sent",
+      "name": "Set leadStatus = MESSAGE_SENT",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1480,
+        180
+      ],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people/{{ $('Person Created').item.json.personId }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ leadStatus: 'MESSAGE_SENT', emailTouchCount: 1, lastTouchpoint: new Date().toISOString() }) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ME",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "id": "telegram-notify",
+      "name": "Telegram notify Ivan",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1720,
+        180
+      ],
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "={{ 'Nueva descarga de la guia de zonas\\n\\nEmail: ' + $('Webhook - Zone Workouts').item.json.body.email + '\\nDeporte: ' + (({swimming:'natacion',cycling:'ciclismo',running:'running'})[$('Webhook - Zone Workouts').item.json.body.sport] || 'n/a') + '\\nPagina: ' + ($('Webhook - Zone Workouts').item.json.body.page_url || 'n/a') }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_ME",
+          "name": "Telegram bot"
+        }
+      }
+    },
+    {
+      "id": "respond-success",
+      "name": "Respond success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1960,
+        180
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}"
+      }
+    },
+    {
+      "id": "already-exists-telegram",
+      "name": "Telegram notify (duplicate)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        760,
+        -60
+      ],
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=Lead del catalogo de planes ya existia en Twenty: {{ $('Webhook - Zone Workouts').item.json.body.email }} (plan: {{ $('Webhook - Zone Workouts').item.json.body.plan_name }})",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_ME",
+          "name": "Telegram bot"
+        }
+      }
+    },
+    {
+      "id": "respond-success-dup",
+      "name": "Respond success (duplicate)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1000,
+        -60
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook - Zone Workouts": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Check Twenty for existing Person",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Twenty for existing Person": {
+      "main": [
+        [
+          {
+            "node": "Already exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Already exists?": {
+      "main": [
+        [
+          {
+            "node": "Telegram notify (duplicate)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Twenty payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram notify (duplicate)": {
+      "main": [
+        [
+          {
+            "node": "Respond success (duplicate)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Twenty payload": {
+      "main": [
+        [
+          {
+            "node": "Create Person in Twenty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Person in Twenty": {
+      "main": [
+        [
+          {
+            "node": "Person Created",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram alert - Twenty error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram alert - Twenty error": {
+      "main": [
+        [
+          {
+            "node": "Respond success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Person Created": {
+      "main": [
+        [
+          {
+            "node": "Send reply email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send reply email": {
+      "main": [
+        [
+          {
+            "node": "Set leadStatus = MESSAGE_SENT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set leadStatus = MESSAGE_SENT": {
+      "main": [
+        [
+          {
+            "node": "Telegram notify Ivan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram notify Ivan": {
+      "main": [
+        [
+          {
+            "node": "Respond success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

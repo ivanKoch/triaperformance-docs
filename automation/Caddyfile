@@ -185,6 +185,16 @@ triaperformance.com {
 		reverse_proxy 100.70.89.17:5678
 	}
 
+	# Zone-calculator lead magnet (email -> guide PDF + Twenty Person).
+	# Same shape as /api/plan-lead above, including the mandatory `rewrite`.
+	# See zone-magnet-runbook.md.
+	route /api/zone-workouts {
+		rewrite * /webhook/zone-workouts
+		reverse_proxy 100.70.89.17:5678 {
+			header_up Host {upstream_hport}
+		}
+	}
+
 	# Athlete intake form (Google Forms -> Apps Script onFormSubmit -> here -> n8n).
 	# The `rewrite` line is mandatory, not cosmetic: n8n serves every webhook under
 	# an internal `webhook/` prefix, so proxying the raw path 404s at the Express

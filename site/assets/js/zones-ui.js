@@ -268,17 +268,27 @@
       sendBtn.disabled = true;
       hide($("zc-capture-error"));
 
-      /* PLACEHOLDER ENDPOINT. /api/zone-workouts does not exist yet — the lead
-         backend is specified in plan-lead-pipeline-runbook.md and its Caddy
-         route pattern is already deployed for /api/plan-lead. Wire this to the
-         real webhook before launch; until then the request 404s and the catch
-         below shows the error rather than a false confirmation. Deliberately
-         NOT faking success: a thank-you for an email nobody received is the
-         same class of bug as a placeholder note shipping as copy. */
+      /* Posts to /api/zone-workouts — Caddy route + n8n workflow specified in
+         zone-magnet-runbook.md. On failure the catch below shows the error
+         rather than a false confirmation: a thank-you for an email nobody
+         received is the same class of bug as a placeholder shipping as copy.
+
+         Field name is `language`, not `lang`: the n8n workflow maps it onto
+         Twenty's preferredLanguage enum and the plan-lead pipeline already uses
+         that key. Two names for one field across two workflows is how the
+         es/en/pt mapping bug got written the first time. */
       fetch("/api/zone-workouts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email, sport: state.sport, protocol: state.protocol, lang: document.documentElement.lang })
+        body: JSON.stringify({
+          email: email,
+          sport: state.sport,
+          protocol: state.protocol,
+          language: document.documentElement.lang,
+          source: "zone_calculator",
+          page_url: window.location.href,
+          submitted_at: new Date().toISOString()
+        })
       })
         .then(function (r) { if (!r.ok) throw new Error("bad status " + r.status); })
         .then(function () {
