@@ -1,0 +1,124 @@
+Subscription-lifecycle workflow — URGENT paste after the product rename
+======================================================================
+August 13, 2026.
+
+WHY
+---
+The ES and EN All-Access products were renamed in TrainingPeaks Payments so the
+checkout title matches what the site calls the product. Two nodes in this
+workflow identify the product by matching substrings of that title, and both
+matched on strings the rename removed:
+
+    old ES title contained "Suscripci..."   -> gone
+    old EN title contained "FULL ACCESS"    -> gone
+
+Effect until this is pasted: every NEW Spanish or English All-Access
+subscription classifies as UNKNOWN. That means no welcome email, no members-area
+token, and no ALL_ACCESS customerType in Twenty. It fails silently — the payment
+succeeds and nothing else happens. Portuguese is unaffected.
+
+Both replacements keep the OLD strings as well as the new ones, so a renewal or
+retry carrying the previous title still classifies correctly.
+
+
+------------------------------------------------------------------
+NODE 1 of 2:  "Map Language + Build Twenty Fields"   (Code node)
+Replace the ENTIRE contents of the JavaScript field.
+------------------------------------------------------------------
+// Detects which All-Access product (ES/EN/PT) this is from the confirmed real
+// product names in TP Payments (see triaperformance-pricing-and-positioning.md).
+//
+// UPDATED August 13, 2026 — the ES and EN products were renamed to align the
+// checkout title with what the site calls the product ("All-Access"). The old
+// matchers keyed on "suscripci" and "full access", BOTH of which vanished in the
+// rename, so every new ES and EN subscription silently became UNKNOWN: no
+// welcome email, no members token, no correct customerType. PT was untouched.
+//
+// Old strings are deliberately KEPT alongside the new ones — a renewal or a
+// retry carrying the old title must still classify. Matching costs nothing;
+// failing to match costs a paying subscriber their entire onboarding.
+//
+// Order matters: PT is checked first because "All-Access" now appears in both
+// the ES and EN titles, so the discriminator is the language of the body text.
+
+function detectLanguage(subscriptionName) {
+  const s = (subscriptionName || '').toLowerCase();
+  if (s.includes('acesso total')) return 'PORTUGUESE';
+  if (s.includes('todos los planes') || (s.includes('suscripci') && s.includes('triaperformance'))) return 'SPANISH';
+  if (s.includes('all training plans') || s.includes('full access')) return 'ENGLISH';
+  return null;
+}
+
+const results = [];
+
+for (const item of $input.all()) {
+  const d = item.json;
+  const preferredLanguage = detectLanguage(d.subscription_name);
+
+  results.push({
+    json: {
+      firstname: d.firstname,
+      lastname: d.lastname,
+      email: d.email,
+      subscription_name: d.subscription_name,
+      invoice_number: d.invoice_number,
+      amount_charged: d.amount_charged,
+      preferredLanguage, // null if unrecognized -- check Telegram alert if so
+      language_unrecognized: preferredLanguage === null,
+    }
+  });
+}
+
+return results;
+
+
+------------------------------------------------------------------
+NODE 2 of 2:  "Classify Product"   (Code node)
+Replace the ENTIRE contents of the JavaScript field.
+------------------------------------------------------------------
+// Classifies a "New subscription confirmation" into a product family.
+// BOTH allowlists are explicit, and anything matching neither is UNKNOWN.
+// UNKNOWN must never fall through to a default customerType -- that was the
+// August 2026 bug: this branch had no UNKNOWN case, so an unrecognised product
+// proceeded with customerType 'ALL_ACCESS' hardcoded as an implicit default.
+
+const ALL_ACCESS_MATCHERS = [
+  // Renamed Aug 13, 2026: both the ES and EN titles now carry "all-access".
+  s => s.includes('all-access'),
+  s => s.includes('acesso total'),
+  // Pre-rename titles, kept so an in-flight or renewal email still classifies.
+  s => s.includes('suscripci') && s.includes('triaperformance'),
+  s => s.includes('full access'),
+];
+
+// Confirmed by Ivan, Aug 8 2026: exactly one active Private product,
+// "Triaperformance 1-1 Coaching" ($149/mo + $50 startup, promocode NOSTARTUP).
+// The retired "Coaching personalizado - Un deporte (...)" is deliberately NOT
+// listed -- if it ever reappears it should alert, not be silently accepted.
+const PRIVATE_COACHING_MATCHERS = [
+  s => s.includes('1-1 coaching'),
+];
+
+return $input.all().map(item => {
+  const j = item.json;
+  const s = (j.subscription_name || '').toLowerCase();
+
+  let productType = 'UNKNOWN';
+  if (ALL_ACCESS_MATCHERS.some(fn => fn(s))) {
+    productType = 'ALL_ACCESS';
+  } else if (PRIVATE_COACHING_MATCHERS.some(fn => fn(s))) {
+    productType = 'PRIVATE_COACHING';
+  }
+
+  return { json: { ...j, productType } };
+});
+
+
+
+AFTER PASTING — TEST BEFORE TRUSTING
+------------------------------------
+Replay a past "New subscription confirmation" execution, or send a mock with the
+NEW Spanish title, and confirm on the canvas:
+    productType        = ALL_ACCESS   (not UNKNOWN)
+    preferredLanguage  = SPANISH
+Repeat with the new English title, expecting ENGLISH.

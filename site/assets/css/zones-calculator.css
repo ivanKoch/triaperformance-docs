@@ -179,6 +179,19 @@
 .zc-capture .zc-fine { font-size: 12px; color: var(--zc-dim); margin: 12px 0 0; }
 .zc-thanks { font-size: 15px; color: var(--zc-text); margin: 0; }
 
+/* The members-side counterpart of .zc-capture — same slot, same visual weight,
+   no form. Styled here rather than in the members stylesheet because it is part
+   of the component: it reads the same --zc-* variables and would work unchanged
+   on a light page. Without these rules its <h2> falls through to the site's
+   default heading size and the block renders as bare text on the background. */
+.zc-guide {
+  background: var(--zc-surface-2); border: 1px solid var(--zc-border);
+  border-radius: 8px; padding: 28px; margin-top: 40px;
+}
+.zc-guide h2 { font-size: 19px; font-weight: 700; color: var(--zc-text); margin: 0 0 8px; }
+.zc-guide p { font-size: 15px; margin: 0 0 18px; max-width: 60ch; }
+.zc-guide .zc-btn { text-decoration: none; }
+
 /* --- page furniture for the four public calculator pages --- */
 .zc-hero { padding: 72px 0 48px; border-bottom: 1px solid var(--mist); }
 .zc-hero h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.02em; margin: 8px 0 14px; max-width: 20ch; }

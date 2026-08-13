@@ -49,6 +49,10 @@ const CASES = [
   // The members copy shares the component and a different theme. It is in this
   // list because "same component, therefore fine" is an assumption, and the
   // whole point of this file is to stop assuming things about rendering.
+  // It is also the page that shipped with NO component stylesheet at all for one
+  // build (Aug 13, 2026) — every structural assertion passed and the page was
+  // visibly broken, which is why `component styled` below checks a computed
+  // colour rather than the presence of a rule.
   ["/members/calculadora-de-zonas/", "swimming", ["6", "40", "3", "5"], false],
 ];
 
@@ -107,6 +111,10 @@ const CASES = [
             table: left(q(".zc-table")), capture: left(q(".zc-capture")),
             tableW: width_(q(".zc-table")), zcW: width_(q("#zc")),
             resultsShown: !!q("#zc-step-results:not([hidden])"),
+            // Proves the component stylesheet is actually loaded. An unstyled
+            // .zc-threshold-card is transparent; styled it carries the accent tint.
+            cardBg: q(".zc-threshold-card") ? getComputedStyle(q(".zc-threshold-card")).backgroundColor : null,
+            zcWidth: q("#zc") ? Math.round(q("#zc").getBoundingClientRect().width) : null,
             // computed, not declared: a rule in the file is not a rule applied
             noteAlign: note ? getComputedStyle(note).textAlign : null,
             noteWrap: note ? getComputedStyle(note).whiteSpace : null,
@@ -116,6 +124,7 @@ const CASES = [
 
         const assertions = [
           ["results rendered", m.resultsShown],
+          ["component styled", m.cardBg !== null && m.cardBg !== "rgba(0, 0, 0, 0)" && m.zcWidth <= 780],
           [isLocked ? "sport picker hidden (locked page)" : "sport picker offered (hub)",
             pickerAtLoad === !isLocked],
           [isLocked ? "picker stays hidden after recalculate" : "picker returns after recalculate",

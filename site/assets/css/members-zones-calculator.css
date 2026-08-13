@@ -1,0 +1,162 @@
+/* Members zones calculator — dark page chrome.
+ *
+ * The tool itself already themes via `.zc--dark` (zones-calculator.css sets every
+ * colour from a variable). What was missing was the PAGE around it: this route
+ * used to load members.css, the LIGHT content-page stylesheet, so a dark tool sat
+ * inside a white hero with white nav and footer. Same defect the activation tools
+ * had, same fix — see members-activacion.css.
+ *
+ * Load order: site.css, then zones-calculator.css, then this. All three are
+ * required — this file styles the page AROUND the tool and contains none of the
+ * tool's own rules. Dropping zones-calculator.css leaves the calculator
+ * completely unstyled while every structural assertion still passes, which is
+ * exactly how it shipped broken for one build on August 13, 2026: the tables
+ * rendered full-width with unstyled threshold cards and nothing flagged it
+ * except looking at a screenshot.
+ *
+ * Do NOT add members.css — that is the LIGHT content-page stylesheet and it is
+ * what made this page a dark tool inside a white page in the first place.
+ */
+
+:root {
+  --bg: #0d1117;
+  --surface: #171b21;
+  --surface2: #1f242c;
+  --border: #2a313b;
+  --blue: #004aad;
+  --blue-deep: #003a89;
+  --blue-bright: #4f8fdb;
+  --blue-dim: rgba(0, 74, 173, 0.22);
+  --white: #ffffff;
+  --text: #f2f3f1;
+  --text-dim: #8b9089;
+}
+
+body {
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- nav (members-page variant) & footer --- */
+.site-nav-sticky {
+  background: rgba(13, 17, 23, 0.85);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.site-nav-sticky .logo { color: var(--white); }
+.site-nav-sticky nav a { color: var(--text-dim); }
+.site-nav-sticky nav a:hover { color: var(--blue-bright); }
+.nav-toggle span { background: var(--text); }
+
+@media (max-width: 860px) {
+  header nav {
+    background: var(--surface);
+    box-shadow: none;
+    border-left: 1px solid var(--border);
+  }
+}
+
+footer { border-top: 1px solid var(--border); color: var(--text-dim); }
+footer a { color: var(--text-dim); }
+
+/* --- page header --- */
+.artifact-hero { border-bottom: 1px solid var(--border); padding: 48px 0; }
+.artifact-hero h1 {
+  font-size: 36px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;
+  margin-bottom: 8px; color: var(--white);
+}
+.artifact-hero p { color: var(--text-dim); font-size: 17px; max-width: 62ch; }
+.artifact-hero .label { color: var(--blue-bright); }
+.breadcrumb { font-size: 14px; color: var(--text-dim); margin-bottom: 16px; }
+.breadcrumb a { color: var(--text-dim); }
+.breadcrumb a:hover { color: var(--blue-bright); }
+
+/* --- prose below the tool --- */
+.zc-prose > * { max-width: 720px; }
+.zc-prose h2 {
+  font-size: 22px; font-weight: 700; letter-spacing: -0.01em;
+  margin: 36px 0 10px; color: var(--white);
+}
+.zc-prose h2:first-child { margin-top: 0; }
+.zc-prose h3 { font-size: 17px; font-weight: 700; margin: 24px 0 8px; color: var(--white); }
+.zc-prose p, .zc-prose li { font-size: 16px; color: var(--text-dim); line-height: 1.6; }
+.zc-prose p { margin-bottom: 14px; }
+.zc-prose ul { margin: 0 0 14px 20px; }
+.zc-prose li { margin-bottom: 6px; }
+.zc-prose strong { color: var(--text); }
+.zc-prose a { color: var(--blue-bright); }
+
+.section--surface { background: var(--surface); }
+
+/* Rescued from /members/tests/ when it was retired: the rules that make a test
+   valid. Called out rather than run as plain prose because an invalid test is
+   the single most expensive mistake on this page — every zone downstream
+   inherits it. */
+.test-rules {
+  background: var(--surface2); border-left: 2px solid var(--blue-bright);
+  border-radius: 0 8px 8px 0; padding: 20px 24px; margin: 20px 0;
+}
+.test-rules ul { margin-left: 18px; }
+
+/* Testing log, also rescued from /members/tests/. Printable on purpose — the
+   old page's whole point was that you take it with you. */
+.test-log { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 12px; }
+.test-log th {
+  text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--text-dim); font-weight: 700; padding: 0 10px 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.test-log td { padding: 14px 10px 14px 0; border-bottom: 1px solid var(--border); }
+
+@media print {
+  body { background: #fff; color: #1e2019; }
+  .site-nav-sticky, footer, .zc-step, #zc-guide, .no-print { display: none !important; }
+  .test-log th, .test-log td { border-color: #e4e6e1; color: #1e2019; }
+}
+
+/* The testing log is six columns wide and must stay six columns — it is meant to
+   be printed and written on, so restacking it for mobile would destroy the thing
+   it is for. It scrolls instead. Without this it forced the document to 780px on
+   a 390px viewport, which layout-check caught as a page-wide horizontal overflow
+   rather than as a table problem. */
+.test-log-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.test-log { min-width: 620px; }
+@media print { .test-log-scroll { overflow-x: visible; } .test-log { min-width: 0; } }
+
+/* Mobile: stop the closed slide-out menu creating 390px of empty scroll.
+ *
+ * Root cause, found Aug 13, 2026: `.site-nav-sticky` here carries
+ * `backdrop-filter`, and a backdrop-filter makes an element a containing block
+ * for fixed-position descendants. That converts the mobile nav from
+ * viewport-fixed (which does not add scrollable overflow) into an ordinary
+ * out-of-flow child of the header, and its `right: -100%` parking spot starts
+ * counting toward document width. The public pages have the same nav markup and
+ * do NOT overflow — they simply have no backdrop-filter.
+ *
+ * `clip`, not `hidden`: `overflow: hidden` on an ancestor silently kills
+ * `position: sticky` on the nav itself, trading one bug for a subtler one. */
+/* Mobile: drop the backdrop-filter, and the overflow goes with it.
+ *
+ * site.css parks the closed slide-out menu at `right: -100%` — a real box one
+ * screen-width off to the right. That is normally free, because a viewport-fixed
+ * element contributes nothing to scrollable overflow. But `backdrop-filter` makes
+ * an element the containing block for fixed descendants, so on these dark pages
+ * the menu stopped being viewport-fixed and its parking spot started counting
+ * toward document width. Every dark members page was horizontally scrollable by
+ * a full screen on a phone; the public pages, identical markup and no
+ * backdrop-filter, were not.
+ *
+ * Removing the blur under 860px restores the public behaviour exactly. Nothing
+ * is lost visually — the bar is already 85% opaque, and the blur is invisible
+ * behind it at that size.
+ *
+ * Three fixes tried first that do NOT work, so nobody repeats them:
+ *   `overflow-x: clip` on body  — propagates to the viewport, clips nothing.
+ *   `overflow-x: clip` on html  — html is not the containing block here.
+ *   `transform: translateX(100%)` to park it — transformed boxes still count
+ *                                 toward scrollable overflow. */
+@media (max-width: 860px) {
+  .site-nav-sticky { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}

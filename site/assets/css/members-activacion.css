@@ -308,3 +308,39 @@ footer a { color: var(--text-dim); }
   .rest-time { font-size: 52px; }
   .ctrl-side { font-size: 13px; }
 }
+
+/* Mobile: stop the closed slide-out menu creating 390px of empty scroll.
+ *
+ * Root cause, found Aug 13, 2026: `.site-nav-sticky` here carries
+ * `backdrop-filter`, and a backdrop-filter makes an element a containing block
+ * for fixed-position descendants. That converts the mobile nav from
+ * viewport-fixed (which does not add scrollable overflow) into an ordinary
+ * out-of-flow child of the header, and its `right: -100%` parking spot starts
+ * counting toward document width. The public pages have the same nav markup and
+ * do NOT overflow — they simply have no backdrop-filter.
+ *
+ * `clip`, not `hidden`: `overflow: hidden` on an ancestor silently kills
+ * `position: sticky` on the nav itself, trading one bug for a subtler one. */
+/* Mobile: drop the backdrop-filter, and the overflow goes with it.
+ *
+ * site.css parks the closed slide-out menu at `right: -100%` — a real box one
+ * screen-width off to the right. That is normally free, because a viewport-fixed
+ * element contributes nothing to scrollable overflow. But `backdrop-filter` makes
+ * an element the containing block for fixed descendants, so on these dark pages
+ * the menu stopped being viewport-fixed and its parking spot started counting
+ * toward document width. Every dark members page was horizontally scrollable by
+ * a full screen on a phone; the public pages, identical markup and no
+ * backdrop-filter, were not.
+ *
+ * Removing the blur under 860px restores the public behaviour exactly. Nothing
+ * is lost visually — the bar is already 85% opaque, and the blur is invisible
+ * behind it at that size.
+ *
+ * Three fixes tried first that do NOT work, so nobody repeats them:
+ *   `overflow-x: clip` on body  — propagates to the viewport, clips nothing.
+ *   `overflow-x: clip` on html  — html is not the containing block here.
+ *   `transform: translateX(100%)` to park it — transformed boxes still count
+ *                                 toward scrollable overflow. */
+@media (max-width: 860px) {
+  .site-nav-sticky { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}

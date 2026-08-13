@@ -1,8 +1,8 @@
 ---
 layout: layouts/base.njk
 pageCss:
-  - members.css
   - zones-calculator.css
+  - members-zones-calculator.css
 zcSport: ""
 zcDark: true
 zcCapture: false
@@ -10,30 +10,85 @@ title: "Calculadora de Zonas — Triaperformance All-Access"
 ---
 {#- The members copy of the public calculator at /calculadora-de-zonas/.
 
-    Same component, two differences, both deliberate:
+    Three differences from the public version, all deliberate:
       zcDark    — brand-guidelines.md §7.1: members-area interactive tools are dark.
-      zcCapture — false. Members already paid; the point of their version is the
-                  absence of the funnel. They get the tool with nothing asked of
-                  them, which is a real difference even though it is not a feature.
+                  The page chrome is dark too, via members-zones-calculator.css.
+                  It previously loaded members.css (the LIGHT content stylesheet),
+                  so a dark tool sat inside a white page.
+      zcCapture — false. Members already paid; asking for an email to send them a
+                  guide their subscription includes would charge them twice for
+                  the same thing, once in money and once in friction. The partial
+                  renders the download block in that slot instead.
+      Depth     — this page carries what /members/zonas/ and /members/tests/
+                  carried before they were retired (August 13, 2026): the model
+                  explanation, the test-validity rules, and the testing log.
 
-    Saved values and re-test history are NOT here — parked by decision 17
-    (zones-calculator-brief.md). Do not add localStorage as a stopgap: it
-    survives a return visit but not a device change, and this is a number people
-    re-test every 2–3 months for years.
-
-    A separate URL from /members/zonas/ on purpose: decision 16 retires nothing
-    until the overlap is visible with the tool actually built. -#}
+    Saved values and re-test history are still NOT here — parked by decision 17
+    (zones-calculator-brief.md). Do not add localStorage as a stopgap: it survives
+    a return visit but not a device change, and this is a number people re-test
+    every 2–3 months for years. -#}
 <header class="artifact-hero">
   <div class="wrap">
     <div class="breadcrumb"><a href="/members/#biblioteca">Biblioteca</a> / Calculadora de Zonas</div>
     <span class="label">Calculadora</span>
     <h1>Calculadora de Zonas</h1>
-    <p>Convertí el resultado de tu test en tus siete zonas — por ritmo, potencia y frecuencia cardíaca, según el deporte y lo que hayas medido.</p>
+    <p>Convertí el resultado de tu test en tus siete zonas — por ritmo, potencia y frecuencia cardíaca, según el deporte y lo que hayas medido. Abajo, cómo testear bien y dónde anotar cada test.</p>
   </div>
 </header>
 
 <section>
   <div class="wrap">
     {% include "partials/zones-calculator.njk" %}
+  </div>
+</section>
+
+<section class="section--surface">
+  <div class="wrap zc-prose">
+    <h2>Antes de testear</h2>
+    <p>El test vale exactamente lo que valga su ejecución. Un test mal hecho no te mueve una zona: te corre las siete por el mismo margen, y no hay forma de darte cuenta mirando los números.</p>
+
+    <div class="test-rules">
+      <ul>
+        <li>Temprano a la mañana, con clima fresco si es posible.</li>
+        <li>Bien descansado, bien alimentado, bien hidratado.</li>
+        <li>Ruta plana y sin interrupciones — sin semáforos ni terreno de para-y-arranca.</li>
+        <li>Banda de pecho puesta, siempre — el RPE solo no alcanza para confiar en el resultado.</li>
+        <li>Parar en el medio del test lo invalida. Si pasa, generalmente se puede rescatar el número a partir de los últimos 10 minutos limpios, en vez de repetir todo.</li>
+      </ul>
+    </div>
+
+    <p>Si el primer intento sale mal —problemas digestivos, mal pacing, alguna interrupción externa— entendé por qué antes de re-testear el fin de semana siguiente. Generalmente se soluciona con un día bajo en fibra antes, carbohidratos simples en el desayuno, y ajustando el timing de la cafeína.</p>
+
+    <h2>Por qué siete zonas y no cinco</h2>
+    <p>El modelo es polarizado 80/20: alrededor del 80% del volumen se mantiene suave y el 20% es realmente intenso. Hasta ahí, cinco zonas alcanzarían. Las otras dos existen por un motivo distinto: <strong>son pedazos que les recortamos a la Zona 2 y a la Zona 4</strong>, con nombre propio porque a las dos las queremos evitar — y las evitamos por razones exactamente opuestas.</p>
+    <p><strong>Zona X</strong> es el techo de tu Zona 2, más o menos tu ritmo de maratón. Sale más cara en fatiga y te devuelve prácticamente el mismo estímulo aeróbico que si hubieras ido más lento. Casi nunca es una decisión: salís a rodar suave, te sentís bien, el ritmo se acomoda solo unos segundos, y terminás la semana con la fatiga de una sesión de calidad que nunca hiciste.</p>
+    <p><strong>Zona Y</strong> es el piso de la Zona 4, y la intuición es la contraria: no es que sobre, es que no alcanza. Tu umbral no es una línea fija — se mueve con la forma, el descanso, el calor y el día. Entrenar justo al 100% no garantiza nada; para asegurarte las adaptaciones hay que entrenar desde el <strong>102%</strong>, que es justamente el piso de la Z4.</p>
+
+    <h3>Los porcentajes cambian según la métrica</h3>
+    <p>No hay una sola tabla. Las zonas de potencia, de ritmo y de pulso no caen en los mismos porcentajes, y tampoco son iguales entre deportes: la Zona 2 arranca en el 70% de tu FTP en bici, en el 76% de tu velocidad de umbral corriendo, en el 81% de tu LTHR y en el 84% de tu velocidad crítica en natación. La calculadora usa la tabla que corresponde a cada caso — por eso te muestra una columna por métrica y no un solo número.</p>
+
+    <h2>Cada cuánto re-testear</h2>
+    <p>Cada 2 o 3 meses si venís entrenando parejo. Antes si notás que las sesiones prescriptas te quedan fáciles, o si el desacople cardíaco a ritmos de umbral baja. Después de una lesión, una enfermedad o un parate largo: dos semanas suaves de vuelta a la carga, después el test, y esperá un número más bajo — resetear la expectativa es parte del proceso.</p>
+
+    <h2>Tu registro de tests</h2>
+    <p>Imprimí esta página o guardala como PDF y llevá el registro con vos — o simplemente volvé acá después de cada test. Lo que importa es la serie, no el número suelto: tres tests en seis meses te dicen si el plan está funcionando; uno solo no te dice nada.</p>
+
+    {#- Wrapper, not a responsive restack: this is a log you print and write on,
+        so the six columns have to stay six columns. On a phone it scrolls. -#}
+    <div class="test-log-scroll">
+    <table class="test-log">
+      <thead>
+        <tr><th>Fecha</th><th>Deporte</th><th>Protocolo</th><th>Resultado bruto</th><th>Umbral calculado</th><th>Notas</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+    </div>
   </div>
 </section>

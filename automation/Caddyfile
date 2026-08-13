@@ -205,6 +205,16 @@ triaperformance.com {
 		reverse_proxy 100.70.89.17:5678
 	}
 
+	# /members/zonas/ and /members/tests/ retired August 13, 2026 — both were
+	# guides for doing by hand what the calculator now does, and their unique
+	# content (the test-validity rules, the testing log) moved into it. Redirects
+	# rather than deletions: these URLs are linked from the members home in every
+	# subscriber's bookmark bar and from at least one sent email.
+	redir /members/zonas/ /members/calculadora-de-zonas/ permanent
+	redir /members/zonas /members/calculadora-de-zonas/ permanent
+	redir /members/tests/ /members/calculadora-de-zonas/ permanent
+	redir /members/tests /members/calculadora-de-zonas/ permanent
+
 	redir /guias/zonas-de-entrenamiento.pdf /assets/guias/zonas-de-entrenamiento.pdf permanent
 	redir /guias/pre-entreno.pdf /assets/guias/pre-entreno.pdf permanent
 	redir /guias/intervalos.pdf /assets/guias/intervalos.pdf permanent

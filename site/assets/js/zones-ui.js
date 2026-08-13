@@ -193,9 +193,26 @@
     hide($("zc-step-protocol"));
     hide($("zc-step-input"));
     show($("zc-step-results"));
-    if (root.getAttribute("data-capture") !== "no") show($("zc-capture"));
+    // Public pages ask for an email to send the guide; the members copy just
+    // hands it over. Same slot in the flow, opposite transaction.
+    if (root.getAttribute("data-capture") !== "no") {
+      show($("zc-capture"));
+    } else {
+      // Members: no email in the way, so the guide download and the plan
+      // recommendations both land at calculate time — the same payload a public
+      // visitor only reaches after handing over an address.
+      show($("zc-guide"));
+      revealPlans();
+    }
     $("zc-step-results").scrollIntoView({ behavior: "smooth", block: "start" });
     return true;
+  }
+
+  /** Show the plan block and the set matching the sport just calculated. */
+  function revealPlans() {
+    var set = root.querySelector('.zc-plan-set[data-sport="' + state.sport + '"]');
+    if (set) set.hidden = false;
+    show($("zc-plans"));
   }
 
   function fail(msg) {
@@ -226,6 +243,7 @@
     }
     hide($("zc-step-results"));
     hide($("zc-capture"));
+    if ($("zc-guide")) hide($("zc-guide"));
   }
 
   function pickProtocol(id) {
@@ -249,6 +267,7 @@
   $("zc-again").addEventListener("click", function () {
     hide($("zc-step-results"));
     hide($("zc-capture"));
+    if ($("zc-guide")) hide($("zc-guide"));
     // On a sport-locked page, "recalculate" means "change my numbers", never
     // "change my sport" — re-showing the picker here would reopen exactly the
     // contradiction the lock exists to prevent (see the partial's header).
@@ -294,9 +313,7 @@
         .then(function () {
           hide($("zc-capture-form"));
           show($("zc-capture-thanks"));
-          var set = root.querySelector('.zc-plan-set[data-sport="' + state.sport + '"]');
-          if (set) set.hidden = false;
-          show($("zc-plans"));
+          revealPlans();
         })
         .catch(function () {
           sendBtn.disabled = false;

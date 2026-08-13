@@ -97,12 +97,16 @@ Two live products, priced by market purchasing power:
 
 The Portuguese discount is historical (weak BRL made USD pricing feel expensive). Because the $9 TrainingPeaks Premium fee is fixed, lower prices carry disproportionately worse margins — any future All-Access pricing decision should account for that floor. At 2 subscribers, the constraint is distribution, not price: this product is built, recurring, near-zero marginal effort, and unpromoted.
 
+***Renamed August 13, 2026 (ES and EN only).*** *The checkout titles now match what the site calls the product. Previously the nav said "Membresía All-Access" and the checkout said "Suscripción Triaperformance" or "FULL ACCESS" — a different product name appearing at the exact moment of payment. Also fixed "Training Peaks" → "TrainingPeaks", which was wrong in both. **Portuguese was not renamed** (existing subscriber); note that its title omits TrainingPeaks Premium entirely, hiding a $9/mo inclusion from PT buyers — worth adding to the TP description field if one exists.*
+
+> ***Standing warning: renaming a TP Payments product is a two-system change.*** *`subscription-lifecycle-automation.json` identifies the product by matching substrings of this exact title, in two separate Code nodes. The Aug 13 rename removed both anchors (`"Suscripci"` and `"FULL ACCESS"`) and every new ES/EN subscription silently classified as UNKNOWN — no welcome email, no members token, no `ALL_ACCESS` customerType, and **no error anywhere**, because the payment itself succeeds. Caught within the same 30-minute window, with no live subscriptions lost. **Before changing any product title here, grep `automation/` for the string you are about to delete.**
+
 **Checkout links (added Jul 2026, for website CTA buttons; subscriber counts corrected Aug 2, 2026 — one Spanish subscriber churned, so the live total is 2: 1 ES + 1 PT):**
 
 | Language | Checkout URL | Product name (as set in TP Payments) | Price | Subscribers | Renameable? |
 |---|---|---|---|---|---|
-| Spanish | https://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd4edb446f3 | "Suscripción Triaperformance - Todos los planes y guías + Training Peaks Premium" | $39.99 | 1 | No — existing subscriber, can't rename |
-| English | https://checkout.trainingpeaks.com/product/7127a1e4-f736-45b7-b98d-1bbe468d950a | "FULL ACCESS: All training plans and guides + Training Peaks Premium" | $39.99 | 0 | Yes — no subscribers yet, open to a better name if proposed |
+| Spanish | https://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd4edb446f3 | "Triaperformance All-Access — Todos los planes y guías + TrainingPeaks Premium" | $39.99 | 1 | Renamed Aug 13, 2026 |
+| English | https://checkout.trainingpeaks.com/product/7127a1e4-f736-45b7-b98d-1bbe468d950a | "Triaperformance All-Access — All training plans and guides + TrainingPeaks Premium" | $39.99 | 0 | Renamed Aug 13, 2026 |
 | Portuguese | https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a | "Acesso Total: Planos de Treino (Corrida + Ciclismo + Triatlo)" | $29.99 | 1 | No — existing subscriber |
 
 Subscription flow: athlete pays via TrainingPeaks Payments checkout → TP links them to Iván's coach profile, grants TrainingPeaks Premium, and grants access to **the entire plan catalog**. *(Resolved Aug 2, 2026 — this line previously said "the plans Iván has selected into the offering (not the entire catalog — exact scope not yet documented)." Confirmed by Iván: all plans are included and it is safe to claim so in marketing copy. The old caveat is retired.)* Same product-in-TP-Payments mechanism as the 1:1 coaching plans, just a different product.

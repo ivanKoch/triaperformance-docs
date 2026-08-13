@@ -109,6 +109,19 @@
     </div>
     <p class="zc-thanks" id="zc-capture-thanks" hidden>{{ ui.captureThanks }}</p>
   </div>
+  {%- else %}
+  {#- The members-side counterpart of the capture block: same slot, same moment,
+      no ask. A subscriber has already paid for this guide, so making them type
+      an email to receive it would be charging them twice for the same thing —
+      once in money, once in friction. Shown only when zcCapture is false. -#}
+  {%- set guideFile = { es: "sesiones-por-zona.pdf", en: "training-zone-sessions.pdf", pt: "sessoes-por-zona.pdf" }[lang] or "sesiones-por-zona.pdf" %}
+  <div class="zc-guide" id="zc-guide" hidden>
+    <h2>{{ ui.guideTitle }}</h2>
+    <p>{{ ui.guideBody }}</p>
+    <a class="zc-btn" href="/assets/guias/{{ guideFile }}" download>{{ ui.guideButton }}</a>
+  </div>
+  {%- endif %}
+
 
   {#- Plans are rendered at BUILD time, one hidden block per sport, and revealed
       by JS after the email is sent. Selected by rule — sport + language + goal
@@ -166,7 +179,6 @@
     </div>
     {%- endfor %}
   </div>
-  {%- endif %}
 </div>
 
 <script id="zc-data" type="application/json">{{ {
