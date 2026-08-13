@@ -47,9 +47,15 @@
    through to the browser's default link blue, which on the dark members page is
    near-black-on-near-black — the plan recommendations were effectively
    unreadable. --zc-accent is #004aad on light and #4f8fdb on dark, so one rule
-   is correct in both skins. */
-.zc a { color: var(--zc-accent); }
-.zc a:hover { text-decoration: underline; }
+   is correct in both skins.
+
+   `:not(.zc-btn)` is load-bearing. `.zc a` scores (0,2,0) and `.zc-btn` only
+   (0,1,0), so without the exclusion this rule repaints the download button's
+   label in the accent colour — on top of an accent-coloured button. Shipped
+   exactly that way for one build (Aug 13, 2026): fixing link contrast broke
+   button contrast, because a button that happens to be an <a> matches both. */
+.zc a:not(.zc-btn) { color: var(--zc-accent); }
+.zc a:not(.zc-btn):hover { text-decoration: underline; }
 
 /* --- step scaffolding --- */
 .zc-step { margin-bottom: 40px; }

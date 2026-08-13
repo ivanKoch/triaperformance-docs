@@ -54,6 +54,8 @@ const CASES = [
   // visibly broken, which is why `component styled` below checks a computed
   // colour rather than the presence of a rule.
   ["/members/calculadora-de-zonas/", "swimming", ["6", "40", "3", "5"], false],
+  ["/members/en/training-zones-calculator/", "swimming", ["6", "40", "3", "5"], false],
+  ["/members/pt/calculadora-de-zonas/", "swimming", ["6", "40", "3", "5"], false],
 ];
 
 (async () => {
@@ -115,6 +117,15 @@ const CASES = [
             // .zc-threshold-card is transparent; styled it carries the accent tint.
             cardBg: q(".zc-threshold-card") ? getComputedStyle(q(".zc-threshold-card")).backgroundColor : null,
             zcWidth: q("#zc") ? Math.round(q("#zc").getBoundingClientRect().width) : null,
+            // Button label must not take the link colour. `.zc a` (0,2,0) beats
+            // `.zc-btn` (0,1,0), so any link rule added to the component silently
+            // repaints buttons that happen to be anchors. Shipped once already.
+            btnOnAccent: (() => {
+              const btn = q("#zc-guide .zc-btn") || q(".zc-btn");
+              if (!btn) return null;
+              const cs = getComputedStyle(btn);
+              return cs.color !== cs.backgroundColor;
+            })(),
             // computed, not declared: a rule in the file is not a rule applied
             noteAlign: note ? getComputedStyle(note).textAlign : null,
             noteWrap: note ? getComputedStyle(note).whiteSpace : null,
@@ -124,6 +135,7 @@ const CASES = [
 
         const assertions = [
           ["results rendered", m.resultsShown],
+          ["button label readable", m.btnOnAccent !== false],
           ["component styled", m.cardBg !== null && m.cardBg !== "rgba(0, 0, 0, 0)" && m.zcWidth <= 780],
           [isLocked ? "sport picker hidden (locked page)" : "sport picker offered (hub)",
             pickerAtLoad === !isLocked],

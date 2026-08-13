@@ -780,6 +780,10 @@ Decision 16 in `zones-calculator-brief.md` parked the retirement of `/members/zo
 
 Also: the guide block's title lost its joke (*"sin pedirte nada"* referred to a contrast — the public version's email form — that a subscriber has never seen, so it read as a non-sequitur); `.zc a` now takes the theme accent, because without it links fell through to the browser's default blue, which on `#0d1117` was effectively unreadable and was how the plan recommendations shipped; and `membersPage` lost its "Área de Miembros" item in all three languages — the logo in the same bar already went there, so the bar had two links plus a breadcrumb pointing at one destination.
 
+*Update, same day — members calculator now in three languages, plus one self-inflicted regression.* `/members/en/training-zones-calculator/` and `/members/pt/calculadora-de-zonas/` shipped, and the EN/PT members homes lost their "library is on its way" empty state for a real card. The partial picks the right guide PDF from `lang`, so each language downloads its own.
+
+***The regression is the instructive part: fixing link contrast broke button contrast.*** The `.zc a` rule added an hour earlier scores (0,2,0) and `.zc-btn` only (0,1,0), so the download button — an `<a>` carrying `.zc-btn` — had its label repainted in the accent colour, on top of an accent-coloured background. Invisible in every existing assertion and invisible in the screenshot I took, because that screenshot was framed on the plan links the rule was added to fix. Now `.zc a:not(.zc-btn)`, with a `button label readable` assertion in `layout-check.js` that compares the computed label colour against the computed background. **A component-wide element selector will find things that are not what you were thinking about — buttons, breadcrumbs, anything that happens to be an anchor.**
+
 ## Open items — retired as a section (August 8, 2026)
 
 **This section no longer exists. Every open item across the project lives in `open-loops.md`, and closed ones in `open-loops-archive.md`. Do not start a second list here.**

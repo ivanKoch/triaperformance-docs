@@ -1,0 +1,30 @@
+---
+layout: layouts/base.njk
+pageCss:
+  - zones-calculator.css
+  - members-zones-calculator.css
+zcSport: ""
+zcDark: true
+zcCapture: false
+title: "Calculadora de Zonas — Triaperformance All-Access"
+---
+{#- Members copy of the public calculator, Portuguese edition. Mirrors
+    /members/calculadora-de-zonas/ exactly: dark chrome, no email capture, and
+    the guide PDF handed over directly in the capture's slot — the partial picks
+    the Portuguese-language PDF from `lang`, which comes from site/members/pt/pt.json.
+
+    No prose below the tool, by decision 23 (zones-calculator-brief.md). -#}
+<header class="artifact-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/members/pt/#biblioteca">Biblioteca</a> / Calculadora de Zonas</div>
+    <span class="label">Calculadora</span>
+    <h1>Calculadora de zonas</h1>
+    <p>Transforme o resultado do seu teste nas suas sete zonas — por ritmo, potência e frequência cardíaca, conforme o esporte e o que você mediu.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    {% include "partials/zones-calculator.njk" %}
+  </div>
+</section>
