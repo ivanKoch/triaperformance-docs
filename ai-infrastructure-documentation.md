@@ -855,6 +855,20 @@ Home doc: `knee-strength-brief.md`. Also the day `/members/nutricion/` was retir
 
 **Content:** three additions Iván chose (isometric wall sit — the only exercise here that helps someone hurting today; single-leg balance; gym adductor work), two he did not take (eccentric soleus, knee-flexion hamstring) recorded as decisions in the home doc so they are not re-raised, plus a **pain rule** (≤3/10, same or better next day) and a **red-flag boundary** — swelling, locking, giving way, night pain, post-trauma onset — that the source doc did not have. That boundary is the only warm-coloured element in the members area, deliberately: it is the one place a tool says "this might not be for you".
 
+## 31. `/members/aquiles/` — the first artifact whose branch is clinical (August 13, 2026)
+
+Home doc: `achilles-brief.md`. Second tool on the strength engine, built the same evening as the first; the engine needed **no changes at all**, which is the point of §30.
+
+**Four axes → 8 routines plus a gated block**, versus the knee tool's two axes. The engine did not care: routines are lists of ids in a page-level library, and the phase array is assembled per answer. *A tool with four questions costs the same as a tool with two once the library pattern is in place.*
+
+***The axis that matters is not a preference, it is a contraindication.*** Achilles tendinopathy is two conditions. Mid-portion responds to heel drops off a step; **insertional is compressed by dorsiflexion past neutral**, which is precisely what a heel drop off a step does at the bottom of every rep — and what a two-minute straight-leg calf stretch does deliberately. The source doc prescribed both without distinguishing. Following it, an athlete with insertional pain does about 45 compressive reps a session and concludes rehab does not work for them. **Insertional now gets flat-ground isometrics and eccentrics stopping at the floor, range-capped machine work, and no end-range calf stretch at all** — replaced by non-end-range ankle mobility whose cue explains why the stretch they expected is missing.
+
+**The verification reflects that.** Alongside the usual structural checks, the run asserts that no insertional routine contains step work or a wall stretch, and that no mid-portion routine loses them. *That assertion is worth more than every layout check on the page:* a misplaced element is ugly, a compressive rep prescribed to an insertional tendon is harm, and both look identical to a screenshot. 16 combinations checked, 4 walked to the done screen.
+
+**Placement decision worth keeping:** the gated jump block sits **before** the heavy strength work, not after. Energy-storage work belongs on fresh legs; plyometrics at the end of a 30-set session is how a tendon that was ready gets re-irritated on the last set.
+
+**A test bug worth recording, because it produced a false pass.** The first verification run reported 16/16 green while never once selecting the jump block. `data-val="yes"` exists in two different option groups (roller and stage), so an unscoped `[data-val="yes"]` selector always clicked the first one. **The page was correct — its handlers are scoped per group; the check was not, and it reported success for a state it never reached.** Selectors in these runs are now scoped by `[data-axis]`. *A check that cannot reach a state cannot verify it, and will happily say it did.*
+
 ## Open items — retired as a section (August 8, 2026)
 
 **This section no longer exists. Every open item across the project lives in `open-loops.md`, and closed ones in `open-loops-archive.md`. Do not start a second list here.**
