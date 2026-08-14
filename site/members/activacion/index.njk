@@ -1,76 +1,242 @@
 ---
 layout: layouts/base.njk
 pageCss: "members-activacion.css"
-title: "Activación de Running — Triaperformance All-Access"
+title: "Activación — Triaperformance All-Access"
+matrixMode: true
 ---
+{#- THE ACTIVATION MATRIX, v1 — replaces the two fixed activation tools that
+    lived at this URL and at /members/activacion-ciclismo/ (both retired
+    Aug 13, 2026 on Iván's call). Home doc: `activation-matrix.md`.
+
+    Three questions → one of 8 routines (sport × moment × equipment). The
+    tightness axis is v2 and deliberately absent; see the home doc.
+
+    Structure: one exercise LIBRARY, and 8 routines that are just lists of ids.
+    That is the whole point of the design — 8 lists and a lookup, never 8
+    hand-written routines, because the 12 exercises they share must not drift
+    into 12 slightly different cues.
+
+    The engine (activation-tool.js) is unchanged. It boots off
+    window.ACTIVATION_DATA, so this page builds that object after the athlete
+    answers and only then injects the engine script — which is why the partial
+    is included with `matrixMode`. -#}
 {% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/#biblioteca">Biblioteca</a> / Activación</div></div>
+
+  <div class="setup-head">
+    <span class="label">Activación</span>
+    <h1>Tu activación de hoy</h1>
+    <p>Tres preguntas y armamos el circuito. Del suelo a estar de pie, sin volver a bajar — 40 segundos por ejercicio, los unilaterales 40 por lado.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">¿Qué vas a hacer?</div>
+    <div class="setup-opts" data-axis="sport">
+      <button type="button" class="setup-opt" data-val="run" aria-pressed="true">Correr</button>
+      <button type="button" class="setup-opt" data-val="bike" aria-pressed="false">Bici</button>
+    </div>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">¿Cómo llegás?</div>
+    <div class="setup-opts" data-axis="moment">
+      <button type="button" class="setup-opt" data-val="wake" aria-pressed="true">Recién levantado</button>
+      <button type="button" class="setup-opt" data-val="sit" aria-pressed="false">Sentado todo el día</button>
+    </div>
+    <p class="setup-hint">Recién levantado, el cuerpo está rígido pero neutro. Después de ocho horas sentado, la cadera está acortada y los glúteos apagados — no se arregla con lo mismo.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">¿Tenés minibanda?</div>
+    <div class="setup-opts" data-axis="band">
+      <button type="button" class="setup-opt" data-val="none" aria-pressed="true">No</button>
+      <button type="button" class="setup-opt" data-val="band" aria-pressed="false">Sí</button>
+    </div>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Armar mi activación →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/activation-tool.njk" %}
+{% raw %}
+</div>
+
 <script>
-window.ACTIVATION_DATA = {
-  title: "Activación de running",
-  crumb: "Activación",
-  subtitle: "Del suelo a estar de pie, sin volver a bajar. 1 serie de 40 segundos por ejercicio; los unilaterales, 40 segundos por lado.",
-  context: "Antes de sesiones de calidad",
-  why: "Correr con los glúteos dormidos y la cadera rígida carga el trabajo en la lumbar, los isquios y las pantorrillas. Diez minutos de activación mejoran la técnica desde el primer kilómetro y bajan el riesgo de molestias.",
-  doneSub: "Listo para correr.",
-  phases: [
-    { name: "Boca arriba", exercises: [
-      { name: "Puente de glúteos", mode: "bi", tag: "Sin equipo", video: null,
-        cue: "Pies apoyados cerca de la cola. Subí la cadera empujando con los talones y apretá los glúteos arriba un segundo. Bajá controlado, sin arquear la lumbar.",
-        variants: [
-          { name: "Puente a una pierna", mode: "uni", cue: "Una pierna extendida en el aire, la otra empuja. La pelvis no debe rotar — si cae hacia un lado, volvé a la versión con dos piernas." },
-          { name: "Puente con marcha", mode: "alt", cue: "Cadera arriba y fija; despegá un pie por vez sin que la pelvis se mueva. El trabajo es antirrotación, no altura." }
-        ]},
-      { name: "Dead bug", mode: "alt", tag: "Sin equipo", video: null,
-        cue: "Lumbar pegada al piso. Extendé brazo y pierna contrarios sin que la espalda se despegue. Lento — el objetivo es control, no velocidad.",
-        variants: [
-          { name: "Descenso de piernas", mode: "alt", cue: "Piernas a 90°, bajá una por vez hasta rozar el piso con el talón, siempre con la lumbar apoyada." },
-          { name: "Dead bug isométrico", mode: "bi", cue: "Brazos y rodillas a 90°, empujá las manos contra las rodillas y sostené la tensión respirando normal." }
-        ]}
-    ]},
-    { name: "De costado", exercises: [
-      { name: "Plancha lateral", mode: "uni", tag: "Sin equipo", video: null,
-        cue: "Codo debajo del hombro, cuerpo en línea de cabeza a pies. Empujá la cadera hacia arriba y sostené. Si tiembla, está trabajando.",
-        variants: [
-          { name: "Plancha lateral + elevación de pierna", mode: "uni", cue: "En plancha lateral, subí y bajá la pierna de arriba controlado. Suma glúteo medio al trabajo de tronco." },
-          { name: "Elevación lateral de pierna", mode: "uni", cue: "Acostado de costado, subí la pierna de arriba con el pie apuntando levemente hacia abajo. Rango medio, sin impulso." }
-        ]},
-      { name: "Almeja (clamshell)", mode: "uni", tag: "Sin equipo", video: null,
-        cue: "Rodillas flexionadas a 90°, pies juntos. Abrí la rodilla de arriba sin rotar la pelvis — el movimiento sale del glúteo medio, no de la espalda.",
-        variants: [
-          { name: "Almeja con banda", mode: "uni", tag: "Minibanda", cue: "Banda por encima de las rodillas. Misma técnica, contra resistencia — abrí hasta donde la pelvis se mantenga quieta." },
-          { name: "Fire hydrant", mode: "uni", cue: "En cuadrupedia, abrí la rodilla hacia el costado manteniendo la cadera y el tronco quietos." }
-        ]}
-    ]},
-    { name: "Cuadrupedia", exercises: [
-      { name: "Bird dog", mode: "alt", tag: "Sin equipo", video: null,
-        cue: "Extendé brazo y pierna contrarios hasta la línea del tronco. Pausa de un segundo estirado, sin arquear la lumbar ni rotar la cadera.",
-        variants: [
-          { name: "Bird dog isométrico", mode: "uni", cue: "Misma posición extendida, pero sostenida. La cadera queda paralela al piso todo el tiempo." },
-          { name: "Plancha con toque de hombro", mode: "alt", cue: "En plancha alta, tocá el hombro contrario con una mano por vez. La cadera no se mueve." }
-        ]}
-    ]},
-    { name: "De pie", exercises: [
-      { name: "Balanceo de pierna (frontal)", mode: "uni", tag: "Pared de apoyo", video: null,
-        cue: "Apoyate en una pared y balanceá la pierna adelante y atrás con impulso controlado. Aumentá el rango de a poco — es el patrón de la zancada.",
-        variants: [
-          { name: "Balanceo lateral de pierna", mode: "uni", cue: "De frente a la pared, cruzá la pierna de lado a lado por delante del cuerpo. Abre aductores y glúteo medio." },
-          { name: "Círculos de cadera", mode: "uni", cue: "Parado en una pierna, dibujá círculos amplios con la rodilla levantada, hacia adelante y hacia atrás." }
-        ]},
-      { name: "Marcha A", mode: "alt", tag: "Sin equipo", video: null,
-        cue: "Rodilla arriba hasta la altura de la cadera, pie de apoyo firme, brazos de carrera. Postura alta y contacto corto — es técnica, no cardio.",
-        variants: [
-          { name: "Skipping A", mode: "alt", cue: "Misma mecánica que la marcha, con un salto corto entre apoyos. Ritmo antes que altura." },
-          { name: "Rodillas al pecho caminando", mode: "alt", cue: "Caminando, abrazá una rodilla al pecho por paso, creciendo en altura con cada apoyo." }
-        ]},
-      { name: "Pogos (saltos de tobillo)", mode: "bi", tag: "Sin equipo", video: null,
-        cue: "Saltos cortos y elásticos con los tobillos rígidos, talones que apenas rozan el piso. Preparan tendones y pantorrillas para el impacto de correr.",
-        variants: [
-          { name: "Pogos a una pierna", mode: "uni", cue: "Misma elasticidad, en un solo apoyo. Saltos más bajos, contacto igual de corto." },
-          { name: "Soga (jump rope)", mode: "bi", tag: "Soga", cue: "Saltos al ritmo de la soga, apoyo en el antepié, rodillas casi extendidas." }
-        ]}
-    ]}
-  ]
-};
+window.ACTIVATION_MATRIX = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY
+     One definition per exercise. A cue written once here cannot disagree with
+     itself across the eight routines that share it. `secs` overrides the 40s
+     default where a hold needs longer to be a stretch rather than a gesture. */
+  const L = {
+    floss: { name: "Deslizamiento neural", mode: "uni", tag: "Sin equipo", secs: 30,
+      cue: "Acostado, rodilla al pecho y extendé la pierna hacia el techo mientras llevás la punta del pie hacia vos; soltá y repetí, lento. <strong>No es un estiramiento: no busques tensión, buscás que el nervio deslice.</strong> Si tira fuerte, achicá el rango." },
+    fig4: { name: "Figura 4", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Cruzá un tobillo sobre la rodilla contraria y traé la pierna de abajo hacia el pecho. <strong>Empezá por el lado que sentís más rígido</strong> — casi todos tenemos uno, y ese es el que necesita los segundos." },
+    bridge: { name: "Puente de glúteos", mode: "bi", tag: "Sin equipo",
+      cue: "Pies cerca de la cola. Subí la cadera empujando con los talones y <strong>apretá los glúteos arriba un segundo</strong>. Bajá controlado, sin arquear la lumbar." },
+    bridgeBand: { name: "Puente de glúteos con banda", mode: "bi", tag: "Minibanda",
+      cue: "Banda por encima de las rodillas. Mismo movimiento, pero <strong>empujá las rodillas hacia afuera contra la banda todo el tiempo</strong> — ahí es donde entra el glúteo medio." },
+    deadbug: { name: "Dead bug", mode: "alt", tag: "Sin equipo",
+      cue: "Lumbar pegada al piso. Extendé brazo y pierna contrarios sin que la espalda se despegue. <strong>Lento — el objetivo es control, no velocidad.</strong>" },
+    deadbugBand: { name: "Dead bug con banda", mode: "alt", tag: "Minibanda",
+      cue: "Banda por encima de las rodillas, presión hacia afuera constante. Extendé brazo y pierna contrarios <strong>sin dejar que la banda gane</strong> y sin despegar la lumbar." },
+    catcow: { name: "Gato-camello", mode: "bi", tag: "Sin equipo",
+      cue: "En cuadrupedia, alterná redondear y arquear la columna al ritmo de la respiración. <strong>Movete vértebra por vértebra</strong>, no en bloque." },
+    kneeChest: { name: "Rodilla al pecho", mode: "uni", tag: "Sin equipo", secs: 30,
+      cue: "Acostado, traé una rodilla al pecho con la otra pierna extendida en el piso. <strong>Si la pierna de abajo se despega, la cadera está corta</strong> — bajala y aflojá el rango." },
+    twist: { name: "Torsión espinal", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Acostado, llevá una rodilla cruzada al otro lado con los brazos abiertos y la mirada al lado opuesto. <strong>El hombro no se despega del piso</strong> — soltá con cada exhalación." },
+    hamTowel: { name: "Isquios con toalla", mode: "uni", tag: "Toalla o cinta", secs: 45,
+      cue: "Toalla en la planta del pie, pierna extendida hacia el techo. <strong>Tirá desde la toalla, no desde el cuello</strong>. La otra pierna queda apoyada en el piso." },
+    child: { name: "Postura del niño con alcance lateral", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Sentado sobre los talones, caminá las manos hacia un costado hasta sentir el dorsal. <strong>La cadera se queda atrás</strong>, no la sigas con el tronco." },
+    hipflex: { name: "Psoas de rodillas", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Media rodilla, pie de adelante plano. <strong>Meté la pelvis (cola por debajo) antes de avanzar</strong> — sin eso estás estirando la lumbar, no el psoas." },
+    hipflexSqueeze: { name: "Psoas con apriete de glúteo", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Misma posición, pero <strong>apretá fuerte el glúteo de la pierna de atrás y sostené</strong>. Ese apriete es lo que apaga el psoas y lo deja estirar de verdad. Es la clave del ejercicio." },
+    wgs: { name: "El mejor estiramiento del mundo", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Estocada larga, mano de adentro al piso junto al pie, y <strong>abrí el pecho rotando el brazo de arriba hacia el techo</strong>. Cadera, aductor y torácica en un solo movimiento." },
+    hipCircles: { name: "Círculos de cadera", mode: "uni", tag: "Sin equipo",
+      cue: "Parado en una pierna, rodilla levantada, dibujá círculos amplios hacia adelante y hacia atrás. <strong>El tronco no se mueve</strong> — solo la cadera." },
+    swingFB: { name: "Balanceo de pierna (frontal)", mode: "uni", tag: "Pared de apoyo",
+      cue: "Apoyate en una pared y balanceá la pierna adelante y atrás. <strong>Aumentá el rango de a poco</strong> — arrancar en el rango máximo es cómo se tira un isquio antes de correr." },
+    swingLat: { name: "Balanceo lateral de pierna", mode: "uni", tag: "Pared de apoyo",
+      cue: "De frente a la pared, cruzá la pierna de lado a lado por delante del cuerpo. Abre aductores y glúteo medio." },
+    latRaise: { name: "Elevación lateral de pierna", mode: "uni", tag: "Sin equipo",
+      cue: "De pie o de costado, subí la pierna al lateral con <strong>el pie apuntando levemente hacia abajo</strong>. Rango medio, sin impulso — si el tronco se inclina, bajaste el rango." },
+    latRaiseBand: { name: "Elevación lateral con banda", mode: "uni", tag: "Minibanda",
+      cue: "Banda en los tobillos. Mismo movimiento contra resistencia. <strong>El tronco se queda vertical</strong> — el glúteo medio trabaja, no la lumbar." },
+    calf: { name: "Elevación de talones", mode: "bi", tag: "Sin equipo",
+      cue: "Subí lento hasta la punta del pie y bajá más lento todavía. <strong>La bajada es el ejercicio.</strong>" },
+    squat2stand: { name: "Sentadilla a de pie", mode: "bi", tag: "Sin equipo",
+      cue: "Agarrate las puntas de los pies, hundí la cadera hasta abajo y <strong>subí el pecho sin soltar los pies</strong>. Después estirá las piernas para estirar isquios. Un ciclo por repetición, lento." },
+    squat2standBand: { name: "Sentadilla a de pie con banda", mode: "bi", tag: "Minibanda",
+      cue: "Banda por encima de las rodillas. Mismo movimiento, <strong>rodillas empujando hacia afuera todo el descenso</strong> — no dejes que se junten al subir." },
+    aSkip: { name: "Skip A lento", mode: "alt", tag: "Sin equipo",
+      cue: "Rodilla a la altura de la cadera, pie de apoyo firme, brazos de carrera. <strong>Postura alta y contacto corto — es técnica, no cardio.</strong>" },
+    march: { name: "Marcha con rodilla alta", mode: "alt", tag: "Sin equipo",
+      cue: "Rodilla arriba, pie del suelo activo, tronco erguido. <strong>Sin balancearte hacia atrás</strong> para levantar más — esa es la trampa." },
+    marchBand: { name: "Marcha con rodilla alta y banda", mode: "alt", tag: "Minibanda",
+      cue: "Banda en los tobillos. Misma marcha contra resistencia, <strong>despacio en la bajada</strong>: la banda quiere devolverte el pie al piso y ahí es donde se pierde el control." },
+    ankle: { name: "Círculos de tobillo + elevación", mode: "bi", tag: "Sin equipo",
+      cue: "Diez círculos en cada dirección con cada pie, y después elevaciones de talón lentas. <strong>El tobillo es la primera articulación que toca el piso</strong> — si está dormido, todo lo de arriba compensa." },
+    ankleBand: { name: "Círculos de tobillo + elevación con banda", mode: "bi", tag: "Minibanda",
+      cue: "Círculos primero, después elevaciones con la banda en los tobillos para resistir la subida. Bajada lenta y completa." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES
+     Eight lists of ids, floor → knees → standing. Read them against
+     `activation-matrix.md`; they are Iván's routines, unchanged. */
+  const R = {
+    "bike|wake|none": { floor: ["floss","fig4","bridge","deadbug","catcow"],
+                        knees: ["child","hipflex"],
+                        stand: ["hipCircles","swingFB","latRaise","calf"] },
+    "bike|wake|band": { floor: ["floss","fig4","bridgeBand","deadbugBand","catcow"],
+                        knees: ["child","hipflex"],
+                        stand: ["hipCircles","swingFB","latRaiseBand","calf"] },
+    "bike|sit|none":  { floor: ["kneeChest","fig4","bridge","twist"],
+                        knees: ["catcow","child","hipflexSqueeze"],
+                        stand: ["hipCircles","swingFB","squat2stand","calf"] },
+    "bike|sit|band":  { floor: ["kneeChest","fig4","bridgeBand","twist"],
+                        knees: ["catcow","child","hipflexSqueeze"],
+                        stand: ["hipCircles","swingFB","squat2standBand","calf"] },
+    "run|wake|none":  { floor: ["floss","fig4","bridge","deadbug","hamTowel"],
+                        knees: ["catcow","hipflex","wgs"],
+                        stand: ["swingFB","swingLat","aSkip","march","ankle"] },
+    "run|wake|band":  { floor: ["floss","fig4","bridgeBand","deadbugBand","hamTowel"],
+                        knees: ["catcow","hipflex","wgs"],
+                        stand: ["swingFB","swingLat","aSkip","march","ankleBand"] },
+    "run|sit|none":   { floor: ["kneeChest","fig4","bridge","twist","deadbug"],
+                        knees: ["catcow","hipflexSqueeze","wgs"],
+                        stand: ["swingFB","swingLat","march","aSkip","squat2stand","calf"] },
+    "run|sit|band":   { floor: ["kneeChest","fig4","bridgeBand","twist","deadbugBand"],
+                        knees: ["catcow","hipflexSqueeze","wgs"],
+                        stand: ["swingFB","swingLat","marchBand","aSkip","squat2standBand","calf"] }
+  };
+
+  const WHY = {
+    bike: "Pedalear con la cadera cerrada y los glúteos apagados manda el trabajo a los cuádriceps y a la lumbar. La posición de bici ya te acorta el psoas; empezar sin abrirlo es empezar con la potencia repartida mal.",
+    run: "Correr con los glúteos dormidos y la cadera rígida carga el trabajo en la lumbar, los isquios y las pantorrillas. Diez minutos de activación mejoran la técnica desde el primer kilómetro y bajan el riesgo de molestias."
+  };
+  const CONTEXT = {
+    "wake": "Recién levantado",
+    "sit": "Después de estar sentado"
+  };
+  const SPORT = { bike: "ciclismo", run: "running" };
+
+  function build(sport, moment, band) {
+    const r = R[sport + "|" + moment + "|" + band];
+    const pick = ids => ids.map(id => {
+      const ex = L[id];
+      if (!ex) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({ video: null, variants: [] }, ex);
+    });
+    return {
+      title: "Activación de " + SPORT[sport],
+      crumb: "Activación",
+      subtitle: "Del suelo a estar de pie, sin volver a bajar. 40 segundos por ejercicio; los unilaterales, 40 por lado.",
+      context: CONTEXT[moment] + (band === "band" ? " · con minibanda" : ""),
+      why: WHY[sport],
+      doneSub: sport === "run" ? "Listo para correr." : "Listo para subirte a la bici.",
+      phases: [
+        { name: "Suelo", exercises: pick(r.floor) },
+        { name: "De rodillas", exercises: pick(r.knees) },
+        { name: "De pie", exercises: pick(r.stand) }
+      ]
+    };
+  }
+
+  return { build: build, library: L, routines: R };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { sport: "run", moment: "wake", band: "none" };
+
+  document.querySelectorAll(".setup-opts").forEach(group => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach(btn => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach(b =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.ACTIVATION_DATA = window.ACTIVATION_MATRIX.build(choice.sport, choice.moment, choice.band);
+
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    // Labels the partial normally writes at parse time — done here instead,
+    // because at parse time there was no routine yet.
+    document.getElementById("doneSub").textContent = window.ACTIVATION_DATA.doneSub;
+    document.getElementById("crumbLabel").textContent = window.ACTIVATION_DATA.crumb;
+
+    // Boot the shared engine. Injected rather than loaded in the page, so the
+    // engine itself needs no matrix-awareness at all: by the time it runs,
+    // window.ACTIVATION_DATA looks exactly like any other activation tool's.
+    const s = document.createElement("script");
+    s.src = "/assets/js/activation-tool.js";
+    document.body.appendChild(s);
+
+    // One way back. Reloads rather than re-initialising: the engine holds timer
+    // state in closure and has no teardown, and a stale interval running under
+    // a second routine is a worse bug than a page load.
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Cambiar opciones";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
 </script>
 {% endraw %}
-{% include "partials/activation-tool.njk" %}

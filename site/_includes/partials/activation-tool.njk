@@ -97,9 +97,16 @@
   </div>
 </div>
 
+{#- `matrixMode: true` (set by /members/activacion/, the activation matrix) means
+    the routine does not exist yet at parse time — the athlete picks it first.
+    That page writes these labels and injects the engine itself, once it has
+    built window.ACTIVATION_DATA. Every other tool defines the data inline above
+    this include, so the default path below is unchanged for them. -#}
+{%- if not matrixMode %}
 <script>
   // page-specific labels from the data object
   document.getElementById("doneSub").textContent = window.ACTIVATION_DATA.doneSub || "";
   document.getElementById("crumbLabel").textContent = window.ACTIVATION_DATA.crumb || window.ACTIVATION_DATA.title;
 </script>
 <script src="{{ "/assets/js/activation-tool.js" | v }}"></script>
+{%- endif %}

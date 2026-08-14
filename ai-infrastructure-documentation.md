@@ -819,6 +819,20 @@ Source: `Metricas de training peaks.md`, written by Iván and handed over to rep
 
 **Mobile table bug, pre-existing and inherited.** `.tp-table` rendered 399px wide inside a 342px column at 390px, scrolling the whole page sideways — present on the old page too. Fixed two ways because the tables fail differently: the TSS table only needed smaller type, while the TSB and taper tables carry a sentence per cell and now stack into one card per row under 640px, reprinting the column header from `data-label`. *No font size rescues three columns of prose on a phone.*
 
+## 29. The activation matrix — v1, and the two fixed tools retired (August 13, 2026)
+
+Design doc: `activation-matrix.md`. Recovered into the repo the same day, having existed only as a chat upload.
+
+**Shape.** `/members/activacion/` asks three questions — sport, how you arrive (just woke / sat all day), mini-band or not — and builds one of 8 routines. `/members/activacion-ciclismo/` is deleted; the running tool that lived at this URL is replaced in place. **Deleted rather than redirected**, same reasoning as `carrera` and `kettlebell` in §27: gated, `noindex`, and the running URL is the one that survives anyway.
+
+**The engine was not modified to support this**, which is the part worth copying next time. The page renders its own setup screen, builds `window.ACTIVATION_DATA` from the answers, and *then* injects `activation-tool.js` — so by the time the engine runs it sees an ordinary activation tool and needs no matrix awareness. The only shared change is one flag in `partials/activation-tool.njk` (`matrixMode`) suppressing its own boot script. *An engine that has to know about every page that uses it stops being an engine.*
+
+**Data shape: one library, eight lists of ids.** The 8 routines share about a dozen exercises. Written out as 8 hand-authored routines, those dozen cues become a dozen slightly different cues within two edits — the same drift the zone tables produced across four documents. One `L` object, one cue per exercise, and the routines reference ids.
+
+**Bug found and fixed in the shared engine:** `#changeLink` ("Cambiar ejercicio") rendered unconditionally while its handler already no-ops for an exercise with no variants. Invisible until now because every previous routine had variants everywhere; the matrix's v1 has none. **A control that renders, invites a tap and does nothing is worse than an absent one** — mid-set, the athlete concludes the tool is broken. Now hidden when there is nothing to swap to. Verified the three `core` pages, which do have variants, still show it.
+
+**Two content decisions raised for Iván, both recorded in the home doc:** the "figure 4 right priority / 90 seconds right side" cues were his own asymmetry and were neutralised to "start with the side that feels tighter" rather than prescribing one person's imbalance to every subscriber; and the routines come out at 16–19 minutes against the ~10 of the tools they replace, roughly five of which is rest. *Neither was silently changed in the other direction — a coach's prescription is not a thing to quietly shorten.*
+
 ## Open items — retired as a section (August 8, 2026)
 
 **This section no longer exists. Every open item across the project lives in `open-loops.md`, and closed ones in `open-loops-archive.md`. Do not start a second list here.**

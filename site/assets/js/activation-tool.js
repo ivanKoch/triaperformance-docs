@@ -226,6 +226,14 @@
     // one tab and as raw `<strong>` tags in the other. Content is ours, not input.
     $("exCue").innerHTML = ex.cue || "";
     $("exCue").style.display = ex.cue ? "block" : "none";
+
+    // "Cambiar ejercicio" only exists if there is something to change to. The
+    // handler already no-ops without variants, which made it a control that
+    // rendered, invited a tap and did nothing — first surfaced by the activation
+    // matrix (Aug 13, 2026), whose v1 routines carry no variants at all. A
+    // silent no-op is worse than an absent button: the athlete concludes the
+    // tool is broken, mid-set.
+    $("changeLink").style.display = (ex.variants && ex.variants.length) ? "" : "none";
     $("ringTime").textContent = fmt(phase === "rest" ? secsOf(ex) : remaining);
     $("ringLbl").textContent = ex.mode === "uni" ? "Lado " + side : (ex.mode === "alt" ? "alternado" : "");
     const pct = phase === "work" ? remaining / secsOf(ex) : 1;
