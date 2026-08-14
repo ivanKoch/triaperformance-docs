@@ -1,0 +1,247 @@
+---
+layout: layouts/base.njk
+pageCss: "members-activacion.css"
+title: "Activation — Triaperformance All-Access"
+matrixMode: true
+---
+{#- THE ACTIVATION MATRIX, v1 — English sibling of /members/activacion/.
+    Same 8 routines, same library structure; only the copy changes.
+
+    Original note follows.
+
+    THE ACTIVATION MATRIX, v1 — replaces the two fixed activation tools that
+    lived at this URL and at /members/activacion-ciclismo/ (both retired
+    Aug 13, 2026 on Iván's call). Home doc: `activation-matrix.md`.
+
+    Three questions → one of 8 routines (sport × moment × equipment). The
+    tightness axis is v2 and deliberately absent; see the home doc.
+
+    Structure: one exercise LIBRARY, and 8 routines that are just lists of ids.
+    That is the whole point of the design — 8 lists and a lookup, never 8
+    hand-written routines, because the 12 exercises they share must not drift
+    into 12 slightly different cues.
+
+    The engine (activation-tool.js) is unchanged. It boots off
+    window.ACTIVATION_DATA, so this page builds that object after the athlete
+    answers and only then injects the engine script — which is why the partial
+    is included with `matrixMode`. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/en/#biblioteca">Library</a> / Activation</div></div>
+
+  <div class="setup-head">
+    <span class="label">Activation</span>
+    <h1>Today's activation</h1>
+    <p>Three questions and the circuit builds itself. Floor to standing, never back down — 40 seconds per exercise, single-sided moves 40 per side.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">What are you about to do?</div>
+    <div class="setup-opts" data-axis="sport">
+      <button type="button" class="setup-opt" data-val="run" aria-pressed="true">Run</button>
+      <button type="button" class="setup-opt" data-val="bike" aria-pressed="false">Ride</button>
+    </div>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">How are you arriving?</div>
+    <div class="setup-opts" data-axis="moment">
+      <button type="button" class="setup-opt" data-val="wake" aria-pressed="true">Just woke up</button>
+      <button type="button" class="setup-opt" data-val="sit" aria-pressed="false">Sat all day</button>
+    </div>
+    <p class="setup-hint">Straight out of bed the body is stiff but neutral. After eight hours in a chair the hip is shortened and the glutes are switched off — the same routine does not fix both.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Do you have a mini-band?</div>
+    <div class="setup-opts" data-axis="band">
+      <button type="button" class="setup-opt" data-val="none" aria-pressed="true">No</button>
+      <button type="button" class="setup-opt" data-val="band" aria-pressed="false">Yes</button>
+    </div>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Build my activation →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/activation-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.ACTIVATION_MATRIX = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY
+     One definition per exercise. A cue written once here cannot disagree with
+     itself across the eight routines that share it. `secs` overrides the 40s
+     default where a hold needs longer to be a stretch rather than a gesture. */
+  const L = {
+    floss: { name: "Nerve glide", mode: "uni", tag: "No equipment", secs: 30,
+      cue: "On your back, knee to chest, then extend the leg toward the ceiling while pulling your toes toward you; release and repeat, slowly. <strong>This is not a stretch — you are not looking for tension, you are looking for the nerve to glide.</strong> If it pulls hard, shrink the range." },
+    fig4: { name: "Figure 4", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Cross one ankle over the opposite knee and draw the bottom leg toward your chest. <strong>Start with whichever side feels tighter</strong> — almost everyone has one, and that is the side that needs the seconds." },
+    bridge: { name: "Glute bridge", mode: "bi", tag: "No equipment",
+      cue: "Feet close to your backside. Drive the hips up through your heels and <strong>squeeze the glutes hard at the top for a second</strong>. Lower under control, without arching the lower back." },
+    bridgeBand: { name: "Banded glute bridge", mode: "bi", tag: "Mini-band",
+      cue: "Band above the knees. Same movement, but <strong>push the knees out against the band the whole time</strong> — that is where the glute medius comes in." },
+    deadbug: { name: "Dead bug", mode: "alt", tag: "No equipment",
+      cue: "Lower back pinned to the floor. Extend opposite arm and leg without letting the back lift. <strong>Slowly — the point is control, not speed.</strong>" },
+    deadbugBand: { name: "Banded dead bug", mode: "alt", tag: "Mini-band",
+      cue: "Band above the knees, constant outward pressure. Extend opposite arm and leg <strong>without letting the band win</strong> and without lifting the lower back." },
+    catcow: { name: "Cat-cow", mode: "bi", tag: "No equipment",
+      cue: "On hands and knees, alternate rounding and arching the spine with your breath. <strong>Move one vertebra at a time</strong>, not as one block." },
+    kneeChest: { name: "Knee to chest", mode: "uni", tag: "No equipment", secs: 30,
+      cue: "On your back, draw one knee to your chest with the other leg flat on the floor. <strong>If the bottom leg lifts, that hip is tight</strong> — put it down and ease the range." },
+    twist: { name: "Supine spinal twist", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "On your back, take one knee across the body with arms wide and eyes to the opposite side. <strong>The shoulder stays on the floor</strong> — let go a little on every exhale." },
+    hamTowel: { name: "Hamstring stretch with towel", mode: "uni", tag: "Towel or strap", secs: 45,
+      cue: "Towel around the sole of your foot, leg straight toward the ceiling. <strong>Pull from the towel, not from your neck</strong>. The other leg stays flat on the floor." },
+    child: { name: "Child's pose with lateral reach", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Sitting back on your heels, walk your hands to one side until you feel the lat. <strong>The hips stay back</strong> — don't let the torso chase the hands." },
+    hipflex: { name: "Kneeling hip flexor stretch", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Half kneeling, front foot flat. <strong>Tuck the pelvis under before you shift forward</strong> — without that you are stretching your lower back, not the hip flexor." },
+    hipflexSqueeze: { name: "Hip flexor stretch with glute squeeze", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Same position, but <strong>squeeze the back glute hard and hold it</strong>. That squeeze is what switches the hip flexor off and lets it actually lengthen. It is the whole exercise." },
+    wgs: { name: "World's greatest stretch", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Long lunge, inside hand to the floor beside your foot, then <strong>open the chest by rotating the top arm toward the ceiling</strong>. Hip, adductor and thoracic spine in one movement." },
+    hipCircles: { name: "Standing hip circles", mode: "uni", tag: "No equipment",
+      cue: "Standing on one leg, knee lifted, draw big circles forward and then backward. <strong>The torso does not move</strong> — only the hip." },
+    swingFB: { name: "Leg swings (front to back)", mode: "uni", tag: "Wall for support",
+      cue: "Hand on a wall, swing the leg forward and back. <strong>Build the range gradually</strong> — starting at full range is how people strain a hamstring before a run." },
+    swingLat: { name: "Lateral leg swings", mode: "uni", tag: "Wall for support",
+      cue: "Facing the wall, swing the leg side to side across the front of your body. Opens the adductors and glute medius." },
+    latRaise: { name: "Lateral leg raise", mode: "uni", tag: "No equipment",
+      cue: "Standing or side-lying, lift the leg out to the side with <strong>the toes pointing slightly down</strong>. Mid range, no swinging — if the torso leans, you have gone past your range." },
+    latRaiseBand: { name: "Banded lateral leg raise", mode: "uni", tag: "Mini-band",
+      cue: "Band at the ankles. Same movement against resistance. <strong>The torso stays upright</strong> — the glute medius works, not the lower back." },
+    calf: { name: "Calf raises", mode: "bi", tag: "No equipment",
+      cue: "Rise slowly onto your toes and lower even more slowly. <strong>The lowering is the exercise.</strong>" },
+    squat2stand: { name: "Squat to stand", mode: "bi", tag: "No equipment",
+      cue: "Hold your toes, sink the hips all the way down and <strong>lift the chest without letting go of your feet</strong>. Then straighten the legs to load the hamstrings. One cycle per rep, slowly." },
+    squat2standBand: { name: "Banded squat to stand", mode: "bi", tag: "Mini-band",
+      cue: "Band above the knees. Same movement, <strong>knees pushing out through the whole descent</strong> — don't let them fall in on the way up." },
+    aSkip: { name: "Slow A-skip", mode: "alt", tag: "No equipment",
+      cue: "Knee to hip height, firm support foot, running arms. <strong>Tall posture, short ground contact — this is technique, not cardio.</strong>" },
+    march: { name: "High knee march", mode: "alt", tag: "No equipment",
+      cue: "Knee up, support foot active, torso tall. <strong>No leaning back</strong> to get the knee higher — that is the trap." },
+    marchBand: { name: "Banded high knee march", mode: "alt", tag: "Mini-band",
+      cue: "Band at the ankles. Same march against resistance, <strong>slow on the way down</strong>: the band wants to snap your foot back to the floor, and that is where control is lost." },
+    ankle: { name: "Ankle circles + calf raises", mode: "bi", tag: "No equipment",
+      cue: "Ten circles each direction with each foot, then slow calf raises. <strong>The ankle is the first joint to hit the ground</strong> — if it is asleep, everything above it compensates." },
+    ankleBand: { name: "Banded ankle circles + calf raises", mode: "bi", tag: "Mini-band",
+      cue: "Circles first, then calf raises with the band at the ankles resisting the rise. Slow, full lowering." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES
+     Eight lists of ids, floor → knees → standing. Read them against
+     `activation-matrix.md`; they are Iván's routines, unchanged. */
+  const R = {
+    "bike|wake|none": { floor: ["floss","fig4","bridge","deadbug","catcow"],
+                        knees: ["child","hipflex"],
+                        stand: ["hipCircles","swingFB","latRaise","calf"] },
+    "bike|wake|band": { floor: ["floss","fig4","bridgeBand","deadbugBand","catcow"],
+                        knees: ["child","hipflex"],
+                        stand: ["hipCircles","swingFB","latRaiseBand","calf"] },
+    "bike|sit|none":  { floor: ["kneeChest","fig4","bridge","twist"],
+                        knees: ["catcow","child","hipflexSqueeze"],
+                        stand: ["hipCircles","swingFB","squat2stand","calf"] },
+    "bike|sit|band":  { floor: ["kneeChest","fig4","bridgeBand","twist"],
+                        knees: ["catcow","child","hipflexSqueeze"],
+                        stand: ["hipCircles","swingFB","squat2standBand","calf"] },
+    "run|wake|none":  { floor: ["floss","fig4","bridge","deadbug","hamTowel"],
+                        knees: ["catcow","hipflex","wgs"],
+                        stand: ["swingFB","swingLat","aSkip","march","ankle"] },
+    "run|wake|band":  { floor: ["floss","fig4","bridgeBand","deadbugBand","hamTowel"],
+                        knees: ["catcow","hipflex","wgs"],
+                        stand: ["swingFB","swingLat","aSkip","march","ankleBand"] },
+    "run|sit|none":   { floor: ["kneeChest","fig4","bridge","twist","deadbug"],
+                        knees: ["catcow","hipflexSqueeze","wgs"],
+                        stand: ["swingFB","swingLat","march","aSkip","squat2stand","calf"] },
+    "run|sit|band":   { floor: ["kneeChest","fig4","bridgeBand","twist","deadbugBand"],
+                        knees: ["catcow","hipflexSqueeze","wgs"],
+                        stand: ["swingFB","swingLat","marchBand","aSkip","squat2standBand","calf"] }
+  };
+
+  const WHY = {
+    bike: "Riding with a closed hip and switched-off glutes sends the work to your quads and lower back. The bike position already shortens the hip flexor; starting without opening it means starting with your power distributed badly.",
+    run: "Running with sleepy glutes and a stiff hip loads the lower back, hamstrings and calves instead. Ten minutes of activation improves your form from the first kilometre and lowers the risk of niggles."
+  };
+  const CONTEXT = {
+    "wake": "Just woke up",
+    "sit": "After sitting all day"
+  };
+  const SPORT = { bike: "Cycling activation", run: "Running activation" };
+
+  function build(sport, moment, band) {
+    const r = R[sport + "|" + moment + "|" + band];
+    const pick = ids => ids.map(id => {
+      const ex = L[id];
+      if (!ex) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({ video: null, variants: [] }, ex);
+    });
+    return {
+      title: SPORT[sport],
+      crumb: "Activation",
+      subtitle: "Floor to standing, never back down. 40 seconds per exercise; single-sided moves, 40 per side.",
+      context: CONTEXT[moment] + (band === "band" ? " · with mini-band" : ""),
+      why: WHY[sport],
+      doneSub: sport === "run" ? "Ready to run." : "Ready to get on the bike.",
+      phases: [
+        { name: "Floor", exercises: pick(r.floor) },
+        { name: "Kneeling", exercises: pick(r.knees) },
+        { name: "Standing", exercises: pick(r.stand) }
+      ]
+    };
+  }
+
+  return { build: build, library: L, routines: R };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { sport: "run", moment: "wake", band: "none" };
+
+  document.querySelectorAll(".setup-opts").forEach(group => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach(btn => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach(b =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.ACTIVATION_DATA = window.ACTIVATION_MATRIX.build(choice.sport, choice.moment, choice.band);
+
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    // Labels the partial normally writes at parse time — done here instead,
+    // because at parse time there was no routine yet.
+    document.getElementById("doneSub").textContent = window.ACTIVATION_DATA.doneSub;
+    document.getElementById("crumbLabel").textContent = window.ACTIVATION_DATA.crumb;
+
+    // Boot the shared engine. Injected rather than loaded in the page, so the
+    // engine itself needs no matrix-awareness at all: by the time it runs,
+    // window.ACTIVATION_DATA looks exactly like any other activation tool's.
+    const s = document.createElement("script");
+    s.src = "/assets/js/activation-tool.js";
+    document.body.appendChild(s);
+
+    // One way back. Reloads rather than re-initialising: the engine holds timer
+    // state in closure and has no teardown, and a stale interval running under
+    // a second routine is a worse bug than a page load.
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Change options";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

@@ -85,7 +85,7 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 
 **Working docs (project-specific, may go stale by design)**
 
-- `activation-matrix.md` — **home doc for the adaptive activation routine** (sport × moment × equipment × tightness). *Recovered into the repo Aug 13, 2026 after existing only as a chat upload.* Designed, not built; owns the design, the assembly rule and the two open decisions. The two live activation tools are **not** this.
+- `activation-matrix.md` — **home doc for the adaptive activation routine** (sport × moment × equipment × tightness). *Recovered into the repo Aug 13, 2026 after existing only as a chat upload; **v1 shipped the same day in ES/EN/PT**.* Owns the design, the assembly rule, the sequencing (tightness is v2, after all three languages are signed off) and the two open content questions.
 - `zones-calculator-brief.md` — **home doc for the zones calculator** (opened Aug 10, 2026). Decisions, architecture, the corrections it triggers, and open questions. Owns nothing numeric: the zone percentages live in `data/zones.csv`.
 - `members-area-announcement-2026-08.md` — the un-told-cohort email: draft, audience checks, and the token rotation that rides along with it. Retire once sent.
 - `race-landing-pages-longlist.md`, `race-page-data-schema.md`, `race-page-content-outline.md` — the race-page initiative.

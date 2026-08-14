@@ -2,9 +2,11 @@
 
 **Status: v1 SHIPPED in Spanish, August 13, 2026** — `/members/activacion/`. The two fixed tools it replaced (`/members/activacion/` running and `/members/activacion-ciclismo/`) are deleted, on Iván's call. **The tightness axis is v2 and deliberately absent from v1.**
 
-**Sequence Iván set:** v1 Spanish → translate to EN and PT → happy across all three → *then* v2 adds tightness. *Do not add the tightness axis to Spanish only; that reintroduces exactly the drift the i18n branch exists to stop.*
+**Sequence Iván set:** v1 Spanish → translate to EN and PT → happy across all three → *then* v2 adds tightness. ***EN and PT shipped the same day*** — `/members/en/activation/` and `/members/pt/ativacao/`. **Next step is Iván actually running one, in each language, on a phone**, before v2 starts. *Do not add the tightness axis to Spanish only; that reintroduces exactly the drift the i18n branch exists to stop.*
 
 ## How v1 is built
+
+**Three pages, one structure.** The exercise library, the 8 routine lists and the build function are identical in `members/activacion/`, `members/en/activation/` and `members/pt/ativacao/` — only the strings differ. *When v2 adds tightness, it adds the same lookup to all three in one pass; adding it to Spanish first is the drift this whole sequence exists to avoid.* UI chrome (tabs, buttons, rest labels) is **not** in these pages — it lives in `site/_data/activationUi.json`.
 
 One `L` library object (one definition per exercise, one cue) and eight `R` routines that are lists of ids. **The engine is untouched:** the page renders its own three-question setup, builds `window.ACTIVATION_DATA` from the answers, then injects `activation-tool.js`, which by that point sees an ordinary activation tool. `partials/activation-tool.njk` gained one flag, `matrixMode`, that suppresses its own boot script for this page only.
 

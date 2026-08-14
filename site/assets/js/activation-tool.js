@@ -7,6 +7,11 @@
    Timing rules: uni = full duration per side (two blocks), alt/bi = one block. */
 (function () {
   const D = window.ACTIVATION_DATA;
+  // UI chrome, from site/_data/activationUi.json via the partial. Falls back to
+  // Spanish only so a missing file degrades to the previous behaviour rather
+  // than rendering "undefined" all over a paid page.
+  const U = window.ACTIVATION_UI || {};
+  const t = (k, es) => U[k] || es;
   const WORK = D.workSeconds || 40;
   const REST = D.restSeconds || 15;
   // Per-exercise duration override. Deep mobility holds want longer than the
@@ -16,7 +21,7 @@
   const secsOf = (ex) => (ex && ex.secs) || WORK;
   const MODE_LABEL = (ex) => {
     const n = secsOf(ex);
-    return { bi: n + "s", uni: n + "s por lado", alt: "alternado · " + n + "s" }[ex.mode];
+    return { bi: n + "s", uni: n + t("perSide", "s por lado"), alt: t("alternating", "alternado") + " · " + n + "s" }[ex.mode];
   };
   const CIRC = 2 * Math.PI * 52;
 
@@ -65,17 +70,17 @@
   /* ---- home ---- */
   function renderHome() {
     $("homeContent").innerHTML =
-      '<span class="label">Activación</span>' +
+      '<span class="label">' + (D.kicker || t("kicker", "Activación")) + '</span>' +
       '<h1 class="home-title">' + D.title + '</h1>' +
       '<p class="home-sub">' + D.subtitle + '</p>' +
       '<div class="context-pill">' + D.context + ' · ≈ ' + estMinutes() + ' min</div>' +
-      '<div class="why-box"><div class="why-title">Por qué importa</div><div class="why-text">' + D.why + '</div></div>' +
+      '<div class="why-box"><div class="why-title">' + t("why", "Por qué importa") + '</div><div class="why-text">' + D.why + '</div></div>' +
       '<div class="phase-overview">' + D.phases.map(ph =>
         '<div class="phase-row"><span class="phase-dot"></span><span class="phase-row-name">' + ph.name +
         '</span><span class="phase-row-detail">' + ph.exercises.length +
-        (ph.exercises.length === 1 ? " ejercicio" : " ejercicios") + '</span></div>').join("") +
+        " " + (ph.exercises.length === 1 ? t("exercise", "ejercicio") : t("exercises", "ejercicios")) + '</span></div>').join("") +
       '</div>' +
-      '<button class="btn-primary start-btn" id="startBtn">Empezar activación →</button>';
+      '<button class="btn-primary start-btn" id="startBtn">' + t("startRoutine", "Empezar activación →") + '</button>';
     $("startBtn").addEventListener("click", () => {
       goTab("workout");
       if (phase === "idle") { startWork(); run(); }
@@ -197,7 +202,7 @@
   function nextBlockInfo() {
     const ex = exercises[idx];
     if (!ex) return null;
-    if (phase !== "rest" && ex.mode === "uni" && side === 1) return ex.name + " — Lado 2";
+    if (phase !== "rest" && ex.mode === "uni" && side === 1) return ex.name + " — " + t("side", "Lado") + " 2";
     const nx = exercises[idx + 1];
     return nx ? nx.name : null;
   }
@@ -205,7 +210,7 @@
   function updateUI() {
     const ex = exercises[idx];
     const tb = totalBlocks();
-    $("mainBtn").textContent = phase === "idle" ? "Empezar" : (interval ? "Pausar" : "Reanudar");
+    $("mainBtn").textContent = phase === "idle" ? t("start", "Empezar") : (interval ? t("pause", "Pausar") : t("resume", "Reanudar"));
     $("prevBtn").disabled = phase === "idle" || phase === "done" || (idx === 0 && side === 1);
     $("skipBtn").disabled = phase === "idle" || phase === "done";
     $("restOverlay").style.display = phase === "rest" ? "flex" : "none";
@@ -235,21 +240,21 @@
     // tool is broken, mid-set.
     $("changeLink").style.display = (ex.variants && ex.variants.length) ? "" : "none";
     $("ringTime").textContent = fmt(phase === "rest" ? secsOf(ex) : remaining);
-    $("ringLbl").textContent = ex.mode === "uni" ? "Lado " + side : (ex.mode === "alt" ? "alternado" : "");
+    $("ringLbl").textContent = ex.mode === "uni" ? t("side", "Lado") + " " + side : (ex.mode === "alt" ? t("alternating", "alternado") : "");
     const pct = phase === "work" ? remaining / secsOf(ex) : 1;
     $("ringArc").style.strokeDashoffset = CIRC * (1 - pct);
 
     const nx = nextBlockInfo();
-    $("nextPreview").textContent = nx ? "Siguiente: " + nx : "Último bloque";
+    $("nextPreview").textContent = nx ? t("next", "Siguiente:") + " " + nx : t("lastBlock", "Último bloque");
     $("nextPreview").style.visibility = nx ? "visible" : "hidden";
 
     if (phase === "rest") {
       // during rest, idx/side already point at the upcoming block
       const posChange = idx > 0 && side === 1 && exercises[idx - 1].phase !== ex.phase;
-      $("restLbl").textContent = posChange ? "Cambio de posición → " + ex.phase : "Descanso";
+      $("restLbl").textContent = posChange ? t("positionChange", "Cambio de posición →") + " " + ex.phase : t("rest", "Descanso");
       $("restTime").textContent = fmt(remaining);
-      $("restNext").innerHTML = "Siguiente: <strong>" + ex.name +
-        (ex.mode === "uni" ? " — Lado " + side : "") + "</strong>";
+      $("restNext").innerHTML = t("next", "Siguiente:") + ' <strong>' + ex.name +
+        (ex.mode === "uni" ? " — " + t("side", "Lado") + " " + side : "") + "</strong>";
     }
   }
 
@@ -267,7 +272,7 @@
         '<div class="list-ex-detail">' + MODE_LABEL(ex) + (ex.tag ? " · " + ex.tag : "") + '</div>' +
         (ex.cue ? '<div class="list-ex-cue">' + ex.cue + '</div>' : "") +
         (ex.variants && ex.variants.length
-          ? '<div class="list-ex-variants">Variantes: ' + ex.variants.map(v => v.name).join(" · ") + '</div>' : "") +
+          ? '<div class="list-ex-variants">' + t("variants", "Variantes:") + " " + ex.variants.map(v => v.name).join(" · ") + '</div>' : "") +
         (ex.video
           ? '<div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/' + ex.video +
             '" title="' + ex.name + '" loading="lazy" allowfullscreen></iframe></div>' : "") +

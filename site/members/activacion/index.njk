@@ -166,7 +166,7 @@ window.ACTIVATION_MATRIX = (function () {
     "wake": "Recién levantado",
     "sit": "Después de estar sentado"
   };
-  const SPORT = { bike: "ciclismo", run: "running" };
+  const SPORT = { bike: "Activación de ciclismo", run: "Activación de running" };
 
   function build(sport, moment, band) {
     const r = R[sport + "|" + moment + "|" + band];
@@ -176,7 +176,7 @@ window.ACTIVATION_MATRIX = (function () {
       return Object.assign({ video: null, variants: [] }, ex);
     });
     return {
-      title: "Activación de " + SPORT[sport],
+      title: SPORT[sport],
       crumb: "Activación",
       subtitle: "Del suelo a estar de pie, sin volver a bajar. 40 segundos por ejercicio; los unilaterales, 40 por lado.",
       context: CONTEXT[moment] + (band === "band" ? " · con minibanda" : ""),

@@ -1,0 +1,247 @@
+---
+layout: layouts/base.njk
+pageCss: "members-activacion.css"
+title: "Ativação — Triaperformance All-Access"
+matrixMode: true
+---
+{#- THE ACTIVATION MATRIX, v1 — Portuguese sibling of /members/activacion/.
+    Same 8 routines, same library structure; only the copy changes.
+
+    Original note follows.
+
+    THE ACTIVATION MATRIX, v1 — replaces the two fixed activation tools that
+    lived at this URL and at /members/activacion-ciclismo/ (both retired
+    Aug 13, 2026 on Iván's call). Home doc: `activation-matrix.md`.
+
+    Three questions → one of 8 routines (sport × moment × equipment). The
+    tightness axis is v2 and deliberately absent; see the home doc.
+
+    Structure: one exercise LIBRARY, and 8 routines that are just lists of ids.
+    That is the whole point of the design — 8 lists and a lookup, never 8
+    hand-written routines, because the 12 exercises they share must not drift
+    into 12 slightly different cues.
+
+    The engine (activation-tool.js) is unchanged. It boots off
+    window.ACTIVATION_DATA, so this page builds that object after the athlete
+    answers and only then injects the engine script — which is why the partial
+    is included with `matrixMode`. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/pt/#biblioteca">Biblioteca</a> / Ativação</div></div>
+
+  <div class="setup-head">
+    <span class="label">Ativação</span>
+    <h1>Sua ativação de hoje</h1>
+    <p>Três perguntas e o circuito se monta sozinho. Do chão até de pé, sem voltar a descer — 40 segundos por exercício, os unilaterais 40 por lado.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">O que você vai fazer?</div>
+    <div class="setup-opts" data-axis="sport">
+      <button type="button" class="setup-opt" data-val="run" aria-pressed="true">Correr</button>
+      <button type="button" class="setup-opt" data-val="bike" aria-pressed="false">Pedalar</button>
+    </div>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Como você está chegando?</div>
+    <div class="setup-opts" data-axis="moment">
+      <button type="button" class="setup-opt" data-val="wake" aria-pressed="true">Acabei de acordar</button>
+      <button type="button" class="setup-opt" data-val="sit" aria-pressed="false">Sentado o dia todo</button>
+    </div>
+    <p class="setup-hint">Recém-acordado, o corpo está rígido mas neutro. Depois de oito horas sentado, o quadril está encurtado e os glúteos desligados — não se resolve com a mesma rotina.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Você tem miniband?</div>
+    <div class="setup-opts" data-axis="band">
+      <button type="button" class="setup-opt" data-val="none" aria-pressed="true">No</button>
+      <button type="button" class="setup-opt" data-val="band" aria-pressed="false">Sim</button>
+    </div>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Montar minha ativação →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/activation-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.ACTIVATION_MATRIX = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY
+     One definition per exercise. A cue written once here cannot disagree with
+     itself across the eight routines that share it. `secs` overrides the 40s
+     default where a hold needs longer to be a stretch rather than a gesture. */
+  const L = {
+    floss: { name: "Deslizamento neural", mode: "uni", tag: "Sem equipamento", secs: 30,
+      cue: "Deitado, joelho ao peito e estenda a perna em direção ao teto enquanto puxa a ponta do pé para você; solte e repita, devagar. <strong>Não é um alongamento: você não busca tensão, busca que o nervo deslize.</strong> Se puxar forte, diminua a amplitude." },
+    fig4: { name: "Figura 4", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Cruze um tornozelo sobre o joelho oposto e traga a perna de baixo em direção ao peito. <strong>Comece pelo lado que estiver mais rígido</strong> — quase todo mundo tem um, e é esse que precisa dos segundos." },
+    bridge: { name: "Ponte de glúteos", mode: "bi", tag: "Sem equipamento",
+      cue: "Pés perto do bumbum. Suba o quadril empurrando com os calcanhares e <strong>aperte os glúteos lá em cima por um segundo</strong>. Desça controlado, sem arquear a lombar." },
+    bridgeBand: { name: "Ponte de glúteos com miniband", mode: "bi", tag: "Miniband",
+      cue: "Miniband acima dos joelhos. Mesmo movimento, mas <strong>empurre os joelhos para fora contra a banda o tempo todo</strong> — é aí que entra o glúteo médio." },
+    deadbug: { name: "Dead bug", mode: "alt", tag: "Sem equipamento",
+      cue: "Lombar colada no chão. Estenda braço e perna opostos sem deixar as costas descolarem. <strong>Devagar — o objetivo é controle, não velocidade.</strong>" },
+    deadbugBand: { name: "Dead bug com miniband", mode: "alt", tag: "Miniband",
+      cue: "Miniband acima dos joelhos, pressão para fora constante. Estenda braço e perna opostos <strong>sem deixar a banda vencer</strong> e sem descolar a lombar." },
+    catcow: { name: "Gato-camelo", mode: "bi", tag: "Sem equipamento",
+      cue: "De quatro apoios, alterne arredondar e arquear a coluna no ritmo da respiração. <strong>Mova vértebra por vértebra</strong>, não em bloco." },
+    kneeChest: { name: "Joelho ao peito", mode: "uni", tag: "Sem equipamento", secs: 30,
+      cue: "Deitado, traga um joelho ao peito com a outra perna estendida no chão. <strong>Se a perna de baixo descola, esse quadril está curto</strong> — abaixe e alivie a amplitude." },
+    twist: { name: "Torção da coluna", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Deitado, leve um joelho cruzado para o outro lado com os braços abertos e o olhar para o lado oposto. <strong>O ombro não descola do chão</strong> — solte um pouco a cada expiração." },
+    hamTowel: { name: "Posteriores com toalha", mode: "uni", tag: "Toalha ou faixa", secs: 45,
+      cue: "Toalha na planta do pé, perna estendida para o teto. <strong>Puxe pela toalha, não pelo pescoço</strong>. A outra perna fica apoiada no chão." },
+    child: { name: "Postura da criança com alcance lateral", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Sentado sobre os calcanhares, caminhe as mãos para um lado até sentir o dorsal. <strong>O quadril fica para trás</strong> — não deixe o tronco acompanhar." },
+    hipflex: { name: "Alongamento de psoas ajoelhado", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Meio ajoelhado, pé da frente plano. <strong>Encaixe a pelve (bumbum por baixo) antes de avançar</strong> — sem isso você está alongando a lombar, não o psoas." },
+    hipflexSqueeze: { name: "Psoas com aperto de glúteo", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Mesma posição, mas <strong>aperte forte o glúteo da perna de trás e segure</strong>. Esse aperto é o que desliga o psoas e deixa ele alongar de verdade. É a chave do exercício." },
+    wgs: { name: "O melhor alongamento do mundo", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Afundo longo, mão de dentro no chão ao lado do pé, e <strong>abra o peito girando o braço de cima para o teto</strong>. Quadril, adutor e torácica em um só movimento." },
+    hipCircles: { name: "Círculos de quadril", mode: "uni", tag: "Sem equipamento",
+      cue: "Em pé sobre uma perna, joelho levantado, desenhe círculos amplos para frente e para trás. <strong>O tronco não se mexe</strong> — só o quadril." },
+    swingFB: { name: "Balanço de perna (frente e trás)", mode: "uni", tag: "Parede de apoio",
+      cue: "Apoie a mão na parede e balance a perna para frente e para trás. <strong>Aumente a amplitude aos poucos</strong> — começar na amplitude máxima é como se estira um posterior antes de correr." },
+    swingLat: { name: "Balanço lateral de perna", mode: "uni", tag: "Parede de apoio",
+      cue: "De frente para a parede, cruze a perna de um lado para o outro à frente do corpo. Abre adutores e glúteo médio." },
+    latRaise: { name: "Elevação lateral de perna", mode: "uni", tag: "Sem equipamento",
+      cue: "Em pé ou deitado de lado, suba a perna para o lado com <strong>a ponta do pé apontando levemente para baixo</strong>. Amplitude média, sem impulso — se o tronco inclina, você passou da sua amplitude." },
+    latRaiseBand: { name: "Elevação lateral com miniband", mode: "uni", tag: "Miniband",
+      cue: "Miniband nos tornozelos. Mesmo movimento contra resistência. <strong>O tronco fica na vertical</strong> — quem trabalha é o glúteo médio, não a lombar." },
+    calf: { name: "Elevação de panturrilha", mode: "bi", tag: "Sem equipamento",
+      cue: "Suba devagar na ponta dos pés e desça ainda mais devagar. <strong>A descida é o exercício.</strong>" },
+    squat2stand: { name: "Agachamento para de pé", mode: "bi", tag: "Sem equipamento",
+      cue: "Segure as pontas dos pés, afunde o quadril até embaixo e <strong>levante o peito sem soltar os pés</strong>. Depois estenda as pernas para alongar os posteriores. Um ciclo por repetição, devagar." },
+    squat2standBand: { name: "Agachamento para de pé com miniband", mode: "bi", tag: "Miniband",
+      cue: "Miniband acima dos joelhos. Mesmo movimento, <strong>joelhos empurrando para fora durante toda a descida</strong> — não deixe que se juntem na subida." },
+    aSkip: { name: "Skip A lento", mode: "alt", tag: "Sem equipamento",
+      cue: "Joelho na altura do quadril, pé de apoio firme, braços de corrida. <strong>Postura alta e contato curto — é técnica, não cardio.</strong>" },
+    march: { name: "Marcha com joelho alto", mode: "alt", tag: "Sem equipamento",
+      cue: "Joelho para cima, pé de apoio ativo, tronco ereto. <strong>Sem se jogar para trás</strong> para levantar mais — essa é a armadilha." },
+    marchBand: { name: "Marcha com joelho alto e miniband", mode: "alt", tag: "Miniband",
+      cue: "Miniband nos tornozelos. Mesma marcha contra resistência, <strong>devagar na descida</strong>: a banda quer devolver o pé ao chão, e é aí que se perde o controle." },
+    ankle: { name: "Círculos de tornozelo + panturrilha", mode: "bi", tag: "Sem equipamento",
+      cue: "Dez círculos em cada direção com cada pé, e depois elevações de panturrilha lentas. <strong>O tornozelo é a primeira articulação que toca o chão</strong> — se ele está dormindo, tudo acima compensa." },
+    ankleBand: { name: "Círculos de tornozelo + panturrilha com miniband", mode: "bi", tag: "Miniband",
+      cue: "Círculos primeiro, depois elevações com a miniband nos tornozelos resistindo a subida. Descida lenta e completa." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES
+     Eight lists of ids, floor → knees → standing. Read them against
+     `activation-matrix.md`; they are Iván's routines, unchanged. */
+  const R = {
+    "bike|wake|none": { floor: ["floss","fig4","bridge","deadbug","catcow"],
+                        knees: ["child","hipflex"],
+                        stand: ["hipCircles","swingFB","latRaise","calf"] },
+    "bike|wake|band": { floor: ["floss","fig4","bridgeBand","deadbugBand","catcow"],
+                        knees: ["child","hipflex"],
+                        stand: ["hipCircles","swingFB","latRaiseBand","calf"] },
+    "bike|sit|none":  { floor: ["kneeChest","fig4","bridge","twist"],
+                        knees: ["catcow","child","hipflexSqueeze"],
+                        stand: ["hipCircles","swingFB","squat2stand","calf"] },
+    "bike|sit|band":  { floor: ["kneeChest","fig4","bridgeBand","twist"],
+                        knees: ["catcow","child","hipflexSqueeze"],
+                        stand: ["hipCircles","swingFB","squat2standBand","calf"] },
+    "run|wake|none":  { floor: ["floss","fig4","bridge","deadbug","hamTowel"],
+                        knees: ["catcow","hipflex","wgs"],
+                        stand: ["swingFB","swingLat","aSkip","march","ankle"] },
+    "run|wake|band":  { floor: ["floss","fig4","bridgeBand","deadbugBand","hamTowel"],
+                        knees: ["catcow","hipflex","wgs"],
+                        stand: ["swingFB","swingLat","aSkip","march","ankleBand"] },
+    "run|sit|none":   { floor: ["kneeChest","fig4","bridge","twist","deadbug"],
+                        knees: ["catcow","hipflexSqueeze","wgs"],
+                        stand: ["swingFB","swingLat","march","aSkip","squat2stand","calf"] },
+    "run|sit|band":   { floor: ["kneeChest","fig4","bridgeBand","twist","deadbugBand"],
+                        knees: ["catcow","hipflexSqueeze","wgs"],
+                        stand: ["swingFB","swingLat","marchBand","aSkip","squat2standBand","calf"] }
+  };
+
+  const WHY = {
+    bike: "Pedalar com o quadril fechado e os glúteos desligados manda o trabalho para o quadríceps e para a lombar. A posição da bike já encurta o psoas; começar sem abri-lo é começar com a potência mal distribuída.",
+    run: "Correr com os glúteos dormindo e o quadril rígido joga o trabalho na lombar, nos posteriores e nas panturrilhas. Dez minutos de ativação melhoram a técnica desde o primeiro quilômetro e reduzem o risco de incômodos."
+  };
+  const CONTEXT = {
+    "wake": "Acabei de acordar",
+    "sit": "Depois de ficar sentado"
+  };
+  const SPORT = { bike: "Ativação para o ciclismo", run: "Ativação para a corrida" };
+
+  function build(sport, moment, band) {
+    const r = R[sport + "|" + moment + "|" + band];
+    const pick = ids => ids.map(id => {
+      const ex = L[id];
+      if (!ex) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({ video: null, variants: [] }, ex);
+    });
+    return {
+      title: SPORT[sport],
+      crumb: "Ativação",
+      subtitle: "Do chão até de pé, sem voltar a descer. 40 segundos por exercício; os unilaterais, 40 por lado.",
+      context: CONTEXT[moment] + (band === "band" ? " · com miniband" : ""),
+      why: WHY[sport],
+      doneSub: sport === "run" ? "Pronto para correr." : "Pronto para subir na bike.",
+      phases: [
+        { name: "Chão", exercises: pick(r.floor) },
+        { name: "Ajoelhado", exercises: pick(r.knees) },
+        { name: "Em pé", exercises: pick(r.stand) }
+      ]
+    };
+  }
+
+  return { build: build, library: L, routines: R };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { sport: "run", moment: "wake", band: "none" };
+
+  document.querySelectorAll(".setup-opts").forEach(group => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach(btn => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach(b =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.ACTIVATION_DATA = window.ACTIVATION_MATRIX.build(choice.sport, choice.moment, choice.band);
+
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    // Labels the partial normally writes at parse time — done here instead,
+    // because at parse time there was no routine yet.
+    document.getElementById("doneSub").textContent = window.ACTIVATION_DATA.doneSub;
+    document.getElementById("crumbLabel").textContent = window.ACTIVATION_DATA.crumb;
+
+    // Boot the shared engine. Injected rather than loaded in the page, so the
+    // engine itself needs no matrix-awareness at all: by the time it runs,
+    // window.ACTIVATION_DATA looks exactly like any other activation tool's.
+    const s = document.createElement("script");
+    s.src = "/assets/js/activation-tool.js";
+    document.body.appendChild(s);
+
+    // One way back. Reloads rather than re-initialising: the engine holds timer
+    // state in closure and has no teardown, and a stale interval running under
+    // a second routine is a worse bug than a page load.
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Trocar opções";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

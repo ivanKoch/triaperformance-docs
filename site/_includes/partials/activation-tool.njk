@@ -1,18 +1,25 @@
-{# Shared skeleton for activation tools (3-tab layout: Inicio / Rutina / Ejercicios).
+{# Shared skeleton for activation tools (3-tab layout).
    The page defines window.ACTIVATION_DATA inline BEFORE including this partial;
    all content is rendered into this skeleton by /assets/js/activation-tool.js.
-   Styles: members-activacion.css. See artifact-publish-runbook.md. #}
+   Styles: members-activacion.css. See artifact-publish-runbook.md.
 
+   UI chrome comes from site/_data/activationUi.json, resolved off the page's
+   own `lang` (Aug 13, 2026). Before that every string here was hardcoded
+   Spanish, which shipped the EN and PT core pages with Spanish tabs and buttons
+   around translated exercises. The page owns the content; this file owns the
+   interface. #}
+{%- set aui = activationUi[lang] or activationUi.es -%}
+<script>window.ACTIVATION_UI = {{ aui | dump | safe }};</script>
 <div class="tool">
 
   <div class="crumb-bar">
-    <div class="wrap"><a href="/members/#biblioteca">Biblioteca</a> / <span id="crumbLabel"></span></div>
+    <div class="wrap"><a href="{{ nav.membersPage[lang].items[0].url or "/members/#biblioteca" }}">{{ aui.library }}</a> / <span id="crumbLabel"></span></div>
   </div>
 
-  <nav class="tool-tabs" aria-label="Secciones de la herramienta">
-    <button class="tool-tab active" data-tab="home">Inicio</button>
-    <button class="tool-tab" data-tab="workout">Rutina</button>
-    <button class="tool-tab" data-tab="list">Ejercicios</button>
+  <nav class="tool-tabs" aria-label="{{ aui.tabsLabel }}">
+    <button class="tool-tab active" data-tab="home">{{ aui.tabHome }}</button>
+    <button class="tool-tab" data-tab="workout">{{ aui.tabWorkout }}</button>
+    <button class="tool-tab" data-tab="list">{{ aui.tabList }}</button>
   </nav>
 
   <!-- INICIO -->
@@ -48,34 +55,34 @@
         </div>
         <div class="ex-spec" id="exSpec"></div>
         <div class="ex-cue" id="exCue"></div>
-        <button class="change-link" id="changeLink">Cambiar ejercicio</button>
+        <button class="change-link" id="changeLink">{{ aui.change }}</button>
         <div class="next-preview" id="nextPreview"></div>
       </div>
 
       <!-- rest / transition overlay -->
       <div class="stage-overlay" id="restOverlay" style="display:none">
-        <div class="rest-lbl" id="restLbl">Descanso</div>
+        <div class="rest-lbl" id="restLbl">{{ aui.rest }}</div>
         <div class="rest-time" id="restTime">0:15</div>
         <div class="rest-next" id="restNext"></div>
-        <button class="btn-secondary" id="skipRestBtn">Saltar descanso →</button>
+        <button class="btn-secondary" id="skipRestBtn">{{ aui.skipRest }}</button>
       </div>
 
       <!-- done overlay -->
       <div class="stage-overlay" id="doneOverlay" style="display:none">
-        <div class="done-title">Activación completa</div>
+        <div class="done-title">{{ aui.doneTitle }}</div>
         <p class="done-sub" id="doneSub"></p>
         <div class="done-stats">
-          <div class="done-stat"><div class="done-val" id="statEx">0</div><div class="done-lbl">Ejercicios</div></div>
-          <div class="done-stat"><div class="done-val" id="statMin">0'</div><div class="done-lbl">Minutos</div></div>
-          <div class="done-stat"><div class="done-val" id="statSkip">0</div><div class="done-lbl">Salteados</div></div>
+          <div class="done-stat"><div class="done-val" id="statEx">0</div><div class="done-lbl">{{ aui.statEx }}</div></div>
+          <div class="done-stat"><div class="done-val" id="statMin">0'</div><div class="done-lbl">{{ aui.statMin }}</div></div>
+          <div class="done-stat"><div class="done-val" id="statSkip">0</div><div class="done-lbl">{{ aui.statSkip }}</div></div>
         </div>
-        <button class="btn-primary" id="repeatBtn">Repetir</button>
+        <button class="btn-primary" id="repeatBtn">{{ aui.repeat }}</button>
       </div>
 
       <div class="controls" id="workControls">
-        <button class="btn-secondary ctrl-side" id="prevBtn" disabled>← Anterior</button>
-        <button class="btn-primary ctrl-main" id="mainBtn">Empezar</button>
-        <button class="btn-secondary ctrl-side" id="skipBtn" disabled>Saltar →</button>
+        <button class="btn-secondary ctrl-side" id="prevBtn" disabled>{{ aui.prev }}</button>
+        <button class="btn-primary ctrl-main" id="mainBtn">{{ aui.start }}</button>
+        <button class="btn-secondary ctrl-side" id="skipBtn" disabled>{{ aui.skip }}</button>
       </div>
 
     </div>
@@ -91,9 +98,9 @@
 <!-- variant picker -->
 <div class="overlay-modal" id="variantOverlay">
   <div class="dialog">
-    <h3>Cambiar ejercicio</h3>
+    <h3>{{ aui.change }}</h3>
     <div id="variantList"></div>
-    <div class="close-row"><button class="close-btn" id="closeVariant">Cancelar</button></div>
+    <div class="close-row"><button class="close-btn" id="closeVariant">{{ aui.cancel }}</button></div>
   </div>
 </div>
 
