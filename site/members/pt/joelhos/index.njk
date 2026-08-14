@@ -1,0 +1,211 @@
+---
+layout: layouts/base.njk
+pageCss: "members-fuerza.css"
+title: "Joelhos Sem Dor — Triaperformance All-Access"
+---
+{#- KNEE STRENGTH TOOL, v1 — Portuguese sibling of /members/rodillas/. Same 4
+    routines, same library structure; only the copy changes.
+
+    Original note follows.
+
+    KNEE STRENGTH TOOL, v1 — built Aug 13, 2026 from Iván's `knee pain
+    artifact.md`. Home doc: `knee-strength-brief.md`.
+
+    Two questions (where × foam roller) → one of 4 routines. Same setup-then-
+    build pattern as the activation matrix, but on the NEW strength engine
+    (sets × reps + rest timer), because this is a strength prescription and a
+    40-second countdown would tell someone to keep going when the prescription
+    is eight good reps.
+
+    Structure, same reason as the matrix: one exercise LIBRARY, routines are
+    lists of ids. Warm-up and mobility are shared by all four; only the strength
+    block and the foam-rolling block change.
+
+    Three additions to Iván's source doc, chosen by him: the isometric wall sit
+    (the one thing here that helps an athlete who hurts today), single-leg
+    balance, and gym adductor work. Two more were offered and NOT taken —
+    eccentric calf/soleus work and knee-flexion hamstring work — do not re-add
+    them without asking; the omission is a decision, not an oversight. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/pt/#biblioteca">Biblioteca</a> / Joelhos</div></div>
+
+  <div class="setup-head">
+    <span class="label">Força</span>
+    <h1>Joelhos sem dor</h1>
+    <p>A dor no joelho de quem corre e de quem pedala quase nunca nasce no joelho. Nasce mais acima — no glúteo médio, no quadríceps, no quadril — e o joelho é onde a conta chega. Isto treina o lugar certo.</p>
+  </div>
+
+  <div class="setup-warn">
+    <strong>Antes de começar.</strong> Isto é treino de força preventivo, não um tratamento. <strong>Se você tem inchaço, se o joelho trava ou falha, se a dor te acorda à noite, ou se apareceu depois de uma pancada ou de uma torção, não é disto que você precisa</strong> — você precisa que um profissional olhe. Me escreva e a gente vê.
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Onde você vai treinar?</div>
+    <div class="setup-opts" data-axis="place">
+      <button type="button" class="setup-opt" data-val="home" aria-pressed="true">Em casa<span>sem equipamento</span></button>
+      <button type="button" class="setup-opt" data-val="gym" aria-pressed="false">Na academia<span>com pesos</span></button>
+    </div>
+    <p class="setup-hint">Comece em casa mesmo que você tenha academia. A versão com carga só agrega quando o padrão de movimento já está limpo — carregar um joelho que cai para dentro só o joga mais para dentro.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Você tem rolo (foam roller)?</div>
+    <div class="setup-opts" data-axis="roller">
+      <button type="button" class="setup-opt" data-val="yes" aria-pressed="true">Sim</button>
+      <button type="button" class="setup-opt" data-val="no" aria-pressed="false">No</button>
+    </div>
+    <p class="setup-hint">Sem rolo a rotina continua completa: o bloco de rolo sai e ficam os alongamentos, que é a parte que mais devolve amplitude.</p>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Montar minha rotina →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/strength-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.KNEE_ROUTINE = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY */
+  const L = {
+    /* --- entrada en calor (las cuatro rutinas) --- */
+    swingFB: { name: "Balanço de perna (frente e trás)", sets: 1, reps: "15 por lado", tag: "Parede de apoio",
+      cue: "Apoie a mão na parede e balance a perna para frente e para trás. <strong>Aumente a amplitude aos poucos</strong>, não comece no máximo." },
+    swingLat: { name: "Balanço lateral de perna", sets: 1, reps: "15 por lado", tag: "Parede de apoio",
+      cue: "De frente para a parede, cruze a perna de um lado para o outro à frente do corpo. Abre adutores e acorda o quadril externo." },
+    sideRaise: { name: "Elevação lateral deitado", sets: 1, reps: "20 por lado", tag: "Sem equipamento",
+      cue: "Deitado de lado, perna de cima reta e <strong>a ponta do pé apontando levemente para o chão</strong>. Suba devagar. Tem que arder na lateral do glúteo — se você sente na virilha, está rodando a perna." },
+    bridge: { name: "Ponte de glúteos", sets: 2, reps: "15", rest: 30, tag: "Sem equipamento",
+      cue: "Empurre com os calcanhares e <strong>segure 2 segundos lá em cima apertando o glúteo</strong>. A pausa é o exercício; sem ela são só repetições." },
+    balance: { name: "Apoio em uma perna", sets: 1, reps: "30s por lado", tag: "Sem equipamento",
+      cue: "Em pé sobre uma perna, joelho levemente flexionado, olhando um ponto fixo. <strong>Não deixe o quadril cair do lado que está no ar</strong> — essa queda é exatamente o que acontece com a sua pelve a cada passada. Se ficar fácil, feche os olhos." },
+
+    /* --- fuerza en casa --- */
+    wallSit: { name: "Agachamento isométrico na parede", sets: 3, reps: "45s", rest: 60, tag: "Parede",
+      cue: "Costas na parede, joelhos a ~90°, e <strong>empurre os calcanhares contra o chão como se quisesse arrastá-los para trás</strong>. Segure. É o que mais rápido baixa a dor no joelho — se hoje ele incomoda, comece por aqui e você vai notar que o resto da rotina dói menos." },
+    bulgarian: { name: "Agachamento búlgaro", sets: 3, reps: "8-12 por perna", rest: 90, tag: "Cadeira ou sofá",
+      cue: "Pé de trás sobre a cadeira, peito erguido. <strong>O joelho da frente viaja sobre o dedo do meio, nunca para dentro</strong>. Se cair para dentro, encurte a amplitude antes de encurtar a técnica." },
+    slBridge: { name: "Ponte de glúteos unilateral", sets: 3, reps: "10 por perna", rest: 60, tag: "Sem equipamento",
+      cue: "Empurre com o calcanhar. <strong>Se você sente na lombar, a pelve foi para anteversão</strong> — encaixe a pelve e baixe a altura." },
+    revLunge: { name: "Afundo para trás com joelho alto", sets: 3, reps: "12 por perna", rest: 60, tag: "Sem equipamento",
+      cue: "Passo atrás para o afundo e, sem pausa, <strong>suba esse joelho até o peito em um só movimento</strong>. É estabilidade dinâmica: metade do exercício é não cambalear na subida." },
+    copenhagen: { name: "Prancha copenhague (modificada)", sets: 3, reps: "20-30s por lado", rest: 45, tag: "Cadeira ou sofá",
+      cue: "Prancha lateral com o joelho de cima apoiado na cadeira e <strong>a perna de baixo descolada do chão</strong>. Trabalha os adutores, que são o contrapeso da banda iliotibial do lado de fora." },
+    stepDown: { name: "Step-down excêntrico", sets: 3, reps: "10 por perna", rest: 60, tag: "Degrau",
+      cue: "De lado num degrau, desça o outro pé em direção ao chão <strong>em 3-4 segundos</strong> e suba rápido. A lentidão da descida é todo o exercício — mira o vasto medial, o que mantém a patela alinhada." },
+
+    /* --- fuerza en gimnasio --- */
+    wallSitLoaded: { name: "Agachamento isométrico na parede", sets: 3, reps: "45s", rest: 60, tag: "Parede · anilha opcional",
+      cue: "Igual ao de casa, com uma anilha sobre as coxas se quiser mais. <strong>Se hoje o joelho incomoda, faça isto primeiro</strong>: a isometria baixa a dor e te deixa treinar o resto com boa técnica em vez de compensando." },
+    bulgarianW: { name: "Búlgaro com halteres", sets: 3, reps: "8-10 por perna", rest: 90, tag: "Halteres",
+      cue: "O melhor exercício que existe para blindar joelhos. <strong>Só adicione peso quando as 10 repetições saírem sem o joelho cair para dentro</strong> — a carga amplifica a técnica que você já tem, boa ou ruim." },
+    rdl: { name: "Levantamento terra romeno", sets: 3, reps: "10-12", rest: 90, tag: "Barra ou halteres",
+      cue: "Dobradiça de quadril, não agachamento: <strong>o quadril vai para trás e os joelhos quase não se mexem</strong>. Uma cadeia posterior forte tira do joelho o trabalho de frear." },
+    legPress: { name: "Leg press unilateral", sets: 3, reps: "10 por perna", rest: 90, tag: "Leg press",
+      cue: "Pé alto e levemente para fora na plataforma, para carregar glúteo e vasto medial. <strong>Controle a descida</strong>; sem quicar embaixo." },
+    cableAbd: { name: "Abdução de quadril na polia", sets: 3, reps: "12-15 por lado", rest: 45, tag: "Polia baixa",
+      cue: "Caneleira na polia baixa, de lado para a máquina, varra a perna para fora. <strong>O tronco fica parado</strong> — se você se inclina para o outro lado, baixe o peso." },
+    cableAdd: { name: "Adução na polia ou máquina", sets: 3, reps: "12-15 por lado", rest: 45, tag: "Polia ou máquina",
+      cue: "O par da abdução, e o que quase ninguém faz. <strong>Adutores fortes equilibram a tração da banda iliotibial</strong> e estabilizam a pelve por dentro. Amplitude completa, sem quicar." },
+    legExt: { name: "Extensão de joelho (amplitude terminal)", sets: 3, reps: "15", rest: 45, tag: "Máquina",
+      cue: "<strong>Só os últimos 30 graus</strong>, do joelho levemente flexionado até estendido, com peso moderado e apertando lá em cima. A amplitude completa cisalha o joelho; esse pedacinho isola o vasto medial sem te cobrar nada." },
+
+    /* --- rodillo --- */
+    rollQuad: { name: "Rolo: quadríceps", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+      cue: "Do quadril até logo acima da patela. <strong>Quando encontrar um ponto sensível, pare ali e flexione e estenda o joelho</strong> — isso descola o tecido muito mais do que continuar rolando." },
+    rollTFL: { name: "Rolo: TFL", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+      cue: "O musculozinho em cima e à frente do quadril, onde nasce a banda iliotibial. <strong>Não passe o rolo na banda iliotibial na lateral da coxa</strong>: é tendão, não músculo, e rolá-la inflama mais. Role aqui em cima, que é o que a tensiona." },
+    rollCalf: { name: "Rolo: panturrilhas", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+      cue: "Panturrilhas duras tiram mobilidade do tornozelo, e o que o tornozelo não absorve, o joelho absorve." },
+
+    /* --- movilidad (las cuatro rutinas) --- */
+    couch: { name: "Couch stretch", sets: 1, reps: "2 min por lado", tag: "Parede",
+      cue: "Ajoelhado de costas para a parede, o joelho de trás no canto, o outro pé à frente em afundo. <strong>Encaixe a pelve antes de buscar mais amplitude</strong> — senão você alonga a lombar e não o quadríceps." },
+    pigeon: { name: "Postura do pombo", sets: 1, reps: "2 min por lado", tag: "Sem equipamento",
+      cue: "Para glúteo máximo e piriforme, que travam com as horas de selim e de asfalto. <strong>Respire e solte</strong>; dois minutos não são dois minutos de força." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES */
+  const WARMUP = ["swingFB", "swingLat", "sideRaise", "bridge", "balance"];
+  const STRENGTH = {
+    home: ["wallSit", "bulgarian", "slBridge", "revLunge", "copenhagen", "stepDown"],
+    gym: ["wallSitLoaded", "bulgarianW", "rdl", "legPress", "cableAbd", "cableAdd", "legExt"]
+  };
+  const ROLL = ["rollQuad", "rollTFL", "rollCalf"];
+  const MOBILITY = ["couch", "pigeon"];
+
+  const WHY = "Quando o glúteo médio está fraco, a pelve cai a cada apoio e o joelho vai para dentro. Isso tensiona a banda iliotibial e castiga o tendão patelar. Por isso aqui se treina glúteo médio para estabilizar a pelve, vasto medial para a patela correr alinhada, e cadeia posterior para compensar o domínio do quadríceps. O joelho não é o problema: é onde a conta é paga.";
+
+  const PLACE = { home: "Em casa · sem equipamento", gym: "Na academia" };
+
+  function build(place, roller) {
+    const pick = (ids) => ids.map((id) => {
+      const e = L[id];
+      if (!e) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({}, e);
+    });
+    const phases = [
+      { name: "Aquecimento", exercises: pick(WARMUP) },
+      { name: "Força", exercises: pick(STRENGTH[place]) }
+    ];
+    if (roller === "yes") phases.push({ name: "Rolo", exercises: pick(ROLL) });
+    phases.push({ name: "Mobilidade", exercises: pick(MOBILITY) });
+
+    return {
+      title: "Joelhos sem dor",
+      crumb: "Joelhos",
+      kicker: "Força",
+      subtitle: "Aquecimento, força e mobilidade. Termine cada série e toque no botão — o único relógio aqui é o descanso entre séries.",
+      context: PLACE[place] + (roller === "yes" ? " · com rolo" : ""),
+      why: WHY,
+      warning: "<strong>Duas vezes por semana</strong>, em dias de resistência leve. Nunca no dia anterior a uma sessão de qualidade ou a um longo. <br><br>Durante os exercícios pode-se sentir incômodo até <strong>3 de 10</strong>, e tem que estar igual ou melhor no dia seguinte. Se passar disso, ou se no outro dia estiver pior, reduza a amplitude ou a carga — não force.",
+      doneSub: "Pronto. Isso se paga em meses, não em sessões.",
+      phases: phases
+    };
+  }
+
+  return { build: build, library: L };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { place: "home", roller: "yes" };
+
+  document.querySelectorAll(".setup-opts").forEach((group) => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.STRENGTH_DATA = window.KNEE_ROUTINE.build(choice.place, choice.roller);
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/strength-tool.js";
+    document.body.appendChild(s);
+
+    // Reload rather than re-initialise: the engine holds its rest timer in
+    // closure with no teardown, and a stale interval firing under a second
+    // routine is a worse bug than a page load. Same call as the matrix.
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Trocar opções";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

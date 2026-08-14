@@ -1,6 +1,6 @@
 # Rodillas Sin Dolor — knee strength artifact
 
-**Status: v1 SHIPPED in Spanish, August 13, 2026** — `/members/rodillas/`. **Home doc for this tool and for the strength engine it introduced.**
+**Status: v1 SHIPPED in all three languages, August 13, 2026** — `/members/rodillas/`, `/members/en/knees/`, `/members/pt/joelhos/`. **Home doc for this tool and for the strength engine it introduced.**
 
 **Last updated:** August 13, 2026.
 
@@ -42,5 +42,10 @@ Two questions — where (home / gym) × foam roller (yes / no) — build one of 
 
 ## Open
 
-- **Not translated.** EN and PT next, same sequence as the activation matrix. The engine chrome is already done; only the page copy needs writing.
-- **Iván has not run it yet.** Four routines verified end to end in a browser; none verified by a human doing the reps.
+- **Iván has not run it yet.** Twelve routines (4 × 3 languages) walked end to end in a browser, tapping through every set to the done screen; none verified by a human doing the reps. **This is the only thing standing between v1 and "finished".**
+- **The two omitted exercises** (eccentric soleus, knee-flexion hamstring) — revisit only if Iván raises them.
+- **The red-flag box ends with "Escribime y lo vemos"** / "Write to me and we'll sort it out" / "Me escreva e a gente vê". *That is a promise of a reply, in three languages, from a page that any subscriber can reach.* Fine at 2 subscribers; worth re-reading if that number moves.
+
+## Translation note
+
+EN and PT shipped the same day. **The three pages are structurally identical** — same library keys, same four routine lists, same build function; only strings differ. A change to the routine design goes into all three in one pass. UI chrome was already three-language (`strengthUi.json`), so this was page copy only, which is exactly what building the engine multilingual on day one bought.

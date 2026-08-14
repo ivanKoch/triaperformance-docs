@@ -1,0 +1,211 @@
+---
+layout: layouts/base.njk
+pageCss: "members-fuerza.css"
+title: "Pain-Free Knees — Triaperformance All-Access"
+---
+{#- KNEE STRENGTH TOOL, v1 — English sibling of /members/rodillas/. Same 4
+    routines, same library structure; only the copy changes.
+
+    Original note follows.
+
+    KNEE STRENGTH TOOL, v1 — built Aug 13, 2026 from Iván's `knee pain
+    artifact.md`. Home doc: `knee-strength-brief.md`.
+
+    Two questions (where × foam roller) → one of 4 routines. Same setup-then-
+    build pattern as the activation matrix, but on the NEW strength engine
+    (sets × reps + rest timer), because this is a strength prescription and a
+    40-second countdown would tell someone to keep going when the prescription
+    is eight good reps.
+
+    Structure, same reason as the matrix: one exercise LIBRARY, routines are
+    lists of ids. Warm-up and mobility are shared by all four; only the strength
+    block and the foam-rolling block change.
+
+    Three additions to Iván's source doc, chosen by him: the isometric wall sit
+    (the one thing here that helps an athlete who hurts today), single-leg
+    balance, and gym adductor work. Two more were offered and NOT taken —
+    eccentric calf/soleus work and knee-flexion hamstring work — do not re-add
+    them without asking; the omission is a decision, not an oversight. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/en/#biblioteca">Library</a> / Knees</div></div>
+
+  <div class="setup-head">
+    <span class="label">Strength</span>
+    <h1>Pain-free knees</h1>
+    <p>Knee pain in runners and cyclists almost never starts at the knee. It starts higher up — glute medius, quads, hip — and the knee is where the bill lands. This trains the right place.</p>
+  </div>
+
+  <div class="setup-warn">
+    <strong>Before you start.</strong> This is preventive strength work, not treatment. <strong>If you have swelling, if the knee locks or gives way, if pain wakes you at night, or if it started after an impact or a twist, this is not what you need</strong> — you need someone to look at it. Write to me and we'll sort it out.
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Where are you training?</div>
+    <div class="setup-opts" data-axis="place">
+      <button type="button" class="setup-opt" data-val="home" aria-pressed="true">At home<span>no equipment</span></button>
+      <button type="button" class="setup-opt" data-val="gym" aria-pressed="false">At the gym<span>with weights</span></button>
+    </div>
+    <p class="setup-hint">Start at home even if you have a gym. The loaded version only adds something once the movement pattern is clean — loading a knee that caves inward just drives it further in.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Do you have a foam roller?</div>
+    <div class="setup-opts" data-axis="roller">
+      <button type="button" class="setup-opt" data-val="yes" aria-pressed="true">Yes</button>
+      <button type="button" class="setup-opt" data-val="no" aria-pressed="false">No</button>
+    </div>
+    <p class="setup-hint">Without a roller the routine is still complete: the rolling block drops out and the stretches stay, which is the part that gives you the most range back.</p>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Build my routine →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/strength-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.KNEE_ROUTINE = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY */
+  const L = {
+    /* --- entrada en calor (las cuatro rutinas) --- */
+    swingFB: { name: "Leg swings (front to back)", sets: 1, reps: "15 per side", tag: "Wall for support",
+      cue: "Hand on a wall, swing the leg forward and back. <strong>Build the range gradually</strong> — don't start at your maximum." },
+    swingLat: { name: "Lateral leg swings", sets: 1, reps: "15 per side", tag: "Wall for support",
+      cue: "Facing the wall, swing the leg side to side across the front of your body. Opens the adductors and wakes up the outer hip." },
+    sideRaise: { name: "Side-lying leg raises", sets: 1, reps: "20 per side", tag: "No equipment",
+      cue: "On your side, top leg straight and <strong>toes pointing slightly toward the floor</strong>. Raise slowly. It should burn on the side of the glute — if you feel it in the groin, you are rotating the leg." },
+    bridge: { name: "Glute bridges", sets: 2, reps: "15", rest: 30, tag: "No equipment",
+      cue: "Drive through your heels and <strong>hold 2 seconds at the top squeezing the glutes</strong>. The pause is the exercise; without it these are just reps." },
+    balance: { name: "Single-leg stance", sets: 1, reps: "30s per side", tag: "No equipment",
+      cue: "Standing on one leg, knee softly bent, eyes on a fixed point. <strong>Don't let the hip drop on the free side</strong> — that drop is exactly what happens to your pelvis at every footfall. If it feels easy, close your eyes." },
+
+    /* --- fuerza en casa --- */
+    wallSit: { name: "Wall sit (isometric)", sets: 3, reps: "45s", rest: 60, tag: "Wall",
+      cue: "Back against the wall, knees at ~90°, and <strong>press your heels into the floor as if trying to drag them backward</strong>. Hold. This is the fastest thing here for bringing knee pain down — if it is sore today, start here and you will find the rest of the routine hurts less." },
+    bulgarian: { name: "Bulgarian split squat", sets: 3, reps: "8-12 per leg", rest: 90, tag: "Chair or couch",
+      cue: "Back foot on the chair, chest tall. <strong>The front knee tracks over the middle toe, never inward</strong>. If it caves, shorten the range before you shorten the technique." },
+    slBridge: { name: "Single-leg glute bridge", sets: 3, reps: "10 per leg", rest: 60, tag: "No equipment",
+      cue: "Drive through the heel. <strong>If you feel it in your lower back, the pelvis has tipped forward</strong> — tuck it under and lower the height." },
+    revLunge: { name: "Reverse lunge to knee drive", sets: 3, reps: "12 per leg", rest: 60, tag: "No equipment",
+      cue: "Step back into the lunge and, without pausing, <strong>drive that knee to your chest in one motion</strong>. This is dynamic stability: half the exercise is not wobbling on the way up." },
+    copenhagen: { name: "Copenhagen plank (modified)", sets: 3, reps: "20-30s per side", rest: 45, tag: "Chair or couch",
+      cue: "Side plank with the top knee resting on the chair and <strong>the bottom leg lifted off the floor</strong>. Works the adductors, which are the counterweight to the IT band on the outside of the leg." },
+    stepDown: { name: "Eccentric step-down", sets: 3, reps: "10 per leg", rest: 60, tag: "Step",
+      cue: "Standing sideways on a step, lower the other foot toward the floor <strong>over 3-4 seconds</strong> and push back up quickly. The slow descent is the whole exercise — it targets the VMO, the muscle that keeps the kneecap tracking straight." },
+
+    /* --- fuerza en gimnasio --- */
+    wallSitLoaded: { name: "Wall sit (isometric)", sets: 3, reps: "45s", rest: 60, tag: "Wall · plate optional",
+      cue: "Same as at home, with a plate across your thighs if you want more. <strong>If the knee is sore today, do this first</strong>: the isometric brings the pain down and lets you train the rest with good technique instead of compensating." },
+    bulgarianW: { name: "Weighted Bulgarian split squat", sets: 3, reps: "8-10 per leg", rest: 90, tag: "Dumbbells",
+      cue: "The single best exercise for bulletproofing knees. <strong>Add weight only once all 10 reps happen without the knee caving</strong> — load amplifies the technique you already have, good or bad." },
+    rdl: { name: "Romanian deadlift", sets: 3, reps: "10-12", rest: 90, tag: "Barbell or dumbbells",
+      cue: "Hip hinge, not a squat: <strong>the hips travel back and the knees barely move</strong>. A strong posterior chain takes the braking load off the knee." },
+    legPress: { name: "Single-leg press", sets: 3, reps: "10 per leg", rest: 90, tag: "Leg press",
+      cue: "Foot high and slightly outward on the platform, to load the glute and VMO. <strong>Control the negative</strong>; no bouncing at the bottom." },
+    cableAbd: { name: "Cable hip abduction", sets: 3, reps: "12-15 per side", rest: 45, tag: "Low cable",
+      cue: "Ankle strap on the low pulley, stand sideways to the machine, sweep the leg outward. <strong>The torso stays still</strong> — if you lean away, drop the weight." },
+    cableAdd: { name: "Cable or machine adduction", sets: 3, reps: "12-15 per side", rest: 45, tag: "Cable or machine",
+      cue: "The pair to the abduction, and the one almost nobody does. <strong>Strong adductors balance the pull of the IT band</strong> and stabilise the pelvis from the inside. Full range, no bouncing." },
+    legExt: { name: "Leg extension (terminal range only)", sets: 3, reps: "15", rest: 45, tag: "Machine",
+      cue: "<strong>Only the top 30 degrees</strong>, from slightly bent to fully straight, moderate weight, squeezing hard at the top. Full range shears the knee joint; this slice isolates the VMO without charging you for it." },
+
+    /* --- rodillo --- */
+    rollQuad: { name: "Roll: quads", sets: 1, reps: "60-90s per side", tag: "Foam roller",
+      cue: "From the hip down to just above the kneecap. <strong>When you find a tender spot, stop there and bend and straighten the knee</strong> — that unglues the tissue far better than continuing to roll." },
+    rollTFL: { name: "Roll: TFL", sets: 1, reps: "60-90s per side", tag: "Foam roller",
+      cue: "The small muscle at the top and front of the hip, where the IT band originates. <strong>Do not roll the IT band down the side of your thigh</strong>: it is tendon, not muscle, and rolling it inflames it further. Roll up here — this is what tightens it." },
+    rollCalf: { name: "Roll: calves", sets: 1, reps: "60-90s per side", tag: "Foam roller",
+      cue: "Tight calves cost you ankle mobility, and whatever the ankle doesn't absorb, the knee does." },
+
+    /* --- movilidad (las cuatro rutinas) --- */
+    couch: { name: "Couch stretch", sets: 1, reps: "2 min per side", tag: "Wall",
+      cue: "Kneeling with your back to the wall, back knee in the corner, other foot forward in a lunge. <strong>Tuck the pelvis before you chase more range</strong> — otherwise you stretch your lower back, not the quad." },
+    pigeon: { name: "Pigeon pose", sets: 1, reps: "2 min per side", tag: "No equipment",
+      cue: "For glute max and piriformis, which lock up over hours in the saddle and on the road. <strong>Breathe and let go</strong>; two minutes is not two minutes of fighting it." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES */
+  const WARMUP = ["swingFB", "swingLat", "sideRaise", "bridge", "balance"];
+  const STRENGTH = {
+    home: ["wallSit", "bulgarian", "slBridge", "revLunge", "copenhagen", "stepDown"],
+    gym: ["wallSitLoaded", "bulgarianW", "rdl", "legPress", "cableAbd", "cableAdd", "legExt"]
+  };
+  const ROLL = ["rollQuad", "rollTFL", "rollCalf"];
+  const MOBILITY = ["couch", "pigeon"];
+
+  const WHY = "When the glute medius is weak, the pelvis drops at every footfall and the knee collapses inward. That tightens the IT band and punishes the patellar tendon. So this trains glute medius to stabilise the pelvis, VMO to keep the kneecap tracking straight, and posterior chain to offset quad dominance. The knee is not the problem: it is where the bill lands.";
+
+  const PLACE = { home: "At home · no equipment", gym: "At the gym" };
+
+  function build(place, roller) {
+    const pick = (ids) => ids.map((id) => {
+      const e = L[id];
+      if (!e) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({}, e);
+    });
+    const phases = [
+      { name: "Warm-up", exercises: pick(WARMUP) },
+      { name: "Strength", exercises: pick(STRENGTH[place]) }
+    ];
+    if (roller === "yes") phases.push({ name: "Rolling", exercises: pick(ROLL) });
+    phases.push({ name: "Mobility", exercises: pick(MOBILITY) });
+
+    return {
+      title: "Pain-free knees",
+      crumb: "Knees",
+      kicker: "Strength",
+      subtitle: "Warm-up, strength and mobility. Finish each set and tap the button — the only clock here is the rest between sets.",
+      context: PLACE[place] + (roller === "yes" ? " · with roller" : ""),
+      why: WHY,
+      warning: "<strong>Twice a week</strong>, on easy endurance days. Never the day before a quality session or a long one. <br><br>Discomfort up to <strong>3 out of 10</strong> during the exercises is fine, and it has to be the same or better the next day. Past that, or worse the next morning, cut the range or the load — don't push through it.",
+      doneSub: "Done. This one pays out in months, not sessions.",
+      phases: phases
+    };
+  }
+
+  return { build: build, library: L };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { place: "home", roller: "yes" };
+
+  document.querySelectorAll(".setup-opts").forEach((group) => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.STRENGTH_DATA = window.KNEE_ROUTINE.build(choice.place, choice.roller);
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/strength-tool.js";
+    document.body.appendChild(s);
+
+    // Reload rather than re-initialise: the engine holds its rest timer in
+    // closure with no teardown, and a stale interval firing under a second
+    // routine is a worse bug than a page load. Same call as the matrix.
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Change options";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}
