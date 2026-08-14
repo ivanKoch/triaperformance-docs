@@ -1,0 +1,81 @@
+{
+  "_comment": "THE SINGLE SOURCE FOR WHAT THE MEMBERS LIBRARY CONTAINS, keyed by language. Added Aug 13, 2026 after finding that all three All-Access sales pages described the members area as 'flexibility, kettlebell, fixing lower back pain' — one deleted that same day, two that never existed — while naming none of the eight real entries. The pages had been hand-written, so they decayed silently every time the library changed. Rendered by _includes/partials/library-showcase.njk. WHEN A TOOL SHIPS OR RETIRES, EDIT THIS FILE AND NOTHING ELSE ON THE MARKETING SIDE. Inventory of record (URLs, engines, retirements) stays in triaperformance-business-overview.md §Interactive tools; this file is the customer-facing wording of the same list. The n8n emails deliberately do NOT name individual tools — they say 'the library, and I add new tools every week' and link to the members home, which is why they were the only surface that did not rot. Keep them that way.",
+
+  "es": {
+    "heading": "La biblioteca del Área de Miembros",
+    "intro": "Herramientas interactivas que te armás en el momento, no PDFs para archivar. Todo está adentro de la suscripción, en español, inglés y portugués.",
+    "liveLabel": "Disponible ahora",
+    "soonHeading": "Lo que viene",
+    "soonIntro": "Sumo herramientas nuevas todas las semanas. Esto es lo que sigue en la lista:",
+    "live": [
+      { "tag": "Calculadora", "name": "Calculadora de Zonas", "desc": "Metés el resultado de tu test y salen tus siete zonas de ritmo, pulso y potencia en los tres deportes. Con el registro de tests para saber cuándo toca volver a medir." },
+      { "tag": "Rutina", "name": "Activación", "desc": "Respondés tres preguntas — deporte, cómo llegás, si tenés minibanda — y el circuito se arma solo. Del suelo a estar de pie, con timer por ejercicio." },
+      { "tag": "Rutina", "name": "Rodillas Sin Dolor", "desc": "Fuerza para blindar la rodilla: glúteo medio, vasto interno y cadena posterior. Elegís casa o gimnasio, con contador de series y descanso." },
+      { "tag": "Rutina", "name": "Aquiles Sin Dolor", "desc": "Carga progresiva para tendinopatía de aquiles, según dónde te duele exactamente. Con las reglas para saber cada día si te pasaste." },
+      { "tag": "Rutina", "name": "Core Sin Excusas", "desc": "Activación, core y movilidad en una sola rutina cronometrada. Sin equipo y sin más espacio que el largo de tu cuerpo — para viajes y semanas complicadas." },
+      { "tag": "Herramienta", "name": "Respiración en Caja", "desc": "Temporizador guiado de 3, 5 o 10 minutos para bajar revoluciones después de una sesión fuerte o antes de dormir." },
+      { "tag": "Guía", "name": "Carga de Entrenamiento", "desc": "TSS, CTL, ATL, TSB y el gráfico PMC explicados una vez y bien, con capturas reales de TrainingPeaks." },
+      { "tag": "Descargas", "name": "Guías en PDF", "desc": "Sesiones por zona, nutrición y preparación mental — para descargar cuando quieras." }
+    ],
+    "soon": [
+      { "name": "Ejecución de carrera y pacing", "desc": "Plan de carrera por distancia, del 5k al Ironman." },
+      { "name": "Nutrición y carga de carbohidratos", "desc": "Tu esquema de hidratos por sesión y la semana de carrera." },
+      { "name": "Rutina de espalda baja", "desc": "Para la lumbar que se queja después del sillín o del fondo." },
+      { "name": "Rutina de hombro", "desc": "Para nadadores: lo que la rodilla es al corredor, el hombro lo es en el agua." },
+      { "name": "Más herramientas de preparación mental", "desc": "Rutinas para la semana previa y para los momentos malos de la carrera." },
+      { "name": "Conversor de ritmos", "desc": "Equivalencias entre distancias y objetivos." }
+    ]
+  },
+
+  "en": {
+    "heading": "The Members Area library",
+    "intro": "Interactive tools you build in the moment, not PDFs to file away. All of it is inside the subscription, in English, Spanish and Portuguese.",
+    "liveLabel": "Available now",
+    "soonHeading": "What's coming",
+    "soonIntro": "I add new tools every week. This is what's next on the list:",
+    "live": [
+      { "tag": "Calculator", "name": "Training Zones Calculator", "desc": "Put in your test result and out come your seven pace, heart rate and power zones across all three sports. With the testing log that tells you when to retest." },
+      { "tag": "Routine", "name": "Activation", "desc": "Answer three questions — sport, how you're arriving, whether you have a mini-band — and the circuit builds itself. Floor to standing, timed per exercise." },
+      { "tag": "Routine", "name": "Pain-Free Knees", "desc": "Strength to bulletproof the knee: glute medius, VMO and posterior chain. Pick home or gym, with a set counter and rest timer." },
+      { "tag": "Routine", "name": "Pain-Free Achilles", "desc": "Progressive loading for Achilles tendinopathy, matched to exactly where it hurts. With the rules for knowing each day whether you overdid it." },
+      { "tag": "Routine", "name": "No-Excuses Core", "desc": "Activation, core and mobility in one timed routine. No equipment and no more space than your own body length — for travel and difficult weeks." },
+      { "tag": "Tool", "name": "Box Breathing", "desc": "A guided 3, 5 or 10 minute timer for bringing the system down after a hard session or before sleep." },
+      { "tag": "Guide", "name": "Training Load Explained", "desc": "TSS, CTL, ATL, TSB and the PMC chart explained once and properly, with real TrainingPeaks screenshots." },
+      { "tag": "Downloads", "name": "PDF guides", "desc": "Training zone sessions, plus nutrition and mental prep — downloadable whenever you want them." }
+    ],
+    "soon": [
+      { "name": "Race execution and pacing", "desc": "A race plan by distance, from 5k to Ironman." },
+      { "name": "Nutrition and carb loading", "desc": "Your carbohydrate targets per session and through race week." },
+      { "name": "Lower back routine", "desc": "For the back that complains after the saddle or the long run." },
+      { "name": "Shoulder routine", "desc": "For swimmers: what the knee is to the runner, the shoulder is in the water." },
+      { "name": "More mental prep tools", "desc": "Routines for the week before, and for the bad patches mid-race." },
+      { "name": "Pace converter", "desc": "Equivalents across distances and goals." }
+    ]
+  },
+
+  "pt": {
+    "heading": "A biblioteca da Área de Membros",
+    "intro": "Ferramentas interativas que você monta na hora, não PDFs para arquivar. Tudo dentro da assinatura, em português, espanhol e inglês.",
+    "liveLabel": "Disponível agora",
+    "soonHeading": "O que vem por aí",
+    "soonIntro": "Subo ferramentas novas toda semana. Isto é o que vem a seguir:",
+    "live": [
+      { "tag": "Calculadora", "name": "Calculadora de Zonas", "desc": "Você coloca o resultado do seu teste e saem as suas sete zonas de pace, frequência cardíaca e potência nos três esportes. Com o registro de testes para saber quando retestar." },
+      { "tag": "Rotina", "name": "Ativação", "desc": "Você responde três perguntas — esporte, como está chegando, se tem miniband — e o circuito se monta sozinho. Do chão até de pé, com timer por exercício." },
+      { "tag": "Rotina", "name": "Joelhos Sem Dor", "desc": "Força para blindar o joelho: glúteo médio, vasto medial e cadeia posterior. Você escolhe casa ou academia, com contador de séries e descanso." },
+      { "tag": "Rotina", "name": "Aquiles Sem Dor", "desc": "Carga progressiva para tendinopatia do aquiles, conforme onde exatamente dói. Com as regras para saber a cada dia se você passou do ponto." },
+      { "tag": "Rotina", "name": "Core Sem Desculpas", "desc": "Ativação, core e mobilidade em uma rotina cronometrada. Sem equipamento e sem mais espaço que o comprimento do seu corpo — para viagens e semanas complicadas." },
+      { "tag": "Ferramenta", "name": "Respiração em Caixa", "desc": "Timer guiado de 3, 5 ou 10 minutos para baixar a rotação depois de uma sessão forte ou antes de dormir." },
+      { "tag": "Guia", "name": "Carga de Treino Explicada", "desc": "TSS, CTL, ATL, TSB e o gráfico PMC explicados uma vez e direito, com telas reais do TrainingPeaks." },
+      { "tag": "Downloads", "name": "Guias em PDF", "desc": "Sessões por zona, mais nutrição e preparação mental — para baixar quando quiser." }
+    ],
+    "soon": [
+      { "name": "Execução de prova e pacing", "desc": "Plano de prova por distância, do 5k ao Ironman." },
+      { "name": "Nutrição e carga de carboidratos", "desc": "Suas metas de carboidrato por sessão e na semana da prova." },
+      { "name": "Rotina de lombar", "desc": "Para a lombar que reclama depois do selim ou do longo." },
+      { "name": "Rotina de ombro", "desc": "Para nadadores: o que o joelho é para o corredor, o ombro é na água." },
+      { "name": "Mais ferramentas de preparação mental", "desc": "Rotinas para a semana anterior e para os momentos ruins da prova." },
+      { "name": "Conversor de ritmos", "desc": "Equivalências entre distâncias e objetivos." }
+    ]
+  }
+}

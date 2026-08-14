@@ -871,6 +871,16 @@ Home doc: `achilles-brief.md`. Second tool on the strength engine, built the sam
 
 **A test bug worth recording, because it produced a false pass.** The first verification run reported 16/16 green while never once selecting the jump block. `data-val="yes"` exists in two different option groups (roller and stage), so an unscoped `[data-val="yes"]` selector always clicked the first one. **The page was correct — its handlers are scoped per group; the check was not, and it reported success for a state it never reached.** Selectors in these runs are now scoped by `[data-axis]`. *A check that cannot reach a state cannot verify it, and will happily say it did.*
 
+## 32. The All-Access pages stopped being hand-written (August 13, 2026)
+
+**The failure being fixed.** All three All-Access sales pages described the members area as *"flexibility, kettlebell, fixing lower back pain, and more"*. Kettlebell was deleted that morning; the other two had never existed. The same pages sold the retired training-zones guide as a headline inclusion and named **none** of the eight real entries. *The pages were not neglected — they were hand-written, in three languages, so every library change silently invalidated three files that nobody was looking at.*
+
+**The fix is structural, not editorial.** `site/_data/library.json` now holds the customer-facing list (live entries + a "what's coming" roadmap) in ES/EN/PT, and `partials/library-showcase.njk` renders it into all three pages. ***Shipping a tool is one edit to one file; every sales page updates.*** The technical inventory stays in `triaperformance-business-overview.md` — that file owns URLs, engines and retirements, this one owns how the same list is worded to a buyer. **Two files, two audiences, one edit each.**
+
+**The "what's coming" block is deliberately not cards.** Cards would give unbuilt things the same visual weight as built ones, which is a milder version of the exact mistake being corrected. It renders as a dashed-border list that reads as a roadmap the coach is working through: race pacing, nutrition and carb loading, lower back, shoulder, more mental prep, pace converter.
+
+***The emails were checked and deliberately barely changed, and the reason is the lesson.*** The n8n welcome emails never decayed, because they never named a tool — they say "the calculators and guides, and I add new tools every week", which stays true whatever ships. **The surface that named specifics rotted; the surface that named categories did not.** So the standing split is now: *emails name categories plus one durable starting point (the zones calculator, since everything else depends on zones being right); sales pages name everything and are generated.* The only email change is adding that first step, since a subscriber previously received a password and a link with nothing telling them what to do first. Paste file: `automation/members-library-email-paste.txt`.
+
 ## Open items — retired as a section (August 8, 2026)
 
 **This section no longer exists. Every open item across the project lives in `open-loops.md`, and closed ones in `open-loops-archive.md`. Do not start a second list here.**

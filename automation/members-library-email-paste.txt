@@ -1,0 +1,117 @@
+MEMBERS-AREA PARAGRAPH — email copy update, August 13, 2026
+===========================================================
+
+WHY THIS IS SMALL ON PURPOSE
+----------------------------
+The three All-Access sales pages had to be rebuilt today because they hand-wrote
+the tool list and decayed: they were still selling "flexibility, kettlebell,
+fixing lower back pain" months after none of those existed.
+
+The emails did NOT decay, and the reason is worth keeping: they never named a
+single tool. They say "the calculators and guides, and I add new tools every
+week", which stays true whatever ships.
+
+*** So the rule going forward: emails name CATEGORIES and ONE durable starting
+point. They never name the current line-up. The sales pages name everything and
+are generated from site/_data/library.json. ***
+
+The only change below is adding a first step. A subscriber currently gets a
+password and a link with nothing telling them what to do first, which is the
+difference between "I have access" and "I used it".
+
+Both nodes live in: subscription-lifecycle-automation.json
+
+
+-------------------------------------------------------------------
+NODE 1 — "Build All-Access Welcome"     (the paying-subscriber email)
+-------------------------------------------------------------------
+
+SPANISH — find this line:
+
+Ahí están las calculadoras y las guías, y subo herramientas nuevas todas las semanas.
+
+replace with:
+
+Ahí están las herramientas: calculadora de zonas, activación, rutinas de fuerza
+para rodilla y aquiles, core, respiración y las guías en PDF. Subo herramientas
+nuevas todas las semanas.
+Si no sabés por dónde arrancar: empezá por la calculadora de zonas. Todo lo demás
+se apoya en tener bien tus zonas.
+
+
+ENGLISH — find this line:
+
+That's where the calculators and guides live, and I add new tools every week.
+
+replace with:
+
+That's where the tools live: zones calculator, activation builder, knee and
+Achilles strength routines, core, breathing and the PDF guides. I add new tools
+every week.
+If you don't know where to start: start with the zones calculator. Everything
+else rests on having your zones right.
+
+
+PORTUGUESE — find this line:
+
+É lá que ficam as calculadoras e os guias, e eu subo ferramentas novas toda semana.
+
+replace with:
+
+É lá que ficam as ferramentas: calculadora de zonas, ativação, rotinas de força
+para joelho e aquiles, core, respiração e os guias em PDF. Subo ferramentas novas
+toda semana.
+Se não souber por onde começar: comece pela calculadora de zonas. Todo o resto se
+apoia em ter as suas zonas certas.
+
+
+-------------------------------------------------------------
+NODE 2 — "Build Welcome Email"     (the 1:1 coaching athlete)
+-------------------------------------------------------------
+
+SPANISH — find this line:
+
+Ahi estan las calculadoras, guias y herramientas. Guarda este correo: es tu
+
+replace with:
+
+Ahi estan las calculadoras, rutinas y guias. Empeza por la calculadora de zonas
+cuando hagamos tu primer test. Guarda este correo: es tu
+
+
+ENGLISH — find this line:
+
+That's where the calculators, guides and tools live. Keep this email: it's
+
+replace with:
+
+That's where the calculators, routines and guides live. Start with the zones
+calculator once we do your first test. Keep this email: it's
+
+
+PORTUGUESE — find this line:
+
+E la que estao as calculadoras, guias e ferramentas. Guarde este email: e a
+
+replace with:
+
+E la que estao as calculadoras, rotinas e guias. Comece pela calculadora de zonas
+quando fizermos o seu primeiro teste. Guarde este email: e a
+
+
+-----------------------------------------------------------------------
+NOTE ON THE COACHING EMAIL: it is deliberately ASCII (no accents) because
+that workflow strips them. Do not "fix" the missing accents above — they
+match the surrounding text on purpose.
+-----------------------------------------------------------------------
+
+
+AFTER YOU PASTE
+---------------
+Tell me and I mirror both into the reference JSON in the repo. The n8n instance
+is the source of truth; the repo copy is documentation, and it is only correct
+once you have actually made the change.
+
+CHECK IT WORKED: the reliable test is a real subscription event, not a manual
+node run — but at minimum, run the node once and read the `body` field in the
+output for each of the three languages.

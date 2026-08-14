@@ -109,3 +109,39 @@ h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 .cta-final .btn-primary { background: var(--white); color: var(--blue); }
 
 .cta-final .btn-primary:hover { background: var(--wash); }
+
+/* --- members library showcase (Aug 13, 2026) -----------------------------
+   Rendered from _data/library.json by partials/library-showcase.njk. Reuses
+   .include-card so the library reads as part of "what's included" rather than
+   as a separate pitch. */
+.lib-label {
+  display: block; text-align: center;
+  font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 20px;
+}
+
+.lib-grid { margin-bottom: 48px; }
+
+/* Deliberately not cards. What is coming should read as a roadmap the coach is
+   working through, not as more product — cards would make unbuilt things look
+   equal in weight to built ones, which is the exact mistake this page was
+   making before. */
+.lib-soon {
+  border: 1px dashed var(--mist); border-radius: 8px;
+  padding: 28px 32px; max-width: 720px; margin: 0 auto;
+}
+.lib-soon-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.lib-soon-intro { color: var(--slate); font-size: 15px; margin-bottom: 16px; }
+.lib-soon-list { list-style: none; padding: 0; margin: 0; }
+.lib-soon-list li {
+  font-size: 15px; color: var(--slate); line-height: 1.55;
+  padding: 8px 0 8px 20px; position: relative;
+}
+.lib-soon-list li::before {
+  content: "→"; position: absolute; left: 0; color: var(--blue); font-weight: 700;
+}
+.lib-soon-list strong { color: var(--ink, #1e2019); }
+
+@media (max-width: 640px) {
+  .lib-soon { padding: 22px 20px; }
+}
