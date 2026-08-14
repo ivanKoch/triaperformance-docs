@@ -1,21 +1,20 @@
 # Content engine — research agent + review page
 
 **Status:** LIVE. *Corrected Aug 13, 2026 — this line read "written, nothing deployed. July 27, 2026" for two and a half weeks after the fact. Both agents plus translation have been on cron since Aug 4, and the admin approval page (`/admin/ideas`, `/admin/drafts`) is running. Confirmed by Iván. **The stale line matters because it is the first line of the file:** anyone deciding whether to build on this engine read "nothing deployed" and stopped.*
-**Scope:** research agent, writer agent (including translation) and the approval surface — Gate A at `/admin/ideas`, Gate B at `/admin/drafts`. *Also corrected Aug 13, 2026: this read "No writer, no publisher"; `writer_agent.py` has been on cron since Aug 4.* *Update, Aug 13, 2026 — **Iván can now submit his own ideas**: `GET/POST /admin/ideas/new`, in `admin_service/app.py`. They insert as `APPROVED` rather than `PROPOSED` (Gate A filters the agent's guesses and is meaningless for an idea he wrote himself) with `score = 100`, so they land straight in `ideas_awaiting_draft` ahead of agent proposals. **The writer agent needed no change.** `cta_target` carries a datalist of the eight members-tool paths, which is how an article gets aimed at a specific tool.*
+**Scope:** research agent, writer agent (including translation) and the approval surface — Gate A at `/admin/ideas`, Gate B at `/admin/drafts`. *Also corrected Aug 13, 2026: this read "No writer, no publisher"; `writer_agent.py` has been on cron since Aug 4.* *Update, Aug 13, 2026 — **Iván can now submit his own ideas**: `GET/POST /admin/ideas/new`, in `admin_service/app.py`. They insert as `APPROVED` rather than `PROPOSED` (Gate A filters the agent's guesses and is meaningless for an idea he wrote himself) with `score = 100`, so they land straight in `ideas_awaiting_draft` ahead of agent proposals. **The writer agent needed no change.** `cta_target` carries a datalist of the eight members-tool paths, which is how an article gets aimed at a specific tool. **Deployed and confirmed the same evening** — container rebuilt, health check green, a real idea saved through the form and showing as `APPROVED`.*
 
-**Deploy — this is a repo file like every other VPS script, so Claude edits it and Iván ships it:**
+**Deploy — this is a repo file like every other VPS script, so Claude edits it and Iván ships it.** *(Corrected Aug 13, 2026, within the hour: this block first said `docker compose ps` / `docker compose up -d --build`. **There is no compose file — `tp-admin` runs via `docker run`**, and `docker compose ps` in the repo directory returns "no configuration file provided". The commands were also a second copy of Step 4, which is how runbooks drift. Deploy now points at the procedure that owns it.)*
 
 ```bash
 # Mac
 cd ~/triaperformance-docs && git add -A && git commit -m "..." && git push
 # VPS
 cd ~/.hermes/triaperformance-docs && git fetch origin && git reset --hard origin/main
-docker compose ps                                   # confirm the service name first
-docker compose up -d --build <admin-service-name>
-docker compose logs --tail 30 <admin-service-name>
 ```
 
-Then open `/admin/ideas/new`, save one, and confirm the writer can see it:
+Then **rebuild the image and recreate the container using Step 4 below** — and read the environment warning in that step first, not after. Docker fixes env at `docker run`, so anything set on the live container and absent from Step 4 is gone the moment you `docker rm -f`. *That has already happened once here: `PUBLISH_WEBHOOK` was live on the container and missing from the runbook, and the thing it silently dropped was the entire publishing step.*
+
+Once it is up, open `/admin/ideas/new`, save one, and confirm the writer can see it:
 
 ```bash
 docker exec -i analytics-postgres psql -U analytics -d content \
