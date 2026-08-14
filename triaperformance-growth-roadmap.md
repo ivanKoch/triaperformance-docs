@@ -86,6 +86,22 @@ Not "don't grow" — "don't let growth quietly become a second full-time job."
 - Don't push CoachMatch acquisition harder before the CRM/lead pipeline exists to catch leads reliably.
 - Keep the "don't chase weak leads" instinct — a lead that needs excessive convincing isn't worth the hours.
 
+## The members library became a real product — August 13, 2026
+
+**What changed in one day.** The library went from **ten Spanish-only pages** to **eight entries in each of three languages**. Three tools were built (activation matrix, knees, Achilles), one was rewritten (training load), one downloads page went dark and gained EN/PT siblings, and **five pages were retired** (`zonas`, `tests`, `carrera`, `kettlebell`, `nutricion`). Two engines now exist as owned code — timed circuits and sets × reps. Full inventory: `triaperformance-business-overview.md` §Interactive tools.
+
+**Why this is a growth entry and not just a build log.** All-Access has always been *plans + TrainingPeaks Premium + extras*, and the extras were thin enough that the pricing argument had to be made on cost — the worked example in `pricing-and-positioning.md` beats Premium-plus-plans on price, not on difference. **The library is the first component of the subscription that a subscriber cannot buy anywhere else at any price.** That is a different kind of argument and it did not exist yesterday.
+
+***And it is currently worth nothing commercially.*** The product improved; the communication did not. All three All-Access pages still describe a members area of *"flexibility, kettlebell, fixing lower back pain"* — one deleted that same day, two that never existed — while naming none of the eight real entries. **Every page in the library is `noindex` behind the gate**, so a prospect cannot see the evidence and the sales page cannot show it. *At 2 subscribers the constraint on this product has always been distribution rather than price; today improved the thing being distributed and left the distribution untouched.*
+
+**The sequence that follows from that, cheapest first:**
+
+1. **Rewrite the three All-Access "Qué incluye" sections** from the real inventory. An hour, no new claims needed, and it stops the page being actively wrong.
+2. **Give a prospect something to touch.** The public zone calculator already proves this works — it is indexed and a stranger can use it. One more ungated tool, or real screenshots on the All-Access page, converts an assertion into evidence.
+3. **Tell the people who already have access.** The members announcement email has been drafted and unsent since early August (`members-area-announcement-2026-08.md`); there are athletes holding credentials they have never been told about. *This is the only step with an audience that has already paid.*
+
+*None of the three requires building anything.*
+
 ## New product idea: AI Coach
 A real gap in the current ladder, between static Plans and human coaching: an AI-guided self-coaching product built on Iván's actual methodology — training frameworks, fueling strategy, coaching judgment — encoded as a system prompt and knowledge base an athlete chats against, not a generic AI wrapper. Realistic build path: the "Claude in artifacts" capability (an artifact that calls the Anthropic API directly, using Iván's own encoded methodology as the system prompt) makes this a buildable real product, not just a concept.
 

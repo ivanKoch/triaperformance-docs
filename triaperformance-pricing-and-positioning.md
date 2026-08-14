@@ -39,7 +39,7 @@ Validated by reviews: adaptation-to-schedule/travel is the most-mentioned theme 
 | Tier | Price | What it is | Status |
 |---|---|---|---|
 | Passive plans | ~$60 one-time | Static plans, 4–24 weeks, 3 languages | Live, 303 listings |
-| All-Access | $29.99–39.99/mo | Plans + TrainingPeaks Premium + light extras | Live, dormant (2 subscribers) |
+| All-Access | $29.99–39.99/mo | Plans + TrainingPeaks Premium + a real tools library (see below) | Live, dormant (2 subscribers) |
 | AI Coach *(proposed)* | TBD, likely $25–40/mo | AI-guided self-coaching on Iván's own methodology | Not built |
 | 1:1 coaching | $75–149/mo | Weekly check-in, on-request adjustments/analysis, WhatsApp | Live — price set by segment, see above |
 
@@ -110,6 +110,12 @@ The Portuguese discount is historical (weak BRL made USD pricing feel expensive)
 | Portuguese | https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a | "Acesso Total: Planos de Treino (Corrida + Ciclismo + Triatlo)" | $29.99 | 1 | No — existing subscriber |
 
 Subscription flow: athlete pays via TrainingPeaks Payments checkout → TP links them to Iván's coach profile, grants TrainingPeaks Premium, and grants access to **the entire plan catalog**. *(Resolved Aug 2, 2026 — this line previously said "the plans Iván has selected into the offering (not the entire catalog — exact scope not yet documented)." Confirmed by Iván: all plans are included and it is safe to claim so in marketing copy. The old caveat is retired.)* Same product-in-TP-Payments mechanism as the 1:1 coaching plans, just a different product.
+
+***Value proposition update — August 13, 2026.*** *The third component of All-Access stopped being "light extras".* The members library went from ten Spanish-only pages to **eight entries in each of three languages** in one day (inventory owned by `triaperformance-business-overview.md`): a zones calculator, an adaptive activation builder, knee and Achilles loading programmes, a core routine, a breathing tool, a training-load guide, and downloads. **This is the first time the subscription has something that is neither a plan nor TrainingPeaks** — i.e. the first component a subscriber cannot buy anywhere else, at any price.
+
+*Why that matters for pricing rather than just for product:* the worked example below shows All-Access competing on **price** against Premium-plus-plans. It has never had an argument that competes on **difference**. It does now, and the honest version of it is narrow — the tools are worth something to an athlete who is injured, travelling, or unsure what their zones are, which is most athletes some of the time.
+
+🚨 ***The public All-Access page does not say any of this, and what it does say is wrong.*** All three language versions still describe the members area as *"flexibility, kettlebell, fixing lower back pain"* — **kettlebell was deleted on August 13, 2026 and the other two have never existed** — and still sell the retired training-zones guide as a headline inclusion. **The page sells a library that does not exist while the one that does is invisible.** Logged in `open-loops.md`; until it is fixed, none of the above is a value proposition, it is an internal fact.
 
 **Value framing (from Iván, Jul 2026):** TP Premium alone runs $19.95/mo (monthly), $16.33/mo (quarterly), $11.25/mo (annual). A consistent, single-goal athlete on annual Premium + one $50 plan every ~12 weeks (~$17/mo amortized) is already near the $39.99 All-Access price on their own — so the subscription's real edge is for anyone *not* that profile: multi-sport athletes, athletes switching goals mid-cycle (e.g. a fast 5K then a 10K a few months later), or anyone still on monthly Premium pricing. Worked example: 3 months of monthly Premium ($19.95×3 = $59.85) + a 5K plan ($40) + a 10K plan ($50) = $149.85 over 3 months (~$50/mo) — well above All-Access's flat $39.99/mo, which also includes free plan-swapping. **"All plans included" is an approved claim** (confirmed by Iván, Aug 2, 2026) — use it. Every plan in the catalog, in every language, plus unlimited swapping between them.
 
