@@ -1,7 +1,7 @@
 # Content engine — research agent + review page
 
-**Status:** written, nothing deployed. July 27, 2026.
-**Scope:** Agent 1 (research) and the approval surface. No writer, no publisher.
+**Status:** LIVE. *Corrected Aug 13, 2026 — this line read "written, nothing deployed. July 27, 2026" for two and a half weeks after the fact. Both agents plus translation have been on cron since Aug 4, and the admin approval page (`/admin/ideas`, `/admin/drafts`) is running. Confirmed by Iván. **The stale line matters because it is the first line of the file:** anyone deciding whether to build on this engine read "nothing deployed" and stopped.*
+**Scope:** research agent, writer agent (including translation) and the approval surface — Gate A at `/admin/ideas`, Gate B at `/admin/drafts`. *Also corrected Aug 13, 2026: this read "No writer, no publisher"; `writer_agent.py` has been on cron since Aug 4.* **Still absent: any way for Iván to submit his own idea.** The only producer of `content_ideas` rows is the research agent; the admin service has a decide route and no create route, so an idea of his own reaches the pipeline only via a hand-written SQL INSERT — which in practice means it does not. Logged in `open-loops.md`.
 
 The research agent proposes ideas. You approve them in batches on a private page. That's it — nothing writes or publishes yet, deliberately. The point of stopping here is to find out whether the ideas are any good before automating anything downstream, because bad ideas written well are still bad articles.
 

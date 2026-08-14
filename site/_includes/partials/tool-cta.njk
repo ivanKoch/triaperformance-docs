@@ -1,0 +1,27 @@
+{# Contextual "here is the tool for this" box inside an article.
+   Driven by one line of front matter: `toolCta: knees`.
+
+   Why it exists: on Aug 13, 2026 only the threshold article linked a tool. The
+   marathon, durability, volume and cycling articles all ranked, took traffic,
+   and pointed at nothing in the members library — the cheapest distribution the
+   business owns, entirely unused.
+
+   Where it links matters as much as that it links. Gated tools point at the
+   All-Access library anchor, NOT at the tool: sending a public reader to a login
+   wall converts nothing and reads as a bait. The zones calculator has a real
+   public version, so that one goes straight to the tool. Both destinations, and
+   the wording, come from site/_data/library.json — the same file the sales pages
+   render from, so a URL change lands everywhere at once. #}
+{%- if toolCta %}
+{%- set lib = library[lang] or library.es -%}
+{%- for item in lib.live -%}
+{%- if item.key == toolCta %}
+<aside class="tool-cta">
+  <span class="tool-cta-label">{{ lib.ctaLabel }}{% if item.gated %} · {{ lib.ctaGated }}{% endif %}</span>
+  <h3>{{ item.name }}</h3>
+  <p>{{ item.desc }}</p>
+  <a href="{{ item.url }}">{% if item.gated %}{{ lib.ctaSee }}{% else %}{{ lib.ctaOpen }}{% endif %}</a>
+</aside>
+{%- endif %}
+{%- endfor %}
+{%- endif %}

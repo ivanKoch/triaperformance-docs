@@ -86,6 +86,29 @@ Not "don't grow" — "don't let growth quietly become a second full-time job."
 - Don't push CoachMatch acquisition harder before the CRM/lead pipeline exists to catch leads reliably.
 - Keep the "don't chase weak leads" instinct — a lead that needs excessive convincing isn't worth the hours.
 
+## When to promote the library — the launch sequence (August 13, 2026)
+
+**The readiness question has an empirical answer nobody has yet.** Of ~35 1:1 athletes holding live members tokens, **two have ever opened the members area** (`members-area-announcement-2026-08.md`), and **zero people have completed any routine built today**. Whether a 19-minute activation or a 40-set Achilles session is right cannot be decided from a data file. *So "is it good to go" is not a judgement call being deferred — it is a measurement that has not been taken.*
+
+**Iván's own framing is the unlock, and it is stronger than a soft launch.** His 1:1 athletes get the library free; the frame is *"I'm building these, take a look and tell me what you think."* That does three things at once: it makes rough edges participatory rather than disappointing, it is the only version where "the knee routine is too long" arrives as a **win**, and ***it is the only way to generate the raw material any public promotion needs*** — you cannot post that athletes are using something until athletes are using it.
+
+**The first move is already written.** The announcement email in `members-area-announcement-2026-08.md` has been drafted and unsent since early August, addresses the 33 athletes who have never been told they have access, and doubles as the free token-rotation window. **One send closes an access gap, a security item, and the feedback question.** Nothing needs building.
+
+### Why heavy promotion is not the next step
+
+**The funnel has no middle.** Cold traffic → gated sales page → $39.99/mo. There is no free, public artefact between a stranger and a subscription. The public zone calculator is the *only* tool a non-subscriber can touch, and it proves the pattern works — it is indexed and usable. Sending Instagram or GBP traffic at a paywall before that middle exists spends attention to demonstrate nothing.
+
+**And there is free distribution already owned and unused.** Only the threshold article links the calculator. The marathon, durability, Norwegian-method and cycling articles rank, take traffic, and link to no tool at all. *That is the cheapest promotion available, it is entirely internal, and it should happen before a single paid or social impression.*
+
+### Sequence, cheapest first
+
+1. **Iván runs one routine himself, on a phone.** The three open content questions (activation length, knee volume, Achilles volume) are unanswerable any other way. One evening.
+2. **Send the announcement email** to the 35 1:1 athletes, feedback framing, tokens rotated in the same pass. **Trigger for step 3: five athletes have finished a routine and nothing structural came back.**
+3. **Wire the existing articles to the tools**, and put one more tool in front of the paywall. Only then does a post have somewhere to land.
+4. **Then Instagram and GBP.** *Channel note:* GBP is local and high-intent — it feeds 1:1 coaching, which is the $2,773 line, not a global subscription. Instagram should carry the **coaching content the tools are made of** (the knee and Achilles cues are strong short-form on their own) with the tool as the payoff rather than the hook. **Point promotion at Spanish:** it is where the audience is, it is the higher-margin price, English has never had a subscriber, and the single real All-Access customer is Portuguese at the lowest price and worst margin.
+
+*Nothing in steps 1–3 requires building a new tool.*
+
 ## The members library became a real product — August 13, 2026
 
 **What changed in one day.** The library went from **ten Spanish-only pages** to **eight entries in each of three languages**. Three tools were built (activation matrix, knees, Achilles), one was rewritten (training load), one downloads page went dark and gained EN/PT siblings, and **five pages were retired** (`zonas`, `tests`, `carrera`, `kettlebell`, `nutricion`). Two engines now exist as owned code — timed circuits and sets × reps. Full inventory: `triaperformance-business-overview.md` §Interactive tools.
