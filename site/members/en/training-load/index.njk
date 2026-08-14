@@ -1,0 +1,189 @@
+---
+layout: layouts/base.njk
+pageCss:
+  - members.css
+  - members-carga.css
+
+title: "Training Load Explained — Triaperformance All-Access"
+---
+{#- English sibling of /members/carga/, Aug 13, 2026. Same four corrections, same
+    two screenshots — Iván's own real TrainingPeaks data. Original note follows.
+
+    Rewritten Aug 13, 2026 from Iván's `Metricas de training peaks.md`, with four
+    corrections made on the way in — see the dated note in
+    `ai-infrastructure-documentation.md` §28. The two screenshots are Iván's own
+    real TrainingPeaks data from Aug 13, 2026; the Fitness 91 / Fatiga 96 /
+    Forma 13 numbers are quoted in the body on purpose, because the whole point
+    of that section is that 91 − 96 does not equal 13. If the image is ever
+    swapped, the numbers in the prose have to move with it. -#}
+<header class="artifact-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/members/en/#biblioteca">Library</a> / Training Load</div>
+    <span class="label">Guide</span>
+    <h1>Training Load Explained</h1>
+    <p>IF, TSS, CTL, ATL, TSB and the PMC chart — the numbers that show up constantly in TrainingPeaks, explained once so you don't have to ask every time.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="callout callout--warn">
+      <h3 class="callout-title">Before you look at a single chart: your threshold</h3>
+      <p>This entire model depends on one thing: your threshold being set correctly. If your FTP, your threshold pace or your threshold HR is out of date or badly measured, your IF is false, your TSS is miscalculated, and your fatigue and form are telling you a story that never happened. <strong>This isn't step one. It's step zero.</strong></p>
+      <p>Without it these numbers aren't slightly off — they're useless. And the error is invisible, because a miscalculated TSS looks exactly like a correct one.</p>
+      <p>Two places to fix it, in this order:</p>
+      <ul>
+        <li><a href="/en/blog/threshold-training-without-lactate-strips/">Threshold training without lactate strips</a> — what threshold is, how to test it properly and how often to retest.</li>
+        <li><a href="/members/en/training-zones-calculator/">Training Zones Calculator</a> — put in your test result and out come your seven zones across all three sports, plus the log that tells you when it's time to retest.</li>
+      </ul>
+    </div>
+
+    <h2>1. Session metrics</h2>
+    <p>These two tell you how hard today's session was.</p>
+
+    <h3>IF — Intensity Factor</h3>
+    <p>How intense the session was relative to your threshold. An IF of 1.0 means you held 100% of threshold for the whole session. An IF of 0.50 means you went at half. It's a number relative to you: the same easy run is IF 0.65 for one athlete and IF 0.85 for another.</p>
+
+    <h3>TSS — Training Stress Score</h3>
+    <p>The total physiological cost of the session: duration times intensity, in one number. The reference worth memorising is <strong>exactly one hour at your threshold = 100 TSS</strong>. Everything else arranges itself around that.</p>
+
+    <h4>Why intensity counts for so much more than time</h4>
+    <p>TSS doesn't add intensity, it squares it. Which is why the duration needed to reach the same stress explodes the moment you ease off. Three sessions that produce exactly <strong>50 TSS</strong>:</p>
+    <table class="tp-table">
+      <thead><tr><th>Session</th><th>IF</th><th>Duration</th><th>TSS</th></tr></thead>
+      <tbody>
+        <tr><td>Right at your threshold</td><td>1.00</td><td>30 min</td><td>50</td></tr>
+        <tr><td>Moderate aerobic</td><td>0.71</td><td>1 h</td><td>50</td></tr>
+        <tr><td>Recovery / very easy</td><td>0.50</td><td>2 h</td><td>50</td></tr>
+      </tbody>
+    </table>
+    <p class="fineprint">Halving your IF (1.00 to 0.50) doesn't double the time needed — it quadruples it. That's the squared part of the formula, and it's also why a week of pure easy volume accumulates far less TSS than how tired it makes you feel.</p>
+
+    <h2>2. Accumulated metrics</h2>
+    <p>A single session doesn't make you faster. These three look at how daily TSS stacks up across weeks.</p>
+
+    <h3>CTL — Chronic Training Load ("Fitness")</h3>
+    <p>A <strong>weighted</strong> average of your daily TSS over a long window — around 42 days by default. Weighted, not simple: recent days count for more than days six weeks back, which is why one enormous session barely moves it and six consistent weeks do. It represents what your body is used to handling. It rises slowly and falls slowly.</p>
+    <p class="fineprint">The 42 days is TrainingPeaks' default, not a law. If you're an athlete of mine and you're 50+, your constants are deliberately shorter, so modelled fatigue rises faster and forces recovery sooner.</p>
+
+    <h3>ATL — Acute Training Load ("Fatigue")</h3>
+    <p>The same thing over a much shorter window — around 7 days. It moves fast: a hard block sends it up, an easy week brings it down in days. ATL is exactly what a taper is designed to lower.</p>
+
+    <h3>TSB — Training Stress Balance ("Form" / Freshness)</h3>
+    <div class="callout">
+      <p><strong>TSB = yesterday's CTL − yesterday's ATL.</strong></p>
+      <p>Negative: you're carrying more fatigue than fitness. Normal and expected in the middle of a block. Positive: fatigue dropped and the fitness stayed — what you want on race day. Chasing a permanently positive TSB means you aren't training hard enough to build anything.</p>
+    </div>
+
+    <div class="video-slot">Explainer video — coming soon</div>
+  </div>
+</section>
+
+<section class="section--wash">
+  <div class="wrap">
+    <h2>The three numbers you see every day</h2>
+    <p>This is the TrainingPeaks screen you'll look at more than any other. These are my own numbers from 13 August 2026:</p>
+
+    <figure class="fig fig--narrow">
+      <img src="/assets/images/tp-fitness-fatiga-forma.jpg" alt="TrainingPeaks screen showing Fitness 91, Form 13 and Fatigue 96 for 13 August 2026, above the last-180-days chart." width="900" height="1115" loading="lazy">
+      <figcaption>Fitness (CTL) in blue, Fatigue (ATL) in pink, Form (TSB) in orange. The shaded area is each day's TSS.</figcaption>
+    </figure>
+
+    <h3>"Hang on — 91 minus 96 isn't 13"</h3>
+    <p>Correct, and it's the question I get most. The card shows you <strong>today's Fitness and Fatigue</strong> but <strong>yesterday's Form</strong>. Which makes sense: the form you start the day with was settled last night, before you trained. If it showed today's subtraction, the session you're about to do would already have lowered your form before you did it, and the number would be useless for deciding anything.</p>
+    <p>Applied to this case: I finished yesterday with a CTL of ~91 and an ATL of ~78, and that subtraction is the 13. Today I did a big session, fatigue jumped to 96, and that jump will show up in Form <em>tomorrow</em>. <strong>If you're going to use one number to decide how to train today, it's the 13 — not the −5.</strong></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>3. How to read your TSB</h2>
+    <p>TSB isn't a loose number: it's the compass for whether to push, rest or race.</p>
+
+    <table class="tp-table tp-table--stack">
+      <thead><tr><th>TSB</th><th>What it means</th><th>What to do</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tsb-band">Below −30</td>
+          <td data-label="What it means"><strong>Risk.</strong> Your fatigue is 30 points above your fitness. You're asking the body for far more than its current fitness supports.</td>
+          <td data-label="What to do">Held over time, this is where injuries, illness and stagnation come from. Not a place to stay.</td>
+        </tr>
+        <tr>
+          <td class="tsb-band">−30 to −10</td>
+          <td data-label="What it means"><strong>Productive training.</strong> You're stressing the system slightly beyond what it's used to. That's the stimulus that forces adaptation.</td>
+          <td data-label="What to do">This is where it gets built. With the recovery weeks in place, CTL rises sustainably.</td>
+        </tr>
+        <tr>
+          <td class="tsb-band">−10 to +10</td>
+          <td data-label="What it means"><strong>Maintenance.</strong> Fatigue and fitness balanced. You won't lose form, but the stimulus isn't enough for big gains either.</td>
+          <td data-label="What to do">Normal in recovery weeks or between blocks. Only a problem if it's where you live all year.</td>
+        </tr>
+        <tr>
+          <td class="tsb-band">+5 to +20</td>
+          <td data-label="What it means"><strong>Peaking.</strong> The taper did its job: ATL fell fast and CTL held. Big engine, fresh body.</td>
+          <td data-label="What to do">The zone you aim for on your A-race day.</td>
+        </tr>
+        <tr>
+          <td class="tsb-band">Above +20</td>
+          <td data-label="What it means"><strong>Transition.</strong> No fatigue left, but prolonged inactivity is pulling CTL down.</td>
+          <td data-label="What to do">Right at the end of a season. Expensive at any other time.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <p><strong>Yes, +5 to +10 appears in two rows. That's as it should be.</strong></p>
+      <p>The same +7 can be maintenance or can be race-ready, and what decides isn't the number — it's the context. For a B race, or a short distance, arriving with form at +5 may be exactly right; you don't need a three-week taper for a 10k. For an Ironman you gave six months to, +7 probably means you still have shedding to do.</p>
+      <p>What matters isn't which band the number falls in, but <strong>which way it's travelling</strong>. A +7 rising from −15 is a taper working. A +7 falling from +25 is someone coming back to training. Same figure, opposite situations.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--wash">
+  <div class="wrap">
+    <h2>4. The PMC — Performance Management Chart</h2>
+    <p>The dashboard where all of this crosses in one chart. The fastest way to read a whole season without opening a single workout.</p>
+
+    <figure class="fig">
+      <img src="/assets/images/pmc-ejemplo.jpg" alt="TrainingPeaks Performance Management Chart: the blue CTL line rising across almost two seasons, the pink ATL line swinging above and below it, the orange TSB line, and red dots for each day's TSS." width="1400" height="687" loading="lazy">
+      <figcaption>Almost two full seasons. Every red dot is one workout; the blue line is the fitness they built between them.</figcaption>
+    </figure>
+
+    <p>What to look for, in this order:</p>
+    <ul>
+      <li><strong>The blue line (CTL).</strong> Is it rising across the months? That's the only question that matters at season level. Notice how it steps: up, flat through the recovery week, up again from higher.</li>
+      <li><strong>The pink sawtooth (ATL).</strong> It should rise and fall. A flat ATL means every week looks the same, which is the most common way to train a lot and improve little.</li>
+      <li><strong>The orange line (TSB) before your dates.</strong> Look for whether it climbs toward positive just before the races that mattered, or whether you arrived buried without noticing.</li>
+      <li><strong>The gaps.</strong> The stretches with no red dots tell the real story of a season far better than any average.</li>
+    </ul>
+
+    <h3>How fast should CTL rise?</h3>
+    <p>The general reference used in the sport is <strong>3 to 7 CTL points per week</strong> during a build block: nearer 3 for someone returning or with little base, nearer 7 for an experienced, well-rested athlete. Above that, CTL climbs on the chart faster than the body adapts underneath it, and what follows usually isn't an improvement.</p>
+    <p class="fineprint">A general guideline, not an individual prescription. In my plans the ramp is already built in — you don't need to calculate it. This is for reading your own chart, not for correcting it on your own.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>A real example: one taper</h2>
+    <p>An athlete preparing a full Ironman planned his last three weeks backwards from race day, aiming for a TSB near +20 on the start line:</p>
+    <table class="tp-table tp-table--stack">
+      <thead><tr><th>Week</th><th>Load</th><th>What happens to TSB</th></tr></thead>
+      <tbody>
+        <tr><td class="tsb-band">3 weeks out</td><td data-label="Load">Recovery week, ~10h</td><td data-label="What happens to TSB">ATL drops, TSB starts climbing out of the block's deficit</td></tr>
+        <tr><td class="tsb-band">2 weeks out</td><td data-label="Load">The biggest week, ~19h including a 6h ride</td><td data-label="What happens to TSB">One last real load hit — TSB drops again, on purpose</td></tr>
+        <tr><td class="tsb-band">1 week out</td><td data-label="Load">~12h</td><td data-label="What happens to TSB">ATL falls faster than CTL — TSB rises</td></tr>
+        <tr><td class="tsb-band">Race week</td><td data-label="Load">Easy, short activations only</td><td data-label="What happens to TSB">TSB arrives positive — fatigue shed, fitness intact</td></tr>
+      </tbody>
+    </table>
+    <p class="fineprint">The trap: two weeks out feels like the moment to "add more" because the form feels good. That's exactly what the recovery week three weeks out is for — resist the urge to keep training hard through a taper.</p>
+  </div>
+</section>
+
+<section class="section--wash">
+  <div class="wrap">
+    <h2>Where to find it</h2>
+    <p>In TrainingPeaks: <strong>Dashboard → Performance Management Chart</strong>, or tap any individual day to see that day's CTL, ATL and TSB values.</p>
+    <p>And to close where we started: all of this tells the real story of your training <strong>only if your threshold is set correctly and kept current</strong>. Check it, retest when it's due, and keep it updated in TrainingPeaks. If you haven't touched it in more than a few months, start with the <a href="/members/en/training-zones-calculator/">Training Zones Calculator</a>.</p>
+  </div>
+</section>
