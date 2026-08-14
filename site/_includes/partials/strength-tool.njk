@@ -1,0 +1,85 @@
+{# Shared skeleton for strength artifacts (sets × reps + rest timer).
+   Sibling of partials/activation-tool.njk, same 3-tab shape so the two tools
+   feel like one library, but the workout screen is different: a set counter and
+   a "set done" button instead of a countdown ring.
+
+   The page defines window.STRENGTH_DATA and injects /assets/js/strength-tool.js
+   itself (these pages ask setup questions first, so the routine does not exist
+   at parse time). UI chrome comes from site/_data/strengthUi.json off `lang`. #}
+{%- set sui = strengthUi[lang] or strengthUi.es -%}
+<script>window.STRENGTH_UI = {{ sui | dump | safe }};</script>
+<div class="tool">
+
+  <div class="crumb-bar">
+    <div class="wrap"><a href="{{ nav.membersPage[lang].items[0].url or "/members/#biblioteca" }}">{{ sui.library }}</a> / <span id="crumbLabel"></span></div>
+  </div>
+
+  <nav class="tool-tabs" aria-label="{{ sui.tabsLabel }}">
+    <button class="tool-tab active" data-tab="home">{{ sui.tabHome }}</button>
+    <button class="tool-tab" data-tab="workout">{{ sui.tabWorkout }}</button>
+    <button class="tool-tab" data-tab="list">{{ sui.tabList }}</button>
+  </nav>
+
+  <div class="screen active" id="tab-home">
+    <div class="home-wrap" id="homeContent"></div>
+  </div>
+
+  <div class="screen" id="tab-workout">
+    <div class="workout-container">
+
+      <div class="phase-header">
+        <span class="phase-dot"></span>
+        <span class="phase-name" id="phaseName"></span>
+        <span class="block-progress" id="blockProgress"></span>
+      </div>
+      <div class="total-progress"><div class="total-progress-fill" id="totalBar"></div></div>
+
+      <div class="exercise-display">
+        <div class="ex-num" id="exNum"></div>
+        <div class="ex-name-big" id="exName"></div>
+        <div class="ex-tag" id="exTag"></div>
+
+        {# The prescription, not a clock. Reps are the coach's words rendered
+           verbatim — "8-12 por pierna", "45s" — never a number this tool
+           derives or counts down. #}
+        <div class="set-block">
+          <div class="set-counter" id="setCounter"></div>
+          <div class="rep-target" id="repTarget"></div>
+        </div>
+
+        <div class="ex-cue" id="exCue"></div>
+        <button class="btn-primary set-done" id="setDoneBtn">{{ sui.setDone }}</button>
+        <div class="next-preview" id="nextPreview"></div>
+      </div>
+
+      <div class="stage-overlay" id="restOverlay" style="display:none">
+        <div class="rest-lbl">{{ sui.rest }}</div>
+        <div class="rest-time" id="restTime">1:30</div>
+        <div class="rest-next" id="restNext"></div>
+        <button class="btn-secondary" id="skipRestBtn">{{ sui.skipRest }}</button>
+      </div>
+
+      <div class="stage-overlay" id="doneOverlay" style="display:none">
+        <div class="done-title">{{ sui.doneTitle }}</div>
+        <p class="done-sub" id="doneSub"></p>
+        <div class="done-stats">
+          <div class="done-stat"><div class="done-val" id="statEx">0</div><div class="done-lbl">{{ sui.statEx }}</div></div>
+          <div class="done-stat"><div class="done-val" id="statSets">0</div><div class="done-lbl">{{ sui.statSets }}</div></div>
+          <div class="done-stat"><div class="done-val" id="statSkip">0</div><div class="done-lbl">{{ sui.statSkip }}</div></div>
+        </div>
+        <button class="btn-primary" id="repeatBtn">{{ sui.repeat }}</button>
+      </div>
+
+      <div class="controls" id="workControls">
+        <button class="btn-secondary ctrl-side" id="prevBtn" disabled>{{ sui.prev }}</button>
+        <button class="btn-secondary ctrl-side" id="skipBtn" disabled>{{ sui.skip }}</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="screen" id="tab-list">
+    <div class="list-wrap" id="listContent"></div>
+  </div>
+
+</div>

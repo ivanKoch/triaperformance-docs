@@ -1,0 +1,206 @@
+---
+layout: layouts/base.njk
+pageCss: "members-fuerza.css"
+title: "Rodillas Sin Dolor — Triaperformance All-Access"
+---
+{#- KNEE STRENGTH TOOL, v1 — built Aug 13, 2026 from Iván's `knee pain
+    artifact.md`. Home doc: `knee-strength-brief.md`.
+
+    Two questions (where × foam roller) → one of 4 routines. Same setup-then-
+    build pattern as the activation matrix, but on the NEW strength engine
+    (sets × reps + rest timer), because this is a strength prescription and a
+    40-second countdown would tell someone to keep going when the prescription
+    is eight good reps.
+
+    Structure, same reason as the matrix: one exercise LIBRARY, routines are
+    lists of ids. Warm-up and mobility are shared by all four; only the strength
+    block and the foam-rolling block change.
+
+    Three additions to Iván's source doc, chosen by him: the isometric wall sit
+    (the one thing here that helps an athlete who hurts today), single-leg
+    balance, and gym adductor work. Two more were offered and NOT taken —
+    eccentric calf/soleus work and knee-flexion hamstring work — do not re-add
+    them without asking; the omission is a decision, not an oversight. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/#biblioteca">Biblioteca</a> / Rodillas</div></div>
+
+  <div class="setup-head">
+    <span class="label">Fuerza</span>
+    <h1>Rodillas sin dolor</h1>
+    <p>El dolor de rodilla del corredor y del ciclista casi nunca nace en la rodilla. Nace más arriba — en el glúteo medio, en el cuádriceps, en la cadera — y la rodilla es donde se cobra. Esto entrena el lugar correcto.</p>
+  </div>
+
+  <div class="setup-warn">
+    <strong>Antes de empezar.</strong> Esto es entrenamiento de fuerza preventivo, no un tratamiento. <strong>Si tenés hinchazón, la rodilla se traba o se te va, dolor que despierta de noche, o el dolor apareció después de un golpe o una torsión, esto no es lo que necesitás</strong> — necesitás que te vea un profesional. Escribime y lo vemos.
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">¿Dónde vas a entrenar?</div>
+    <div class="setup-opts" data-axis="place">
+      <button type="button" class="setup-opt" data-val="home" aria-pressed="true">En casa<span>sin equipo</span></button>
+      <button type="button" class="setup-opt" data-val="gym" aria-pressed="false">En el gimnasio<span>con pesas</span></button>
+    </div>
+    <p class="setup-hint">Empezá en casa aunque tengas gimnasio. La versión con peso recién suma cuando el patrón de movimiento ya está limpio — cargar una rodilla que se mete hacia adentro solo la mete más adentro.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">¿Tenés rodillo (foam roller)?</div>
+    <div class="setup-opts" data-axis="roller">
+      <button type="button" class="setup-opt" data-val="yes" aria-pressed="true">Sí</button>
+      <button type="button" class="setup-opt" data-val="no" aria-pressed="false">No</button>
+    </div>
+    <p class="setup-hint">Sin rodillo la rutina sigue completa: se saltea el bloque de rodillo y quedan los estiramientos, que es la parte que más rango te devuelve.</p>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Armar mi rutina →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/strength-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.KNEE_ROUTINE = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY */
+  const L = {
+    /* --- entrada en calor (las cuatro rutinas) --- */
+    swingFB: { name: "Balanceo de pierna (frontal)", sets: 1, reps: "15 por lado", tag: "Pared de apoyo",
+      cue: "Apoyate en una pared y balanceá la pierna adelante y atrás. <strong>Aumentá el rango de a poco</strong>, no arranques en el máximo." },
+    swingLat: { name: "Balanceo lateral de pierna", sets: 1, reps: "15 por lado", tag: "Pared de apoyo",
+      cue: "De frente a la pared, cruzá la pierna de lado a lado por delante del cuerpo. Abre aductores y despierta la cadera externa." },
+    sideRaise: { name: "Elevación lateral acostado", sets: 1, reps: "20 por lado", tag: "Sin equipo",
+      cue: "De costado, pierna de arriba recta y <strong>la punta del pie apuntando levemente hacia el piso</strong>. Subí lento. Tiene que arder en el lateral del glúteo — si lo sentís en la ingle, estás rotando la pierna." },
+    bridge: { name: "Puente de glúteos", sets: 2, reps: "15", rest: 30, tag: "Sin equipo",
+      cue: "Empujá con los talones y <strong>sostené 2 segundos arriba apretando el glúteo</strong>. La pausa es el ejercicio; sin ella son solo repeticiones." },
+    balance: { name: "Apoyo en una pierna", sets: 1, reps: "30s por lado", tag: "Sin equipo",
+      cue: "Parado en una pierna, rodilla apenas flexionada, mirando un punto fijo. <strong>Que la cadera no se caiga del lado que está en el aire</strong> — ese descenso es exactamente lo que le pasa a tu pelvis en cada zancada. Si te resulta fácil, cerrá los ojos." },
+
+    /* --- fuerza en casa --- */
+    wallSit: { name: "Sentadilla isométrica en pared", sets: 3, reps: "45s", rest: 60, tag: "Pared",
+      cue: "Espalda contra la pared, rodillas a ~90°, y <strong>empujá los talones contra el piso como si quisieras arrastrarlos hacia atrás</strong>. Sostené. Es el ejercicio que más rápido baja el dolor de rodilla — si hoy te molesta, empezá por acá y vas a notar que el resto de la rutina duele menos." },
+    bulgarian: { name: "Sentadilla búlgara", sets: 3, reps: "8-12 por pierna", rest: 90, tag: "Silla o sillón",
+      cue: "Pie de atrás sobre la silla, pecho arriba. <strong>La rodilla de adelante viaja sobre el dedo del medio, nunca hacia adentro</strong>. Si se mete, acortá el rango antes de acortar la técnica." },
+    slBridge: { name: "Puente de glúteos a una pierna", sets: 3, reps: "10 por pierna", rest: 60, tag: "Sin equipo",
+      cue: "Empujá con el talón. <strong>Si lo sentís en la lumbar, la cadera se te fue en anteversión</strong> — meté la pelvis y bajá la altura." },
+    revLunge: { name: "Zancada atrás con rodilla arriba", sets: 3, reps: "12 por pierna", rest: 60, tag: "Sin equipo",
+      cue: "Paso atrás a la zancada y, sin pausa, <strong>subí esa rodilla al pecho en un solo movimiento</strong>. Es estabilidad dinámica: la mitad del ejercicio es no tambalearte al subir." },
+    copenhagen: { name: "Plancha copenhague (modificada)", sets: 3, reps: "20-30s por lado", rest: 45, tag: "Silla o sillón",
+      cue: "Plancha lateral con la rodilla de arriba apoyada en la silla y <strong>la pierna de abajo despegada del piso</strong>. Trabaja los aductores, que son el contrapeso de la banda iliotibial del lado de afuera." },
+    stepDown: { name: "Step-down excéntrico", sets: 3, reps: "10 por pierna", rest: 60, tag: "Escalón",
+      cue: "De costado en un escalón, bajá el otro pie hacia el piso <strong>en 3-4 segundos</strong> y subí rápido. La lentitud de la bajada es todo el ejercicio — apunta al vasto interno, el que endereza la rótula." },
+
+    /* --- fuerza en gimnasio --- */
+    wallSitLoaded: { name: "Sentadilla isométrica en pared", sets: 3, reps: "45s", rest: 60, tag: "Pared · disco opcional",
+      cue: "Igual que en casa, con un disco sobre los muslos si querés más. <strong>Si hoy la rodilla molesta, hacé esto primero</strong>: la isometría baja el dolor y te deja entrenar el resto con buena técnica en vez de compensando." },
+    bulgarianW: { name: "Búlgara con mancuernas", sets: 3, reps: "8-10 por pierna", rest: 90, tag: "Mancuernas",
+      cue: "El mejor ejercicio que hay para blindar rodillas. <strong>Sumá peso solo cuando las 10 repeticiones salgan sin que la rodilla se meta</strong> — la carga amplifica la técnica que ya tenés, buena o mala." },
+    rdl: { name: "Peso muerto rumano", sets: 3, reps: "10-12", rest: 90, tag: "Barra o mancuernas",
+      cue: "Bisagra de cadera, no sentadilla: <strong>la cola va hacia atrás y las rodillas casi no se mueven</strong>. Una cadena posterior fuerte le saca a la rodilla el trabajo de frenar." },
+    legPress: { name: "Prensa a una pierna", sets: 3, reps: "10 por pierna", rest: 90, tag: "Prensa",
+      cue: "Pie alto y levemente hacia afuera en la plataforma, para cargar glúteo y vasto interno. <strong>Controlá la bajada</strong>; no rebotes abajo." },
+    cableAbd: { name: "Abducción de cadera en polea", sets: 3, reps: "12-15 por lado", rest: 45, tag: "Polea baja",
+      cue: "Tobillera en la polea baja, de costado a la máquina, barré la pierna hacia afuera. <strong>El tronco se queda quieto</strong> — si te inclinás para el otro lado, bajá el peso." },
+    cableAdd: { name: "Aducción en polea o máquina", sets: 3, reps: "12-15 por lado", rest: 45, tag: "Polea o máquina",
+      cue: "El par de la abducción, y el que casi nadie hace. <strong>Aductores fuertes equilibran la tracción de la banda iliotibial</strong> y estabilizan la pelvis desde adentro. Rango completo, sin rebote." },
+    legExt: { name: "Extensión de rodilla (rango terminal)", sets: 3, reps: "15", rest: 45, tag: "Máquina",
+      cue: "<strong>Solo los últimos 30 grados</strong>, de rodilla apenas flexionada a estirada, con peso moderado y apretando arriba. El rango completo cizalla la rodilla; este pedacito aísla el vasto interno sin cobrarte nada." },
+
+    /* --- rodillo --- */
+    rollQuad: { name: "Rodillo: cuádriceps", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+      cue: "De la cadera hasta justo arriba de la rótula. <strong>Cuando encuentres un punto sensible, parate ahí y flexioná y estirá la rodilla</strong> — eso despega el tejido mucho más que seguir rodando." },
+    rollTFL: { name: "Rodillo: TFL", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+      cue: "El musculito arriba y adelante de la cadera, donde nace la banda iliotibial. <strong>No pases el rodillo por la banda iliotibial en el costado del muslo</strong>: es tendón, no músculo, y rodarla inflama más. Rodá acá arriba, que es lo que la tensa." },
+    rollCalf: { name: "Rodillo: gemelos", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+      cue: "Gemelos duros restan movilidad de tobillo, y lo que el tobillo no absorbe lo absorbe la rodilla." },
+
+    /* --- movilidad (las cuatro rutinas) --- */
+    couch: { name: "Couch stretch", sets: 1, reps: "2 min por lado", tag: "Pared",
+      cue: "De rodillas de espaldas a la pared, la rodilla de atrás en el rincón, el otro pie adelante en zancada. <strong>Meté la pelvis antes de buscar más rango</strong> — si no, estirás la lumbar y no el cuádriceps." },
+    pigeon: { name: "Postura de la paloma", sets: 1, reps: "2 min por lado", tag: "Sin equipo",
+      cue: "Para glúteo mayor y piramidal, que se agarrotan con las horas de sillín y de asfalto. <strong>Respirá y soltá</strong>; dos minutos no son dos minutos de forcejeo." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES */
+  const WARMUP = ["swingFB", "swingLat", "sideRaise", "bridge", "balance"];
+  const STRENGTH = {
+    home: ["wallSit", "bulgarian", "slBridge", "revLunge", "copenhagen", "stepDown"],
+    gym: ["wallSitLoaded", "bulgarianW", "rdl", "legPress", "cableAbd", "cableAdd", "legExt"]
+  };
+  const ROLL = ["rollQuad", "rollTFL", "rollCalf"];
+  const MOBILITY = ["couch", "pigeon"];
+
+  const WHY = "Cuando el glúteo medio está débil, la pelvis cae en cada apoyo y la rodilla se mete hacia adentro. Eso tensa la banda iliotibial y castiga el tendón rotuliano. Por eso acá se entrena glúteo medio para estabilizar la pelvis, vasto interno para que la rótula corra derecha, y cadena posterior para compensar el dominio del cuádriceps. La rodilla no es el problema: es donde se paga la cuenta.";
+
+  const PLACE = { home: "En casa · sin equipo", gym: "En el gimnasio" };
+
+  function build(place, roller) {
+    const pick = (ids) => ids.map((id) => {
+      const e = L[id];
+      if (!e) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({}, e);
+    });
+    const phases = [
+      { name: "Entrada en calor", exercises: pick(WARMUP) },
+      { name: "Fuerza", exercises: pick(STRENGTH[place]) }
+    ];
+    if (roller === "yes") phases.push({ name: "Rodillo", exercises: pick(ROLL) });
+    phases.push({ name: "Movilidad", exercises: pick(MOBILITY) });
+
+    return {
+      title: "Rodillas sin dolor",
+      crumb: "Rodillas",
+      kicker: "Fuerza",
+      subtitle: "Entrada en calor, fuerza y movilidad. Terminá cada serie y tocá el botón — el único reloj acá es el descanso entre series.",
+      context: PLACE[place] + (roller === "yes" ? " · con rodillo" : ""),
+      why: WHY,
+      warning: "<strong>Dos veces por semana</strong>, en días de resistencia suave. Nunca el día antes de una sesión de calidad o de un fondo largo. <br><br>Durante los ejercicios se puede sentir molestia hasta un <strong>3 sobre 10</strong>, y tiene que estar igual o mejor al día siguiente. Si pasa de ahí, o si al otro día está peor, bajá el rango o el peso — no lo empujes.",
+      doneSub: "Hecho. Esto se cobra en meses, no en sesiones.",
+      phases: phases
+    };
+  }
+
+  return { build: build, library: L };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { place: "home", roller: "yes" };
+
+  document.querySelectorAll(".setup-opts").forEach((group) => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.STRENGTH_DATA = window.KNEE_ROUTINE.build(choice.place, choice.roller);
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/strength-tool.js";
+    document.body.appendChild(s);
+
+    // Reload rather than re-initialise: the engine holds its rest timer in
+    // closure with no teardown, and a stale interval firing under a second
+    // routine is a worse bug than a page load. Same call as the matrix.
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Cambiar opciones";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

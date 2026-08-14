@@ -839,6 +839,20 @@ Design doc: `activation-matrix.md`. Recovered into the repo the same day, having
 
 **Two content decisions raised for Iván, both recorded in the home doc:** the "figure 4 right priority / 90 seconds right side" cues were his own asymmetry and were neutralised to "start with the side that feels tighter" rather than prescribing one person's imbalance to every subscriber; and the routines come out at 16–19 minutes against the ~10 of the tools they replace, roughly five of which is rest. *Neither was silently changed in the other direction — a coach's prescription is not a thing to quietly shorten.*
 
+## 30. A second engine — strength artifacts, and `/members/rodillas/` (August 13, 2026)
+
+Home doc: `knee-strength-brief.md`. Also the day `/members/nutricion/` was retired (Iván's instruction, content not moved, filter chip removed, page deleted rather than redirected — same reasoning as §27).
+
+**Why a second engine rather than reusing the activation one.** The knee routine is 3 × 8-12, not a timed circuit. Forcing it onto a 40-second countdown would have been the cheap option and a wrong one: ***a countdown tells an athlete to keep going when the prescription is eight good repetitions.*** `strength-tool.js` inverts the relationship — the athlete finishes the set and taps, and the only clock is the rest between sets. `reps` is a display string rendered verbatim, never parsed; the prescription stays the coach's words.
+
+**What it reuses.** The 3-tab shell, the setup-then-build pattern from the activation matrix, and the entire dark theme: `members-fuerza.css` `@import`s `members-activacion.css` rather than copying its token block. *Two copies of a token block is how one dark theme becomes two slightly different dark themes.*
+
+**Its UI chrome was built in three languages on day one** (`site/_data/strengthUi.json`), for a page that shipped only in Spanish. Directly because of §29 earlier the same day: the activation engine was written Spanish-only and quietly shipped two translated pages wrapped in Spanish buttons. **Writing three objects up front costs minutes; retrofitting an engine costs a session and ships wrong pages in between.**
+
+***The bug, and why it matters more than the fix:*** `finish()` advances the exercise index past the end and then calls `updateUI()`, which opened with `const e = ex[idx]; if (!e) return;`. So the done overlay was never rendered — **the routine completed internally while the screen froze on the last set, with the button dead because the phase was already `done`.** The tool looked perfect for 28 of 29 sets. *It was found by a check that walked a full routine to completion, tapping through every set of all four variants; nothing that stopped earlier could have seen it.* Fixed by moving everything phase-dependent above the guard. **Worth generalising: for any stateful tool, the check has to reach the terminal state, because the terminal state is the one path no casual click-through visits.**
+
+**Content:** three additions Iván chose (isometric wall sit — the only exercise here that helps someone hurting today; single-leg balance; gym adductor work), two he did not take (eccentric soleus, knee-flexion hamstring) recorded as decisions in the home doc so they are not re-raised, plus a **pain rule** (≤3/10, same or better next day) and a **red-flag boundary** — swelling, locking, giving way, night pain, post-trauma onset — that the source doc did not have. That boundary is the only warm-coloured element in the members area, deliberately: it is the one place a tool says "this might not be for you".
+
 ## Open items — retired as a section (August 8, 2026)
 
 **This section no longer exists. Every open item across the project lives in `open-loops.md`, and closed ones in `open-loops-archive.md`. Do not start a second list here.**

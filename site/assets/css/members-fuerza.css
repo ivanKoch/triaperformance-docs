@@ -1,0 +1,67 @@
+/* Strength artifacts (sets × reps + rest timer) — members-fuerza.css.
+ *
+ * Layered on members-activacion.css rather than duplicating it. The two tools
+ * share their entire shell: dark tokens, nav overrides, the 3-tab chrome, the
+ * setup screen, the exercise list, the rest/done overlays. Only the workout
+ * screen differs — a set counter and a rep target instead of a countdown ring.
+ *
+ * Copying the token block into a second file is exactly how two dark themes
+ * become two slightly different dark themes.
+ */
+@import url("members-activacion.css");
+
+/* --- the prescription block: what replaces the timer ring ---------------- */
+.set-block {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  margin: 8px 0 4px;
+}
+.set-counter {
+  font-size: 13px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--blue-bright);
+}
+/* The reps are the coach's words rendered verbatim, so this has to hold
+   "8-12 por pierna" and "45s" equally well — sized for the longer one. */
+.rep-target {
+  font-size: 30px; font-weight: 700; color: var(--white);
+  line-height: 1.15; letter-spacing: -0.01em; text-align: center; max-width: 14ch;
+}
+
+.set-done {
+  width: 100%; max-width: 320px; margin-top: 12px; font-size: 17px; padding: 16px 24px;
+}
+
+/* Two buttons here, not three: there is no pause, because nothing is running
+   between sets except the athlete. */
+.tool .controls { grid-template-columns: 1fr 1fr; }
+
+@media (max-width: 480px) {
+  .rep-target { font-size: 26px; }
+}
+
+/* --- the red-flag box on the setup screen ------------------------------- */
+/* Deliberately the only warm-coloured element in the whole members area. It is
+   the one place a tool says "this might not be for you" and it should not read
+   as another instruction card. */
+.setup-warn {
+  border: 1px solid #6b4a1f; background: rgba(180, 120, 40, 0.12);
+  border-radius: 8px; padding: 16px 18px; margin-top: 24px;
+  font-size: 14px; line-height: 1.6; color: var(--text);
+}
+.setup-warn strong { color: #e8b96a; }
+
+/* Same box on the tool's home tab, where it is a dosing note rather than a
+   safety one — quieter, brand blue. */
+.warn-box {
+  width: 100%; text-align: left;
+  border-left: 2px solid var(--blue-bright); background: var(--blue-dim);
+  border-radius: 8px; padding: 14px 16px; margin-bottom: 16px;
+  font-size: 14px; line-height: 1.6; color: var(--text-dim);
+}
+.warn-box strong { color: var(--text); }
+
+/* The two-line option buttons ("En casa" / "sin equipo") this tool uses. */
+.setup-opt span {
+  display: block; font-size: 12px; font-weight: 400;
+  color: var(--text-dim); margin-top: 3px;
+}
+.setup-opt[aria-pressed="true"] span { color: var(--blue-bright); }

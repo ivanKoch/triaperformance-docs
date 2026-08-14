@@ -85,6 +85,7 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 
 **Working docs (project-specific, may go stale by design)**
 
+- `knee-strength-brief.md` — **home doc for `/members/rodillas/` and for the strength engine** (`strength-tool.js`, sets × reps + rest timer, first used Aug 13, 2026). Owns the 4-routine design, the dosing and pain rules, the red-flag boundary, and the two exercises deliberately *not* included.
 - `activation-matrix.md` — **home doc for the adaptive activation routine** (sport × moment × equipment × tightness). *Recovered into the repo Aug 13, 2026 after existing only as a chat upload; **v1 shipped the same day in ES/EN/PT**.* Owns the design, the assembly rule, the sequencing (tightness is v2, after all three languages are signed off) and the two open content questions.
 - `zones-calculator-brief.md` — **home doc for the zones calculator** (opened Aug 10, 2026). Decisions, architecture, the corrections it triggers, and open questions. Owns nothing numeric: the zone percentages live in `data/zones.csv`.
 - `members-area-announcement-2026-08.md` — the un-told-cohort email: draft, audience checks, and the token rotation that rides along with it. Retire once sent.
