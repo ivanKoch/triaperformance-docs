@@ -1,0 +1,257 @@
+---
+layout: layouts/base.njk
+pageCss: "members-fuerza.css"
+title: "Aquiles Sem Dor — Triaperformance All-Access"
+---
+{#- ACHILLES TOOL, v1 — Portuguese sibling of /members/aquiles/. Same 8 routines,
+    same gated block, same library structure; only the copy changes.
+
+    Original note follows.
+
+    ACHILLES TOOL, v1 — built Aug 13, 2026 from Iván's Achilles source doc.
+    Home doc: `achilles-brief.md`. Second artifact on the strength engine.
+
+    FOUR questions → one of 8 routines, plus one gated block:
+      location (mid-portion | insertional) × place (home | gym) × roller
+      + an energy-storage block shown only if the athlete says the strength
+        work is already pain-free.
+
+    *** The location axis is the reason this tool is not a copy of the knee one.
+    Insertional tendinopathy is made WORSE by dorsiflexion past neutral, which
+    compresses the tendon against the calcaneus — and that is exactly what a
+    heel drop off a step does at the bottom of every rep. So insertional gets:
+    flat ground instead of a step, range capped at neutral, capped range on the
+    gym machines, and NO end-range calf stretch at all. Do not "simplify" this
+    away; following the source doc as written would have had insertional
+    athletes doing 45 compressive reps a session. ***
+
+    Frequency differs by place, on Iván's call: home = Alfredson (daily, twice
+    daily), gym = HSR (3×/week), with a note saying they are two roads to the
+    same place. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/pt/#biblioteca">Biblioteca</a> / Aquiles</div></div>
+
+  <div class="setup-head">
+    <span class="label">Força</span>
+    <h1>Aquiles sem dor</h1>
+    <p>O tendão não se cura com repouso: cura-se com carga bem dosada. Este é o programa de carga — e as regras para saber, todo dia, se você passou do ponto.</p>
+  </div>
+
+  <div class="setup-warn">
+    <strong>Antes de começar, duas coisas.</strong><br>
+    <strong>1. Se você sentiu um estalo e não consegue empurrar com a ponta do pé ou ficar na ponta desse pé, vá ao pronto-socorro hoje</strong> — isso não é tendinopatia. <br>
+    <strong>2. Isto começa depois de um profissional te avaliar</strong> e descartar uma ruptura parcial. Com inchaço, calor ou vermelhidão, ou se você tomou antibióticos do grupo das quinolonas recentemente, converse antes de carregar o tendão. Me escreva e a gente vê.
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Onde exatamente dói?</div>
+    <div class="setup-opts" data-axis="site">
+      <button type="button" class="setup-opt" data-val="mid" aria-pressed="true">No meio<span>2-6 cm acima do calcanhar</span></button>
+      <button type="button" class="setup-opt" data-val="ins" aria-pressed="false">Bem embaixo<span>onde encosta no osso</span></button>
+    </div>
+    <p class="setup-hint"><strong>Aperte com dois dedos e veja onde salta.</strong> Não é um detalhe: se a dor está embaixo, na inserção, levar o calcanhar abaixo do degrau esmaga o tendão contra o osso a cada repetição. É o erro mais comum na reabilitação de aquiles, e a rotina muda para evitá-lo.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Onde você vai treinar?</div>
+    <div class="setup-opts" data-axis="place">
+      <button type="button" class="setup-opt" data-val="home" aria-pressed="true">Em casa<span>protocolo diário</span></button>
+      <button type="button" class="setup-opt" data-val="gym" aria-pressed="false">Na academia<span>carga pesada, 3×semana</span></button>
+    </div>
+    <p class="setup-hint">Dois caminhos para o mesmo lugar. Em casa é o protocolo excêntrico clássico: muita frequência, pouco peso. Na academia é carga pesada e lenta: três vezes por semana, mais peso, menos sessões. Os estudos empatam os dois; o da academia é abandonado menos.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Você tem rolo (foam roller)?</div>
+    <div class="setup-opts" data-axis="roller">
+      <button type="button" class="setup-opt" data-val="yes" aria-pressed="true">Sim</button>
+      <button type="button" class="setup-opt" data-val="no" aria-pressed="false">No</button>
+    </div>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">A força você já faz sem dor?</div>
+    <div class="setup-opts" data-axis="stage">
+      <button type="button" class="setup-opt" data-val="no" aria-pressed="true">Ainda não</button>
+      <button type="button" class="setup-opt" data-val="yes" aria-pressed="false">Sim, sem dor</button>
+    </div>
+    <p class="setup-hint">Se você faz toda a força sem incômodo e sem rigidez no dia seguinte, entra um bloco de saltos. <strong>É aí que o tendão volta a aprender a ser uma mola</strong> — e é onde mais gente se relesiona, por pular das elevações pesadas direto para os tiros. Na dúvida, deixe em "ainda não".</p>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Montar minha rotina →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/strength-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.ACHILLES_ROUTINE = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY */
+  const L = {
+    /* --- rodillo --- */
+    rollCalf: { name: "Rolo: barriga da panturrilha", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+      cue: "Só a parte carnuda de cima e as laterais da perna. <strong>Nunca passe o rolo no tendão</strong> — é tecido muito inervado e já irritado; o atrito ali só piora. Do joelho para baixo até onde o músculo vira tendão, e pare." },
+
+    /* --- isométricos (analgésico + activación) --- */
+    isoStep: { name: "Isométrico na ponta (degrau)", sets: 3, reps: "30-45s", rest: 60, tag: "Degrau",
+      cue: "Com os dois pés na borda do degrau, suba na ponta e <strong>segure lá em cima, parado</strong>. Isométricos pesados são analgésicos naturais para o tendão: se você começa por aqui, o resto da rotina dói menos." },
+    isoFlat: { name: "Isométrico na ponta (chão)", sets: 3, reps: "30-45s", rest: 60, tag: "Sem equipamento",
+      cue: "Igual, mas <strong>no chão plano, não no degrau</strong>: com dor na inserção não queremos o calcanhar abaixo do nível do pé. Suba na ponta e segure parado em cima. É o analgésico natural do tendão." },
+
+    /* --- energía elástica (bloque final, solo si ya no duele) --- */
+    pogo: { name: "Pogos (saltinhos de tornozelo)", sets: 3, reps: "20", rest: 60, tag: "Sem equipamento",
+      cue: "Saltinhos pequenos no lugar, <strong>só do tornozelo, com o joelho quase fixo</strong>. O contato tem que ser curto e fazer pouco barulho. Você não busca altura: busca rigidez elástica, que é o que o tendão faz quando você corre." },
+    skip: { name: "Skipping baixo", sets: 3, reps: "30s", rest: 60, tag: "Sem equipamento",
+      cue: "Skipping leve no lugar ou avançando. <strong>Rebote rápido, apoio de metatarso, sem martelar o calcanhar.</strong> Se o tendão falar, o bloco acaba — isso não se negocia." },
+    slHop: { name: "Saltos em uma perna", sets: 3, reps: "10 por lado", rest: 60, tag: "Sem equipamento",
+      cue: "Saltinhos no lugar sobre uma perna, aterrissando no metatarso com o joelho macio. <strong>É o último degrau antes de voltar a correr forte.</strong> Se amanhã você acordar mais rígido do que hoje, era cedo demais." },
+
+    /* --- fuerza en casa: excéntricos --- */
+    eccStraight: { name: "Descida excêntrica, perna reta", sets: 3, reps: "15 por lado", rest: 60, tag: "Degrau",
+      cue: "No degrau, suba com as duas pernas, tire a perna sã e <strong>desça só com a lesionada em 4-5 segundos</strong>, deixando o calcanhar cair abaixo do degrau. Apoie a sã de novo para subir. A descida é todo o exercício; nunca suba com a perna lesionada." },
+    eccBent: { name: "Descida excêntrica, joelho flexionado", sets: 3, reps: "15 por lado", rest: 60, tag: "Degrau",
+      cue: "Exatamente o mesmo, mas <strong>com o joelho de trabalho flexionado uns 30 graus o movimento todo</strong>. Isso desce a carga da panturrilha para o sóleo, que é o músculo que mais trabalha correndo no plano." },
+    eccStraightFlat: { name: "Descida excêntrica, perna reta", sets: 3, reps: "15 por lado", rest: 60, tag: "Chão plano",
+      cue: "<strong>No chão, não no degrau.</strong> Suba na ponta com as duas, tire a perna sã e desça com a lesionada em 4-5 segundos <strong>até o calcanhar tocar o chão, e pare aí</strong>. Nunca mais abaixo: com dor na inserção, essa amplitude a mais esmaga o tendão contra o osso." },
+    eccBentFlat: { name: "Descida excêntrica, joelho flexionado", sets: 3, reps: "15 por lado", rest: 60, tag: "Chão plano",
+      cue: "Igual ao anterior, no chão e parando no calcanhar, mas <strong>com o joelho flexionado uns 30 graus</strong> para levar a carga ao sóleo." },
+
+    /* --- fuerza en gimnasio: carga pesada y lenta --- */
+    seatedCalf: { name: "Elevação de panturrilha sentado", sets: 4, reps: "6-8", rest: 120, tag: "Máquina",
+      cue: "Pesado, e <strong>3 segundos para subir, 3 para descer</strong>. O tempo não é detalhe estético: a tensão sustentada é o que remodela o colágeno. Sentado e com o joelho flexionado, quem trabalha é o sóleo — o cavalo de batalha do fundista." },
+    seatedCalfNeutral: { name: "Elevação de panturrilha sentado", sets: 4, reps: "6-8", rest: 120, tag: "Máquina · amplitude limitada",
+      cue: "Pesado, 3 segundos em cima e 3 embaixo, mas <strong>pare quando o calcanhar chegar na altura do apoio — não deixe cair abaixo</strong>. Esse último trecho é o que comprime a inserção, e é o que não está te deixando melhorar." },
+    legPressCalf: { name: "Elevação de panturrilha no leg press", sets: 4, reps: "8-10", rest: 120, tag: "Leg press",
+      cue: "Pernas quase estendidas, sem travar o joelho para trás, empurrando com o metatarso. Mesmo tempo lento. Com o joelho estendido quem assume é a panturrilha (gastrocnêmio)." },
+    legPressCalfNeutral: { name: "Elevação de panturrilha no leg press", sets: 4, reps: "8-10", rest: 120, tag: "Leg press · amplitude limitada",
+      cue: "Igual, tempo lento, mas <strong>sem deixar o calcanhar descer além da linha do apoio</strong>. Mesmo motivo: na inserção, amplitude a mais não é mais estímulo, é compressão." },
+    farmerToes: { name: "Caminhada na ponta com peso", sets: 3, reps: "30s", rest: 90, tag: "Halteres",
+      cue: "Halteres pesados, caminhe devagar <strong>mantendo-se alto sobre o metatarso o percurso todo</strong>, sem deixar o calcanhar descer. Treina rigidez de tornozelo sob carga — que é justamente o que falta ao ciclista que afunda o calcanhar quando força." },
+
+    /* --- pie y tobillo --- */
+    towel: { name: "Amassar a toalha", sets: 3, reps: "20 por lado", rest: 30, tag: "Toalha",
+      cue: "Sentado e descalço, toalha no chão, <strong>amasse na sua direção só com os dedos</strong>. Um pé forte fica com parte do trabalho da impulsão em vez de mandar tudo para o tendão." },
+    shortFoot: { name: "Pé curto", sets: 3, reps: "30s por lado", rest: 30, tag: "Sem equipamento",
+      cue: "Descalço, pé apoiado, <strong>aproxime a base dos dedos do calcanhar levantando o arco, sem enrolar os dedos e sem girar o tornozelo</strong>. É minúsculo e custa achar; quando aparece, você sente o arco ativo. O pé e o aquiles dividem a mola: se o arco cai, o tendão paga a diferença." },
+    tibRaise: { name: "Elevação de ponta (tibial anterior)", sets: 3, reps: "20", rest: 30, tag: "Parede de apoio",
+      cue: "De costas para a parede, calcanhares um passo à frente, <strong>suba as pontas em direção às canelas o mais alto que conseguir e desça devagar</strong>. É o antagonista da panturrilha: te dá controle da queda do pé ao aterrissar, em vez de só freá-la." },
+
+    /* --- cadera --- */
+    hipAbd: { name: "Elevação lateral deitado", sets: 3, reps: "15 por lado", rest: 30, tag: "Sem equipamento",
+      cue: "Deitado de lado, perna de cima reta e <strong>a ponta apontando levemente para o chão</strong>. Tem que arder na lateral do glúteo. O que o quadril não estabiliza lá em cima, o tornozelo compensa aqui embaixo." },
+    slBridge: { name: "Ponte de glúteos unilateral", sets: 3, reps: "10 por lado", rest: 45, tag: "Sem equipamento",
+      cue: "Empurre com o calcanhar e aperte o glúteo em cima. <strong>Se você sente na lombar, encaixe a pelve e baixe a altura.</strong> Cadeia posterior forte, menos trabalho de frenagem lá embaixo." },
+
+    /* --- movilidad (post, en caliente) --- */
+    wallStraight: { name: "Alongamento na parede, perna reta", sets: 1, reps: "2 min por lado", tag: "Parede",
+      cue: "Mãos na parede, perna de trás reta e <strong>o calcanhar cravado no chão</strong>. Alonga a panturrilha. Só depois de treinar, com o tecido aquecido — alongar um aquiles frio e irritado é o jeito mais rápido de inflamar o quadro." },
+    wallBent: { name: "Alongamento na parede, joelho flexionado", sets: 1, reps: "2 min por lado", tag: "Parede",
+      cue: "Mesma posição, mas <strong>flexionando levemente o joelho de trás sem descolar o calcanhar</strong>. O alongamento desce e se aproxima do tendão: ali está o sóleo." },
+    ankleMob: { name: "Mobilidade de tornozelo sem forçar", sets: 1, reps: "90s por lado", tag: "Sem equipamento",
+      cue: "Sentado, círculos amplos e lentos com o tornozelo, e depois pontas para frente sustentadas. <strong>Aqui não há alongamento de panturrilha, de propósito</strong>: com dor na inserção, levar o pé à dorsiflexão máxima comprime o tendão contra o osso, que é exatamente o que estamos evitando a rotina inteira. Mobilidade sim, puxão não." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES */
+  const ISO      = { mid: ["isoStep"], ins: ["isoFlat"] };
+  const ENERGY   = ["pogo", "skip", "slHop"];
+  const STRENGTH = {
+    "home|mid": ["eccStraight", "eccBent"],
+    "home|ins": ["eccStraightFlat", "eccBentFlat"],
+    "gym|mid":  ["seatedCalf", "legPressCalf", "farmerToes"],
+    "gym|ins":  ["seatedCalfNeutral", "legPressCalfNeutral", "farmerToes"]
+  };
+  const FOOT     = ["towel", "shortFoot", "tibRaise"];
+  const HIP      = ["hipAbd", "slBridge"];
+  const MOBILITY = { mid: ["wallStraight", "wallBent"], ins: ["ankleMob"] };
+
+  const WHY = "O tendão lesionado tem colágeno desorganizado, e a única coisa que o reorganiza é tensão repetida e bem dosada. Por isso não se descansa: carrega-se, mede-se a resposta no dia seguinte, e ajusta-se. Os isométricos baixam a dor, a força lenta reconstrói o tecido, o pé e o quadril tiram trabalho dele, e os saltos — por último — devolvem a capacidade de ser uma mola.";
+
+  const RULES =
+    "<strong>As regras do semáforo.</strong> Incômodo de <strong>1 a 3 de 10</strong> durante o exercício está ok, desde que não aumente série a série e diminua logo depois de terminar. " +
+    "<strong>Pare</strong> se passar de 4, se ficar pontiagudo, ou se mudar o seu jeito de andar.<br><br>" +
+    "<strong>O teste real é na manhã seguinte.</strong> O tendão responde com atraso: se você acordar bem mais rígido ou dolorido que no seu dia normal, a carga foi demais. Baixe peso ou séries na próxima sessão — não aguente firme.<br><br>" +
+    "<strong>Olho no truque da perna sã.</strong> Quando o cansaço chega, o corpo passa o peso para a perna boa na subida. Divida 50 e 50, sempre.";
+
+  const FREQ = {
+    home: "<strong>Todos os dias, e duas vezes por dia se der.</strong> É o protocolo excêntrico clássico: muita frequência com pouco peso, por umas 12 semanas.",
+    gym: "<strong>Três vezes por semana</strong>, com pelo menos um dia entre sessões. Carga pesada e lenta, também por umas 12 semanas."
+  };
+  const SITE_LABEL = { mid: "Dor no meio do tendão", ins: "Dor na inserção" };
+  const PLACE_LABEL = { home: "Em casa", gym: "Na academia" };
+
+  function build(site, place, roller, stage) {
+    const pick = (ids) => ids.map((id) => {
+      const e = L[id];
+      if (!e) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({}, e);
+    });
+
+    const phases = [];
+    if (roller === "yes") phases.push({ name: "Rolo", exercises: pick(["rollCalf"]) });
+    phases.push({ name: "Isométricos", exercises: pick(ISO[site]) });
+    // Energy storage goes BEFORE the heavy work, not after: plyometrics belong
+    // on fresh legs, and doing them tired is how a tendon that was ready gets
+    // re-irritated on the last set.
+    if (stage === "yes") phases.push({ name: "Saltos", exercises: pick(ENERGY) });
+    phases.push({ name: "Força", exercises: pick(STRENGTH[place + "|" + site]) });
+    phases.push({ name: "Pé e tornozelo", exercises: pick(FOOT) });
+    phases.push({ name: "Quadril", exercises: pick(HIP) });
+    phases.push({ name: "Mobilidade", exercises: pick(MOBILITY[site]) });
+
+    return {
+      title: "Aquiles sem dor",
+      crumb: "Aquiles",
+      kicker: "Força",
+      subtitle: "Termine cada série e toque no botão — o único relógio aqui é o descanso. Os excêntricos são lentos de propósito: 4-5 segundos de descida.",
+      context: SITE_LABEL[site] + " · " + PLACE_LABEL[place] + (stage === "yes" ? " · com saltos" : ""),
+      why: WHY,
+      warning: FREQ[place] + "<br><br>" + RULES,
+      doneSub: "Pronto. Amanhã de manhã vai te dizer se a dose estava certa.",
+      phases: phases
+    };
+  }
+
+  return { build: build, library: L };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { site: "mid", place: "home", roller: "yes", stage: "no" };
+
+  document.querySelectorAll(".setup-opts").forEach((group) => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.STRENGTH_DATA = window.ACHILLES_ROUTINE.build(
+      choice.site, choice.place, choice.roller, choice.stage);
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/strength-tool.js";
+    document.body.appendChild(s);
+
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Trocar opções";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

@@ -867,6 +867,8 @@ Home doc: `achilles-brief.md`. Second tool on the strength engine, built the sam
 
 **Placement decision worth keeping:** the gated jump block sits **before** the heavy strength work, not after. Energy-storage work belongs on fresh legs; plyometrics at the end of a 30-set session is how a tendon that was ready gets re-irritated on the last set.
 
+*Update, same evening — EN and PT shipped.* `/members/en/achilles/` and `/members/pt/aquiles/`, cards on both homes. **48 combinations checked (16 × 3), 8 walked to the done screen.** ***The clinical assertion runs per language, which is the point:*** a translation pass that quietly reintroduced a calf stretch to the insertional path would read perfectly and be wrong, and no reviewer comparing three files side by side would catch it. **The check has to encode the contraindication, not the layout.**
+
 **A test bug worth recording, because it produced a false pass.** The first verification run reported 16/16 green while never once selecting the jump block. `data-val="yes"` exists in two different option groups (roller and stage), so an unscoped `[data-val="yes"]` selector always clicked the first one. **The page was correct — its handlers are scoped per group; the check was not, and it reported success for a state it never reached.** Selectors in these runs are now scoped by `[data-axis]`. *A check that cannot reach a state cannot verify it, and will happily say it did.*
 
 ## Open items — retired as a section (August 8, 2026)

@@ -1,0 +1,257 @@
+---
+layout: layouts/base.njk
+pageCss: "members-fuerza.css"
+title: "Pain-Free Achilles — Triaperformance All-Access"
+---
+{#- ACHILLES TOOL, v1 — English sibling of /members/aquiles/. Same 8 routines,
+    same gated block, same library structure; only the copy changes.
+
+    Original note follows.
+
+    ACHILLES TOOL, v1 — built Aug 13, 2026 from Iván's Achilles source doc.
+    Home doc: `achilles-brief.md`. Second artifact on the strength engine.
+
+    FOUR questions → one of 8 routines, plus one gated block:
+      location (mid-portion | insertional) × place (home | gym) × roller
+      + an energy-storage block shown only if the athlete says the strength
+        work is already pain-free.
+
+    *** The location axis is the reason this tool is not a copy of the knee one.
+    Insertional tendinopathy is made WORSE by dorsiflexion past neutral, which
+    compresses the tendon against the calcaneus — and that is exactly what a
+    heel drop off a step does at the bottom of every rep. So insertional gets:
+    flat ground instead of a step, range capped at neutral, capped range on the
+    gym machines, and NO end-range calf stretch at all. Do not "simplify" this
+    away; following the source doc as written would have had insertional
+    athletes doing 45 compressive reps a session. ***
+
+    Frequency differs by place, on Iván's call: home = Alfredson (daily, twice
+    daily), gym = HSR (3×/week), with a note saying they are two roads to the
+    same place. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/en/#biblioteca">Library</a> / Achilles</div></div>
+
+  <div class="setup-head">
+    <span class="label">Strength</span>
+    <h1>Pain-free Achilles</h1>
+    <p>Tendons don't heal with rest. They heal with well-dosed load. This is the loading programme — and the rules for knowing, each day, whether you overdid it.</p>
+  </div>
+
+  <div class="setup-warn">
+    <strong>Two things before you start.</strong><br>
+    <strong>1. If you felt a snap and you cannot push off or rise onto the toes of that foot, go to urgent care today</strong> — that is not tendinopathy. <br>
+    <strong>2. This starts after a professional has seen you</strong> and ruled out a partial tear. With swelling, heat or redness, or if you have recently taken fluoroquinolone antibiotics, talk it through before loading the tendon. Write to me and we'll sort it out.
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Where exactly does it hurt?</div>
+    <div class="setup-opts" data-axis="site">
+      <button type="button" class="setup-opt" data-val="mid" aria-pressed="true">Mid-portion<span>2-6 cm above the heel</span></button>
+      <button type="button" class="setup-opt" data-val="ins" aria-pressed="false">Right at the bottom<span>where it meets the bone</span></button>
+    </div>
+    <p class="setup-hint"><strong>Press with two fingers and find where it jumps.</strong> This is not a detail: if the pain is low, at the insertion, dropping the heel below the step crushes the tendon against the bone on every single rep. It is the most common mistake in Achilles rehab, and the routine changes to avoid it.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Where are you training?</div>
+    <div class="setup-opts" data-axis="place">
+      <button type="button" class="setup-opt" data-val="home" aria-pressed="true">At home<span>daily protocol</span></button>
+      <button type="button" class="setup-opt" data-val="gym" aria-pressed="false">At the gym<span>heavy load, 3×/week</span></button>
+    </div>
+    <p class="setup-hint">Two roads to the same place. At home is the classic eccentric protocol: high frequency, little weight. At the gym is heavy slow resistance: three times a week, more weight, fewer sessions. The trials tie them; the gym one gets abandoned less often.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Do you have a foam roller?</div>
+    <div class="setup-opts" data-axis="roller">
+      <button type="button" class="setup-opt" data-val="yes" aria-pressed="true">Yes</button>
+      <button type="button" class="setup-opt" data-val="no" aria-pressed="false">No</button>
+    </div>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Is the strength work already pain-free?</div>
+    <div class="setup-opts" data-axis="stage">
+      <button type="button" class="setup-opt" data-val="no" aria-pressed="true">Not yet</button>
+      <button type="button" class="setup-opt" data-val="yes" aria-pressed="false">Yes, pain-free</button>
+    </div>
+    <p class="setup-hint">If you get through all the strength work with no discomfort and no extra stiffness the next morning, a jumping block gets added. <strong>That is where the tendon relearns how to be a spring</strong> — and where most people reinjure themselves, by going from heavy calf raises straight back to intervals. If you are unsure, leave it on "not yet".</p>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Build my routine →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/strength-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.ACHILLES_ROUTINE = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY */
+  const L = {
+    /* --- rodillo --- */
+    rollCalf: { name: "Roll: calf belly", sets: 1, reps: "60-90s per side", tag: "Foam roller",
+      cue: "Only the meaty upper portion and the sides of the lower leg. <strong>Never roll the tendon itself</strong> — it is highly innervated tissue and already irritated; friction there only aggravates it. From the knee down to where muscle becomes tendon, and stop." },
+
+    /* --- isométricos (analgésico + activación) --- */
+    isoStep: { name: "Isometric calf hold (step)", sets: 3, reps: "30-45s", rest: 60, tag: "Step",
+      cue: "Both feet on the edge of the step, rise onto your toes and <strong>hold the top position, still</strong>. Heavy isometrics are a natural painkiller for tendons: start here and the rest of the routine hurts less." },
+    isoFlat: { name: "Isometric calf hold (floor)", sets: 3, reps: "30-45s", rest: 60, tag: "No equipment",
+      cue: "Same thing, but <strong>on flat ground, not the step</strong>: with insertional pain we do not want the heel below foot level. Rise onto your toes and hold still at the top. This is the tendon's natural painkiller." },
+
+    /* --- energía elástica (bloque final, solo si ya no duele) --- */
+    pogo: { name: "Pogo hops", sets: 3, reps: "20", rest: 60, tag: "No equipment",
+      cue: "Small hops on the spot, <strong>from the ankle only, knee almost locked</strong>. Ground contact should be short and quiet. You are not after height: you are after elastic stiffness, which is what the tendon does when you run." },
+    skip: { name: "Low skipping", sets: 3, reps: "30s", rest: 60, tag: "No equipment",
+      cue: "Easy skipping on the spot or moving forward. <strong>Quick rebound, forefoot contact, no heel slamming.</strong> If the tendon speaks up, the block ends — that one is not negotiable." },
+    slHop: { name: "Single-leg hops", sets: 3, reps: "10 per side", rest: 60, tag: "No equipment",
+      cue: "Hops on the spot on one leg, landing on the forefoot with a soft knee. <strong>This is the last step before running hard again.</strong> If you wake up stiffer tomorrow than you are today, it was too soon." },
+
+    /* --- fuerza en casa: excéntricos --- */
+    eccStraight: { name: "Eccentric heel drop, straight leg", sets: 3, reps: "15 per side", rest: 60, tag: "Step",
+      cue: "On the step, rise using both legs, lift the healthy foot off and <strong>lower on the injured leg alone over 4-5 seconds</strong>, letting the heel drop below the step. Put the healthy foot back to push up. The descent is the entire exercise; never push up on the injured leg." },
+    eccBent: { name: "Eccentric heel drop, bent knee", sets: 3, reps: "15 per side", rest: 60, tag: "Step",
+      cue: "Exactly the same, but <strong>with the working knee bent about 30 degrees throughout</strong>. That shifts the load from the gastrocnemius down to the soleus, which is the muscle doing most of the work running on the flat." },
+    eccStraightFlat: { name: "Eccentric heel drop, straight leg", sets: 3, reps: "15 per side", rest: 60, tag: "Flat ground",
+      cue: "<strong>On the floor, not the step.</strong> Rise onto your toes with both, lift the healthy foot off and lower on the injured leg over 4-5 seconds <strong>until the heel touches the floor, and stop there</strong>. Never lower: with insertional pain, that extra range crushes the tendon against the bone." },
+    eccBentFlat: { name: "Eccentric heel drop, bent knee", sets: 3, reps: "15 per side", rest: 60, tag: "Flat ground",
+      cue: "Same as the previous one, on the floor and stopping at the heel, but <strong>with the knee bent about 30 degrees</strong> to move the load into the soleus." },
+
+    /* --- fuerza en gimnasio: carga pesada y lenta --- */
+    seatedCalf: { name: "Seated calf raise", sets: 4, reps: "6-8", rest: 120, tag: "Machine",
+      cue: "Heavy, and <strong>3 seconds up, 3 seconds down</strong>. The tempo is not cosmetic: sustained tension is what remodels the collagen. Seated with the knee bent, the soleus does the work — the distance runner's workhorse." },
+    seatedCalfNeutral: { name: "Seated calf raise", sets: 4, reps: "6-8", rest: 120, tag: "Machine · limited range",
+      cue: "Heavy, 3 seconds up and 3 down, but <strong>stop when the heel reaches the level of the footplate — do not let it drop below</strong>. That last stretch is what compresses the insertion, and it is what has been stopping you from improving." },
+    legPressCalf: { name: "Leg press calf raise", sets: 4, reps: "8-10", rest: 120, tag: "Leg press",
+      cue: "Legs almost straight without locking the knee backward, pressing through the ball of the foot. Same slow tempo. With the knee extended the gastrocnemius takes over." },
+    legPressCalfNeutral: { name: "Leg press calf raise", sets: 4, reps: "8-10", rest: 120, tag: "Leg press · limited range",
+      cue: "Same, slow tempo, but <strong>without letting the heel drop past the line of the platform</strong>. Same reason: at the insertion, extra range is not extra stimulus, it is compression." },
+    farmerToes: { name: "Farmer's walk on toes", sets: 3, reps: "30s", rest: 90, tag: "Dumbbells",
+      cue: "Heavy dumbbells, walk slowly <strong>staying high on the balls of your feet the whole way</strong>, never letting the heel drop. Trains ankle stiffness under load — exactly what the cyclist who drops their heel under high torque is missing." },
+
+    /* --- pie y tobillo --- */
+    towel: { name: "Towel scrunches", sets: 3, reps: "20 per side", rest: 30, tag: "Towel",
+      cue: "Seated and barefoot, towel flat on the floor, <strong>scrunch it toward you using only your toes</strong>. A strong foot keeps some of the push-off work instead of handing all of it to the tendon." },
+    shortFoot: { name: "Short foot", sets: 3, reps: "30s per side", rest: 30, tag: "No equipment",
+      cue: "Barefoot, foot flat, <strong>draw the base of your toes toward the heel by lifting the arch, without curling the toes and without rolling the ankle</strong>. It is a tiny movement and hard to find; when it appears, you feel the arch switch on. The foot and the Achilles share the spring: if the arch collapses, the tendon pays the difference." },
+    tibRaise: { name: "Tibialis anterior raises", sets: 3, reps: "20", rest: 30, tag: "Wall for support",
+      cue: "Back against the wall, heels a step forward, <strong>lift your toes toward your shins as high as you can and lower slowly</strong>. It is the calf's antagonist: it gives you control of the foot as it lands, rather than just braking it." },
+
+    /* --- cadera --- */
+    hipAbd: { name: "Side-lying leg raises", sets: 3, reps: "15 per side", rest: 30, tag: "No equipment",
+      cue: "On your side, top leg straight and <strong>toes pointing slightly toward the floor</strong>. It should burn on the side of the glute. Whatever the hip fails to stabilise up there, the ankle compensates for down here." },
+    slBridge: { name: "Single-leg glute bridge", sets: 3, reps: "10 per side", rest: 45, tag: "No equipment",
+      cue: "Drive through the heel and squeeze the glute at the top. <strong>If you feel it in your lower back, tuck the pelvis and lower the height.</strong> A strong posterior chain means less braking work further down." },
+
+    /* --- movilidad (post, en caliente) --- */
+    wallStraight: { name: "Wall stretch, straight leg", sets: 1, reps: "2 min per side", tag: "Wall",
+      cue: "Hands on the wall, back leg straight and <strong>the heel pinned to the floor</strong>. Stretches the gastrocnemius. Only after training, with the tissue warm — stretching a cold, irritated Achilles is the fastest way to flare it up." },
+    wallBent: { name: "Wall stretch, bent knee", sets: 1, reps: "2 min per side", tag: "Wall",
+      cue: "Same position, but <strong>bending the back knee slightly without lifting the heel</strong>. The stretch drops lower and closer to the tendon: that is the soleus." },
+    ankleMob: { name: "Ankle mobility, no forcing", sets: 1, reps: "90s per side", tag: "No equipment",
+      cue: "Seated, wide slow ankle circles, then held toes-pointed holds. <strong>There is deliberately no calf stretch here</strong>: with insertional pain, taking the foot to end-range dorsiflexion compresses the tendon against the bone, which is exactly what the whole routine has been avoiding. Mobility yes, pulling no." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES */
+  const ISO      = { mid: ["isoStep"], ins: ["isoFlat"] };
+  const ENERGY   = ["pogo", "skip", "slHop"];
+  const STRENGTH = {
+    "home|mid": ["eccStraight", "eccBent"],
+    "home|ins": ["eccStraightFlat", "eccBentFlat"],
+    "gym|mid":  ["seatedCalf", "legPressCalf", "farmerToes"],
+    "gym|ins":  ["seatedCalfNeutral", "legPressCalfNeutral", "farmerToes"]
+  };
+  const FOOT     = ["towel", "shortFoot", "tibRaise"];
+  const HIP      = ["hipAbd", "slBridge"];
+  const MOBILITY = { mid: ["wallStraight", "wallBent"], ins: ["ankleMob"] };
+
+  const WHY = "An injured tendon has disorganised collagen, and the only thing that reorders it is repeated, well-dosed tension. So you don't rest it: you load it, measure the response the next morning, and adjust. Isometrics bring the pain down, slow strength rebuilds the tissue, the foot and hip take work off it, and the jumps — last of all — give it back its ability to be a spring.";
+
+  const RULES =
+    "<strong>The traffic-light rules.</strong> Discomfort of <strong>1 to 3 out of 10</strong> during the exercise is fine, as long as it does not build set to set and settles shortly after you finish. " +
+    "<strong>Stop</strong> if it goes above 4, if it turns sharp, or if it changes the way you walk.<br><br>" +
+    "<strong>The real test is the next morning.</strong> Tendons respond with a delay: if you wake up noticeably stiffer or sorer than your normal day, the load was too much. Drop weight or sets in the next session — do not tough it out.<br><br>" +
+    "<strong>Watch for the good-leg cheat.</strong> As fatigue arrives, the body quietly shifts weight onto the healthy leg to get back up. Keep it 50/50, always.";
+
+  const FREQ = {
+    home: "<strong>Every day, and twice a day if you can.</strong> This is the classic eccentric protocol: high frequency with little weight, sustained for about 12 weeks.",
+    gym: "<strong>Three times a week</strong>, with at least a day between sessions. Heavy slow resistance, also for about 12 weeks."
+  };
+  const SITE_LABEL = { mid: "Mid-portion pain", ins: "Insertional pain" };
+  const PLACE_LABEL = { home: "At home", gym: "At the gym" };
+
+  function build(site, place, roller, stage) {
+    const pick = (ids) => ids.map((id) => {
+      const e = L[id];
+      if (!e) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({}, e);
+    });
+
+    const phases = [];
+    if (roller === "yes") phases.push({ name: "Rolling", exercises: pick(["rollCalf"]) });
+    phases.push({ name: "Isometrics", exercises: pick(ISO[site]) });
+    // Energy storage goes BEFORE the heavy work, not after: plyometrics belong
+    // on fresh legs, and doing them tired is how a tendon that was ready gets
+    // re-irritated on the last set.
+    if (stage === "yes") phases.push({ name: "Jumps", exercises: pick(ENERGY) });
+    phases.push({ name: "Strength", exercises: pick(STRENGTH[place + "|" + site]) });
+    phases.push({ name: "Foot and ankle", exercises: pick(FOOT) });
+    phases.push({ name: "Hip", exercises: pick(HIP) });
+    phases.push({ name: "Mobility", exercises: pick(MOBILITY[site]) });
+
+    return {
+      title: "Pain-free Achilles",
+      crumb: "Achilles",
+      kicker: "Strength",
+      subtitle: "Finish each set and tap the button — the only clock here is the rest. The eccentrics are slow on purpose: 4-5 seconds down.",
+      context: SITE_LABEL[site] + " · " + PLACE_LABEL[place] + (stage === "yes" ? " · with jumps" : ""),
+      why: WHY,
+      warning: FREQ[place] + "<br><br>" + RULES,
+      doneSub: "Done. Tomorrow morning will tell you whether the dose was right.",
+      phases: phases
+    };
+  }
+
+  return { build: build, library: L };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { site: "mid", place: "home", roller: "yes", stage: "no" };
+
+  document.querySelectorAll(".setup-opts").forEach((group) => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.STRENGTH_DATA = window.ACHILLES_ROUTINE.build(
+      choice.site, choice.place, choice.roller, choice.stage);
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/strength-tool.js";
+    document.body.appendChild(s);
+
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Change options";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

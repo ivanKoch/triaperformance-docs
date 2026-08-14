@@ -1,6 +1,6 @@
 # Aquiles Sin Dolor — Achilles tendinopathy artifact
 
-**Status: v1 SHIPPED in Spanish, August 13, 2026** — `/members/aquiles/`. Second artifact on the strength engine (`strength-tool.js`; that engine's home doc is `knee-strength-brief.md`).
+**Status: v1 SHIPPED in all three languages, August 13, 2026** — `/members/aquiles/`, `/members/en/achilles/`, `/members/pt/aquiles/`. Second artifact on the strength engine (`strength-tool.js`; that engine's home doc is `knee-strength-brief.md`).
 
 **Last updated:** August 13, 2026.
 
@@ -44,9 +44,12 @@ Achilles tendinopathy is two conditions. **Mid-portion** sits 2–6 cm above the
 
 **Red flags, added.** A sudden snap with inability to push off or rise onto the toes is a same-day emergency, not tendinopathy — that is first, above everything. Then the clearance gate the source doc already believed in, plus swelling/heat/redness and recent fluoroquinolone antibiotics, which are a known tendon-rupture risk factor and are rarely mentioned anywhere an athlete would see them.
 
+## Translation note
+
+EN and PT shipped the same evening; page copy only, no engine work. **The three pages are structurally identical** — same library keys, same 8 routine lists, same gate, same build function. *The clinical assertion runs against all three:* no insertional routine may contain step work or a wall stretch, in any language. **That check is the one that must survive any future refactor** — a translation that quietly reintroduced a wall stretch to the insertional path would look perfectly fine and be wrong.
+
 ## Open
 
-- **Not translated.** EN and PT next, page copy only — the engine chrome is already three-language.
-- **Nobody has run it.** 16 combinations verified structurally and clinically, 4 walked end to end to the done screen. None verified by a person doing the work.
+- **Nobody has run it.** 48 combinations verified structurally and clinically (16 × 3 languages), 8 walked end to end to the done screen. None verified by a person doing the work.
 - **Length.** The longest routine is 40 sets (gym, insertional, with jumps). *That is a lot for a rehab session done three times a week, and it is the first thing to check on a real run-through.* Same open question as the knee tool.
 - **"Can I keep running?"** is the question every athlete with Achilles pain asks first, and the tool is silent on it. Usually the answer is yes with the same traffic-light rules applied to the run. Worth a line, needs Iván's call.
