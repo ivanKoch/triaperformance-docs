@@ -1,7 +1,28 @@
 # Content engine — research agent + review page
 
 **Status:** LIVE. *Corrected Aug 13, 2026 — this line read "written, nothing deployed. July 27, 2026" for two and a half weeks after the fact. Both agents plus translation have been on cron since Aug 4, and the admin approval page (`/admin/ideas`, `/admin/drafts`) is running. Confirmed by Iván. **The stale line matters because it is the first line of the file:** anyone deciding whether to build on this engine read "nothing deployed" and stopped.*
-**Scope:** research agent, writer agent (including translation) and the approval surface — Gate A at `/admin/ideas`, Gate B at `/admin/drafts`. *Also corrected Aug 13, 2026: this read "No writer, no publisher"; `writer_agent.py` has been on cron since Aug 4.* **Still absent: any way for Iván to submit his own idea.** The only producer of `content_ideas` rows is the research agent; the admin service has a decide route and no create route, so an idea of his own reaches the pipeline only via a hand-written SQL INSERT — which in practice means it does not. Logged in `open-loops.md`.
+**Scope:** research agent, writer agent (including translation) and the approval surface — Gate A at `/admin/ideas`, Gate B at `/admin/drafts`. *Also corrected Aug 13, 2026: this read "No writer, no publisher"; `writer_agent.py` has been on cron since Aug 4.* *Update, Aug 13, 2026 — **Iván can now submit his own ideas**: `GET/POST /admin/ideas/new`, in `admin_service/app.py`. They insert as `APPROVED` rather than `PROPOSED` (Gate A filters the agent's guesses and is meaningless for an idea he wrote himself) with `score = 100`, so they land straight in `ideas_awaiting_draft` ahead of agent proposals. **The writer agent needed no change.** `cta_target` carries a datalist of the eight members-tool paths, which is how an article gets aimed at a specific tool.*
+
+**Deploy — this is a repo file like every other VPS script, so Claude edits it and Iván ships it:**
+
+```bash
+# Mac
+cd ~/triaperformance-docs && git add -A && git commit -m "..." && git push
+# VPS
+cd ~/.hermes/triaperformance-docs && git fetch origin && git reset --hard origin/main
+docker compose ps                                   # confirm the service name first
+docker compose up -d --build <admin-service-name>
+docker compose logs --tail 30 <admin-service-name>
+```
+
+Then open `/admin/ideas/new`, save one, and confirm the writer can see it:
+
+```bash
+docker exec -i analytics-postgres psql -U analytics -d content \
+  -c "SELECT id, language, working_title, score, status FROM ideas_awaiting_draft ORDER BY score DESC LIMIT 5;"
+```
+
+*Previously: **any way for Iván to submit his own idea was absent.*** The only producer of `content_ideas` rows is the research agent; the admin service has a decide route and no create route, so an idea of his own reaches the pipeline only via a hand-written SQL INSERT — which in practice means it does not. Logged in `open-loops.md`.
 
 The research agent proposes ideas. You approve them in batches on a private page. That's it — nothing writes or publishes yet, deliberately. The point of stopping here is to find out whether the ideas are any good before automating anything downstream, because bad ideas written well are still bad articles.
 

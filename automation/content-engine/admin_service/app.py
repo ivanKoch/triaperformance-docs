@@ -12,6 +12,8 @@ Routes
     GET  /admin/            -> redirect to /admin/ideas/
     GET  /admin/ideas/      batch approve/reject proposed ideas
     POST /admin/ideas/decide
+    GET  /admin/ideas/new   write your own idea (Aug 13, 2026)
+    POST /admin/ideas/new
     GET  /admin/drafts/     read, edit and approve written drafts
     POST /admin/drafts/decide
     GET  /admin/all/        everything, whatever its status — nothing disappears
@@ -130,6 +132,23 @@ textarea { width:100%; min-height:360px; font-family:ui-monospace,Menlo,monospac
 .hidden { display:none; }
 .linkbtn { background:none; border:none; color:var(--blue); font-size:13px;
            padding:0; cursor:pointer; text-decoration:underline; }
+/* Own-idea form (Aug 13, 2026). Reuses .card; only the controls are new. */
+.field { margin-bottom:18px; }
+.field label { display:block; font-size:12px; font-weight:700; text-transform:uppercase;
+               letter-spacing:.06em; color:var(--blue); margin-bottom:6px; }
+.field .hint { font-size:13px; color:var(--slate); margin-bottom:6px; font-weight:400;
+               text-transform:none; letter-spacing:0; }
+.field input[type=text], .field select, .field textarea {
+  width:100%; font-family:inherit; font-size:15px; color:var(--ink);
+  border:1px solid var(--mist); border-radius:4px; padding:10px 12px; background:var(--white); }
+.field textarea { min-height:90px; line-height:1.55; }
+.field select { height:42px; }
+.row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+.err { background:#fdf1f1; border-left:3px solid #b23; padding:12px 16px;
+       border-radius:4px; margin-bottom:20px; font-size:15px; }
+.ok { background:var(--wash); border-left:3px solid var(--blue); padding:12px 16px;
+      border-radius:4px; margin-bottom:20px; font-size:15px; }
+@media (max-width:700px) { .row3 { grid-template-columns:1fr; } }
 table.all { width:100%; border-collapse:collapse; font-size:14px; }
 table.all th { text-align:left; font-size:12px; text-transform:uppercase;
                letter-spacing:.05em; color:var(--blue); padding:8px 10px;
@@ -154,6 +173,7 @@ def page(title, sub, body, active=""):
   <header><h1>{esc(title)}</h1><p class="sub">{esc(sub)}</p></header>
   <nav class="adminnav">
     <a href="/admin/ideas/"{cls('ideas')}>Ideas pendientes</a>
+    <a href="/admin/ideas/new"{cls('new')}>Nueva idea</a>
     <a href="/admin/drafts/"{cls('drafts')}>Borradores</a>
     <a href="/admin/all/"{cls('all')}>Todo</a>
   </nav>
@@ -258,6 +278,155 @@ def ideas_decide():
         conn.commit()
     print(f"[ideas] approved={len(approve)} rejected={len(reject)}")
     return redirect("/admin/ideas/", code=303)
+
+
+# ---------------------------------------------------------------------------
+# Iván's own ideas. Added Aug 13, 2026.
+#
+# Until now the research agent was the only producer of content_ideas rows, so
+# an idea of Iván's reached the pipeline only via a hand-written SQL INSERT —
+# which in practice meant it didn't, and his own ideas stayed outside the system
+# that drafts and translates everything else.
+#
+# These insert as APPROVED rather than PROPOSED: Gate A exists to filter the
+# agent's guesses and is meaningless for an idea he wrote himself. The row lands
+# straight in `ideas_awaiting_draft`, which the writer already reads, so the
+# writer needs no change at all. score=100 because that view orders by score
+# DESC — his own ideas belong ahead of agent proposals in the queue.
+# ---------------------------------------------------------------------------
+ARTICLE_TYPES = ("education", "plan_guide", "gated_teaser", "gear", "case_study")
+CTA_TYPES = ("all_access", "plan", "coaching", "lead_magnet", "affiliate", "none")
+LANGS = ("es", "en", "pt")
+
+# Offered as a datalist on cta_target. Pointing an article at a specific tool is
+# the main reason this form exists, and nobody remembers exact paths.
+TOOL_PATHS = [
+    "/members/calculadora-de-zonas/", "/members/activacion/", "/members/rodillas/",
+    "/members/aquiles/", "/members/core/", "/members/respiracion/",
+    "/members/carga/", "/members/guias/",
+]
+
+
+def _sel(values, labels, chosen):
+    return "".join(
+        '<option value="%s"%s>%s</option>' % (
+            esc(v), " selected" if v == chosen else "", esc(labels.get(v, v)))
+        for v in values)
+
+
+def _idea_form(msg="", f=None):
+    f = f or {}
+
+    def g(k):
+        return esc(f.get(k, ""))
+
+    dl = "".join('<option value="%s">' % esc(p) for p in TOOL_PATHS)
+    return page("Nueva idea", "Tuya, no del agente — entra aprobada y va directo a la cola del redactor", f"""
+{msg}
+<form method="POST" action="/admin/ideas/new" class="card">
+  <div class="field">
+    <label>Título de trabajo</label>
+    <div class="hint">No es el titular final; el redactor lo reescribe. Es para reconocerla en la lista.</div>
+    <input type="text" name="working_title" value="{g('working_title')}" required autofocus>
+  </div>
+  <div class="field">
+    <label>El ángulo</label>
+    <div class="hint">Qué podés decir vos que las fuentes no. Si esto queda genérico, el artículo también.</div>
+    <textarea name="angle" required>{g('angle')}</textarea>
+  </div>
+  <div class="row3">
+    <div class="field">
+      <label>Idioma</label>
+      <select name="language">{_sel(LANGS, LANG_LABEL, f.get('language', 'es'))}</select>
+    </div>
+    <div class="field">
+      <label>Tipo</label>
+      <select name="article_type">{_sel(ARTICLE_TYPES, TYPE_LABEL, f.get('article_type', 'education'))}</select>
+    </div>
+    <div class="field">
+      <label>CTA</label>
+      <select name="cta_type">{_sel(CTA_TYPES, CTA_LABEL, f.get('cta_type', 'all_access'))}</select>
+    </div>
+  </div>
+  <div class="field">
+    <label>Destino del CTA</label>
+    <div class="hint">Un plan_id, o una ruta de /members/ si querés que el artículo empuje una herramienta.</div>
+    <input type="text" name="cta_target" list="toolpaths" value="{g('cta_target')}">
+    <datalist id="toolpaths">{dl}</datalist>
+  </div>
+  <div class="field">
+    <label>Búsqueda objetivo (opcional)</label>
+    <input type="text" name="target_query" value="{g('target_query')}">
+  </div>
+  <div class="field">
+    <label>Qué nuestro lo respalda (opcional, separado por comas)</label>
+    <input type="text" name="our_assets" value="{g('our_assets')}"
+           placeholder="methodology.md §4, /members/rodillas/, plan 612561">
+  </div>
+  <div class="field">
+    <label>Por qué ahora (opcional)</label>
+    <textarea name="rationale" style="min-height:60px">{g('rationale')}</textarea>
+  </div>
+  <button type="submit" class="primary">Guardar y mandar al redactor</button>
+</form>
+<footer>Entra como APROBADA. El redactor la toma en su próxima corrida; no pasa por Ideas pendientes.</footer>""",
+                active="new")
+
+
+@app.get("/admin/ideas/new")
+def idea_new_form():
+    return _idea_form()
+
+
+@app.post("/admin/ideas/new")
+def idea_new_save():
+    f = request.form
+    title = (f.get("working_title") or "").strip()
+    angle = (f.get("angle") or "").strip()
+    lang = (f.get("language") or "").strip()
+    atype = (f.get("article_type") or "").strip()
+    ctype = (f.get("cta_type") or "").strip()
+
+    # Validate the enum-backed fields here rather than letting Postgres reject
+    # the cast: a friendly message beats a 500, and the form keeps what was
+    # typed. A form that discards your work on a validation error gets used once.
+    problems = []
+    if not title:
+        problems.append("Falta el título de trabajo.")
+    if not angle:
+        problems.append("Falta el ángulo — es el campo que decide si el artículo vale algo.")
+    if lang not in LANGS:
+        problems.append("Idioma inválido.")
+    if atype not in ARTICLE_TYPES:
+        problems.append("Tipo de artículo inválido.")
+    if ctype not in CTA_TYPES:
+        problems.append("Tipo de CTA inválido.")
+    if problems:
+        return _idea_form('<p class="err">' + esc(" ".join(problems)) + "</p>", f), 400
+
+    assets = [a.strip() for a in (f.get("our_assets") or "").split(",") if a.strip()]
+
+    with db() as conn, conn.cursor() as cur:
+        cur.execute(
+            """INSERT INTO content_ideas
+                 (language, working_title, angle, target_query, rationale,
+                  article_type, cta_type, cta_target, our_assets, evidence,
+                  source_count, score, status, decided_at)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, '[]'::jsonb,
+                       0, 100, 'APPROVED', now())
+               RETURNING id""",
+            (lang, title, angle,
+             (f.get("target_query") or "").strip() or None,
+             (f.get("rationale") or "").strip() or "Idea propia de Iván.",
+             atype, ctype,
+             (f.get("cta_target") or "").strip() or None,
+             json.dumps(assets)))
+        new_id = cur.fetchone()["id"]
+        conn.commit()
+    print(f"[ideas] own idea created id={new_id} lang={lang} title={title!r}")
+    return _idea_form(
+        f'<p class="ok">Guardada (#{new_id}) y aprobada. '
+        f'El redactor la toma en su próxima corrida.</p>')
 
 
 # ---------------------------------------------------------------------------
