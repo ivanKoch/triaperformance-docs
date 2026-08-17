@@ -2,10 +2,12 @@
 
 ## Build status (updated July 27, 2026)
 
+> ***Corrected August 14, 2026 — this section header and the two status lines below described an engine that has been running on cron since August 4.*** *The header said "updated July 27, 2026" and had not been touched since; the line at the end of this section read* **"Still not built: the `content` Postgres database and the five agents"**; *and the status line under it read* **"Status: design (with Phase 0 partly built — see above)."* ***All three were wrong for ten days.*** *The engine is LIVE, and Iván describes the working chain as* **research → his approval → the writer → his approval → the translator** *(Aug 14, 2026) — five stages, two of them human gates, which is the pipeline §2 designed. `automation/content-engine/` holds `schema.sql`, `research_agent.py`, `writer_agent.py`, `notify.py`, `run-agent.sh` and `admin_service/`; both agents plus translation have been on cron since Aug 4; the approval surface runs at `/admin/ideas` and `/admin/drafts`, and Iván's own-idea form was deployed and confirmed Aug 13. Deployed state is owned by `automation/content-engine/SETUP.md`, which was corrected Aug 13 — this file was not, so the correction landed in the file nobody opens and missed the one the project index calls "the status-driven content pipeline design."* ***Same failure mode as the Aug 13 `SETUP.md` incident, one file over.*** *What it was blocking: anyone deciding whether to build distribution on top of the engine (`open-loops.md`: "Distribution for the content engine — the unbuilt half") read "still not built" here and had no reason to continue.*
+
 **Phase 0 is underway.** The Eleventy build step shipped and is live (see `ai-infrastructure-documentation.md` §15), which was the hard prerequisite for a blog existing at all. On top of it:
 
 - **Blog structure is live**: `/blog/` (ES), with `/en/blog/` and `/pt/blog/` reserved. Article URLs are slug-only, no dates. Articles are ordinary pages, so they inherit nav, footer, analytics and the `transKey` hreflang machinery automatically.
-- **`site/_data/plans.js`** loads the 381-row plan inventory at build time and exposes the linkable plans, excluding duplicate rows and expired links. *(Corrected Aug 2, 2026 — this line previously said it also excluded "the 6 known-404 IDs." Those never existed: the July 27 full link check returned 323 OK / 0 dead. See the link-status bullet below.)*
+- **`site/_data/plans.js`** loads the ~~381-row~~ **328-row** plan inventory at build time *(corrected Aug 14, 2026 — 381 was the row count on July 27. The catalogue is 328 published plans, ES 164 / EN 111 / PT 53, and since Aug 12 every inventory row is published, so rows and published plans are the same number. Owner: `data/training_plans_inventory.csv`.)* and exposes the linkable plans, excluding duplicate rows and expired links. *(Corrected Aug 2, 2026 — this line previously said it also excluded "the 6 known-404 IDs." Those never existed: the July 27 full link check returned 323 OK / 0 dead. See the link-status bullet below.)*
 - **The `planCard` shortcode implements the brief's core monetization rule mechanically**: an article names a plan by `plan_id` and never contains a URL. Name, price, duration, metric and link are all joined in from the inventory. **Referencing an unlinkable plan fails the build** — verified by deliberately referencing the dead `434680` and confirming a non-zero exit.
 - **First article published in all three languages, live July 27, 2026**:
   - ES `/blog/como-elegir-tu-plan-de-maraton/` — 4 questions, 9 plans
@@ -23,11 +25,11 @@
 
 **Real problem surfaced by doing this:** the 18-week Beginner heart-rate marathon plan (`434680`) is marked published but 404s, so that branch of the decision tree has nothing buyable behind it. Exactly the failure the `content_links` design in §2 exists to catch — it just showed up before the automation did.
 
-**Still not built:** the `content` Postgres database and the five agents. Everything above is the substrate they'll operate on.
+~~**Still not built:** the `content` Postgres database and the five agents. Everything above is the substrate they'll operate on.~~ ***Struck August 14, 2026 — false since August 4.*** *The `content` database exists (`automation/content-engine/schema.sql`, plus the `ideas_awaiting_draft` and `approved_unpublished` views added Aug 12) and the research and writer agents run on cron, with the publish step firing over the n8n webhook. Of the five agent contracts in §2, those are live; the rest are the genuinely unbuilt ones. Do not read the struck sentence as current.*
 
 ---
 
-**Status:** design (with Phase 0 partly built — see above). Written July 26, 2026.
+~~**Status:** design (with Phase 0 partly built — see above). Written July 26, 2026.~~ **Status: the engine described here has been LIVE on cron since August 4, 2026.** *(Corrected Aug 14, 2026 — the struck line was written July 26 and never revised. This document is the **design**; **deployed state** is owned by `automation/content-engine/SETUP.md` and open items by `open-loops.md`. A status line here is a third copy of that state, which is exactly why it drifted.)*
 **Belongs in:** `triaperformance-docs` repo.
 **Related:** `growth-roadmap.md` (pillar 2, "Social/content agent"), `ai-infrastructure-documentation.md` §8–13, `brand-guidelines.md` §8 (voice), `growth-roadmap.md` §Training Plan Storefront.
 

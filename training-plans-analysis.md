@@ -68,7 +68,7 @@ Against a build cost of 18 variants per race (2 durations × 3 volume tiers × 3
 
 ## 4. The long tail is half the catalogue
 
-- 303 published plans; **152 have never sold once (50%)** *(recomputed Aug 10, 2026 after the two EN full-distance Ironman plans were confirmed live and flagged `TRUE`; was 301 / 150, same 50%. Recomputed Aug 8, 2026 after the Rio 2026 plan was unpublished; was 302 / 151.)*
+- ~~303 published plans; **152 have never sold once (50%)**~~ → ***recomputed August 14, 2026 from `data/plan_performance.csv`: **328 published plans; 172 have never sold once (52%)**.*** *The struck figures were correct on Aug 10 and became wrong on Aug 12, when the `is_published` audit flipped 24 plans TRUE and the catalogue went 303 → 328 (§3 of this file records the flip; §4 was never re-run against it). Denominators moved, the finding did not: **the long tail is still half the catalogue.** The two lines below this one are unaffected — they count across all `plan_performance.csv` rows including retired plans, and re-derive unchanged.* Original figures: *(recomputed Aug 10, 2026 after the two EN full-distance Ironman plans were confirmed live and flagged `TRUE`; was 301 / 150, same 50%. Recomputed Aug 8, 2026 after the Rio 2026 plan was unpublished; was 302 / 151.)*
 - Top 20 plans = **$5,959 of $14,334 — 42% of all earnings**
 - 178 plans have ever sold; 218 never have
 

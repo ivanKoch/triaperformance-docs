@@ -1,6 +1,6 @@
 # Rodillas Sin Dolor — knee strength artifact
 
-**Status: v1 SHIPPED in all three languages, August 13, 2026** — `/members/rodillas/`, `/members/en/knees/`, `/members/pt/joelhos/`. **Home doc for this tool and for the strength engine it introduced.**
+**Status: v1 SHIPPED in all three languages, August 13, 2026 **· verified: 2026-08-14**** — `/members/rodillas/`, `/members/en/knees/`, `/members/pt/joelhos/`. **Home doc for this tool and for the strength engine it introduced.**
 
 **Last updated:** August 13, 2026.
 

@@ -1,6 +1,6 @@
 # Race Page — Content Outline (one-pager, no code)
 
-**Status: planning only.** Written July 30, 2026. Trigger to build: Storefront Phase 1 plan template ships (`open-loops.md`). Data source: `data/races.csv` + `training_plans_inventory.csv` join (see `race-page-data-schema.md`). Voice/visual rules: `brand-guidelines.md`.
+~~**Status: planning only.** Written July 30, 2026. Trigger to build: Storefront Phase 1 plan template ships (`open-loops.md`).~~ ***Corrected August 14, 2026: the trigger fired on August 6, 2026*** *when the plan template shipped and the storefront went live. Status is* **UNBLOCKED, queued as `open-loops.md` NEXT #1, not started** *— not "planning only." Same stale trigger as `race-landing-pages-longlist.md`; both sat eight days past their own condition. Written July 30, 2026.* Data source: `data/races.csv` + `training_plans_inventory.csv` join (see `race-page-data-schema.md`). Voice/visual rules: `brand-guidelines.md`.
 
 ## Site IA placement
 

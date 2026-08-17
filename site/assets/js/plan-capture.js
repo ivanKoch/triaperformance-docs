@@ -13,11 +13,20 @@
  *
  * Endpoint: same-origin /api/plan-lead, proxied by Caddy to an n8n webhook —
  * same pattern as /api/contact-form (see contact-form-pipeline-runbook.md).
- * NOT LIVE YET as of this commit — see plan-lead-pipeline-runbook.md for the
- * exact Caddy route, n8n workflow, and Twenty leadSource enum value
- * (PLAN_CATALOG) that need to be added before this endpoint responds with
- * anything but a 404. Until then this fails silently into the "couldn't
- * send" message and the buy button still works.
+ * LIVE since Aug 6, 2026 — verified 2026-08-14 (Iván: workflow Active in n8n,
+ * PLAN_CATALOG present in Twenty's leadSource enum).
+ *
+ * CORRECTED Aug 14, 2026. This comment read "NOT LIVE YET as of this commit
+ * — see plan-lead-pipeline-runbook.md for the exact Caddy route, n8n workflow,
+ * and Twenty leadSource enum value (PLAN_CATALOG) that need to be added before
+ * this endpoint responds with anything but a 404." It was wrong for eight days.
+ * Three other places said the same thing and one (ai-infrastructure §17's
+ * closing note) said the opposite and was right.
+ *
+ * The lesson for this file specifically: a deploy-state claim does not belong
+ * in a source comment. "As of this commit" has no expiry and nothing rebuilds
+ * it — the code ships, the sentence stays. Describe the CONTRACT here (what it
+ * posts, where, what it does on failure); live state belongs in open-loops.md.
  */
 (function () {
   var ENDPOINT = "/api/plan-lead";

@@ -1,6 +1,6 @@
 # Activation Matrix — the adaptive activation routine
 
-**Status: v1 SHIPPED in Spanish, August 13, 2026** — `/members/activacion/`. The two fixed tools it replaced (`/members/activacion/` running and `/members/activacion-ciclismo/`) are deleted, on Iván's call. **The tightness axis is v2 and deliberately absent from v1.**
+**Status: v1 SHIPPED in Spanish (EN + PT same day), August 13, 2026 **· verified: 2026-08-14**** — `/members/activacion/`. The two fixed tools it replaced (`/members/activacion/` running and `/members/activacion-ciclismo/`) are deleted, on Iván's call. **The tightness axis is v2 and deliberately absent from v1.**
 
 **Sequence Iván set:** v1 Spanish → translate to EN and PT → happy across all three → *then* v2 adds tightness. ***EN and PT shipped the same day*** — `/members/en/activation/` and `/members/pt/ativacao/`. **Next step is Iván actually running one, in each language, on a phone**, before v2 starts. *Do not add the tightness axis to Spanish only; that reintroduces exactly the drift the i18n branch exists to stop.*
 

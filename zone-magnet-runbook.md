@@ -2,7 +2,11 @@
 
 *Created August 13, 2026.* Wires the zone calculator's email capture to the guide built the same day (`lead-magnet-sesiones-por-zona.md` → `site/assets/guias/sesiones-por-zona.pdf`).
 
-**Status: NOT LIVE.** Front end has been posting to `/api/zone-workouts` since Aug 10; nothing was listening, so the capture has been failing visibly into its error message ever since — by design, not by accident. Everything below is what makes it work. **Cloned from `plan-lead-pipeline-runbook.md` and `automation/plan-lead-workflow.json`, which are the proven pattern; read that runbook if anything here is ambiguous.**
+~~**Status: NOT LIVE.**~~ **Status: LIVE in all three languages · verified: 2026-08-14** (Iván — workflow Active in n8n for ES, EN and PT).
+
+> *Corrected August 14, 2026, one day after this file was created. The struck line read* **"Status: NOT LIVE. Front end has been posting to `/api/zone-workouts` since Aug 10; nothing was listening."** *It was true when written and false within a day — **the shortest-lived stale status claim in the repo, and the cheapest kind to produce**: a runbook written the day before the thing it describes goes live. Everything below is now a build record, not a to-do list. Live state belongs to `open-loops.md`; this header carries a `verified:` date so its age is visible.*
+
+~~Everything below is what makes it work.~~ **Cloned from `plan-lead-pipeline-runbook.md` and `automation/plan-lead-workflow.json`, which are the proven pattern; read that runbook if anything here is ambiguous.**
 
 ## What the front end sends
 

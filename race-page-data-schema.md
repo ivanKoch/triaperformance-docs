@@ -1,6 +1,6 @@
 # Race Page Data Schema
 
-**Status: proposed July 30, 2026, revised same day after Iván's review.** Backs `data/races.csv`. Companion: `race-landing-pages-longlist.md`, `race-page-content-outline.md`.
+**Status: proposed July 30, 2026, revised same day after Iván's review · verified: 2026-08-14 — still a proposal; the race-page branch is unblocked (NEXT #1) but NOT STARTED.** Backs `data/races.csv`. Companion: `race-landing-pages-longlist.md`, `race-page-content-outline.md`.
 
 **Revision note:** the original version of this schema only joined plans on distance + language + weeks + difficulty. That undercounted real inventory (missed 2 of 3 EN full-distance Ironman plans because they're flagged `is_published=FALSE` — likely a stale flag, see `race-landing-pages-longlist.md` §1) and left out two real, already-planned facets: intensity type (pace/HR/power) and the strength/gym add-on. Both fixed below.
 

@@ -241,6 +241,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [2020, 20],
+      "executeOnce": true,
       "credentials": {
         "telegramApi": {
           "id": "dmG5jqW0zOMQXhUD",
@@ -249,7 +250,8 @@
       },
       "parameters": {
         "chatId": "REPLACE_ME",
-        "text": "=📄 Artículo commiteado\n\n{{ $('Assemble commit payload').item.json.path }}\n{{ $('Assemble commit payload').item.json.replacing ? 'Reemplaza el archivo anterior' : 'Archivo nuevo' }}\n\nEstará online tras el próximo deploy:\n{{ $('Assemble commit payload').item.json.published_url }}",
+        "_comment": "ONE message for the whole batch, built with .all() — never .item.\n\nThe original used $('Assemble commit payload').item, a PAIRED-ITEM lookup meaning 'the upstream item that produced this one'. That works for a single item and throws 'Multiple matching items' the moment there are several, because the Mark PUBLISHED Postgres node sits in between and does not preserve pairing: a multi-statement UPDATE returns rows n8n cannot map one-to-one back to its inputs, so .item finds several candidates and refuses to guess. It survived until Aug 17, 2026 only because no run had published more than two articles.\n\n.all() asks a different question — 'every item that node produced' — which needs no pairing and cannot become ambiguous. executeOnce stops the node firing once per item. Publishing five articles now sends one message listing five, which is also what you actually want to receive.",
+        "text": "=📄 {{ $('Assemble commit payload').all().length }} artículo(s) commiteado(s)\n\n{{ $('Assemble commit payload').all().map(i => '• ' + i.json.path + (i.json.replacing ? '  (reemplaza el anterior)' : '')).join('\\n') }}\n\nEstarán online tras el próximo deploy:\n{{ $('Assemble commit payload').all().map(i => i.json.published_url).join('\\n') }}",
         "additionalFields": {
           "disable_web_page_preview": true
         }

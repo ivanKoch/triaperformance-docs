@@ -1,6 +1,6 @@
 # Aquiles Sin Dolor — Achilles tendinopathy artifact
 
-**Status: v1 SHIPPED in all three languages, August 13, 2026** — `/members/aquiles/`, `/members/en/achilles/`, `/members/pt/aquiles/`. Second artifact on the strength engine (`strength-tool.js`; that engine's home doc is `knee-strength-brief.md`).
+**Status: v1 SHIPPED in all three languages, August 13, 2026 **· verified: 2026-08-14**** — `/members/aquiles/`, `/members/en/achilles/`, `/members/pt/aquiles/`. Second artifact on the strength engine (`strength-tool.js`; that engine's home doc is `knee-strength-brief.md`).
 
 **Last updated:** August 13, 2026.
 

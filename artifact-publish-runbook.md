@@ -1,8 +1,8 @@
 # Artifact → Members-Area Publish Runbook
 
-**Last updated: August 1, 2026** (established with the first artifact through the pipeline: Activación de Running, `/members/activacion/`).
+**Last updated: August 14, 2026** (status audit — both artifact tables corrected; see the note above "Published artifacts"). *Previously "August 1, 2026", established with the first artifact through the pipeline: Activación de Running, `/members/activacion/`.*
 
-The process for taking an interactive training artifact (Claude-built HTML tool — timer, calculator, tracker) from prototype to a live, gated, branded page in the members area. Exists so every artifact lands consistent with the site instead of repeating the kettlebell outlier (bespoke inline nav, own design language, mostly-unique CSS — flagged in `nav.json`'s `_membersNote`, still unfixed).
+The process for taking an interactive training artifact (Claude-built HTML tool — timer, calculator, tracker) from prototype to a live, gated, branded page in the members area. Exists so every artifact lands consistent with the site instead of repeating the kettlebell outlier (bespoke inline nav, own design language, mostly-unique CSS — flagged in `nav.json`'s `_membersNote`, ~~still unfixed~~ **resolved Aug 13, 2026 by deletion**: Iván retired `/members/kettlebell/` rather than porting it. *Corrected Aug 14, 2026 — the page this cautionary example points at no longer exists. The example stays because the lesson does.*).
 
 ## Phase 1 — Prototype
 
@@ -72,11 +72,21 @@ Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card
 
 ## Published artifacts
 
-| Tool | URL | Category | Shipped |
+> ***Corrected August 14, 2026 — both tables below were thirteen days stale, in opposite directions, and this file's own Phase 4 step 3 is the step that was skipped.*** *The "Published artifacts" table listed **three** tools, all Spanish, when the members library is **eight tools in each of three languages** (24 pages); two of its three URLs no longer exist as described. The "In progress" table listed the zone calculator and the activation artifact as* **"not started"** *and* **"awaiting port"** *— both shipped, in three languages, on Aug 10–13.* ***What this was blocking:*** *`open-loops.md`'s tools-library item points at this table by name ("Detail: `artifact-publish-runbook.md` ("In progress" table)"), so the one list that was supposed to tell a session what is left to build was telling it to build two things that exist. Inventory of record is `triaperformance-business-overview.md` §Interactive tools; per-tool home docs are `activation-matrix.md`, `knee-strength-brief.md`, `achilles-brief.md`, `zones-calculator-brief.md`.* ***Verified from the filesystem, not from a doc:*** *`site/members/**` — eight ES entries, eight under `members/en/`, eight under `members/pt/`.*
+
+| Tool | URL (ES / EN / PT) | Category | Shipped |
 |---|---|---|---|
-| Activación de Running | `/members/activacion/` | activacion | Aug 1, 2026 — live; rebuilt same day on template v2, committed + deployed |
-| Activación de Ciclismo | `/members/activacion-ciclismo/` | activacion | Aug 1, 2026 — template v2, committed + deployed |
-| Core Sin Excusas | `/members/core/` | fuerza | Aug 1, 2026 — template v2, data-only page, 45s blocks (`workSeconds` override), committed + deployed |
+| ~~Activación de Running~~ → **Activation matrix** | `/members/activacion/` · `/members/en/activation/` · `/members/pt/ativacao/` | activacion | Aug 1, 2026 as a fixed 8-exercise routine; **replaced Aug 13, 2026 by the adaptive matrix at the same URL**, EN+PT same day |
+| ~~Activación de Ciclismo~~ — `/members/activacion-ciclismo/` | — | activacion | ~~Aug 1, 2026~~ **DELETED Aug 13, 2026** on Iván's call, folded into the matrix. The URL does not resolve; do not cite it |
+| Core Sin Excusas | `/members/core/` · `/members/en/core/` · `/members/pt/core/` | fuerza | Aug 1, 2026 (template v2); EN+PT Aug 12, chrome localised Aug 13 |
+| Zones calculator | `/members/calculadora-de-zonas/` · `/members/en/training-zones-calculator/` · `/members/pt/calculadora-de-zonas/` | zonas | ES Aug 10, 2026; EN+PT Aug 13. `/members/zonas/` and `/members/tests/` retired into it |
+| Training load | `/members/carga/` · `/members/en/training-load/` · `/members/pt/carga-de-treino/` | zonas | ES pre-existing; EN+PT Aug 2026 |
+| Box breathing | `/members/respiracion/` · `/members/en/breathing/` · `/members/pt/respiracao/` | — | three languages |
+| Knees (strength engine) | `/members/rodillas/` · `/members/en/knees/` · `/members/pt/joelhos/` | fuerza | Aug 13, 2026, all three |
+| Achilles | `/members/aquiles/` · `/members/en/achilles/` · `/members/pt/aquiles/` | fuerza | Aug 13, 2026, all three |
+| Downloads / guides | `/members/guias/` · `/members/en/downloads/` · `/members/pt/downloads/` | guías | 5 PDFs ES / 1 EN / 1 PT |
+
+**Retired, deliberately, content not moved:** `/members/zonas/`, `/members/tests/`, `/members/carrera/`, `/members/kettlebell/`, `/members/nutricion/`, `/members/activacion-ciclismo/`. *(All Aug 13, 2026. Listed here because this runbook is where a future session looks for "which member URLs exist.")*
 
 ### In progress — prototypes not yet ported
 
@@ -84,10 +94,11 @@ Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card
 
 | Tool | Category | State | Notes |
 |---|---|---|---|
-| *(activation artifact — Iván to identify)* | activacion | prototype ~complete, awaiting port | Left "almost finished, ready to publish". Needs the share link and a name; then it's the normal port → verify → deploy path, and it's data-only if it fits template v2. |
+| ~~*(activation artifact — Iván to identify)*~~ | activacion | ~~prototype ~complete, awaiting port~~ **SHIPPED Aug 13, 2026** | *Corrected Aug 14, 2026.* Identified as the **adaptive activation matrix** and shipped at `/members/activacion/` (ES), EN+PT the same day. Home doc: `activation-matrix.md`. |
 | Calculadora de ritmos / pace converter | zonas | not started | Named in `growth-roadmap.md` §Tools library since the original plan. Three published articles' worth of intent behind it. |
 | Calculadora de umbral / threshold | zonas | not started | Same source. Overlaps the zone calculator — decide whether they are one tool or two before building either. |
 | Calculadora de carga de carbohidratos | nutricion | not started | Same source. `/members/nutricion/` exists as a guide and would be its natural home. |
-| Zone calculator at `/members/zonas/` | zonas | not started | **Already promised in three published articles** — the only one of these with a live claim depending on it. Tracked separately in `open-loops.md`. |
+| ~~Zone calculator at `/members/zonas/`~~ | zonas | ~~not started~~ **SHIPPED Aug 10–13, 2026** | *Corrected Aug 14, 2026 — this row read "not started" for four days after the tool was live in three languages.* Live at `/members/calculadora-de-zonas/` + EN/PT, plus four public URLs per language; `/members/zonas/` was retired into it. The three-article promise is discharged. Home doc: `zones-calculator-brief.md`. |
+| ↑ *note on the carb calculator row* | ~~nutricion~~ | not started | *Added Aug 14, 2026: the row above says `/members/nutricion/` "exists as a guide and would be its natural home." **That page was deleted Aug 13, 2026.** The carb calculator needs a new home decided before it is built.* |
 
 *Status corrected August 6, 2026 — all three rows read "pending deploy" for five days. Verified from git: commits `b05e3cc`, `0f8b0e8`, `d6c0a04` and `b41326e` all landed Aug 1 and went out on the normal cron pull, so the pages are deployed. **Deliberately not claimed as verified:** the real-phone check on template v2's mobile UI is Iván's, hasn't been reported back, and the whole reason v2 exists is that v1 rendered badly on a phone — a build that deploys is not a UI that works. That check is the one thing still outstanding on these three.*

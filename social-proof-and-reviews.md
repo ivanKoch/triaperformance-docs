@@ -2,13 +2,15 @@
 
 *What the reviews prove, where they're deployed, and where the gaps are. Update when new reviews land or get deployed.*
 
-## Live metrics — August 2, 2026
+## Live metrics — **August 14, 2026** *(previously August 2, 2026)*
 
 | Metric | Value |
 |---|---|
-| Total GBP reviews | **45** (all 5 stars, zero negatives) |
-| Repurposed to Instagram | **36** |
-| Unused | **9** |
+| Total GBP reviews | **46** (all 5 stars, zero negatives) |
+| Repurposed to Instagram | **38** |
+| Unused | **8** |
+
+*Updated August 14, 2026 from Iván: **46 total, 8 unused**. Previously 45 / 36 / 9 (Aug 2). **+1 review and +2 posted in twelve days** — the drip is still running at roughly its stated ~1/week and the review ask is still producing. Copies corrected in the same pass: `triaperformance-business-overview.md`, `open-loops.md` NEXT #6, `triaperformance-growth-roadmap.md`, `monthly-close-runbook.md`, and* ***`automation/lead-magnet-content.js`, which prints this number to customers on the lead-magnet pages in all three languages.*** *That last one is why this figure matters beyond bookkeeping: it is the only live metric in this repo that is also customer-facing copy.*
 
 **These figures come from Iván and supersede every count elsewhere in this file and in any other doc.** Review count, subscriber count and athlete count are live metrics: they move, and no analysis in this file re-derives them. When Iván states one, take it as current and correct the copies — do not reconcile it against an older tally.
 
@@ -97,7 +99,7 @@ Mapped to where each quote works hardest. Trim ellipses as needed; always attrib
 ## Deployment plan
 
 - **Website (pillar 2):** testimonials are a build requirement, not a nice-to-have — a quotes section per page per language, sourced from this file. Spanish inventory is ready today; English/Portuguese depend on the playbook above.
-- **Content pipeline:** 9 reviews not yet posted to IG ≈ 9 weeks at one testimonial post/week, plus a recyclable back catalog of 36 already-posted ones. Still the natural first recurring job for the social/content agent (drafts → approval), using the quote bank above — just sized as an ongoing weekly job fed by the ask cadence, not as a one-off 8-month reservoir.
+- **Content pipeline:** ~~9~~ **8** reviews not yet posted to IG ≈ **8** weeks at one testimonial post/week, plus a recyclable back catalog of ~~36~~ **38** already-posted ones. *(Corrected Aug 14, 2026 — see the metrics table above, which owns these three numbers.)* Still the natural first recurring job for the social/content agent (drafts → approval), using the quote bank above — just sized as an ongoing weekly job fed by the ask cadence, not as a one-off 8-month reservoir.
 - **Not GBP posts.** Reviews already render on the Business Profile with the star rating, above any post. Quoting one back as a "What's new" post is redundant to the same visitor and burns a monthly post slot. GBP's own review lever is *replying* to each one (profile activity); the repurposing channels are Instagram, the website, email sequences and TP listings. (Decided Aug 2, 2026.)
 - **CoachMatch/Private funnels:** add 1–2 quotes to the existing email sequences (welcome email 2 is the natural slot) and to the WhatsApp follow-up script for hesitant leads.
 - **GBP itself:** reply to every review (owner responses boost profile activity), keep the profile category/services current — it's free local-intent SEO that compounds with the site rather than substituting for it. *(Corrected Aug 8, 2026 — this read "while the new website doesn't exist yet." It has been live since July 2026.)*

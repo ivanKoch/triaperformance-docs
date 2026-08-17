@@ -1,6 +1,6 @@
 # Members-area announcement — the un-told cohort (August 2026)
 
-**Status:** draft, not sent. Owner: Iván.
+**Status:** draft, not sent **· verified: 2026-08-14**. Owner: Iván.
 **Why this exists:** `open-loops.md` NOW → "33 athletes have a members-area password nobody ever told them about." Of ~35 real athletes with active tokens, two have ever opened the members area. The July 25, 2026 backfill granted access to 35 1:1 coaching athletes and deliberately sent zero emails (`ai-infrastructure-documentation.md` §13). This is the email that closes that gap.
 
 ---

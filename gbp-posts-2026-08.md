@@ -132,7 +132,7 @@ Mantén los slots 1–3 fijos (Medal Monday · Planes · All-Access) y rota el s
 **Construye una vez, usa siempre.** Cuatro plantillas de 1200×900 en Canva o Figma:
 
 1. **Marco de captura** — fondo blanco, captura centrada, franja azul TP abajo con el titular en Helvetica Bold.
-2. **Tarjeta azul** — fondo `#004aad` completo, wordmark blanco, un solo número grande. Para All-Access y para cualquier dato ("45 reseñas · 5 estrellas").
+2. **Tarjeta azul** — fondo `#004aad` completo, wordmark blanco, un solo número grande. Para All-Access y para cualquier dato ("46 reseñas · 5 estrellas").
 3. **Foto + overlay** — foto real de carrera, overlay Ink 35–50%, texto blanco encima.
 4. **Marco Medal Monday** — el que ya usas.
 

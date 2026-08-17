@@ -1,6 +1,6 @@
 # Website Contact Form -> Twenty + Email + Telegram — Deploy Runbook
 
-**Status: LIVE as of July 22, 2026.** Built, deployed, debugged, and confirmed working end-to-end with a real production submission through `triaperformance.com`. Everything below is now the accurate record of what's actually running, not a plan.
+**Status: LIVE as of July 22, 2026 **· verified: 2026-08-14**.** Built, deployed, debugged, and confirmed working end-to-end with a real production submission through `triaperformance.com`. Everything below is now the accurate record of what's actually running, not a plan.
 
 Built to reuse the exact CoachMatch pipeline pattern (see `ai-infrastructure-documentation.md` §8): dedupe check against Twenty by email -> create Person -> immediate confirmation email -> Telegram notification -> same `leadStatus = MESSAGE_SENT` handoff into the existing daily nurture workflow (emails 2/3) and the existing Hermes WhatsApp watchdog. A form lead now flows through the identical downstream machinery a CoachMatch lead does — no new nurture logic needed.
 

@@ -378,18 +378,13 @@ flowchart TB
   <p>As of July 17, 2026, this box also runs the CoachMatch lead pipeline end to end — n8n handles lead creation and the 3-email nurture sequence, Twenty CRM is the system of record, and Hermes runs a daily WhatsApp follow-up watchdog plus takes free-text status updates over Telegram. Verified live with real leads: emails sending, deep links working, and a real Telegram message ("mark Aimee as lost, too expensive") correctly updating Twenty.</p>
 
   <h3>Open items / not yet done</h3>
-  <ul>
-    <li><span class="badge pending">Pending</span> Old "Managed Hermes" plan not yet cancelled — intentionally, as a rollback safety net until the new setup proves stable.</li>
-    <li><span class="badge pending">Pending</span> MCP tool integrations (Google Workspace, HubSpot) — planned, not started.</li>
-    <li><span class="badge pending">Pending</span> Threading Hermes into the live website workflow (drafting content, updating pages, weekly SEO checks) — infrastructure is ready, day-to-day usage isn't set up yet.</li>
-    <li><span class="badge pending">Pending</span> Historical HubSpot contact migration into Twenty (2,073 contacts, scope decision open) and full HubSpot decommission — running side-by-side for now.</li>
-    <li><span class="badge pending">Pending</span> Duplicate-lead Telegram notification pulling in raw old HubSpot HTML instead of a clean summary — noted, not yet fixed.</li>
-    <li><span class="badge pending">Pending</span> Twenty API key rotation (see Problem #7).</li>
-    <li><span class="badge pending">Pending</span> <code>plan-tracker-bigquery</code> Cloud Run service is on a decommissioned Python 3.9 runtime — doesn't block current serving, but blocks any future redeploy until migrated. Source location not yet confirmed.</li>
-    <li><span class="badge pending">Pending</span> Storefront crawl: 130 of 330 plans still uncrawled, paused on TrainingPeaks rate-limiting (§10) — resume more conservatively paced.</li>
-    <li><span class="badge pending">Pending</span> 6 plans marked published 404 on TrainingPeaks (§10) — needs a manual check.</li>
-    <li><span class="badge pending">Pending</span> <code>plans_raw</code> still has 4 known duplicate <code>plan_id</code>s — no dedup applied yet.</li>
-  </ul>
+
+  <p style="border-left:4px solid #c00;padding-left:12px;font-size:14px">
+    <strong>This list was deleted on August 14, 2026, on Iv&aacute;n's instruction. Open items live in <code>open-loops.md</code> and nowhere else.</strong><br><br>
+    <em>It held ten entries and <strong>four were provably wrong</strong>: the storefront crawl was recorded as paused mid-flight while its output file had been sitting in <code>data/</code> for weeks; <code>plans_raw</code>'s "4 duplicate plan_ids" were deduped July 29; HubSpot appeared as both a planned MCP integration and a system "running side-by-side" three weeks after it was decommissioned; and the "6 plans marked published 404" line was the ghost the project instructions record as <strong>already retired twice</strong> &mdash; it kept coming back because this line was never struck. Two more entries (the Managed Hermes cancellation and the Twenty API-key rotation) were <strong>closed long ago and re-asked of Iv&aacute;n three separate times</strong>, because this list kept regenerating the question.</em><br><br>
+    <em>The identical duplication was retired from <code>ai-infrastructure-documentation.md</code> on Aug 8, 2026 for exactly this reason. The copy here was missed &mdash; and this board is the artifact most likely to be opened and read as current. <strong>Deleted rather than struck: a retracted claim gets removed, not preserved in a correction note that quotes it. Struck-through text still reads as text.</strong> The reasoning survives in <code>open-loops-archive.md</code>.</em><br><br>
+    <strong>Genuinely still open as of Aug 14, 2026</strong> (confirmed by Iv&aacute;n, and tracked in <code>open-loops.md</code>): <code>plan-tracker-bigquery</code> is still on the decommissioned Python 3.9 runtime, and the MCP tool integrations (Google Workspace; Twenty via the community server) are not started.
+  </p>
 </section>
 
 <section>

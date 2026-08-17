@@ -38,10 +38,12 @@ Validated by reviews: adaptation-to-schedule/travel is the most-mentioned theme 
 
 | Tier | Price | What it is | Status |
 |---|---|---|---|
-| Passive plans | ~$60 one-time | Static plans, 4–24 weeks, 3 languages | Live, 303 listings |
-| All-Access | $29.99–39.99/mo | Plans + TrainingPeaks Premium + a real tools library (see below) | Live, dormant (2 subscribers) |
+| Passive plans | ~$60 one-time | Static plans, 4–24 weeks, 3 languages | Live, ~~303~~ **328** listings |
+| All-Access | $29.99–39.99/mo | Plans + TrainingPeaks Premium + a real tools library (see below) | Live, dormant (~~2 subscribers~~ **1 subscriber, Portuguese**) |
 | AI Coach *(proposed)* | TBD, likely $25–40/mo | AI-guided self-coaching on Iván's own methodology | Not built |
 | 1:1 coaching | $75–149/mo | Weekly check-in, on-request adjustments/analysis, WhatsApp | Live — price set by segment, see above |
+
+*Two corrections to the table above, August 14, 2026 (status audit).* **(1) Catalogue count:** *the Passive plans row read* **"Live, 303 listings"** *— stale since Aug 12. It is **328** (ES 164 / EN 111 / PT 53), owner `data/training_plans_inventory.csv`, cross-checked against the live catalog pages. This file owns every **price**; it does not own the catalogue count and arguably should not restate it.* **(2) Subscriber count:** *this read* **"2 subscribers"** *; Iván states **1, Portuguese**, one having churned (Aug 14, 2026). Five files carried 2 while `ai-infrastructure-documentation.md` carried 3 from a July 29 Twenty check — the stale lower number won on repetition. Owner is `triaperformance-business-overview.md` §Revenue streams, and **from the September close onward that row cites `monthly-close/YYYY-MM.md` rather than being hand-updated.** Note the pricing consequence, since this file owns prices: **the only live All-Access subscriber is on the $29.99 PT tier, not $39.99** — so the product's entire current revenue sits at the discounted price point.*
 
 # Pricing policy — decided July 2026
 

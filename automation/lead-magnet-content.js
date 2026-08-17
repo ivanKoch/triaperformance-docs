@@ -284,7 +284,13 @@ const ES = {
       "Triaperformance es el proyecto de coaching de <strong>Iván Koch</strong>: entrenamiento de triatlón y running construido sobre datos, no sobre plantillas. Un solo servicio, la misma metodología para todos — la que acabás de leer— y una revisión semanal de lo que hiciste y de lo que viene.",
       "Trabajamos en remoto con atletas en toda América y Europa, desde el primer 10k hasta Ironman.",
     ],
-    stats: [["45", "reseñas · todas 5 estrellas"], ["328", "planes publicados"], ["3", "idiomas"]],
+    // REVIEW COUNT, all three languages below: 45 -> 46, corrected Aug 14, 2026.
+    // This file prints a live metric to customers. It is the only place in the
+    // repo where a stale number is customer-facing rather than internal, so it
+    // gets corrected in the same pass as social-proof-and-reviews.md, which
+    // owns the figure (46 total / 38 posted to IG / 8 unused).
+    // The plan count (328) is owned by data/training_plans_inventory.csv.
+    stats: [["46", "reseñas · todas 5 estrellas"], ["328", "planes publicados"], ["3", "idiomas"]],
   },
   cta: {
     headline: "Ya sabés qué sesión hace crecer cada zona.<br>Ahora hay que ordenarlas en una semana.",
@@ -358,7 +364,7 @@ const EN = {
       "Triaperformance is <strong>Iván Koch's</strong> coaching practice: triathlon and running training built on data, not on templates. One service, the same methodology for everyone — the one you have just read — and a weekly review of what you did and what's coming.",
       "We work remotely with athletes across the Americas and Europe, from a first 10k to Ironman.",
     ],
-    stats: [["45", "reviews · all 5 stars"], ["328", "published plans"], ["3", "languages"]],
+    stats: [["46", "reviews · all 5 stars"], ["328", "published plans"], ["3", "languages"]],
   },
   cta: {
     headline: "You know which session grows each zone.<br>Now they have to be ordered into a week.",
@@ -627,7 +633,7 @@ const PT = {
       "Triaperformance é o projeto de coaching do <strong>Iván Koch</strong>: treinamento de triatlo e corrida construído sobre dados, não sobre modelos prontos. Um único serviço, a mesma metodologia para todos — a que você acabou de ler — e uma revisão semanal do que você fez e do que vem pela frente.",
       "Trabalhamos à distância com atletas em toda a América e na Europa, do primeiro 10k ao Ironman.",
     ],
-    stats: [["45", "avaliações · todas 5 estrelas"], ["328", "planos publicados"], ["3", "idiomas"]],
+    stats: [["46", "avaliações · todas 5 estrelas"], ["328", "planos publicados"], ["3", "idiomas"]],
   },
   cta: {
     headline: "Você já sabe qual sessão faz cada zona crescer.<br>Agora é preciso organizá-las numa semana.",

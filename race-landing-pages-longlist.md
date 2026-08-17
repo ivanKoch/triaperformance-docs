@@ -1,7 +1,9 @@
 # Race-Specific Landing Pages — Longlist, Schema, Tiering & Gathering Plan
 
-**Status: planning complete, Tier 1 data gathered. Not blocking anything — trigger to build is the plan template (Storefront Phase 1) shipping.**
-**Written: July 30, 2026.** Companion files: `data/races.csv` (Tier 1 dataset), `race-page-content-outline.md` (page structure), `training_plans_inventory.csv` (source of truth for plan matching).
+~~**Status: planning complete, Tier 1 data gathered. Not blocking anything — trigger to build is the plan template (Storefront Phase 1) shipping.**~~
+
+> ***Status corrected August 14, 2026 — the trigger fired eight days ago and this line never noticed.*** *Storefront Phase 1 shipped and the plan template went live **August 6, 2026** (`ai-infrastructure-documentation.md` §17, verified against the live site — 321 individual plan pages then, 328 now). `open-loops.md` NEXT #1 already lists race landing pages as* **the next big branch**. *So this doc's own header said "not blocking anything" while the thing it was waiting for had happened and the work had been promoted to next-in-queue.* ***Current status: UNBLOCKED, queued as NEXT #1, not started.*** *A "trigger to build" written into a doc header is a status claim that nothing re-reads on the day the trigger fires — see the structural proposal in the Aug 14 audit.*
+**Written: July 30, 2026 · verified: 2026-08-14 — UNBLOCKED (NEXT #1), NOT STARTED (Iván).** Companion files: `data/races.csv` (Tier 1 dataset), `race-page-content-outline.md` (page structure), `training_plans_inventory.csv` (source of truth for plan matching).
 
 Standing concept (locked): pages are **evergreen**. A page carries the race's year and data; the plans behind it never do. "Valencia Marathon 2027" is a data update to a page, not a new plan or a new page. No race-year-stamped plans get built again (see `open-loops-archive.md` for the decision, `growth-roadmap.md` §Training Plan Storefront for catalog priorities).
 
@@ -13,7 +15,7 @@ Standing concept (locked): pages are **evergreen**. A page carries the race's ye
 
 Race pages only make sense where the underlying (distance × language) combination has enough plan depth to fill a real facet ladder (Beginner/Intermediate/Advanced × duration × intensity type — see §1b). Because plans are **generic, not race-specific**, this qualification is done once per (distance, language) pair — every race in a qualifying pair is fair game; every race in a non-qualifying pair gets excluded regardless of how big the race is.
 
-Pulled from `data/training_plans_inventory.csv` (381 rows). Two counts shown: published-only (`is_published=TRUE`), and total including plans flagged unpublished — because that flag has confirmed staleness in both directions (see the callout below the table).
+Pulled from `data/training_plans_inventory.csv` (~~381 rows~~ **328 rows as of Aug 12, 2026** — *count corrected Aug 14, 2026; 381 was the row count on July 30. Every row is now published, so the "two counts shown" distinction below no longer has a second side — published-only and total are the same set. Re-derive the tiering from the current CSV before building, not from the counts printed here.*). Two counts shown: published-only (`is_published=TRUE`), and total including plans flagged unpublished — because that flag has confirmed staleness in both directions (see the callout below the table).
 
 | Distance | ES | EN | PT | Qualifies (≥3 plans)? |
 |---|---|---|---|---|

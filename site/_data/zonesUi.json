@@ -1,5 +1,5 @@
 {
-  "_note": "UI strings for the training-zones calculator, per language — same pattern as planUi.json. Spanish only for now (Iván's call, Aug 10 2026: build and test in ES, then translate EN and PT in one pass). The partial falls back to `es` for any language not present here, so an EN or PT page renders Spanish rather than blank. When adding a language, copy the whole `es` object and translate it — do not add keys to one language only. NUMBERS DO NOT LIVE HERE: every percentage comes from data/zones.csv via _data/zones.js.",
+  "_note": "UI strings for the training-zones calculator, per language — same pattern as planUi.json. CORRECTED Aug 14 2026: this note read 'Spanish only for now (Ivan's call, Aug 10 2026: build and test in ES, then translate EN and PT in one pass)' for a day after the EN and PT objects were added on Aug 13 — a note claiming a file is untranslated, inside the translated file. All three languages are present: es, en, pt. The partial still falls back to `es` for any language not present here, so a future fourth language renders Spanish rather than blank. When adding a language, copy the whole `es` object and translate it — do not add keys to one language only. NUMBERS DO NOT LIVE HERE: every percentage comes from data/zones.csv via _data/zones.js.",
   "es": {
     "zoneNames": {
       "1": "Recuperación",
