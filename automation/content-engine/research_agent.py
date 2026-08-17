@@ -30,7 +30,11 @@ ENVIRONMENT (read from ~/.hermes/.env and ~/.analytics/.env automatically)
                         contains characters a URI cannot carry safely.
     GOOGLE_API_KEY      Gemini key, already on the box for Hermes
     IDEA_NOTIFY_WEBHOOK n8n webhook that sends the "ideas ready" email
-    CONTENT_MODEL       optional, defaults to gemini-3.5-flash
+    CONTENT_MODEL       optional, defaults to gemini-3.7-flash
+                        (was gemini-3.5-flash until August 17, 2026 — 3.7 is GA,
+                        two generations newer, and half the input / 42% of the
+                        output cost. Google's own docs name it the migration
+                        target for 3.5-flash.)
 """
 
 import argparse
@@ -1097,7 +1101,10 @@ def main():
         sys.exit(f"The API key looks wrong ({len(api_key)} chars, contains a space?). "
                  "It was probably set to placeholder text rather than a real key. "
                  "Unset it and let the script read ~/.hermes/.env: unset GOOGLE_API_KEY")
-    model = os.environ.get("CONTENT_MODEL", "gemini-3.5-flash")
+    # gemini-3.7-flash since August 17, 2026 (was gemini-3.5-flash). GA, not a
+    # -preview alias, so the pinned-release rule in §3 still holds. Cheaper on
+    # both sides: $0.75/$3.75 vs $1.50/$9.00 per 1M through Dec 31, 2026.
+    model = os.environ.get("CONTENT_MODEL", "gemini-3.7-flash")
 
     prompt = PROMPT.format(
         n=settings.get("ideas_per_run", 12),

@@ -135,7 +135,7 @@ This is the one people assume is one agent and is actually four adapters with ve
 |---|---|---|
 | **Blog** | Write file into `website/`, commit, push. Existing 6am cron pull + rsync deploys it. | **None.** You own the whole path. Build this first. |
 | **Email** | Existing n8n + Gmail SMTP, same credential as the nurture sequence. | **Near none.** Owned channel, list already exists. |
-| **GBP** | Google Business Profile API | **Medium.** API access requires an approved application; allow weeks, not days. |
+| **GBP** | Google Business Profile API | ~~**Medium.** API access requires an approved application; allow weeks, not days.~~ ***Approved August 17, 2026*** (ticket `8-0766000040742`) — the warning was right, it took weeks. **But approval ≠ posting rights:** what is confirmed is access to the API family; whether the *local-post* endpoint is granted to this project is unverified and is checked as its own item in `open-loops.md` NOW. Treat GBP as a publishable channel only after that check. |
 | **Instagram** | Meta Graph API, two-step (create media container → publish) | **Medium.** Requires a Business account linked to a Facebook Page, and images must be at a public URL — which your own site can serve. |
 | **LinkedIn** | `w_member_social` scope | **High.** Needs app review, frequently denied for solo use. Recommend: agent drafts, you paste. Manual posting of a pre-written post is ~30 seconds. |
 

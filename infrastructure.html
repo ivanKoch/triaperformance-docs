@@ -208,7 +208,7 @@ flowchart TB
   <p>Both mount <code>~/.hermes</code> → <code>/opt/data</code>, the shared state directory (config, secrets, sessions, cron, logs) that makes them operate as one logical agent.</p>
 
   <h3>3. Model provider — Google Gemini</h3>
-  <p><code>gemini-3.5-flash</code> — pinned release for cost efficiency and stability. Paid tier, $30 prepaid credit, auto-reload deliberately disabled: balance hits $0, service pauses rather than charging further.</p>
+  <p><code>gemini-3.7-flash</code> — pinned GA release for cost efficiency and stability. <em>Was <code>gemini-3.5-flash</code> until August 17, 2026; 3.7 is two generations newer, GA rather than preview, and cheaper on both sides ($0.75/$3.75 vs $1.50/$9.00 per 1M through Dec 31, 2026).</em> Paid tier, $30 prepaid credit, <strong>auto-reload on at a $7 floor with a $30 top-up</strong> <em>(corrected August 17, 2026 — this line read "auto-reload deliberately disabled: balance hits $0, service pauses rather than charging further", which stopped being true when Iván enabled auto-reload on August 10, 2026. The old wording described a deliberate trade-off that no longer exists, and it mattered: if it had been accurate, a $0 balance would have silently stopped the content engine's three daily crons.)</em></p>
 
   <h3>4. Interfaces</h3>
   <ul>

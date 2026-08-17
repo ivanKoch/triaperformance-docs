@@ -37,6 +37,28 @@ ENVIRONMENT (read automatically from ~/.hermes/.env and ~/.analytics/.env)
                      that answers. Consequence: Google may withdraw it. If the
                      writer suddenly fails, that is the first thing to check:
                        python3 research_agent.py --test-models
+
+                     NOTE, August 17, 2026 — the paragraph above is still true
+                     about *pro* models, and that is now the whole point: Google
+                     shipped 3.6 and 3.7 on the flash line and left pro at 3.1.
+                     There is no 3.7 Pro. Google's own migration guide names
+                     gemini-3.7-flash the recommended target for 3.5-flash,
+                     3-flash-preview AND 3.1-pro-preview — i.e. it claims to
+                     supersede the model this default names, while being GA
+                     rather than -preview and ~1/3 the cost.
+
+                     The default has deliberately NOT been changed yet. Every
+                     3.7 benchmark Google published is coding and agentic; none
+                     of it measures Spanish prose in a specific brand voice,
+                     which is this agent's only job. "WHY A STRONGER MODEL"
+                     above is a claim about tiers, and the tiers moved.
+
+                     Settle it by comparison, not by reading:
+                       WRITER_MODEL=gemini-3.7-flash python3 writer_agent.py \
+                           --dry-run
+                     against the same idea drafted on the current default, and
+                     let Iván judge the Spanish. Flip the default (here AND in
+                     ~/.hermes/.env, which overrides it) only after that.
     PG_*             Postgres connection
 """
 

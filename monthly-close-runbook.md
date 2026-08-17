@@ -117,7 +117,7 @@ Short. Four sections, and a hard rule on the last one:
 | **Hours worked, coaching vs build** | Iván, estimate | No |
 | Leads by source, and closes by source | Twenty | Yes — Twenty REST/GraphQL API |
 | GA4: sessions, top landing pages, conversion events | GA4 / BigQuery export | Yes — export already live |
-| GBP: views, searches, actions, new reviews | Google Business Profile | Yes — Performance API |
+| GBP: views, searches, actions, new reviews | Google Business Profile | Yes — Performance API *(API approved Aug 17, 2026; script not written — until then this row is a manual screenshot, and a screenshot cannot be re-derived next month)* |
 | GSC: impressions, clicks, average position, coverage errors | Search Console | **Not today** — the GSC↔GA4 link is reporting-level only; a real pull needs the Search Console API |
 | Ahrefs Webmaster Tools: new warnings only | Ahrefs | No — glance, 5 minutes |
 | Members-area access counts (delta) | `psql` on `analytics-postgres` | Yes |
@@ -231,7 +231,7 @@ The close should get cheaper every month. Roughly in order of value per hour of 
 | 4 | **n8n failure rollup** | Buildable today | The daily error digest already runs; this is a monthly count of it |
 | 5 | **Twenty pull** — leads, sources, statuses, closes | Needs the API script | Twenty is Tailscale-bound, self-hosted, REST/GraphQL with an API key. The community MCP server is already parked in `open-loops.md` LATER and would cover this |
 | 6 | **GA4 pull** | Needs a query | The BigQuery export is already live and feeding the same GCP project as the plan-view pixel |
-| 7 | **GBP pull** | Needs API setup | Business Profile Performance API |
+| 7 | **GBP pull** | ~~Needs API setup~~ **API approved Aug 17, 2026** — needs the script | Business Profile Performance API. *Application approved (ticket `8-0766000040742`); remaining work is Iván enabling the API in `training-plan-analytics` + granting the service account profile access, then a script in the shape of `automation/analytics/sync_pixel_data.py`. **Approval covers the API family, not specifically the local-post publishing endpoint** — that is a separate check, logged in `open-loops.md` NOW* |
 | 8 | **GSC pull** | Needs API setup | The existing GSC↔GA4 link is **reporting-level only — no data flows.** A genuine pull needs the Search Console API separately. Don't assume the link covers it |
 | 9 | **Instagram** | **Blocked on a decision** | Needs a Business account (`content-engine-brief.md` §9) |
 | — | **Ahrefs, Clarity, costs** | Permanently manual | No export on the current tiers. Keep them small and glance-shaped rather than pretending they'll be automated |

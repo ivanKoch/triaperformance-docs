@@ -1,7 +1,7 @@
 # Personal AI Infrastructure — Technical Documentation
 
 **Owner:** Iván Koch
-**Last updated:** August 13, 2026 (**§26 added — members zones calculator**: `/members/zonas/` and `/members/tests/` retired into it, dark chrome, free guide download in place of the capture; three bugs found, including a pre-existing full-screen horizontal scroll on every dark members page caused by `backdrop-filter` changing what the fixed nav is positioned against. *Earlier same day: §25* — zone calculator + lead magnet now live in ES/EN/PT**, which is the members-i18n branch's stated definition of done: 8 new pages on localised slugs, full `zonesUi` translation, three guide PDFs from one templated builder, and the EN/PT article CTAs and nav dropdowns released from the hold they were put under on Aug 10 and 12. *Same-day earlier entry: **§24 — zone-calculator lead magnet**: the 16-page three-sport guide built as a generated PDF, plus the n8n/Caddy delivery pipeline cloned from the plan-lead pattern and handed over with three steps left that only Iván can run. *Same-day earlier entry: **§23 — zone-calculator layout bugs**: the four public calculator pages had three different left edges and a table that overhung the nav, all three causes in CSS, found on Iván's first desktop look and fixed against measurements from a real headless browser rather than a reading of the stylesheet. Carries a process lesson worth more than the fix — a rule present in the source is not a rule that applies. *Previous entry, August 12, 2026: §8 — **WhatsApp follow-up watchdog now skips BR/AR**, matching the n8n workflow's existing `Skip WhatsApp Outreach — BR/AR` filter; those leads were still landing in `MESSAGE_SENT` and generating daily WhatsApp nudges. They now close on the email sequence instead. *Previous entry, August 10, 2026: §22 added — **members area extended to three languages**: `/members/en/` and `/members/pt/` behind the same single Caddy gate, login routed by the token's `preferred_language` rather than by which login page was opened, `next` validated against open redirects, and a ghost "Members Access" button added to the public nav in all three languages. Shell only — no tools translated yet, by design. *Same-day earlier entry: §12 — **All-Access welcome email rewritten in ES/EN/PT and tested live**, closing the last hardcoded-Spanish path; a placeholder NOTE that was rendering as the first line of the subscriber email removed; the new-subscriber Telegram moved from parallel to sequential to remove a forward reference. *Previous entry, August 9, 2026: **§21 added — athlete intake pipeline live**: Google Form → Apps Script → Caddy → n8n → Postgres → Gemini briefing. Completes 1:1 onboarding from payment to planning brief. §12 also carries a same-week addendum: the product classifier, the ALL_ACCESS routing bug it uncovered, and the full coaching branch. *Previous entry, August 8, 2026: KB consolidation — the "Open items / not yet done" section is **retired**; it had become a second, drifting copy of `open-loops.md`. Five items that lived only here were promoted there; the section now says so and explains what it cost. No technical content changed. *Previous entry, August 6, 2026: §17 — SEO metadata pass, intent hub pages, plan-page content sections generated from data, asset cache-busting after stale JS cost three debugging rounds; §17 also corrected — the Plan Storefront is live, not "not yet deployed".*)
+**Last updated:** August 17, 2026 (**§33 added — Gemini model migration**: Hermes and the research agent moved from `gemini-3.5-flash` to **`gemini-3.7-flash`** — GA rather than preview, two generations newer, and cheaper on both sides. **The writer and the n8n intake briefing were deliberately left on `gemini-3.1-pro-preview`**, because every 3.7 benchmark Google published is coding and agentic and none of it measures Spanish prose in a brand voice; that one gets settled by drafting the same idea on both and reading them. *The finding underneath it: Google shipped 3.6 and 3.7 on the Flash line and left Pro at 3.1, so "pro tier beats flash tier" is now a claim about a lineup that no longer exists in that shape.* Two things fixed in passing — a duplicated `WRITER_MODEL` line in `~/.hermes/.env` that would have made a repo-side default change do nothing, and the "auto-reload deliberately disabled" claim in §3 and `infrastructure.html`, untrue since Aug 10. *Previous entry, August 13, 2026: **§26 — members zones calculator**: `/members/zonas/` and `/members/tests/` retired into it, dark chrome, free guide download in place of the capture; three bugs found, including a pre-existing full-screen horizontal scroll on every dark members page caused by `backdrop-filter` changing what the fixed nav is positioned against. *Earlier same day: §25* — zone calculator + lead magnet now live in ES/EN/PT**, which is the members-i18n branch's stated definition of done: 8 new pages on localised slugs, full `zonesUi` translation, three guide PDFs from one templated builder, and the EN/PT article CTAs and nav dropdowns released from the hold they were put under on Aug 10 and 12. *Same-day earlier entry: **§24 — zone-calculator lead magnet**: the 16-page three-sport guide built as a generated PDF, plus the n8n/Caddy delivery pipeline cloned from the plan-lead pattern and handed over with three steps left that only Iván can run. *Same-day earlier entry: **§23 — zone-calculator layout bugs**: the four public calculator pages had three different left edges and a table that overhung the nav, all three causes in CSS, found on Iván's first desktop look and fixed against measurements from a real headless browser rather than a reading of the stylesheet. Carries a process lesson worth more than the fix — a rule present in the source is not a rule that applies. *Previous entry, August 12, 2026: §8 — **WhatsApp follow-up watchdog now skips BR/AR**, matching the n8n workflow's existing `Skip WhatsApp Outreach — BR/AR` filter; those leads were still landing in `MESSAGE_SENT` and generating daily WhatsApp nudges. They now close on the email sequence instead. *Previous entry, August 10, 2026: §22 added — **members area extended to three languages**: `/members/en/` and `/members/pt/` behind the same single Caddy gate, login routed by the token's `preferred_language` rather than by which login page was opened, `next` validated against open redirects, and a ghost "Members Access" button added to the public nav in all three languages. Shell only — no tools translated yet, by design. *Same-day earlier entry: §12 — **All-Access welcome email rewritten in ES/EN/PT and tested live**, closing the last hardcoded-Spanish path; a placeholder NOTE that was rendering as the first line of the subscriber email removed; the new-subscriber Telegram moved from parallel to sequential to remove a forward reference. *Previous entry, August 9, 2026: **§21 added — athlete intake pipeline live**: Google Form → Apps Script → Caddy → n8n → Postgres → Gemini briefing. Completes 1:1 onboarding from payment to planning brief. §12 also carries a same-week addendum: the product classifier, the ALL_ACCESS routing bug it uncovered, and the full coaching branch. *Previous entry, August 8, 2026: KB consolidation — the "Open items / not yet done" section is **retired**; it had become a second, drifting copy of `open-loops.md`. Five items that lived only here were promoted there; the section now says so and explains what it cost. No technical content changed. *Previous entry, August 6, 2026: §17 — SEO metadata pass, intent hub pages, plan-page content sections generated from data, asset cache-busting after stale JS cost three debugging rounds; §17 also corrected — the Plan Storefront is live, not "not yet deployed".*)
 **Status:** Live / operational **· verified: 2026-08-14** *(status-claim audit; §15's heading and §17's email-capture line were both corrected that day)*
 
 ---
@@ -52,7 +52,7 @@ flowchart TB
     end
 
     subgraph External["External Services"]
-        Gemini["Google AI Studio\nGemini API (gemini-3.5-flash)"]
+        Gemini["Google AI Studio\nGemini API (gemini-3.7-flash)"]
         Nous["Nous Research\n(agent framework + optional OAuth)"]
     end
 
@@ -89,8 +89,10 @@ Both containers mount the same host directory (`~/.hermes` → `/opt/data`), whi
 
 ### 3. Model provider — Google Gemini (AI Studio)
 
-- Model: `gemini-3.5-flash` — chosen for cost efficiency (flash-tier) and version stability (pinned release, not a "-preview" or "-latest" rolling alias that could change behavior unannounced).
-- Billing: Paid tier ("Prepay" billing plan), $30 in prepaid credit, **auto-reload deliberately disabled**. When the balance hits $0, the service pauses rather than charging further — a conscious trade-off favoring predictable cost over uninterrupted uptime.
+- Model: `gemini-3.7-flash` — chosen for cost efficiency (flash-tier) and version stability (pinned GA release, not a "-preview" or "-latest" rolling alias that could change behavior unannounced).
+  *Updated August 17, 2026 — was `gemini-3.5-flash` from setup until this date. Both criteria that picked 3.5 point harder at 3.7: it is GA (so the pinned-release rule is satisfied at least as well), and it is cheaper on both sides — $0.75/$3.75 per 1M through Dec 31 2026, then $1.50/$7.50, against 3.5-flash's flat $1.50/$9.00. **The reason this is an upgrade and not just a version bump is lesson 7 below**: Hermes's documented failure mode is sustained agentic work, and agentic reliability is precisely what 3.7 was built and benchmarked for (DeepSWE v1.1 65.3% vs 49.0% on 3.6-flash). Full rationale and the models it was chosen over: §33.*
+- Billing: Paid tier ("Prepay" billing plan), $30 in prepaid credit, **auto-reload ON at a $7 floor with a $30 top-up**.
+  *Corrected August 17, 2026 — this line read "**auto-reload deliberately disabled**. When the balance hits $0, the service pauses rather than charging further — a conscious trade-off favoring predictable cost over uninterrupted uptime." That stopped being true on August 10, 2026, when Iván turned auto-reload on (recorded in `open-loops-archive.md` and nowhere else). Two copies of the old claim survived seven days — this one and `infrastructure.html` §3, both corrected today. **Worth stating why it was not a harmless staleness:** the retired sentence described a deliberate fail-closed design, so anyone reading it would have treated a silent content-engine outage as expected behaviour on a $0 balance rather than as a bug to investigate.*
 - Configured via "Full setup" during the Hermes setup wizard (rather than the "Quick Setup / Nous Portal" default) specifically to keep billing on the personally-funded Gemini key rather than a separate Nous Portal subscription.
 
 ### 4. Interfaces
@@ -147,6 +149,8 @@ Default agentic toolset enabled (web search, file operations, code execution, br
 ## Current status
 
 Working end-to-end: Telegram bot responds using the VPS-hosted agent; the same agent is reachable via the web dashboard and the Mac Desktop App over Tailscale; all three interfaces share the same configuration, model, and memory. Model confirmed live and responding correctly (`gemini-3.5-flash`). Terminal/file tools confirmed functional via a live test (directory listing).
+
+*Note, August 17, 2026 — the model named in the verification above is the one that was live at the time of that test and is left as the record of it. Hermes now runs `gemini-3.7-flash`; see §3 and §33.*
 
 The business knowledge base (GitHub repo `triaperformance-docs` — pricing, methodology, business overview, growth roadmap, social proof) is cloned onto the VPS at `/opt/data/triaperformance-docs` (host path `~/.hermes/triaperformance-docs`), auto-updated daily via a system cron job (`git pull` at 6am server time), and the agent has been instructed and has persisted to memory that this is its source of truth for business questions. Verified live: asked to summarize the business, the agent correctly read all five documents and returned accurate, correctly-cited figures (revenue by channel, pricing policy, roadmap priorities).
 
@@ -587,6 +591,8 @@ Fixed by deleting the parameter: the query now selects `WHERE status = 'APPROVED
 
 **Cost, measured:** ~US$0.08 per original article and ~US$0.05 per translation at `gemini-3.1-pro-preview`, with thinking tokens running 60% of output spend. A full ES→EN→PT set is about US$0.20. The `--limit` flags exist for batch-size sanity, not for the money.
 
+*Note, August 17, 2026 — these figures are still current: **the writer and translator were deliberately left on `gemini-3.1-pro-preview`** in the model migration of that date, while the research agent and Hermes moved to `gemini-3.7-flash`. §33 has the reasoning. If the writer is later moved, the same work costs roughly a third of the above ($0.75/$3.75 per 1M against $2.00/$12.00) — but **cost is explicitly not the argument for moving it**, since $0.20 a set makes the entire annual saving smaller than one month of the VPS.*
+
 *~~Pending: `SETUP.md` still documents `tp-admin` being run with `CONTENT_DB_DSN` (a URI). It is now run with discrete `PG_*` variables — the password contains `:` and `@`, and the URI form is a live tripwire. Correct that file next session.~~*
 
 *Closed August 12, 2026 — `SETUP.md` Steps 3 and 4 both corrected to discrete `PG_*` variables, each with a dated inline note explaining the truncation. **Two places, not one:** the `docker run` line in Step 4 was the known one, but the Step 3 `--dry-run` block carried the same `postgres://` export and would have failed the same way for anyone following the runbook from the top. Confirmed against source rather than assumed: `admin_service/app.py` prefers `CONTENT_DB_DSN` **only when it is set** (`if DSN: return psycopg2.connect(DSN, …)`), falling back to keyword args from `PG_HOST`/`PG_PORT`/`PG_USER`/`PG_PASSWORD`/`PG_DB_CONTENT` — so the fix is to leave the DSN unset, not to override it. `research_agent.py` assembles the same connection from discrete values at `connect()` and reads `~/.analytics/.env` itself when the variables aren't exported.*
@@ -655,7 +661,7 @@ The last gap in 1:1 onboarding. An athlete completes the intake form; Iván rece
 - **Caddy** — `route /api/athlete-intake` with the mandatory `rewrite * /webhook/athlete-intake`, same shape as `/api/contact-form` (§11).
 - **Auth** — n8n **Header Auth credential on the webhook node** (`X-Intake-Secret`), not a comparison inside the workflow. A literal secret in an IF node would be committed to this repo the moment the workflow mirror is updated. n8n 401s before any node runs. Trade-off accepted: no alert on rejected attempts.
 - **Postgres** — `athlete_intake` in the `members` database. `raw jsonb` holds the complete submission always; typed columns exist only for what automation branches on.
-- **Gemini** — `gemini-3.1-pro-preview`, the content engine writer's model, via `x-goog-api-key` Header Auth on the same `GOOGLE_API_KEY` Hermes uses. Pro rather than flash on the strength of lesson 7 below.
+- **Gemini** — `gemini-3.1-pro-preview`, the content engine writer's model, via `x-goog-api-key` Header Auth on the same `GOOGLE_API_KEY` Hermes uses. Pro rather than flash on the strength of lesson 7 below. *(Unchanged in the August 17, 2026 migration — deliberately. It shares the writer's model and should keep sharing it, so it moves when and only when the writer moves. Note this one is hardcoded in the n8n `Build Briefing Prompt` Code node, not read from an env var, so it is Iván's edit in the n8n UI rather than a repo change. §33.)*
 
 **Four things worth carrying forward:**
 
@@ -882,6 +888,56 @@ Home doc: `achilles-brief.md`. Second tool on the strength engine, built the sam
 **The "what's coming" block is deliberately not cards.** Cards would give unbuilt things the same visual weight as built ones, which is a milder version of the exact mistake being corrected. It renders as a dashed-border list that reads as a roadmap the coach is working through: race pacing, nutrition and carb loading, lower back, shoulder, more mental prep, pace converter.
 
 ***The emails were checked and deliberately barely changed, and the reason is the lesson.*** The n8n welcome emails never decayed, because they never named a tool — they say "the calculators and guides, and I add new tools every week", which stays true whatever ships. **The surface that named specifics rotted; the surface that named categories did not.** So the standing split is now: *emails name categories plus one durable starting point (the zones calculator, since everything else depends on zones being right); sales pages name everything and are generated.* The only email change is adding that first step, since a subscriber previously received a password and a link with nothing telling them what to do first. Paste file: `automation/members-library-email-paste.txt`.
+
+## 33. Gemini model migration — Hermes and the research agent to `gemini-3.7-flash`, the writer deliberately left behind (August 17, 2026)
+
+Triggered by Iván reading Google's `gemini-3.7-flash` announcement (Aug 13, 2026) and asking whether the models here should move. **Two of the four consumers moved, two did not, and the split is the point of this entry.**
+
+### What was running, and what it cost
+
+| Consumer | Model before | Model after | Price in/out per 1M |
+|---|---|---|---|
+| Hermes (VPS agent) | `gemini-3.5-flash` | **`gemini-3.7-flash`** | $1.50/$9.00 → $0.75/$3.75 |
+| Research agent (`CONTENT_MODEL`) | `gemini-3.5-flash` | **`gemini-3.7-flash`** | $1.50/$9.00 → $0.75/$3.75 |
+| Writer + translator (`WRITER_MODEL`) | `gemini-3.1-pro-preview` | *unchanged* | $2.00/$12.00 |
+| n8n athlete-intake briefing | `gemini-3.1-pro-preview` | *unchanged* | $2.00/$12.00 |
+
+`gemini-3.7-flash` is **GA, not `-preview`**: 1M context, 64k max output, tunable thinking levels. Introductory pricing runs to Dec 31, 2026, then $1.50/$7.50 — still below 3.5-flash on output and level on input, so the move does not become a regression at the price step.
+
+### The finding that made this more than a version bump
+
+**Google shipped 3.6 and 3.7 on the *Flash* line and left Pro at 3.1. There is no 3.7 Pro.** Google's own migration guidance names `gemini-3.7-flash` the recommended target for `gemini-3.5-flash`, `gemini-3-flash-preview` **and `gemini-3.1-pro-preview`** — all three models in the table above, in a single line.
+
+*Consequence worth stating plainly, because it invalidates a rule this repo has been applying since July:* **"pro tier beats flash tier" was a claim about a model lineup that no longer exists in that shape.** Lesson 7 (flash narrating success while producing broken code) was a finding about `gemini-3.5-flash` on sustained agentic work — it was never a law about the word "flash", and 3.7 is the release that specifically targets that failure mode (DeepSWE v1.1 65.3% vs 49.0% on 3.6-flash; FrontierCode 1.1 43.6% vs 34.4%).
+
+This also dissolves the constraint closed in `open-loops-archive.md` on Aug 10 — *"`gemini-3.1-pro-preview` is the only Pro-tier model available at Iván's account level, so there is no pinned release to move to."* That was true and is now beside the point: the pinned GA release exists, it is just not labelled Pro.
+
+### Why the writer did NOT move
+
+**Every benchmark Google published for 3.7 is coding, agentic and multimodal reasoning. None of it measures long-form Spanish prose in a specific brand voice, which is the writer's only job.** Moving it on the strength of a coding benchmark would be substituting a proxy for the thing being claimed — the same error shape as `check-plan-links.py` testing liveness and being read as testing correctness (§17 / `open-loops.md`).
+
+**Cost is not an argument here either, and pretending otherwise would be dishonest about the stakes:** at ~US$0.08 per article and ~US$0.20 per ES→EN→PT set, the entire annual saving from moving the writer is smaller than one month of the VPS.
+
+So it is settled by comparison instead: draft the same idea on both models and let Iván read the Spanish. **The review gate is what makes this cheap** — a bad draft costs a rejection, not a published article. Instructions are in the `writer_agent.py` docstring.
+
+### The trap found on the way — and it is the recurring one
+
+`WRITER_MODEL=gemini-3.1-pro-preview` is set in `~/.hermes/.env`, **on lines 15 and 16, twice**. Same value today, so it is silent. Two things follow:
+
+1. **Editing the built-in default in `writer_agent.py` would have changed nothing.** Precedence is shell env → `~/.hermes/.env` / `~/.analytics/.env` → built-in default. *This is the fourth appearance of the pattern §18 and §13 exist for: **the repo copy is not automatically the thing the runtime reads.*** The agent's own `[writer] model: X (from Y)` line was written to expose exactly this and does its job — it is the reason the duplicate was findable at all.
+2. **A duplicated env line is a live last-writer-wins bug** waiting for the day the two values differ. Whichever the parser wins with, nothing warns.
+
+**`config.yaml` is worse and is not fixed here.** Hermes's model is set in `~/.hermes/config.yaml`, which lives only on the VPS and is in no repo — so Hermes's model change cannot be made by editing a tracked file at all. It is a dashboard edit, and it is a fifth instance of box-only configuration. *Not folded into this change deliberately: `config.yaml` sits next to `.env` in a directory whose other contents are secrets, so getting it under version control is its own scoped decision, not something to do in passing.* Logged in `open-loops.md`.
+
+### Verification
+
+The model swap ships **unverified against the live API** and must not be deployed before `python3 research_agent.py --test-models` confirms `gemini-3.7-flash` actually answers on this key. That flag exists precisely because *the listing endpoint reports models the key can SEE, not ones it can USE* — `gemini-2.5-pro` listed cleanly in July and then returned "no longer available to new users" on the first real call.
+
+### Corrected in the same pass
+
+**§3's billing line and `infrastructure.html` §3 both still said "auto-reload deliberately disabled".** Iván turned auto-reload on (a $7 floor, $30 top-up) on **August 10, 2026**; that fact was recorded in `open-loops-archive.md` and in neither of the two documents that describe the billing setup. Seven days, two stale copies, one owner. *Not harmless staleness: the retired sentence described a deliberate fail-closed design, so a silent content-engine outage on a $0 balance would have read as expected behaviour rather than as a bug.*
+
+---
 
 ## Open items — retired as a section (August 8, 2026)
 
