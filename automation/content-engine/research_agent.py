@@ -236,18 +236,47 @@ def test_models(api_key, only=None):
             return (int(m.group(1)), int(m.group(2) or 0)) if m else (0, 0)
         return sorted(names, key=ver)
 
+    # Rewritten August 17, 2026. This block used to print
+    #     "Suggested: WRITER_MODEL=<newest pro>"
+    # and list flash only as something "worth comparing against". That encoded
+    # "pro tier beats flash tier" as a rule, and the rule broke: Google shipped
+    # 3.6 and 3.7 on the flash line and left pro at 3.1, so on this key the
+    # highest-version usable model is gemini-3.7-flash while the newest pro is
+    # gemini-3.1-pro-preview — and Google's own migration guide names 3.7-flash
+    # the successor to 3.1-pro-preview. The old code recommended the OLDER model
+    # with more confidence than it recommended the newer one.
+    #
+    # It now reports version order across both tiers and names no winner. A
+    # helper that cannot know which model writes better Spanish should not be
+    # the thing that decides. See ai-infrastructure-documentation.md §33.
     if pro:
-        print("\nUsable pro-tier models (oldest to newest):")
+        print("\nUsable pro-tier (oldest to newest):")
         for n in newest(pro):
             print(f"  {n}")
-        print(f"\nSuggested:  echo 'WRITER_MODEL={newest(pro)[-1]}' >> ~/.hermes/.env")
     if flash:
-        print("\nUsable flash-tier, worth comparing against — you review every draft "
-              "anyway, so a cheaper first pass may cost you nothing:")
+        print("\nUsable flash-tier (oldest to newest):")
         for n in newest(flash):
             print(f"  {n}")
+
+    both = newest(pro + flash)
+    if both:
+        top = both[-1]
+        tier = "pro" if top in pro else "flash"
+        print(f"\nHighest version number usable on this key: {top}  ({tier}-tier)")
+        print("\nThat is a version number, NOT a recommendation. Tier no longer "
+              "tracks capability — check Google's current model page before "
+              "assuming pro beats flash, and settle prose quality by drafting "
+              "the same idea both ways and reading them:")
+        print("    python3 writer_agent.py --dry-run")
+        print(f"    WRITER_MODEL={top} python3 writer_agent.py --dry-run")
+        print("\nTo make a choice stick:")
+        print(f"    echo 'WRITER_MODEL={top}' >> ~/.hermes/.env")
+        print("  ...and check it is not already set there — a duplicate line is "
+              "a silent last-writer-wins bug, and .env overrides the built-in "
+              "default entirely:")
+        print("    grep -n 'WRITER_MODEL\\|CONTENT_MODEL' ~/.hermes/.env ~/.analytics/.env")
     if not pro:
-        print("\nNo pro model is callable. Use the newest flash above.")
+        print("\nNo pro model is callable on this key.")
 
 
 def show_env():

@@ -181,7 +181,7 @@ A sale thirteen days ago is not a stale record. **A sixth plan, `567561` (Olímp
 
 ### Outcome, same day — the catalogue was understated by 24 plans
 
-Iván checked the unpublished set against TrainingPeaks directly and confirmed **24 plans were live all along**. Flipped in both CSVs. **The catalogue is 303 → 327 (ES 164 / EN 111 / PT 52).**
+Iván checked the unpublished set against TrainingPeaks directly and confirmed **24 plans were live all along**. Flipped in both CSVs. **The catalogue is 303 → 327 (ES 164 / EN 111 / PT 52).** *(Note, August 17, 2026 — this is the figure as it stood mid-pass on Aug 12; it settled at **328 (ES 164 / EN 111 / PT 53)** later the same day when `612178` was published to complete the PT HYROX ladder. §1 of this file already carries 328. Left as written because the 303 → 327 jump is the finding; the +1 is bookkeeping.)*
 
 **Portuguese went 29 → 52, up 79%.** Every doc in this repo has described PT as the thin catalogue — §6 below, the three-thin-PT-hubs probe, the "PT is a marathon-only play" conclusion in the race-page longlist. **That premise was an artefact of a wrong flag, not a fact about the business**, and anything resting on it needs re-reading before it is acted on. The PT hub pages in particular shipped "deliberately under-stocked as a demand probe" against inventory that was not actually missing.
 

@@ -1,0 +1,165 @@
+---
+layout: layouts/base.njk
+pageCss: "members-fuerza.css"
+title: "Core de Ciclista — Triaperformance All-Access"
+---
+{#- CYCLIST CORE, v1 — built Aug 13, 2026 from Iván's `Deep core for cyclists.md`.
+    Home doc: `cyclist-core-brief.md`. Third artifact on the strength engine.
+
+    ONE question (3 or 4 rounds). Bodyweight only, on Iván's call.
+
+    *** Rounds are rendered as PHASES — "Vuelta 1", "Vuelta 2", … — which is why
+    this needs no engine change. strength-tool.js walks phases in order and shows
+    the phase name in the header, so the athlete sees which round they are in for
+    free. The alternative (teaching the engine about rounds) would have been a
+    second concept doing the same job as the one it already has. ***
+
+    Rest is carried on the exercises: 15s between exercises inside a round (the
+    engine rests AFTER an exercise's last set), and 75s on the last exercise of
+    each round, which is the rest between rounds.
+
+    Four changes from Iván's source doc, three of them his picks:
+      - thoracic rotation added to the warm-up (cyclists lose it on the bars)
+      - plank shoulder taps → BEAR plank shoulder taps (hip angle nearer the bike)
+      - hollow body hold → long-lever plank (hollow rehearses the flexed hip and
+        thorax a cyclist is already stuck in; same anti-extension, no fault)
+      - pull-through → cross-body plank reach, because bodyweight-only was the call
+    OFFERED AND NOT TAKEN: a 360°/90-90 breathing and bracing entry. That is the
+    "deep core" connection work, and without it this is a cycling-specific core
+    routine rather than a deep-core one. Iván's decision — do not re-add it
+    without asking. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/#biblioteca">Biblioteca</a> / Core de Ciclista</div></div>
+
+  <div class="setup-head">
+    <span class="label">Fuerza</span>
+    <h1>Core de ciclista</h1>
+    <p>El core del ciclista no genera movimiento: lo impide. Todo acá entrena resistir — que la pelvis no bascule, que el tronco no rote, que la columna no se extienda — mientras las piernas empujan.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">¿Cuántas vueltas?</div>
+    <div class="setup-opts" data-axis="rounds">
+      <button type="button" class="setup-opt" data-val="3" aria-pressed="true">3 vueltas<span>~25 min</span></button>
+      <button type="button" class="setup-opt" data-val="4" aria-pressed="false">4 vueltas<span>~33 min</span></button>
+    </div>
+    <p class="setup-hint">Tres vueltas es la sesión completa. La cuarta se agrega cuando las tres salen con la técnica intacta hasta el final — <strong>si en la última vuelta la cadera empieza a bascular, sobraba una vuelta</strong>.</p>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Armar mi rutina →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/strength-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.CYCLIST_CORE = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY */
+  const L = {
+    /* --- entrada en calor --- */
+    catcow: { name: "Gato-camello", sets: 1, reps: "10 repeticiones", tag: "Sin equipo",
+      cue: "En cuadrupedia, alterná redondear y arquear la columna al ritmo de la respiración. <strong>Movete vértebra por vértebra</strong>, no en bloque: esto es control pélvico y articular, no un estiramiento." },
+    thread: { name: "Thread the needle", sets: 1, reps: "8 por lado", tag: "Sin equipo",
+      cue: "En cuadrupedia, pasá un brazo por debajo del cuerpo y rotá apoyando el hombro; después abrí el mismo brazo hacia el techo siguiéndolo con la mirada. <strong>La cadera se queda quieta y encuadrada</strong> — la rotación sale de la columna dorsal, que es exactamente lo que se te traba después de horas en el manillar." },
+    birddog: { name: "Bird dog", sets: 1, reps: "10 por lado", tag: "Sin equipo",
+      cue: "Extendé brazo y pierna contrarios hasta la línea del tronco. <strong>Espalda plana como si tuvieras un vaso de agua en la lumbar</strong>, y apretá el glúteo al estirar la pierna." },
+    bridge: { name: "Puente de glúteos", sets: 1, reps: "15 repeticiones", tag: "Sin equipo",
+      cue: "Empujá con los talones y <strong>sostené 2 segundos arriba apretando fuerte los glúteos</strong>. La pausa es lo que despierta el glúteo; sin ella son quince repeticiones de nada." },
+
+    /* --- circuito --- */
+    deadbug: { name: "Dead bug", sets: 1, reps: "12-15 por lado", rest: 15, tag: "Anti-extensión",
+      cue: "Brazos al techo, piernas a 90°. Extendé brazo y pierna contrarios hacia el suelo sin tocarlo. <strong>La lumbar empuja contra el piso todo el tiempo</strong> — es la capacidad de mantener el tronco rígido mientras las piernas se mueven en rango amplio, que es literalmente pedalear." },
+    bearTaps: { name: "Plancha de oso con toques de hombro", sets: 1, reps: "16-20 toques", rest: 15, tag: "Anti-rotación",
+      cue: "En cuadrupedia con las rodillas despegadas unos centímetros del piso, tocá el hombro contrario con una mano. <strong>La cadera no bascula ni un grado.</strong> Con la rodilla debajo de la cadera el ángulo se parece mucho más al de la bici que una plancha larga — y es más difícil de lo que parece." },
+    sidePlank: { name: "Plancha lateral con elevación de pierna", sets: 1, reps: "30-40s por lado", rest: 15, tag: "Anti-flexión lateral",
+      cue: "Antebrazo debajo del hombro, cuerpo en línea, cadera arriba. Una vez estable, subí y bajá la pierna de arriba controlada. <strong>Oblicuos y glúteo medio</strong> — los que evitan que la rodilla se meta hacia adentro en la fase de empuje." },
+    slBridge: { name: "Puente de glúteos a una pierna", sets: 1, reps: "12-15 por pierna", rest: 15, tag: "Cadena posterior",
+      cue: "Un talón apoyado cerca de la cola, la otra rodilla abrazada al pecho. Empujá con el talón. <strong>Si lo sentís en la lumbar, meté la pelvis y bajá la altura</strong>: la idea es aislar el glúteo, no que el psoas dominante haga otra vez todo el trabajo." },
+    crossReach: { name: "Plancha con alcance cruzado", sets: 1, reps: "10-12 alcances", rest: 15, tag: "Anti-rotación",
+      cue: "En plancha alta, estirá una mano lejos y cruzada, pasando la línea de la otra mano, lento. <strong>La cadera no rota ni se hunde</strong>. Es la versión sin peso del arrastre: pide la misma tensión cruzada entre el dorsal de un lado y el glúteo del otro — la conexión de tirar del manillar mientras empujás el pedal contrario." },
+    longPlank: { name: "Plancha larga", sets: 1, reps: "20-30s", rest: 75, tag: "Anti-extensión",
+      cue: "Plancha de antebrazos, pero con los codos bastante más adelante que los hombros. <strong>Cola metida, costillas hacia abajo</strong>. Cuanto más adelante los codos, más brutal — buscá la distancia donde podés aguantar 20 segundos sin que la lumbar se hunda, ni un centímetro más." },
+
+    /* --- enfriamiento --- */
+    hipflex: { name: "Psoas con apriete de glúteo", sets: 1, reps: "60s por pierna", tag: "Posición de caballero",
+      cue: "Media rodilla, y <strong>apretá fuerte el glúteo de la pierna de atrás antes de avanzar</strong>. Ese apriete es lo que apaga el psoas y lo deja estirar de verdad. Después de horas de sillín, este es el estiramiento que más te devuelve." },
+    child: { name: "Postura del niño", sets: 1, reps: "1-2 min", tag: "Sin equipo",
+      cue: "Sentado sobre los talones, brazos largos adelante. <strong>Respirá profundo y largo</strong> para soltar lumbar y dorsales. No es relleno: es donde el sistema baja de revoluciones después de 20 minutos de tensión." }
+  };
+
+  const WARMUP  = ["catcow", "thread", "birddog", "bridge"];
+  const CIRCUIT = ["deadbug", "bearTaps", "sidePlank", "slBridge", "crossReach", "longPlank"];
+  const COOL    = ["hipflex", "child"];
+
+  const WHY = "En la bici las piernas producen fuerza y el tronco tiene que no moverse. Cada watt que se va en que la pelvis bascule o el tronco rote es un watt que no llega al pedal, y cada hora en esa posición le pide al core que aguante sin descanso. Por eso todo el circuito es trabajo <em>anti</em>: anti-rotación, anti-extensión, anti-flexión lateral. No hay abdominales — hay pelvis quieta.";
+
+  function build(rounds) {
+    const pick = (ids) => ids.map((id) => {
+      const e = L[id];
+      if (!e) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({}, e);
+    });
+
+    const phases = [{ name: "Entrada en calor", exercises: pick(WARMUP) }];
+    for (let i = 1; i <= rounds; i++) {
+      phases.push({ name: "Vuelta " + i + " de " + rounds, exercises: pick(CIRCUIT) });
+    }
+    phases.push({ name: "Enfriamiento", exercises: pick(COOL) });
+
+    return {
+      title: "Core de ciclista",
+      crumb: "Core de Ciclista",
+      kicker: "Fuerza",
+      subtitle: "Terminá cada ejercicio y tocá el botón. Entre ejercicios hay 15 segundos; al cerrar cada vuelta, 75.",
+      context: rounds + " vueltas · sin equipo",
+      why: WHY,
+      warning: "<strong>Dos veces por semana</strong>, en días de resistencia suave o después de rodar, nunca antes de una sesión de calidad.<br><br>" +
+               "<strong>La técnica manda sobre el número.</strong> En todos estos ejercicios el fallo no es cansancio: es que la cadera empieza a moverse. Cuando eso pasa, cortá la serie ahí aunque falten repeticiones — una repetición con la pelvis basculando entrena exactamente lo contrario de lo que vinimos a entrenar.",
+      doneSub: "Listo. Esto se nota en la tercera hora, no en la primera.",
+      phases: phases
+    };
+  }
+
+  return { build: build, library: L };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { rounds: "3" };
+
+  document.querySelectorAll(".setup-opts").forEach((group) => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.STRENGTH_DATA = window.CYCLIST_CORE.build(Number(choice.rounds));
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/strength-tool.js";
+    document.body.appendChild(s);
+
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Cambiar opciones";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}
