@@ -215,6 +215,16 @@ triaperformance.com {
 	redir /members/tests/ /members/calculadora-de-zonas/ permanent
 	redir /members/tests /members/calculadora-de-zonas/ permanent
 
+	# Retired Aug 18, 2026 — an agent-written article that duplicated
+	# /blog/entrenar-el-umbral-sin-tiras-de-lactato/ AND prescribed the wrong test:
+	# a 20-minute running protocol with a 0.95 multiplier, which is the CYCLING FTP
+	# convention. methodology.md is 30' max effort, threshold pace = the 30' average,
+	# no multiplier. An athlete following it and then using the zones calculator —
+	# which expects a 30' average — gets all seven zones shifted by the same margin.
+	# Redirected rather than 404'd: it was live for a day and may be indexed.
+	redir /blog/como-entrenar-el-umbral-de-lactato-running/ /blog/entrenar-el-umbral-sin-tiras-de-lactato/ permanent
+	redir /blog/como-entrenar-el-umbral-de-lactato-running /blog/entrenar-el-umbral-sin-tiras-de-lactato/ permanent
+
 	redir /guias/zonas-de-entrenamiento.pdf /assets/guias/zonas-de-entrenamiento.pdf permanent
 	redir /guias/pre-entreno.pdf /assets/guias/pre-entreno.pdf permanent
 	redir /guias/intervalos.pdf /assets/guias/intervalos.pdf permanent
