@@ -1,5 +1,34 @@
 triaperformance.com {
 	root * /var/www/triaperformance
+
+	# -------------------------------------------------------------------------
+	# Access logging (added August 20, 2026)
+	#
+	# Added after an Ahrefs crawl (Aug 18) reported 134 pages as "slow" — up to
+	# 28s load / 13.4s TTFB on some individual plan pages — that could not be
+	# reproduced: `docker stats` and `free -h` showed the VPS idle (no swap, low
+	# CPU) minutes after, and a direct curl from the box against the worst
+	# offender came back in 26-290ms. No cron job runs anywhere near the crawl's
+	# 18:38 timestamp either. Likely explanation is something in the network
+	# path to AhrefsBot specifically (or Ahrefs' own crawl-time measurement),
+	# not sustained server load — but there was no server-side record to check
+	# against, since Caddy wasn't logging response times at all. This closes
+	# that gap: if the next scheduled Ahrefs crawl reproduces the same slow
+	# pages, `duration` in this log (filtered to AhrefsBot's user-agent, around
+	# the crawl timestamp) is the real evidence instead of another guess.
+	#
+	# JSON so it's greppable/parseable later. roll_* caps it at ~500MB/~90 days
+	# so it never needs manual cleanup.
+	# -------------------------------------------------------------------------
+	log {
+		output file /var/log/caddy/triaperformance-access.log {
+			roll_size 50MiB
+			roll_keep 10
+			roll_keep_for 2160h
+		}
+		format json
+	}
+
 	header {
 		Referrer-Policy "no-referrer-when-downgrade"
 	}
