@@ -46,8 +46,8 @@ The "under-distributed asset" framing from July is out of date — the drip is r
 
 Colombia 10 · Mexico 4 · Puerto Rico 4 · Chile 3 · Costa Rica 2 · Venezuela, España, El Salvador, Uruguay 1 each · 16 unrecorded.
 
-- **English: 3 reviews** (Giles Carmichael, Sylmarie Arizmendi, Gerald Moreta). The $149 strategy leans on US-based buyers, and the English plans catalog is 108 listings — backed by 3 testimonials. *(Count corrected Aug 8, 2026 — read "100".)*
-- **Portuguese: 0 reviews.** 29 Portuguese plans and a Portuguese All-Access edition with zero social proof. *(Count corrected Aug 8, 2026 — read "50", which predates both the race-plan retirement and the July inventory clean-up.)*
+- **English: 3 reviews** (Giles Carmichael, Sylmarie Arizmendi, Gerald Moreta). The $149 strategy leans on US-based buyers, and the English plans catalog is ~~108~~ **111** listings — backed by 3 testimonials. *(Count corrected Aug 8, 2026 — read "100"; catalogue count corrected again August 24, 2026, weekly hygiene pass — 108 predates the Aug 12 `is_published` audit. Current EN count owned by `data/training_plans_inventory.csv`: 111.)*
+- **Portuguese: 0 reviews.** ~~29~~ **53** Portuguese plans and a Portuguese All-Access edition with zero social proof. *(Count corrected Aug 8, 2026 — read "50", which predates both the race-plan retirement and the July inventory clean-up; corrected again August 24, 2026, weekly hygiene pass — 29 predates the Aug 12 `is_published` audit, which took PT from 29 to 53. Current count owned by `data/training_plans_inventory.csv`.)*
 - **Product coverage:** ~36 reviews are 1:1 coaching; 2 are Plans buyers (Nataly Ortiz, Cristian Barrera — both excellent); 0 mention All-Access or the tools.
 
 The proof inventory mirrors today's revenue, not the growth plan. Fixing this is an *ask* problem, not a build problem.

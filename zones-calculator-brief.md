@@ -169,7 +169,7 @@ It also fills a live hole: `open-loops.md` records that there is **no public pag
 
 The same calculator with **no email capture and no pitch**, plus saved values and re-test history.
 
-**Be clear-eyed about the delta.** Members are not buying extra features here — they are buying the same tool without the funnel, plus history. That is thinner than "gated depth" implied in the first design pass, and it is accepted deliberately: All-Access sells on 303 plans, unlimited changes and TrainingPeaks Premium. The tools are a reason to stay, not the reason to join. Recorded explicitly so it is not rediscovered later as an unexplained weakness.
+**Be clear-eyed about the delta.** Members are not buying extra features here — they are buying the same tool without the funnel, plus history. That is thinner than "gated depth" implied in the first design pass, and it is accepted deliberately: All-Access sells on ~~303~~ **328** plans, unlimited changes and TrainingPeaks Premium. *(Corrected August 24, 2026 — weekly hygiene pass. Catalogue moved to 328 (ES 164 / EN 111 / PT 53) on Aug 12, 2026; this line was never updated. Owner: `data/training_plans_inventory.csv`.)* The tools are a reason to stay, not the reason to join. Recorded explicitly so it is not rediscovered later as an unexplained weakness.
 
 ### On saving values — smaller than it looks, but a category change
 
