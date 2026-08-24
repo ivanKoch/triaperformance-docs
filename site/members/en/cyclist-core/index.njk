@@ -1,0 +1,170 @@
+---
+layout: layouts/base.njk
+pageCss: "members-fuerza.css"
+title: "Cyclist Core — Triaperformance All-Access"
+---
+{#- CYCLIST CORE, v1 — English sibling of /members/core-ciclista/. Same circuit,
+    same structure; only the copy changes.
+
+    Original note follows.
+
+    CYCLIST CORE, v1 — built Aug 13, 2026 from Iván's `Deep core for cyclists.md`.
+    Home doc: `cyclist-core-brief.md`. Third artifact on the strength engine.
+
+    ONE question (3 or 4 rounds). Bodyweight only, on Iván's call.
+
+    *** Rounds are rendered as PHASES — "Vuelta 1", "Vuelta 2", … — which is why
+    this needs no engine change. strength-tool.js walks phases in order and shows
+    the phase name in the header, so the athlete sees which round they are in for
+    free. The alternative (teaching the engine about rounds) would have been a
+    second concept doing the same job as the one it already has. ***
+
+    Rest is carried on the exercises: 15s between exercises inside a round (the
+    engine rests AFTER an exercise's last set), and 75s on the last exercise of
+    each round, which is the rest between rounds.
+
+    Four changes from Iván's source doc, three of them his picks:
+      - thoracic rotation added to the warm-up (cyclists lose it on the bars)
+      - plank shoulder taps → BEAR plank shoulder taps (hip angle nearer the bike)
+      - hollow body hold → long-lever plank (hollow rehearses the flexed hip and
+        thorax a cyclist is already stuck in; same anti-extension, no fault)
+      - pull-through → cross-body plank reach, because bodyweight-only was the call
+    OFFERED AND NOT TAKEN: a 360°/90-90 breathing and bracing entry. That is the
+    "deep core" connection work, and without it this is a cycling-specific core
+    routine rather than a deep-core one. Iván's decision — do not re-add it
+    without asking. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/en/#biblioteca">Library</a> / Cyclist Core</div></div>
+
+  <div class="setup-head">
+    <span class="label">Strength</span>
+    <h1>Cyclist core</h1>
+    <p>A cyclist's core doesn't create movement — it prevents it. Everything here trains resisting: the pelvis not rocking, the trunk not rotating, the spine not extending, while the legs push.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">How many rounds?</div>
+    <div class="setup-opts" data-axis="rounds">
+      <button type="button" class="setup-opt" data-val="3" aria-pressed="true">3 rounds<span>~25 min</span></button>
+      <button type="button" class="setup-opt" data-val="4" aria-pressed="false">4 rounds<span>~33 min</span></button>
+    </div>
+    <p class="setup-hint">Three rounds is the full session. The fourth gets added once three come out with your technique intact to the end — <strong>if the hip starts rocking in the last round, that round was one too many</strong>.</p>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Build my routine →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/strength-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.CYCLIST_CORE = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY */
+  const L = {
+    /* --- entrada en calor --- */
+    catcow: { name: "Cat-cow", sets: 1, reps: "10 reps", tag: "No equipment",
+      cue: "On hands and knees, alternate rounding and arching the spine with your breath. <strong>Move one vertebra at a time</strong>, not as one block: this is pelvic and joint control, not a stretch." },
+    thread: { name: "Thread the needle", sets: 1, reps: "8 per side", tag: "No equipment",
+      cue: "On hands and knees, thread one arm under the body and rotate onto the shoulder; then open that same arm toward the ceiling, following it with your eyes. <strong>The hips stay still and square</strong> — the rotation comes from the thoracic spine, which is exactly what seizes up after hours on the bars." },
+    birddog: { name: "Bird dog", sets: 1, reps: "10 per side", tag: "No equipment",
+      cue: "Extend opposite arm and leg to the line of your torso. <strong>Back flat, as if a glass of water were balanced on your lower back</strong>, and squeeze the glute as the leg straightens." },
+    bridge: { name: "Glute bridge", sets: 1, reps: "15 reps", tag: "No equipment",
+      cue: "Drive through your heels and <strong>hold 2 seconds at the top, squeezing the glutes hard</strong>. The pause is what wakes the glute up; without it these are fifteen reps of nothing." },
+
+    /* --- circuito --- */
+    deadbug: { name: "Dead bug", sets: 1, reps: "12-15 per side", rest: 15, tag: "Anti-extension",
+      cue: "Arms to the ceiling, legs at 90°. Extend opposite arm and leg toward the floor without touching it. <strong>The lower back presses into the floor the entire time</strong> — this is the ability to keep the trunk rigid while the legs move through a big range, which is literally pedalling." },
+    bearTaps: { name: "Bear plank shoulder taps", sets: 1, reps: "16-20 taps", rest: 15, tag: "Anti-rotation",
+      cue: "On hands and knees with the knees hovering a couple of inches off the floor, tap the opposite shoulder. <strong>The hips do not rock a single degree.</strong> With the knee under the hip, the angle is far closer to the bike than a long plank is — and it is harder than it looks." },
+    sidePlank: { name: "Side plank with leg raise", sets: 1, reps: "30-40s per side", rest: 15, tag: "Anti-lateral-flexion",
+      cue: "Forearm under the shoulder, body in line, hips up. Once stable, raise and lower the top leg under control. <strong>Obliques and glute medius</strong> — the muscles that stop the knee caving inward on the push phase." },
+    slBridge: { name: "Single-leg glute bridge", sets: 1, reps: "12-15 per leg", rest: 15, tag: "Posterior chain",
+      cue: "One heel planted close to your backside, the other knee hugged to your chest. Drive through the heel. <strong>If you feel it in your lower back, tuck the pelvis and lower the height</strong>: the point is to isolate the glute, not to let the dominant hip flexor do all the work again." },
+    crossReach: { name: "Plank cross-body reach", sets: 1, reps: "10-12 reaches", rest: 15, tag: "Anti-rotation",
+      cue: "From a high plank, reach one hand far out and across, past the line of the other hand, slowly. <strong>The hips neither rotate nor sag.</strong> This is the unloaded version of the drag: it demands the same cross-body tension between the lat on one side and the glute on the other — the connection of pulling on the bar while pushing the opposite pedal." },
+    longPlank: { name: "Long-lever plank", sets: 1, reps: "20-30s", rest: 75, tag: "Anti-extension",
+      cue: "Forearm plank, but with the elbows well forward of the shoulders. <strong>Tailbone tucked, ribs down.</strong> The further forward the elbows, the more brutal — find the distance where you can hold 20 seconds without the lower back sagging, and not an inch further." },
+
+    /* --- enfriamiento --- */
+    hipflex: { name: "Hip flexor stretch with glute squeeze", sets: 1, reps: "60s per leg", tag: "Half-kneeling",
+      cue: "Half kneeling, and <strong>squeeze the back glute hard before you shift forward</strong>. That squeeze is what switches the hip flexor off and lets it actually lengthen. After hours in the saddle, this is the stretch that gives you the most back." },
+    child: { name: "Child's pose", sets: 1, reps: "1-2 min", tag: "No equipment",
+      cue: "Sitting back on your heels, arms long in front. <strong>Breathe deep and slow</strong> to release the lower back and lats. This is not filler: it is where the system comes down after 20 minutes of tension." }
+  };
+
+  const WARMUP  = ["catcow", "thread", "birddog", "bridge"];
+  const CIRCUIT = ["deadbug", "bearTaps", "sidePlank", "slBridge", "crossReach", "longPlank"];
+  const COOL    = ["hipflex", "child"];
+
+  const WHY = "On the bike the legs produce force and the trunk has to not move. Every watt lost to a rocking pelvis or a rotating trunk is a watt that never reaches the pedal, and every hour in that position asks the core to hold without a break. That is why the whole circuit is <em>anti</em> work: anti-rotation, anti-extension, anti-lateral-flexion. There are no sit-ups here — there is a pelvis that stays still.";
+
+  function build(rounds) {
+    const pick = (ids) => ids.map((id) => {
+      const e = L[id];
+      if (!e) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({}, e);
+    });
+
+    const phases = [{ name: "Warm-up", exercises: pick(WARMUP) }];
+    for (let i = 1; i <= rounds; i++) {
+      phases.push({ name: "Round " + i + " of " + rounds, exercises: pick(CIRCUIT) });
+    }
+    phases.push({ name: "Cool-down", exercises: pick(COOL) });
+
+    return {
+      title: "Cyclist core",
+      crumb: "Cyclist Core",
+      kicker: "Strength",
+      subtitle: "Finish each exercise and tap the button. 15 seconds between exercises; 75 at the end of each round.",
+      context: rounds + " rounds · no equipment",
+      why: WHY,
+      warning: "<strong>Twice a week</strong>, on easy endurance days or after a ride, never before a quality session.<br><br>" +
+               "<strong>Technique outranks the number.</strong> In all of these, failure is not fatigue: it is the hip starting to move. When that happens, end the set there even with reps left — a rep with the pelvis rocking trains the exact opposite of what we came here to train.",
+      doneSub: "Done. You notice this in the third hour, not the first.",
+      phases: phases
+    };
+  }
+
+  return { build: build, library: L };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { rounds: "3" };
+
+  document.querySelectorAll(".setup-opts").forEach((group) => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.STRENGTH_DATA = window.CYCLIST_CORE.build(Number(choice.rounds));
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/strength-tool.js";
+    document.body.appendChild(s);
+
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Change options";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}
