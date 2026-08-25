@@ -10,7 +10,10 @@
       "name": "READ ME BEFORE ACTIVATING",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [-620, -180],
+      "position": [
+        -620,
+        -180
+      ],
       "parameters": {
         "width": 620,
         "height": 700,
@@ -22,7 +25,10 @@
       "name": "Webhook - Publish Request",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [40, 120],
+      "position": [
+        40,
+        120
+      ],
       "webhookId": "publish-article",
       "parameters": {
         "httpMethod": "POST",
@@ -36,7 +42,10 @@
       "name": "Config",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
-      "position": [260, 120],
+      "position": [
+        260,
+        120
+      ],
       "parameters": {
         "assignments": {
           "assignments": [
@@ -80,7 +89,10 @@
       "name": "Load approved pieces",
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
-      "position": [480, 120],
+      "position": [
+        480,
+        120
+      ],
       "alwaysOutputData": true,
       "credentials": {
         "postgres": {
@@ -90,7 +102,7 @@
       },
       "parameters": {
         "operation": "executeQuery",
-        "query": "-- Every APPROVED piece, not the ids in the request body.\n--\n-- The first version took the ids as a query parameter and failed silently on\n-- every batch: n8n splits the Query Parameters field on commas, so \"5,4\"\n-- arrived as $1='5' and $2='4', and a query referencing only $1 fetched one\n-- piece and dropped the rest with no error. Two batches, two lost articles.\n--\n-- Selecting on status instead removes the parameter, and with it the bug\n-- class. It also makes the webhook a trigger rather than a payload: firing it\n-- twice is harmless, and a piece stranded in APPROVED by an earlier failure\n-- gets picked up by the next run instead of needing a manual curl.\n--\n-- LIMIT 2 is a publishing pace, not a safety valve. Approving thirty drafts\n-- queues thirty; this drains two a day (see run-agent.sh publish, 05:30).\n-- The reason is quality feedback, not SEO folklore: two systematic flaws in\n-- the writer were found only by reading real published output, and a flaw\n-- caught at two articles costs two fixes rather than thirty on live pages.\n-- Raise it freely once the writer has been boring for a month.\nSELECT id, idea_id, language, slug, title, headline, short_title,\n       standfirst, description, category, trans_key, reading_time, body,\n       to_char(now() AT TIME ZONE 'UTC', 'YYYY-MM-DD') AS pub_date\nFROM content_pieces\nWHERE status = 'APPROVED'\nORDER BY id\nLIMIT 2;",
+        "query": "-- NOTE: `topic` is selected here and written into the front matter by\n-- \"Build .njk file\". It drives the blog listing's topic pills. Adding a\n-- column to this SELECT without adding it there publishes an article the\n-- filter cannot see.\n--\n-- Every APPROVED piece, not the ids in the request body.\n--\n-- The first version took the ids as a query parameter and failed silently on\n-- every batch: n8n splits the Query Parameters field on commas, so \"5,4\"\n-- arrived as $1='5' and $2='4', and a query referencing only $1 fetched one\n-- piece and dropped the rest with no error. Two batches, two lost articles.\n--\n-- Selecting on status instead removes the parameter, and with it the bug\n-- class. It also makes the webhook a trigger rather than a payload: firing it\n-- twice is harmless, and a piece stranded in APPROVED by an earlier failure\n-- gets picked up by the next run instead of needing a manual curl.\n--\n-- LIMIT 2 is a publishing pace, not a safety valve. Approving thirty drafts\n-- queues thirty; this drains two a day (see run-agent.sh publish, 05:30).\n-- The reason is quality feedback, not SEO folklore: two systematic flaws in\n-- the writer were found only by reading real published output, and a flaw\n-- caught at two articles costs two fixes rather than thirty on live pages.\n-- Raise it freely once the writer has been boring for a month.\nSELECT id, idea_id, language, slug, title, headline, short_title,\n       standfirst, description, category, topic, trans_key, reading_time, body,\n       to_char(now() AT TIME ZONE 'UTC', 'YYYY-MM-DD') AS pub_date\nFROM content_pieces\nWHERE status = 'APPROVED'\nORDER BY id\nLIMIT 2;",
         "options": {}
       }
     },
@@ -99,7 +111,10 @@
       "name": "Anything to publish?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [700, 120],
+      "position": [
+        700,
+        120
+      ],
       "parameters": {
         "conditions": {
           "options": {
@@ -131,10 +146,13 @@
       "name": "Build .njk file",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [920, 20],
+      "position": [
+        920,
+        20
+      ],
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "// RUN ONCE FOR EACH ITEM — set explicitly, not left on the default.\n// A batch approval sends several piece_ids in one POST, so this node must run\n// per piece. Leaving it on \"run once for all items\" would publish only the\n// first article and silently drop the rest (July 31 lead-workflow bug).\n\nconst cfg = $('Config').first().json;\nconst p = $json;\n\nconst DIR = { es: 'site/blog', en: 'site/en/blog', pt: 'site/pt/blog' };\nconst URLPATH = { es: '/blog/', en: '/en/blog/', pt: '/pt/blog/' };\n\n// Fail here, not at the API call. An unset githubOwner produces a request to a\n// repo that doesn't exist, and GitHub answers 404 — the same code it returns\n// for \"no permission\" and for \"file not found\". Three very different problems\n// wearing one status code sent the first real run chasing token scopes.\nfor (const k of ['githubOwner', 'githubRepo', 'branch', 'siteBase']) {\n  if (!cfg[k] || String(cfg[k]).includes('REPLACE_ME')) {\n    throw new Error(`Config node: ${k} is unset (still REPLACE_ME). Fill it in before running.`);\n  }\n}\n\nif (!DIR[p.language]) {\n  throw new Error(`piece ${p.id}: unknown language \"${p.language}\"`);\n}\nif (!p.slug || !p.trans_key || !p.body) {\n  throw new Error(`piece ${p.id}: missing slug, trans_key or body`);\n}\n\n// YAML double-quoted scalar. Same lesson as the writer's JSON body: a colon,\n// a quote or a leading dash inside a title breaks the front matter parse and\n// takes the whole build down. Quote and escape rather than hope.\nconst y = (s) =>\n  '\"' + String(s ?? '').replace(/\\\\/g, '\\\\\\\\').replace(/\"/g, '\\\\\"') + '\"';\n\n// `lang` and `layout` are NOT written here — they come from the directory data\n// file (site/blog/blog.json etc). Writing them per-file would be a second\n// source of truth for something already decided once.\nconst frontMatter = [\n  '---',\n  `transKey: ${p.trans_key}`,\n  `date: ${p.pub_date}`,\n  p.category ? `category: ${y(p.category)}` : null,\n  'pageCss: blog.css',\n  p.reading_time ? `readingTime: ${p.reading_time}` : null,\n  `title: ${y(p.title)}`,\n  `headline: ${y(p.headline)}`,\n  p.short_title ? `shortTitle: ${y(p.short_title)}` : null,\n  p.standfirst ? `standfirst: ${y(p.standfirst)}` : null,\n  `description: ${y(p.description)}`,\n  '---',\n].filter(Boolean).join('\\n');\n\nconst file = frontMatter + '\\n' + String(p.body).trim() + '\\n';\nconst path = `${DIR[p.language]}/${p.slug}.njk`;\n\nreturn {\n  json: {\n    piece_id: p.id,\n    idea_id: p.idea_id,\n    path,\n    published_url: `${cfg.siteBase}${URLPATH[p.language]}${p.slug}/`,\n    commit_message: `content: publish \"${p.headline}\" (${p.language})`,\n    content_b64: Buffer.from(file, 'utf8').toString('base64'),\n    branch: cfg.branch,\n    api_url: `https://api.github.com/repos/${cfg.githubOwner}/${cfg.githubRepo}/contents/${path}`,\n  },\n};"
+        "jsCode": "// RUN ONCE FOR EACH ITEM — set explicitly, not left on the default.\n// A batch approval sends several piece_ids in one POST, so this node must run\n// per piece. Leaving it on \"run once for all items\" would publish only the\n// first article and silently drop the rest (July 31 lead-workflow bug).\n\nconst cfg = $('Config').first().json;\nconst p = $json;\n\nconst DIR = { es: 'site/blog', en: 'site/en/blog', pt: 'site/pt/blog' };\nconst URLPATH = { es: '/blog/', en: '/en/blog/', pt: '/pt/blog/' };\n\n// Fail here, not at the API call. An unset githubOwner produces a request to a\n// repo that doesn't exist, and GitHub answers 404 — the same code it returns\n// for \"no permission\" and for \"file not found\". Three very different problems\n// wearing one status code sent the first real run chasing token scopes.\nfor (const k of ['githubOwner', 'githubRepo', 'branch', 'siteBase']) {\n  if (!cfg[k] || String(cfg[k]).includes('REPLACE_ME')) {\n    throw new Error(`Config node: ${k} is unset (still REPLACE_ME). Fill it in before running.`);\n  }\n}\n\nif (!DIR[p.language]) {\n  throw new Error(`piece ${p.id}: unknown language \"${p.language}\"`);\n}\nif (!p.slug || !p.trans_key || !p.body) {\n  throw new Error(`piece ${p.id}: missing slug, trans_key or body`);\n}\n\n// YAML double-quoted scalar. Same lesson as the writer's JSON body: a colon,\n// a quote or a leading dash inside a title breaks the front matter parse and\n// takes the whole build down. Quote and escape rather than hope.\nconst y = (s) =>\n  '\"' + String(s ?? '').replace(/\\\\/g, '\\\\\\\\').replace(/\"/g, '\\\\\"') + '\"';\n\n// `lang` and `layout` are NOT written here — they come from the directory data\n// file (site/blog/blog.json etc). Writing them per-file would be a second\n// source of truth for something already decided once.\nconst frontMatter = [\n  '---',\n  `transKey: ${p.trans_key}`,\n  `date: ${p.pub_date}`,\n  p.category ? `category: ${y(p.category)}` : null,\n  // topic drives the listing's pill filter. Unquoted: it is a closed-vocabulary\n  // slug (lowercase, hyphen only), so it can never need YAML escaping — and\n  // leaving it bare makes a stray value obvious in a diff rather than hidden\n  // inside quotes.\n  p.topic ? `topic: ${p.topic}` : null,\n  'pageCss: blog.css',\n  p.reading_time ? `readingTime: ${p.reading_time}` : null,\n  `title: ${y(p.title)}`,\n  `headline: ${y(p.headline)}`,\n  p.short_title ? `shortTitle: ${y(p.short_title)}` : null,\n  p.standfirst ? `standfirst: ${y(p.standfirst)}` : null,\n  `description: ${y(p.description)}`,\n  '---',\n].filter(Boolean).join('\\n');\n\nconst file = frontMatter + '\\n' + String(p.body).trim() + '\\n';\nconst path = `${DIR[p.language]}/${p.slug}.njk`;\n\nreturn {\n  json: {\n    piece_id: p.id,\n    idea_id: p.idea_id,\n    path,\n    published_url: `${cfg.siteBase}${URLPATH[p.language]}${p.slug}/`,\n    commit_message: `content: publish \"${p.headline}\" (${p.language})`,\n    content_b64: Buffer.from(file, 'utf8').toString('base64'),\n    branch: cfg.branch,\n    api_url: `https://api.github.com/repos/${cfg.githubOwner}/${cfg.githubRepo}/contents/${path}`,\n  },\n};"
       }
     },
     {
@@ -142,7 +160,10 @@
       "name": "Does the file already exist?",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1140, 20],
+      "position": [
+        1140,
+        20
+      ],
       "alwaysOutputData": true,
       "credentials": {
         "githubApi": {
@@ -179,7 +200,10 @@
       "name": "Assemble commit payload",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1360, 20],
+      "position": [
+        1360,
+        20
+      ],
       "parameters": {
         "mode": "runOnceForEachItem",
         "jsCode": "// RUN ONCE FOR EACH ITEM — see the note in \"Build .njk file\".\n// `.item` is the paired-item accessor and only behaves correctly in this mode.\n\nconst built = $('Build .njk file').item.json;\nconst probe = $json;\n\n// 200 = the file is already there and we're replacing it (a re-publish after an\n// edit). 404 = new article. Anything else is a real API problem and should not\n// be treated as \"file is new\" — that would blind-overwrite with no sha.\nconst code = probe.statusCode;\nif (code !== 200 && code !== 404) {\n  throw new Error(\n    `GitHub returned ${code} probing ${built.path}: ` +\n    JSON.stringify(probe.body).slice(0, 300)\n  );\n}\n\nconst sha = code === 200 ? probe.body.sha : null;\n\nconst commitBody = {\n  message: built.commit_message,\n  content: built.content_b64,\n  branch: built.branch,\n};\nif (sha) commitBody.sha = sha;\n\nreturn { json: { ...built, sha, replacing: !!sha, commit_body: commitBody } };"
@@ -190,7 +214,10 @@
       "name": "Commit .njk to GitHub",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1580, 20],
+      "position": [
+        1580,
+        20
+      ],
       "credentials": {
         "githubApi": {
           "id": "REPLACE_ME",
@@ -220,7 +247,10 @@
       "name": "Mark PUBLISHED",
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.5,
-      "position": [1800, 20],
+      "position": [
+        1800,
+        20
+      ],
       "credentials": {
         "postgres": {
           "id": "REPLACE_ME",
@@ -240,7 +270,10 @@
       "name": "Telegram notify Ivan",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [2020, 20],
+      "position": [
+        2020,
+        20
+      ],
       "executeOnce": true,
       "credentials": {
         "telegramApi": {
@@ -262,7 +295,10 @@
       "name": "Respond published",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
-      "position": [2240, 20],
+      "position": [
+        2240,
+        20
+      ],
       "parameters": {
         "respondWith": "json",
         "responseBody": "={{ JSON.stringify({ ok: true, published: $('Assemble commit payload').all().map(i => i.json.path) }) }}",
@@ -274,7 +310,10 @@
       "name": "Respond nothing to publish",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
-      "position": [920, 260],
+      "position": [
+        920,
+        260
+      ],
       "parameters": {
         "respondWith": "json",
         "responseBody": "={{ JSON.stringify({ ok: true, published: [] }) }}",
@@ -284,37 +323,121 @@
   ],
   "connections": {
     "Webhook - Publish Request": {
-      "main": [[{ "node": "Config", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Config": {
-      "main": [[{ "node": "Load approved pieces", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Load approved pieces",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Load approved pieces": {
-      "main": [[{ "node": "Anything to publish?", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Anything to publish?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Anything to publish?": {
       "main": [
-        [{ "node": "Build .njk file", "type": "main", "index": 0 }],
-        [{ "node": "Respond nothing to publish", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Build .njk file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond nothing to publish",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Build .njk file": {
-      "main": [[{ "node": "Does the file already exist?", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Does the file already exist?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Does the file already exist?": {
-      "main": [[{ "node": "Assemble commit payload", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Assemble commit payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Assemble commit payload": {
-      "main": [[{ "node": "Commit .njk to GitHub", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Commit .njk to GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Commit .njk to GitHub": {
-      "main": [[{ "node": "Mark PUBLISHED", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Mark PUBLISHED",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Mark PUBLISHED": {
-      "main": [[{ "node": "Telegram notify Ivan", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Telegram notify Ivan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Telegram notify Ivan": {
-      "main": [[{ "node": "Respond published", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Respond published",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   }
 }

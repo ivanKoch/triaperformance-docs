@@ -159,7 +159,15 @@ CREATE TABLE IF NOT EXISTS content_pieces (
     short_title   TEXT,            -- breadcrumb
     standfirst    TEXT,
     description   TEXT NOT NULL,   -- meta description
-    category      TEXT,
+    category      TEXT,            -- free-text label shown on the article page
+    -- Closed vocabulary driving the blog listing's topic filter. Added Aug 24,
+    -- 2026, after `category` proved unusable for it: the writer had invented 35
+    -- distinct values across the first 60 articles, in three languages, so no
+    -- filter could ever be built on it. Slugs only — the per-language labels
+    -- live in site/_data/i18n.json, the allowed list in writer_agent.TOPICS.
+    -- A translation inherits its parent's topic; it never chooses its own,
+    -- because siblings are declared to search engines as the same page.
+    topic         TEXT,
     trans_key     TEXT NOT NULL,   -- shared across the language siblings
     reading_time  INTEGER,
 

@@ -38,6 +38,9 @@ from datetime import datetime, timezone
 
 from research_agent import load_env, connect, read_env_files
 
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.dirname(os.path.dirname(HERE))
+
 STATE_DIR = os.path.expanduser(os.environ.get("STATE_DIR", "~/.hermes/state"))
 NOTIFY_STATE = os.path.join(STATE_DIR, "content-notify.json")
 NUDGE_DAYS = float(os.environ.get("NUDGE_DAYS", "3"))
@@ -98,6 +101,38 @@ def counts(conn):
     return {"ideas": r[0], "drafts": r[1], "unpublished": r[2], "queued": r[3]}
 
 
+def orphans(conn):
+    """Pieces the database calls PUBLISHED whose file is not in the repo.
+
+    WHY THIS EXISTS — a real failure, Aug 20-24, 2026. Piece 12 was published
+    correctly by n8n, then deleted from the repo four days later in a commit
+    about something else entirely. Nothing told the database. It kept reporting
+    PUBLISHED, and on Aug 24 `auto_translate` — which treats APPROVED/PUBLISHED
+    as ground truth — spent two generations producing EN and PT siblings of an
+    article that had not been on the site for four days. Those siblings went
+    live with broken hreflang, declaring a Spanish version that doesn't exist.
+
+    The underlying shape is this project's own hygiene rule applied to code:
+    ONE OWNER PER FACT. The repo owns whether an article exists; the database
+    owns whether it is meant to. Nothing checked that they agreed, so a hand
+    deletion was invisible to every agent downstream.
+
+    Deliberately one-directional. Files on disk with no database row are
+    normal — the six hand-written articles predate the content engine — so
+    reporting them would be noise that trains you to ignore this.
+    """
+    with conn.cursor() as cur:
+        cur.execute("""
+            SELECT id, language, slug, file_path
+            FROM content_pieces
+            WHERE status = 'PUBLISHED' AND file_path IS NOT NULL
+            ORDER BY id
+        """)
+        rows = cur.fetchall()
+    return [(r[0], r[1], r[3]) for r in rows
+            if not os.path.exists(os.path.join(REPO, r[3]))]
+
+
 def failures():
     """Agents whose last run failed, from the status files run-agent.sh writes."""
     out = []
@@ -131,8 +166,15 @@ def stale(max_age_days=8):
     return out
 
 
-def build_message(c, fails, stales):
+def build_message(c, fails, stales, gone=()):
     lines = []
+    if gone:
+        lines.append("⚠️ *Publicado en la base, ausente del repo*")
+        for pid, lang, path in gone:
+            lines.append(f"  `{pid}` {lang} — {path}")
+        lines.append("_El traductor los trata como fuente válida. "
+                     "Marcalos REJECTED o restaurá el archivo._")
+        lines.append("")
     if fails:
         lines.append("⚠️ *Agente con error*")
         for a, when in fails:
@@ -163,9 +205,14 @@ def build_message(c, fails, stales):
     return "\n".join(lines).strip()
 
 
-def should_send(c, fails, stales, prev, force):
+def should_send(c, fails, stales, prev, force, gone=()):
     if force:
         return True, "forced"
+    # Drift, like a failure, nags every day until it's resolved — it silently
+    # costs money (regenerated translations) and ships broken hreflang, and it
+    # cannot fix itself.
+    if gone:
+        return True, f"{len(gone)} published piece(s) missing from the repo"
     if fails or stales:
         return True, "agent problem"
     pending = c["ideas"] + c["drafts"]
@@ -216,6 +263,7 @@ def main():
 
     conn = connect()
     c = counts(conn)
+    gone = orphans(conn)
     conn.close()
     fails, stales = failures(), stale()
 
@@ -226,14 +274,17 @@ def main():
         except (ValueError, OSError):
             prev = {}
 
-    go, why = should_send(c, fails, stales, prev, args.force)
+    go, why = should_send(c, fails, stales, prev, args.force, gone)
     print(f"[notify] ideas={c['ideas']} drafts={c['drafts']} "
           f"queued={c['queued']} unpublished={c['unpublished']} "
-          f"fails={len(fails)} stale={len(stales)} → {'SEND' if go else 'quiet'} ({why})")
+          f"fails={len(fails)} stale={len(stales)} missing={len(gone)} "
+          f"→ {'SEND' if go else 'quiet'} ({why})")
+    for pid, lang, path in gone:
+        print(f"  [drift] piece {pid} ({lang}) says PUBLISHED but {path} is not in the repo")
     if not go:
         return
 
-    msg = build_message(c, fails, stales)
+    msg = build_message(c, fails, stales, gone)
     if not msg:
         print("[notify] nothing to say after all")
         return

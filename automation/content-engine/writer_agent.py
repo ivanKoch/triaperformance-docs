@@ -84,6 +84,23 @@ STYLE_EXAMPLES = {
 
 BLOG_DIR = {"es": "site/blog", "en": "site/en/blog", "pt": "site/pt/blog"}
 
+# CLOSED vocabulary — the blog listing's topic filter reads this and nothing
+# else. Kept in lockstep with `topics` in site/_data/i18n.json, which holds the
+# per-language labels; these slugs are the data, those are presentation.
+#
+# Why a second field when `category` already existed: `category` is free text,
+# and across the first 60 articles the writer invented 35 distinct values in
+# three languages — "Entrenamiento", "Training", "Treinamento", "Training
+# Science", "Treinamento de Corrida" and so on. Nothing that varies per article
+# and per language can drive a filter. `category` survives as the fine-grained
+# label on the article page; `topic` is the structural key.
+#
+# `weight-loss` is a theme sitting among sports, which is untidy — it is here on
+# commercial grounds: weight-loss plans are around half of recent plan sales,
+# and filing those articles under running and cycling buries them.
+TOPICS = ("running", "cycling", "swimming", "triathlon", "nutrition",
+          "recovery", "physiology", "strength", "weight-loss")
+
 
 def slugify(text):
     text = unicodedata.normalize("NFKD", text or "")
@@ -216,8 +233,13 @@ OUTPUT FORMAT — exactly this, nothing before or after. Two blocks separated by
 the ===BODY=== marker. The article HTML goes AFTER the marker, as plain text —
 never inside the JSON, and never escaped.
 
+`topic` is ONE of exactly these, verbatim, lowercase — it drives the blog's
+topic filter and anything else is dropped: {topic_list}
+Pick the one a reader browsing for this article would click. `category` is your
+own free-text label for the article page and may be more specific.
+
 ===META===
-{{"headline":"the H1","short_title":"3-5 words for the breadcrumb","title":"SEO title | Triaperformance","standfirst":"one sentence under the H1","description":"meta description, 150-160 chars","category":"2-3 words","reading_time":8,"slug":"url-slug-in-{language_code}"}}
+{{"headline":"the H1","short_title":"3-5 words for the breadcrumb","title":"SEO title | Triaperformance","standfirst":"one sentence under the H1","description":"meta description, 150-160 chars","topic":"one slug from the list above","category":"2-3 words","reading_time":8,"slug":"url-slug-in-{language_code}"}}
 ===BODY===
 <p>the full article HTML, written normally</p>
 """
@@ -356,6 +378,7 @@ def build_draft(idea, plans, model, api_key):
         plans=json.dumps(cands, ensure_ascii=False, indent=1)[:4000] or "none — do not link plans",
         article_type=idea["article_type"],
         cta_type=idea["cta_type"],
+        topic_list=", ".join(TOPICS),
         all_access_path={"es": "/all-access/", "en": "/en/all-access/",
                          "pt": "/pt/all-access/"}[idea["language"]],
     )
@@ -368,6 +391,12 @@ def validate(draft, plans, lang):
     for field in ("headline", "title", "description", "body", "slug"):
         if not draft.get(field):
             problems.append(f"missing {field}")
+    # An off-list topic isn't a cosmetic problem: the listing filter matches on
+    # the slug, so a card with an invented topic renders with no label and is
+    # unreachable from every pill. Better to reject the draft than to publish an
+    # article that can only be found by scrolling.
+    if draft.get("topic") not in TOPICS:
+        problems.append(f"topic {draft.get('topic')!r} is not one of: {', '.join(TOPICS)}")
     body = draft.get("body", "")
     if "trainingpeaks.com" in body.lower():
         problems.append("contains a hand-written TrainingPeaks URL — must use planCard")
@@ -396,19 +425,25 @@ def save_piece(conn, draft, idea=None, parent=None, lang=None, model=None):
     trans_key = (parent["trans_key"] if parent
                  else slugify(draft.get("short_title") or draft["headline"]))
     slug = slugify(draft["slug"] or draft["headline"])
+    # A translation INHERITS its parent's topic rather than choosing again.
+    # Language siblings are declared to search engines as the same page, so two
+    # of them under different topics would put the same article in two places
+    # in the filter and make the pill row disagree with the language switcher.
+    topic = (parent.get("topic") if parent and parent.get("topic")
+             else draft.get("topic"))
     with conn.cursor() as cur:
         cur.execute("""
             INSERT INTO content_pieces
               (idea_id, parent_id, language, slug, title, headline, short_title,
-               standfirst, description, category, trans_key, reading_time,
+               standfirst, description, category, topic, trans_key, reading_time,
                body, original_body, model_used, file_path)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
             ON CONFLICT (language, slug) DO NOTHING
             RETURNING id
         """, (idea["id"] if idea else None, parent["id"] if parent else None,
               lang, slug, draft["title"], draft["headline"], draft.get("short_title"),
               draft.get("standfirst"), draft["description"], draft.get("category"),
-              trans_key, draft.get("reading_time"), draft["body"], draft["body"],
+              topic, trans_key, draft.get("reading_time"), draft["body"], draft["body"],
               model, f"{BLOG_DIR[lang]}/{slug}.njk"))
         row = cur.fetchone()
         if row and idea:
@@ -618,6 +653,11 @@ def translate(conn, piece_id, plans, model, api_key, dry_run):
             headline=src["headline"], standfirst=src["standfirst"] or "",
             body=src["body"])
         draft = parse_draft(call_model(prompt, api_key, model, expect="text"))
+        # Topic is inherited, not re-asked. The translator is never given the
+        # vocabulary precisely so it cannot pick a different one — siblings are
+        # declared as the same page, and the same page cannot sit under two
+        # topics. (save_piece enforces the same thing again on write.)
+        draft["topic"] = src.get("topic")
         problems = validate(draft, plans, lang)
         if problems:
             print("  REJECTED — " + "; ".join(problems), file=sys.stderr)

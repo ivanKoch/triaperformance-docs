@@ -1,6 +1,10 @@
 {
   "_note": "UI strings for the blog, per language. Article body copy lives in the article files themselves; this is only the furniture around it.",
 
+  "_topicsNote": "The `topic` front-matter field is a CLOSED vocabulary of language-independent slugs; `topics` below is only its display label per language. Slugs are data, labels are presentation — an article keeps the same topic in all three languages, which is what lets the pill filter and the language switcher agree. Adding a topic means adding it here in all three languages AND to the closed list in writer_agent.py, or the writer will emit something the filter can't render. Added Aug 24, 2026, replacing `category` as the filter key: `category` is free text and the writer had invented 35 distinct values across 60 articles, so it could never drive pills. `category` survives as the fine-grained label on the article page itself.",
+
+  "_weightLossNote": "`weight-loss` is in this list on commercial grounds, not editorial tidiness: it is a sport-agnostic theme sitting alongside sports, which is untidy, but weight-loss plans are around half of recent plan sales and three articles already target them. Filing those under running and cycling would bury the best-selling category on the site.",
+
   "es": {
     "home": "Inicio",
     "blogTitle": "Blog",
@@ -11,7 +15,21 @@
     "ctaHeading": "¿Querés que tu plan lo arme alguien que mira tus datos?",
     "ctaBody": "Coaching 1:1 con testing, zonas propias, y feedback todos los lunes. Contanos tu objetivo y te respondemos en menos de 24 horas.",
     "ctaButton": "Hablemos",
-    "ctaHref": "/#contacto"
+    "ctaHref": "/#contacto",
+    "allTopics": "Todo",
+    "filterLabel": "Filtrar por tema",
+    "noResults": "No hay artículos en este tema todavía.",
+    "topics": {
+      "running": "Running",
+      "cycling": "Ciclismo",
+      "swimming": "Natación",
+      "triathlon": "Triatlón",
+      "nutrition": "Nutrición",
+      "recovery": "Recuperación",
+      "physiology": "Fisiología y zonas",
+      "strength": "Fuerza",
+      "weight-loss": "Pérdida de peso"
+    }
   },
 
   "en": {
@@ -24,7 +42,21 @@
     "ctaHeading": "Want a plan built by someone actually reading your data?",
     "ctaBody": "1:1 coaching with real testing, your own zones, and feedback every Monday. Tell us your goal and we'll reply within 24 hours.",
     "ctaButton": "Get in touch",
-    "ctaHref": "/en/#contacto"
+    "ctaHref": "/en/#contacto",
+    "allTopics": "All",
+    "filterLabel": "Filter by topic",
+    "noResults": "No articles on this topic yet.",
+    "topics": {
+      "running": "Running",
+      "cycling": "Cycling",
+      "swimming": "Swimming",
+      "triathlon": "Triathlon",
+      "nutrition": "Nutrition",
+      "recovery": "Recovery",
+      "physiology": "Physiology & zones",
+      "strength": "Strength",
+      "weight-loss": "Weight loss"
+    }
   },
 
   "pt": {
@@ -37,6 +69,20 @@
     "ctaHeading": "Quer um plano montado por quem realmente olha seus dados?",
     "ctaBody": "Coaching 1:1 com testes, zonas próprias, e feedback toda segunda-feira. Conte seu objetivo e respondemos em até 24 horas.",
     "ctaButton": "Falar com o coach",
-    "ctaHref": "/pt/#contacto"
+    "ctaHref": "/pt/#contacto",
+    "allTopics": "Tudo",
+    "filterLabel": "Filtrar por tema",
+    "noResults": "Ainda não há artigos sobre este tema.",
+    "topics": {
+      "running": "Corrida",
+      "cycling": "Ciclismo",
+      "swimming": "Natação",
+      "triathlon": "Triatlo",
+      "nutrition": "Nutrição",
+      "recovery": "Recuperação",
+      "physiology": "Fisiologia e zonas",
+      "strength": "Força",
+      "weight-loss": "Perda de peso"
+    }
   }
 }

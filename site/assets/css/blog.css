@@ -99,16 +99,110 @@
 .plan-pick-price { font-size: 15px; font-weight: 700; color: var(--ink); margin: 0; }
 
 /* --- Listing ------------------------------------------------------------- */
-.post-list { padding: 56px 0 80px; }
-.post-teaser {
-  padding-bottom: 32px; margin-bottom: 32px; border-bottom: 1px solid var(--mist);
-  max-width: 65ch;
+/* --- Blog listing: card grid (Aug 24, 2026) -------------------------------
+   Replaces the old single-column `.post-teaser` list.
+
+   THE BUG THAT PROMPTED THIS was one line: `.post-teaser { max-width: 65ch }`.
+   65ch is a READING measure — correct for article body prose (see
+   `.article-body > *` above, which keeps it) and wrong for a listing, where it
+   left teasers ending halfway across a 1080px page while the nav used the full
+   width. A listing is scanned, not read; it wants columns, not a measure.
+
+   Three columns at desktop, two at tablet, one on a phone. The first card
+   spans two columns and shows a larger image — a listing with no hierarchy
+   reads as an archive, and the newest article is the one worth leading with.
+   `.post-card--featured` is re-applied by blog-filter.js after filtering,
+   because "first" changes when cards are hidden.                            */
+.post-grid {
+  padding: 48px 0 80px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 32px;
+  align-items: start;
 }
-.post-teaser:last-child { border-bottom: none; }
-.post-teaser h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 10px; }
-.post-teaser h2 a { color: var(--ink); text-decoration: none; }
-.post-teaser h2 a:hover { color: var(--blue); }
-.post-teaser p { color: var(--slate); font-size: 17px; }
+@media (max-width: 900px) { .post-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; } }
+@media (max-width: 600px) { .post-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+.post-grid__empty { color: var(--slate); font-size: 17px; padding: 40px 0; }
+
+.post-card { min-width: 0; }            /* let long headlines wrap, not overflow */
+.post-card[hidden] { display: none; }
+.post-card__link { display: block; color: inherit; text-decoration: none; }
+
+/* Media block. Renders a photo when one exists on disk, otherwise a
+   topic-coloured panel — a finished treatment, not a placeholder, so the grid
+   looked right the day this shipped with zero images in the repo. */
+.post-card__media {
+  position: relative; aspect-ratio: 16 / 10; border-radius: 10px;
+  overflow: hidden; margin-bottom: 16px; background: var(--wash);
+  display: flex; align-items: flex-end; padding: 18px;
+}
+.post-card__media img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.post-card__media-label {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--white); opacity: .92;
+}
+.post-card__link:hover .post-card__media img { transform: scale(1.03); }
+.post-card__media img { transition: transform .4s ease; }
+@media (prefers-reduced-motion: reduce) { .post-card__media img { transition: none; } }
+
+.post-card__topic {
+  display: inline-block; font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--blue); margin-bottom: 8px;
+}
+.post-card__title {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.01em;
+  line-height: 1.25; margin-bottom: 8px;
+}
+.post-card__link:hover .post-card__title { color: var(--blue); }
+.post-card__stand {
+  color: var(--slate); font-size: 15px; line-height: 1.5; margin-bottom: 10px;
+}
+.post-card__meta { font-size: 13px; color: var(--slate); }
+
+/* Featured card — two columns wide, bigger type, wider crop. */
+.post-card--featured { grid-column: span 2; }
+.post-card--featured .post-card__media { aspect-ratio: 2 / 1; }
+.post-card--featured .post-card__title { font-size: 30px; line-height: 1.15; }
+.post-card--featured .post-card__stand { font-size: 17px; }
+@media (max-width: 600px) {
+  .post-card--featured { grid-column: span 1; }
+  .post-card--featured .post-card__media { aspect-ratio: 16 / 10; }
+  .post-card--featured .post-card__title { font-size: 24px; }
+}
+
+/* Topic colours. Brand guidelines §3 keep blue as the single accent, so these
+   are not nine new brand colours — they are tints and shades used only as
+   card backgrounds behind white text, to make a grid of 20 cards scannable.
+   Blue stays the only interactive colour on the page. */
+.post-card__media--running     { background: #004aad; }
+.post-card__media--cycling     { background: #0a6b8a; }
+.post-card__media--swimming    { background: #0d7a86; }
+.post-card__media--triathlon   { background: #1e3a6e; }
+.post-card__media--nutrition   { background: #6b5a1f; }
+.post-card__media--recovery    { background: #4a4f63; }
+.post-card__media--physiology  { background: #24486b; }
+.post-card__media--strength    { background: #5c3b52; }
+.post-card__media--weight-loss { background: #3f6046; }
+
+/* --- Topic filter pills --------------------------------------------------- */
+/* Hidden until blog-filter.js adds .is-ready. A filter that does nothing is
+   worse than no filter, and with JS off every card is already visible. */
+.topic-filter { display: none; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.topic-filter.is-ready { display: flex; }
+.pill {
+  font: inherit; font-size: 14px; font-weight: 700;
+  padding: 7px 15px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--mist); background: var(--white); color: var(--slate);
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.pill:hover { border-color: var(--blue); color: var(--blue); }
+.pill.is-active { background: var(--blue); border-color: var(--blue); color: var(--white); }
+.pill:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 
 /* --- Closing CTA --------------------------------------------------------- */
 .article-cta { background: var(--wash); text-align: center; padding: 80px 0; }

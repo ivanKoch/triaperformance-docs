@@ -1,0 +1,36 @@
+{#
+  Topic filter pills.
+
+  Only renders topics that actually have articles IN THIS LANGUAGE. A pill
+  leading to an empty list reads as a broken site, and the three languages
+  genuinely differ — Portuguese has fewer articles and fewer topics, and
+  swimming currently has none anywhere. Computing this from the posts rather
+  than from the vocabulary means the row maintains itself: the pill appears the
+  day the first article on that topic publishes, and never before.
+
+  Order follows the vocabulary in i18n.json, not article count, so the row
+  doesn't reshuffle every time something publishes.
+
+  No-JS behaviour: these are plain buttons and every card is visible by default.
+  Without JS the filter simply does nothing and the full grid still reads fine.
+  The buttons are hidden by CSS until JS marks the row ready, so a dead control
+  is never shown.
+#}
+{%- set present = [] -%}
+{%- for p in posts -%}
+  {%- if p.data.topic and p.data.topic not in present -%}
+    {%- set present = (present.push(p.data.topic), present) -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if present.length > 1 %}
+<div class="topic-filter" data-topic-filter aria-label="{{ t.filterLabel }}">
+  <button type="button" class="pill is-active" data-filter="all" aria-pressed="true">{{ t.allTopics }}</button>
+  {%- for slug, label in t.topics %}
+    {%- if slug in present %}
+  <button type="button" class="pill pill--{{ slug }}" data-filter="{{ slug }}" aria-pressed="false">{{ label }}</button>
+    {%- endif %}
+  {%- endfor %}
+</div>
+<p class="post-grid__empty" data-no-results hidden>{{ t.noResults }}</p>
+<script src="{{ "/assets/js/blog-filter.js" | v }}" defer></script>
+{%- endif %}

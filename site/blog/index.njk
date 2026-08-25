@@ -7,29 +7,26 @@ title: "Blog de entrenamiento — running, ciclismo y triatlón"
 description: "Entrenamiento de running y triatlón basado en datos: cómo elegir un plan, cómo testear, y qué hacer con los números."
 ---
 {%- set t = i18n[lang] -%}
+{%- set posts = collections.posts | byLang(lang) -%}
 <section class="blog-hero">
   <div class="wrap">
     <span class="label">{{ t.blogTitle }}</span>
     <h1>{{ t.blogTitle }}</h1>
     <p class="standfirst">{{ t.blogIntro }}</p>
+    {% include "partials/topic-pills.njk" %}
   </div>
 </section>
 
 <div class="wrap">
-  <section class="post-list">
-    {%- set langPosts = collections.posts | byLang(lang) -%}
-    {%- for post in langPosts %}
-    <article class="post-teaser">
-      {%- if post.data.category %}<span class="label">{{ post.data.category }}</span>{% endif %}
-      <h2><a href="{{ post.url }}">{{ post.data.headline }}</a></h2>
-      {%- if post.data.standfirst %}<p>{{ post.data.standfirst }}</p>{% endif %}
-      <p class="article-meta">
-        <time datetime="{{ post.date | htmlDate }}">{{ post.date | postDate(lang) }}</time>
-        {%- if post.data.readingTime %} · {{ post.data.readingTime }} {{ t.minRead }}{% endif %}
-      </p>
-    </article>
+  <section class="post-grid" data-post-grid>
+    {%- for post in posts %}
+      {#- The newest article leads. Set here rather than in CSS (:first-child)
+          because after filtering a different card leads, and blog-filter.js
+          moves the class — CSS can't know which cards are hidden. -#}
+      {%- set featured = loop.first -%}
+      {% include "partials/post-card.njk" %}
     {%- else %}
-    <p>Todavía no hay artículos publicados.</p>
+    <p class="post-grid__empty">Todavía no hay artículos publicados.</p>
     {%- endfor %}
   </section>
 </div>

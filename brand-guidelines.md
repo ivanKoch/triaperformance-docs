@@ -73,7 +73,8 @@ Rules: no italics, no light weights, no more than two weights (400/700) anywhere
 
 ## 6. Photography
 
-- Real athletes, real races — the existing race photography (finish lines, open-water swims) is on-brand. No stock, no AI-generated athletes.
+- Real athletes, real races — the existing race photography (finish lines, open-water swims) is on-brand. ~~No stock, no AI-generated athletes.~~ **Amended August 24, 2026 — licensed stock is now allowed on blog listing cards only.** *Iván's call, made explicitly against this rule while rebuilding the blog index. The reasoning is worth keeping: the no-stock rule was written for pages where the photo carries the brand — the homepage, coaching pages, All-Access. A blog card is a 16:10 thumbnail whose job is scannability, and the only alternatives were one sourced photo per article (his time, forever, which is what the whole content engine exists to avoid) or no images at all. **AI-generated athletes remain prohibited, without exception** — that half of the rule was never in question and covers a different risk. Scope: `/blog/` listing cards only. Article heroes, product pages and marketing pages still take real photography or nothing.*
+  **Practical rule, so the exception doesn't spread:** stock lives at `site/assets/images/blog/topics/<topic>.jpg` (one per topic, reused) or `site/assets/images/blog/articles/<slug>.jpg` (a specific article). Anywhere else and it's outside the exception. Cards render a topic-coloured panel when no file exists, so the grid is complete with zero images and photos are an upgrade, never a dependency.
 - Treatment: natural color, no filters. When text sits on a photo, use an Ink overlay at 35–50% opacity.
 - Use photography sparingly — one strong image per page beats five average ones.
 

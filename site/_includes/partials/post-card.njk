@@ -1,0 +1,38 @@
+{#
+  One blog card. Used by all three language listings so they cannot drift —
+  the ES/EN/PT index pages were three near-copies before this existed.
+
+  Expects: post, lang, t (the i18n block), and optionally featured=true.
+
+  The image is optional by design. With no file on disk the media block renders
+  as a topic-coloured panel with the topic name — a deliberate treatment, not a
+  placeholder, so the grid looks finished before any photo is sourced.
+
+  data-topic is what the pill filter reads. It carries the SLUG, never the
+  translated label, so the same JS works in all three languages.
+#}
+{%- set topic = post.data.topic -%}
+{%- set img = blogImages.articles[post.fileSlug] or blogImages.topics[topic] -%}
+<article class="post-card{% if featured %} post-card--featured{% endif %}"
+         data-topic="{{ topic }}">
+  <a class="post-card__link" href="{{ post.url }}">
+    <div class="post-card__media post-card__media--{{ topic }}">
+      {%- if img %}
+      <img src="{{ img }}" alt="" loading="lazy" decoding="async">
+      {%- else %}
+      <span class="post-card__media-label">{{ t.topics[topic] }}</span>
+      {%- endif %}
+    </div>
+    <div class="post-card__body">
+      {%- if topic %}<span class="post-card__topic">{{ t.topics[topic] }}</span>{% endif %}
+      <h2 class="post-card__title">{{ post.data.headline }}</h2>
+      {%- if post.data.standfirst %}
+      <p class="post-card__stand">{{ post.data.standfirst }}</p>
+      {%- endif %}
+      <p class="post-card__meta">
+        <time datetime="{{ post.date | htmlDate }}">{{ post.date | postDate(lang) }}</time>
+        {%- if post.data.readingTime %} · {{ post.data.readingTime }} {{ t.minRead }}{% endif %}
+      </p>
+    </div>
+  </a>
+</article>
