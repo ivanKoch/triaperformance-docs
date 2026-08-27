@@ -1,21 +1,17 @@
-{#- Credential strip. Added August 27, 2026.
+{#- Credential strip. Added August 27, 2026, rebuilt the same day.
 
-    Renders the marks from _data/credentials.json under the hero on the three
-    language homepages and the three All-Access pages. Content lives in the data
-    file, never here — same reason library.json exists: the previous credential
-    on this site was hand-written three times into one sales page, and the
-    TrainingPeaks relationship appeared as a credential exactly once, inside a
-    blurb an ATHLETE copy-pastes rather than anything Ivan says himself.
+    ONE COMPACT ROW OF MARKS. Names only — `item.note` is deliberately never
+    rendered here. The first version printed the notes too, and under a photo
+    hero it became a ~450px wall of explanatory copy in a ragged 3+2 grid where
+    badged rows were indented and text-only rows were not, so nothing aligned.
+    A trust strip is glanced at; the explanation belongs on the About page,
+    which is linked from the closing line and where someone has chosen to read.
+
+    Content lives in _data/credentials.json, never here.
 
     `variant` (optional, set by the including page):
-      "full"    — default. Label, five marks, the Coach Match line, About link.
-      "compact" — marks only, no line, no link. For pages that already carry a
-                  link to /sobre-ivan/ elsewhere and would otherwise repeat it.
-
-    Deliberately NOT on every page. It sits where a stranger forms a first
-    judgement (homepage) or is being asked for money (All-Access). The 328 plan
-    pages get the one-line version from plan-page-content.njk instead — a full
-    strip on a plan page competes with the buy button.                        -#}
+      "full"    — default. Label, marks, the Coach Match line, About link.
+      "compact" — marks only, for pages that already link to the About page.  -#}
 {%- set cr = credentials[lang] -%}
 {%- set variant = trustBarVariant or "full" -%}
 <section class="trust-bar{% if variant == "compact" %} trust-bar-compact{% endif %}">
@@ -25,20 +21,16 @@
       {%- for item in cr.items %}
       <li class="trust-mark{% if item.badge %} has-badge{% endif %}">
         {%- if item.badge %}
-        {#- width/height are set so the row never reflows while the image loads.
-            `loading="lazy"` is deliberately NOT used: on the homepage this strip
-            sits directly under the hero and is above the fold on desktop. -#}
+        {#- width/height prevent reflow while loading. `loading="lazy"` is
+            deliberately not used: on the homepage this sits under the hero. -#}
         <img class="trust-badge" src="{{ item.badge | v }}" alt="{{ item.badgeAlt }}" width="40" height="40" decoding="async">
         {%- endif %}
-        <span class="trust-mark-text">
-          <span class="trust-mark-name">{{ item.name }}</span>
-          <span class="trust-mark-note">{{ item.note }}</span>
-        </span>
+        <span class="trust-mark-name">{{ item.short or item.name }}</span>
       </li>
       {%- endfor %}
     </ul>
     {%- if variant != "compact" %}
-    <p class="trust-line">{{ cr.barLine }} <a href="{{ cr.aboutHref }}">{{ cr.aboutLabel }} →</a></p>
+    <p class="trust-line">{{ cr.barLine }} <a href="{{ cr.aboutHref }}">{{ cr.aboutLabel }} &rarr;</a></p>
     {%- endif %}
   </div>
 </section>

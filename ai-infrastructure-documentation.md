@@ -1188,6 +1188,22 @@ The Stryd credential resolved at the same time: the mark is **Certified Stryd Co
 > 2. **`grid-row: 1 / -1` on the About page's credential badge.** The intent was for the image to span the name, issuer and note. `-1` resolves against the ***explicit*** grid, and only one row was declared — so the badge spanned exactly one row, and the issuer and note auto-placed back into column 1, rendering **on top of the image**. Replaced with the flex + `.cred-text` wrapper the strip already used. *The declaration was not wrong in isolation; it was wrong about a grid that did not exist. Reading it in the stylesheet tells you nothing — only the rendered box does.*
 
 
+### §36 addendum 2, same day — the credential strip rebuilt after seeing it on the real homepage
+
+**Iván's verdict on the live page: "it looks terrible."** He was right, and the reason is worth recording because the component tested fine in isolation twice.
+
+**What was wrong.** The strip rendered each credential as a name *plus its explanatory note*, in a three-column grid. On the real homepage — which has a full-bleed photo hero, not the flat fallback colour my local screenshots showed — that produced **a ~450px block of body copy immediately under the hero**: five long names, five sentences, in a ragged 3+2 grid where the two badged rows were indented by the badge width and the three text-only rows were not, so nothing lined up with anything. ***A trust strip is glanced at, not read.*** Every one of those sentences already exists on the About page, which is where someone who wants the explanation has chosen to go.
+
+**What it is now.** One wrapping row of marks, vertically centred, **names only** — `item.note` is never rendered in the strip. Section padding 40px → 28px, one border instead of two, label margin 20px → 14px, names 15px → 14px, badges 56px → 40px. **Measured on the rebuilt page: 226px on desktop, 292px on mobile, zero horizontal overflow at 1440, 1100 and 390.** `short` labels were added to `credentials.json` for the strip; `name` stays the full mark and is what the About pages and the `Person` schema use.
+
+**Two judgement calls left deliberately alone.**
+
+- **The badge is 40px here and 56px on the About page, and that is not an inconsistency to "fix".** In the strip the badge sits directly beside its own name in text, so it only has to be recognisable as a shape and a colour. On the About page it stands alone above a note and has to carry its own wordmark, which needs the size. *The earlier 40px-everywhere version failed precisely because the About page instance had no text beside it.*
+- **The fifth mark wraps to a second line and stays there.** It can be made to fit by trimming the repeated "Coach"/"Certified" out of the labels, and that was rejected: ***these are issuer-granted marks and shortening them to win a line break is the same category of error as inventing "partner"***, only smaller. The wrap is cosmetic; the wording is a claim.
+
+> ***The process lesson, which is not the same as §23's.*** §23 was *a rule in the source is not a rule that applies*. This one is narrower and newer: **a component verified in isolation is not a component verified in place.** Both prior screenshots rendered the hero as flat `--ink` because the background image is set in CSS and my local server had no `assets/images/`, so I judged a wash block against a flat dark rectangle instead of a photograph. The strip was measured, checked for overflow, and passed — and it was still wrong, because the thing it had to sit under was not in the picture. **Stage the page's actual assets, not only the files you changed.**
+
+
 **Two open items go to `open-loops.md`, neither blocking:** the exact name on the Stryd certificate (printed conservatively as `Stryd — Running with Power` until confirmed), and the 2027 removal of the IRONMAN U entry.
 
 No secret values are recorded in this document, by design. For reference, here is *where* each credential is stored:
