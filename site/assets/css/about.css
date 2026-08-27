@@ -1,0 +1,43 @@
+/* About page — added Aug 27, 2026. */
+
+.about-hero { padding: 72px 0 40px; }
+.about-lede { font-size: 20px; line-height: 1.55; max-width: 60ch; margin-top: 16px; color: var(--ink); }
+@media (max-width: 640px) { .about-lede { font-size: 17px; } }
+
+/* Record figures. `.about-record` is the page's one washed section (§3). */
+.about-record { padding: 40px 0; background: var(--wash); border-top: 1px solid var(--mist); border-bottom: 1px solid var(--mist); }
+.record-grid { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin: 0; }
+.record-grid li { display: flex; flex-direction: column; }
+.record-figure { font-size: 40px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; color: var(--blue); }
+.record-label { font-size: 15px; font-weight: 700; margin-top: 6px; }
+.record-note { font-size: 13px; color: var(--slate); margin-top: 4px; line-height: 1.45; }
+@media (max-width: 860px) { .record-grid { grid-template-columns: 1fr 1fr; gap: 28px; } }
+@media (max-width: 420px) { .record-grid { grid-template-columns: 1fr; } .record-figure { font-size: 32px; } }
+
+/* Prose. 65ch per §4 — this page is read, not scanned, so the reading measure
+   is correct here (unlike the blog listing, where it was the Aug 25 bug). */
+.about-prose section { padding: 56px 0 0; }
+.about-prose section:last-child { padding-bottom: 24px; }
+.about-prose h2 { margin-bottom: 16px; }
+.about-prose p { max-width: 65ch; margin-bottom: 16px; font-size: 17px; }
+.about-prose a { color: var(--blue); }
+
+.cred-list { list-style: none; margin-top: 8px; max-width: 72ch; }
+.cred-list li { display: flex; padding: 16px 0; border-bottom: 1px solid var(--mist); }
+/* Badge beside the text, with the three text lines in their own column.
+   This was briefly a two-column grid with `grid-row: 1 / -1` on the image —
+   which does NOT span auto-placed rows, because -1 resolves against the
+   *explicit* grid and only one row was declared. The issuer and note flowed
+   back into column 1 and rendered on top of the badge. Caught in a headless
+   screenshot, not in the source. */
+.cred-list li.has-badge { gap: 16px; align-items: flex-start; }
+.cred-badge { flex: 0 0 auto; width: 56px; height: 56px; object-fit: contain; margin-top: 2px; }
+.cred-text { display: flex; flex-direction: column; min-width: 0; }
+.cred-list li:last-child { border-bottom: none; }
+@media (max-width: 420px) {
+  .cred-list li.has-badge { gap: 12px; }
+  .cred-badge { width: 44px; height: 44px; }
+}
+.cred-name { font-size: 17px; font-weight: 700; }
+.cred-issuer { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue); margin-top: 4px; }
+.cred-note { font-size: 15px; color: var(--slate); margin-top: 6px; line-height: 1.5; }

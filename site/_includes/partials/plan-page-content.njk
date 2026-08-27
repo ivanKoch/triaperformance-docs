@@ -42,6 +42,10 @@
     <div class="plan-buy-cta">
       <a href="{{ buyUrl }}" class="btn-primary btn-buy plan-buy-btn plan-card" target="_blank" rel="noopener">{{ u.ctaBuy }}</a>
       <p class="plan-buy-note">{{ u.ctaNote }}</p>
+      {#- Credential line, Aug 27, 2026. One edit here reaches every plan page in
+          all three languages — the largest indexed surface this site has. Copy is
+          owned by _data/credentials.json, never written here. -#}
+      <p class="plan-credential">{{ credentials[lang].planLine }} <a href="{{ credentials[lang].aboutHref }}">{{ credentials[lang].aboutLabel }}</a></p>
     </div>
     <div class="plan-capture">
       <h3>{{ u.captureHeading }}</h3>

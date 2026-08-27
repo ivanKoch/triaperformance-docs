@@ -438,3 +438,46 @@ body.nav-open { overflow: hidden; }
   }
   header nav .lang-switch .sep { display: inline; }
 }
+
+/* Credential strip — added Aug 27, 2026.
+   Lives in site.css rather than a page stylesheet because it renders on the
+   three homepages, which carry no pageCss of their own. Uses the wash tint,
+   which brand-guidelines.md §3 allows at most once per page — the homepages
+   spend their one washed section here, and neither the pricing nor the
+   testimonial block uses it, so there is no conflict. */
+.trust-bar { padding: 40px 0; background: var(--wash); border-top: 1px solid var(--mist); border-bottom: 1px solid var(--mist); }
+.trust-bar .label { margin-bottom: 20px; }
+.trust-marks {
+  list-style: none; margin: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px 32px;
+}
+/* Three columns, not a wrapping flex row. Five credentials across four flex
+   columns left the fifth orphaned on its own line; 3+2 reads as a deliberate
+   grid rather than a row that ran out. */
+.trust-mark { display: flex; min-width: 0; }
+/* Badge rows put the mark beside the text; text-only rows are unaffected, so
+   both kinds share a baseline. Badges are the black-wordmark TrainingPeaks
+   variant — the white one is invisible on this wash background.
+   56px, not 40px: at 40px the "TRAININGPEAKS" wordmark under the shield stops
+   being readable and the badge degrades into a coloured smudge, which is worse
+   than no badge at all — the point of a licensed mark is that it is recognised. */
+.trust-mark.has-badge { gap: 14px; align-items: flex-start; }
+.trust-badge { flex: 0 0 auto; width: 56px; height: 56px; object-fit: contain; }
+.trust-mark-text { display: flex; flex-direction: column; min-width: 0; }
+.trust-mark-name { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.35; }
+.trust-mark-note { font-size: 13px; color: var(--slate); line-height: 1.45; margin-top: 4px; }
+.trust-line { font-size: 15px; color: var(--slate); margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--mist); max-width: 72ch; }
+.trust-line a { color: var(--blue); font-weight: 700; text-decoration: none; white-space: nowrap; }
+.trust-line a:hover { color: var(--blue-deep); text-decoration: underline; }
+.trust-bar-compact { padding: 28px 0; }
+@media (max-width: 860px) { .trust-marks { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) {
+  .trust-bar { padding: 32px 0; }
+  .trust-marks { grid-template-columns: 1fr; gap: 20px; }
+}
+
+/* One-line credential note under a plan's buy box. Deliberately quiet — it is
+   a reassurance next to the price, not a second call to action. */
+.plan-credential { font-size: 13px; color: var(--slate); margin-top: 12px; }
+.plan-credential a { color: var(--slate); text-decoration: underline; }
+.plan-credential a:hover { color: var(--blue); }

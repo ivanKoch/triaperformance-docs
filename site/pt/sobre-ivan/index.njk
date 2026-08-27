@@ -1,0 +1,86 @@
+---
+layout: layouts/base.njk
+lang: pt
+transKey: about
+pageCss: about.css
+title: "Sobre Iván Koch — Treinador de triatlo e corrida"
+description: "Iván Koch: TrainingPeaks Level 2 Accredited Coach, ESCI Certified Coach, IRONMAN U Certified Coach. 20 maratonas, 3 Ironman, +100 atletas treinados."
+ogTitle: "Sobre Iván Koch"
+personDescription: "Treinador de triatlo e corrida. TrainingPeaks Level 2 Accredited Coach e parte do diretório Coach Match da TrainingPeaks. 20 maratonas corridas, melhor marca abaixo de 3 horas; 3 Ironman completos, melhor tempo 10h06; mais de 100 atletas treinados em espanhol, inglês e português."
+---
+{%- set cr = credentials.pt -%}
+
+<section class="about-hero">
+  <div class="wrap">
+    <span class="label">Sobre o treinador</span>
+    <h1>Iván Koch</h1>
+    <p class="about-lede">Treino atletas de resistência há mais de três anos, em espanhol, inglês e português. Antes de treinar alguém, corri 20 maratonas e terminei 3 Ironman. As duas coisas contam: sei o que os dados dizem e sei o que se sente na quarta hora de prova.</p>
+  </div>
+</section>
+
+<section class="about-record">
+  <div class="wrap">
+    <ul class="record-grid">
+      {%- for r in cr.record %}
+      <li>
+        <span class="record-figure">{{ r.figure | replace("{reviewCount}", site.reviewCount) }}</span>
+        <span class="record-label">{{ r.label }}</span>
+        <span class="record-note">{{ r.note }}</span>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+
+<div class="wrap about-prose">
+  <section>
+    <h2>Como cheguei aqui</h2>
+    <p>Comecei como remador quando era criança, passei para a corrida e acabei no triatlo e no trail. Vinte maratonas depois, a minha melhor marca está abaixo das 3 horas, e dos três Ironman completos que fiz o melhor foi 10h06.</p>
+    <p>A Triaperformance começou com um amigo que queria correr uma maratona. Hoje são mais de 100 atletas treinados, vários deles sub-3 na maratona e finishers de Ironman completo. Não parei de competir para treinar: continuo a treinar e a competir, e isso faz parte do motivo pelo qual o método funciona.</p>
+    <p>Fora do desporto trabalho em operações. Isso explica mais sobre a forma como treino do que parece: meço, comparo com um plano, e mudo quando os dados dizem que é preciso mudar — não quando a semana ficou difícil.</p>
+  </section>
+
+  <section>
+    <h2>Como treino</h2>
+    <p>Um único serviço, sem níveis nem letras pequenas. Testes obrigatórios antes de escrever a tua primeira semana, zonas calculadas com os teus números e não com uma tabela genérica, feedback todas as segundas-feiras sem falhar, ajustes quando os pedires, e um novo teste para confirmar que o progresso é real e não uma sensação.</p>
+    <p>Os atletas descrevem esse serviço melhor do que eu: a adaptação à agenda deles e o check-in semanal são os dois temas que mais se repetem nas avaliações.</p>
+    <p><a href="/pt/calculadora-de-zonas/">Experimenta a calculadora de zonas</a> — é pública, é a mesma que uso com os meus atletas, e mostra-te concretamente como trabalho antes de falares comigo.</p>
+  </section>
+
+  <section id="trainingpeaks">
+    <h2>TrainingPeaks</h2>
+    <p>Sou partner da TrainingPeaks e treinador acreditado de Nível 2 na plataforma deles. Na prática isso significa duas coisas.</p>
+    <p>A primeira: a TrainingPeaks avalia e acredita os treinadores da sua plataforma, e essa acreditação é renovada todos os anos. A segunda, e é a que mais te interessa: a TrainingPeaks mantém um <strong>diretório limitado</strong> de treinadores — Coach Match — onde se entra por candidatura e avaliação. Quando um atleta preenche o questionário, a TrainingPeaks lê as respostas e encaminha-o para um treinador por afinidade. A mim encaminham-me atletas de toda a América Latina.</p>
+    <p>Dito sem rodeios: não sou eu a dizer que sou um bom treinador. É a plataforma onde trabalha a maioria dos treinadores de resistência do mundo a decidir, caso a caso, enviar-me atletas.</p>
+    <p>Publico lá também o catálogo completo de planos de treino — {{ plans.byLanguage.pt.length }} em português, e mais de 300 somando os três idiomas.</p>
+  </section>
+
+  <section>
+    <h2>Certificações</h2>
+    <ul class="cred-list">
+      {%- for item in cr.items %}
+      <li{% if item.badge %} class="has-badge"{% endif %}>
+        {%- if item.badge %}
+        <img class="cred-badge" src="{{ item.badge | v }}" alt="{{ item.badgeAlt }}" width="56" height="56" decoding="async">
+        {%- endif %}
+        <span class="cred-text">
+          <span class="cred-name">{{ item.name }}</span>
+          <span class="cred-issuer">{{ item.issuer }}</span>
+          <span class="cred-note">{{ item.note }}</span>
+        </span>
+      </li>
+      {%- endfor %}
+    </ul>
+  </section>
+</div>
+
+<section class="cta-final" id="contacto">
+  <div class="wrap">
+    <span class="label">Começa agora</span>
+    <h2>Conta-me o teu objetivo</h2>
+    <p>Deixa-me os teus dados e entro em contacto em menos de 24 horas. Sem compromisso.</p>
+    {% include "partials/contact-form.njk" %}
+  </div>
+</section>
+
+{% include "partials/person-schema.njk" %}

@@ -1,0 +1,44 @@
+{#- Credential strip. Added August 27, 2026.
+
+    Renders the marks from _data/credentials.json under the hero on the three
+    language homepages and the three All-Access pages. Content lives in the data
+    file, never here — same reason library.json exists: the previous credential
+    on this site was hand-written three times into one sales page, and the
+    TrainingPeaks relationship appeared as a credential exactly once, inside a
+    blurb an ATHLETE copy-pastes rather than anything Ivan says himself.
+
+    `variant` (optional, set by the including page):
+      "full"    — default. Label, five marks, the Coach Match line, About link.
+      "compact" — marks only, no line, no link. For pages that already carry a
+                  link to /sobre-ivan/ elsewhere and would otherwise repeat it.
+
+    Deliberately NOT on every page. It sits where a stranger forms a first
+    judgement (homepage) or is being asked for money (All-Access). The 328 plan
+    pages get the one-line version from plan-page-content.njk instead — a full
+    strip on a plan page competes with the buy button.                        -#}
+{%- set cr = credentials[lang] -%}
+{%- set variant = trustBarVariant or "full" -%}
+<section class="trust-bar{% if variant == "compact" %} trust-bar-compact{% endif %}">
+  <div class="wrap">
+    <span class="label">{{ cr.barLabel }}</span>
+    <ul class="trust-marks">
+      {%- for item in cr.items %}
+      <li class="trust-mark{% if item.badge %} has-badge{% endif %}">
+        {%- if item.badge %}
+        {#- width/height are set so the row never reflows while the image loads.
+            `loading="lazy"` is deliberately NOT used: on the homepage this strip
+            sits directly under the hero and is above the fold on desktop. -#}
+        <img class="trust-badge" src="{{ item.badge | v }}" alt="{{ item.badgeAlt }}" width="40" height="40" decoding="async">
+        {%- endif %}
+        <span class="trust-mark-text">
+          <span class="trust-mark-name">{{ item.name }}</span>
+          <span class="trust-mark-note">{{ item.note }}</span>
+        </span>
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- if variant != "compact" %}
+    <p class="trust-line">{{ cr.barLine }} <a href="{{ cr.aboutHref }}">{{ cr.aboutLabel }} →</a></p>
+    {%- endif %}
+  </div>
+</section>

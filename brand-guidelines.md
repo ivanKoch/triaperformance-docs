@@ -135,4 +135,8 @@ Deliberately small, per the High North model:
 
 6. **Programa de referidos** — `/referidos/`, added Aug 26, 2026. **Unlisted by design:** `noindex: true`, absent from `sitemap.xml`, and linked from no nav, footer or page — it is reachable only from the WhatsApp/email disclosure message that carries the link. *That is a product decision, not an SEO one: a referral program anyone can find is one Iván can no longer decline gracefully, and "discretionary and earned" is the constraint the whole design rests on (`referral-program-brief.md` §2).* Six sections, one washed and one full-blue, per §3. Styles: `assets/css/referidos.css`.
 
+7. **Sobre Iván** — `/sobre-ivan/`, `/en/about/`, `/pt/sobre-ivan/`, added Aug 27, 2026. **Indexable and in the nav**, under `Coaching` — the opposite of `/referidos/` above, and for the opposite reason: this page exists to be found by strangers, search engines and language models. Hero, a four-figure record strip, three prose sections, the credential list, and a contact CTA. **One washed section (`.about-record`) and no full-blue section**, per §3. Content comes from `site/_data/credentials.json` — the marks and the record are never hand-written into the page. Styles: `assets/css/about.css`; the credential strip that also appears on the homepages lives in `site.css`. Technical record: `ai-infrastructure-documentation.md` §36.
+
+   > **Voice note, §8.** These three pages are written natively per language, not translated from the Spanish — and they use **tú/você**, not voseo. *`site/all-access/index.njk` remains the one ES page in breach of the §8 rule, which is logged in `open-loops.md` as a copy decision rather than a lint fix.*
+
 Lead magnet (training zones guide) is a CTA block reused across pages, not its own page.

@@ -16,6 +16,8 @@ description: "Coaching de triatlón y running basado en datos. Test, zonas corre
   </div>
 </section>
 
+{% include "partials/trust-bar.njk" %}
+
 <!-- SERVICES -->
 <div class="wrap">
   <section id="coaching">
@@ -77,7 +79,7 @@ description: "Coaching de triatlón y running basado en datos. Test, zonas corre
   <section>
     <span class="label">Resultados</span>
     <h2>Lo que dicen los atletas</h2>
-    <p class="section-intro">45 reseñas de 5 estrellas en Google, cero negativas.</p>
+    <p class="section-intro">{{ site.reviewCount }} reseñas de 5 estrellas en Google, cero negativas.</p>
     <div class="grid-2">
       <div class="testimonial">
         <p class="quote">Con su apoyo logré correr un 42k en menos de 3 hrs.</p>

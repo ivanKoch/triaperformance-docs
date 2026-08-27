@@ -1,0 +1,55 @@
+{#- Person structured data. Added August 27, 2026.
+
+    THIS is the mechanism for "I need Google and the LLMs to know who I am".
+    Prose on a page is read; a schema.org Person with hasCredential and sameAs
+    is *parsed* — it is what a knowledge graph ingests as an entity fact and
+    what a retrieval-augmented model tends to surface when asked who coaches
+    triathlon in Latin America.
+
+    Two rules encoded here, both deliberate:
+
+    1. The word "partner" does not appear in this file and must not be added.
+       Ivan's call (Aug 27, 2026) is that "partner de TrainingPeaks" may appear
+       in body prose — it is inferred from the CoachMatch relationship, not a
+       mark TrainingPeaks grants. Prose can be edited away in an afternoon.
+       Structured data is copied into indexes and training corpora and cannot
+       be recalled, so only issuer-granted marks go in here.
+
+    2. `sameAs` points at the TrainingPeaks coach profile, and that URL appears
+       NOWHERE as a visible link on this site. That is the whole strategy in one
+       line: sameAs resolves Ivan to the TrainingPeaks profile for a machine
+       without offering a human a route into TrainingPeaks, where the same
+       coaching athlete routes through CoachMatch at 20% instead of Private at
+       3.5% — worth $24.59/month per athlete (pricing-and-positioning.md).     -#}
+{%- set cr = credentials[lang] -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Iván Koch",
+  "givenName": "Iván",
+  "familyName": "Koch",
+  "url": {{ (cr.aboutHref | absoluteUrl) | dump | safe }},
+  "jobTitle": {{ { es: "Coach de triatlón y running", en: "Triathlon and running coach", pt: "Treinador de triatlo e corrida" }[lang] | dump | safe }},
+  "description": {{ personDescription | dump | safe }},
+  "knowsLanguage": ["es", "en", "pt"],
+  "knowsAbout": {{ { es: ["Triatlón","Running","Ciclismo","Natación","Ironman","Entrenamiento por zonas","Entrenamiento por potencia","HYROX"], en: ["Triathlon","Running","Cycling","Swimming","Ironman","Heart rate zone training","Power-based training","HYROX"], pt: ["Triatlo","Corrida","Ciclismo","Natação","Ironman","Treino por zonas","Treino por potência","HYROX"] }[lang] | dump | safe }},
+  "hasCredential": [
+    {%- for item in cr.items %}
+    {
+      "@type": "EducationalOccupationalCredential",
+      "name": {{ item.name | dump | safe }},
+      "credentialCategory": "certification",
+      "recognizedBy": { "@type": "Organization", "name": {{ item.issuer | dump | safe }} }
+    }{% if not loop.last %},{% endif %}
+    {%- endfor %}
+  ],
+  "sameAs": {{ credentials.sameAs | dump | safe }},
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Triaperformance",
+    "url": {{ site.domain | dump | safe }},
+    "email": {{ site.email | dump | safe }}
+  }
+}
+</script>

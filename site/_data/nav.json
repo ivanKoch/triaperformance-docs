@@ -1,342 +1,373 @@
 {
-  "_note": "Anchor targets are absolute (/#coaching, not #coaching) because the sections they point at live on the language homepage. That makes one nav definition correct on every page of that language — the hand-written site needed two variants, one for the homepage and one for everything else. From the homepage itself, /#coaching is still an in-page jump, not a reload.",
-  "_memberButtonNote": "Added Aug 10, 2026. `member: true` renders the ghost 'Acceso Miembros' button, deliberately styled secondary so the blue Contacto CTA stays the primary action — two solid buttons side by side would compete. It points at the language's members HOME, not its login page: a subscriber with a live cookie walks straight in, and everyone else is bounced to the right-language login by Caddy's forward_auth. Linking straight to /login would show the login form to someone already logged in.",
+ "_note": "Anchor targets are absolute (/#coaching, not #coaching) because the sections they point at live on the language homepage. That makes one nav definition correct on every page of that language — the hand-written site needed two variants, one for the homepage and one for everything else. From the homepage itself, /#coaching is still an in-page jump, not a reload.",
+ "_memberButtonNote": "Added Aug 10, 2026. `member: true` renders the ghost 'Acceso Miembros' button, deliberately styled secondary so the blue Contacto CTA stays the primary action — two solid buttons side by side would compete. It points at the language's members HOME, not its login page: a subscriber with a live cookie walks straight in, and everyone else is bounced to the right-language login by Caddy's forward_auth. Linking straight to /login would show the login form to someone already logged in.",
+ "es": {
+  "menuLabel": "Abrir menú",
+  "closeLabel": "Cerrar menú",
+  "items": [
+   {
+    "label": "Planes",
+    "url": "/planes/",
+    "children": [
+     {
+      "label": "Ver todos los planes",
+      "url": "/planes/"
+     },
+     {
+      "label": "Planes de Running",
+      "url": "/planes/running/"
+     },
+     {
+      "label": "Planes de Ciclismo",
+      "url": "/planes/ciclismo/"
+     },
+     {
+      "label": "Planes de Natación",
+      "url": "/planes/natacion/"
+     },
+     {
+      "label": "Planes de Triatlón",
+      "url": "/planes/triatlon/"
+     },
+     {
+      "label": "Planes Ironman 70.3 y 140.6",
+      "url": "/planes/ironman/"
+     },
+     {
+      "label": "Planes HYROX",
+      "url": "/planes/hyrox/"
+     },
+     {
+      "label": "Planes para Bajar de Peso",
+      "url": "/planes/bajar-de-peso/"
+     }
+    ]
+   },
+   {
+    "label": "Coaching",
+    "url": "/#coaching",
+    "children": [
+     {
+      "label": "Coaching 1:1",
+      "url": "/#coaching"
+     },
+     {
+      "label": "Sobre Iván",
+      "url": "/sobre-ivan/"
+     }
+    ]
+   },
+   {
+    "label": "Membresía All-Access",
+    "url": "/all-access/"
+   },
+   {
+    "label": "Recursos",
+    "menuOnly": true,
+    "children": [
+     {
+      "label": "Blog",
+      "url": "/blog/"
+     },
+     {
+      "label": "Calculadora de Zonas",
+      "url": "/calculadora-de-zonas/"
+     },
+     {
+      "label": "Running",
+      "url": "/calculadora-de-zonas/running/",
+      "sub": true
+     },
+     {
+      "label": "Ciclismo",
+      "url": "/calculadora-de-zonas/ciclismo/",
+      "sub": true
+     },
+     {
+      "label": "Natación",
+      "url": "/calculadora-de-zonas/natacion/",
+      "sub": true
+     }
+    ]
+   },
+   {
+    "label": "Contacto",
+    "url": "/#contacto",
+    "cta": true
+   }
+  ],
+  "utility": {
+   "label": "Acceso Miembros",
+   "url": "/members/"
+  }
+ },
+ "_blogNavNote": "All three languages now have a blog with at least one article, so Blog is in every nav.",
+ "en": {
+  "menuLabel": "Open menu",
+  "closeLabel": "Close menu",
+  "items": [
+   {
+    "label": "Plans",
+    "url": "/en/plans/",
+    "children": [
+     {
+      "label": "See all plans",
+      "url": "/en/plans/"
+     },
+     {
+      "label": "Running plans",
+      "url": "/en/plans/running/"
+     },
+     {
+      "label": "Cycling plans",
+      "url": "/en/plans/cycling/"
+     },
+     {
+      "label": "Swimming plans",
+      "url": "/en/plans/swimming/"
+     },
+     {
+      "label": "Ironman plans (70.3 / 140.6)",
+      "url": "/en/plans/ironman/"
+     },
+     {
+      "label": "Weight-loss plans",
+      "url": "/en/plans/weight-loss/"
+     }
+    ]
+   },
+   {
+    "label": "Coaching",
+    "url": "/en/#coaching",
+    "children": [
+     {
+      "label": "1:1 Coaching",
+      "url": "/en/#coaching"
+     },
+     {
+      "label": "About Iván",
+      "url": "/en/about/"
+     }
+    ]
+   },
+   {
+    "label": "All-Access Membership",
+    "url": "/en/all-access/"
+   },
+   {
+    "label": "Resources",
+    "menuOnly": true,
+    "children": [
+     {
+      "label": "Blog",
+      "url": "/en/blog/"
+     },
+     {
+      "label": "Training Zones Calculator",
+      "url": "/en/training-zones-calculator/"
+     },
+     {
+      "label": "Running",
+      "url": "/en/training-zones-calculator/running/",
+      "sub": true
+     },
+     {
+      "label": "Cycling",
+      "url": "/en/training-zones-calculator/cycling/",
+      "sub": true
+     },
+     {
+      "label": "Swimming",
+      "url": "/en/training-zones-calculator/swimming/",
+      "sub": true
+     }
+    ]
+   },
+   {
+    "label": "Contact",
+    "url": "/en/#contacto",
+    "cta": true
+   }
+  ],
+  "utility": {
+   "label": "Members Access",
+   "url": "/members/en/"
+  }
+ },
+ "pt": {
+  "menuLabel": "Abrir menu",
+  "closeLabel": "Fechar menu",
+  "items": [
+   {
+    "label": "Planos",
+    "url": "/pt/planos/",
+    "children": [
+     {
+      "label": "Ver todos os planos",
+      "url": "/pt/planos/"
+     },
+     {
+      "label": "Planos de Maratona",
+      "url": "/pt/planos/maratona/"
+     },
+     {
+      "label": "Planos de Ciclismo",
+      "url": "/pt/planos/ciclismo/"
+     },
+     {
+      "label": "Planos para Ironman",
+      "url": "/pt/planos/ironman/"
+     }
+    ]
+   },
+   {
+    "label": "Coaching",
+    "url": "/pt/#coaching",
+    "children": [
+     {
+      "label": "Coaching 1:1",
+      "url": "/pt/#coaching"
+     },
+     {
+      "label": "Sobre Iván",
+      "url": "/pt/sobre-ivan/"
+     }
+    ]
+   },
+   {
+    "label": "Assinatura All-Access",
+    "url": "/pt/all-access/"
+   },
+   {
+    "label": "Recursos",
+    "menuOnly": true,
+    "children": [
+     {
+      "label": "Blog",
+      "url": "/pt/blog/"
+     },
+     {
+      "label": "Calculadora de Zonas",
+      "url": "/pt/calculadora-de-zonas/"
+     },
+     {
+      "label": "Corrida",
+      "url": "/pt/calculadora-de-zonas/corrida/",
+      "sub": true
+     },
+     {
+      "label": "Ciclismo",
+      "url": "/pt/calculadora-de-zonas/ciclismo/",
+      "sub": true
+     },
+     {
+      "label": "Natação",
+      "url": "/pt/calculadora-de-zonas/natacao/",
+      "sub": true
+     }
+    ]
+   },
+   {
+    "label": "Contato",
+    "url": "/pt/#contacto",
+    "cta": true
+   }
+  ],
+  "utility": {
+   "label": "Acesso Membros",
+   "url": "/members/pt/"
+  }
+ },
+ "_membersNote": "The members area grew three different nav shapes by hand: the members home (Biblioteca/FAQ + logout), the content pages (Área de Miembros/Biblioteca, no logout), and kettlebell (a plain back-link, and an English-language page that doesn't follow the site's design system at all). Both real variants are defined below and preserved as-is; kettlebell keeps its own inline nav. Worth unifying at some point — flagged, not silently changed.",
+ "_membersI18nNote": "Restructured Aug 10, 2026 (members-area i18n branch): `membersHome` and `membersPage` were single ES-only objects with a hardcoded `/members/` home. They are now keyed by language, resolved in nav.njk off the page's own `lang`. The ES sub-objects are byte-identical to what was there before — nothing about the Spanish members area changed. Language lives in the URL segment (`/members/`, `/members/en/`, `/members/pt/`) rather than a language prefix like the public site, so that ONE Caddy `handle /members/*` forward_auth gate keeps covering all three; the area is noindex, so the URL shape costs nothing in SEO.",
+ "membersHome": {
   "es": {
-    "menuLabel": "Abrir menú",
-    "closeLabel": "Cerrar menú",
-    "items": [
-      {
-        "label": "Planes",
-        "url": "/planes/",
-        "children": [
-          {
-            "label": "Ver todos los planes",
-            "url": "/planes/"
-          },
-          {
-            "label": "Planes de Running",
-            "url": "/planes/running/"
-          },
-          {
-            "label": "Planes de Ciclismo",
-            "url": "/planes/ciclismo/"
-          },
-          {
-            "label": "Planes de Natación",
-            "url": "/planes/natacion/"
-          },
-          {
-            "label": "Planes de Triatlón",
-            "url": "/planes/triatlon/"
-          },
-          {
-            "label": "Planes Ironman 70.3 y 140.6",
-            "url": "/planes/ironman/"
-          },
-          {
-            "label": "Planes HYROX",
-            "url": "/planes/hyrox/"
-          },
-          {
-            "label": "Planes para Bajar de Peso",
-            "url": "/planes/bajar-de-peso/"
-          }
-        ]
-      },
-      {
-        "label": "Coaching",
-        "url": "/#coaching"
-      },
-      {
-        "label": "Membresía All-Access",
-        "url": "/all-access/"
-      },
-      {
-        "label": "Recursos",
-        "menuOnly": true,
-        "children": [
-          {
-            "label": "Blog",
-            "url": "/blog/"
-          },
-          {
-            "label": "Calculadora de Zonas",
-            "url": "/calculadora-de-zonas/"
-          },
-          {
-            "label": "Running",
-            "url": "/calculadora-de-zonas/running/",
-            "sub": true
-          },
-          {
-            "label": "Ciclismo",
-            "url": "/calculadora-de-zonas/ciclismo/",
-            "sub": true
-          },
-          {
-            "label": "Natación",
-            "url": "/calculadora-de-zonas/natacion/",
-            "sub": true
-          }
-        ]
-      },
-      {
-        "label": "Contacto",
-        "url": "/#contacto",
-        "cta": true
-      }
-    ],
-    "utility": {
-      "label": "Acceso Miembros",
-      "url": "/members/"
+   "menuLabel": "Abrir menú",
+   "closeLabel": "Cerrar menú",
+   "home": "/members/",
+   "items": [
+    {
+     "label": "Biblioteca",
+     "url": "#biblioteca"
+    },
+    {
+     "label": "FAQ",
+     "url": "#faq"
     }
+   ],
+   "logoutLabel": "Cerrar sesión"
   },
-  "_blogNavNote": "All three languages now have a blog with at least one article, so Blog is in every nav.",
   "en": {
-    "menuLabel": "Open menu",
-    "closeLabel": "Close menu",
-    "items": [
-      {
-        "label": "Plans",
-        "url": "/en/plans/",
-        "children": [
-          {
-            "label": "See all plans",
-            "url": "/en/plans/"
-          },
-          {
-            "label": "Running plans",
-            "url": "/en/plans/running/"
-          },
-          {
-            "label": "Cycling plans",
-            "url": "/en/plans/cycling/"
-          },
-          {
-            "label": "Swimming plans",
-            "url": "/en/plans/swimming/"
-          },
-          {
-            "label": "Ironman plans (70.3 / 140.6)",
-            "url": "/en/plans/ironman/"
-          },
-          {
-            "label": "Weight-loss plans",
-            "url": "/en/plans/weight-loss/"
-          }
-        ]
-      },
-      {
-        "label": "Coaching",
-        "url": "/en/#coaching"
-      },
-      {
-        "label": "All-Access Membership",
-        "url": "/en/all-access/"
-      },
-      {
-        "label": "Resources",
-        "menuOnly": true,
-        "children": [
-          {
-            "label": "Blog",
-            "url": "/en/blog/"
-          },
-          {
-            "label": "Training Zones Calculator",
-            "url": "/en/training-zones-calculator/"
-          },
-          {
-            "label": "Running",
-            "url": "/en/training-zones-calculator/running/",
-            "sub": true
-          },
-          {
-            "label": "Cycling",
-            "url": "/en/training-zones-calculator/cycling/",
-            "sub": true
-          },
-          {
-            "label": "Swimming",
-            "url": "/en/training-zones-calculator/swimming/",
-            "sub": true
-          }
-        ]
-      },
-      {
-        "label": "Contact",
-        "url": "/en/#contacto",
-        "cta": true
-      }
-    ],
-    "utility": {
-      "label": "Members Access",
-      "url": "/members/en/"
+   "menuLabel": "Open menu",
+   "closeLabel": "Close menu",
+   "home": "/members/en/",
+   "items": [
+    {
+     "label": "Library",
+     "url": "#biblioteca"
+    },
+    {
+     "label": "FAQ",
+     "url": "#faq"
     }
+   ],
+   "logoutLabel": "Log out"
   },
   "pt": {
-    "menuLabel": "Abrir menu",
-    "closeLabel": "Fechar menu",
-    "items": [
-      {
-        "label": "Planos",
-        "url": "/pt/planos/",
-        "children": [
-          {
-            "label": "Ver todos os planos",
-            "url": "/pt/planos/"
-          },
-          {
-            "label": "Planos de Maratona",
-            "url": "/pt/planos/maratona/"
-          },
-          {
-            "label": "Planos de Ciclismo",
-            "url": "/pt/planos/ciclismo/"
-          },
-          {
-            "label": "Planos para Ironman",
-            "url": "/pt/planos/ironman/"
-          }
-        ]
-      },
-      {
-        "label": "Coaching",
-        "url": "/pt/#coaching"
-      },
-      {
-        "label": "Assinatura All-Access",
-        "url": "/pt/all-access/"
-      },
-      {
-        "label": "Recursos",
-        "menuOnly": true,
-        "children": [
-          {
-            "label": "Blog",
-            "url": "/pt/blog/"
-          },
-          {
-            "label": "Calculadora de Zonas",
-            "url": "/pt/calculadora-de-zonas/"
-          },
-          {
-            "label": "Corrida",
-            "url": "/pt/calculadora-de-zonas/corrida/",
-            "sub": true
-          },
-          {
-            "label": "Ciclismo",
-            "url": "/pt/calculadora-de-zonas/ciclismo/",
-            "sub": true
-          },
-          {
-            "label": "Natação",
-            "url": "/pt/calculadora-de-zonas/natacao/",
-            "sub": true
-          }
-        ]
-      },
-      {
-        "label": "Contato",
-        "url": "/pt/#contacto",
-        "cta": true
-      }
-    ],
-    "utility": {
-      "label": "Acesso Membros",
-      "url": "/members/pt/"
+   "menuLabel": "Abrir menu",
+   "closeLabel": "Fechar menu",
+   "home": "/members/pt/",
+   "items": [
+    {
+     "label": "Biblioteca",
+     "url": "#biblioteca"
+    },
+    {
+     "label": "FAQ",
+     "url": "#faq"
     }
-  },
-  "_membersNote": "The members area grew three different nav shapes by hand: the members home (Biblioteca/FAQ + logout), the content pages (Área de Miembros/Biblioteca, no logout), and kettlebell (a plain back-link, and an English-language page that doesn't follow the site's design system at all). Both real variants are defined below and preserved as-is; kettlebell keeps its own inline nav. Worth unifying at some point — flagged, not silently changed.",
-  "_membersI18nNote": "Restructured Aug 10, 2026 (members-area i18n branch): `membersHome` and `membersPage` were single ES-only objects with a hardcoded `/members/` home. They are now keyed by language, resolved in nav.njk off the page's own `lang`. The ES sub-objects are byte-identical to what was there before — nothing about the Spanish members area changed. Language lives in the URL segment (`/members/`, `/members/en/`, `/members/pt/`) rather than a language prefix like the public site, so that ONE Caddy `handle /members/*` forward_auth gate keeps covering all three; the area is noindex, so the URL shape costs nothing in SEO.",
-  "membersHome": {
-    "es": {
-      "menuLabel": "Abrir menú",
-      "closeLabel": "Cerrar menú",
-      "home": "/members/",
-      "items": [
-        {
-          "label": "Biblioteca",
-          "url": "#biblioteca"
-        },
-        {
-          "label": "FAQ",
-          "url": "#faq"
-        }
-      ],
-      "logoutLabel": "Cerrar sesión"
-    },
-    "en": {
-      "menuLabel": "Open menu",
-      "closeLabel": "Close menu",
-      "home": "/members/en/",
-      "items": [
-        {
-          "label": "Library",
-          "url": "#biblioteca"
-        },
-        {
-          "label": "FAQ",
-          "url": "#faq"
-        }
-      ],
-      "logoutLabel": "Log out"
-    },
-    "pt": {
-      "menuLabel": "Abrir menu",
-      "closeLabel": "Fechar menu",
-      "home": "/members/pt/",
-      "items": [
-        {
-          "label": "Biblioteca",
-          "url": "#biblioteca"
-        },
-        {
-          "label": "FAQ",
-          "url": "#faq"
-        }
-      ],
-      "logoutLabel": "Sair"
+   ],
+   "logoutLabel": "Sair"
+  }
+ },
+ "membersPage": {
+  "es": {
+   "menuLabel": "Abrir menú",
+   "closeLabel": "Cerrar menú",
+   "home": "/members/",
+   "items": [
+    {
+     "label": "Biblioteca",
+     "url": "/members/#biblioteca"
     }
+   ]
   },
-  "membersPage": {
-    "es": {
-      "menuLabel": "Abrir menú",
-      "closeLabel": "Cerrar menú",
-      "home": "/members/",
-      "items": [
-        {
-          "label": "Biblioteca",
-          "url": "/members/#biblioteca"
-        }
-      ]
-    },
-    "en": {
-      "menuLabel": "Open menu",
-      "closeLabel": "Close menu",
-      "home": "/members/en/",
-      "items": [
-        {
-          "label": "Library",
-          "url": "/members/en/#biblioteca"
-        }
-      ]
-    },
-    "pt": {
-      "menuLabel": "Abrir menu",
-      "closeLabel": "Fechar menu",
-      "home": "/members/pt/",
-      "items": [
-        {
-          "label": "Biblioteca",
-          "url": "/members/pt/#biblioteca"
-        }
-      ]
+  "en": {
+   "menuLabel": "Open menu",
+   "closeLabel": "Close menu",
+   "home": "/members/en/",
+   "items": [
+    {
+     "label": "Library",
+     "url": "/members/en/#biblioteca"
     }
+   ]
   },
-  "_navLayoutNote": "Two-tier as of Aug 10, 2026. A thin utility strip carries the language switcher and the Acceso Miembros button; the main row carries content only. The single row had run out of width — adding the members button pushed the language switcher onto a second line — and the underlying problem was that the nav mixed content items with utility items and made them compete for the same 1080px. Each row now has one job, and the main row has slack for the tools still to be built. The utility strip is hidden on mobile: its two items move into the hamburger drawer, where a second bar would just cost vertical space.",
-  "_recursosNote": "`Recursos` groups the blog with the calculators (Iván's call, Aug 10, 2026 — a truer label than 'Herramientas' for a mixed bag, and it takes the main row down to four content items). It is `menuOnly`: there is no /recursos/ page, and a dropdown parent that links nowhere real is worse than one that does not pretend to. **Building a real /recursos/ hub is the proper fix** and would double as the public landing page for lead magnets — see the open item about having nowhere to send cold traffic. ~~**EN and PT deliberately keep Blog top-level**: their calculator pages do not exist yet.~~ **Resolved August 13, 2026** — the calculator shipped in all three languages, so EN and PT now carry the same two-level dropdown (Blog, then the hub, then the three sport pages indented). Labels are localised; the English hub sits on `/en/training-zones-calculator/` rather than a Spanish slug, because an English page on a Spanish URL competes badly for its own head term.",
-  "_membersPageNavNote": "August 13, 2026 — dropped the 'Member Area' item from membersPage in all three languages. The logo in the same bar already links to `home`, so the bar offered the logo AND a label pointing at the same URL; on the calculator page the breadcrumb made it three. The library anchor is kept because /members/#biblioteca is a different position on that page, not a second name for it.",
-  "_navDrawerNote": "closeLabel added Aug 26, 2026 with the mobile drawer rebuild: the drawer now carries its own X, because the hamburger is painted underneath the open panel and could never close it."
+  "pt": {
+   "menuLabel": "Abrir menu",
+   "closeLabel": "Fechar menu",
+   "home": "/members/pt/",
+   "items": [
+    {
+     "label": "Biblioteca",
+     "url": "/members/pt/#biblioteca"
+    }
+   ]
+  }
+ },
+ "_navLayoutNote": "Two-tier as of Aug 10, 2026. A thin utility strip carries the language switcher and the Acceso Miembros button; the main row carries content only. The single row had run out of width — adding the members button pushed the language switcher onto a second line — and the underlying problem was that the nav mixed content items with utility items and made them compete for the same 1080px. Each row now has one job, and the main row has slack for the tools still to be built. The utility strip is hidden on mobile: its two items move into the hamburger drawer, where a second bar would just cost vertical space.",
+ "_recursosNote": "`Recursos` groups the blog with the calculators (Iván's call, Aug 10, 2026 — a truer label than 'Herramientas' for a mixed bag, and it takes the main row down to four content items). It is `menuOnly`: there is no /recursos/ page, and a dropdown parent that links nowhere real is worse than one that does not pretend to. **Building a real /recursos/ hub is the proper fix** and would double as the public landing page for lead magnets — see the open item about having nowhere to send cold traffic. ~~**EN and PT deliberately keep Blog top-level**: their calculator pages do not exist yet.~~ **Resolved August 13, 2026** — the calculator shipped in all three languages, so EN and PT now carry the same two-level dropdown (Blog, then the hub, then the three sport pages indented). Labels are localised; the English hub sits on `/en/training-zones-calculator/` rather than a Spanish slug, because an English page on a Spanish URL competes badly for its own head term.",
+ "_membersPageNavNote": "August 13, 2026 — dropped the 'Member Area' item from membersPage in all three languages. The logo in the same bar already links to `home`, so the bar offered the logo AND a label pointing at the same URL; on the calculator page the breadcrumb made it three. The library anchor is kept because /members/#biblioteca is a different position on that page, not a second name for it.",
+ "_navDrawerNote": "closeLabel added Aug 26, 2026 with the mobile drawer rebuild: the drawer now carries its own X, because the hamburger is painted underneath the open panel and could never close it.",
+ "_aboutNavNote": "Added Aug 27, 2026. 'Coaching' had been a bare /#coaching anchor since the Eleventy cutover — a nav entry for a service with no page behind it, only a homepage section. It is now a dropdown so /sobre-ivan/ has a home that reads as part of the coaching story rather than a utility link under Recursos. The parent keeps its anchor URL, so the existing behaviour is unchanged for anyone who clicks the parent itself."
 }
