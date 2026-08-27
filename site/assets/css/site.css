@@ -90,6 +90,11 @@ nav a:hover { color: var(--blue); }
 
 /* Only visible inside the mobile drawer; the utility strip covers desktop. */
 .nav-drawer-utility { display: none; }
+.nav-drawer-head { display: none; }
+/* The chevron marks a group as expandable. It is a mobile affordance only —
+   on desktop the same groups open on hover and a caret would promise a tap
+   that does nothing. */
+.nav-chevron { display: none; }
 
 .lang-switch { margin-left: 32px; font-size: 14px; }
 .lang-switch a { margin-left: 0; }
@@ -311,45 +316,125 @@ footer a { color: var(--slate); }
 .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-toggle.open span:nth-child(2) { opacity: 0; }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-.nav-overlay { display: none; position: fixed; inset: 0; background: rgba(30,32,25,.4); z-index: 90; }
+.nav-overlay { display: none; position: fixed; inset: 0; background: rgba(30,32,25,.45); z-index: 90; }
 .nav-overlay.show { display: block; }
+body.nav-open { overflow: hidden; }
+/* Mobile drawer (rebuilt Aug 26, 2026). What it replaced and why:
+   every item was 17px with a 20px margin and both dropdowns were permanently
+   expanded, so a 12-child menu measured 1368px inside an 844px viewport, the
+   two group headings were typographically identical to their own children,
+   and the language switcher — a <span> full of links that the drawer's own
+   `header nav a { display: block; width: 100% }` turned into stacked rows —
+   came out as ES / · / EN / · / PT down the page, one orphan separator dot
+   per line. Fixed here: collapsed groups, a real type scale, padding-based
+   44px rows instead of margins, an inline switcher, and a close button. */
 @media (max-width: 860px) {
   .nav-toggle { display: flex; }
   header nav {
-    position: fixed; top: 0; right: -100%; width: min(320px, 85vw); height: 100vh;
+    position: fixed; top: 0; right: -100%;
+    /* Near full-width on a phone. At 320px the panel left a 70px strip of
+       dimmed page beside it that read as an unfinished edge, and wrapped
+       labels like "Planes Ironman 70.3 y 140.6". */
+    width: min(400px, 92vw);
+    height: 100vh; height: 100dvh;
     background: var(--white); box-shadow: -8px 0 24px rgba(30,32,25,.15);
-    flex-direction: column; align-items: flex-start; padding: 96px 28px 28px;
-    transition: right .25s ease; overflow-y: auto; z-index: 95;
+    /* `display: flex` is load-bearing and was missing before: `header nav` is
+       a plain block, so the `flex-direction`/`align-items` here did nothing
+       and `margin-top: auto` on the utility row could not floor it. */
+    display: flex; flex-direction: column; align-items: stretch;
+    padding: 0 24px calc(28px + env(safe-area-inset-bottom, 0px));
+    transition: right .25s ease; overflow-y: auto; overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch; z-index: 95;
   }
   header nav.mobile-open { right: 0; }
-  header nav a, header nav .nav-cta { margin-left: 0; margin-bottom: 20px; font-size: 17px; display: block; width: 100%; }
-  /* Stays inline-flex so the padlock and label sit on one line; the mobile
-     drawer stacks it full width like every other item. */
-  header nav .nav-member {
-    margin-left: 0; margin-bottom: 20px; font-size: 17px;
-    display: inline-flex; width: 100%; justify-content: center;
+
+  /* Sticky so the way out stays reachable however far the drawer is scrolled.
+     The negative side margins let its white background span the full panel
+     width and hide rows passing underneath. */
+  .nav-drawer-head {
+    display: flex; justify-content: flex-end; align-items: center;
+    position: sticky; top: 0; z-index: 2; flex: 0 0 auto;
+    margin: 0 -24px; padding: 8px 16px 8px 24px;
+    background: var(--white); border-bottom: 1px solid var(--mist);
   }
-  header nav .nav-dropdown { margin-left: 0; width: 100%; }
+  .nav-drawer-close {
+    display: flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; padding: 0;
+    background: none; border: none; cursor: pointer; color: var(--ink);
+  }
+  .nav-drawer-close:hover { color: var(--blue); }
+
+  /* Rows carry their own height rather than pushing the next one away with a
+     margin: 13px of padding on a 17px line gives a ~44px target, and the rule
+     lands at the row edge instead of floating in the gap. */
+  header nav > a:not(.nav-cta) {
+    margin: 0; padding: 13px 0; font-size: 17px; font-weight: 600;
+    display: block; width: 100%; border-bottom: 1px solid var(--mist);
+  }
+  header nav > a.lang-active { color: var(--blue); }
+
+  header nav .nav-dropdown {
+    margin-left: 0; width: 100%; border-bottom: 1px solid var(--mist);
+  }
+  header nav .nav-dropdown > a,
+  header nav .nav-dropdown-label {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; margin: 0; padding: 13px 0;
+    font-size: 17px; font-weight: 600; cursor: pointer;
+  }
+  .nav-chevron { display: block; flex: 0 0 auto; color: var(--slate); transition: transform .2s ease; }
+  header nav .nav-dropdown.open > a,
+  header nav .nav-dropdown.open .nav-dropdown-label { color: var(--blue); }
+  header nav .nav-dropdown.open .nav-chevron { transform: rotate(180deg); color: var(--blue); }
+
+  /* Collapsed by default — the accordion is wired in nav.njk. */
   header nav .nav-dropdown-menu {
-    display: block; position: static; box-shadow: none; border: none;
-    background: none; padding: 8px 0 0 12px; min-width: 0;
+    display: none; position: static; box-shadow: none; border: none;
+    background: none; min-width: 0; padding: 0 0 10px;
   }
-  header nav .nav-dropdown-menu a { margin-bottom: 12px; }
-  /* The mobile menu already indents the whole dropdown by 12px, so the sub
-     items step in from there rather than from the desktop 16px baseline. */
-  header nav .nav-dropdown-menu a.nav-sub { padding-left: 16px; }
-  header nav .lang-switch { margin-left: 0; margin-top: 8px; }
+  header nav .nav-dropdown.open .nav-dropdown-menu { display: block; }
+  /* A left rail rather than bare indentation: it says "these belong to the
+     heading above" even when the group is scrolled past its own heading. */
+  header nav .nav-dropdown-menu a {
+    display: block; width: 100%; margin: 0; padding: 10px 0 10px 16px;
+    font-size: 15px; font-weight: 400; color: var(--slate);
+    white-space: normal; border-left: 2px solid var(--mist);
+  }
+  header nav .nav-dropdown-menu a:hover,
+  header nav .nav-dropdown-menu a.lang-active { color: var(--blue); }
+  header nav .nav-dropdown-menu a.nav-sub { padding-left: 32px; font-size: 14px; }
+
+  header nav .nav-cta {
+    display: block; width: 100%; margin: 24px 0 0; padding: 14px 20px;
+    font-size: 16px; text-align: center;
+  }
 
   /* The utility strip is desktop-only — a second bar on a phone costs vertical
      space for two items that belong in the drawer anyway. */
   .nav-utility { display: none; }
+  /* `margin-top: auto` floors these when the menu is short (which, collapsed,
+     it now is) and lets them sit in flow when it isn't. */
   .nav-drawer-utility {
-    display: block; margin-top: 8px; padding-top: 20px;
-    border-top: 1px solid var(--mist);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex: 0 0 auto; margin-top: auto; padding-top: 24px;
+    /* Reads as a footer rather than a stranded pair once `margin-top: auto`
+       has floored it against a short collapsed menu. */
+    border-top: 1px solid var(--mist); margin-left: -24px; margin-right: -24px;
+    padding-left: 24px; padding-right: 24px;
   }
   .nav-drawer-utility .nav-member {
-    display: inline-flex; width: auto; margin: 0 0 16px; font-size: 16px;
+    display: inline-flex; width: auto; margin: 0; padding: 9px 15px;
+    font-size: 15px; justify-content: center;
   }
-  .nav-drawer-utility .lang-switch { display: block; margin: 0; font-size: 15px; }
-  .nav-dropdown-label { font-size: 17px; display: block; margin-bottom: 20px; }
+  /* Inline, not stacked. The three overrides below undo the full-width block
+     treatment that the drawer applies to every other link — without them the
+     switcher is the ES / · / EN / · / PT column described at the top. */
+  header nav .lang-switch {
+    display: flex; align-items: center; margin: 0; font-size: 15px;
+  }
+  header nav .lang-switch a {
+    display: inline; width: auto; margin: 0; padding: 0;
+    border: none; font-size: 15px; font-weight: 400;
+  }
+  header nav .lang-switch .sep { display: inline; }
 }

@@ -116,6 +116,7 @@ Short. Four sections, and a hard rule on the last one:
 | **Total operating costs by category** | Mercury / Stripe / card statements | Partial once the inventory exists |
 | **Hours worked, coaching vs build** | Iván, estimate | No |
 | Leads by source, and closes by source | Twenty | Yes — Twenty REST/GraphQL API |
+| **Referrals: disclosed, referred leads, signups, payouts owed and paid** | Twenty — `referredBy`, `referralRewardSentDate` | **Yes** — same query as the weekly payout reminder *(added Aug 26, 2026; owner `referral-program-brief.md`)* |
 | GA4: sessions, top landing pages, conversion events | GA4 / BigQuery export | Yes — export already live |
 | GBP: views, searches, actions, new reviews | Google Business Profile | Yes — Performance API *(API approved Aug 17, 2026; script not written — until then this row is a manual screenshot, and a screenshot cannot be re-derived next month)* |
 | GSC: impressions, clicks, average position, coverage errors | Search Console | **Not today** — the GSC↔GA4 link is reporting-level only; a real pull needs the Search Console API |

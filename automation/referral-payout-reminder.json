@@ -1,0 +1,125 @@
+{
+  "name": "Referral Payout Reminder (weekly)",
+  "nodes": [
+    {
+      "id": "readme",
+      "name": "READ ME",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-360, -40],
+      "parameters": {
+        "width": 640,
+        "height": 460,
+        "content": "## Referral Payout Reminder — weekly\n\nRepo copy: `automation/referral-payout-reminder.json`. **n8n is the live source; this file is documentation.** Edit here, paste there, or vice versa — but never let them drift silently.\n\n**What it does.** Every Monday 07:00 it reads every Person in Twenty, finds referrals whose $50 Amazon gift card is now owed, and sends Iván one Telegram message. He verifies each in the TrainingPeaks payments list, buys the card, then fills `referralRewardSentDate` on the REFERRED athlete's record — which is what removes them from next week's list.\n\n**The five conditions** (owner: `referral-program-brief.md` §6):\n1. `referredById` is set\n2. `referralRewardSentDate` is empty  → not yet paid\n3. `churnDate` is empty            → left before month 2, nothing owed\n4. start + 35 days <= today        → second payment has landed\n5. start >= 2026-09-01             → PROGRAM FLOOR: nothing before the program earns money\n\n`start` = `coachingStartDate`, falling back to `signUpDate`. **The fallback is not cosmetic:** `coachingStartDate` was created Aug 8 2026 and is null for every athlete backfilled before then, so a query keyed on it alone silently returns nothing for the existing book.\n\n**Why 35 days and not 60:** payment 1 lands on the start date, payment 2 thirty days later, plus a few days to clear.\n\n**Why weekly and not daily:** when the payment has not cleared yet Iván does nothing, and a daily job would nag every morning until it did.\n\n**Monday 07:00 on purpose** — it lands before the Monday check-in round, so a payout message to an athlete who is also getting a check-in goes out as one message, not two."
+      }
+    },
+    {
+      "id": "trigger",
+      "name": "Every Monday 07:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [340, 180],
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "weeks", "triggerAtDay": [1], "triggerAtHour": 7, "triggerAtMinute": 0 }
+          ]
+        }
+      }
+    },
+    {
+      "id": "config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [560, 180],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "1", "name": "TWENTY_BASE_URL", "type": "string", "value": "http://100.70.89.17:3000" },
+            { "id": "2", "name": "TELEGRAM_CHAT_ID", "type": "string", "value": "REPLACE_WITH_IVAN_CHAT_ID" },
+            { "id": "3", "name": "PROGRAM_FLOOR", "type": "string", "value": "2026-09-01" },
+            { "id": "4", "name": "DAYS_TO_SECOND_PAYMENT", "type": "number", "value": 35 },
+            { "id": "5", "name": "MIN_EXPECTED_PEOPLE", "type": "number", "value": 200 }
+          ]
+        }
+      }
+    },
+    {
+      "id": "fetch",
+      "name": "Fetch All People (paginated)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [800, 180],
+      "parameters": {
+        "url": "={{ $json.TWENTY_BASE_URL }}/rest/people",
+        "method": "GET",
+        "sendQuery": true,
+        "specifyQuery": "keypair",
+        "queryParameters": {
+          "parameters": [
+            { "name": "limit", "value": "60" },
+            { "name": "depth", "value": "0" }
+          ]
+        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {
+          "pagination": {
+            "pagination": {
+              "paginationMode": "updateAParameterInEachRequest",
+              "parameters": {
+                "parameters": [
+                  { "type": "qs", "name": "starting_after", "value": "={{ $response.body.pageInfo.endCursor }}" }
+                ]
+              },
+              "paginationCompleteWhen": "other",
+              "completeExpression": "={{ $response.body.pageInfo.hasNextPage !== true }}",
+              "limitPagesFetched": true,
+              "maxRequestCount": 40
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": { "id": "REPLACE_ME", "name": "Twenty API" }
+      }
+    },
+    {
+      "id": "select",
+      "name": "Select Payouts Due",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1040, 180],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Run Once for All Items — set explicitly. This node reasons over the whole\n// roster at once (it maps referrer ids to names), so per-item mode is wrong.\n\nconst cfg = $('Config').first().json;\nconst FLOOR = cfg.PROGRAM_FLOOR;                 // '2026-09-01'\nconst DAYS  = Number(cfg.DAYS_TO_SECOND_PAYMENT); // 35\nconst MIN   = Number(cfg.MIN_EXPECTED_PEOPLE);    // 200\n\n// Twenty returns { data: { people: [...] }, pageInfo: {...} } per page.\nconst people = [];\nfor (const item of $input.all()) {\n  const j = item.json || {};\n  const batch = (j.data && j.data.people) || j.people || (Array.isArray(j) ? j : null);\n  if (Array.isArray(batch)) people.push(...batch);\n  else if (j.id) people.push(j); // some n8n versions split arrays into items\n}\n\n// ---- Guard: a truncated fetch must fail LOUD, not report an empty list. ----\n// If pagination silently breaks, this node sees page 1 only and would report\n// \"no payouts due\" — indistinguishable from a genuinely quiet week. A\n// diagnostic that under-reports is worse than none.\nif (people.length < MIN) {\n  return [{ json: { alert: true, text:\n    '\\u26a0\\ufe0f Referral payout check DID NOT RUN CORRECTLY.\\n\\n' +\n    'Only ' + people.length + ' people were read from Twenty (expected at least ' + MIN + ').\\n' +\n    'Pagination is probably broken, so this week\\u2019s payout list is NOT trustworthy.\\n\\n' +\n    'Check the \"Fetch All People (paginated)\" node before assuming nothing is owed.'\n  } }];\n}\n\nconst byId = {};\nfor (const p of people) byId[p.id] = p;\n\nconst nameOf = (p) => {\n  if (!p) return '(desconocido)';\n  const n = p.name || {};\n  const s = ((n.firstName || '') + ' ' + (n.lastName || '')).trim();\n  return s || String(p.id).slice(0, 8);\n};\n\n// start date = coachingStartDate, falling back to signUpDate.\n// coachingStartDate was created 2026-08-08 and is null for the whole backfilled\n// book, so keying on it alone silently skips every existing athlete.\nconst startOf = (p) => p.coachingStartDate || p.signUpDate || null;\n\nconst today = new Date();\nconst cutoff = new Date(today.getTime() - DAYS * 86400000)\n  .toISOString().slice(0, 10);\n\nconst due = [];\nfor (const p of people) {\n  if (!p.referredById) continue;              // 1. must be attributed\n  if (p.referralRewardSentDate) continue;     // 2. already paid\n  if (p.churnDate) continue;                  // 3. left before month 2\n  const start = startOf(p);\n  if (!start) continue;                       // no usable date — see below\n  if (start > cutoff) continue;               // 4. second payment not due yet\n  if (start < FLOOR) continue;                // 5. program floor\n  due.push({\n    referred: nameOf(p),\n    referredId: p.id,\n    referrer: nameOf(byId[p.referredById]),\n    start,\n    leadSource: p.leadSource || '-'\n  });\n}\n\n// Attributed but with no date at all: cannot be evaluated either way, and\n// silently dropping them is how a payout goes missing. Reported separately.\nconst undated = people.filter(p =>\n  p.referredById && !p.referralRewardSentDate && !p.churnDate && !startOf(p)\n).map(p => nameOf(p) + ' (referido por ' + nameOf(byId[p.referredById]) + ')');\n\n// A quiet week sends nothing at all — same convention as the daily error digest.\nif (!due.length && !undated.length) return [];\n\nlet text = '';\nif (due.length) {\n  text += '\\ud83c\\udf81 Gift cards pendientes: ' + due.length + '\\n\\n';\n  for (const d of due) {\n    text += '\\u2022 ' + d.referrer + ' \\u2192 refiri\\u00f3 a ' + d.referred + '\\n';\n    text += '   inicio ' + d.start + ' \\u00b7 canal ' + d.leadSource + '\\n';\n  }\n  text += '\\nAntes de comprar: confirmar el segundo pago en la lista de pagos de TrainingPeaks.\\n';\n  text += 'Despu\\u00e9s de enviar: cargar referralRewardSentDate en el atleta REFERIDO (no en quien refiri\\u00f3).\\n';\n  text += 'Mensaje: sales-playbook.md B9d.';\n}\nif (undated.length) {\n  text += (text ? '\\n\\n' : '') +\n    '\\u26a0\\ufe0f Referidos sin fecha de inicio (' + undated.length + ') \\u2014 no se pueden evaluar:\\n\\u2022 ' +\n    undated.join('\\n\\u2022 ') +\n    '\\nCargar coachingStartDate o signUpDate en Twenty.';\n}\n\nreturn [{ json: { alert: false, count: due.length, text } }];"
+      }
+    },
+    {
+      "id": "notify",
+      "name": "Telegram - Payouts Due",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1280, 180],
+      "parameters": {
+        "chatId": "={{ $('Config').first().json.TELEGRAM_CHAT_ID }}",
+        "text": "={{ $json.text }}",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "telegramApi": { "id": "REPLACE_ME", "name": "Telegram bot" }
+      }
+    }
+  ],
+  "connections": {
+    "Every Monday 07:00": { "main": [[{ "node": "Config", "type": "main", "index": 0 }]] },
+    "Config": { "main": [[{ "node": "Fetch All People (paginated)", "type": "main", "index": 0 }]] },
+    "Fetch All People (paginated)": { "main": [[{ "node": "Select Payouts Due", "type": "main", "index": 0 }]] },
+    "Select Payouts Due": { "main": [[{ "node": "Telegram - Payouts Due", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {},
+  "tags": []
+}

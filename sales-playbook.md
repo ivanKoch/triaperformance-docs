@@ -133,7 +133,7 @@ Send as **one message**, not five. Athletes answer long messages in full (Nadine
 > .
 > https://www.trainingpeaks.com/coach/ivankoch#pricing
 
-**Private** (referral, website, Instagram — the channel worth $24.59/mo more):
+**Private** (referral, website, Instagram — the channel worth $24.59/mo more; a *referred* athlete carries a $9 TrainingPeaks Premium cost, so $15.59 — see `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium):
 
 > - Te dejo el link de suscripción: {CHECKOUT_URL}
 > - El primer mes incluye un fee de setup de 50 USD por el onboarding, el testing y la construcción de tu primer bloque.
@@ -278,7 +278,9 @@ Iván raised this himself with Roberto F, before being asked — good instinct, 
 >
 > Si tu semana es predecible y no tienes historial de lesiones, una app te alcanza y te lo digo sin problema. Si tu agenda se rompe seguido o ya te lesionaste siguiendo un plan fijo, ahí es donde esto se paga solo.
 
-### B9 · Referral ask — after the first good result
+### B9 · Referral ask
+
+> **Heading corrected August 26, 2026.** This read *"Referral ask — after the first good result"*, which is now only half true: there are **two motions**, and only the personal ask waits for a result. Disclosure goes to every engaged athlete at any tenure. Owner of that split: `referral-program-brief.md` §2.
 
 **Missing entirely from all 13 conversations.** Send after a PR, a race, or a clean test improvement — never cold, and never to an athlete who isn't engaged. Private-channel referrals are the highest-margin acquisition there is (3.5% vs 20%).
 
@@ -292,13 +294,121 @@ Iván raised this himself with Roberto F, before being asked — good instinct, 
 
 **The last line is not politeness.** An ask with no easy exit turns a coaching relationship into a sales one for everybody who doesn't have a name to give — which will be most of them, most of the time.
 
+#### B9a · Disclosure — the standing message *(added August 26, 2026, Iván's own draft)*
+
+**This is the *disclosure* motion, not the ask** — every engaged athlete, any tenure, no result required. Sent on a Monday riding the weekly check-in, after the athlete's own feedback loop is closed, never as a standalone blast. *Iván's reasoning, and it is the whole timing rule: 37 messages sent cold on a random day produce 37 athletes asking for something back.* Ownership of the when/who: `referral-program-brief.md` §2–3.
+
+**Two variants. The only difference is one word in the price line**, and it exists because CoachMatch athletes never paid a setup fee and need telling the fee exists at all.
+
+**A · Legacy-rate athletes (~32)**
+
+> {NOMBRE}, un comentario más antes de cerrar el feedback semanal.
+>
+> Armé un programa de referidos y me gustaría comentártelo:
+>
+> Los **nuevos** atletas que se unen al equipo **ya** pagan el precio estándar de 149 USD/mes y 50 USD de fee de setup por única vez el primer mes.
+>
+> Si me presentas a alguien y empieza, estos son los beneficios:
+>
+> • Tu referido no paga los 50 USD de setup.
+> • Tú recibes una gift card de Amazon de 50 USD cuando el referido completa su segundo mes.
+> • No hay tope de referidos. Si me refieres 10 atletas, son 500 USD en gift cards.
+>
+> Piensa en quien tengas entrenando cerca — pareja, compañero de grupo, alguien del club que esté peleando con lo mismo que peleabas tú hace un año.
+>
+> Te dejo acá cómo funciona, por si lo quieres leer con calma: {LINK_TERMINOS}
+>
+> Sin compromiso. Si ahora no se te ocurre nadie, no hay problema — queda dicho y seguimos.
+
+**B · Full-price athletes (8)** — identical, except the price line drops *nuevos* and *ya*:
+
+> Los atletas que se unen al equipo pagan el precio estándar de 149 USD/mes y 50 USD de fee de setup por única vez el primer mes.
+
+***The load-bearing property of this message is what it does not say.*** It never mentions the reader's own rate, in any direction — no guarantee, no comparison, no *"descuento"*. **An earlier draft led with "tu tarifa no se toca, nunca" and Iván rejected it as "so defensive it's unnatural."** *That was correct: a reassurance raises the very question it answers, and nothing else in the message would have made a $75 athlete think about their price.* Full reasoning: `referral-program-brief.md` §4.
+
+*A second safeguard is structural rather than editorial: the 32 recipients are a mix of $75 / $89 / $99, so a single message **cannot** name any athlete's own rate — only $149.*
+
+#### B9b · The forwardable blurb
+
+**Appended to both variants, and also lives on the terms page with a copy button.** *The point is that the referrer composes nothing* — B9 above tells the athlete to *"pásame el contacto o pásale el mío"* and hands them nothing to paste, which is the single likeliest reason a willing referrer does nothing.
+
+> *"Te paso el contacto de mi coach, Iván Koch — Triaperformance, certificado y partner de TrainingPeaks. No es un plan genérico: te hace un test, te arma tus zonas y te ajusta la semana según cómo vas. Si le dices que vas de mi parte te saltea el fee de setup, que son 50 USD. Acá te puedes poner en contacto con él: https://wa.me/573105437088"*
+
+**Two things in there are load-bearing, not phrasing:**
+
+1. ***"si le dices que vas de mi parte"* is the entire attribution mechanism.** Without it a referred lead arrives anonymous and `referredBy` cannot be filled — which is the field the whole payout depends on.
+2. **It routes to WhatsApp, not to a checkout** *(Iván's call, Aug 26, 2026 — the blurb originally carried a `{LINK_PRIVADO}` checkout URL)*. ***This is the better design and it also dissolved a blocker:*** the Private 1:1 checkout URL turned out to exist nowhere in this repo — A5 points at `triaperformance-pricing-and-positioning.md`, which carries only the three **All-Access** URLs — so the blurb was one paste away from shipping an unfilled variable, i.e. §0 finding #6 exactly. **Routing to a conversation removes the variable entirely**, and it is strictly better for attribution: Iván hears who sent them in the athlete's own words rather than inferring it from a link.
+   > ⚠️ **The cost, and it is real: the channel decision moves out of the link and into Iván's memory.** A checkout URL routes to Private (3.5%) mechanically; a WhatsApp conversation routes wherever he sends them, and **CoachMatch costs 20%** — dropping the referred athlete's LTV from ~$1,213 to ~$1,073. *(copy corrected Aug 26, 2026 — the $9 TrainingPeaks Premium inclusion; owner `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium.)* *This has already happened once: both of Ferenz Feher's referrals carry `leadSource: COACHMATCH` and have paid TrainingPeaks a commission every month since.* **Every referred lead closes on the Private checkout in A5, never `trainingpeaks.com/coach/ivankoch#pricing`.**
+
+#### B9c · The warm inbound reply — when a referred athlete writes
+
+**Arrives on WhatsApp via the blurb's `wa.me` link, usually opening with some version of *"voy de parte de {REFERIDOR}".***
+
+> {NOMBRE}, qué tal. {REFERIDOR} me habló de ti.
+>
+> Y sí, lo que te dijo es cierto: si arrancas, el fee de setup de 50 USD no lo pagas. Eso ya está, no hace falta negociarlo.
+>
+> Antes de hablar de plan o de precio quiero entender qué necesitas. Tres cosas:
+>
+> • ¿Cuál es tu objetivo y para cuándo? Si hay una carrera con fecha, mejor.
+> • ¿Cuántas horas por semana tienes de verdad, contando trabajo y familia?
+> • Y la más importante: **¿qué intentaste antes que no funcionó?** Un plan que abandonaste, una lesión, un bloque que te dejó quemado — lo que sea.
+>
+> Con eso te digo de frente si te puedo ayudar y cómo.
+
+**Why it is built this way, against the rules in §1:**
+
+- **It confirms the waiver in one line and then leaves it.** The referrer already named a price component, so pretending it hasn't been mentioned reads as evasive; continuing on it makes the fee the frame. Confirm, close, move to qualification.
+- **It does not name $149.** Rule 1 still holds: no price before goal, deadline and real available hours. *A referral does not exempt you from qualifying — it exempts you from having to build trust first, which is a different saving.*
+- **It asks what failed before** (rule 4), which §0 calls the single highest-value question in the corpus and which no lead in the 13 transcripts was ever actually asked.
+- **No reviews block, no Instagram, no proof-stacking.** Rule 6 says social proof answers a doubt; a referred athlete arrives without that doubt, and sending proof anyway tells them you did not notice who vouched for you.
+
+> ⚠️ **A tension worth naming rather than pretending away: the blurb names a price component before any qualification**, which §0 finding #1 identifies as the corpus's most expensive habit. *The mitigation is real but it is not a fix: the number does not arrive from Iván, it arrives from a trusted friend wrapped inside a recommendation, which is a different speech act.* **Watch whether referred leads tier-shop or haggle more than cold ones.** If they do, the blurb's fee line is the first thing to cut.
+
+#### B9d · The payout message
+
+Sent when the weekly reminder fires and the second payment is confirmed in the TrainingPeaks payments list.
+
+> {NOMBRE}, buena noticia: {REFERIDO} acaba de completar su segundo mes.
+>
+> Así que te toca lo tuyo. Dime dos cosas y te la mando hoy:
+>
+> • A qué correo te llega mejor.
+> • De qué tienda la prefieres — amazon.com, o la de tu país si existe.
+>
+> Y gracias de verdad. {REFERIDO} llegó porque hablaste bien de mí, y eso vale bastante más que cualquier anuncio.
+
+*Asking which store is not politeness — it is §7's operational step. An `amazon.com` balance does not redeem on `amazon.com.mx` or `amazon.es`, so the store has to be chosen before the card is bought, not after.*
+
+#### B9e · The referral that did not convert — say it out loud
+
+***Added August 26, 2026, and it was not in the original plan.*** The terms say *"si cancela antes, no hay pago."* **Nothing said who tells the referrer.**
+
+> {NOMBRE}, te cuento para que no quedes en el aire: {REFERIDO} decidió parar antes de completar el segundo mes, así que esta vez la gift card no aplica.
+>
+> Pero el gesto lo tengo bien presente, y te agradezco igual. Cuando aparezca otra persona, ahí seguimos.
+
+***The failure mode this exists to prevent is silence, not disappointment.*** Someone did Iván a favour, waited, and heard nothing — and the story they tell themselves is that the program is not real or that he forgot. **A "no" delivered on time costs a fraction of what an unanswered wait costs**, and the person owed this message is by definition one of his most engaged athletes. *Same principle as B9's own closing line: an ask with no clean exit turns a coaching relationship into a sales one.*
+
 #### Legacy-rate athletes get the same $50, and should be asked first
 
 *(Decided Aug 12, 2026, on Iván's question: should a $75 athlete be approached differently?)*
 
-**Same reward, no adjustment.** The $50 is priced against **the athlete arriving at $149**, not against what the referrer pays. An incoming athlete is worth ~$1,294 (`tenure-analysis.md` §4) whoever sent them.
+**Same reward, no adjustment.** The $50 is priced against **the athlete arriving at $149**, not against what the referrer pays. An incoming athlete is worth ~$1,213 (`tenure-analysis.md` §4) whoever sent them. *(copy corrected Aug 26, 2026 — the $9 TrainingPeaks Premium inclusion; owner `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium.)*
 
 **And they are the best pool you have, not the worst.** The sub-$99 rates went to the earliest signups, so **today's legacy athletes are today's longest-tenured athletes** — the 2024-H2 cohort held **73% to twelve months** against 17–30% for everyone since (`tenure-analysis.md` §3). They know him, they have results, and they have had two years to meet other athletes. **Excluding the nine of them to save $50 a head would exclude the people most likely to say yes.**
+
+#### ~~Do not bundle the ask with "you're on a legacy rate"~~ — **REVERSED August 26, 2026**
+
+> 🚨 **This subsection's conclusion is wrong and has been overturned by Iván. Do not re-raise it.** The disclosure message **does** state $149, alongside an unconditional guarantee that the athlete's own rate never moves. *Kept in full below because the risk it names is real and the drafting rules that answer it come straight out of it.*
+>
+> **Why it was wrong.** (1) **The referral is unintelligible without the price** — "$50 startup fee waived" means nothing to someone who does not know there is a $50 startup fee. The offer requires the number. (2) **"Founding member" inverts the valence.** This section imagined *"you pay a discount, full price is 149"*, which does read as a setup. Iván's framing is *"you are a founding member, your rate is locked, here is what a new athlete pays."* Same facts, opposite feeling. (3) ***It had the retention effect backwards*** — rule 5 makes a pause expensive, so an athlete who knows the market rate is double has a **reason not to let it lapse**. Against `tenure-analysis.md` §3, that may be worth more than the referral half of the message.
+>
+> **What survives, as drafting rules:** guarantee before number; never the word *"descuento"*; state the guarantee simply and **do not explain the pause clause** (answer straight if asked — volunteering it turns a promise into fine print).
+>
+> ***And the safeguard is structural, not disciplinary:*** the 32 legacy athletes are a mix of $75 / $89 / $99, so **one message to all of them cannot state any athlete's own rate — only $149.** The thing this section feared most is prevented by the send list. Full reasoning: `referral-program-brief.md` §4.
+
+**Original section, retained:**
 
 #### Do not bundle the ask with "you're on a legacy rate"
 
@@ -313,7 +423,7 @@ The tempting version — *"you pay a discount because you were one of the first;
 
 #### One collision to resolve before launch
 
-`triaperformance-pricing-and-positioning.md` §The referral-rate exception already describes an athlete **deliberately priced at $75 because of the referrals and credibility he brings** — i.e. an arrangement where the low rate *is* the referral compensation. **Under this program he would be paid twice.** That is not necessarily wrong — he is the highest-touch relationship on the roster and evidently the best referrer — but the pricing doc itself says the arrangement should be *"an explicit, named exception rather than something that happens ad hoc."* **Decide before launch whether his rate is the reward, the $50 is the reward, or both are, and write it down there.** *(Flagged in `open-loops.md` NEXT #10.)*
+`triaperformance-pricing-and-positioning.md` §The referral-rate exception already describes an athlete **deliberately priced at $75 because of the referrals and credibility he brings** — i.e. an arrangement where the low rate *is* the referral compensation. **Under this program he would be paid twice.** That is not necessarily wrong — he is the highest-touch relationship on the roster and evidently the best referrer — but the pricing doc itself says the arrangement should be *"an explicit, named exception rather than something that happens ad hoc."* ~~**Decide before launch whether his rate is the reward, the $50 is the reward, or both are, and write it down there.**~~ **DECIDED August 26, 2026, by Iván: both.** *Several athletes sit at $75 after long tenure; the rate is earned and so is the $50. **"That's the definition of being founding members."*** Written into `triaperformance-pricing-and-positioning.md` §The referral-rate exception, which owns it. **Not a collision — a policy.** Do not re-raise.
 
 ---
 

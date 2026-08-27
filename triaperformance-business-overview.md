@@ -78,4 +78,4 @@ A triathlon and running coaching business, founded roughly three years ago, run 
 
 **Coaching totals (38 athletes):** average paid $103.45 · average net $84.89 · blended commission 17.94% · net coaching revenue ~$3,226/mo.
 
-**Read on this table:** blended net ($84.89) vs. the $149 list price is the growth gap. All legacy rates are grandfathered and closed to new athletes; the pause rule ($149 on return) plus natural attrition converges the book toward $149 without renegotiation. Every new sign-up nets $119.20 (CoachMatch) or $143.79 (Private).
+**Read on this table:** blended net ($84.89) vs. the $149 list price is the growth gap. All legacy rates are grandfathered and closed to new athletes; the pause rule ($149 on return) plus natural attrition converges the book toward $149 without renegotiation. Every new sign-up nets $119.20 (CoachMatch) or $143.79 (Private) — **$134.79 if the Private athlete arrived as a referral**, which carries a $9 TrainingPeaks Premium cost *(added Aug 26, 2026; owner `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium)*.

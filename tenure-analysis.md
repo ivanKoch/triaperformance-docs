@@ -143,11 +143,13 @@ The timing fits without being forced: the role starts in January, the churn wave
 
 The question that produced this analysis (`open-loops.md` NEXT #10).
 
-At **9.0 months median** and $143.79/month net on the Private channel, a referred athlete is worth roughly **$1,294**. A **$50 reward is 3.9% of median LTV** — safe by a wide margin, and safe even against the pessimistic churned-only figure (5.8%). **$100 would still sit under 8%.**
+At **9.0 months median** and **$134.79/month net** on the Private channel, a referred athlete is worth roughly **$1,213**. A **$50 reward is 4.1% of median LTV** — safe by a wide margin, and safe even against the pessimistic churned-only figure (6.2%).
+
+> ***Corrected August 26, 2026.*** *This read* **"$143.79/month net… roughly $1,294… 3.9%… $100 would still sit under 8%."* **Iván now buys TrainingPeaks Premium, at $9/month, for athletes who arrive through the referral program** (`triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium). ***Referred athletes only*** *— a Private athlete who found the website still nets $143.79, and this section is specifically about the referral reward, so the $9 belongs in it.* The net rate for this population dropped and every figure derived from it moved with it. **The one claim that did not survive is the last one: $100 is now 8.2% of LTV, not "under 8%."** *Struck rather than quietly re-worded, because it was the sentence that made a larger reward look pre-approved — and it is now marginally outside the band it was asserting.* The $50 decision is unaffected.
 
 Paying on the referred athlete's **second** payment rather than the first protects against the 9% who churn inside two months, which costs nothing since almost nobody leaves in month one anyway.
 
-*Note the direction of the bias: if returners are missing from this file, real LTV is **higher** than $1,294, so the reward is safer than stated, never riskier.*
+*Note the direction of the bias: if returners are missing from this file, real LTV is **higher** than $1,213, so the reward is safer than stated, never riskier.*
 
 ---
 

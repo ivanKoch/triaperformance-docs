@@ -3,6 +3,7 @@
   "_memberButtonNote": "Added Aug 10, 2026. `member: true` renders the ghost 'Acceso Miembros' button, deliberately styled secondary so the blue Contacto CTA stays the primary action — two solid buttons side by side would compete. It points at the language's members HOME, not its login page: a subscriber with a live cookie walks straight in, and everyone else is bounced to the right-language login by Caddy's forward_auth. Linking straight to /login would show the login form to someone already logged in.",
   "es": {
     "menuLabel": "Abrir menú",
+    "closeLabel": "Cerrar menú",
     "items": [
       {
         "label": "Planes",
@@ -93,6 +94,7 @@
   "_blogNavNote": "All three languages now have a blog with at least one article, so Blog is in every nav.",
   "en": {
     "menuLabel": "Open menu",
+    "closeLabel": "Close menu",
     "items": [
       {
         "label": "Plans",
@@ -174,6 +176,7 @@
   },
   "pt": {
     "menuLabel": "Abrir menu",
+    "closeLabel": "Fechar menu",
     "items": [
       {
         "label": "Planos",
@@ -250,6 +253,7 @@
   "membersHome": {
     "es": {
       "menuLabel": "Abrir menú",
+      "closeLabel": "Cerrar menú",
       "home": "/members/",
       "items": [
         {
@@ -265,6 +269,7 @@
     },
     "en": {
       "menuLabel": "Open menu",
+      "closeLabel": "Close menu",
       "home": "/members/en/",
       "items": [
         {
@@ -280,6 +285,7 @@
     },
     "pt": {
       "menuLabel": "Abrir menu",
+      "closeLabel": "Fechar menu",
       "home": "/members/pt/",
       "items": [
         {
@@ -297,6 +303,7 @@
   "membersPage": {
     "es": {
       "menuLabel": "Abrir menú",
+      "closeLabel": "Cerrar menú",
       "home": "/members/",
       "items": [
         {
@@ -307,6 +314,7 @@
     },
     "en": {
       "menuLabel": "Open menu",
+      "closeLabel": "Close menu",
       "home": "/members/en/",
       "items": [
         {
@@ -317,6 +325,7 @@
     },
     "pt": {
       "menuLabel": "Abrir menu",
+      "closeLabel": "Fechar menu",
       "home": "/members/pt/",
       "items": [
         {
@@ -328,5 +337,6 @@
   },
   "_navLayoutNote": "Two-tier as of Aug 10, 2026. A thin utility strip carries the language switcher and the Acceso Miembros button; the main row carries content only. The single row had run out of width — adding the members button pushed the language switcher onto a second line — and the underlying problem was that the nav mixed content items with utility items and made them compete for the same 1080px. Each row now has one job, and the main row has slack for the tools still to be built. The utility strip is hidden on mobile: its two items move into the hamburger drawer, where a second bar would just cost vertical space.",
   "_recursosNote": "`Recursos` groups the blog with the calculators (Iván's call, Aug 10, 2026 — a truer label than 'Herramientas' for a mixed bag, and it takes the main row down to four content items). It is `menuOnly`: there is no /recursos/ page, and a dropdown parent that links nowhere real is worse than one that does not pretend to. **Building a real /recursos/ hub is the proper fix** and would double as the public landing page for lead magnets — see the open item about having nowhere to send cold traffic. ~~**EN and PT deliberately keep Blog top-level**: their calculator pages do not exist yet.~~ **Resolved August 13, 2026** — the calculator shipped in all three languages, so EN and PT now carry the same two-level dropdown (Blog, then the hub, then the three sport pages indented). Labels are localised; the English hub sits on `/en/training-zones-calculator/` rather than a Spanish slug, because an English page on a Spanish URL competes badly for its own head term.",
-  "_membersPageNavNote": "August 13, 2026 — dropped the 'Member Area' item from membersPage in all three languages. The logo in the same bar already links to `home`, so the bar offered the logo AND a label pointing at the same URL; on the calculator page the breadcrumb made it three. The library anchor is kept because /members/#biblioteca is a different position on that page, not a second name for it."
+  "_membersPageNavNote": "August 13, 2026 — dropped the 'Member Area' item from membersPage in all three languages. The logo in the same bar already links to `home`, so the bar offered the logo AND a label pointing at the same URL; on the calculator page the breadcrumb made it three. The library anchor is kept because /members/#biblioteca is a different position on that page, not a second name for it.",
+  "_navDrawerNote": "closeLabel added Aug 26, 2026 with the mobile drawer rebuild: the drawer now carries its own X, because the hamburger is painted underneath the open panel and could never close it."
 }

@@ -23,11 +23,18 @@ Latin America's coaching market is anchored around $60–100/month for what feel
 
 **$149 is not a viable general Latin American market price.** The $75–99 range is where most of the current base sits and where new Latin American acquisition outside the high-purchasing-power segment will likely continue to land. Both price points are correct for their respective segments — this isn't a single number to converge on.
 
-## The referral-rate exception
+## The referral-rate exception — now "founding members"
+
+> **Named and settled August 26, 2026, by Iván.** *This section previously left the question open ("worth keeping as an explicit, named exception… rather than something that happens ad hoc"), and `open-loops.md` NEXT #10 carried it as a collision to resolve before the referral program launched. **It is resolved: they get both.*** **The rate is earned and so is the $50 referral reward** — several athletes sit at $75 after long tenure, and paying them twice is the correct outcome, not a leak. Iván's words: ***"that's the definition of being founding members."***
+>
+> **The name is the policy.** "Founding member" is not decoration — it is what makes the rate defensible to the athlete, communicable in the referral disclosure message, and closed as a question. *The alternative framings — "legacy rate", "discount" — both invite the athlete to calculate a number pricing rule 5 depends on nobody calculating.* **Never write "descuento" for these athletes.** See `referral-program-brief.md` §4.
+>
+> **Uncapped, deliberately.** The earlier suggestion to cap it "at a small number of athletes" is dropped: the population is closed by construction — it is the early cohort, and rule 5 means no new athlete can enter it.
+
 At least one athlete is intentionally priced below what this segmentation would suggest ($75, currently the highest-touch relationship on the roster) because of the referrals and credibility he brings. This is a deliberate policy, not a pricing failure. Worth keeping as an explicit, named exception ("referral-source rate," optionally capped at a small number of athletes) rather than something that happens ad hoc for every athlete Iván likes.
 
 ## Implication for a hired coach
-Because the service is uniform rather than tier-differentiated, onboarding a new coach doesn't require inventing a restricted scope — the standard service described above is already well-bounded and is what a hired coach would deliver. The economics only work at the $149 price point, though: at 3.5% commission (Private channel, via TP Payments), $149 nets $143.79, split 50/50 is $71.89 to the coach and $71.89 to Iván. At $89–109, the split gets thin fast and likely isn't worth either side's time.
+Because the service is uniform rather than tier-differentiated, onboarding a new coach doesn't require inventing a restricted scope — the standard service described above is already well-bounded and is what a hired coach would deliver. The economics only work at the $149 price point, though: at 3.5% commission (Private channel, via TP Payments), $149 nets $143.79, split 50/50 is $71.89 to the coach and $71.89 to Iván. At $89–109, the split gets thin fast and likely isn't worth either side's time. *(A **referred** Private athlete carries a further $9 for TrainingPeaks Premium — $134.79, i.e. **$67.40/side**. Noted Aug 26, 2026.* ***Where that cost falls is a live question:*** *taking the split after Premium is symmetric at $67.40 each; taking it before hands the coach $71.89 and leaves Iván $62.90 for the same work. Not decided.)* At $89–109, the split gets thin fast and likely isn't worth either side's time.
 
 ## ICP signal worth acting on
 The highest-value, lowest-price-sensitivity buyers are busy, senior professionals — executives, people managing their own P&L or team, with real disposable income and limited patience for hand-holding. That profile matches the actual service well: structured, autonomous, weekly cadence, not same-day. It also matches Iván's own positioning as an operator and athlete. Worth reflecting in website copy and targeting rather than a generic "for all runners" pitch — the generic pitch competes on the $60–100 Latin American baseline; a professional-athlete pitch competes on value instead of price.
@@ -55,8 +62,22 @@ Validated by reviews: adaptation-to-schedule/travel is the most-mentioned theme 
 |---|---|---|---|---|
 | CoachMatch | $149 | 20% (TrainingPeaks) | $119.20 | n/a — cannot be delegated |
 | Private | $149 | 3.5% (TP Payments) | $143.79 | $71.89 / $71.89 — viable |
+| Private, **referred** | $149 | 3.5% **+ $9 TrainingPeaks Premium** | **$134.79** | **$67.40 / $67.40** — viable |
 
-The same athlete is worth **$24.59/month more on Private**. Private is therefore the priority acquisition channel; the website, lead magnets, and referrals all feed it. CoachMatch stays as-is ("pick Bronze, I'll give you Gold service level" against TP's public $149/$229/$359 ladder — $149 reads as the cheap option there).
+The same athlete is worth **$24.59/month more on Private** — **$15.59 if they arrived as a referral**, which carries a $9 TrainingPeaks Premium cost the other Private athletes do not (see the section below, Aug 26, 2026). Private is therefore the priority acquisition channel; the website, lead magnets, and referrals all feed it. CoachMatch stays as-is ("pick Bronze, I'll give you Gold service level" against TP's public $149/$229/$359 ladder — $149 reads as the cheap option there).
+
+## TrainingPeaks Premium — referred athletes only, from August 26, 2026
+
+**Scope, stated first because the obvious reading is wrong:** Iván buys TrainingPeaks Premium ($9/month, out of pocket) **for athletes who arrive through the referral program.** *Not* for Private athletes generally. A lead who finds the website and signs up gets no Premium by default. *(Corrected the same day it was written — the first version of this section applied the $9 to all Private athletes and moved every Private net figure in the repo with it. It was wrong, and the reverts are in this file's history.)*
+
+**Why the scope is what it is, and it is not a parity argument.** TrainingPeaks pays for Premium on **CoachMatch** athletes and not on Private ones. **Most of the current book is CoachMatch** — so the athlete doing the referring almost always has Premium, and describes the service to their friend as including it. **The $9 exists to make the referrer's description true.** *That is a narrower and better reason than "the same service should be the same everywhere," and it is Iván's.*
+
+**What it costs and what it buys.** $9/month per referred athlete, against a **$19.95/month retail** value (the figure the All-Access page already argues from). ***The margin case is the weaker half; the pitch is the stronger half*** — it converts $9 of cost into $19.95 of stated value, which is Iván's own framing: *"I have one more thing to sell."*
+
+> ⚠️ **The open tension, logged rather than resolved: this creates a service difference keyed to acquisition channel, which is what pricing rule 4 exists to prevent** (*"No formal service tiers. One uniform service."*). Two athletes both paying $149, one with Premium and one without, differing only in how they arrived — and **referred athletes are the most likely of all to know another athlete personally**, since that is how they got here. Ferenz and Liby Feher are family.
+> **Do not size this from the Private headcount.** *An earlier version of this line multiplied 5 Private athletes by $9 and asserted $45/month. That is wrong and was withdrawn the same day:* **the incremental cost is only the athletes who have no Premium and are not leaving** — some arrive already holding it, some buy it themselves annually, and a churning athlete costs nothing. **The true figure is materially lower than headcount × $9, and it moves every month, so it is counted at decision time from the live roster — never derived here.** *Iván's implementation rule, when he decides: where an athlete already holds Premium, pay nothing until their current period ends.*
+
+**Where it appears in copy:** the value-prop list on `/referidos/`. **It must NOT be added to the coaching page or `sales-playbook.md` A5** — those describe the standard Private offer, which does not include Premium.
 
 ## Rules
 
@@ -71,7 +92,7 @@ The same athlete is worth **$24.59/month more on Private**. Private is therefore
 $120 was derived by matching net income across channels ($115.80 ≈ $119.20). Wrong invariant — athletes never see the commission. What matters:
 
 - Private leads (referrals, website, Instagram) are warmer than CoachMatch leads; the highest-trust channel should not carry the lowest price.
-- Coach-hire economics: viable at $149 ($71.89/side), non-viable at $120 ($57.90/side). The program launches this year, so the price must support it now.
+- Coach-hire economics: viable at $149 ($71.89/side; $67.40 on a referred athlete carrying Premium), non-viable at $120 ($57.90/side — **$53.40 on a referred athlete**, *noted Aug 26, 2026*). The program launches this year, so the price must support it now.
 - Validation: the last 7 CoachMatch sign-ups all converted at $149.
 
 ## Execution notes

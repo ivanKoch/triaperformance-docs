@@ -1,0 +1,73 @@
+/* Triaperformance — Programa de referidos (/referidos/).
+   Unlisted, noindex. Brand tokens come from site.css (§3 brand-guidelines).
+   Section rhythm, type scale and the no-shadow rule are inherited — this file
+   only adds what the page itself needs. */
+
+/* HERO — white, no image. One idea: the number. */
+.ref-hero { padding-bottom: 72px; }
+.ref-hero h1 { font-size: 56px; font-weight: 700; letter-spacing: -.02em; line-height: 1.05; margin: 16px 0 24px; }
+.ref-hero .sub { font-size: 20px; color: var(--slate); max-width: 52ch; }
+.ref-hero .sub strong { color: var(--ink); }
+
+/* STEPS */
+.ref-steps { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 48px; }
+.ref-steps li { position: relative; }
+.ref-steps .step-n {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--blue); color: var(--white);
+  font-size: 15px; font-weight: 700; margin-bottom: 16px;
+}
+.ref-steps h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.ref-steps p { color: var(--slate); }
+
+/* BENEFITS — the page's one washed section (brand §3). */
+.ref-benefits { background: var(--wash); }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 40px; }
+.ref-card { background: var(--white); border: 1px solid var(--mist); border-radius: 8px; padding: 32px; }
+.ref-card .tag {
+  display: inline-block; font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em; color: var(--blue); margin-bottom: 12px;
+}
+.ref-card .big { font-size: 44px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; margin-bottom: 12px; }
+.ref-card p:last-child { color: var(--slate); }
+
+/* WHAT THEY GET */
+.section-intro { color: var(--slate); max-width: 65ch; margin-top: 12px; }
+/* Two columns, and NOT capped at 65ch. Same correction as the blog listing
+   (Aug 25, 2026): 65ch is a *reading* measure and belongs on prose. These are
+   scanned, so the cap left them hugging the left half of a 1080px wrap. */
+.ref-includes { list-style: none; margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
+.ref-includes li { padding: 20px 0; border-top: 1px solid var(--mist); color: var(--slate); }
+.ref-includes strong { color: var(--ink); }
+
+/* FORWARD BLOCK — the page's single full-blue section (brand §3). */
+.ref-forward { background: var(--blue); color: var(--white); }
+.ref-forward h2 { color: var(--white); }
+.ref-forward .section-intro { color: rgba(255,255,255,.82); }
+.ref-forward blockquote {
+  background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.24);
+  border-radius: 8px; padding: 28px; margin: 32px 0 24px;
+  font-size: 17px; line-height: 1.7; max-width: 74ch; overflow-wrap: anywhere;
+}
+.btn-copy {
+  background: var(--white); color: var(--blue); border: none; border-radius: 4px;
+  padding: 16px 28px; font: 700 16px/1 inherit; font-family: inherit; cursor: pointer;
+}
+.btn-copy:hover { background: var(--wash); }
+
+/* TERMS */
+.ref-terms ul { list-style: none; margin-top: 32px; max-width: 78ch; }
+.ref-terms li { padding: 12px 0 12px 22px; position: relative; color: var(--slate); font-size: 16px; }
+.ref-terms li::before { content: "—"; position: absolute; left: 0; color: var(--mist); }
+.ref-terms strong { color: var(--ink); }
+
+@media (max-width: 860px) {
+  .ref-steps, .grid-2 { grid-template-columns: 1fr; gap: 32px; }
+  .ref-includes { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .ref-hero h1 { font-size: 36px; }
+  .ref-hero .sub { font-size: 17px; max-width: none; }
+  .ref-card .big { font-size: 36px; }
+}
