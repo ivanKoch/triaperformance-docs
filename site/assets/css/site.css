@@ -439,39 +439,40 @@ body.nav-open { overflow: hidden; }
   header nav .lang-switch .sep { display: inline; }
 }
 
-/* Credential strip — added Aug 27, 2026.
-   Lives in site.css rather than a page stylesheet because it renders on the
-   three homepages, which carry no pageCss of their own. Uses the wash tint,
-   which brand-guidelines.md §3 allows at most once per page — the homepages
-   spend their one washed section here, and neither the pricing nor the
-   testimonial block uses it, so there is no conflict. */
-.trust-bar { padding: 28px 0; background: var(--wash); border-bottom: 1px solid var(--mist); }
-.trust-bar .label { margin-bottom: 14px; }
-.trust-marks {
+/* Credentials band — Aug 27, 2026, third revision (see credentials-band.njk).
+   White, not wash: `.pricing` and `.cta-final` already spend the homepage's
+   washed sections, and a logo band reads better on plain ground anyway. */
+.cred-band { padding: 72px 0; border-top: 1px solid var(--mist); }
+.cred-band h2 { margin-bottom: 16px; }
+.cred-band-lead { font-size: 17px; color: var(--slate); max-width: 65ch; margin-bottom: 40px; }
+
+.cred-band-list {
   list-style: none; margin: 0;
-  display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
 }
-/* One wrapping row, vertically centred — a mark bar, not a content grid.
-   Replaced a 3-column grid of name + note, which under a photo hero read as a
-   ~450px block of body copy with two indented rows that lined up with nothing. */
-.trust-mark { display: inline-flex; align-items: center; gap: 10px; }
-/* 40px here, 56px on the About page. The two are not in conflict: in this row
-   the badge sits directly beside its own name in text, so it only has to be
-   recognisable as a shape and colour. On the About page it stands alone above
-   a note and has to carry its own wordmark, which needs the extra size.
-   Both use the black-wordmark TrainingPeaks variant — the white one is
-   invisible against this wash background. */
-.trust-badge { flex: 0 0 auto; width: 40px; height: 40px; object-fit: contain; }
-.trust-mark-name { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.3; }
-.trust-line { font-size: 14px; color: var(--slate); margin-top: 18px; }
-.trust-line a { color: var(--blue); font-weight: 700; text-decoration: none; white-space: nowrap; }
-.trust-line a:hover { color: var(--blue-deep); text-decoration: underline; }
-.trust-bar-compact { padding: 24px 0; }
-@media (max-width: 640px) {
-  .trust-bar { padding: 28px 0; }
-  .trust-marks { gap: 12px 20px; }
-  .trust-mark-name { font-size: 13px; }
-  .trust-badge { width: 34px; height: 34px; }
+/* Every tile reserves the same 64px optical band for its mark, so a square
+   badge and a wide wordmark sit on one baseline without being scaled to the
+   same raw height — which would leave the wordmarks huge and the badges tiny. */
+.cred-band-logo { display: flex; align-items: center; justify-content: flex-start; height: 64px; }
+.cred-band-logo img { max-width: 100%; object-fit: contain; }
+.cred-band-logo-badge img { max-height: 56px; }
+/* Wordmarks are capped lower than badges on purpose: a 200px-wide lockup at
+   56px tall would optically dwarf a 56px circular badge beside it. */
+.cred-band-logo-wordmark img { max-height: 30px; }
+.cred-band-capt {
+  display: block; margin-top: 14px; font-size: 13px; font-weight: 700;
+  color: var(--slate); line-height: 1.4;
+}
+.cred-band-more { margin-top: 36px; font-size: 15px; }
+.cred-band-more a { color: var(--blue); font-weight: 700; text-decoration: none; }
+.cred-band-more a:hover { color: var(--blue-deep); text-decoration: underline; }
+
+@media (max-width: 860px) { .cred-band-list { grid-template-columns: 1fr 1fr; gap: 32px 24px; } }
+@media (max-width: 480px) {
+  .cred-band { padding: 56px 0; }
+  .cred-band-logo { height: 52px; }
+  .cred-band-logo-badge img { max-height: 46px; }
+  .cred-band-logo-wordmark img { max-height: 26px; }
 }
 
 /* One-line credential note under a plan's buy box. Deliberately quiet — it is
