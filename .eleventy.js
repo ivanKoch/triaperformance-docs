@@ -493,6 +493,34 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
     (posts || []).filter((p) => p.data.lang === lang)
   );
 
+  // ---------------------------------------------------------------------------
+  // cardImage — which photo a blog card shows, if any.
+  //
+  //   articles/<slug>.*        pinned to this article, wins outright
+  //   topics/<topic>*.*        the topic's pool; one picked from the slug
+  //   null                     no photo — the card renders its topic colour
+  //
+  // The pick is a hash of the slug rather than a random or an index, so it is
+  // IDENTICAL on every build and every machine. A random choice would rewrite
+  // image URLs on each deploy, which busts caches, churns the git diff, and
+  // makes "did the photo change?" impossible to answer.
+  //
+  // It is stable across builds, not across folder changes: adding a photo to a
+  // topic changes the pool size and reshuffles that topic. Pin with
+  // articles/<slug>.* when a specific article needs a specific photo.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addFilter("cardImage", function (images, topic, slug) {
+    if (!images || !slug) return null;
+    if (images.articles && images.articles[slug]) return images.articles[slug];
+    const pool = images.topics && images.topics[topic];
+    if (!pool || !pool.length) return null;
+    let h = 0;
+    for (let i = 0; i < slug.length; i++) {
+      h = (Math.imul(h, 31) + slug.charCodeAt(i)) >>> 0;
+    }
+    return pool[h % pool.length];
+  });
+
   // Machine-readable date for <time datetime="...">. Nunjucks has no built-in
   // `date` filter — that one is Liquid's — so it's defined here.
   eleventyConfig.addFilter("htmlDate", (d) =>

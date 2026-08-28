@@ -2,6 +2,11 @@
 # Without this, site/README.md would be built and published at /README/.
 site/README.md
 
+# Photo originals waiting to be resized into site/assets/images/blog/.
+# Outside site/ so Eleventy wouldn't build it anyway, but listed here so the
+# intent is recorded in one place with .gitignore.
+_incoming
+
 # Scratch file used to debug the blog collection. Safe to delete:
 #   rm site/_debug.njk
 # Ignored here so it can't publish in the meantime.

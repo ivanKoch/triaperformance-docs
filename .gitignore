@@ -16,3 +16,10 @@ _site/
 __pycache__/
 *.pyc
 _to_delete/
+
+# Staging area for full-size photo originals on their way into
+# site/assets/images/blog/. Multi-megabyte camera and stock files that only
+# need to exist long enough to be resized — committing them would put every
+# original in git history permanently, where deleting the file later does not
+# reclaim the space.
+_incoming/

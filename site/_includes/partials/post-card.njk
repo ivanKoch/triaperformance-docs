@@ -12,7 +12,7 @@
   translated label, so the same JS works in all three languages.
 #}
 {%- set topic = post.data.topic -%}
-{%- set img = blogImages.articles[post.fileSlug] or blogImages.topics[topic] -%}
+{%- set img = blogImages | cardImage(topic, post.fileSlug) -%}
 <article class="post-card{% if featured %} post-card--featured{% endif %}"
          data-topic="{{ topic }}">
   <a class="post-card__link" href="{{ post.url }}">
