@@ -157,7 +157,15 @@ Extracted from chats + answers; each maps a trigger to a response.
 
 ## 13. Open gaps (owner: Iván)
 
-1. **Section 7 (strength) unanswered** — weekly structure by phase, when each built routine (kettlebell, yin yoga, hip activation) is prescribed, per-sport injury-prevention defaults. Chats show gym is always added and rehab routines exist (knee routines for Ronald) but the prescription logic is undocumented.
+1. ~~**Section 7 (strength) unanswered**~~ — **PARTLY ANSWERED August 2026** while building `/members/fuerza/`; athlete-facing version and full reasoning in `strength-guide-brief.md`. What is now decided:
+
+   - **Frequency: 2 gym sessions/week as the norm**, matching the 16-week Olympic example. **3–4/week is available during a max-strength phase only** — its total volume is low so it accumulates little fatigue, and it is a skill that rewards practice. Hypertrophy cannot be run at that frequency alongside endurance load.
+   - **Phase structure, 12 weeks:** tissue tolerance (2×/wk, 6–10 reps, RIR 3) → max strength (3–5×3–5 @ ≥85%, 3–5' rest) → power (2–5 reps @ 30–65%, max intent, stop when velocity drops). **Each 4-week phase is 3 loading + 1 easy**, 2+1 for 50+, same as the endurance blocks.
+   - ***The default path has no hypertrophy phase, deliberately*** — consistent with the "max activation, minimal hypertrophy" line above. A real hypertrophy block exists as an explicit off-season option for athletes who want the mass and accept the W/kg cost; it is a decision to be scheduled, not a default.
+   - **Placement in the week:** ≥6h from an endurance session where possible; never heavy legs the day before quality or a long session; stack onto an already-hard day rather than spoiling an easy one.
+   - **Maintenance:** 1 session/week holds strength for weeks provided load stays high and volume drops.
+
+   **Still unanswered:** which built routine (kettlebell, activation, mobility) is prescribed when, and the per-sport injury-prevention defaults.
 2. **Section 8 partially confirmed** — fever and post-flu rules confirmed July 2026; still open: minimum effective week, and overtraining detection thresholds.
 3. **Section 9 partially reconstructed** — confirm taper lengths by distance (only IM and marathon observed) and pacing frameworks for sprint/Olympic.
 4. **Exit policy** — soft-exit narrative vs. honest boundary statement; document one so a hired coach doesn't improvise.

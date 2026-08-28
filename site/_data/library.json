@@ -72,6 +72,14 @@
         "gated": true
       },
       {
+        "tag": "Guía",
+        "name": "Hipertrofia, Fuerza y Potencia",
+        "desc": "Tres adaptaciones, tres protocolos, y cómo ordenarlas en el año — con un bloque para rendimiento y otro para quien quiere masa muscular.",
+        "key": "strength",
+        "url": "/all-access/#biblioteca",
+        "gated": true
+      },
+      {
         "tag": "Descargas",
         "name": "Guías en PDF",
         "desc": "Sesiones por zona, nutrición y preparación mental — para descargar cuando quieras.",
@@ -183,6 +191,14 @@
         "gated": true
       },
       {
+        "tag": "Guide",
+        "name": "Hypertrophy, Strength and Power",
+        "desc": "Three adaptations, three protocols, and how to sequence them across a year — with one block for performance and another for athletes who want the muscle.",
+        "key": "strength",
+        "url": "/en/all-access/#biblioteca",
+        "gated": true
+      },
+      {
         "tag": "Downloads",
         "name": "PDF guides",
         "desc": "Training zone sessions, plus nutrition and mental prep — downloadable whenever you want them.",
@@ -290,6 +306,14 @@
         "name": "Carga de Treino Explicada",
         "desc": "TSS, CTL, ATL, TSB e o gráfico PMC explicados uma vez e direito, com telas reais do TrainingPeaks.",
         "key": "load",
+        "url": "/pt/all-access/#biblioteca",
+        "gated": true
+      },
+      {
+        "tag": "Guia",
+        "name": "Hipertrofia, Força e Potência",
+        "desc": "Três adaptações, três protocolos, e como sequenciá-los no ano — com um bloco para desempenho e outro para quem quer massa muscular.",
+        "key": "strength",
         "url": "/pt/all-access/#biblioteca",
         "gated": true
       },
