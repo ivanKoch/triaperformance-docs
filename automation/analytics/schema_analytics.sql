@@ -295,3 +295,112 @@ SELECT DISTINCT ON (source)
     rows_fetched, rows_written, status, detail
 FROM analytics_sync_log
 ORDER BY source, run_started DESC;
+
+
+-- ============================================================================
+-- 6. ga4_traffic_day — attribution. Added August 30, 2026.
+--
+--    SESSION grain, in its own table on purpose. Channel is a property of a
+--    SESSION; page views are a property of a PAGE. Putting them in one table
+--    multiplies a session across every page in the visit and silently inflates
+--    session counts -- the classic GA4 double-count. Two grains, two tables.
+--
+--    Source is `session_traffic_source_last_click.manual_campaign`, verified by
+--    probe (Aug 30, 2026) to be populated on 100% of events. The two obvious
+--    alternatives are both wrong here and the probe is what showed it:
+--      * `traffic_source`          -- USER-level FIRST-touch. A user who once
+--        arrived direct reads as (direct) forever, in every later session.
+--      * `collected_traffic_source` -- populated only on session_start and
+--        first_visit (63 of 526 page_views), NULL on the rest.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ga4_traffic_day (
+    data_date         DATE        NOT NULL,
+    landing_page      TEXT        NOT NULL,   -- first page_view of the session
+    source            TEXT        NOT NULL,   -- lowercased; otherwise verbatim
+    medium            TEXT        NOT NULL,
+    campaign          TEXT        NOT NULL,
+    country           TEXT        NOT NULL,
+    country_iso3      CHAR(3),
+    sessions          INTEGER     NOT NULL,
+    total_users       INTEGER     NOT NULL,
+    engaged_sessions  INTEGER     NOT NULL,
+    synced_at         TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT ga4_traffic_day_uk
+        UNIQUE (data_date, landing_page, source, medium, campaign, country)
+);
+
+CREATE INDEX IF NOT EXISTS ga4_traffic_day_date_idx
+    ON ga4_traffic_day (data_date);
+CREATE INDEX IF NOT EXISTS ga4_traffic_day_medium_date_idx
+    ON ga4_traffic_day (medium, data_date);
+CREATE INDEX IF NOT EXISTS ga4_traffic_day_landing_date_idx
+    ON ga4_traffic_day (landing_page, data_date);
+
+
+-- ---------------------------------------------------------------------------
+-- ga4_channel_day — channel grouping, derived HERE and not in the sync.
+--
+-- WHY NOT GA4'S DEFAULT CHANNEL GROUPING: it keys off recognised mediums
+-- (organic, cpc, referral, email). This site's UTM convention -- set July 31,
+-- 2026, see the UTM note in this section -- uses utm_medium for PLACEMENT:
+-- gbp_profile, gbp_post, bio, lnk_bio, plan_listing, signature, directory.
+-- Google's grouping would dump nearly every deliberately-tagged link into
+-- "Unassigned". So the rule below encodes THIS site's convention.
+--
+-- It lives in a view, not in the sync, so changing the rule is a re-CREATE and
+-- never a re-sync -- the same reason average position is derived in a view.
+--
+-- Unrecognised mediums resolve to 'Other: <medium>' and NEVER to a silent
+-- catch-all: an unmapped value has to name itself, or the bucket grows and
+-- nobody sees what is in it. Same principle as country_map.py.
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE VIEW ga4_channel_day AS
+SELECT
+    data_date,
+    landing_page,
+    country_iso3,
+    source,
+    medium,
+    campaign,
+    CASE
+        WHEN source = '(direct)' AND medium IN ('(none)', '(not set)') THEN 'Direct'
+        WHEN medium = 'organic'                       THEN 'Organic Search'
+        WHEN medium IN ('cpc', 'ppc', 'paid')         THEN 'Paid Search'
+        WHEN medium IN ('gbp_profile', 'gbp_post')    THEN 'Google Business Profile'
+        WHEN medium IN ('bio', 'lnk_bio')             THEN 'Profile / Bio Link'
+        WHEN medium = 'plan_listing'                  THEN 'TrainingPeaks Listing'
+        WHEN medium = 'signature'                     THEN 'Email Signature'
+        WHEN medium = 'directory'                     THEN 'Directory'
+        WHEN medium IN ('email', 'newsletter')        THEN 'Email'
+        WHEN medium = 'referral' AND (
+                 source LIKE '%facebook%' OR source LIKE '%instagram%'
+              OR source LIKE '%linkedin%' OR source LIKE '%t.co%'
+              OR source LIKE '%x.com%'    OR source LIKE '%telegram%'
+              OR source LIKE '%reddit%'   OR source LIKE '%youtube%'
+              OR source LIKE '%strava%')                THEN 'Social'
+        WHEN medium = 'referral'                      THEN 'Referral'
+        ELSE 'Other: ' || medium
+    END AS channel_group,
+    -- Platform, for the aliasing problem the first probe surfaced: the same
+    -- traffic arrives as `trainingpeaks` (a tagged link) and `trainingpeaks.com`
+    -- (an untagged referral), and `Instagram` was capitalised where everything
+    -- else was lowercase. Case is normalised in the sync; the alias collapse is
+    -- HERE, so `source` in the table stays exactly what GA4 reported -- a tagged
+    -- link and a raw referral are genuinely different events and the raw value
+    -- is the only place that distinction survives.
+    CASE
+        WHEN source LIKE '%trainingpeaks%' THEN 'trainingpeaks'
+        WHEN source LIKE '%instagram%'     THEN 'instagram'
+        WHEN source LIKE '%facebook%'      THEN 'facebook'
+        WHEN source LIKE '%linkedin%'      THEN 'linkedin'
+        WHEN source IN ('x.com', 't.co', 'twitter.com', 'twitter') THEN 'x'
+        WHEN source LIKE '%google%'        THEN 'google'
+        WHEN source LIKE '%telegram%'      THEN 'telegram'
+        WHEN source LIKE '%whatsapp%' OR source LIKE '%wa.me%' THEN 'whatsapp'
+        ELSE source
+    END AS platform,
+    sessions,
+    total_users,
+    engaged_sessions
+FROM ga4_traffic_day;
+

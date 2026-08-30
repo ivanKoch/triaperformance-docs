@@ -187,7 +187,8 @@ flowchart TB
     TPPixel --> CLOUDRUN
     CLOUDRUN --> BQ
     GA4 -.daily export.-> BQ
-    BQ -.nightly sync (read-only service account).-> ANALYTICSPG
+    BQ -.nightly sync 05:00 pixel / 05:45 GA4.-> ANALYTICSPG
+    GA4 -.Search Console API, nightly 05:15.-> ANALYTICSPG
     </div>
     <p style="font-size:14px;color:var(--slate);margin-top:10px;">There is one program (Hermes Agent) running on a rented server, split into two always-on processes — one listens for Telegram, the other serves a web dashboard, both sharing the same memory and calling out to Gemini to think. A private VPN (Tailscale) lets the MacBook and browser reach the dashboard without exposing it publicly. Separately, Caddy serves the public website, and n8n + Twenty CRM (both Tailscale-only, no public exposure) run the CoachMatch lead pipeline — n8n handles the mechanical parts (reading Gmail, sending emails, calling Twenty's API on a schedule), Hermes handles the WhatsApp follow-up loop, which needs free-text understanding rather than fixed logic.</p>
   </div>
@@ -298,13 +299,13 @@ flowchart TB
   <div class="card">
     <h4>New standing infrastructure — analytics Postgres on the VPS, own lane</h4>
     <p>Same separation pattern as Twenty/n8n: a dedicated <code>analytics-postgres</code> Docker container, bound to <code>127.0.0.1</code> only — nothing outside the box needs to reach it. Directory <code>~/.analytics/</code> (<code>data/</code>, <code>scripts/</code>, <code>credentials/</code>, <code>logs/</code>). Table <code>plan_views</code> mirrors the BigQuery schema with a <code>UNIQUE(event_timestamp, plan_id, ip_address)</code> constraint for idempotent syncs. A read-only BigQuery service account (<code>pixel-sync-vps</code>) backs <code>~/.analytics/scripts/sync_pixel_data.py</code>, which pulls everything newer than the current Postgres max timestamp and upserts — nightly at 5am via cron, staggered clear of the 2am Twenty backup and 6am site/KB deploy. First run backfilled all 49,105 historical rows (June 2025 to date). A <code>plan_views_clean</code> view replicates Iván's existing bot/IP-filtering logic on top (21,217 rows after filtering, matching the trusted BigQuery query) — the raw table stays untouched for audit.</p>
-    <p style="margin:0">Purpose: a durable backup of the pixel data independent of the personal Google account's billing/closure risk — the exact failure mode that just cost 20 days. Also the first table in the VPS's planned broader analytics warehouse (pixel hits + future GSC pulls + sales CSVs + email signups).</p>
+    <p style="margin:0">Purpose: a durable backup of the pixel data independent of the personal Google account's billing/closure risk — the exact failure mode that just cost 20 days. Also the first table in the VPS's broader analytics warehouse. <strong>As of August 30, 2026 the GSC and GA4 halves are live</strong>: <code>gsc_site_query</code>, <code>gsc_url_query</code>, <code>ga4_page_day</code>, <code>ga4_event_day</code> and <code>analytics_sync_log</code>, fed nightly at 05:15 and 05:45 by <code>sync_gsc_data.py</code> (Search Console API, backfilled to 2025-05-06) and <code>sync_ga4_data.py</code> (the GA4 BigQuery export). Still to come: sales CSVs and email signups.</p>
   </div>
 
   <div class="card">
     <h4>Site-verification tools, same day</h4>
     <p><strong>Microsoft Clarity</strong> (heatmaps + session recordings) — manual script tag in <code>website/index.html</code>'s <code>&lt;head&gt;</code> alongside GA4 (project ID <code>xq3g7pvr9i</code>). Connected to the GA4 property (Clarity Settings → Integrations) so recordings can be filtered by GA4 traffic-source/segment — a reporting-level correlation only, not a raw-data feed; Clarity's recordings live solely inside its own platform.</p>
-    <p style="margin:0"><strong>Bing Webmaster Tools</strong> and <strong>Ahrefs Webmaster Tools</strong> — both added via "Import from Google Search Console," no new DNS or file-upload work, piggyback on the existing GSC domain verification. Same caveat as the GA4/GSC link: Search Console data doesn't flow into GA4's or BigQuery's dataset, it's reporting-level only.</p>
+    <p style="margin:0"><strong>Bing Webmaster Tools</strong> and <strong>Ahrefs Webmaster Tools</strong> — both added via "Import from Google Search Console," no new DNS or file-upload work, piggyback on the existing GSC domain verification. Same caveat as the GA4/GSC link: Search Console data doesn't flow into GA4's or BigQuery's dataset, it's reporting-level only. <strong>Superseded August 30, 2026</strong> — still true of the <em>link</em>, which is why a direct Search Console API pull was built instead.</p>
   </div>
   <p style="font-size:14px;color:var(--slate);">Not actioned, deliberately: <strong>Rich Results Test</strong> needs no account — it's a URL-paste validator for once plan pages ship with Product schema (Phase 1/2 SEO work, not built yet). <strong>Umami</strong> stays parked, only worth adding if GA4's UI becomes a friction point.</p>
 

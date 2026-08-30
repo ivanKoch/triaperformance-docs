@@ -257,3 +257,18 @@ Propose -- do not apply -- either:
 ## What this pass is NOT for
 
 Not a planning session, not a build session, and not a place to open a new branch. If it surfaces something that deserves real work, it goes into `open-loops.md` with a trigger and waits for a session with the WIP room to take it. A hygiene pass that turns into a build session stops being run weekly, and a hygiene pass that isn't run weekly is how the repo got here.
+
+---
+
+## Step 11 — Expired plans, added August 30, 2026
+
+**Grep for the future tense and check whether the future arrived.** Patterns worth searching across the repo:
+`not yet built`, `not yet done`, `planned to become`, `could eventually`, `future `, `will be`, `next step`, `neither built`, `still to come`.
+
+For each hit, apply the three-way sort now in the project instructions under *Append, don't rewrite*:
+**a wrong belief is kept and struck; an expired plan is deleted; a moved figure is just fixed.**
+
+***Why this step exists.*** *On Aug 30, 2026 the GSC/GA4 pipeline shipped, and four separate lines across `ai-infrastructure-documentation.md` and `infrastructure.html` were still describing it in the future tense — "future GSC pulls", "GA4's export could eventually sync", "neither built yet". The first instinct was to annotate all four with pointers to the new addendum, which is what the append rule literally says. Iván stopped it:* ***that produces a to-do, an "unbuilt" note, a "built" note and a pointer, for one thing that simply exists now.*** *An expired plan is not a correction. It has no lesson in it, and every session after this one pays to read it.*
+
+*This is the cheapest step in the pass and the one that shrinks the repo, which is the only mechanism by which these docs get smaller over time instead of larger.*
+

@@ -225,6 +225,89 @@ EVENT_UPSERT = """
 """
 
 
+# Attribution. SESSION grain -- one row per session, then aggregated.
+#
+# Source comes from `session_traffic_source_last_click.manual_campaign`, which a
+# probe on Aug 30 2026 showed is populated on 100% of events. Do not substitute
+# `traffic_source` (USER-level first touch -- a user who once came direct reads
+# as direct forever) or `collected_traffic_source` (only on session_start and
+# first_visit).
+#
+# EVERY session attribute uses MIN(), not ANY_VALUE(), and this is not
+# cosmetic: source/medium/campaign/country are part of ga4_traffic_day's UNIQUE
+# key, and ANY_VALUE is non-deterministic. A re-run of the rolling window could
+# pick a different value, miss the ON CONFLICT target, and insert a DUPLICATE
+# row for a session already stored. MIN() is deterministic, so re-running is a
+# no-op. (These fields are session-scoped and constant within a session anyway;
+# country can theoretically vary mid-session, and MIN just picks stably.)
+TRAFFIC_SQL = """
+WITH ev AS (
+  SELECT
+    PARSE_DATE('%Y%m%d', event_date) AS data_date,
+    event_timestamp,
+    event_name,
+    user_pseudo_id,
+    CONCAT(user_pseudo_id, '.', CAST((SELECT value.int_value FROM UNNEST(event_params)
+      WHERE key = 'ga_session_id') AS STRING)) AS session_key,
+    COALESCE(
+      REGEXP_EXTRACT(
+        (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),
+        r'^https?://[^/]+([^?#]*)'),
+      '/') AS page_path,
+    LOWER(COALESCE(NULLIF(session_traffic_source_last_click.manual_campaign.source, ''),
+                   '(direct)')) AS source,
+    LOWER(COALESCE(NULLIF(session_traffic_source_last_click.manual_campaign.medium, ''),
+                   '(none)')) AS medium,
+    COALESCE(NULLIF(session_traffic_source_last_click.manual_campaign.campaign_name, ''),
+             '(not set)') AS campaign,
+    COALESCE(NULLIF(geo.country, ''), '(not set)') AS country,
+    COALESCE(
+      (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'session_engaged'),
+      CAST((SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'session_engaged') AS STRING)
+    ) AS session_engaged
+  FROM `{project}.{dataset}.events_*`
+  WHERE _TABLE_SUFFIX BETWEEN @start AND @end
+),
+sess AS (
+  SELECT
+    session_key,
+    MIN(data_date)         AS data_date,
+    MIN(user_pseudo_id)    AS user_pseudo_id,
+    MIN(source)            AS source,
+    MIN(medium)            AS medium,
+    MIN(campaign)          AS campaign,
+    MIN(country)           AS country,
+    COALESCE(
+      ARRAY_AGG(IF(event_name = 'page_view', page_path, NULL) IGNORE NULLS
+                ORDER BY event_timestamp LIMIT 1)[SAFE_OFFSET(0)],
+      '(no page_view)')    AS landing_page,
+    MAX(session_engaged) = '1' AS engaged
+  FROM ev
+  GROUP BY session_key
+)
+SELECT
+  data_date, landing_page, source, medium, campaign, country,
+  COUNT(*)                        AS sessions,
+  COUNT(DISTINCT user_pseudo_id)  AS total_users,
+  COUNTIF(engaged)                AS engaged_sessions
+FROM sess
+GROUP BY 1, 2, 3, 4, 5, 6
+"""
+
+TRAFFIC_UPSERT = """
+    INSERT INTO ga4_traffic_day
+        (data_date, landing_page, source, medium, campaign, country, country_iso3,
+         sessions, total_users, engaged_sessions)
+    VALUES %s
+    ON CONFLICT (data_date, landing_page, source, medium, campaign, country)
+    DO UPDATE SET country_iso3     = EXCLUDED.country_iso3,
+                  sessions         = EXCLUDED.sessions,
+                  total_users      = EXCLUDED.total_users,
+                  engaged_sessions = EXCLUDED.engaged_sessions,
+                  synced_at        = now()
+"""
+
+
 def run_bq(client, sql, dataset, start, end):
     job_config = bigquery.QueryJobConfig(query_parameters=[
         bigquery.ScalarQueryParameter("start", "STRING", start.strftime("%Y%m%d")),
@@ -312,6 +395,25 @@ def main():
             ))
         event_written = write_rows(conn, EVENT_UPSERT, event_rows)
 
+        traffic_api = run_bq(client, TRAFFIC_SQL, dataset, start, end)
+        traffic_rows = []
+        for r in traffic_api:
+            iso3, unexpected = to_iso3(r.country)
+            if unexpected:
+                unmapped.add(r.country)
+            traffic_rows.append((
+                r.data_date, r.landing_page, r.source, r.medium, r.campaign,
+                r.country, iso3, int(r.sessions), int(r.total_users),
+                int(r.engaged_sessions),
+            ))
+        traffic_written = write_rows(conn, TRAFFIC_UPSERT, traffic_rows)
+
+        # `detail` is assembled AFTER all three pulls, deliberately. It was
+        # first written between the event and traffic pulls, which meant a
+        # country whose first appearance was in the traffic rows would be added
+        # to `unmapped` after the warning had already been built -- silently
+        # dropping exactly the miss this warning exists to catch. Found by
+        # reading the patched order rather than by running it.
         detail = None
         if unmapped:
             detail = "unmapped countries: " + ", ".join(sorted(unmapped))
@@ -323,7 +425,10 @@ def main():
                    len(page_api), page_written, "ok", detail)
         record_run(conn, "ga4_event", started, start, end,
                    len(event_api), event_written, "ok", detail)
-        log(f"Done. page: {page_written} row(s), event: {event_written} row(s).")
+        record_run(conn, "ga4_traffic", started, start, end,
+                   len(traffic_api), traffic_written, "ok", detail)
+        log(f"Done. page: {page_written} row(s), event: {event_written} row(s), "
+            f"traffic: {traffic_written} row(s).")
     except Exception as e:
         try:
             record_run(conn, "ga4_page", started, start, end,
