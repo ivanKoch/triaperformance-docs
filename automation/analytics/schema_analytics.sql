@@ -478,3 +478,105 @@ WHERE NOT is_internal;   -- reporting view: self-traffic excluded (see section 7
 CREATE OR REPLACE VIEW ga4_page_clean    AS SELECT * FROM ga4_page_day    WHERE NOT is_internal;
 CREATE OR REPLACE VIEW ga4_event_clean   AS SELECT * FROM ga4_event_day   WHERE NOT is_internal;
 CREATE OR REPLACE VIEW ga4_traffic_clean AS SELECT * FROM ga4_traffic_day WHERE NOT is_internal;
+
+-- ============================================================================
+-- 8. Google Business Profile. Added August 30, 2026.
+--
+--    Credential is an OAuth refresh token for coach@triaperformance.com, NOT a
+--    service account: the Business Profile API supports OAuth 2.0 only. Lives
+--    in the same ~/.analytics/.env as everything else (GBP_CLIENT_ID,
+--    GBP_CLIENT_SECRET, GBP_REFRESH_TOKEN).
+-- ---------------------------------------------------------------------------
+
+-- Long format -- one row per date per metric -- because that is the shape the
+-- API returns, and because the metric list grows: BUSINESS_BOOKINGS and the
+-- food-ordering metrics exist and are irrelevant today. A wide table would need
+-- a migration every time Google adds one.
+CREATE TABLE IF NOT EXISTS gbp_daily_metrics (
+    location_id  TEXT        NOT NULL,
+    data_date    DATE        NOT NULL,
+    metric       TEXT        NOT NULL,
+    value        INTEGER     NOT NULL,
+    synced_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT gbp_daily_metrics_uk UNIQUE (location_id, data_date, metric)
+);
+CREATE INDEX IF NOT EXISTS gbp_daily_metrics_date_idx ON gbp_daily_metrics (data_date);
+CREATE INDEX IF NOT EXISTS gbp_daily_metrics_metric_date_idx ON gbp_daily_metrics (metric, data_date);
+
+-- Reviews. Keyed on Google's own review_id: a review can be EDITED by its
+-- author, so this upserts on that key rather than treating reviews as immutable.
+-- reviewer_display_name is public on the Google Maps listing; it is stored here
+-- and must not be copied into the repo, same rule as the sales CSVs.
+CREATE TABLE IF NOT EXISTS gbp_reviews (
+    review_id             TEXT        PRIMARY KEY,
+    location_id           TEXT        NOT NULL,
+    create_time           TIMESTAMPTZ NOT NULL,
+    update_time           TIMESTAMPTZ,
+    star_rating           INTEGER,
+    comment               TEXT,
+    reviewer_display_name TEXT,
+    has_reply             BOOLEAN     NOT NULL DEFAULT FALSE,
+    reply_time            TIMESTAMPTZ,
+    synced_at             TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS gbp_reviews_create_idx ON gbp_reviews (create_time DESC);
+
+-- Search keywords. `value` and `below_threshold` are mutually exclusive and
+-- BOTH are nullable ON PURPOSE.
+--
+-- Google returns either an exact `value` or a `threshold`, the latter meaning
+-- "fewer than this". On the first real pull (Aug 30, 2026) the only keyword
+-- returned was the brand name, with threshold 15 and no value at all. Coercing
+-- a threshold into a value would invent a number that Google explicitly
+-- declined to give -- and it would then be averaged, summed and reported as if
+-- it were measured. A NULL is visible; a fabricated 15 is not.
+CREATE TABLE IF NOT EXISTS gbp_search_keywords (
+    location_id      TEXT        NOT NULL,
+    month            DATE        NOT NULL,   -- first day of the month
+    keyword          TEXT        NOT NULL,
+    value            INTEGER,                -- exact count, when Google gives one
+    below_threshold  INTEGER,                -- "fewer than N", when it does not
+    synced_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT gbp_search_keywords_uk UNIQUE (location_id, month, keyword),
+    CONSTRAINT gbp_search_keywords_one_of CHECK (
+        (value IS NOT NULL AND below_threshold IS NULL)
+        OR (value IS NULL AND below_threshold IS NOT NULL)
+    )
+);
+CREATE INDEX IF NOT EXISTS gbp_search_keywords_month_idx ON gbp_search_keywords (month);
+
+
+-- ---------------------------------------------------------------------------
+-- gbp_monthly — the shape the monthly close actually wants: views, searches,
+-- actions, new reviews, one row per month.
+--
+-- "Views" is the sum of the four impression metrics; "actions" the sum of the
+-- four intent metrics. Those groupings are a JUDGEMENT and they live here, in a
+-- view, so the close can be re-read against a different grouping without a
+-- re-sync.
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE VIEW gbp_monthly AS
+WITH m AS (
+    SELECT DATE_TRUNC('month', data_date)::date AS month,
+           SUM(value) FILTER (WHERE metric LIKE 'BUSINESS_IMPRESSIONS%')      AS views,
+           SUM(value) FILTER (WHERE metric LIKE '%_SEARCH')                   AS views_search,
+           SUM(value) FILTER (WHERE metric LIKE '%_MAPS')                     AS views_maps,
+           SUM(value) FILTER (WHERE metric IN ('WEBSITE_CLICKS','CALL_CLICKS',
+                              'BUSINESS_DIRECTION_REQUESTS','BUSINESS_CONVERSATIONS')) AS actions,
+           SUM(value) FILTER (WHERE metric = 'WEBSITE_CLICKS')                AS website_clicks,
+           SUM(value) FILTER (WHERE metric = 'CALL_CLICKS')                   AS call_clicks,
+           SUM(value) FILTER (WHERE metric = 'BUSINESS_DIRECTION_REQUESTS')   AS direction_requests,
+           SUM(value) FILTER (WHERE metric = 'BUSINESS_CONVERSATIONS')        AS conversations
+    FROM gbp_daily_metrics GROUP BY 1
+), r AS (
+    SELECT DATE_TRUNC('month', create_time)::date AS month,
+           COUNT(*) AS new_reviews,
+           ROUND(AVG(star_rating)::numeric, 2) AS avg_new_rating
+    FROM gbp_reviews GROUP BY 1
+)
+SELECT COALESCE(m.month, r.month) AS month,
+       m.views, m.views_search, m.views_maps, m.actions,
+       m.website_clicks, m.call_clicks, m.direction_requests, m.conversations,
+       COALESCE(r.new_reviews, 0) AS new_reviews, r.avg_new_rating
+FROM m FULL OUTER JOIN r ON m.month = r.month
+ORDER BY 1 DESC;
