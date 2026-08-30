@@ -49,7 +49,7 @@
       "site_url": "https://blog.stryd.com/",
       "feed_url": "https://blog.stryd.com/rss/",
       "fetch_mode": "auto",
-      "note": "Ghost CMS, so /rss/ should work. Crawled manually: mostly elite athlete race recaps, 'Inside the Data' race analyses, monthly workout drops and firmware notes — brand marketing, not evergreen education. Low value as a topic source. HIGH value for two other reasons: Iván is a Stryd coach and has power-based plans, making this the clearest affiliate fit; and 'Inside the Data' is a format worth adapting with his own athletes' files."
+      "note": "Ghost CMS, so /rss/ should work. Crawled manually: mostly elite athlete race recaps, 'Inside the Data' race analyses, monthly workout drops and firmware notes — brand marketing, not evergreen education. Low value as a topic source. One reason to keep it: (Corrected Aug 29, 2026 — this note used to call Stryd 'the clearest affiliate fit' because Iván is a Stryd coach with power-based plans. There is no Stryd publisher affiliate program: the Stryd referral program is athlete-to-athlete, 4 free months of membership, and the only affiliate program is STRYD.os, $100 flat on orders of $900+ — a different, high-ticket product a $250 footpod recommendation never reaches.) 'Inside the Data' is a format worth adapting with his own athletes' files."
     },
     {
       "name": "EndureIQ",
