@@ -189,7 +189,17 @@ SELECT
     SUM(clicks)                                             AS clicks,
     SUM(sum_top_position) / NULLIF(SUM(impressions), 0) + 1 AS avg_position,
     MIN(data_date)                                          AS first_seen,
-    MAX(data_date)                                          AS last_seen
+    MAX(data_date)                                          AS last_seen,
+    -- Not a filter, on purpose. Added Aug 30, 2026 after the first real run
+    -- returned an LLM prompt as a "query": 30 words, position 6.2, South Africa.
+    -- Someone typed a chatbot prompt into Google. A research agent reading this
+    -- view is being told "write a better article about the thing you rank 5-20
+    -- for" -- hand it a 30-word prompt and it treats that as a topic. One
+    -- artifact in a five-row sample is a high enough rate to guard against.
+    -- The consumer filters (a topic is ~1-6 words); the view stays complete,
+    -- because a threshold that silently drops rows is how a signal becomes a
+    -- guess about what the data used to contain.
+    ARRAY_LENGTH(STRING_TO_ARRAY(TRIM(query), ' '), 1)       AS word_count
 FROM gsc_site_query
 WHERE data_date >= CURRENT_DATE - INTERVAL '28 days'
   AND search_type = 'web'
@@ -210,7 +220,8 @@ SELECT
     country,
     SUM(impressions)                                    AS impressions,
     SUM(clicks)                                         AS clicks,
-    SUM(sum_position) / NULLIF(SUM(impressions), 0) + 1 AS avg_position
+    SUM(sum_position) / NULLIF(SUM(impressions), 0) + 1 AS avg_position,
+    ARRAY_LENGTH(STRING_TO_ARRAY(TRIM(query), ' '), 1)   AS word_count
 FROM gsc_url_query
 WHERE data_date >= CURRENT_DATE - INTERVAL '28 days'
   AND search_type = 'web'
