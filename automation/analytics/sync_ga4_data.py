@@ -396,6 +396,16 @@ def record_run(conn, source, started, window_start, window_end,
 #   internal  -- GA4's own internal-traffic rule, once one is defined. This is
 #                the only rule that survives a cookie reset, which is why the
 #                GA4-side filter still matters.
+#   utm       -- a session arriving with ?utm_source=internal. The manual escape
+#                hatch for a tester on a network no IP rule can reach: a phone
+#                on gym wifi, someone else's laptop. Flags the DEVICE, so it
+#                only has to be used once per browser.
+#                Added Aug 30, 2026 for testers who are not Ivan.
+#
+# The durable answer to all four is identity, not network: a GA4 user property
+# set at members-area login would flag a tester by WHO THEY ARE, across any
+# device or connection. That is the parked "Deeper analytics -- GA4 User-ID"
+# item in open-loops.md LATER, and this rule set is the argument for it.
 DETECT_SQL = """
 SELECT
   user_pseudo_id,
@@ -407,6 +417,7 @@ WHERE _TABLE_SUFFIX BETWEEN @start AND @end
   AND (
     (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_referrer') LIKE '%localhost%'
     OR LOWER(COALESCE(session_traffic_source_last_click.manual_campaign.source, '')) = 'web.telegram.org'
+    OR LOWER(COALESCE(session_traffic_source_last_click.manual_campaign.source, '')) = 'internal'
     OR (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'traffic_type') = 'internal'
   )
 """
@@ -426,6 +437,8 @@ def refresh_internal_devices(conn, client, dataset, start, end):
             reason = "traffic_type"
         elif r.ref and "localhost" in r.ref:
             reason = "localhost"
+        elif r.src == "internal":
+            reason = "utm-internal"
         else:
             reason = "telegram"
         found.setdefault(r.user_pseudo_id, reason)

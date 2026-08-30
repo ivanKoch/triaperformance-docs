@@ -166,7 +166,90 @@ def stale(max_age_days=8):
     return out
 
 
-def build_message(c, fails, stales, gone=()):
+# ---------------------------------------------------------------------------
+# Analytics pipeline health. Added August 30, 2026.
+#
+# WHY IT LIVES HERE AND NOT IN ITS OWN JOB: this file already runs daily,
+# already knows how to reach Iván, and already has the "nag on failure, stay
+# quiet otherwise" logic. A second notifier would be a second thing to mute.
+#
+# WHY IT EXISTS AT ALL: the GSC/GA4 syncs write to a table nobody opens. A dead
+# cron and a genuine zero look identical from the consuming end -- and the
+# consumer is meant to be an agent choosing article topics, which would read a
+# silent pipeline as "nothing ranks". That is the single most expensive failure
+# this pipeline has, and `analytics_sync_log` exists precisely so it is
+# detectable. Detectable and undetected is not much better than invisible.
+ANALYTICS_ENV = os.path.expanduser("~/.analytics/.env")
+ANALYTICS_MAX_AGE_H = float(os.environ.get("ANALYTICS_MAX_AGE_H", "30"))
+# Every source the two syncs record. A source MISSING from the log is as much a
+# problem as a stale one -- it means that half never ran.
+ANALYTICS_SOURCES = ("gsc_site", "gsc_url", "ga4_page", "ga4_event", "ga4_traffic")
+
+
+def _read_analytics_env():
+    """Minimal .env reader. Deliberately not python-dotenv: this file runs under
+    the content-engine venv and must not gain a dependency for six lines."""
+    out = {}
+    if not os.path.exists(ANALYTICS_ENV):
+        return out
+    with open(ANALYTICS_ENV, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            out[k.strip()] = v.strip().strip('"').strip("'")
+    return out
+
+
+def analytics_problems():
+    """Sources that errored, went stale, or never ran. Returns [(source, why)].
+
+    Fails SOFT and never raises: a broken analytics check must not take the
+    content-engine notifier down with it. The content pipeline is the thing
+    this file was built for; analytics is a passenger.
+    """
+    env = _read_analytics_env()
+    if not env.get("PG_HOST"):
+        return []          # not this box, or not configured — say nothing
+    try:
+        import psycopg2
+        conn = psycopg2.connect(
+            host=env["PG_HOST"], port=env.get("PG_PORT", "5432"),
+            dbname=env["PG_DB"], user=env["PG_USER"], password=env["PG_PASSWORD"],
+            connect_timeout=10,
+        )
+    except Exception as e:
+        return [("analytics-postgres", f"sin conexión ({type(e).__name__})")]
+
+    out = []
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT source, status,
+                       EXTRACT(EPOCH FROM (now() - run_started)) / 3600.0
+                FROM analytics_pipeline_health
+            """)
+            seen = {}
+            for source, status, age_h in cur.fetchall():
+                seen[source] = (status, float(age_h))
+        for src in ANALYTICS_SOURCES:
+            if src not in seen:
+                out.append((src, "nunca corrió"))
+                continue
+            status, age_h = seen[src]
+            if status != "ok":
+                out.append((src, f"error en el último run (hace {age_h:.0f} h)"))
+            elif age_h > ANALYTICS_MAX_AGE_H:
+                out.append((src, f"sin correr hace {age_h:.0f} h"))
+    except Exception as e:
+        out.append(("analytics_sync_log", f"consulta falló ({type(e).__name__})"))
+    finally:
+        conn.close()
+    return out
+
+
+def build_message(c, fails, stales, gone=(), analytics=()):
     lines = []
     if gone:
         lines.append("⚠️ *Publicado en la base, ausente del repo*")
@@ -174,6 +257,12 @@ def build_message(c, fails, stales, gone=()):
             lines.append(f"  `{pid}` {lang} — {path}")
         lines.append("_El traductor los trata como fuente válida. "
                      "Marcalos REJECTED o restaurá el archivo._")
+        lines.append("")
+    if analytics:
+        lines.append("⚠️ *Pipeline de analítica*")
+        for src, why in analytics:
+            lines.append(f"  `{src}` — {why}")
+        lines.append("_GSC 05:15, GA4 05:45. Logs en `~/.analytics/logs/`._")
         lines.append("")
     if fails:
         lines.append("⚠️ *Agente con error*")
@@ -205,7 +294,7 @@ def build_message(c, fails, stales, gone=()):
     return "\n".join(lines).strip()
 
 
-def should_send(c, fails, stales, prev, force, gone=()):
+def should_send(c, fails, stales, prev, force, gone=(), analytics=()):
     if force:
         return True, "forced"
     # Drift, like a failure, nags every day until it's resolved — it silently
@@ -213,6 +302,11 @@ def should_send(c, fails, stales, prev, force, gone=()):
     # cannot fix itself.
     if gone:
         return True, f"{len(gone)} published piece(s) missing from the repo"
+    # Same reasoning as a failed agent: a stopped sync cannot fix itself, and
+    # every day it stays broken is a day of data that no backfill recovers for
+    # GA4 (its BigQuery export is forward-only). This nags daily.
+    if analytics:
+        return True, f"{len(analytics)} analytics source(s) stale or failing"
     if fails or stales:
         return True, "agent problem"
     pending = c["ideas"] + c["drafts"]
@@ -266,6 +360,7 @@ def main():
     gone = orphans(conn)
     conn.close()
     fails, stales = failures(), stale()
+    analytics = analytics_problems()
 
     prev = {}
     if os.path.exists(NOTIFY_STATE):
@@ -274,17 +369,20 @@ def main():
         except (ValueError, OSError):
             prev = {}
 
-    go, why = should_send(c, fails, stales, prev, args.force, gone)
+    go, why = should_send(c, fails, stales, prev, args.force, gone, analytics)
     print(f"[notify] ideas={c['ideas']} drafts={c['drafts']} "
           f"queued={c['queued']} unpublished={c['unpublished']} "
           f"fails={len(fails)} stale={len(stales)} missing={len(gone)} "
+          f"analytics={len(analytics)} "
           f"→ {'SEND' if go else 'quiet'} ({why})")
     for pid, lang, path in gone:
         print(f"  [drift] piece {pid} ({lang}) says PUBLISHED but {path} is not in the repo")
+    for src, why in analytics:
+        print(f"  [analytics] {src}: {why}")
     if not go:
         return
 
-    msg = build_message(c, fails, stales, gone)
+    msg = build_message(c, fails, stales, gone, analytics)
     if not msg:
         print("[notify] nothing to say after all")
         return
