@@ -254,6 +254,20 @@ triaperformance.com {
 	redir /blog/como-entrenar-el-umbral-de-lactato-running/ /blog/entrenar-el-umbral-sin-tiras-de-lactato/ permanent
 	redir /blog/como-entrenar-el-umbral-de-lactato-running /blog/entrenar-el-umbral-sin-tiras-de-lactato/ permanent
 
+	# Spanish lives at the ROOT of this site (/planes/, /blog/), not under an /es/
+	# prefix -- only EN and PT are prefixed. At least one third-party marketplace
+	# listing Iván cannot edit himself points at https://triaperformance.com/es/,
+	# which 404s. Added August 30, 2026 so that link works while the edit request
+	# is pending, and permanently afterwards -- these URLs never existed, so
+	# nothing is lost by keeping the rule.
+	#
+	# Regex, not `path /es/*`: the whole subtree has to map onto the root, so
+	# /es/planes/ has to land on /planes/, not on the homepage. The non-capturing
+	# `(?:/(.*))?` is what keeps this from also matching /espanol or /estiramientos
+	# -- a plain `^/es/?(.*)$` would redirect those to /panol and /tiramientos.
+	@esPrefix path_regexp esprefix ^/es(?:/(.*))?$
+	redir @esPrefix /{re.esprefix.1} permanent
+
 	redir /guias/zonas-de-entrenamiento.pdf /assets/guias/zonas-de-entrenamiento.pdf permanent
 	redir /guias/pre-entreno.pdf /assets/guias/pre-entreno.pdf permanent
 	redir /guias/intervalos.pdf /assets/guias/intervalos.pdf permanent
