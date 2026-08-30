@@ -157,7 +157,11 @@ WITH pv AS (
     COALESCE(
       (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'session_engaged'),
       CAST((SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'session_engaged') AS STRING)
-    ) AS session_engaged
+    ) AS session_engaged,
+    (user_pseudo_id IN UNNEST(@internal)
+     OR (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'traffic_type') = 'internal'
+     OR (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_referrer') LIKE '%localhost%'
+    ) AS is_internal
   FROM `{project}.{dataset}.events_*`
   WHERE _TABLE_SUFFIX BETWEEN @start AND @end
     AND event_name = 'page_view'
@@ -167,13 +171,14 @@ SELECT
   page_path,
   country,
   device_category,
+  is_internal,
   COUNT(*) AS views,
   COUNT(DISTINCT CONCAT(user_pseudo_id, '.', CAST(session_id AS STRING))) AS sessions,
   COUNT(DISTINCT user_pseudo_id) AS total_users,
   COUNT(DISTINCT IF(session_engaged = '1',
         CONCAT(user_pseudo_id, '.', CAST(session_id AS STRING)), NULL)) AS engaged_sessions
 FROM pv
-GROUP BY 1, 2, 3, 4
+GROUP BY 1, 2, 3, 4, 5
 """
 
 # Every event, not a whitelist. The three conversion events the site fires today
@@ -191,19 +196,23 @@ SELECT
       r'^https?://[^/]+([^?#]*)'),
     '/') AS page_path,
   COALESCE(NULLIF(geo.country, ''), '(not set)') AS country,
+  (user_pseudo_id IN UNNEST(@internal)
+   OR (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'traffic_type') = 'internal'
+   OR (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_referrer') LIKE '%localhost%'
+  ) AS is_internal,
   COUNT(*) AS event_count,
   COUNT(DISTINCT user_pseudo_id) AS users
 FROM `{project}.{dataset}.events_*`
 WHERE _TABLE_SUFFIX BETWEEN @start AND @end
-GROUP BY 1, 2, 3, 4
+GROUP BY 1, 2, 3, 4, 5
 """
 
 PAGE_UPSERT = """
     INSERT INTO ga4_page_day
         (data_date, page_path, country, country_iso3, device_category,
-         sessions, total_users, views, engaged_sessions)
+         sessions, total_users, views, engaged_sessions, is_internal)
     VALUES %s
-    ON CONFLICT (data_date, page_path, country, device_category)
+    ON CONFLICT (data_date, page_path, country, device_category, is_internal)
     DO UPDATE SET country_iso3     = EXCLUDED.country_iso3,
                   sessions         = EXCLUDED.sessions,
                   total_users      = EXCLUDED.total_users,
@@ -215,9 +224,9 @@ PAGE_UPSERT = """
 EVENT_UPSERT = """
     INSERT INTO ga4_event_day
         (data_date, event_name, page_path, country, country_iso3,
-         event_count, users)
+         event_count, users, is_internal)
     VALUES %s
-    ON CONFLICT (data_date, event_name, page_path, country)
+    ON CONFLICT (data_date, event_name, page_path, country, is_internal)
     DO UPDATE SET country_iso3 = EXCLUDED.country_iso3,
                   event_count  = EXCLUDED.event_count,
                   users        = EXCLUDED.users,
@@ -264,7 +273,11 @@ WITH ev AS (
     COALESCE(
       (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'session_engaged'),
       CAST((SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'session_engaged') AS STRING)
-    ) AS session_engaged
+    ) AS session_engaged,
+    (user_pseudo_id IN UNNEST(@internal)
+     OR (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'traffic_type') = 'internal'
+     OR (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_referrer') LIKE '%localhost%'
+    ) AS is_internal
   FROM `{project}.{dataset}.events_*`
   WHERE _TABLE_SUFFIX BETWEEN @start AND @end
 ),
@@ -281,25 +294,27 @@ sess AS (
       ARRAY_AGG(IF(event_name = 'page_view', page_path, NULL) IGNORE NULLS
                 ORDER BY event_timestamp LIMIT 1)[SAFE_OFFSET(0)],
       '(no page_view)')    AS landing_page,
-    MAX(session_engaged) = '1' AS engaged
+    MAX(session_engaged) = '1' AS engaged,
+    -- LOGICAL_OR, not MIN: one internal event condemns the whole session.
+    LOGICAL_OR(is_internal) AS is_internal
   FROM ev
   GROUP BY session_key
 )
 SELECT
-  data_date, landing_page, source, medium, campaign, country,
+  data_date, landing_page, source, medium, campaign, country, is_internal,
   COUNT(*)                        AS sessions,
   COUNT(DISTINCT user_pseudo_id)  AS total_users,
   COUNTIF(engaged)                AS engaged_sessions
 FROM sess
-GROUP BY 1, 2, 3, 4, 5, 6
+GROUP BY 1, 2, 3, 4, 5, 6, 7
 """
 
 TRAFFIC_UPSERT = """
     INSERT INTO ga4_traffic_day
         (data_date, landing_page, source, medium, campaign, country, country_iso3,
-         sessions, total_users, engaged_sessions)
+         sessions, total_users, engaged_sessions, is_internal)
     VALUES %s
-    ON CONFLICT (data_date, landing_page, source, medium, campaign, country)
+    ON CONFLICT (data_date, landing_page, source, medium, campaign, country, is_internal)
     DO UPDATE SET country_iso3     = EXCLUDED.country_iso3,
                   sessions         = EXCLUDED.sessions,
                   total_users      = EXCLUDED.total_users,
@@ -308,22 +323,43 @@ TRAFFIC_UPSERT = """
 """
 
 
-def run_bq(client, sql, dataset, start, end):
+def run_bq(client, sql, dataset, start, end, internal=None):
     job_config = bigquery.QueryJobConfig(query_parameters=[
         bigquery.ScalarQueryParameter("start", "STRING", start.strftime("%Y%m%d")),
         bigquery.ScalarQueryParameter("end", "STRING", end.strftime("%Y%m%d")),
+        # Always passed, even to queries that ignore it: an unused query
+        # parameter is harmless, a missing one is a hard error.
+        bigquery.ArrayQueryParameter("internal", "STRING", internal or []),
     ])
     return list(client.query(
         sql.format(project=BQ_PROJECT, dataset=dataset), job_config=job_config
     ).result())
 
 
-def write_rows(conn, sql, rows):
-    if not rows:
-        return 0
+def replace_window(conn, table, sql, rows, start, end):
+    """Delete this date window, then insert. One transaction, no commit here.
+
+    NOT an upsert, and the difference is not academic. These are re-derived
+    AGGREGATES: a row is a (date, page, country, ...) combination that happened
+    to exist when the window was last read. An upsert can update a row and it
+    can add a row, but it can never REMOVE one that should no longer exist --
+    so a stale row survives forever and is silently added to every total.
+
+    Two ways that bites here, both real:
+      * a row's classification changes -- exactly what the is_internal column
+        did on Aug 30 2026: the old is_internal=FALSE rows sat alongside the new
+        TRUE ones, and a test showed 78 sessions where the truth was 45;
+      * GA4 revises a day and a combination stops existing.
+
+    The DELETE and the INSERT share one transaction (no commit between), so a
+    failed query rolls back rather than leaving a hole where the data was.
+    """
     with conn.cursor() as cur:
-        execute_values(cur, sql, rows, page_size=1000)
-    conn.commit()
+        cur.execute(
+            f"DELETE FROM {table} WHERE data_date BETWEEN %s AND %s", (start, end)
+        )
+        if rows:
+            execute_values(cur, sql, rows, page_size=1000)
     return len(rows)
 
 
@@ -341,6 +377,77 @@ def record_run(conn, source, started, window_start, window_end,
              fetched, written, status, detail),
         )
     conn.commit()
+
+
+# ---------------------------------------------------------------------------
+# Self-traffic detection. Runs BEFORE the three data pulls, and its output is
+# an input to them.
+#
+# Deliberately flat SQL -- no aggregate functions, no window functions. Four
+# BigQuery syntax errors were made in one evening writing clever queries that
+# nothing could parse before they reached the box (an illegal `\_` escape, then
+# IGNORE NULLS on STRING_AGG). Python does the grouping; Python can be tested.
+#
+# The rules, and the assumption under each one:
+#   telegram  -- Hermes messages Iván links over Telegram and nobody else gets
+#                them. BREAKS if links are ever shared with athletes that way.
+#   localhost -- a page_referrer of localhost means the Eleventy dev server.
+#                Flags the DEVICE, so its ordinary browsing is caught too.
+#   internal  -- GA4's own internal-traffic rule, once one is defined. This is
+#                the only rule that survives a cookie reset, which is why the
+#                GA4-side filter still matters.
+DETECT_SQL = """
+SELECT
+  user_pseudo_id,
+  LOWER(COALESCE(session_traffic_source_last_click.manual_campaign.source, '')) AS src,
+  (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_referrer') AS ref,
+  (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'traffic_type') AS ttype
+FROM `{project}.{dataset}.events_*`
+WHERE _TABLE_SUFFIX BETWEEN @start AND @end
+  AND (
+    (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_referrer') LIKE '%localhost%'
+    OR LOWER(COALESCE(session_traffic_source_last_click.manual_campaign.source, '')) = 'web.telegram.org'
+    OR (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'traffic_type') = 'internal'
+  )
+"""
+
+
+def refresh_internal_devices(conn, client, dataset, start, end):
+    """Detect self-traffic devices in this window, persist them, return the full list.
+
+    Persisted rather than re-derived, because the nightly run only sees a
+    3-day window: a device that hit localhost in July would otherwise stop
+    being recognised the day it fell out of the window, and its ordinary
+    browsing would silently rejoin the numbers.
+    """
+    found = {}
+    for r in run_bq(client, DETECT_SQL, dataset, start, end):
+        if r.ttype == "internal":
+            reason = "traffic_type"
+        elif r.ref and "localhost" in r.ref:
+            reason = "localhost"
+        else:
+            reason = "telegram"
+        found.setdefault(r.user_pseudo_id, reason)
+
+    if found:
+        with conn.cursor() as cur:
+            execute_values(
+                cur,
+                """
+                INSERT INTO analytics_internal_devices (user_pseudo_id, reason)
+                VALUES %s ON CONFLICT (user_pseudo_id) DO NOTHING
+                """,
+                list(found.items()),
+            )
+        conn.commit()
+
+    with conn.cursor() as cur:
+        cur.execute("SELECT user_pseudo_id FROM analytics_internal_devices;")
+        known = [row[0] for row in cur.fetchall()]
+    log(f"self-traffic: {len(found)} device(s) matched in window, "
+        f"{len(known)} known in total")
+    return known
 
 
 def main():
@@ -370,7 +477,9 @@ def main():
     unmapped = set()
 
     try:
-        page_api = run_bq(client, PAGE_SQL, dataset, start, end)
+        internal = refresh_internal_devices(conn, client, dataset, start, end)
+
+        page_api = run_bq(client, PAGE_SQL, dataset, start, end, internal)
         page_rows = []
         for r in page_api:
             iso3, unexpected = to_iso3(r.country)
@@ -379,11 +488,11 @@ def main():
             page_rows.append((
                 r.data_date, r.page_path, r.country, iso3, r.device_category,
                 int(r.sessions), int(r.total_users), int(r.views),
-                int(r.engaged_sessions),
+                int(r.engaged_sessions), bool(r.is_internal),
             ))
-        page_written = write_rows(conn, PAGE_UPSERT, page_rows)
+        page_written = replace_window(conn, 'ga4_page_day', PAGE_UPSERT, page_rows, start, end)
 
-        event_api = run_bq(client, EVENT_SQL, dataset, start, end)
+        event_api = run_bq(client, EVENT_SQL, dataset, start, end, internal)
         event_rows = []
         for r in event_api:
             iso3, unexpected = to_iso3(r.country)
@@ -391,11 +500,11 @@ def main():
                 unmapped.add(r.country)
             event_rows.append((
                 r.data_date, r.event_name, r.page_path, r.country, iso3,
-                int(r.event_count), int(r.users),
+                int(r.event_count), int(r.users), bool(r.is_internal),
             ))
-        event_written = write_rows(conn, EVENT_UPSERT, event_rows)
+        event_written = replace_window(conn, 'ga4_event_day', EVENT_UPSERT, event_rows, start, end)
 
-        traffic_api = run_bq(client, TRAFFIC_SQL, dataset, start, end)
+        traffic_api = run_bq(client, TRAFFIC_SQL, dataset, start, end, internal)
         traffic_rows = []
         for r in traffic_api:
             iso3, unexpected = to_iso3(r.country)
@@ -404,9 +513,12 @@ def main():
             traffic_rows.append((
                 r.data_date, r.landing_page, r.source, r.medium, r.campaign,
                 r.country, iso3, int(r.sessions), int(r.total_users),
-                int(r.engaged_sessions),
+                int(r.engaged_sessions), bool(r.is_internal),
             ))
-        traffic_written = write_rows(conn, TRAFFIC_UPSERT, traffic_rows)
+        traffic_written = replace_window(conn, 'ga4_traffic_day', TRAFFIC_UPSERT, traffic_rows, start, end)
+
+        # All three windows land or none of them do.
+        conn.commit()
 
         # `detail` is assembled AFTER all three pulls, deliberately. It was
         # first written between the event and traffic pulls, which meant a

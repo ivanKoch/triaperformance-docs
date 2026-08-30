@@ -166,6 +166,68 @@ CREATE INDEX IF NOT EXISTS analytics_sync_log_source_started_idx
 
 
 -- ============================================================================
+-- 7. Self-traffic exclusion. Added August 30, 2026.
+--
+--    WHY: on the first six weeks of GA4 data, AT LEAST 25% of sessions were
+--    Iván's own -- 54 from the laptop that receives Hermes's Telegram links,
+--    plus 11 from machines running the Eleventy dev server. `plan_views_clean`
+--    has filtered bots and his own IP out of the pixel data since July; the GA4
+--    tables shipped with no equivalent, and the monthly close was about to read
+--    them.
+--
+--    WHY NOT JUST GA4'S OWN FILTER: an Active exclude filter does reach
+--    BigQuery (Google: excluded data "is never processed and will never be
+--    available in Google Analytics or BigQuery") -- but filters are NEVER
+--    retroactive, and July 21 -> today is currently *all* the GA4 data there
+--    is. No console setting can clean the history. This can.
+--
+--    WHY RULES AND NOT A LIST OF DEVICE IDs: `user_pseudo_id` is a cookie. It
+--    changes on clearing cookies, a new browser, a private window. A hand-kept
+--    list is stale the moment it is written. The rules below re-derive the list
+--    from evidence on every run.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS analytics_internal_devices (
+    user_pseudo_id  TEXT        PRIMARY KEY,
+    reason          TEXT        NOT NULL,   -- 'telegram' | 'localhost' | 'traffic_type' | 'manual'
+    first_seen      TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- is_internal joins the grain of all three GA4 tables, and therefore their
+-- unique keys: two rows that differ only by is_internal are different rows.
+ALTER TABLE ga4_page_day    ADD COLUMN IF NOT EXISTS is_internal BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE ga4_event_day   ADD COLUMN IF NOT EXISTS is_internal BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE ga4_traffic_day ADD COLUMN IF NOT EXISTS is_internal BOOLEAN NOT NULL DEFAULT FALSE;
+
+-- Constraint swap, guarded so the whole file stays re-runnable.
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'ga4_page_day_uk') THEN
+        ALTER TABLE ga4_page_day DROP CONSTRAINT ga4_page_day_uk;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'ga4_page_day_uk2') THEN
+        ALTER TABLE ga4_page_day ADD CONSTRAINT ga4_page_day_uk2
+            UNIQUE (data_date, page_path, country, device_category, is_internal);
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'ga4_event_day_uk') THEN
+        ALTER TABLE ga4_event_day DROP CONSTRAINT ga4_event_day_uk;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'ga4_event_day_uk2') THEN
+        ALTER TABLE ga4_event_day ADD CONSTRAINT ga4_event_day_uk2
+            UNIQUE (data_date, event_name, page_path, country, is_internal);
+    END IF;
+
+    IF EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'ga4_traffic_day_uk') THEN
+        ALTER TABLE ga4_traffic_day DROP CONSTRAINT ga4_traffic_day_uk;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'ga4_traffic_day_uk2') THEN
+        ALTER TABLE ga4_traffic_day ADD CONSTRAINT ga4_traffic_day_uk2
+            UNIQUE (data_date, landing_page, source, medium, campaign, country, is_internal);
+    END IF;
+END $$;
+
+
+-- ============================================================================
 -- Views. Average position is computed HERE and nowhere else.
 -- ============================================================================
 
@@ -272,6 +334,7 @@ WITH gsc AS (
     FROM ga4_page_day
     WHERE data_date >= CURRENT_DATE - INTERVAL '28 days'
       AND country_iso3 IS NOT NULL
+      AND NOT is_internal          -- added Aug 30, 2026; see section 7
     GROUP BY country_iso3
 )
 SELECT
@@ -402,5 +465,16 @@ SELECT
     sessions,
     total_users,
     engaged_sessions
-FROM ga4_traffic_day;
+FROM ga4_traffic_day
+WHERE NOT is_internal;   -- reporting view: self-traffic excluded (see section 7)
 
+
+-- ---------------------------------------------------------------------------
+-- The _clean views. Same pattern as plan_views / plan_views_clean: the raw
+-- tables keep everything for audit, and the views are what anything reporting
+-- should read. Nothing is deleted -- an exclusion you cannot inspect is an
+-- exclusion you cannot debug.
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE VIEW ga4_page_clean    AS SELECT * FROM ga4_page_day    WHERE NOT is_internal;
+CREATE OR REPLACE VIEW ga4_event_clean   AS SELECT * FROM ga4_event_day   WHERE NOT is_internal;
+CREATE OR REPLACE VIEW ga4_traffic_clean AS SELECT * FROM ga4_traffic_day WHERE NOT is_internal;

@@ -2,6 +2,23 @@
    Defined once here instead of pasted into every page — which is how
    Clarity ended up missing from all 9 members pages in the hand-written site.
    Set `noClarity: true` in a page's front matter to opt that page out. #}
+{# Localhost guard, added Aug 30, 2026. The dev server was firing real GA4 hits:
+   10 sessions in the first six weeks of data arrived with referrer
+   `localhost:8080`. Every `npx eleventy --serve` session was writing into the
+   production property.
+
+   A GA4 Data Filter set to Active would also exclude this (Google: excluded
+   data "is never processed and will never be available in Google Analytics or
+   BigQuery"). This guard is still the better fix, for two reasons: it stops the
+   hit being SENT rather than discarding it after collection, so it costs
+   nothing and cannot be silently switched off in a console someone else
+   administers; and a GA4 exclude filter is irreversible — the data is gone, not
+   flagged — which is a heavier instrument than a dev server deserves. #}
+<script>
+  window.__tpAnalyticsOff =
+    ['localhost', '127.0.0.1', '0.0.0.0', '[::1]'].indexOf(location.hostname) !== -1
+    || location.hostname.endsWith('.local');
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.analytics.ga4 }}"></script>
 <script>
@@ -9,15 +26,19 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', '{{ site.analytics.ga4 }}');
+  if (!window.__tpAnalyticsOff) {
+    gtag('config', '{{ site.analytics.ga4 }}');
+  }
 </script>
 {% if not noClarity %}
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "{{ site.analytics.clarity }}");
+    if (!window.__tpAnalyticsOff) {
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "{{ site.analytics.clarity }}");
+    }
 </script>
 {% endif %}

@@ -268,11 +268,22 @@ URL_UPSERT = """
 """
 
 
-def write_rows(conn, sql, rows):
-    if not rows:
-        return 0
+def replace_day(conn, table, sql, rows, day):
+    """Delete this day's rows, then insert. One transaction per day.
+
+    Same reasoning as the GA4 script: an upsert cannot REMOVE a row that should
+    no longer exist. Search Console revises the last several days, and a query
+    that appeared on Tuesday can be absent from Tuesday's revised data -- an
+    upsert leaves the old row in place and it is counted forever.
+
+    ON CONFLICT is kept on the INSERT as belt-and-braces (a duplicate inside a
+    single day's response would still be absorbed), but it is no longer what
+    makes a re-run correct. The DELETE is.
+    """
     with conn.cursor() as cur:
-        execute_values(cur, sql, rows, page_size=1000)
+        cur.execute(f"DELETE FROM {table} WHERE data_date = %s", (day,))
+        if rows:
+            execute_values(cur, sql, rows, page_size=1000)
     conn.commit()
     return len(rows)
 
@@ -328,8 +339,10 @@ def main():
 
             site_fetched += len(site_api)
             url_fetched += len(url_api)
-            site_written += write_rows(conn, SITE_UPSERT, to_site_rows(day, site_api))
-            url_written += write_rows(conn, URL_UPSERT, to_url_rows(day, url_api))
+            site_written += replace_day(conn, 'gsc_site_query', SITE_UPSERT,
+                                        to_site_rows(day, site_api), day)
+            url_written += replace_day(conn, 'gsc_url_query', URL_UPSERT,
+                                       to_url_rows(day, url_api), day)
 
             if len(site_api) or len(url_api):
                 log(f"  {day}: {len(site_api)} site row(s), {len(url_api)} url row(s)")
