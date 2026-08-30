@@ -88,11 +88,17 @@ def find_ga4_dataset(client):
 
     GA4 exports into `analytics_<property_id>`. Discovering it means the numeric
     property id never has to be written down anywhere, and never goes stale.
+
+    STARTS_WITH rather than LIKE 'analytics\\_%': in LIKE, `_` is a single-char
+    wildcard, and escaping it as `\\_` is an ILLEGAL ESCAPE SEQUENCE in a normal
+    BigQuery string literal (it needs a raw string). Found the hard way on the
+    first real run, Aug 29 2026. STARTS_WITH has no escaping semantics at all,
+    which is the point.
     """
     rows = list(client.query(f"""
         SELECT schema_name
         FROM `{BQ_PROJECT}`.INFORMATION_SCHEMA.SCHEMATA
-        WHERE schema_name LIKE 'analytics\\_%'
+        WHERE STARTS_WITH(schema_name, 'analytics_')
         ORDER BY schema_name
     """).result())
     names = [r.schema_name for r in rows]
@@ -113,9 +119,9 @@ def find_ga4_dataset(client):
 
 def earliest_export_day(client, dataset):
     rows = list(client.query(f"""
-        SELECT MIN(table_id) AS first_table
-        FROM `{BQ_PROJECT}.{dataset}`.__TABLES_SUMMARY__
-        WHERE table_id LIKE 'events\\_2%'
+        SELECT MIN(table_name) AS first_table
+        FROM `{BQ_PROJECT}.{dataset}`.INFORMATION_SCHEMA.TABLES
+        WHERE STARTS_WITH(table_name, 'events_2')
     """).result())
     first = rows[0].first_table
     if not first:
