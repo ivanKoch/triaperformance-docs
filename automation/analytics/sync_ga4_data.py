@@ -152,8 +152,8 @@ WITH pv AS (
         (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),
         r'^https?://[^/]+([^?#]*)'),
       '/') AS page_path,
-    COALESCE(geo.country, '(not set)') AS country,
-    COALESCE(device.category, '(not set)') AS device_category,
+    COALESCE(NULLIF(geo.country, ''), '(not set)') AS country,
+    COALESCE(NULLIF(device.category, ''), '(not set)') AS device_category,
     COALESCE(
       (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'session_engaged'),
       CAST((SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'session_engaged') AS STRING)
@@ -190,7 +190,7 @@ SELECT
       (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),
       r'^https?://[^/]+([^?#]*)'),
     '/') AS page_path,
-  COALESCE(geo.country, '(not set)') AS country,
+  COALESCE(NULLIF(geo.country, ''), '(not set)') AS country,
   COUNT(*) AS event_count,
   COUNT(DISTINCT user_pseudo_id) AS users
 FROM `{project}.{dataset}.events_*`

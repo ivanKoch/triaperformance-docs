@@ -83,6 +83,11 @@ COUNTRY_TO_ISO3 = {
     "Indonesia": "IDN",
     "Israel": "ISR",
     "United Arab Emirates": "ARE",
+    # Added Aug 30, 2026 — named by the first real backfill, not guessed.
+    "Hong Kong": "HKG",
+    "Pakistan": "PAK",
+    "Slovenia": "SVN",
+    "Vietnam": "VNM",
 }
 
 # GA4 uses this literal string for traffic it cannot geolocate. It is a real
