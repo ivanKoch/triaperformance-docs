@@ -69,6 +69,7 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 - `brand-guidelines.md` — color, type, layout, components, the members-area dark theme (§7.1), voice (§8), page inventory (§9).
 - `build-log.md` — narrative incident log (the numbered "problems solved").
 - `infrastructure.html` — the visual infra/SEO status board.
+- `security-posture.md` *(added Aug 30, 2026)* — **home doc for security.** Owns every finding (numbered F1–F11), its status, what was verified against the repo versus what still needs a live check, the standing decisions, and the list of what is already right and should not be re-litigated. Read it before touching auth, credentials, public endpoints, or the deploy chain. Open security items live in `open-loops.md` like everything else and point back here by F-number.
 
 **Runbooks — read the relevant one before touching that system**
 

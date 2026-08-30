@@ -4,11 +4,11 @@ Sync Google Search Console performance data into the analytics Postgres on the V
 
     Nightly (rolling re-pull of the last 5 days):
         ~/.analytics/venv/bin/python \
-            ~/triaperformance-docs/automation/analytics/sync_gsc_data.py
+            ~/.hermes/triaperformance-docs/automation/analytics/sync_gsc_data.py
 
     One-time historical backfill (16 months, the full GSC window):
         ~/.analytics/venv/bin/python \
-            ~/triaperformance-docs/automation/analytics/sync_gsc_data.py --backfill
+            ~/.hermes/triaperformance-docs/automation/analytics/sync_gsc_data.py --backfill
 
     Narrower re-pull, e.g. after fixing something:
         ... sync_gsc_data.py --start 2026-07-01 --end 2026-07-31

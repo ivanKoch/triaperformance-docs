@@ -5,11 +5,11 @@ daily export that has been running since July 21, 2026.
 
     Nightly (rolling re-pull of the last 3 days):
         ~/.analytics/venv/bin/python \
-            ~/triaperformance-docs/automation/analytics/sync_ga4_data.py
+            ~/.hermes/triaperformance-docs/automation/analytics/sync_ga4_data.py
 
     Everything the export holds (its first day to now):
         ~/.analytics/venv/bin/python \
-            ~/triaperformance-docs/automation/analytics/sync_ga4_data.py --backfill
+            ~/.hermes/triaperformance-docs/automation/analytics/sync_ga4_data.py --backfill
 
 
 WHY THE BIGQUERY EXPORT AND NOT THE GA4 DATA API

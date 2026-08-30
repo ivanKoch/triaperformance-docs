@@ -2,7 +2,7 @@
 -- Search Console + GA4 tables for the analytics Postgres on the VPS.
 --
 --   psql:  docker exec -i analytics-postgres psql -U <PG_USER> -d analytics \
---            < ~/triaperformance-docs/automation/analytics/schema_analytics.sql
+--            < ~/.hermes/triaperformance-docs/automation/analytics/schema_analytics.sql
 --
 -- Safe to re-run: every statement is IF NOT EXISTS / OR REPLACE.
 --
