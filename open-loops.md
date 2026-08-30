@@ -281,8 +281,10 @@ This file replaces the open-item lists previously scattered across `ai-infrastru
   **Ivan's — three steps, none doable from the repo:**
   1. **Apply the schema** (the whole file is idempotent — every statement is `IF NOT EXISTS` or `OR REPLACE`):
   ```
-  docker exec -i analytics-postgres psql -U analytics -d content < /opt/data/triaperformance-docs/automation/content-engine/schema.sql
+  cd ~/.hermes/triaperformance-docs && git pull
+  docker exec -i analytics-postgres psql -U analytics -d content < ~/.hermes/triaperformance-docs/automation/content-engine/schema.sql
   ```
+  *Corrected Aug 30, 2026, same session — this first read `/opt/data/triaperformance-docs/...`, which is the path* ***inside*** *the Hermes container (`HERMES_HOME=/opt/data`), pasted into a command running on the* ***host***, *where the mirror is `~/.hermes/triaperformance-docs`. Same host/container path confusion as the §18 dispatcher bug, in the opposite direction. **The pull is not optional**: the schema file only exists on the VPS after the laptop clone is committed and pushed.*
   2. **Settle the share with one number.** Read total tokens for **Aug 22** off the AI Studio chart and compare to **~61k**. *If Studio is an order of magnitude higher, the content engine is noise and this whole question is Hermes.* **Report the number back — that decides whether step 3 is the real work or a footnote.**
   3. **Find out whether Hermes records per-turn usage at all**: `docker logs hermes-gateway 2>&1 | grep -iE "token|usage" | tail -20` and a look in `~/.hermes/sessions/`. *If it does, it can be fed into `model_usage` with `caller='hermes'`. If it does not,* ***that*** *is the real open item: the largest spender on this key is unmeasured, and* ***auto-reload has been ON since Aug 10 ($7 floor, $30 top-up), so the system no longer fails closed on a spend spike*** *— the exact protection §33's original billing note described.*
   **Verification, once rows exist:** `docker exec -it analytics-postgres psql -U analytics -d content -c "SELECT * FROM model_usage_by_day LIMIT 14;"` — then `model_usage_daily` for the same days to see who drove them.
