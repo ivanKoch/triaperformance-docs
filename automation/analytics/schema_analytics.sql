@@ -580,3 +580,31 @@ SELECT COALESCE(m.month, r.month) AS month,
        COALESCE(r.new_reviews, 0) AS new_reviews, r.avg_new_rating
 FROM m FULL OUTER JOIN r ON m.month = r.month
 ORDER BY 1 DESC;
+
+-- ---------------------------------------------------------------------------
+-- gbp_posts_sent — what has been published to Google Business Profile.
+-- Added August 30, 2026.
+--
+-- THIS IS A LEDGER, NOT A QUEUE, and that distinction is the design.
+--
+-- `content_pieces` in the `content` database already knows what articles exist
+-- and which are published. A second table listing "what to post next" would be
+-- a competing list, and this repo's standing rule is one home per list —
+-- competing lists drift, and the drift shows up as a post that goes out twice
+-- or an article that never goes out at all.
+--
+-- So the queue is DERIVED: published ES pieces, minus the piece_ids in here,
+-- oldest first. Nothing to maintain, nothing to fall out of sync.
+--
+-- A row is written only AFTER Google returns a localPost name. A failed post
+-- leaves no row and is simply retried on the next run.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS gbp_posts_sent (
+    piece_id        INTEGER     PRIMARY KEY,   -- content.content_pieces.id
+    language        TEXT        NOT NULL,
+    local_post_name TEXT        NOT NULL,      -- Google's own id for the post
+    published_url   TEXT        NOT NULL,
+    posted_at       TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS gbp_posts_sent_posted_idx ON gbp_posts_sent (posted_at DESC);
