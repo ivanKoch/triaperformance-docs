@@ -47,6 +47,7 @@ from the doc that owns it. Nothing in this script types a figure.
 
 import argparse
 import os
+import re
 import sys
 import textwrap
 from datetime import datetime, timezone
@@ -91,6 +92,14 @@ def auth_headers():
     return {"Authorization": f"Bearer {c.token}"}
 
 
+def last_image(conn):
+    with conn.cursor() as cur:
+        cur.execute("SELECT image_url FROM gbp_posts_sent "
+                    "WHERE image_url IS NOT NULL ORDER BY posted_at DESC LIMIT 1")
+        row = cur.fetchone()
+    return row[0] if row else None
+
+
 def hours_since_last_post(conn):
     with conn.cursor() as cur:
         cur.execute("SELECT EXTRACT(EPOCH FROM (now() - MAX(posted_at)))/3600 "
@@ -106,7 +115,7 @@ def next_piece(acon, ccon):
         sent = {r[0] for r in cur.fetchall()}
     with ccon.cursor() as cur:
         cur.execute("""
-            SELECT id, slug, headline, standfirst, description, published_url, published_at
+            SELECT id, slug, topic, headline, standfirst, description, published_url, published_at
             FROM content_pieces
             WHERE language = %s
               AND published_at IS NOT NULL
@@ -146,6 +155,111 @@ def build_url(published_url, slug):
             f"&utm_campaign={slug}")
 
 
+# ---------------------------------------------------------------------------
+# Photos.
+#
+# The pool is rebuilt here the same way site/_data/blogImages.js builds it —
+# sorted filenames, trailing `-<digits>` stripped so `running-3.jpg` groups
+# under `running` — and the pick uses the SAME hash as the `cardImage` filter
+# in .eleventy.js. That is deliberate: the photo on the GBP post is then the
+# same photo on the article's own blog card, so the two surfaces agree.
+# Inventing a second rule here would be a second source of truth for "which
+# photo belongs to this article".
+#
+# ONE FILE IS EXCLUDED BY SIZE, AND IT IS NOT HYPOTHETICAL:
+# site/assets/images/blog/topics/nutrition.jpg is an 8-BYTE PLACEHOLDER, still
+# live, still in the pool, and already logged in open-loops.md as rendering a
+# broken card. Google fetches the sourceUrl and would reject it. The 10KB floor
+# is also Google's own documented minimum for a local-post photo, so one guard
+# covers both.
+# Derived from this file's own location, never from `~`. §18 records a
+# dispatcher that broke on its first live run because os.path.expanduser("~")
+# resolved to a different home under the process that invoked it. The images
+# live in the same clone as this script; ../../site is that relationship stated
+# directly, and it cannot be wrong under a different HOME.
+IMAGES_DIR = os.path.normpath(os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "..", "..", "site", "assets", "images", "blog"))
+SITE = "https://triaperformance.com"
+MIN_IMAGE_BYTES = 10 * 1024
+EXT = (".jpg", ".jpeg", ".png", ".webp", ".avif")
+
+
+def _strip_ext(name):
+    for e in EXT:
+        if name.lower().endswith(e):
+            return name[: -len(e)]
+    return name
+
+
+def build_pools():
+    """{topic: [public_url, ...]} plus {slug: url} for pinned article photos."""
+    topics, articles = {}, {}
+    tdir = os.path.join(IMAGES_DIR, "topics")
+    adir = os.path.join(IMAGES_DIR, "articles")
+    if os.path.isdir(tdir):
+        # sorted() so the pool order matches the Eleventy build on any machine —
+        # readdir order is filesystem-dependent and would shift every pick.
+        for fn in sorted(os.listdir(tdir)):
+            if not fn.lower().endswith(EXT):
+                continue
+            if os.path.getsize(os.path.join(tdir, fn)) < MIN_IMAGE_BYTES:
+                log(f"  skipping {fn} — under {MIN_IMAGE_BYTES // 1024}KB, "
+                    "almost certainly a placeholder")
+                continue
+            key = re.sub(r"-\d+$", "", _strip_ext(fn))
+            topics.setdefault(key, []).append(f"{SITE}/assets/images/blog/topics/{fn}")
+    if os.path.isdir(adir):
+        for fn in sorted(os.listdir(adir)):
+            if not fn.lower().endswith(EXT):
+                continue
+            if os.path.getsize(os.path.join(adir, fn)) < MIN_IMAGE_BYTES:
+                continue
+            articles[_strip_ext(fn)] = f"{SITE}/assets/images/blog/articles/{fn}"
+    return topics, articles
+
+
+def _slug_hash(slug):
+    """Byte-for-byte the hash in .eleventy.js's cardImage filter:
+        h = (Math.imul(h, 31) + slug.charCodeAt(i)) >>> 0
+    Signed 32-bit multiply then unsigned coercion is the same bit pattern as a
+    mod-2**32 multiply, so the mask reproduces it exactly. (Slugs here are
+    ASCII; charCodeAt is UTF-16 code units, which only diverges from ord()
+    above the BMP.)"""
+    h = 0
+    for ch in slug:
+        h = (h * 31 + ord(ch)) & 0xFFFFFFFF
+    return h
+
+
+def pick_image(topics, articles, topic, slug, avoid=None):
+    """The article's own card photo — unless that is the one posted last time.
+
+    Iván's requirement is 'not the same photo twice in a row'. Consecutive
+    articles often share a topic, and with a pool of 4-10 the hash will
+    sometimes land on the same file two posts running. When it does, step to the
+    next photo in the pool rather than repeating.
+    """
+    if slug in articles:
+        return articles[slug]
+    pool = topics.get(topic or "")
+    if not pool:
+        return None
+    i = _slug_hash(slug) % len(pool)
+    if avoid and pool[i] == avoid and len(pool) > 1:
+        i = (i + 1) % len(pool)
+    return pool[i]
+
+
+def image_is_reachable(url):
+    """Google FETCHES sourceUrl; a 404 fails the whole post. Cheaper to check."""
+    try:
+        r = requests.head(url, timeout=20, allow_redirects=True)
+        return r.status_code == 200
+    except requests.RequestException:
+        return False
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
@@ -166,17 +280,30 @@ def main():
             log(f"nothing to post — every published {LANGUAGE} article is already on GBP")
             return
 
-        pid, slug, headline, standfirst, description, url, published_at = piece
+        pid, slug, topic, headline, standfirst, description, url, published_at = piece
         summary = build_summary(headline, standfirst, description)
         cta_url = build_url(url, slug)
 
-        log(f"piece {pid} ({slug}), published {published_at:%Y-%m-%d}")
+        topics_pool, articles_pool = build_pools()
+        image = pick_image(topics_pool, articles_pool, topic, slug,
+                           avoid=last_image(acon))
+        if image and not args.dry_run and not image_is_reachable(image):
+            # Post without the photo rather than failing: a post with no image
+            # is worth more than no post. The likely cause is that the site has
+            # not been deployed since the photo was added.
+            log(f"  image not reachable, posting without it: {image}")
+            image = None
+
+        log(f"piece {pid} ({slug}), topic={topic}, published {published_at:%Y-%m-%d}")
         if args.dry_run:
             print("-" * 66)
             print(summary)
             print("-" * 66)
             print(f"languageCode: {LANGUAGE}")
             print(f"CTA LEARN_MORE → {cta_url}")
+            print(f"photo        → {image or '(none — no photo for this topic)'}")
+            if image:
+                print(f"reachable    → {image_is_reachable(image)}")
             print("-" * 66)
             print("(dry run — nothing sent)")
             return
@@ -190,6 +317,8 @@ def main():
             "topicType": "STANDARD",
             "callToAction": {"actionType": "LEARN_MORE", "url": cta_url},
         }
+        if image:
+            body["media"] = [{"mediaFormat": "PHOTO", "sourceUrl": image}]
         r = requests.post(f"{V4}/{ACCOUNT}/{LOCATION}/localPosts",
                           headers=auth_headers(), json=body, timeout=60)
         if r.status_code not in (200, 201):
@@ -201,11 +330,11 @@ def main():
         # row and is simply retried tomorrow.
         with acon.cursor() as cur:
             cur.execute("""INSERT INTO gbp_posts_sent
-                (piece_id, language, local_post_name, published_url)
-                VALUES (%s,%s,%s,%s) ON CONFLICT (piece_id) DO NOTHING""",
-                        (pid, LANGUAGE, name, url))
+                (piece_id, language, local_post_name, published_url, image_url)
+                VALUES (%s,%s,%s,%s,%s) ON CONFLICT (piece_id) DO NOTHING""",
+                        (pid, LANGUAGE, name, url, image))
         acon.commit()
-        log(f"posted → {name}")
+        log(f"posted → {name}  photo={image or 'none'}")
 
         with ccon.cursor() as cur:
             cur.execute("""SELECT COUNT(*) FROM content_pieces

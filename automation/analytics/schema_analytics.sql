@@ -607,4 +607,6 @@ CREATE TABLE IF NOT EXISTS gbp_posts_sent (
     posted_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+ALTER TABLE gbp_posts_sent ADD COLUMN IF NOT EXISTS image_url TEXT;
+
 CREATE INDEX IF NOT EXISTS gbp_posts_sent_posted_idx ON gbp_posts_sent (posted_at DESC);
