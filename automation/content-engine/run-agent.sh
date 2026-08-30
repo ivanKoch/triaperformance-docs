@@ -72,6 +72,12 @@ case "$AGENT" in
   *)         echo "usage: $0 {research|write|translate|notify|publish}" >&2; exit 64 ;;
 esac
 
+# Label this run for the model_usage table. write and translate are the SAME
+# script (writer_agent.py) with different flags, so argv cannot tell them apart
+# and per-caller attribution would collapse them into one line. This is the only
+# place that knows which mode is running.
+export CONTENT_CALLER="$AGENT"
+
 mkdir -p "$LOG_DIR" "$STATE_DIR"
 LOG="$LOG_DIR/content-$AGENT.log"
 STATE="$STATE_DIR/content-$AGENT.status"

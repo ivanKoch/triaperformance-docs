@@ -770,6 +770,7 @@ def call_model(prompt, api_key, model, api_versions=("v1beta", "v1"), expect="js
         gen["responseMimeType"] = "application/json"
     payload = {"contents": [{"parts": [{"text": prompt}]}], "generationConfig": gen}
     last = None
+    t0 = time.monotonic()
     for ver in api_versions:
         url = (f"https://generativelanguage.googleapis.com/{ver}/models/"
                f"{model}:generateContent?key={api_key}")
@@ -794,6 +795,10 @@ def call_model(prompt, api_key, model, api_versions=("v1beta", "v1"), expect="js
             msg = json.loads(body)["error"]["message"]
         except Exception:
             msg = body[:600]
+        # Billed at zero, but recorded: a burst of failures is a real event and
+        # a table that only holds successes cannot show one.
+        log_usage(model=model, api_version=ver, ok=False, http_status=code,
+                  duration_ms=int((time.monotonic() - t0) * 1000), note=msg[:500])
         sys.exit(f"Model call failed on every API version tried "
                  f"({', '.join(api_versions)}).\n"
                  f"Model: {model}\n"
@@ -805,16 +810,24 @@ def call_model(prompt, api_key, model, api_versions=("v1beta", "v1"), expect="js
     # pro models — the gap is reasoning tokens, which are billed at the output
     # rate. Hiding them understates the real cost of a call by roughly half.
     u = data.get("usageMetadata") or {}
+    pin = u.get("promptTokenCount", 0)
+    pout = u.get("candidatesTokenCount", 0)
+    tot = u.get("totalTokenCount", 0)
+    think = u.get("thoughtsTokenCount") or max(0, tot - pin - pout)
     if u:
-        pin = u.get("promptTokenCount", 0)
-        pout = u.get("candidatesTokenCount", 0)
-        tot = u.get("totalTokenCount", 0)
-        think = u.get("thoughtsTokenCount") or max(0, tot - pin - pout)
         parts = [f"{pin:,} in", f"{pout:,} out"]
         if think:
             parts.append(f"{think:,} thinking (billed as output)")
         parts.append(f"{tot:,} total")
         print(f"[model] {model}: " + " / ".join(parts), file=sys.stderr)
+
+    # One row per call, including the ones that answered on a fallback API
+    # version. A retry storm is the exact shape of an unexplained spike, so the
+    # row count matters as much as the token count.
+    log_usage(model=model, api_version=ver, prompt_tokens=pin, output_tokens=pout,
+              thinking_tokens=think, total_tokens=tot, ok=True,
+              duration_ms=int((time.monotonic() - t0) * 1000),
+              finish_reason=(data.get("candidates") or [{}])[0].get("finishReason"))
 
     cand = data["candidates"][0]
     text = cand["content"]["parts"][0]["text"]
@@ -894,6 +907,72 @@ def connect():
         password=password,
         dbname="content",
     )
+
+
+# ---------------------------------------------------------------------------
+# Usage accounting
+#
+# Every Gemini response carries usageMetadata. call_model already computed it
+# and printed it to a log that run-agent.sh trims at 4000 lines — so the numbers
+# existed and then expired. They go to Postgres now because five things on this
+# box share ONE API key, and a per-key dashboard can never say which of them
+# spent the money. Full reasoning in the model_usage block in schema.sql.
+#
+# This must never be able to fail a run. A drafting job that dies because a
+# bookkeeping table was unreachable is a worse bug than having no bookkeeping,
+# so everything here is swallowed and reported on stderr.
+#
+# SystemExit is caught explicitly and that is not paranoia: connect() calls
+# sys.exit() when no Postgres password is present, and SystemExit does not
+# inherit from Exception. Catching only Exception here would mean a missing
+# PG_PASSWORD silently killed the writer mid-article — the instrumentation
+# taking down the thing it was added to measure.
+# ---------------------------------------------------------------------------
+def caller_name():
+    """Who is making this call.
+
+    run-agent.sh exports CONTENT_CALLER, which is the only way to tell `write`
+    from `translate`: both are writer_agent.py and argv alone cannot separate
+    them. The argv fallback is for hand-run invocations.
+    """
+    name = os.environ.get("CONTENT_CALLER", "").strip()
+    if name:
+        return name
+    base = os.path.basename(sys.argv[0] or "")
+    return base[:-3] if base.endswith(".py") else (base or "unknown")
+
+
+def log_usage(**row):
+    """Record one Gemini call. Never raises."""
+    fields = {"caller": caller_name(), "model": None, "api_version": None,
+              "prompt_tokens": 0, "output_tokens": 0, "thinking_tokens": 0,
+              "total_tokens": 0, "duration_ms": None, "ok": True,
+              "http_status": None, "finish_reason": None, "note": None}
+    fields.update(row)
+    conn = None
+    try:
+        conn = connect()
+        conn.autocommit = True
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO model_usage
+                    (caller, model, api_version, prompt_tokens, output_tokens,
+                     thinking_tokens, total_tokens, duration_ms, ok,
+                     http_status, finish_reason, note)
+                VALUES (%(caller)s, %(model)s, %(api_version)s, %(prompt_tokens)s,
+                        %(output_tokens)s, %(thinking_tokens)s, %(total_tokens)s,
+                        %(duration_ms)s, %(ok)s, %(http_status)s,
+                        %(finish_reason)s, %(note)s)
+            """, fields)
+    except (Exception, SystemExit) as e:
+        print(f"[usage] not recorded ({fields['caller']}/{fields['model']}): {e}",
+              file=sys.stderr)
+    finally:
+        if conn is not None:
+            try:
+                conn.close()
+            except Exception:
+                pass
 
 
 VALID_TYPES = {"plan_guide", "education", "gated_teaser", "gear", "case_study"}

@@ -230,3 +230,83 @@ FROM content_ideas i
 WHERE i.status = 'APPROVED'
   AND NOT EXISTS (SELECT 1 FROM content_pieces p WHERE p.idea_id = i.id)
 ORDER BY i.score DESC NULLS LAST;
+
+-- ---------------------------------------------------------------------------
+-- Model usage — one row per Gemini call.
+--
+-- Written by call_model() in research_agent.py, which writer_agent.py imports,
+-- so this covers research, write and translate from one code path.
+--
+-- WHY IT EXISTS: five things on this box call Gemini on ONE shared API key
+-- (research, write, translate, Hermes, the n8n intake briefing). Google's usage
+-- dashboard attributes spend to the KEY, so it can say "3.1-pro spent X on
+-- Tuesday" and can never say which of them did it. This table is the only place
+-- per-caller attribution can exist. The numbers were already in every response:
+-- call_model computed them and printed them to a log run-agent.sh trims at 4000
+-- lines, so they existed and then expired.
+--
+-- thinking_tokens is stored SEPARATELY on purpose. On 3.x models in + out does
+-- not equal total, and the gap is reasoning, billed at the OUTPUT rate. A table
+-- storing only in/out understates a pro call by roughly half — the same reason
+-- the printed line broke it out. Read it as: billed output = output + thinking.
+--
+-- No price column, deliberately. Rates change, and a stored rate is a second
+-- copy of a figure this repo would then have to keep in sync (one home per
+-- figure). Multiply at read time against whatever Google charges today.
+--
+-- `caller` is free text, not an enum, so Hermes and the n8n briefing can be
+-- inserted here later without a migration — they do not go through call_model
+-- and are the two consumers this table cannot see on its own. Values in use:
+-- research, write, translate, hermes, n8n-intake.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS model_usage (
+    id              BIGSERIAL PRIMARY KEY,
+    called_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
+    caller          TEXT        NOT NULL,
+    model           TEXT        NOT NULL,
+    api_version     TEXT,
+    prompt_tokens   INTEGER     NOT NULL DEFAULT 0,
+    output_tokens   INTEGER     NOT NULL DEFAULT 0,
+    thinking_tokens INTEGER     NOT NULL DEFAULT 0,
+    total_tokens    INTEGER     NOT NULL DEFAULT 0,
+    duration_ms     INTEGER,
+    ok              BOOLEAN     NOT NULL DEFAULT TRUE,
+    http_status     INTEGER,
+    finish_reason   TEXT,
+    note            TEXT
+);
+
+CREATE INDEX IF NOT EXISTS model_usage_called_at_idx
+    ON model_usage (called_at DESC);
+CREATE INDEX IF NOT EXISTS model_usage_caller_idx
+    ON model_usage (caller, called_at DESC);
+
+-- Which days are spikes. Ask this one FIRST — identify the day, then ask who.
+-- weekday is here because the whole question was "why is it weekly", and a
+-- date column alone makes you count Mondays by hand.
+CREATE OR REPLACE VIEW model_usage_by_day AS
+SELECT (called_at AT TIME ZONE 'UTC')::date                        AS day,
+       to_char(called_at AT TIME ZONE 'UTC', 'Dy')                 AS weekday,
+       count(*)                                                    AS calls,
+       count(*) FILTER (WHERE NOT ok)                              AS failed,
+       sum(prompt_tokens)                                          AS prompt_tokens,
+       sum(output_tokens + thinking_tokens)                        AS billed_output,
+       sum(total_tokens)                                           AS total_tokens
+FROM model_usage
+GROUP BY 1, 2
+ORDER BY 1 DESC;
+
+-- Who drove it. Same grain, split by caller and model.
+CREATE OR REPLACE VIEW model_usage_daily AS
+SELECT (called_at AT TIME ZONE 'UTC')::date                        AS day,
+       caller,
+       model,
+       count(*)                                                    AS calls,
+       count(*) FILTER (WHERE NOT ok)                              AS failed,
+       sum(prompt_tokens)                                          AS prompt_tokens,
+       sum(output_tokens + thinking_tokens)                        AS billed_output,
+       sum(total_tokens)                                           AS total_tokens,
+       max(duration_ms)                                            AS slowest_ms
+FROM model_usage
+GROUP BY 1, 2, 3
+ORDER BY 1 DESC, total_tokens DESC;
