@@ -458,8 +458,37 @@ def refresh_internal_devices(conn, client, dataset, start, end):
     with conn.cursor() as cur:
         cur.execute("SELECT user_pseudo_id FROM analytics_internal_devices;")
         known = [row[0] for row in cur.fetchall()]
+        cur.execute("SELECT reason, count(*) FROM analytics_internal_devices "
+                    "GROUP BY reason ORDER BY reason;")
+        by_reason = dict(cur.fetchall())
+
+    # PER-RULE COUNTS, added Aug 31, 2026, and the reason is the whole point.
+    #
+    # This function logged ONE aggregate line -- "N matched in window, M known
+    # in total" -- and a rule that has never matched anything looks exactly like
+    # a rule that had nothing to match. On Aug 31 the table was found to hold no
+    # `traffic_type` row AT ALL: GA4's own internal-traffic rule, the only one of
+    # the four that survives a cookie reset, has never tagged a single event
+    # since the pipeline was built. Nothing said so, because nothing counted the
+    # rules separately.
+    #
+    # This is the same lesson as `content-<agent>.status` (section 20): an empty
+    # result that looks like a quiet week. A count per rule, printed every night,
+    # is what turns "we assume the filter works" into "the filter has produced
+    # zero for 31 consecutive days".
     log(f"self-traffic: {len(found)} device(s) matched in window, "
         f"{len(known)} known in total")
+    log("  by rule (cumulative): " + (
+        ", ".join(f"{r}={n}" for r, n in sorted(by_reason.items())) or "none"))
+    if not by_reason.get("traffic_type"):
+        log("  WARNING: the GA4 internal-traffic rule has never tagged an "
+            "event. Self-traffic exclusion currently rests on the cookie-bound "
+            "rules only (localhost/telegram/utm), which do not survive clearing "
+            "cookies and do not reach ordinary browsing from an untagged "
+            "device. Check the rule in GA4 Admin > Data Streams > Configure tag "
+            "settings > Define internal traffic, and that a Data Filter for it "
+            "exists in Testing (not Active -- Active drops the events from the "
+            "BigQuery export entirely and they can never be reclassified).")
     return known
 
 

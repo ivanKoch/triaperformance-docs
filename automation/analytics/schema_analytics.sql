@@ -157,7 +157,12 @@ CREATE TABLE IF NOT EXISTS analytics_sync_log (
     window_end    DATE,
     rows_fetched  INTEGER,
     rows_written  INTEGER,
-    status        TEXT        NOT NULL,   -- 'ok' | 'error'
+    -- 'ok' | 'partial' | 'error'.  'partial' added Aug 31, 2026: a run that
+    -- reached the API, got a valid but EMPTY answer, and therefore declined to
+    -- overwrite what it already had. It is neither a success nor a failure, and
+    -- collapsing it into either one is how the gbp_keywords destructive-write
+    -- bug stayed invisible -- it recorded 'ok' every night while deleting data.
+    status        TEXT        NOT NULL,
     detail        TEXT
 );
 
@@ -478,6 +483,42 @@ WHERE NOT is_internal;   -- reporting view: self-traffic excluded (see section 7
 CREATE OR REPLACE VIEW ga4_page_clean    AS SELECT * FROM ga4_page_day    WHERE NOT is_internal;
 CREATE OR REPLACE VIEW ga4_event_clean   AS SELECT * FROM ga4_event_day   WHERE NOT is_internal;
 CREATE OR REPLACE VIEW ga4_traffic_clean AS SELECT * FROM ga4_traffic_day WHERE NOT is_internal;
+
+
+-- ---------------------------------------------------------------------------
+-- ga4_selftraffic_month — how much of each month was us. Added Aug 31, 2026.
+--
+-- The _clean views above remove self-traffic; this one MEASURES it, which is a
+-- different job and the one the monthly close needs. Two reasons it exists:
+--
+--   1. The exclusion is only as good as the detection, and the detection is
+--      four narrow rules over a cookie. A month where the excluded share
+--      suddenly drops is far more likely to mean the rules stopped catching
+--      Iván than that he stopped browsing his own site.
+--   2. `monthly-close-runbook.md` section 2.4 requires a "what we still can't
+--      see" section. This is that section's evidence for every GA4 row: the
+--      close states the excluded share alongside the clean number, rather than
+--      quoting a clean number as if it were exact.
+--
+-- Sessions come from ga4_traffic_day, never ga4_page_day: one session has one
+-- landing page, so summing there is a session count, while summing page rows
+-- counts the same session once per page it touched.
+--
+-- Read `external_sessions` as the reportable figure and `internal_pct` as the
+-- confidence attached to it. On the first six weeks of data internal_pct was
+-- 25% before Iván confirmed two more devices by hand, and 46% after.
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE VIEW ga4_selftraffic_month AS
+SELECT
+    date_trunc('month', data_date)::date               AS month,
+    SUM(sessions) FILTER (WHERE NOT is_internal)       AS external_sessions,
+    SUM(sessions) FILTER (WHERE is_internal)           AS internal_sessions,
+    SUM(sessions)                                      AS total_sessions,
+    ROUND(100.0 * COALESCE(SUM(sessions) FILTER (WHERE is_internal), 0)
+                / NULLIF(SUM(sessions), 0), 1)         AS internal_pct
+FROM ga4_traffic_day
+GROUP BY 1
+ORDER BY 1;
 
 -- ============================================================================
 -- 8. Google Business Profile. Added August 30, 2026.

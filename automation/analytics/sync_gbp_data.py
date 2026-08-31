@@ -182,6 +182,71 @@ def fetch_keywords(h, start, end):
 
 # ---------------------------------------------------------------------------
 
+def keyword_window_start(start):
+    """First of the month BEFORE `start`'s month. Year rollover included."""
+    return (start.replace(day=1) - timedelta(days=1)).replace(day=1)
+
+
+def keywords_detail(kw_empty, kw_kept):
+    """The sync-log detail string. Separated so the test can assert on it."""
+    if kw_kept:
+        d = "empty fetch, prior rows KEPT: " + ",".join(kw_kept)
+        if kw_empty:
+            d += "; empty with no prior rows: " + ",".join(kw_empty)
+        return d
+    if kw_empty:
+        return "empty fetch, no prior rows: " + ",".join(kw_empty)
+    return None
+
+
+def sync_keywords(conn, h, start, end):
+    #
+    # AN EMPTY FETCH NEVER DELETES. Fixed Aug 31, 2026: the DELETE sat
+    # OUTSIDE the `if krows` guard, so a month that came back empty was
+    # wiped and never re-inserted -- a 200 OK carrying nothing destroyed
+    # stored history. That is the exact inverse of the GA4 upsert bug fixed
+    # the day before, in a script touched in the same session, and the
+    # reviews block thirty lines up already carried the right instinct in a
+    # comment ("deleting first would briefly empty a table that other things
+    # read") without anyone applying it here.
+    #
+    # Keywords are a replace-per-month set, so replacement is the correct
+    # shape -- but only with something to replace them WITH. Within a live
+    # month the value only accretes, and a completed month does not fall
+    # back to zero, so an empty response is never better evidence than what
+    # is already stored. Two empty cases, and only one of them is boring:
+    #   empty, no prior rows    -- unremarkable on a profile doing 60-96
+    #                              views a month. This is the common case
+    #                              and is what Aug 31 2026 actually returned.
+    #   empty, prior rows exist -- suspicious. Either the month has aged out
+    #                              of Google's serving window, or the pull
+    #                              is degraded. The stored rows are the
+    #                              better answer, so they are KEPT and the
+    #                              month is named in the sync log.
+    kw_total = 0
+    kw_empty, kw_kept = [], []
+    m = start.replace(day=1)
+    while m <= end:
+        last = (m.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+        krows = fetch_keywords(h, m, min(last, end))
+        with conn.cursor() as cur:
+            if krows:
+                cur.execute("DELETE FROM gbp_search_keywords "
+                            "WHERE location_id=%s AND month=%s", (LOCATION, m))
+                execute_values(cur, """INSERT INTO gbp_search_keywords
+                    (location_id, month, keyword, value, below_threshold)
+                    VALUES %s""", krows)
+            else:
+                cur.execute("SELECT count(*) FROM gbp_search_keywords "
+                            "WHERE location_id=%s AND month=%s", (LOCATION, m))
+                (kw_kept if cur.fetchone()[0] else kw_empty).append(f"{m:%Y-%m}")
+        conn.commit()
+        kw_total += len(krows)
+        m = (m.replace(day=28) + timedelta(days=4)).replace(day=1)
+
+    return kw_total, kw_empty, kw_kept
+
+
 def record_run(conn, source, started, ws, we, fetched, written, status, detail=None):
     with conn.cursor() as cur:
         cur.execute("""INSERT INTO analytics_sync_log
@@ -253,23 +318,33 @@ def main():
                        "error", str(e)[:1000])
 
         # --- keywords: one month per request, so the month is exact ---
-        kw_total = 0
-        m = start.replace(day=1)
-        while m <= end:
-            last = (m.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
-            krows = fetch_keywords(h, m, min(last, end))
-            with conn.cursor() as cur:
-                cur.execute("DELETE FROM gbp_search_keywords WHERE location_id=%s AND month=%s",
-                            (LOCATION, m))
-                if krows:
-                    execute_values(cur, """INSERT INTO gbp_search_keywords
-                        (location_id, month, keyword, value, below_threshold)
-                        VALUES %s""", krows)
-            conn.commit()
-            kw_total += len(krows)
-            m = (m.replace(day=28) + timedelta(days=4)).replace(day=1)
-        log(f"  keywords: {kw_total} row(s)")
-        record_run(conn, "gbp_keywords", started, start, end, kw_total, kw_total, "ok")
+        #
+        # THE KEYWORD WINDOW IS NOT THE DAILY WINDOW, and conflating them was
+        # costing data silently. Fixed Aug 31, 2026.
+        #
+        # `start` is `latest - 7 days`, which is correct for daily metrics and
+        # wrong for keywords, because the two sources behave in opposite ways:
+        #   GSC and the daily metrics REVISE recent days -> re-read a rolling
+        #     window and the corrections land.
+        #   GBP keywords are PUBLISHED LATE -> the month appears only after the
+        #     month has closed. A rolling 7-day window stops reaching a month
+        #     around the 8th, so each month was frozen at whatever partial state
+        #     it held on the day the window left it, and the real figures
+        #     published days later were never fetched.
+        # So the keyword loop always reaches back to the FIRST OF THE PREVIOUS
+        # MONTH. This is only safe because the DELETE below is now guarded: a
+        # re-fetch that comes back empty leaves the stored month alone instead
+        # of erasing it, which is what made re-reading closed months dangerous
+        # before the guard existed. The two fixes are one fix.
+        kw_start = keyword_window_start(start)
+        kw_total, kw_empty, kw_kept = sync_keywords(conn, h, kw_start, end)
+        detail = keywords_detail(kw_empty, kw_kept)
+        log(f"  keywords: {kw_total} row(s)" + (f"  [{detail}]" if detail else ""))
+        # "partial", not "ok": a month whose stored rows were kept because the
+        # fetch came back empty is not a clean run, and analytics_pipeline_health
+        # is the one place that difference is visible.
+        record_run(conn, "gbp_keywords", started, kw_start, end, kw_total, kw_total,
+                   "partial" if kw_kept else "ok", detail)
 
     except Exception as e:
         try:
