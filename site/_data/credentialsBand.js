@@ -30,7 +30,11 @@ module.exports = function () {
             `which does not exist in credentials.${lang}.items`
           );
         }
-        return item.capt;
+        // The caption IS the full mark. Derived from `name` rather than stored
+        // separately so there is no second copy of a credential name to drift.
+        // `captSuffix` carries only what is not part of the mark itself — the
+        // IRONMAN U year, the ESCI organisation name spelled out.
+        return item.name + (item.captSuffix || "");
       });
       return { org: row.org, logo: row.logo, markType: row.markType, capt: caps.join(" · ") };
     });

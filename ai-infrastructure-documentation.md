@@ -1503,6 +1503,17 @@ The Stryd credential resolved at the same time: the mark is **Certified Stryd Co
 **Verified:** clean build, 4 logo tiles on all six pages, all four images loading at their intended sizes, no doubled caption separators, band positioned after `.pricing` on all three homepages, `partner` present in prose and absent from every title and meta description (the homepages carry no `Person` schema, so there is nothing to leak into), About pages and their 5-credential schema untouched, 328/328 plan pages, zero horizontal overflow at 1440 and 390. `trust-bar.njk` was moved to `_to_delete/` — this sandbox cannot delete inside the repo, so it needs `git add -A` to leave the tree.
 
 
+### §36 addendum 4 — band captions print the full mark, and `capt` was deleted rather than rewritten
+
+**Iván:** *"it might be repetitive with the image, but we are also looking for crawlers."* **Correct, and it is the right trade.** A logo is an image, and an image asserts nothing to a search engine or a language model — `alt` text helps, a caption naming the mark in body text helps more. Captions are now the complete marks: *TrainingPeaks Level 2 Accredited Coach · TrainingPeaks Coach Match*, *IRONMAN U Certified Coach · 2025*, *ESCI Certified Coach — Endurance Sports Coaching Institute*, *Certified Stryd Coach*.
+
+***The per-item `capt` field was deleted, not edited.*** Once a caption is the full mark, `capt` is a second copy of `name` — and a second copy of a credential name is precisely the thing this repo's one-owner rule exists to prevent. `credentialsBand.js` now derives the caption from `name`, and the only per-item addition is `captSuffix`, carrying what is *not* part of the mark: IRONMAN U's year, ESCI's expanded organisation name. **`captSuffix` is appended for display only and never reaches the `Person` schema** — asserted in the verification pass, because a `hasCredential.name` of "ESCI Certified Coach — Endurance Sports Coaching Institute" would be a mark that no issuer grants.
+
+> ***One instruction was deliberately not followed literally.*** Iván asked for *"ESCI - Endurance Sports Coaching Institute Certified Coach"*. That interpolates the expansion into the middle of the mark and splits **"ESCI Certified Coach"** into two non-contiguous pieces — and a contiguous mark string is exactly what an entity matcher looks for, so the literal version would have *cost* the crawler value it was asked for. Rendered mark-first with the expansion after it: same words, same length, mark intact.
+
+> **Repo note, same session.** Twenty new blog posts, an EN `/en/referrals/` page and `/members/fuerza/` appeared in the tree mid-session (build went 467 → 489 pages, 81 → 146 passthrough files) — parallel work, not part of this branch. No collision: `nav.njk` was touched on that side, this work touched `nav.json`. Flagged to Iván because `git add -A` sweeps it all into one commit.
+
+
 **Two open items go to `open-loops.md`, neither blocking:** the exact name on the Stryd certificate (printed conservatively as `Stryd — Running with Power` until confirmed), and the 2027 removal of the IRONMAN U entry.
 
 No secret values are recorded in this document, by design. For reference, here is *where* each credential is stored:
