@@ -50,9 +50,14 @@ This file replaces the open-item lists previously scattered across `ai-infrastru
 
 **Why this and not race landing pages (NEXT #1):** Iván's call, Aug 26 — CoachMatch acquisition is soft and the SEO build is slow, and this is the only acquisition lever that produces athletes inside 60 days without ad spend. *Stated so it is not later read as a miss: the realistic yield is 2–4 signups over two months against a break-even gap of one signup a month. It closes the gap; it does not replace a channel. Reasoning in `referral-program-brief.md` §9.*
 
-**Shipped so far:** nothing. Decisions only — see the brief.
+**BUILD COMPLETE — August 26, 2026, one day.** Twenty fields (`referredBy` relation + `referralRewardSentDate`, confirmed by a live API response); terms pages ES `/referidos/` and EN `/en/referrals/`, both `noindex` and link-only; six messages in `sales-playbook.md` B9a–B9e; and `automation/referral-payout-reminder.json` **imported, live-tested and active** — the test read 238 people across 5 pages and returned the two real Feher referrals correctly.
 
-**Waiting on Iván:** `referredBy` created in Twenty (Belongs-to-one, Person→Person, reverse field `referrals`, English labels) and confirmed by a real API response. `referralRewardSentDate` created Aug 26.
+***The WIP slot is released. This branch is no longer blocking `NEXT #1` (race landing pages), which has been ungated since Aug 6.*** **What remains is elapsed time, not work:** the disclosure send, and then a real referral converting. **The first payout that can physically exist is October 6, 2026** (program floor Sep 1 + 35 days), so the reminder correctly stays silent until then — *do not read that silence as a fault.*
+
+**Open, and both are waiting on the calendar rather than on anybody:**
+- [x] ~~Disclosure sent to every engaged athlete~~ — **sending August 26–31, 2026** (`sales-playbook.md` B9a, variants A/B/C).
+- [ ] **One referral attributed end-to-end** — `referredBy` set, second payment confirmed in the TrainingPeaks payments list, gift card sent, `referralRewardSentDate` filled. **That closes the branch.** Not possible before Oct 6.
+- [ ] **Read the result at the September and October closes.** *Realistic yield is 2–4 signups over two months against a break-even gap of one signup a month (`referral-program-brief.md` §9). **Planning for 10 reads as failure at 4, and 4 is a good outcome.***
 
 **The three things this branch settled that NEXT #10 had wrong**, all in the brief with full reasoning: (1) **two motions, not one** — disclosure to every engaged athlete at any tenure, the personal ask stays earned; (2) **referral and review asks are separate lists**, because they no longer share eligibility criteria; (3) **the founding-member framing** — the disclosure message *does* state $149 alongside an unconditional rate guarantee, reversing `sales-playbook.md` B9.
 

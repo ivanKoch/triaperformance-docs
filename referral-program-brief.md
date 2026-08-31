@@ -49,7 +49,9 @@
 
 **Channel: email + WhatsApp**, both carrying the terms-page link.
 
-**Language: Spanish only for v1.** Cuts the build by two-thirds. *Open: the EN/PT athletes are skipped, and at least one (Nadine) is a full-price engaged athlete — decide whether she gets a hand-written English version.*
+**Languages: Spanish and English.** ES `/referidos/` + `sales-playbook.md` B9a-A/B; EN `/en/referrals/` + B9a-C, written for the first real send.
+
+***Portuguese is out of scope permanently, and this is a scope statement rather than an open item*** *(Iván, Aug 26, 2026: he does not coach 1:1 in Portuguese).* **Do not re-raise it as a gap.** *The confusion is easy to arrive at honestly, because Portuguese is real everywhere else in this business — 53 PT plans in the catalogue, a PT All-Access subscriber, a full PT members-area tree. **None of that is 1:1 coaching, which is the only thing this program refers into.*** An earlier line here said "Spanish only for v1… the EN/PT athletes are skipped," which implied a PT coaching population that has never existed.
 
 ---
 
@@ -180,7 +182,7 @@ COALESCE(coachingStartDate, signUpDate) >= 2026-09-01     <- program floor
 - [ ] `referredBy` created in Twenty and confirmed by a real API response (not the Data Model screen). `referralRewardSentDate` created Aug 26, 2026.
 - [x] ~~The four Spanish messages~~ **DONE Aug 26, 2026 — five, not four.** `sales-playbook.md` B9a (disclosure, two variants), B9b (forwardable blurb), B9c (warm inbound reply), B9d (payout), **B9e (the referral that did not convert)** — the fifth was missing from the plan: the terms said *si cancela antes, no hay pago* and nothing said who tells the referrer. *Silence after a favour is the expensive failure, not the no.* **The forwardable blurb is the highest-leverage piece** — B9 tells the athlete to *"pásame el contacto o pásale el mío"* and hands them nothing to paste.
 - [ ] Terms landing page — Spanish, `noindex`, off nav and out of `sitemap.xml`. Framed as *"cómo funciona"* for athletes already told, **not as a public offer.** *A published program is one you can no longer decline gracefully, and "discretionary" is the constraint doing the most work in §2.*
-- [ ] Weekly payout-reminder cron in n8n.
+- [x] ~~Weekly payout-reminder cron in n8n.~~ **Live and active Aug 26, 2026.** `automation/referral-payout-reminder.json`. Live test read **238 people across 5 pages** and returned the two Feher referrals correctly; floor restored to `2026-09-01` and confirmed silent afterwards.
 - [ ] Referral row in the monthly close.
-- [x] ~~Decide whether EN/PT athletes get a hand-written version.~~ **EN page shipped Aug 26, 2026** at `/referrals/` — full translation including the forwardable blurb. **PT still has nothing.**
-- [ ] ***The EN page has no EN disclosure message to arrive from.*** `sales-playbook.md` B9a and B9b are Spanish only, so today an English athlete can be sent the link but there is no written message to send it in. **That is the same unfilled-variable shape as §0 finding #6** — the asset exists and the thing that delivers it does not. *Cheap to fix: B9a is two short variants and the blurb is already translated on the page itself.*
+- [x] ~~Decide whether EN/PT athletes get a hand-written version.~~ **EN shipped Aug 26, 2026** — page at `/en/referrals/` and message B9a-C. **Portuguese is out of scope, not outstanding — see §3.**
+- [x] ~~The EN page has no EN disclosure message to arrive from.~~ **Closed the same day** — B9a variant C, Iván's own draft.
