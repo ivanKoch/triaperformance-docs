@@ -328,6 +328,28 @@ Iván raised this himself with Roberto F, before being asked — good instinct, 
 
 *A second safeguard is structural rather than editorial: the 32 recipients are a mix of $75 / $89 / $99, so a single message **cannot** name any athlete's own rate — only $149.*
 
+**C · English** *(added Aug 26, 2026 — Iván's own draft, for the first real send.)* Same structure. Link: `https://triaperformance.com/en/referrals/`.
+
+> {NAME}, one more thing before we wrap up this week's feedback. You've only just joined, so this is purely so you have it.
+>
+> I've put together a referral program and I'd like to share it with you:
+>
+> New athletes joining the team now pay the standard rate of 149 USD/month plus a one-time 50 USD setup fee in the first month.
+>
+> If you introduce me to someone and they start, these are the benefits:
+>
+> • Your referral doesn't pay the 50 USD setup fee.
+> • You receive a 50 USD Amazon gift card when they complete their second month.
+> • There's no limit on referrals. If you refer 10 athletes, that's 500 USD in gift cards.
+>
+> Think about the people you train with — a partner, a training buddy, or someone at the club who's struggling with the same things that made you come looking for a coach.
+>
+> I'll leave the details here in case you want to read them in your own time: https://triaperformance.com/en/referrals/
+>
+> No pressure. If no one comes to mind right now, no problem — just wanted to mention it, and we'll keep moving forward.
+
+> ⚠️ ***One line in the first draft would have gone out wrong, and it is the kind that survives proofreading:*** it read *"someone at the club who is struggling with the same things you were **a year ago**"* — a direct translation of the Spanish *"hace un año"*, which was written for the legacy cohort. **The intended recipient had joined weeks earlier, and the same message's own opening line said so.** *Two sentences apart, one acknowledged she was new and the other assumed a year of shared history.* **Replaced with *"the same things that made you come looking for a coach"***, which is true at any tenure and echoes §1 rule 4's discovery question instead of inventing a past. *The general lesson: a template's time references are bound to the cohort it was written for, and they do not survive an audience change silently — they survive it plausibly.*
+
 #### B9b · The forwardable blurb
 
 **Appended to both variants, and also lives on the terms page with a copy button.** *The point is that the referrer composes nothing* — B9 above tells the athlete to *"pásame el contacto o pásale el mío"* and hands them nothing to paste, which is the single likeliest reason a willing referrer does nothing.

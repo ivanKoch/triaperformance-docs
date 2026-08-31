@@ -39,6 +39,8 @@
 
 **Disclosure is the motion that serves the 60-day acquisition goal** — ~32 messages, sendable in a week.
 
+***When the athlete is new, say so in the message.*** *(Iván, Aug 26, 2026, writing the first real send.)* Disclosure has no tenure minimum **because it is information, not a request** — but an athlete who joined weeks ago does not know that, and receiving it cold invites the question *"why is he asking me?"* **One clause naming the newness removes it entirely**: *"you've only just joined, so this is purely so you have it."* That line is what makes "any tenure" safe in practice rather than only in principle.
+
 ---
 
 ## 3. Timing and channel *(Iván, August 26, 2026)*
@@ -180,4 +182,5 @@ COALESCE(coachingStartDate, signUpDate) >= 2026-09-01     <- program floor
 - [ ] Terms landing page — Spanish, `noindex`, off nav and out of `sitemap.xml`. Framed as *"cómo funciona"* for athletes already told, **not as a public offer.** *A published program is one you can no longer decline gracefully, and "discretionary" is the constraint doing the most work in §2.*
 - [ ] Weekly payout-reminder cron in n8n.
 - [ ] Referral row in the monthly close.
-- [ ] Decide whether EN/PT athletes get a hand-written version.
+- [x] ~~Decide whether EN/PT athletes get a hand-written version.~~ **EN page shipped Aug 26, 2026** at `/referrals/` — full translation including the forwardable blurb. **PT still has nothing.**
+- [ ] ***The EN page has no EN disclosure message to arrive from.*** `sales-playbook.md` B9a and B9b are Spanish only, so today an English athlete can be sent the link but there is no written message to send it in. **That is the same unfilled-variable shape as §0 finding #6** — the asset exists and the thing that delivers it does not. *Cheap to fix: B9a is two short variants and the blurb is already translated on the page itself.*
