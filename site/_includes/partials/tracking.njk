@@ -18,6 +18,51 @@
     }
     var waLink = e.target.closest('a[href*="wa.me"]');
     if (waLink) { track('whatsapp_click', { page_path: location.pathname }); }
+
+    // The zones calculator is a <div> driven by a type="button", not a form,
+    // so it emits no submit event and was completely invisible in GA4 while
+    // producing real leads. Added Sept 1, 2026.
+    if (e.target.closest('#zc-go')) {
+      track('zone_calculator_run', { page_path: location.pathname });
+    }
   });
+
+  // ---------------------------------------------------------------------
+  // NAMED FORM EVENTS. Added September 1, 2026, after the August close found
+  // that GA4's automatic `form_submit` was the ONLY conversion-shaped event on
+  // the site -- and that all 12 of August's submits were members-area logins.
+  // Two real lead-magnet captures fired nothing at all.
+  //
+  // Enhanced measurement cannot tell one <form> from another, so a login and a
+  // coaching enquiry arrive as the same event. Naming them is what makes the
+  // funnel measurable; the automatic event stays on and is simply never used.
+  //
+  // The default branch is the point: an unrecognised form reports itself as
+  // `form_submit_other` WITH its id, rather than vanishing. Same reasoning as
+  // `Other: <medium>` in ga4_channel_day -- a bucket has to name itself, or the
+  // next blind spot takes another month to find.
+  // ---------------------------------------------------------------------
+  var FORMS = [
+    ['#contact-form',       'contact_form_submit'],
+    ['.plan-capture-form',  'plan_capture_submit'],
+    ['#login-form',         'members_login'],
+    ['#forgot-form',        'members_password_reset']
+  ];
+  document.addEventListener('submit', function (e) {
+    var f = e.target;
+    if (!f || f.tagName !== 'FORM') return;
+    for (var i = 0; i < FORMS.length; i++) {
+      if (f.matches && f.matches(FORMS[i][0])) {
+        var params = { page_path: location.pathname };
+        if (f.dataset && f.dataset.planId) params.plan_id = f.dataset.planId;
+        track(FORMS[i][1], params);
+        return;
+      }
+    }
+    track('form_submit_other', {
+      page_path: location.pathname,
+      form_id: f.id || f.className || '(unnamed)'
+    });
+  }, true);   // capture phase: fires even if a handler calls preventDefault()
 })();
 </script>

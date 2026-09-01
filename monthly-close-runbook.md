@@ -49,7 +49,45 @@ monthly-close/2026-08.md                  the read: what moved, why, one decisio
 - **`status`** — `active` / `new` / `churned` / `paused`. Paused is not churned and the distinction has bitten already (Fernando Alva's two billing periods).
 - **`first_month`** makes cohort retention computable directly off the close files, without re-deriving from `athlete_tenure.csv`.
 
-**Definition, which must be fixed once and never drift: a paying athlete is one whose payment for that service month has cleared by month end.** Not "has an active TrainingPeaks record", not "has a Twenty Person marked customer". Write the rule here the first time an edge case appears, rather than deciding it fresh each month.
+~~**Definition, which must be fixed once and never drift: a paying athlete is one whose payment for that service month has cleared by month end.**~~ *Superseded September 1, 2026 by the rule below, which is Iván's and is better. The old wording keyed on cash* ***clearing***, *which would have been wrong on both rails: CoachMatch pays out in one batch around the fifth business day, so August's athletes reach PayPal in September; Private via TP Payments lags 1–2 days.* **Keying on cleared cash would have shifted the entire CoachMatch channel — 33 of 37 paying athletes — one month forward, permanently, in a file that is never edited after the following close.**
+
+### The membership rule *(settled September 1, 2026 — do not re-derive)*
+
+**The service is prepaid, so the charge is the qualifying event.** An athlete charged in the month is that month's athlete, whatever happens next: *charged on the 31st and gone on the 1st is still an August athlete, and most of the service they consume falls in September.* **That is correct and deliberate — the P&L carries MRR; cash timing is a separate cash-flow statement, built later.**
+
+| | Rule |
+|---|---|
+| **Start date** | `coachingStartDate` for coaching, `subStartDate` for All-Access. ⚠️ **Not `signUpDate`** — that is the *agreement* date and is right for sales-cycle analysis, wrong for billing. ⚠️ **Always `COALESCE(coachingStartDate, signUpDate)`**: the field postdates the pre-Aug-8 backfill and is NULL for the older book. |
+| **In the month's book** | `start <= month_end` **and** (`churnDate` empty **or** `churnDate > month_end`) |
+| **Churned in the month** | `churnDate` within the month — ***and these are NOT that month's paying athletes.*** **A churn dated inside the month means no charge was taken that month; they belong to the previous one.** |
+| **New in the month** | `start` within the month |
+
+***The counter-intuitive half, stated plainly because it will be questioned again:*** **a churn date in the FUTURE does not remove an athlete from this month.** *A cancellation requested on Aug 20 and effective Sept 5 is an August athlete who was charged in August and is a **September** churn. In the August close, Giles, Jonah and Juan are all active August athletes.*
+
+**So the month's book and "active at month end" are the same set** — a useful simplification that only holds because the service is prepaid.
+
+### `revenueStatus` — why a comp is not a 100% discount
+
+**Four athletes are coached for nothing** (two family comps, two influencer barters), and one Person record is Iván himself. `revenueStatus` — `PAYING` / `COMP` / `BARTER` / `INTERNAL` — separates them on their own axis, and **`listPrice` and `monthlyRate` are both set to 0 on those rows.**
+
+***Recording them as "Bronze at 100% off" was considered and rejected***: at four athletes it would inject **~$596/month of phantom discount**, swamping the real legacy discounting that the `listPrice − monthlyRate` column exists to measure. **A comp is a decision about revenue; a discount is a price. They are different facts and they must not share a field.**
+
+`INTERNAL` also solves a recurring problem structurally: *Iván coaches himself so his calendar is visible from the coach account*, and he therefore appears in every athlete export. **Excluding him is now a filter, not something to remember every month.**
+
+Derived, never entered:
+
+- **MRR** = `sum(monthly_rate) where charged` — the `charged` flag is what keeps a churned row's `last_rate` out of the total
+- **Paying athletes** = `count where revenue_status = PAYING and charged`
+- **Coached athletes (capacity)** = `count where revenue_status in (PAYING, COMP, BARTER)` — **~11% of the book is unpaid, and revenue-per-coaching-hour was previously computed as though it were not**
+- **Discounts given** = `sum(list_price − monthly_rate) where charged`
+
+### The athlete key is `tpId`, and the hash is retired *(September 1, 2026)*
+
+`data/athlete_tenure.csv` keyed on `'A' + sha256(normalised_name)[:8]`. **That is a key derived from a field the athlete controls** — TrainingPeaks lets them change their display name, and a rename silently splits one athlete into two. *It happened in this very dataset: one athlete's surname reads `Paula` in Twenty and `Padua` in the TrainingPeaks export.*
+
+**`tpId` is issued by the system of record and replaces it.** Close files carry **`twenty_id` as well**, because it is present on every row while `tpId` is empty for athletes who churned before the field existed — TrainingPeaks does not expose past CoachMatch athletes. ***A missing `tpId` is left EMPTY, never a sentinel like `99999`***: a shared sentinel collapses several athletes into one row on any group-by, and `tpId`'s only job is joining to *future* TrainingPeaks exports, which a churned athlete never appears in.
+
+**`athlete_tenure.csv` is retired, not maintained** — frozen as the pre-September history with its hash ids. Retention analysis **unions** it with the close files rather than joining them.
 
 ### 2.2 `pnl.csv` — the profit and loss
 
@@ -66,7 +104,11 @@ monthly-close/2026-08.md                  the read: what moved, why, one decisio
 | Plan sales | `data/plan_sales.csv` | **~29%** measured, not the headline rate — see below |
 | All-Access | roster.csv | 3.5% + $9/subscriber |
 
-> **On the plan take rate: use the measured one.** `fee ÷ amount` in `plan_sales.csv` has run **28.6%–29.7% every month since Dec 2025** and 31.4% lifetime ($20,897 gross → $14,334 earnings). It is stable enough to trust and it is not a number anyone would guess from the marketplace terms. Compute it monthly rather than assuming it — a change in it is a TrainingPeaks pricing change, which is material and would otherwise go unnoticed.
+> ~~**On the plan take rate: use the measured one.** `fee ÷ amount` in `plan_sales.csv` has run **28.6%–29.7% every month since Dec 2025** and 31.4% lifetime ($20,897 gross → $14,334 earnings). It is stable enough to trust and it is not a number anyone would guess from the marketplace terms. Compute it monthly rather than assuming it — a change in it is a TrainingPeaks pricing change, which is material and would otherwise go unnoticed.~~
+>
+> 🚨 ***Corrected September 1, 2026 — the rate is a flat 30.00% and the variation above was an artifact of the denominator.*** **`amount` includes the sales tax TrainingPeaks adds at checkout and Iván never receives**, so `fee ÷ amount` moves with the country mix of the month's buyers rather than with anything TrainingPeaks does. *On `amount − tax` every month from Jan to Aug 2026 reads 30.00–30.01%, and lifetime reads 29.97%.* **Keep computing it monthly — but on the ex-tax base, where a real change would actually show.** *Full working: `training-plans-analysis.md`, top of file.*
+>
+> ***Standing rule: gross plan revenue is `amount − tax`. `amount` is never a revenue figure.***
 
 **Cost lines** — the categories, so that the Month 0 inventory has somewhere to land:
 
@@ -77,6 +119,23 @@ monthly-close/2026-08.md                  the read: what moved, why, one decisio
 | `professional` | KOCH Ventures LLC filing/registered-agent/franchise fees, accounting | Annual or quarterly; amortise monthly rather than spiking one month |
 | `contractors` | None today. The **coach hire** and the **nutritionist sign-off** on the weight-loss guide land here | A zero line that is expected to become non-zero is worth carrying |
 | `marketing` | $0 today — no paid acquisition | Carry the zero. The guardrail is "don't expand paid acquisition before the CRM catches leads"; a visible zero is what makes the moment it changes a decision rather than a drift |
+
+### The four deductions, and why they are grouped in two *(settled September 1, 2026)*
+
+**They sit as a contra-revenue block ABOVE net revenue, never among operating costs** — they scale with revenue rather than sitting fixed, and filing them as opex would hide the one comparison this business most needs to make.
+
+| Deduction | Rate | Where it lands |
+|---|---|---|
+| **CHANNEL COST — avoidable by changing channel** | | |
+| CoachMatch commission | **20%** of the athlete's rate *(the discounted rate, not list)* | PayPal |
+| Marketplace commission on plans | **30%** of the ex-tax price | PayPal |
+| **PAYMENT COST — unavoidable, follows the money** | | |
+| TP Payments | **3.5%** | settles to Mercury |
+| PayPal withdrawal | **3.5% + $3 flat per transfer** *(one transfer a month)* | — |
+
+***The grouping is the point.*** *Channel cost disappears if the channel changes — direct checkout removes the 30%, migrating a CoachMatch athlete to Private removes the 20%. Payment cost follows the money wherever it goes.* **Split this way, the P&L answers "what would going direct actually buy?" every month, with no special analysis** — the argument §2.2 notes has "no number attached to it." **In August it was $818.94, and it recurs.**
+
+🚨 ***And the split reveals that the CoachMatch-vs-Private gap is wider than the headline 16.5%.*** *`pricing-and-positioning.md` compares 20% against 3.5% and stops there.* **But CoachMatch money lands in PayPal and costs a further 3.5% + a share of the $3 to move, while TP Payments money settles into Mercury and is spent from there without moving at all** *(Iván pays costs from it, and plans to fund ads and equipment from it).* **So the real gap is ~20 points, not 16.5** — *and the difference is not a fee, it is that one channel's money arrives already usable and the other's does not.*
 
 **Derived lines, computed not entered:** contribution margin (net revenue − platform take is already netted, so this is net revenue − direct costs), operating margin, and **revenue per coaching hour**.
 

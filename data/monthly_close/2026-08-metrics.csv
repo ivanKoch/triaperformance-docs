@@ -1,0 +1,49 @@
+metric,value,unit,period,source,tier,pulled_by,note
+Paying athletes at month end,37,count,2026-08,roster.csv,M,claude,
+  — coaching (CoachMatch + Private),36,count,2026-08,roster.csv,M,claude,
+  — All-Access,1,count,2026-08,roster.csv,M,claude,
+Coached athletes incl. comp and barter,41,count,2026-08,roster.csv,M,claude,excludes Ivan (INTERNAL)
+New paying athletes,2,count,2026-08,roster.csv,M,claude,both $149 CoachMatch
+Churned athletes,5,count,2026-08,roster.csv,M,claude,"3 coaching, 2 All-Access"
+Churns already dated for September,3,count,2026-08,roster.csv,M,claude,"Giles, Jonah, Juan"
+Net revenue retention — coaching,93.4%,pct,2026-08,roster diff Jul->Aug,M,claude,no expansion; no rate changes
+Net revenue retention — All-Access,27.3%,pct,2026-08,roster diff Jul->Aug,M,claude,3 subs -> 1
+Logo retention — coaching,91.9%,pct,2026-08,roster diff Jul->Aug,M,claude,
+Break-even signups needed,3.4,count/mo,2026-08,pricing-and-positioning.md,M,claude,at $149; delivered 2
+Legacy athletes below $149,26,count,2026-08,roster.csv,M,claude,vs 10 at full price — the countdown
+Discount given,1431.80,USD,2026-08,roster.csv,M,claude,"26.5% off list value of $5,394"
+Plan sales — units,8,count,2026-08,data/plan_sales.csv,M,claude,
+Plan sales — gross ex-tax,302.95,USD,2026-08,data/plan_sales.csv,M,claude,
+Plan sales — earnings,212.05,USD,2026-08,data/plan_sales.csv,M,claude,
+Plan sales — marketplace take,30.00%,pct,2026-08,data/plan_sales.csv,M,claude,flat; the historic 28.6-29.7% band was a tax artifact
+Marketplace plan views,2930,count,2026-08,plan_views_clean,M,claude,36% carry no plan_id
+Marketplace plans viewed,299,count,2026-08,plan_views_clean,M,claude,of 328 in catalogue
+Total operating costs,250.92,USD,2026-08,2026-08-pnl.csv,M,claude,
+Cost of goods sold,24.97,USD,2026-08,2026-08-pnl.csv,M,claude,
+Channel cost (avoidable),818.94,USD,2026-08,2026-08-pnl.csv,M,claude,3.3x total operating costs
+Hours — coaching,28,hours,2026-08,Ivan,M,ivan,unusual month; travel
+Hours — build/content,48,hours,2026-08,Ivan,M,ivan,
+GA4 external sessions,112,count,2026-08,ga4_selftraffic_month,M,claude,30 of 31 days; partial
+GA4 external sessions per day,3.7,count/day,2026-08,ga4_selftraffic_month,M,claude,July 3.0/day
+GA4 unattributed channel share,44.6%,pct,2026-08,ga4_channel_day,M,claude,"Other: (not set) — 50 sessions, largest single channel"
+select_plan events,0,count,2026-08,ga4_event_clean,M,claude,no measurable click from site to a plan listing
+GSC impressions,387,count,2026-08,gsc_site_query,M,claude,29 of 31 days; partial
+GSC clicks,2,count,2026-08,gsc_site_query,M,claude,
+GSC queries in near-miss (pos 5-20),2,count,2026-08,gsc_near_miss,M,claude,
+GBP views,90,count,2026-08,gbp_monthly,M,claude,29 of 31 days; partial
+GBP website clicks,4,count,2026-08,gbp_monthly,M,claude,
+GBP calls / direction requests,0,count,2026-08,gbp_monthly,M,claude,sixth consecutive month
+New reviews,0,count,2026-08,gbp_reviews,M,claude,July produced 9
+Members-area tokens active,38,count,2026-08,token_roster,M,claude,
+Members-area — paying athletes who have ever logged in,2,count,2026-08,token_roster,M,claude,"Humberto, Christian. 7 accesses total"
+Members-area accesses,157,count,2026-08,token_roster,M,claude,94 are Ivan's QA accounts
+Articles published,72,count,2026-08,content_pieces,M,claude,
+Articles rejected,3,count,2026-08,content_pieces,M,claude,
+GBP posts published,2,count,2026-08,gbp_posts_sent,M,claude,publisher went live Aug 30
+Instagram posts,5,count,2026-08,Ivan,M,ivan,goal 8; capped by how many athletes raced
+Catalogue delta,0,count,2026-08,Ivan,M,ivan,
+Referrals attributed,2,count,2026-08,Twenty,M,claude,both pre-program-floor; 0 payouts due
+CoachMatch leads received,138,count,2026-08,Twenty,M,claude,
+Closes from all sources,5,count,2026-08,Twenty,M,claude,"2 paying, 3 comp/barter"
+Gemini spend,30.00,USD,2026-08,Ivan cost file,M,ivan,model_usage starts 2026-08-30; per-caller attribution begins September
+n8n failed executions,unmeasured,count,2026-08,-,M,-,"Telegram alerts only, no queryable store"

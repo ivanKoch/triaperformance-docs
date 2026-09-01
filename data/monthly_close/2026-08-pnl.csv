@@ -1,0 +1,41 @@
+line,category,gross,platform_fee,net,note
+Coaching — CoachMatch,revenue,3640.2,728.04,2912.16,33 athletes; 20% TrainingPeaks commission on the athlete's rate
+Coaching — Private,revenue,292.0,10.22,281.78,3 athletes; 3.5% TP Payments
+All-Access,revenue,29.99,1.05,28.94,1 subscriber ($29.99 PT tier); 3.5% TP Payments
+Plan sales,revenue,302.95,90.9,212.05,8 units; ex-tax; 30.00% marketplace take (measured)
+GROSS REVENUE,subtotal,4265.14,830.21,3434.93,ex-tax; tax is added by TrainingPeaks and never received
+CoachMatch commission (20%),channel_cost,728.04,,,AVOIDABLE — a perpetual commission on a sourced lead
+Marketplace commission (30%),channel_cost,90.9,,,AVOIDABLE — the price of the storefront
+CHANNEL COST,subtotal,818.94,,,19.2% of gross revenue
+TP Payments (3.5%),payment_cost,11.27,,,"Private + All-Access; settles to Mercury, not moved again"
+PayPal withdrawal (3.5% + $3),payment_cost,112.35,,,"on $3,124.21 = CoachMatch net + plan earnings"
+PAYMENT COST,subtotal,123.62,,,unavoidable; follows the money
+NET REVENUE,subtotal,3322.58,,,gross less channel and payment cost
+TP Premium — coach account licences,cogs,15.97,,,1.7742 licences @ $9.00. JULY service period — Aug invoice pending
+TP Premium — bundled in All-Access,cogs,9.0,,,deducted by TrainingPeaks before payout
+COST OF GOODS SOLD,subtotal,24.97,,,scales with athletes
+Hostinger VPS,infrastructure,25.0,,,
+"Domains (2, annual, amortised)",infrastructure,3.67,,,triaperformance.com + kochventuresllc.com @ $21.99/yr
+Google Cloud,infrastructure,0.0,,,free tier — carried at zero so a paid tier reads as a change
+Backup storage,infrastructure,0.0,,,"NONE. Recorded as a risk, not a saving"
+n8n / Twenty / Caddy / Postgres,infrastructure,0.0,,,self-hosted on the VPS
+Google Workspace,software,33.6,,,
+Claude Pro,software,20.0,,,upgrade to $100 under consideration
+TrainingPeaks coach account (base),software,21.99,,,"includes 1 free Premium licence, used by Iván"
+Gemini API,software,30.0,,,prepaid; personal card
+Canva,software,9.0,,,personal card
+Loom,software,0.0,,,free tier
+WhatsApp verified badge,marketing,10.99,,,
+"Strava premium (annual, amortised)",marketing,3.33,,,$40/yr
+Paid acquisition,marketing,0.0,,,ZERO — the guardrail line
+Stryd coach membership (annual),professional,8.33,,,$100/yr
+TrainingPeaks L2 certification (annual),professional,1.67,,,"$20/yr, renews December — gates CoachMatch"
+"LLC taxes (annual, amortised)",professional,41.67,,,"$500/yr, KOCH VENTURES LLC"
+"LLC maintenance (annual, amortised)",professional,41.67,,,$500/yr
+Contractors,contractors,0.0,,,ZERO — coach hire and nutritionist land here
+OPERATING COSTS,subtotal,250.92,,,excludes COGS
+OPERATING PROFIT,subtotal,3046.69,,,net revenue less COGS less operating costs
+Operating margin on gross revenue,derived,71.4%,,,
+Operating margin on net revenue,derived,91.7%,,,
+Revenue per coaching hour,derived,110.33,,,coaching net after all deductions / 28 hours
+Operating profit per hour worked,derived,40.09,,,76 hours: 28 coaching + 48 build

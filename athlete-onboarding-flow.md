@@ -132,6 +132,18 @@ Replace all seven grid columns with **one free-text question phrased the way Iv�
 
 ## 5. Traps that will bite again
 
+**The TrainingPeaks "Manage Athletes" export is a superset of the active book, and it is asymmetric by channel.** *(Iván, August 31, 2026.)*
+
+- **CoachMatch:** TrainingPeaks detaches a churned athlete, so **absence from the export IS evidence they churned.**
+- **Private:** the athlete stays attached until Iván deletes them or they disconnect him, so **presence in the export is NOT evidence they are active.** *Jonah Warner is the live example — churned, still exporting, still carrying a `tpId`.*
+
+⚠️ ***Never derive the active roster from the export.*** **`churnDate` in Twenty is the authority**; the export supplies `tpId` and `Account Type`, nothing more. *A count taken off the export will read high by however many Private athletes have left without being detached, and it will look perfectly reasonable.*
+
+*Consequence for `tpId` backfill: CoachMatch athletes who churned before the id was captured have* **no recoverable id, and the field is left EMPTY — never a sentinel like `99999`.** *A sentinel is a lie shaped like data, and a shared one collapses several athletes into a single row on any group-by. `tpId`'s only job is joining to future TrainingPeaks exports and payout reports, and a churned athlete appears in neither, so a null costs nothing.*
+
+**First reconciliation, and it ties.** *40 export rows − Iván (he coaches himself so his calendar is visible from the coach account) − Bruno Milhoci (`Z - Subscriptor`, the All-Access subscriber) − Jonah Warner (churned, still attached) =* **37**, *against* **37 active at 2026-08-31** *in `data/athlete_tenure.csv`.* ⚠️ *Suggestive, not proof — that file was last written Aug 12, so a churn after that date would be missing from both sides in the same direction.* **Still open: whether Sofia Koch is a paying row or a comp.**
+
+
 Every one of these was found by running real data, not by reading code. Kept here rather than in the build log because they generalise beyond this initiative.
 
 **TrainingPeaks subject lines nest inside each other.** `Subscription cancellation` vs `...cancellation scheduled` was already known. This branch found a second: `Coaching Service Cancellation **Request** - Athlete X` (notice, future date, keep coaching) contains `Coaching Service Cancellation - Athlete X` (actually cancelled). A `contains` filter on the shorter string churns a paying athlete mid-service. **Match on a string that includes what comes next** — here, `Cancellation - Athlete`.

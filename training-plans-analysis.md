@@ -1,5 +1,25 @@
 # Training Plan Sales — Analysis
 
+> 🚨 ***Correction, September 1, 2026 — the TrainingPeaks take rate is a flat 30.00% and always has been. Every "measured take rate" figure derived from `fee ÷ amount` anywhere in this repo is understated, and the month-to-month variation it showed was never real.***
+>
+> **`amount` in `data/plan_sales.csv` INCLUDES the sales tax TrainingPeaks adds at checkout and Iván never receives.** *Confirmed on all 8 August rows and reconciled across the file:* `earnings = amount − tax − fee`, *exactly, with no exceptions.* **So the denominator has to be `amount − tax`, not `amount`.**
+>
+> | Month | `fee ÷ amount` *(as previously reported)* | `fee ÷ (amount − tax)` *(correct)* |
+> |---|---|---|
+> | 2026-01 | 28.60% | **30.01%** |
+> | 2026-02 | 29.52% | **30.00%** |
+> | 2026-03 | 29.55% | **30.01%** |
+> | 2026-04 | 29.60% | **30.01%** |
+> | 2026-05 | 29.22% | **30.01%** |
+> | 2026-06 | 29.31% | **30.00%** |
+> | 2026-07 | 29.71% | **30.00%** |
+> | 2026-08 | 29.23% | **30.00%** |
+>
+> *Lifetime: **29.97%** on the ex-tax price, against 29.35% on `amount`. The ~~31.4%~~ figure quoted elsewhere is a third quantity again — tax **and** fee together, i.e. everything the buyer paid that Iván did not keep.*
+>
+> **The consequence is not the 0.7 points. It is that `monthly-close-runbook.md` instructed a monthly recompute because *"a change in it is a TrainingPeaks pricing change, which is material and would otherwise go unnoticed"* — and on the wrong denominator that check was watching the country mix of the month's buyers, not TrainingPeaks.** *A flat rate looked like a drifting one, so a genuine change would have been indistinguishable from noise.* ***Standing rule from here: gross plan revenue is `amount − tax`; `amount` is never a revenue figure.***
+
+
 **Regenerated August 6, 2026** from the full TrainingPeaks sales export (Jan 2023 – Aug 2026). Replaces the original July 18, 2026 analysis, which was never committed and is the reason this file exists — see the note on provenance at the foot.
 
 **Source files, both in `data/` and both de-identified:**
