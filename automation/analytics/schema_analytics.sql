@@ -508,17 +508,54 @@ CREATE OR REPLACE VIEW ga4_traffic_clean AS SELECT * FROM ga4_traffic_day WHERE 
 -- confidence attached to it. On the first six weeks of data internal_pct was
 -- 25% before Iván confirmed two more devices by hand, and 46% after.
 -- ---------------------------------------------------------------------------
-CREATE OR REPLACE VIEW ga4_selftraffic_month AS
+--
+-- THE PARTIAL-MONTH COLUMNS ARE NOT DECORATION. Added Aug 31, 2026, on the
+-- first real read of this view, which produced exactly the mistake the monthly
+-- close exists to prevent.
+--
+-- The GA4 property was created 2026-07-21, so "July" is ELEVEN DAYS and August
+-- is thirty-one. Read as two months, external sessions went 33 -> 110 and the
+-- site tripled. Read per day, they went 3.0 -> 3.5. Both numbers are correct
+-- and only one of them is true.
+--
+-- This is `monthly-close-runbook.md` section 1(b) -- a snapshot quoted as a
+-- rate -- arriving through a different door, and a comment would not have
+-- stopped it, because the row looked complete. So the view carries its own
+-- denominator: `partial_month` is TRUE whenever the data does not span the
+-- whole calendar month, and any rate computed off such a row is wrong.
+-- Dropped first, not replaced: this view's column list has changed once and
+-- `CREATE OR REPLACE VIEW` REFUSES a changed column list rather than warning,
+-- and the refusal only surfaces if someone re-runs this file. Nothing depends
+-- on this view, so the drop is free.
+DROP VIEW IF EXISTS ga4_selftraffic_month;
+CREATE VIEW ga4_selftraffic_month AS
+WITH m AS (
+    SELECT
+        date_trunc('month', data_date)::date         AS month,
+        MIN(data_date)                               AS first_day,
+        MAX(data_date)                               AS last_day,
+        SUM(sessions) FILTER (WHERE NOT is_internal) AS external_sessions,
+        SUM(sessions) FILTER (WHERE is_internal)     AS internal_sessions,
+        SUM(sessions)                                AS total_sessions
+    FROM ga4_traffic_day
+    GROUP BY 1
+)
 SELECT
-    date_trunc('month', data_date)::date               AS month,
-    SUM(sessions) FILTER (WHERE NOT is_internal)       AS external_sessions,
-    SUM(sessions) FILTER (WHERE is_internal)           AS internal_sessions,
-    SUM(sessions)                                      AS total_sessions,
-    ROUND(100.0 * COALESCE(SUM(sessions) FILTER (WHERE is_internal), 0)
-                / NULLIF(SUM(sessions), 0), 1)         AS internal_pct
-FROM ga4_traffic_day
-GROUP BY 1
-ORDER BY 1;
+    month,
+    external_sessions,
+    internal_sessions,
+    total_sessions,
+    ROUND(100.0 * COALESCE(internal_sessions, 0)
+                / NULLIF(total_sessions, 0), 1)                  AS internal_pct,
+    (last_day - first_day + 1)                                   AS days_covered,
+    EXTRACT(DAY FROM (month + interval '1 month - 1 day'))::int  AS days_in_month,
+    (last_day - first_day + 1)
+        < EXTRACT(DAY FROM (month + interval '1 month - 1 day'))::int
+                                                                 AS partial_month,
+    ROUND(COALESCE(external_sessions, 0)::numeric
+                / NULLIF(last_day - first_day + 1, 0), 1)        AS external_per_day
+FROM m
+ORDER BY month;
 
 -- ============================================================================
 -- 8. Google Business Profile. Added August 30, 2026.
