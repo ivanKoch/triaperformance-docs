@@ -18,8 +18,8 @@ Plan sales — earnings,212.05,USD,2026-08,data/plan_sales.csv,M,claude,
 Plan sales — marketplace take,30.00%,pct,2026-08,data/plan_sales.csv,M,claude,flat; the historic 28.6-29.7% band was a tax artifact
 Marketplace plan views,2930,count,2026-08,plan_views_clean,M,claude,36% carry no plan_id
 Marketplace plans viewed,299,count,2026-08,plan_views_clean,M,claude,of 328 in catalogue
-Total operating costs,250.92,USD,2026-08,2026-08-pnl.csv,M,claude,
-Cost of goods sold,24.97,USD,2026-08,2026-08-pnl.csv,M,claude,
+Total operating costs,245.25,USD,2026-08,2026-08-pnl.csv,M,claude,
+Cost of goods sold,22.36,USD,2026-08,2026-08-pnl.csv,M,claude,
 Channel cost (avoidable),818.94,USD,2026-08,2026-08-pnl.csv,M,claude,3.3x total operating costs
 Hours — coaching,28,hours,2026-08,Ivan,M,ivan,unusual month; travel
 Hours — build/content,48,hours,2026-08,Ivan,M,ivan,

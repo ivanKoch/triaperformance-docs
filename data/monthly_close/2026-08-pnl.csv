@@ -11,9 +11,9 @@ TP Payments (3.5%),payment_cost,11.27,,,"Private + All-Access; settles to Mercur
 PayPal withdrawal (3.5% + $3),payment_cost,112.35,,,"on $3,124.21 = CoachMatch net + plan earnings"
 PAYMENT COST,subtotal,123.62,,,unavoidable; follows the money
 NET REVENUE,subtotal,3322.58,,,gross less channel and payment cost
-TP Premium — coach account licences,cogs,15.97,,,1.7742 licences @ $9.00. JULY service period — Aug invoice pending
+TP Premium — coach account licences,cogs,13.36,,,"1.4839 licences @ $9.00 = 2 full-month athletes prorated at 0.742, the same factor as the base line. AUGUST service period, invoice INV04735426."
 TP Premium — bundled in All-Access,cogs,9.0,,,deducted by TrainingPeaks before payout
-COST OF GOODS SOLD,subtotal,24.97,,,scales with athletes
+COST OF GOODS SOLD,subtotal,22.36,,,scales with athletes
 Hostinger VPS,infrastructure,25.0,,,
 "Domains (2, annual, amortised)",infrastructure,3.67,,,triaperformance.com + kochventuresllc.com @ $21.99/yr
 Google Cloud,infrastructure,0.0,,,free tier — carried at zero so a paid tier reads as a change
@@ -21,7 +21,7 @@ Backup storage,infrastructure,0.0,,,"NONE. Recorded as a risk, not a saving"
 n8n / Twenty / Caddy / Postgres,infrastructure,0.0,,,self-hosted on the VPS
 Google Workspace,software,33.6,,,
 Claude Pro,software,20.0,,,upgrade to $100 under consideration
-TrainingPeaks coach account (base),software,21.99,,,"includes 1 free Premium licence, used by Iván"
+TrainingPeaks coach account (base),software,16.32,,,"$21.99 x 0.742. Includes 1 free Premium licence, used by Ivan. Why the account billed 23 of 31 days is unexplained - July was a full month."
 Gemini API,software,30.0,,,prepaid; personal card
 Canva,software,9.0,,,personal card
 Loom,software,0.0,,,free tier
@@ -33,9 +33,9 @@ TrainingPeaks L2 certification (annual),professional,1.67,,,"$20/yr, renews Dece
 "LLC taxes (annual, amortised)",professional,41.67,,,"$500/yr, KOCH VENTURES LLC"
 "LLC maintenance (annual, amortised)",professional,41.67,,,$500/yr
 Contractors,contractors,0.0,,,ZERO — coach hire and nutritionist land here
-OPERATING COSTS,subtotal,250.92,,,excludes COGS
-OPERATING PROFIT,subtotal,3046.69,,,net revenue less COGS less operating costs
-Operating margin on gross revenue,derived,71.4%,,,
-Operating margin on net revenue,derived,91.7%,,,
+OPERATING COSTS,subtotal,245.25,,,excludes COGS
+OPERATING PROFIT,subtotal,3054.97,,,net revenue less COGS less operating costs
+Operating margin on gross revenue,derived,71.6%,,,
+Operating margin on net revenue,derived,91.9%,,,
 Revenue per coaching hour,derived,110.33,,,coaching net after all deductions / 28 hours
-Operating profit per hour worked,derived,40.09,,,76 hours: 28 coaching + 48 build
+Operating profit per hour worked,derived,40.20,,,76 hours: 28 coaching + 48 build
