@@ -10,6 +10,16 @@
 
   data-topic is what the pill filter reads. It carries the SLUG, never the
   translated label, so the same JS works in all three languages.
+
+  ALT TEXT, Sept 1 2026. The card image carried alt="" — correct under WCAG for
+  a decorative photo inside a link that already has text, and flagged by Ahrefs
+  anyway (59 images across the three listings) because its check is "linked
+  image has no alt text", which an empty alt does not satisfy. Resolved with the
+  headline rather than the topic label: it is unique per card, already
+  translated, needs no new i18n key and no fallback for an articles/<slug>.jpg
+  pinned to an article with no topic, and it is what the photo actually
+  illustrates. The cost is that a screen reader hears the headline twice per
+  card, which is the trade this makes deliberately.
 #}
 {%- set topic = post.data.topic -%}
 {%- set img = blogImages | cardImage(topic, post.fileSlug) -%}
@@ -18,7 +28,7 @@
   <a class="post-card__link" href="{{ post.url }}">
     <div class="post-card__media post-card__media--{{ topic }}">
       {%- if img %}
-      <img src="{{ img }}" alt="" loading="lazy" decoding="async">
+      <img src="{{ img }}" alt="{{ post.data.headline }}" loading="lazy" decoding="async">
       {%- else %}
       <span class="post-card__media-label">{{ t.topics[topic] }}</span>
       {%- endif %}
