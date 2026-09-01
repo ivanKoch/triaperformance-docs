@@ -174,6 +174,25 @@ The starting list — athletes, costs, GA4, GBP, IG, Ahrefs/GSC, leads and sales
 
 **Two sessions, not two days.** The first close will run long because it includes Month 0 setup; steady state should land around **90 minutes of capture plus a 60-minute read**, and should shrink every month as the `pulled_by` column fills with script names.
 
+### 🚨 The close has two clocks, and this doc originally assumed one *(added August 31, 2026)*
+
+**Everything Iván pulls is complete at midnight on the last of the month.** The roster, the costs, the hours, the All-Access count, the plan payout export — none of them get any truer by waiting.
+
+**Everything pulled from an API is not.** Each source finalises on its own lag, and on the evening of Aug 31 the live tables read:
+
+| Source | Lag in the script | What it actually held on Aug 31 | Complete for August from |
+|---|---|---|---|
+| GA4 (BigQuery export) | `LAG_DAYS = 1` | data to **Aug 29** | ~**Sept 2–3** |
+| GSC (Search Analytics API) | `LAG_DAYS = 3` | — | ~**Sept 4** |
+| GBP daily metrics | `LAG_DAYS = 3` | — | ~**Sept 4** |
+| GBP search keywords | monthly, published **after** the month closes | 2026-08 **empty** | ~**Sept 8** |
+
+⚠️ ***The GA4 row is the one that would have bitten, and note that the script's own constant does not describe its behaviour.*** `LAG_DAYS = 1` *asks for yesterday, but the daily export table frequently has not landed by the 05:45 run, so the newest day present is typically* **today − 2**. *`ROLLING_DAYS = 3` means it self-heals on the next night's run — the data is never lost, it just is not there yet.* **A close run on September 1 reads an August that is missing its last two days, and `monthly-close/2026-08.md` is then frozen understated**, because §8's standing decision says a dated file is never edited after the following close.
+
+**So the rule, and it costs nothing:** *capture on day 1 as designed —* **the API rows are pulled last, on the first date every source is complete**, *and every analytics row in `metrics.csv` carries the `first_day`/`last_day` it actually covers rather than the month it is filed under.* **A row that states its own coverage can be published early and topped up honestly; a bare monthly total cannot.**
+
+***This was found by the `partial_month` column on its first read, two days after being added and one day before it would have mattered.*** *It flagged August as partial when the session that wrote it had predicted a clean `f` — see `ai-infrastructure-documentation.md` §9.*
+
 ### Session 1 — Capture (day 1)
 
 **Iván pulls only what nothing else can reach:**

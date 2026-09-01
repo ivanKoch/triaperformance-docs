@@ -461,6 +461,18 @@ SELECT * FROM analytics_geo_28d ORDER BY gsc_impressions DESC LIMIT 15;
 
 **`traffic_type` remains zero** (`localhost 2 · manual 2 · telegram 1`), as expected — the GA4 admin half is untouched and is the open item. **The nightly warning now prints, which is the working state, not the failed one.**
 
+#### The `partial_month` column flagged something on its first read, and it was not July *(same evening)*
+
+***The column was added to stop July being read as a full month. On its first run it flagged **August** too, and the session that wrote it had predicted a clean `f`.*** `days_covered = 29`, `last_day = 2026-08-29`, **on August 31.**
+
+**The cause is a gap between a constant and its behaviour.** `sync_ga4_data.py` sets `LAG_DAYS = 1` and asks for yesterday — *but the GA4 daily export table frequently has not landed by the 05:45 run*, so **the newest day actually present is typically `today − 2`.** `ROLLING_DAYS = 3` means the next night's run picks it up: **nothing is lost, it simply is not there yet.** *The constant is not wrong so much as it describes the request rather than the result, and only the result is queryable.*
+
+🚨 **What makes this worth its own note is the date it was found.** *The close was scheduled for September 1.* **A September 1 close reads an August missing its last two days, and §8 of the runbook says a dated close file is never edited after the following close — so it would have been frozen understated, permanently, with every row present and every number quietly low.** ***That is the same failure shape as the `ON CONFLICT DO NOTHING` decision on the GSC side, arriving through the calendar instead of through a write pattern.*** *Logged as a two-clock rule in `monthly-close-runbook.md` §5, with the per-source completion dates.*
+
+**And it corrected this session's own arithmetic in passing.** *The per-day figures quoted an hour earlier — "3.0 → 3.5" — divided August by 31. The view divided by 29 and returned* **3.8**. *A second-order version of the exact error the column exists to prevent, made by the person who added the column, in the message that announced it.* ***The denominator has to come from the data, not from the calendar.***
+
+**`first_day` and `last_day` are now exposed as columns rather than summarised into the flag**, because `partial_month` alone conflates two things that behave oppositely: *July is partial because the property did not exist before the 21st — permanent, and no later run changes it. August was partial because an export had not landed — cured within 48 hours.* **A close that treats those identically either waits forever or freezes an understated month.**
+
 ## 10. Storefront data pipeline — plan catalog + weekly-breakdown crawl (July 21, 2026)
 
 **Why.** The storefront plan called for loading the plans inventory onto the VPS as Phase 1 step 1 (that brief was retired Aug 8, 2026; the surviving strategy lives in `growth-roadmap.md` §Training Plan Storefront). Separately, Iván noticed TrainingPeaks' own plan pages render a stats table — "Average Weekly Breakdown" (workouts/week, weekly average duration, longest workout, per activity) — that TP calculates from the actual structured workouts and was never in the manually-maintained inventory CSV. Both landed in the same piece of work.

@@ -547,6 +547,17 @@ SELECT
     total_sessions,
     ROUND(100.0 * COALESCE(internal_sessions, 0)
                 / NULLIF(total_sessions, 0), 1)                  AS internal_pct,
+    -- first_day/last_day are exposed, not just summarised into a flag, because
+    -- `partial_month` alone conflates two different things and only one of them
+    -- cures itself. Added Aug 31, 2026, on the view's first read:
+    --   July  is partial because the property did not exist before the 21st
+    --         -- permanent, and no later run will change it.
+    --   August was partial because the newest GA4 export table had not landed
+    --         -- it read to the 29th on the 31st, and cured within 48 hours.
+    -- A close that treats those two identically either waits forever or freezes
+    -- an understated month. Print the dates and the difference is obvious.
+    first_day,
+    last_day,
     (last_day - first_day + 1)                                   AS days_covered,
     EXTRACT(DAY FROM (month + interval '1 month - 1 day'))::int  AS days_in_month,
     (last_day - first_day + 1)
