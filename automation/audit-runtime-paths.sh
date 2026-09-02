@@ -247,7 +247,14 @@ if [ -n "${scan_dirs// /}" ]; then
     # `-type f` and silently never audited. Silently-not-audited is the one
     # outcome this script exists to prevent.
   done < <(find -L $scan_dirs -maxdepth 2 -type f \( -name '*.py' -o -name '*.sh' \) -print0 2>/dev/null \
-             | xargs -0 -r readlink -f 2>/dev/null | sort -u)
+             | xargs -0 -r readlink -f 2>/dev/null | sort -u \
+             | grep -Ev '/(lazy-packages|site-packages|dist-packages|node_modules|venv|\.venv)/')
+    # Vendored third-party code is not OUR source and reporting it as OUTSIDE is
+    # noise that trains the reader to skim. Added Sep 2, 2026 after the first
+    # real run flagged /root/.hermes/lazy-packages/typing_extensions.py -- 4,317
+    # lines of upstream stdlib backport -- alongside three genuine findings.
+    # A diagnostic that cries wolf is the same failure as one that under-reports,
+    # arriving from the other side.
 fi
 
 # ---------------------------------------------------------------------------

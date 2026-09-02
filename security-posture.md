@@ -217,6 +217,74 @@ also a *containment* problem: there is no way to revoke or cap one consumer with
 the other four, so the response to any single compromised or runaway consumer is currently
 all-or-nothing. Worth carrying as a reason to split keys eventually, not as urgent work.
 
+**F12. The `analytics` Postgres password is in cleartext on the box and was pasted into a chat transcript (Aug 12, 2026).** *[repo-confirmed]*
+
+`/root/.members-auth/docker-compose.yml` carries `MEMBERS_DB_DSN` in cleartext, and the same
+password appears in `~/.analytics/.env`, the `tp-admin` container's baked-in env, and n8n's
+credential store. **Practical risk is low and worth saying so plainly**: `analytics-postgres`
+binds `127.0.0.1` only, so the credential is useless without shell access — which is game over
+regardless. What makes it worth scheduling is not the exposure, it is that rotation touches five
+places and missing one breaks a cron silently, hours later.
+
+### The rotation procedure
+
+*Written September 2, 2026. Consumer list derived by grepping the repo, not from memory.*
+
+**Ten of the consumers read one file.** `sync_pixel_data.py`, `sync_gsc_data.py`,
+`sync_ga4_data.py`, `sync_gbp_data.py`, `post_to_gbp.py`, `gbp_oauth_setup.py`,
+`research_agent.py`, `writer_agent.py`, `notify.py` and `run-agent.sh` all resolve the password
+from `~/.analytics/.env`. **That is one edit, not ten.** The remaining four are the ones that
+bite.
+
+⚠️ **Generate the new password without `: @ / ? #`.** The current one contains `:` and `@`, and
+`automation/content-engine/SETUP.md` records the bug that caused: pasted into a `postgres://`
+URI it truncates silently and fails with an auth error pointing at the wrong thing. Rotation is
+the free moment to make that class of bug impossible.
+
+```bash
+NEWPW=$(LC_ALL=C tr -dc 'A-Za-z0-9._~-' </dev/urandom | head -c 40); echo "$NEWPW"
+```
+
+**Pick a window with no cron due.** The jobs run 03:00 (Hermes check-in), 05:15 / 05:45 / 06:15
+(analytics syncs), and the content-engine agents plus the 05:30 publish drain. Anything between
+about 08:00 and 02:00 is clear. Postgres has one password per role, so there is a real gap
+between step 1 and step 5 — keep it short by preparing every edit first.
+
+1. **Change it in Postgres.**
+   `docker exec -i analytics-postgres psql -U analytics -d postgres -c "ALTER USER analytics WITH PASSWORD '<NEWPW>';"`
+2. **`~/.analytics/.env`** — update `PG_PASSWORD`. Covers all ten scripts above.
+3. **`/root/.members-auth/docker-compose.yml`** — update `MEMBERS_DB_DSN`, then
+   `docker compose -f /root/.members-auth/docker-compose.yml up -d`. ⚠️ The password sits inside
+   a `postgres://` URI here, which is exactly why step 0's character set matters.
+4. **`tp-admin`** — its `PG_PASSWORD` was fixed at `docker run`, so it must be **recreated, not
+   restarted**. `docker rm -f tp-admin` then re-run the `docker run` block from
+   `automation/content-engine/SETUP.md` Step 4 with the new value.
+5. **n8n credential store** — open the Postgres credential in the n8n UI and update it. Two
+   workflows use it: `publish-article-workflow` and `subscription-lifecycle-automation`.
+6. **Bitwarden** — update the stored entry. This is the copy that is easiest to forget and the
+   one that matters most six months from now.
+
+### Verifying it, which is the half that actually closes this
+
+*A rotation that misses a consumer does not fail loudly — it fails on that consumer's next cron.*
+Do not close this item on "nothing looks broken."
+
+```bash
+# every sync source must show a run AFTER the rotation, not just a green last-run
+docker exec -i analytics-postgres psql -U analytics -d analytics -c \
+  "SELECT source, status, MAX(ran_at) AS last_run FROM analytics_sync_log
+    WHERE ran_at > now() - interval '30 hours' GROUP BY source, status ORDER BY source;"
+```
+
+⚠️ **Derive the expected source count rather than assuming it** — an earlier session predicted
+five and the answer was eight. And `analytics_pipeline_health` cannot answer this question: it
+returns each source's last run whenever it happened, so a cron dead since the rotation reads as
+a screen of green `ok` rows. **Filter on time.**
+
+Then confirm the two container consumers by behaviour, not by `docker ps`: load `/admin/drafts`
+(tp-admin) and log in to `/members/` (members-auth). Both talk to Postgres on the first request,
+so a wrong password shows up immediately rather than at 05:15 tomorrow.
+
 ---
 
 ## What is already right, and should not be re-litigated

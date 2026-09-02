@@ -1669,3 +1669,46 @@ Verified against the built output, not the templates: 2 analytics tags per page,
 > ***The finding is not the pages, it is what the build revealed about the two inventories.*** `triaperformance-business-overview.md` §Interactive tools and this runbook's Published-artifacts table are the repo's inventories of record for the members library, and **neither listed `/members/fuerza/` at all** — it shipped in August 2026 and was added to neither. So while `site/_data/library.json` sold `strength` as live and gated in English and Portuguese, **the two documents a session would open to verify that claim did not contain the tool, and therefore could not contradict it.** *This is §36's lesson in a new place and the runbook's own August 14 correction repeating: that correction re-derived the table from the filesystem, counted eight tools, and the strength guide was already the ninth.* **An inventory is only a control if the thing it is supposed to catch would appear in it.** Both corrected the same session; the library is ten entries in three languages, two of them guides.
 
 > *Standing check added to `kb-hygiene-prompt.md` Step 0: diff **every** key in `library.json` against `site/members/` for all three language blocks, every pass. Twice now — cyclist core on Aug 24, strength on Sep 2 — the gap was found while looking at a different key.*
+
+---
+
+### §18 addendum, September 2, 2026 — the runtime-path audit was RUN for the first time
+
+*The script had existed since Aug 12 and never been executed; the item's own text said it closes
+on a clean output, not on the script existing. It is not clean.*
+
+**Four files run from outside the clone. Three are real, one is noise:**
+
+| file | lines | verdict |
+|---|---|---|
+| `/root/.hermes/deploy-website.sh` | 165 | **real, and the most exposed** |
+| `/root/.members-auth/auth_service/app.py` | 171 | real — the §13 item, still open |
+| `/root/.analytics/scripts/sync_pixel_data.py` | 105 | almost certainly a dead orphan |
+| `/root/.hermes/lazy-packages/typing_extensions.py` | 4317 | **false positive — vendored upstream** |
+
+***All three real ones have identical line counts to their repo copies*** — 165, 171 and 105 —
+so nothing has drifted yet. **That is the whole reason to fix it now: the cost of this problem is
+zero today and unbounded on the first edit.**
+
+**`deploy-website.sh` is the one that matters,** because it is the script that deploys the site
+*and* validates and installs `/etc/caddy/Caddyfile`. The cutover note in §15 says it plainly —
+"replace `~/.hermes/deploy-website.sh` with the version in `automation/`" — a manual copy, made
+once, that never updates itself. Every Caddyfile change reviewed in the repo since is a change to
+a file the box does not read.
+
+⚠️ ***And the obvious fix is wrong here.*** The standing §18 practice for a plain crontab line is
+to point the line into the clone. `deploy-website.sh` does `git fetch && git reset --hard` **on
+the clone it would then be executing from**, and bash reads a script lazily — a reset landing
+mid-run can swap the file under the interpreter and execute a splice of two versions. Rare,
+silent, and awful to debug. `automation/deploy-website-dispatcher.sh` therefore pulls first and
+then `exec`s a **private `mktemp` copy** that no reset can touch. *The crontab line does not
+change.*
+
+**The script was also corrected in the same pass:** vendored paths (`lazy-packages`,
+`site-packages`, `dist-packages`, `node_modules`, `venv`) are now excluded. *A diagnostic that
+cries wolf is the same failure as one that under-reports, arriving from the other side — and the
+under-reporting version of this exact script was the defect found on Aug 12.*
+
+**Confirmed clean and not to be re-audited:** every `CHECK` container row is a data or
+third-party bind mount (`/root/.n8n`, `/root/.analytics/data`, `/root/.hermes` as `/opt/data`),
+and all eleven cron lines that touch our code `cd` into the clone and `git pull` first.
