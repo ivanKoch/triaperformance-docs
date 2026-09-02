@@ -534,8 +534,19 @@ WITH m AS (
         date_trunc('month', data_date)::date         AS month,
         MIN(data_date)                               AS first_day,
         MAX(data_date)                               AS last_day,
-        SUM(sessions) FILTER (WHERE NOT is_internal) AS external_sessions,
-        SUM(sessions) FILTER (WHERE is_internal)     AS internal_sessions,
+        -- COALESCE, added Sept 2, 2026, and it is the same defect this view
+        -- exists to expose. `SUM(...) FILTER (...)` returns NULL, not 0, when
+        -- nothing matches -- so a month with no internal sessions DETECTED and
+        -- a month with no data AT ALL printed identically (blank), in the one
+        -- view whose entire job is measuring what the numbers cannot see.
+        -- Found on the September row, which read `internal_sessions = <blank>,
+        -- internal_pct = 0.0` two days into a month Ivan had certainly browsed
+        -- his own site in. Third instance of this family in this repo, after
+        -- refresh_internal_devices' single aggregate log line and §20's
+        -- content-<agent>.status: AN EMPTY RESULT MUST NOT RENDER AS A ZERO
+        -- RESULT. A zero here is now an assertion; a missing month is absent.
+        COALESCE(SUM(sessions) FILTER (WHERE NOT is_internal), 0) AS external_sessions,
+        COALESCE(SUM(sessions) FILTER (WHERE is_internal), 0)     AS internal_sessions,
         SUM(sessions)                                AS total_sessions
     FROM ga4_traffic_day
     GROUP BY 1
