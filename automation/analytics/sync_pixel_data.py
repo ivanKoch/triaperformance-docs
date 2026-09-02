@@ -8,7 +8,10 @@ already in Postgres, then relies on the UNIQUE(event_timestamp, plan_id, ip_addr
 constraint + ON CONFLICT DO NOTHING to avoid duplicating the boundary row(s).
 
 Run manually to test:
-    ~/.analytics/venv/bin/python ~/.analytics/scripts/sync_pixel_data.py
+    cd ~/.hermes/triaperformance-docs && git pull -q \
+        && ~/.analytics/venv/bin/python automation/analytics/sync_pixel_data.py
+    (Corrected Sep 2, 2026: this docstring named ~/.analytics/scripts/, which is a
+     stale copy no cron invokes. The live cron line runs the clone copy above.)
 
 Intended to run nightly via cron (see deploy notes).
 """
