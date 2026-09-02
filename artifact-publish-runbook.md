@@ -84,7 +84,10 @@ Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card
 | Box breathing | `/members/respiracion/` · `/members/en/breathing/` · `/members/pt/respiracao/` | — | three languages |
 | Knees (strength engine) | `/members/rodillas/` · `/members/en/knees/` · `/members/pt/joelhos/` | fuerza | Aug 13, 2026, all three |
 | Achilles | `/members/aquiles/` · `/members/en/achilles/` · `/members/pt/aquiles/` | fuerza | Aug 13, 2026, all three |
+| Strength guide | `/members/fuerza/` · `/members/en/strength/` · `/members/pt/forca/` | fuerza | ES Aug 2026; **EN+PT Sept 2, 2026**. *This table did not list the tool at all until that date — see the note below.* |
 | Downloads / guides | `/members/guias/` · `/members/en/downloads/` · `/members/pt/downloads/` | guías | 5 PDFs ES / 1 EN / 1 PT |
+
+> 🚨 ***Second correction, September 2, 2026, and it is the August 14 one recurring rather than a new kind.*** *That note above says this table was trusted because its purpose is to be trusted, and fixed it by re-deriving from the filesystem.* **It re-derived eight tools and the strength guide was already the ninth — `/members/fuerza/` shipped in August and appears in neither this table nor `triaperformance-business-overview.md` §Interactive tools, the file that note names as the inventory of record.** ***The cost was measurable: `site/_data/library.json` sold `strength` as a live gated tool on the English and Portuguese All-Access pages with no page behind it in either language, and neither inventory could contradict the claim because neither contained the tool.*** *Found by the Sept 2 hygiene pass, which diffed every `library.json` key against `site/members/` rather than the one key it was asked about. EN and PT built the same day.* **The check that would have caught it in August is now Step 0 of `kb-hygiene-prompt.md`.**
 
 **Retired, deliberately, content not moved:** `/members/zonas/`, `/members/tests/`, `/members/carrera/`, `/members/kettlebell/`, `/members/nutricion/`, `/members/activacion-ciclismo/`. *(All Aug 13, 2026. Listed here because this runbook is where a future session looks for "which member URLs exist.")*
 

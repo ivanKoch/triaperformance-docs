@@ -1,6 +1,6 @@
 # Hipertrofia, Fuerza y Potencia — strength guide
 
-**Status: v1 SHIPPED in Spanish, August 2026** — `/members/fuerza/`. EN/PT pending. Static explainer with one interactive element (a goal switch), modelled on `/members/carga/`.
+**Status: v1 SHIPPED in all three languages · verified: 2026-09-02** — `/members/fuerza/`, `/members/en/strength/`, `/members/pt/forca/`. *~~EN/PT pending~~ — built September 2, 2026, copy-only translation: same structure, same numbers, same two paths, same goal-switch script and stylesheet (`members-fuerza-guia.css`).* ⚠️ ***Why it was built that day rather than any other: `site/_data/library.json` had been selling this guide as a live, gated tool on the English and Portuguese All-Access pages the whole time it was Spanish-only.*** *Identical in shape to the Cyclist Core finding of Aug 24, 2026 — and invisible for longer, because it sat in `open-loops.md` as the translation-backlog line "`/members/fuerza/` needs EN + PT", which does not read as a live customer-facing defect.* Static explainer with one interactive element (a goal switch), modelled on `/members/carga/`.
 
 **Source:** an Andy Galpin summary Iván supplied. The physiology is his and it is sound; ***the transfer to endurance athletes is the work this guide actually does***, and it is where the source needed correcting.
 
