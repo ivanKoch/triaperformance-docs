@@ -226,6 +226,10 @@ binds `127.0.0.1` only, so the credential is useless without shell access — wh
 regardless. What makes it worth scheduling is not the exposure, it is that rotation touches five
 places and missing one breaks a cron silently, hours later.
 
+✅ **ROTATED September 2, 2026.** *Six steps, five places, no consumer missed. `tp-admin` had zero env drift; `members-auth` and `/admin/drafts` both verified by loading them, which is the only check that exercises a TCP connection with the credential. The eight sync sources were all `ok` beforehand — **eight is the number to expect**, which settles the "predicted five, answer was eight" question for good.*
+
+⚠️ *The procedure itself carried two defects, both found by running it: the verification query named a column that does not exist (`ran_at`; it is `run_started`), and the command handed over to inspect the compose file used `grep -A4`, which printed the very DSN this finding is about.* **Both fixed here. A runbook that has never been executed is a draft.**
+
 ### The rotation procedure
 
 *Written September 2, 2026. Consumer list derived by grepping the repo, not from memory.*
@@ -272,8 +276,15 @@ Do not close this item on "nothing looks broken."
 ```bash
 # every sync source must show a run AFTER the rotation, not just a green last-run
 docker exec -i analytics-postgres psql -U analytics -d analytics -c \
-  "SELECT source, status, MAX(ran_at) AS last_run FROM analytics_sync_log
-    WHERE ran_at > now() - interval '30 hours' GROUP BY source, status ORDER BY source;"
+  "SELECT source, status, MAX(run_started) AS last_run, MAX(rows_written) AS rows
+     FROM analytics_sync_log
+    WHERE run_started > now() - interval '30 hours'
+    GROUP BY source, status ORDER BY source;"
+# The column is run_started, not ran_at. Corrected Sep 2, 2026 after the first
+# real use of this procedure failed on it -- the query had been written from
+# memory rather than from automation/analytics/schema_analytics.sql.
+# `status` is 'ok' | 'partial' | 'error'; 'partial' means the run reached the API
+# and got a valid EMPTY answer, so it is not a rotation failure.
 ```
 
 ⚠️ **Derive the expected source count rather than assuming it** — an earlier session predicted
