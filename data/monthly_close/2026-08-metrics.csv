@@ -25,7 +25,8 @@ Hours — coaching,28,hours,2026-08,Ivan,M,ivan,unusual month; travel
 Hours — build/content,48,hours,2026-08,Ivan,M,ivan,
 GA4 external sessions,112,count,2026-08,ga4_selftraffic_month,M,claude,30 of 31 days; partial
 GA4 external sessions per day,3.7,count/day,2026-08,ga4_selftraffic_month,M,claude,July 3.0/day
-GA4 unattributed channel share,44.6%,pct,2026-08,ga4_channel_day,M,claude,"Other: (not set) — 50 sessions, largest single channel"
+GA4 unattributed channel share,0.0%,pct,2026-08,ga4_channel_day,M,claude,"Corrected 2026-09-02: was 44.6% (50 sessions). Not a data gap — a missing NULLIF in sync_ga4_data.py sent every DIRECT session to the catch-all. Fixed + backfilled; Other: (not set) no longer exists. See ai-infrastructure-documentation.md §9 addendum 2026-09-02"
+GA4 largest channel share,46.6%,pct,2026-08,ga4_channel_day,M,claude,"Direct — 55 of 118 external sessions. Added 2026-09-02. NOT fully attributed: untagged hand-pasted links plus self-traffic the cookie-bound rules miss; readability gated on the Sept 4 internal-traffic check"
 select_plan events,0,count,2026-08,ga4_event_clean,M,claude,no measurable click from site to a plan listing
 GSC impressions,387,count,2026-08,gsc_site_query,M,claude,29 of 31 days; partial
 GSC clicks,2,count,2026-08,gsc_site_query,M,claude,
