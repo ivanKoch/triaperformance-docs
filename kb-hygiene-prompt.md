@@ -15,6 +15,25 @@ to the local repo first.
 This is a weekly hygiene pass, not a build session. No feature work. Read before
 you write, report before you edit, and never commit or push.
 
+=== STEP 0: IS THE MAP THE MAP? (30 seconds, do it first) ===
+
+Compare the project instructions THIS session received against the repo mirror
+triaperformance-project-instructions.md. List any doc named in the mirror's KB
+index that is missing from what actually loaded, and tell me to repaste.
+
+A session cannot grep for a document it has not been told exists, and since
+Aug 12, 2026 the index IS the map -- the project knowledge is deliberately empty.
+Added Sep 2, 2026: the mirror had 47 index entries, the loaded copy had 38.
+Fourteen docs were invisible, including monthly-close-runbook.md and
+tenure-analysis.md. The mirror had been edited as recently as Aug 30; the field
+was simply never repasted.
+
+Then diff every key in site/_data/library.json against the filesystem --
+find site/members -ipath '*<slug>*' -- for all three language blocks, every key.
+Language versions are SUBDIRECTORIES, so listing site/members/ tells you nothing
+about what is inside en/ and pt/. Two passes have now reported a tool as missing
+or present on a check that could not have seen it.
+
 === STEP 1: VERIFY LIVE STATE AGAINST LIVE SYSTEMS ===
 
 Before anything else, print the first 5 lines of every SETUP.md, *-runbook.md and
@@ -113,8 +132,11 @@ answer, keep it short, cut any word that doesn't change the meaning.
   the reasoning is what stops the question being re-asked in six weeks.
 - Add one session-log entry to open-loops-archive.md.
 - If a doc was added, renamed or retired, update the KB index in
-  triaperformance-project-instructions.md in the same session, and remind me to
-  paste that file into the project's Custom instructions field.
+  triaperformance-project-instructions.md in the same session.
+- REMIND ME TO PASTE triaperformance-project-instructions.md INTO THE PROJECT'S
+  CUSTOM INSTRUCTIONS FIELD. Unconditionally, every pass -- not only on weeks
+  when a doc changed. Added Sep 2, 2026: the conditional version let the field
+  fall fourteen docs behind the mirror across sessions where nothing changed.
 - Tell me explicitly whether anything this session met the bar for updating
   project Memory. Most weeks nothing will, and that's the correct answer.
 ```
@@ -239,6 +261,10 @@ Propose -- do not apply -- either:
 10. **The verification instrument has its own cache, and it fails in the direction that matters.** *(Found Aug 14, 2026; diagnosed correctly Aug 17.)* *`/en/plans/` served **108 plans**; the same URL with `?v=audit` appended served **111**, the correct number.* ***First diagnosed as a problem with the site's `Cache-Control` headers, and that was wrong — the correction is the useful part.*** *Iván's header check returned `cache-control: no-cache` with no `age`/`via`/`x-cache`, so Caddy was serving correctly all along; the stale copy lived in **Claude's own web-fetch layer**, which caches per URL. The tell was arithmetic, not headers: the three catalogs returned **ES 164 / EN 108 / PT 53**, a combination* ***no single deploy of the site has ever produced*** *(EN 108 last co-existed with PT 29; PT 53 only exists post-Aug 12). One cached page shows one moment; three independently-aged cache entries show three.*
   **The rule, unchanged and now better justified: always append a cache-busting query string when checking a live URL in a hygiene pass.** *Not because the CDN might be stale — because the fetch tool can hand back a cached page and thereby* ***confirm*** *a stale claim with what reads as independent evidence. This audit came one URL away from "verifying" a catalogue of 108 and dispatching someone to find three plans that were never missing.*
   ***And the part that generalises past caching:*** *the pass's own 🚨 top finding was a false alarm that blamed the user's infrastructure for the auditor's tooling. **"Verify against a different source than the one that made the claim" includes the tool making the check.** What settled it was a header read Claude cannot perform and a consistency argument over the repo's git history — two sources, neither of them the fetch. **When a live check disagrees with the repo, suspect the check before filing the finding.***
+
+11. **A per-language site holds three copies of every hand-typed figure, and fixing the one you were shown is a third of the fix.** *(Found September 2, 2026.)* *On Aug 27 the ES homepage was caught hand-typing* **"45 reseñas"** *against an owner doc that had said* **46** *since Aug 14. It was fixed properly — `site/_data/site.json` gained `reviewCount`, `site/index.njk` was rewired to render it, and a `_reviewCountNote` was written asserting* **"This is the site's single rendering copy so no page hand-types it again."** ***That sentence was false when it was written.*** `site/en/index.njk` *and* `site/pt/index.njk` *each still hand-typed* **45**, *and kept doing so for another six days — nineteen days stale in total, longer than the ES page the pass was looking at.* **Check: when a hand-typed figure is found on any page, grep its ES, EN and PT siblings in the same breath — and treat a `_note` that claims single-sourcing as a hypothesis to test, not a fact to trust.** *The note is written by the same session that made the fix, so it records the intention, never the coverage.*
+
+12. **A directory listing of the parent does not tell you whether the language siblings exist.** *(Found September 2, 2026, closing an item this same pass opened on Aug 24.)* *The Aug 24 pass reported* **"no EN/PT version of the tool exists anywhere in `site/members/`"** *and raised it 🚨 as live marketing copy selling a nonexistent product. `site/members/en/cyclist-core/` existed the whole time — the language versions are* ***subdirectories***, *not suffixes, so `ls site/members/` shows `en` and `pt` as two entries and reveals nothing about what is inside them.* **Check: diff every key in `site/_data/library.json` against the filesystem with `find site/members -ipath '*<slug>*'`, for every key in all three language blocks, every pass — not just the key someone asked about.** *Run properly, that check finds the one that is still live: `strength` is listed as `live`/`gated` in the EN and PT blocks with no `site/members/en/strength/` or `site/members/pt/forca/` behind it. **The Aug 24 pass had this in front of it and looked at one key.***
 
 **What this pass is not.** Not a rewrite, not a consolidation, not a place to fix writing. If a doc is stale *and* badly organised, fix the staleness here and log the reorganisation for the weekly pass. *The reason this is separate from the weekly pass is that it is boring and mechanical, and boring mechanical passes are the only kind that reliably find this class of error.*
 
