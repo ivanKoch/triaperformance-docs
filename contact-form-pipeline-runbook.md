@@ -63,8 +63,8 @@ Test: `curl -I https://triaperformance.com/api/contact-form` should reach n8n (l
 
 - Submit the form for real. Confirm in order: Person created in Twenty with `leadStatus = MESSAGE_SENT` and `campaignAttribution = "Website Contact Form"` -> confirmation email received -> Telegram notification received.
 - Submit again with the same email — confirm it hits the "already exists" branch (Telegram duplicate notice, no second Person created, no second email).
-- Wait for the next daily nurture run — confirm this lead now also receives email 2 at +24h like a CoachMatch lead would (it's queried by the same `leadStatus = MESSAGE_SENT` condition, so no separate wiring needed).
-- Confirm the Hermes WhatsApp watchdog (`twenty_followup_check.py`) picks this lead up the same way once it's 2+ days stale.
+- Wait for the next daily nurture run — confirm this lead now also receives email 2 ~~at +24h~~ ***on the next calendar day (Sept 2, 2026: the sequence is three consecutive calendar days from `createdAt`, not +24h/+48h — `ai-infrastructure-documentation.md` §8)*** like a CoachMatch lead would (it's queried by the same `leadStatus = MESSAGE_SENT` condition, so no separate wiring needed).
+- Confirm the Hermes WhatsApp watchdog (`twenty_followup_check.py`) picks this lead up the same way ~~once it's 2+ days stale~~ ***on the next calendar day after creation (Sept 2, 2026 — it now counts from `createdAt`, so the nurture email going out that morning no longer excludes the lead from the watchdog's query, which it used to)***.
 
 ### Rollback
 

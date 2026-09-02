@@ -10,18 +10,14 @@
 | Repurposed to Instagram | **38** |
 | Unused | **8** |
 
-*Updated August 14, 2026 from Iván: **46 total, 8 unused**. Previously 45 / 36 / 9 (Aug 2). **+1 review and +2 posted in twelve days** — the drip is still running at roughly its stated ~1/week and the review ask is still producing. Copies corrected in the same pass: `triaperformance-business-overview.md`, `open-loops.md` NEXT #6, `triaperformance-growth-roadmap.md`, `monthly-close-runbook.md`, and* ***`automation/lead-magnet-content.js`, which prints this number to customers on the lead-magnet pages in all three languages.*** *That last one is why this figure matters beyond bookkeeping: it is the only live metric in this repo that is also customer-facing copy.*
-
-> ***Update, August 27, 2026 — the website no longer keeps its own copy of this number.*** *The ES homepage was found hand-typing* **"45 reseñas de 5 estrellas en Google"** *— stale since this doc moved to 46 on Aug 14, so a **live, customer-facing** figure had contradicted its owner for thirteen days with nobody reading it. It now renders from `site.reviewCount` in `site/_data/site.json`, which is the site's single rendering copy; the three About pages read the same value. **This doc remains the owner** — when Iván states a new count, change it here and change `site.reviewCount`, and the whole site follows.* **`automation/lead-magnet-content.js` still hand-types it** *and was not touched — it is outside the Eleventy build, and it is the copy this file already singles out as the only live metric that is also customer-facing. Logged in `open-loops.md`.*
+*Counts come from Iván when he states one. **Cosmetic figure — allowed to drift, not reconciled anywhere, not a hygiene finding** (his call, September 2, 2026): a review count is stale the moment a review arrives, and no decision depends on it matching Google.*
 
 **These figures come from Iván and supersede every count elsewhere in this file and in any other doc.** Review count, subscriber count and athlete count are live metrics: they move, and no analysis in this file re-derives them. When Iván states one, take it as current and correct the copies — do not reconcile it against an older tally.
 
 
 ## The asset
 
-~~**45 Google Business Profile reviews, all 5 stars, zero negatives.**~~ **46 Google Business Profile reviews, all 5 stars, zero negatives.** 38 with written text, 5 star-only as of the July 2026 export (43); the 3 added since have not been categorized. Dated span: Sep 2024 – Aug 2026. ~~**36 of 45 have been repurposed to Instagram; 9 have not.**~~ **38 of 46 have been repurposed to Instagram; 8 have not.**
-
-> ***Corrected September 2, 2026, weekly hygiene pass — this paragraph was a second copy of the figure INSIDE its own owner doc.*** *It read 45 / 36 / 9 while the Live metrics table nineteen lines above it read **46 / 38 / 8**, stated by Iván on August 14. The Aug 14 update corrected five other files and `automation/lead-magnet-content.js`, and did not correct the paragraph directly beneath it.* **A doc that owns a figure is not exempt from carrying a stale copy of it — it is the likeliest place for one, because nobody greps the owner.** *Close #1 confirms no reviews were added in August (0 new; July produced 9), so 46 is current as of September 2, 2026.*
+**46 Google Business Profile reviews, all 5 stars, zero negatives.** 38 with written text, 5 star-only as of the July 2026 export (43); the 3 added since have not been categorized. Dated span: Sep 2024 – Aug 2026. **38 of 46 have been repurposed to Instagram; 8 have not.**
 
 The "under-distributed asset" framing from July is out of date — the drip is running at ~1 testimonial post/week and has worked through most of the backlog. Remaining unused inventory is ~9 weeks, but this is not a real constraint: previously-posted reviews are recyclable after roughly a year (nobody is auditing the profile for repeats), ~22 active athletes have never been asked, and ~14 of those are due an ask in the next cycle. Iván's standing rule is to ask at the 3–4 month athlete mark.
 

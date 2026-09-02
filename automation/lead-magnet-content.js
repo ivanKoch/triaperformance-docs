@@ -10,10 +10,13 @@
  * §8. Spanish uses voseo, matching the site.
  *
  * Zone percentages are copies of data/zones.csv, which owns them. Prices are
- * copies of triaperformance-pricing-and-positioning.md. Review count and
- * catalogue count are copies of social-proof-and-reviews.md and
- * training-plans-analysis.md respectively. If any of those move, they move here
- * in the same session.
+ * copies of triaperformance-pricing-and-positioning.md — those two move here in
+ * the same session they move there, because a wrong price or a wrong zone
+ * changes what someone does.
+ *
+ * The review count and the plan count in `stats` are DECORATION and are
+ * deliberately NOT maintained (Ivan, Sep 2, 2026). They drift, that is fine,
+ * and nobody is to open an item about it.
  */
 
 ES_INTRO={
@@ -284,12 +287,6 @@ const ES = {
       "Triaperformance es el proyecto de coaching de <strong>Iván Koch</strong>: entrenamiento de triatlón y running construido sobre datos, no sobre plantillas. Un solo servicio, la misma metodología para todos — la que acabás de leer— y una revisión semanal de lo que hiciste y de lo que viene.",
       "Trabajamos en remoto con atletas en toda América y Europa, desde el primer 10k hasta Ironman.",
     ],
-    // REVIEW COUNT, all three languages below: 45 -> 46, corrected Aug 14, 2026.
-    // This file prints a live metric to customers. It is the only place in the
-    // repo where a stale number is customer-facing rather than internal, so it
-    // gets corrected in the same pass as social-proof-and-reviews.md, which
-    // owns the figure (46 total / 38 posted to IG / 8 unused).
-    // The plan count (328) is owned by data/training_plans_inventory.csv.
     stats: [["46", "reseñas · todas 5 estrellas"], ["328", "planes publicados"], ["3", "idiomas"]],
   },
   cta: {

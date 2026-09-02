@@ -38,12 +38,16 @@ ENVIRONMENT (read from ~/.hermes/.env and ~/.analytics/.env automatically)
 """
 
 import argparse
+import collections
+import glob
 import html.entities
 import json
+import math
 import os
 import re
 import sys
 import time
+import unicodedata
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -640,6 +644,194 @@ def theme_clusters(posts, min_sources=2, max_doc_freq=0.25):
     return clusters[:25]
 
 
+# ---------------------------------------------------------------------------
+# Duplicate detection against what is already published.
+#
+# WHY THIS IS CODE AND NOT A PROMPT RULE
+# The prompt has ALWAYS carried a list headed "ALREADY PROPOSED OR PUBLISHED (do
+# not repeat)". It did not work. On Aug 30 and Sep 2, 2026 the agent proposed a
+# second "El método noruego simplificado", a second Valencia marathon plan and a
+# second marathon-durability article — with the first one's title sitting in its
+# own context window each time. Five near-duplicates in two batches.
+#
+# This is the same lesson as convergence detection, which went from 2/12 to 8/12
+# usable ideas the day it moved out of the prompt and into theme_clusters():
+# a model asked to check something against a long list will say it did. Code
+# that computes it does.
+#
+# WHY TITLES AND NOT BODIES
+# Body-text similarity finds nothing here — the duplicates sit below 0.27
+# Jaccard on their bodies, because two articles about the Norwegian method
+# genuinely say different things in different words. What makes them duplicates
+# is that they answer the same query. That lives in the title and the slug.
+#
+# WHY IDF-WEIGHTED
+# Sharing "maraton" is meaningless in a corpus that is mostly marathon articles.
+# Sharing "durabilidad" is decisive: it appears in exactly two Spanish articles
+# and they are the duplicate pair. Rarity within OUR corpus is the signal, so it
+# is measured against our corpus rather than assumed.
+# ---------------------------------------------------------------------------
+
+DUP_STOP = set("""
+de la el los las en y a un una para tu tus por que como con sin del al es no se su lo
+the a an of to for your in on and how why what is not with without from at it its this that you
+do da de dos das em para por com sem seu sua os as e no na uma ser mais
+""".split())
+
+# Above this, the idea is dropped before Iván ever sees it — at these scores the
+# two titles answer the same question. Below it, the idea survives with its
+# nearest neighbours named, because "close to an existing article" is often
+# exactly right: a cluster covering one subject from several angles is what
+# topical authority looks like, and pruning that would be the wrong lesson.
+DUP_REJECT = 0.45
+DUP_FLAG = 0.28
+
+
+def _dup_terms(*parts):
+    out = set()
+    for p in parts:
+        s = unicodedata.normalize("NFKD", str(p or "").lower().replace("-", " "))
+        s = "".join(c for c in s if not unicodedata.combining(c))
+        out |= {w for w in re.sub(r"[^a-z0-9\s]", " ", s).split()
+                if len(w) > 3 and w not in DUP_STOP}
+    return out
+
+
+def published_corpus(repo):
+    """Every article actually on the site, read from its front matter.
+
+    Read from the .njk FILES rather than content_pieces on purpose: the files
+    are what the site serves and what Google sees, they include the six
+    hand-written articles that predate the engine and have no database row, and
+    they exclude rows that were published and later removed. The database is
+    downstream of them.
+    """
+    out = []
+    for lang, sub in (("es", "site/blog"), ("en", "site/en/blog"), ("pt", "site/pt/blog")):
+        for path in sorted(glob.glob(os.path.join(repo, sub, "*.njk"))):
+            if path.endswith("index.njk"):
+                continue
+            txt = open(path, encoding="utf-8").read()
+            if not txt.startswith("---"):
+                continue
+            fm = txt.split("---", 2)[1]
+            g = lambda k: (re.search(rf"^{k}:\s*(.*)$", fm, re.M).group(1).strip().strip('"')
+                           if re.search(rf"^{k}:", fm, re.M) else "")
+            slug = os.path.basename(path)[:-4]
+            out.append({"lang": lang, "slug": slug, "headline": g("headline"),
+                        "topic": g("topic"), "trans_key": g("transKey"), "date": g("date"),
+                        "_sig": _dup_terms(g("headline"), slug)})
+    return out
+
+
+def corpus_idf(corpus):
+    """Per-language inverse document frequency over titles+slugs."""
+    idf = {}
+    for lang in ("es", "en", "pt"):
+        docs = [a["_sig"] for a in corpus if a["lang"] == lang]
+        n = len(docs)
+        df = collections.Counter(t for d in docs for t in d)
+        idf[lang] = {t: math.log((n + 1) / (c + 0.5)) for t, c in df.items()}
+    return idf
+
+
+def dup_score(sig_a, sig_b, weights):
+    """Cosine over IDF-weighted term sets. 0 = unrelated, 1 = same terms."""
+    w = lambda s: sum(weights.get(t, 2.0) for t in s)
+    den = math.sqrt(w(sig_a) * w(sig_b))
+    return (w(sig_a & sig_b) / den) if den else 0.0
+
+
+def nearest_published(title, lang, corpus, idf, k=3):
+    """The k published articles closest to this title, in the same language."""
+    sig = _dup_terms(title)
+    weights = idf.get(lang, {})
+    scored = [(dup_score(sig, a["_sig"], weights), a)
+              for a in corpus if a["lang"] == lang]
+    scored.sort(key=lambda x: -x[0])
+    return [(s, a) for s, a in scored[:k] if s > 0.05]
+
+
+def screen_ideas(ideas, corpus, idf):
+    """Drop clones of published articles, and clones of each other.
+
+    Returns (kept, dropped) where dropped carries a human-readable reason.
+    Anything merely CLOSE is kept, with the nearest article recorded in
+    `_overlap` so it reaches the review page — Gate A cannot reject a duplicate
+    it has no way to recognise, and until now nothing told it.
+    """
+    kept, dropped = [], []
+    for idea in ideas:
+        title = idea.get("working_title", "")
+        lang = idea.get("language", "es")
+        near = nearest_published(title, lang, corpus, idf, k=3)
+
+        if near and near[0][0] >= DUP_REJECT:
+            s, a = near[0]
+            dropped.append((idea, f"{s:.2f} vs published '{a['headline'][:60]}' ({a['slug']})"))
+            continue
+
+        # Within-batch: the Aug 30 run proposed two threshold-control articles
+        # in a single call. No amount of corpus history catches that — the
+        # collision is between two things that do not exist yet.
+        sig = _dup_terms(title)
+        clash = None
+        for k2 in kept:
+            if k2.get("language") != lang:
+                continue
+            s = dup_score(sig, _dup_terms(k2.get("working_title", "")), idf.get(lang, {}))
+            if s >= DUP_REJECT:
+                clash = (s, k2.get("working_title", ""))
+                break
+        if clash:
+            dropped.append((idea, f"{clash[0]:.2f} vs another idea in this batch: '{clash[1][:60]}'"))
+            continue
+
+        # Flag only when at least TWO substantive terms are shared. A single
+        # shared word scores surprisingly high when it is rare in our corpus but
+        # generic in the language — "Cómo elegir gafas de natación" matched
+        # "Cómo elegir tu plan de maratón" on `elegir` alone. One verb in common
+        # is not overlapping coverage, and a review page that cries wolf gets
+        # ignored, which costs more than the duplicate would.
+        if near and near[0][0] >= DUP_FLAG and len(sig & near[0][1]["_sig"]) >= 2:
+            # Show the top two, not just the top one. Ranking by score alone
+            # sometimes puts a weaker match first — the English durability
+            # duplicate scored highest against a first-marathon article rather
+            # than against its actual twin. Two lines cost nothing to read and
+            # remove that failure mode.
+            # The FIRST hit must clear DUP_FLAG — that is what triggered this.
+            # The second only has to be relevant (two substantive terms in
+            # common), because once we are already showing a warning, naming a
+            # second candidate is free and the true twin sometimes scores lower
+            # than a noisier neighbour.
+            hits = [(s, a) for s, a in near[:2] if len(sig & a["_sig"]) >= 2]
+            note = "⚠️ Cercano a artículo(s) ya publicado(s):\n" + "\n".join(
+                f"   ({s:.2f}) «{a['headline']}» — /{a['slug']}/" for s, a in hits)
+            s, a = hits[0]
+            idea["_overlap"] = note
+            # Written into `rationale` because that is the field the review page
+            # already renders. Gate A could not reject a duplicate it had no way
+            # to recognise; now the nearest existing article is on the card next
+            # to the Sí / No buttons, which is the only place it is useful.
+            idea["rationale"] = note + "\n\n" + (idea.get("rationale") or "")
+        kept.append(idea)
+    return kept, dropped
+
+
+def coverage_block(corpus):
+    """Article counts per topic and language — the shape of what we cover.
+
+    Handed to the agent because a gap it cannot see is a gap it cannot fill.
+    Zero swimming articles in a triathlon coaching business is not something
+    source-blog crawling will ever surface.
+    """
+    per = collections.Counter((a["topic"] or "—", a["lang"]) for a in corpus)
+    topics = sorted({t for t, _ in per})
+    rows = [{"topic": t, "es": per[(t, "es")], "en": per[(t, "en")], "pt": per[(t, "pt")]}
+            for t in topics]
+    return rows
+
+
 PROMPT = """You are the research agent for Triaperformance, a triathlon and running coaching business.
 
 Your job: propose {n} article ideas for their blog. You are NOT writing articles.
@@ -748,7 +940,30 @@ RECENT SOURCE POSTS
 OUR ASSETS
 {assets}
 
-ALREADY PROPOSED OR PUBLISHED (do not repeat):
+ALREADY PUBLISHED — every article live on the site, per language.
+Read this before proposing anything. An idea whose title scores as a near-clone
+of one of these is DISCARDED IN CODE before Iván sees it, so proposing one costs
+you a slot and gains nothing. This is checked, not trusted.
+{published}
+
+HOW WE COVER EACH TOPIC (article counts — the shape of our archive)
+{coverage}
+A topic with a low count is not a warning, it is an opening. A topic with zero
+articles is a hole in the archive that the source blogs will never reveal to
+you, because they are not us. Weigh these counts when choosing.
+
+WHEN YOUR IDEA IS CLOSE TO SOMETHING PUBLISHED
+Close is not automatically wrong — a cluster covering one subject from several
+angles is how topical authority is built. But say so explicitly. If an idea sits
+near an existing article, name that article in `rationale` and state in one
+sentence what a reader gets here that they do not get there. If you cannot say
+it, the honest move is a different idea.
+
+NEVER propose two ideas in this same batch that answer the same question. They
+are checked against each other as well as against the archive, and the second
+one is discarded.
+
+STILL OPEN, NOT YET WRITTEN (proposed or approved, no article yet — do not repeat):
 {existing}
 """
 
@@ -1194,12 +1409,28 @@ def main():
           f"{len(assets['methodology_sections'])} methodology sections, "
           f"{len(assets['races'])} races")
 
+    # What is actually on the site, read from the repo. This replaces the old
+    # "SELECT working_title FROM content_ideas" list, which was the wrong list
+    # in three ways: idea working titles are not published headlines, rejected
+    # ideas were mixed in with live articles, and it carried no language, topic
+    # or slug — so nothing could be computed from it and nothing was.
+    corpus = published_corpus(REPO)
+    idf = corpus_idf(corpus)
+    cov = coverage_block(corpus)
+    print(f"[corpus] {len(corpus)} published article(s): "
+          + " · ".join(f"{r['topic']} {r['es']}/{r['en']}/{r['pt']}" for r in cov))
+
     existing = []
     conn = None
     if not args.dry_run:
         conn = connect()
         with conn.cursor() as cur:
-            cur.execute("SELECT working_title FROM content_ideas ORDER BY created_at DESC LIMIT 150")
+            # Only ideas with no article yet. A PUBLISHED idea is already in the
+            # corpus above, under its real headline; listing it here as well
+            # said the same thing twice in two different wordings.
+            cur.execute("""SELECT working_title FROM content_ideas
+                           WHERE status IN ('PROPOSED','APPROVED','WRITTEN')
+                           ORDER BY created_at DESC LIMIT 100""")
             existing = [r[0] for r in cur.fetchall()]
 
     api_key = os.environ.get("GOOGLE_API_KEY")
@@ -1221,6 +1452,10 @@ def main():
                              "summary": p.get("summary", "")[:300], "url": p["url"]}
                             for p in recent[:120]], ensure_ascii=False, indent=1),
         assets=json.dumps(assets, ensure_ascii=False, indent=1)[:6000],
+        published=json.dumps(
+            [{"lang": a["lang"], "topic": a["topic"], "title": a["headline"], "slug": a["slug"]}
+             for a in corpus], ensure_ascii=False, indent=1)[:14000],
+        coverage=json.dumps(cov, ensure_ascii=False),
         existing=json.dumps(existing, ensure_ascii=False),
     )
 
@@ -1228,6 +1463,21 @@ def main():
     result = call_model(prompt, api_key, model)
     ideas = result.get("ideas", [])
     print(f"[model] returned {len(ideas)} ideas")
+
+    # The check the prompt could never enforce on itself.
+    ideas, dropped = screen_ideas(ideas, corpus, idf)
+    if dropped:
+        print(f"[dedupe] discarded {len(dropped)} idea(s) as near-duplicates:")
+        for idea, why in dropped:
+            print(f"    ✕ {idea.get('working_title','?')[:64]}")
+            print(f"      {why}")
+    flagged = [i for i in ideas if i.get("_overlap")]
+    if flagged:
+        print(f"[dedupe] {len(flagged)} kept but close to existing coverage "
+              f"(noted on the review page):")
+        for i in flagged:
+            print(f"    ~ {i.get('working_title','?')[:64]}")
+    print(f"[dedupe] {len(ideas)} idea(s) survive")
 
     if args.dry_run:
         from collections import Counter

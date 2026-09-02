@@ -60,7 +60,7 @@ STATE_DIR="${STATE_DIR:-$HOME/.hermes/state}"
 # shape of every runaway bill, so the count is bounded.
 WRITE_LIMIT="${WRITE_LIMIT:-3}"
 # Counted in ARTICLES, not generations — each one costs up to two model calls.
-TRANSLATE_LIMIT="${TRANSLATE_LIMIT:-2}"
+TRANSLATE_LIMIT="${TRANSLATE_LIMIT:-4}"   # 2 -> 4, Ivan, Sep 2 2026: 18 pending drained in 9 nights at 2; cost is ~$0.10/article, the constraint is review appetite
 
 AGENT="${1:-}"
 case "$AGENT" in

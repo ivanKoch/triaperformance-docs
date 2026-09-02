@@ -185,7 +185,7 @@ to Gemini to generate article ideas. That content is attacker-influenceable in p
 
 **The design already handles this well and should be credited: there are two human approval
 gates**, at `/admin/ideas/` and again at `/admin/drafts/`, before anything publishes. Spend is
-bounded too (`WRITE_LIMIT=3`, `TRANSLATE_LIMIT=2` in `run-agent.sh`, with the reasoning written
+bounded too (`WRITE_LIMIT=3`, `TRANSLATE_LIMIT=4` in `run-agent.sh`, with the reasoning written
 down). Injected instructions cannot reach the site unattended.
 
 The residual risk is that **the gates are skimmable, and this repo already contains the

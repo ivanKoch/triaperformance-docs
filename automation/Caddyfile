@@ -254,6 +254,16 @@ triaperformance.com {
 	redir /blog/como-entrenar-el-umbral-de-lactato-running/ /blog/entrenar-el-umbral-sin-tiras-de-lactato/ permanent
 	redir /blog/como-entrenar-el-umbral-de-lactato-running /blog/entrenar-el-umbral-sin-tiras-de-lactato/ permanent
 
+	# Duplicate-article merges, September 2, 2026. The research agent cannot read
+	# what is already published (open item in open-loops.md), so the Aug 30 and
+	# Sep 2 batches proposed fresh articles on subjects the blog already covered.
+	# Rule applied per Ivan, Sep 2: keep the OLDER article — it has age, internal
+	# links and whatever indexing exists — fold anything genuinely new into it,
+	# and redirect the newer URL here. Deleting outright would lose real content;
+	# leaving both live means they compete for the same query.
+	redir /blog/plan-entrenamiento-maraton-valencia-12-18-semanas/ /blog/plan-entrenamiento-maraton-valencia/ permanent
+	redir /blog/plan-entrenamiento-maraton-valencia-12-18-semanas /blog/plan-entrenamiento-maraton-valencia/ permanent
+
 	# Spanish lives at the ROOT of this site (/planes/, /blog/), not under an /es/
 	# prefix -- only EN and PT are prefixed. At least one third-party marketplace
 	# listing Iván cannot edit himself points at https://triaperformance.com/es/,

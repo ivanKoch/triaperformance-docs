@@ -10,6 +10,27 @@ API_URL = "http://100.70.89.17:3000/graphql"
 
 LOST_NO_RESPONSE_DAYS = 7  # days silent after touch 3 before auto-marking lost
 
+# The follow-up sequence is three CONSECUTIVE CALENDAR DAYS, counted from the
+# lead's creation date. Day 0: the CoachMatch n8n workflow creates the lead,
+# sends email 1 and hands Ivan the message-1 wa.me link (whatsappTouchCount = 1).
+# Day 1: message 2. Day 2: message 3. Calendar days, not business days and not
+# elapsed hours -- a lead that arrives at 23:00 is due for message 2 the next
+# morning, not 24 hours later.
+#
+# Why createdAt and not lastTouchpoint (changed September 2, 2026): the email
+# nurture workflow writes lastTouchpoint every time it sends email 2 or 3, and
+# this script's window was measured from that same field. So the other channel
+# kept pushing this one out -- the nominal 2-day WhatsApp gap became 4+ days in
+# real runs, and the sequence was never consecutive. Both channels now run off
+# the same fixed createdAt timeline and cannot move each other. lastTouchpoint
+# is still read, but only for the auto-LOST check, where "when did we last
+# touch this person at all" is exactly the right question.
+AR_TZ = timezone(timedelta(hours=-3))  # America/Cordoba. Fixed offset on
+                                       # purpose: Argentina has had no DST
+                                       # since 2009, and a fixed offset does
+                                       # not depend on tzdata being present in
+                                       # the Hermes container.
+
 # Markets where the CoachMatch n8n workflow deliberately skips WhatsApp outreach
 # (the "Skip WhatsApp Outreach — BR/AR" filter node). Those leads still get
 # created as MESSAGE_SENT and still run the 3-email nurture, so this script --
@@ -84,6 +105,39 @@ MESSAGE_TEMPLATES = {
     ),
 }
 
+def local_date(dt):
+    """The calendar date in Ivan's timezone -- the unit this sequence counts in."""
+    return dt.astimezone(AR_TZ).date()
+
+
+def parse_iso(value):
+    """Twenty returns ISO-8601 with a trailing Z, which fromisoformat won't take."""
+    if not value:
+        return None
+    if value.endswith("Z"):
+        value = value[:-1] + "+00:00"
+    try:
+        return datetime.fromisoformat(value)
+    except Exception as parse_err:
+        print(f"Error parsing date {value}: {parse_err}", file=sys.stderr)
+        return None
+
+
+def expected_touch(created_at, now):
+    """Which message number this lead should be at today: 1 on the day it
+    arrived, 2 the next calendar day, 3 the day after. Capped at 3 -- there is
+    deliberately no message 4.
+
+    Returning the message the lead is *due for* rather than a "has enough time
+    passed" boolean buys two things: a second run on the same day sends nothing
+    (wa_touch already equals the expected number), and a missed day resumes at
+    the next message in sequence instead of skipping one."""
+    if created_at is None:
+        return 1
+    days = (local_date(now) - local_date(created_at)).days
+    return max(1, min(days + 1, 3))
+
+
 def build_whatsapp_link(first_name, calling_code, phone_number, message_number):
     if not phone_number:
         return None
@@ -129,19 +183,17 @@ def mark_lost(person_id):
 
 def main():
     now = datetime.now(timezone.utc)
-    cutoff_dt = (now - timedelta(days=2)).replace(microsecond=0)
-    cutoff_str = cutoff_dt.isoformat().replace("+00:00", "Z")
     now_str = now.replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
-    # Single query with the loosest cutoff (2 days) -- covers both the
-    # message-2/3 candidates (need 2+ days) and touch-3 leads being checked
-    # against the stricter 7-day lost threshold below.
+    # No server-side date filter any more. The old one filtered on
+    # lastTouchpoint, which is the field the email workflow keeps moving -- a
+    # lead emailed this morning was excluded from this query entirely, so its
+    # WhatsApp nudge could never be built. Due-ness is now decided per lead
+    # against createdAt below. The MESSAGE_SENT pool stays small because the
+    # auto-LOST branch drains it, and `first: 200` is the safety ceiling.
     query = """
-    query FindPeople($status: String!, $cutoffDate: DateTime!) {
-      people(filter: {
-        leadStatus: { eq: $status },
-        lastTouchpoint: { lt: $cutoffDate }
-      }) {
+    query FindPeople($status: String!) {
+      people(filter: { leadStatus: { eq: $status } }, first: 200) {
         edges {
           node {
             id
@@ -149,6 +201,7 @@ def main():
             emails { primaryEmail }
             phones { primaryPhoneNumber primaryPhoneCallingCode }
             leadStatus
+            createdAt
             lastTouchpoint
             emailTouchCount
             whatsappTouchCount
@@ -161,7 +214,6 @@ def main():
 
     variables = {
         "status": "MESSAGE_SENT",
-        "cutoffDate": cutoff_str
     }
 
     data = run_graphql_query(query, variables)
@@ -180,16 +232,12 @@ def main():
         last = name_obj.get("lastName") or ""
         name = f"{first} {last}".strip() or f"Unknown (ID: {node.get('id')})"
 
-        touchpoint_str = node.get("lastTouchpoint")
-        days_since = None
-        if touchpoint_str:
-            try:
-                if touchpoint_str.endswith("Z"):
-                    touchpoint_str = touchpoint_str[:-1] + "+00:00"
-                touchpoint_dt = datetime.fromisoformat(touchpoint_str)
-                days_since = (now - touchpoint_dt).total_seconds() / 86400.0
-            except Exception as parse_err:
-                print(f"Error parsing date {touchpoint_str}: {parse_err}", file=sys.stderr)
+        # lastTouchpoint answers "how long have they been silent" (the LOST
+        # check); createdAt answers "where in the 3-day sequence are they"
+        # (which message is due). Two different questions, two different fields.
+        touchpoint_dt = parse_iso(node.get("lastTouchpoint"))
+        created_dt = parse_iso(node.get("createdAt"))
+        days_since = (now - touchpoint_dt).total_seconds() / 86400.0 if touchpoint_dt else None
 
         days_str = f"{int(days_since)} day{'s' if int(days_since) != 1 else ''}" if days_since is not None else "unknown time"
         email_touch = node.get("emailTouchCount") or 0
@@ -232,6 +280,12 @@ def main():
                     lost_lines.append(f"- {name} · {days_str} since last touch, no response after 3 messages · marked LOST_NO_RESPONSE")
             continue
 
+        due_touch = expected_touch(created_dt, now)
+        if wa_touch >= due_touch:
+            # Already at today's message in the sequence. Nothing due -- and
+            # this is also what makes a second run on the same day a no-op.
+            continue
+
         message_number = wa_touch + 1  # 2 or 3
         wa_link = build_whatsapp_link(first, calling_code, phone_number, message_number)
 
@@ -243,7 +297,7 @@ def main():
         flagged_lines.append(line)
 
     if flagged_lines:
-        print("Following up needed — no status update in 2+ days:")
+        print("Follow-ups due today (day 1 = message 2, day 2 = message 3):")
         for line in flagged_lines:
             print(line)
 

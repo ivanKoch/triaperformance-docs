@@ -48,14 +48,41 @@ recurring failure in this repo is a status written down that outlived reality.
 
 - Fetch triaperformance.com/planes/, /en/plans/, /pt/planos/. Note what each
   prints as its plan count.
-- Re-derive every figure the repo claims to own, from the file that owns it:
-    * published plan count + language split -> data/training_plans_inventory.csv
-      (is_published=TRUE), and cross-check it against what the live site printed
+- Re-derive only the figures a DECISION depends on, from the file that owns it:
     * plan sales figures -> data/plan_sales.csv, data/plan_performance.csv
-    * anything else a doc states as a number: find its source file, or flag that
-      it has none
+    * athlete counts, MRR, revenue, churn -> the latest monthly-close/YYYY-MM.md
+    * prices -> triaperformance-pricing-and-positioning.md
+
+  🛑 DO NOT re-derive, cross-check or report the REVIEW COUNT or the PUBLISHED
+  PLAN COUNT. Iván ruled on September 2, 2026: they are marketing decoration,
+  they are allowed to drift, and reconciling them is the defect. A review count
+  is stale the moment a review arrives; the catalogue moves whenever he deletes
+  ten plans or builds ten more. Nobody compares the site to GBP.
+
+  This is not a small exemption. Those two numbers generated ~25 KB of
+  correction notes, open items and weekly steps across nine files, and three
+  consecutive hygiene passes reported them as findings. If one is obviously
+  wrong, fix it silently and write nothing.
+
+  THE TEST, before reporting any figure as a finding: who acts differently once
+  it is right? If nobody, it is not a finding.
+
+  🛑 TWO MORE THINGS THAT ARE NEVER FINDINGS (Ivan, Sep 2, 2026):
+
+  1. MARKETING CLAIMS. "New tools every week" in a welcome email is a
+     commercial claim, not a contract. Do not audit copy for literal accuracy
+     against a backlog, and do not open an item when a promise outpaces
+     delivery. His words: "I am not signing a contract committing to it."
+
+  2. AN ABSENCE OF RECORD IS NOT AN ABSENCE OF THE THING. The repo carried
+     "no members-area tool has ever been verified by a human doing it" for
+     weeks. Ivan had tested all of them and Andrea tests them and sends
+     feedback; the repo simply had no note saying so. Never convert
+     "undocumented" into "not done" for anything Ivan does off-repo -- ask
+     him instead, or say nothing.
 - Scan published plan names for city/race tokens. There should be zero
-  race-stamped plans; that model is permanently retired.
+  race-stamped plans; that model is permanently retired. (This one stays: it is
+  a strategy violation, not a count.)
 - Tell me anything that needs checking on a system you can't reach (TrainingPeaks,
   n8n, Twenty, the VPS) as an explicit question, with the exact command or the
   exact screen to look at. Do not assume, and do not treat my silence as a yes.

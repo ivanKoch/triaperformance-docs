@@ -634,14 +634,29 @@ def translate(conn, piece_id, plans, model, api_key, dry_run):
         return
     for lang in targets:
         print(f"\n[writer] adapting piece {piece_id} into {LANG_NAME[lang]}")
-        cands = [p for p in plans["all"] if p["language"] == LANG_NAME[lang]
-                 and (not src_topics or (p["sport"], p["distance"]) in src_topics)]
-        topics = ", ".join(sorted(f"{s} {d}" for s, d in src_topics)) or "any"
-        print(f"    {len(cands)} candidate plan(s) in {LANG_NAME[lang]} "
-              f"matching: {topics}")
-        if src_topics and not cands:
-            print("    no equivalent plans in this market — the article will be "
-                  "written without plan cards", file=sys.stderr)
+        # An article that linked no plans is an EDUCATION piece, and it gets no
+        # plan list at all. Ivan's call, Sep 2 2026: passing one is too risky.
+        #
+        # This used to read `not src_topics or (...) in src_topics`, so an empty
+        # src_topics short-circuited to True and handed the translator EVERY plan
+        # in the target language -- 111 English rows, 53 Portuguese -- as link
+        # candidates for a piece the Spanish original had deliberately not used
+        # to sell anything. Two costs: tokens spent reading a catalogue that
+        # should not be used, and a real chance the sibling comes back MORE
+        # commercial than its source. An empty list is the honest signal.
+        if src_topics:
+            cands = [p for p in plans["all"] if p["language"] == LANG_NAME[lang]
+                     and (p["sport"], p["distance"]) in src_topics]
+            topics = ", ".join(sorted(f"{s} {d}" for s, d in src_topics))
+            print(f"    {len(cands)} candidate plan(s) in {LANG_NAME[lang]} "
+                  f"matching: {topics}")
+            if not cands:
+                print("    no equivalent plans in this market — the article will "
+                      "be written without plan cards", file=sys.stderr)
+        else:
+            cands = []
+            print(f"    source links no plans — education piece, "
+                  f"no plan list passed to {LANG_NAME[lang]}")
         prompt = TRANSLATE_PROMPT.format(
             language_name=LANG_NAME[lang], market_notes=MARKET_NOTES[lang],
             voice=brand_voice(),
