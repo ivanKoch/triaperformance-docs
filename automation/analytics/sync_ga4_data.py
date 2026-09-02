@@ -236,11 +236,25 @@ EVENT_UPSERT = """
 
 # Attribution. SESSION grain -- one row per session, then aggregated.
 #
-# Source comes from `session_traffic_source_last_click.manual_campaign`, which a
-# probe on Aug 30 2026 showed is populated on 100% of events. Do not substitute
-# `traffic_source` (USER-level first touch -- a user who once came direct reads
-# as direct forever) or `collected_traffic_source` (only on session_start and
-# first_visit).
+# Source comes from `session_traffic_source_last_click.manual_campaign`. Do not
+# substitute `traffic_source` (USER-level first touch -- a user who once came
+# direct reads as direct forever) or `collected_traffic_source` (only on
+# session_start and first_visit).
+#
+# CORRECTION, Sept 2, 2026 -- "the Aug 30 probe showed manual_campaign is
+# populated on 100% of events" was TRUE AND MISLEADING, and it is what caused
+# the `Other: (not set)` bug fixed below. It is populated on 100% of events
+# because GA4 fills an untagged session's fields with the literal string
+# '(not set)' -- so an IS NOT NULL check reports full coverage on a column
+# whose sentinel value is a string. A "populated" check has to name the
+# sentinels it is testing against, or it measures nothing.
+#
+# What the Sept 2 comparison against `cross_channel_campaign` DID establish,
+# and it is the reason this field stays: the two agree on every row in the
+# property except untagged/direct. cross_channel_campaign is NOT a better
+# source here -- its `default_channel_group` labels this site's deliberate
+# UTM convention (plan_listing, bio) as "Unassigned", which is exactly why
+# ga4_channel_day derives channel from the site's own rules instead.
 #
 # EVERY session attribute uses MIN(), not ANY_VALUE(), and this is not
 # cosmetic: source/medium/campaign/country are part of ga4_traffic_day's UNIQUE
@@ -263,9 +277,21 @@ WITH ev AS (
         (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'),
         r'^https?://[^/]+([^?#]*)'),
       '/') AS page_path,
-    LOWER(COALESCE(NULLIF(session_traffic_source_last_click.manual_campaign.source, ''),
+    -- DOUBLE NULLIF, and the second one is the whole fix (Sept 2, 2026).
+    -- GA4 writes the LITERAL STRING '(not set)' into manual_campaign for a
+    -- session that arrived with no UTM tags -- it does not write NULL and it
+    -- does not write ''. So `NULLIF(x, '')` alone passed '(not set)' straight
+    -- through, the '(direct)'/'(none)' defaults never fired, and every
+    -- DIRECT session landed in ga4_channel_day's `Other: (not set)` bucket --
+    -- 75 of 196 August sessions, the largest single "channel" in close #1.
+    -- Verified against cross_channel_campaign, which reports (direct)/(none)
+    -- for exactly the rows where manual_campaign reports (not set)/(not set)
+    -- and agrees with manual_campaign on every other row in the property.
+    LOWER(COALESCE(NULLIF(NULLIF(session_traffic_source_last_click.manual_campaign.source, ''),
+                          '(not set)'),
                    '(direct)')) AS source,
-    LOWER(COALESCE(NULLIF(session_traffic_source_last_click.manual_campaign.medium, ''),
+    LOWER(COALESCE(NULLIF(NULLIF(session_traffic_source_last_click.manual_campaign.medium, ''),
+                          '(not set)'),
                    '(none)')) AS medium,
     COALESCE(NULLIF(session_traffic_source_last_click.manual_campaign.campaign_name, ''),
              '(not set)') AS campaign,
