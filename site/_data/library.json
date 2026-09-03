@@ -172,6 +172,14 @@
       },
       {
         "tag": "Routine",
+        "name": "Swimmer's Shoulder",
+        "desc": "The shoulder that pinches as the arm leaves the water. Release, mobility and strength for the external rotators and the shoulder blade. With or without a band, at home or at the gym.",
+        "key": "shoulder",
+        "url": "/en/all-access/#biblioteca",
+        "gated": true
+      },
+      {
+        "tag": "Routine",
         "name": "No-Excuses Core",
         "desc": "Activation, core and mobility in one timed routine. No equipment and no more space than your own body length — for travel and difficult weeks.",
         "key": "core",
@@ -241,10 +249,6 @@
         "desc": "For the back that complains after the saddle or the long run."
       },
       {
-        "name": "Shoulder routine",
-        "desc": "For swimmers: what the knee is to the runner, the shoulder is in the water."
-      },
-      {
         "name": "More mental prep tools",
         "desc": "Routines for the week before, and for the bad patches mid-race."
       },
@@ -294,6 +298,14 @@
         "name": "Aquiles Sem Dor",
         "desc": "Carga progressiva para tendinopatia do aquiles, conforme onde exatamente dói. Com as regras para saber a cada dia se você passou do ponto.",
         "key": "achilles",
+        "url": "/pt/all-access/#biblioteca",
+        "gated": true
+      },
+      {
+        "tag": "Rotina",
+        "name": "Ombro de Nadador",
+        "desc": "O ombro que fisga ao sair da água. Liberação, mobilidade e força para os rotadores externos e a escápula. Com ou sem elástico, em casa ou na academia.",
+        "key": "shoulder",
         "url": "/pt/all-access/#biblioteca",
         "gated": true
       },
@@ -366,10 +378,6 @@
       {
         "name": "Rotina de lombar",
         "desc": "Para a lombar que reclama depois do selim ou do longo."
-      },
-      {
-        "name": "Rotina de ombro",
-        "desc": "Para nadadores: o que o joelho é para o corredor, o ombro é na água."
       },
       {
         "name": "Mais ferramentas de preparação mental",

@@ -1,6 +1,6 @@
 # Swimmer's Shoulder — home doc
 
-*Created September 3, 2026. Home doc for `/members/hombro/` (ES). Owns the routine design, the four changes made to Iván's source, the dosing, the red-flag boundary, and what was deliberately left out.*
+*Created September 3, 2026. Home doc for `/members/hombro/`, `/members/en/shoulder/` and `/members/pt/ombro/` — **all three languages shipped the same day.** Owns the routine design, the four changes made to Iván's source, the dosing, the red-flag boundary, and what was deliberately left out.*
 
 **Owns nothing numeric outside itself.** Prices → `triaperformance-pricing-and-positioning.md`. Zone percentages → `data/zones.csv`. Customer-facing library wording → `site/_data/library.json`. Open items → `open-loops.md`.
 
@@ -86,7 +86,7 @@ Same shape as the knee and Achilles boundaries: a short list of things that are 
 
 ## 7. Verification
 
-`/tmp/chk/shoulder-check.js` at build time — **91 checks, all passing.** Layers, in the order that has actually caught bugs on this repo:
+**227 checks across the three languages, all passing** (`shoulder-i18n.js`; the ES-only first pass was 91). Layers, in the order that has actually caught bugs on this repo:
 
 1. **All six routines build** — every branch reachable, exercise ids all resolve.
 2. **A full state walk to the done overlay** (48 actions, gym/no-tools). This layer exists because `strength-tool.js` once froze on the last set: `finish()` advanced `idx` past the end and `updateUI()` bailed before rendering the overlay. Nothing that stops earlier can see it.
@@ -103,6 +103,14 @@ Same shape as the knee and Achilles boundaries: a short list of things that are 
 
 *Why clinical assertions get their own layer:* a misplaced card is ugly, a compressive rep prescribed to an irritable tendon is harm, **and both look identical in a screenshot.** Established on the Achilles tool; this is the second application.
 
+**The translation pass added three layers of its own, and they are the ones worth reusing:**
+
+6. **The clinical assertions run again, in each language.** Not a copy for completeness — ***a translation is exactly where a clinical decision silently reverts***, because the reviewer is reading for fluency, and "sleeper stretch" has a plausible-sounding rendering in both Spanish and Portuguese. The sleeper check, the serratus check, the isometric-is-first check and the external-rotation check all run three times.
+7. **The routine SHAPE must be byte-identical across languages** — same six branches, same exercise counts, same set totals (`home/yes 13/25 · home/no 10/22 · band/yes 13/25 · band/no 10/22 · gym/yes 14/28 · gym/no 11/25`). This catches the failure that a per-language assertion cannot: a branch that quietly lost an exercise in translation still passes every check about what it *does* contain.
+8. **Engine chrome language, both directions.** The right words must be present *and* the other two languages' words must be absent. This is the bug that shipped `Inicio / Rutina / Ejercicios` into `/members/en/core/` — and one string escaped grep there, so presence-only checking is not enough.
+
+**Two failures on the translation run, both my expectations rather than the pages** — and worth recording because the correction is the same lesson twice: I *guessed* the tab labels (`Home/Workout`, `Início/Treino`) instead of reading `strengthUi.json`, where they are `Start/Routine` and `Início/Rotina`. A test built on a guess about a data file is a test of the guess. The foreign-leak lists were then rebuilt from the real values too, since they had the same defect and would have passed for the wrong reason.
+
 **Two failures on the first run were both the test, and were confirmed as such rather than assumed:**
 
 - The rest-timer probe assumed the first exercise had a rest. It is the open book — one set, no rest. Test now clicks until a rest actually starts.
@@ -114,7 +122,7 @@ Same shape as the knee and Achilles boundaries: a short list of things that are 
 
 ## 8. Not built, and why
 
-- **EN and PT.** ES only for now, per the standing sequence: ship ES → Iván reviews → translate. `library.json` keeps the shoulder entry in `soon` for EN and PT, and moves it to `live` for ES only. **That rule is the whole reason `library.json` exists** — three sales pages once sold a members area of tools that did not exist.
+- ~~**EN and PT.** ES only for now, per the standing sequence.~~ ***Done September 3, 2026** — `/members/en/shoulder/` and `/members/pt/ombro/` are live, `library.json` moved to `live` in all three, and the `soon` entries were removed in all three. Verified on the rendered All-Access pages: each language sells it as live and none still lists it as coming.*
 - **The dryland swimmer activation**, the second artifact Iván asked for in the same message. It belongs on the **activation** engine (timed), not this one. ***Open architectural question before it is built: it may be a third sport in the existing `/members/activacion/` matrix rather than a new page.*** The matrix already branches on sport × how-you-arrive × miniband, and a fourth standalone activation tool is how a matrix quietly becomes four hand-written routines again. Decide that before writing anything.
 - **The symptom-vs-yardage tracker** the source doc trails off into mid-sentence. Not built, not scoped, not promised anywhere. It is a logging tool, not a routine, and it would belong with the test log in the zones calculator rather than here.
 - **A shoulder article** to pair with the tool via `toolCta: shoulder`. The `key` is already in `library.json`, so the CTA partial will render the moment an article carries it. Nineteen agent-written articles still have no `toolCta` at all — tracked in `open-loops.md`, not here.

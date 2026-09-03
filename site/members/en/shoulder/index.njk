@@ -1,0 +1,224 @@
+---
+layout: layouts/base.njk
+pageCss: "members-fuerza.css"
+title: "Swimmer's Shoulder — Triaperformance All-Access"
+---
+{#- SWIMMER'S SHOULDER TOOL, v1 — English sibling of /members/hombro/. Same 6
+    routines, same library structure, same clinical decisions; only the copy
+    changes.
+
+    Original note follows.
+
+    SWIMMER'S SHOULDER TOOL, v1 — built Sept 3, 2026 from Iván's
+    `Swimmer shoulder.md`. Home doc: `swimmer-shoulder-brief.md`.
+    Third artifact on the strength engine, after rodillas and aquiles.
+
+    Two questions (place × release tools) → one of 6 routines.
+      place: home (no band) | band (home, with band) | gym
+      tools: roller + ball, yes/no
+
+    "Home without a band" is a real option and not padding: this tool gets
+    opened by someone whose shoulder hurts in a hotel room, and every exercise
+    in that branch works with a doorframe and the floor.
+
+    *** THE SLEEPER STRETCH IS DELIBERATELY ABSENT. The source doc prescribed it
+    — lie ON the painful shoulder, 90° of abduction, and push into end-range
+    internal rotation under bodyweight. That is the impingement position, loaded.
+    It is replaced by the cross-body stretch, which reaches the same posterior
+    capsule and the same internal-rotation deficit without compressing the joint
+    into the position that pinches. Do not re-add it. Same class of finding as
+    the insertional branch on the Achilles tool: the source told a symptomatic
+    athlete to do the provocative thing. ***
+
+    Three additions to the source, chosen by Iván: an isometric external-rotation
+    entry, serratus anterior work in EVERY branch (gym included — the source
+    trained only the retractors, and it is serratus that upwardly rotates the
+    scapula), and thoracic extension/rotation. Frequency is 2×/week. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/en/#biblioteca">Library</a> / Shoulder</div></div>
+
+  <div class="setup-head">
+    <span class="label">Strength</span>
+    <h1>Swimmer's shoulder</h1>
+    <p>Thousands of strokes pulling inward leave the shoulder rolled forward, and the tendon gets pinched every time the arm comes out of the water. This pulls the shoulder blade back and down, and builds endurance in the external rotators.</p>
+  </div>
+
+  <div class="setup-warn">
+    <strong>Before you start.</strong> This is strength training, not treatment. <strong>If the pain started after a fall or a hard yank, if you can't lift your arm on your own even though someone else can lift it for you, if it wakes you at night, or if you have numbness or tingling running below the elbow, this isn't what you need</strong> — you need a professional to look at it. Message me and we'll sort it out.
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Where are you training?</div>
+    <div class="setup-opts" data-axis="place">
+      <button type="button" class="setup-opt" data-val="home" aria-pressed="true">At home<span>no band</span></button>
+      <button type="button" class="setup-opt" data-val="band" aria-pressed="false">At home<span>with a band</span></button>
+      <button type="button" class="setup-opt" data-val="gym" aria-pressed="false">At the gym<span>cables, weights</span></button>
+    </div>
+    <p class="setup-hint">A resistance band is the only thing you need and it costs almost nothing — if you don't have one, the routine is still complete: the rotation exercises change, the goal doesn't. <strong>The gym only adds something once the shoulder has stopped bothering you day to day</strong>; a cable won't fix a shoulder blade that hasn't learned to move yet.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Do you have a roller and a ball?</div>
+    <div class="setup-opts" data-axis="tools">
+      <button type="button" class="setup-opt" data-val="yes" aria-pressed="true">Yes</button>
+      <button type="button" class="setup-opt" data-val="no" aria-pressed="false">No</button>
+    </div>
+    <p class="setup-hint">Roller for the lat, tennis ball for the pec. Without them the release block is skipped and you start with mobility — you lose something, but not the important part.</p>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Build my routine →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/strength-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.SHOULDER_ROUTINE = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY */
+  const L = {
+    /* --- release (only with roller and ball) --- */
+    rollLat: { name: "Roller: lat smash", sets: 1, reps: "60-90s per side", tag: "Foam roller",
+      cue: "On your side, roller just below the armpit, on the side of your ribs. <strong>When you find a tender spot, stop there and sweep the arm slowly up and down</strong> — that floss unglues the tissue far more than carrying on rolling. The lat is what rolls your shoulder forward." },
+    ballPec: { name: "Ball: pec minor release", sets: 1, reps: "60s per side", tag: "Tennis ball",
+      cue: "Ball high on the chest, near the front of the shoulder, and lean into a wall. <strong>Moderate pressure, don't crush it</strong>: there are nerves and tendons under there, and this isn't a spot to fight with." },
+
+    /* --- mobility and activation (all six routines) --- */
+    openBook: { name: "Open book (thoracic rotation)", sets: 1, reps: "8 per side", tag: "No equipment",
+      cue: "On your side, knees bent, arms straight out together in front. Open the top arm across to the other side and follow it with your eyes, <strong>keeping the knees still on the floor</strong>. If the upper back won't rotate, the shoulder has to find the range the spine is missing." },
+    thoracicExt: { name: "Thoracic extension over the roller", sets: 1, reps: "8 breaths", tag: "Foam roller",
+      cue: "Roller across your upper back, hands behind your head, and <strong>let your head fall back as you breathe out</strong>. Move it up two fingers' width and repeat. Never below the bottom ribs: that extends the lower back, which isn't the stiff part." },
+    wallAngel: { name: "Wall angels", sets: 2, reps: "12", rest: 30, tag: "Wall",
+      cue: "Back flat against the wall, elbows and wrists touching it like a goalpost. Slide up slowly into a \"Y\". <strong>If your lower back arches off the wall or your wrists pull away, that's where your range ends</strong> — don't force it, the gain is in the range you actually control." },
+    serratusSlide: { name: "Forearm wall slide", sets: 2, reps: "10", rest: 30, tag: "Wall",
+      cue: "Facing the wall, forearms on it. Slide them up and <strong>at the very top push the wall away as if you wanted to move back from it</strong>, letting the shoulder blades wrap around your ribs. That last push is the serratus, and it's the muscle that makes room for the tendon when you lift the arm." },
+
+    /* --- strength: shared by all three versions --- */
+    isoER: { name: "Isometric external rotation", sets: 3, reps: "30s per side", rest: 30, tag: "Doorframe",
+      cue: "Stand side-on to the frame, elbow tucked to your ribs and bent to 90°, back of the wrist against the frame. <strong>Push outward at 50% and hold. Nothing moves.</strong> Always start here: if it's sore today, this brings the pain down and lets you do the rest with good form instead of dodging it." },
+    pushPlus: { name: "Push-up plus (protraction)", sets: 3, reps: "10-12", rest: 45, tag: "No equipment",
+      cue: "High plank — or from your knees, or against a wall if the shoulder is sensitive. Lower and press as normal, and <strong>at the top, with elbows already locked, push the floor a little further until your upper back rounds</strong>. That extra inch is the whole exercise." },
+
+    /* --- strength: at home, no band --- */
+    sideLyingER: { name: "Side-lying external rotation", sets: 3, reps: "15-20 per arm", rest: 45, tag: "No equipment",
+      cue: "On your good side, top arm with the elbow tucked to the ribs (a rolled towel underneath helps) and bent to 90°. Rotate the forearm toward the ceiling. <strong>Little or no weight and lots of reps</strong>: the cuff is an endurance group, not a max-strength one. A small water bottle is more than enough." },
+    doorRow: { name: "Doorframe row", sets: 3, reps: "12 per arm", rest: 45, tag: "Doorframe",
+      cue: "Grip the frame with one hand, feet close in, and lean back with your body straight. Pull. <strong>The elbow travels back close to the body and the shoulder blade goes down, not up</strong> — if you feel your neck, the upper trap beat you to it." },
+    proneIYT: { name: "Prone I-Y-T raises", sets: 3, reps: "8 in each position", rest: 60, tag: "No equipment",
+      cue: "Face down, forehead resting, thumbs to the ceiling. Lift the arms: straight ahead (I), at 45° (Y), out to the side (T). <strong>Squeeze the blades together and down, never up toward your ears.</strong> All three unweighted first; weight comes once all 24 reps happen without a shrug." },
+
+    /* --- strength: at home, with a band --- */
+    bandER: { name: "Banded external rotation", sets: 3, reps: "15-20 per arm", rest: 45, tag: "Resistance band",
+      cue: "Band tied to a door handle, stand side-on, elbow tucked to the ribs with a rolled towel underneath. Rotate the forearm outward. <strong>Light resistance, high reps</strong> — if you have to pull with your body, the band is too heavy." },
+    bandFacePull: { name: "Banded face pull", sets: 3, reps: "15", rest: 45, tag: "Resistance band",
+      cue: "Band anchored at head height. Bring your hands toward your forehead <strong>driving the elbows back and rotating your hands up</strong>, finishing in a double-bicep pose. It's the exercise that hits external rotators and mid-trap most directly at the same time." },
+
+    /* --- strength: gym --- */
+    scapPullUp: { name: "Scapular pull-up", sets: 3, reps: "8-12", rest: 60, tag: "Pull-up bar",
+      cue: "Hang with straight arms. <strong>Without bending your elbows, pull the shoulder blades down and together until you rise an inch or two.</strong> Hold 2 seconds, lower. It's exactly the control you need during the catch, when the shoulder is most exposed." },
+    cableER: { name: "Cable external rotation", sets: 3, reps: "15 per arm", rest: 45, tag: "Low cable",
+      cue: "Same as the banded version, but the cable holds tension evenly through the whole range. Elbow tucked, towel underneath. <strong>Light weight, no jerking</strong>: this isn't about load, it's about endurance." },
+    inclineRow: { name: "Incline dumbbell row", sets: 3, reps: "12", rest: 60, tag: "Incline bench",
+      cue: "Face down on the bench at 30-45°. Row, squeezing the middle of your back. <strong>The bench is the point: it takes your lower back out of the equation</strong>, so the weight gets lifted by what's supposed to lift it." },
+    bottomsUp: { name: "Bottoms-up kettlebell press", sets: 3, reps: "8 per arm", rest: 60, tag: "Light kettlebell",
+      cue: "Kettlebell upside down, held by the handle with the bell pointing at the ceiling, and press overhead. <strong>Start with one that feels ridiculously light</strong>: keeping it upright demands everything from the cuff that this block has been training, and that's where you find out whether the shoulder is actually stable." },
+
+    /* --- final mobility (all six routines) --- */
+    crossBody: { name: "Cross-body shoulder stretch", sets: 1, reps: "90s per side", tag: "No equipment",
+      cue: "Bring the arm across your chest and hold it with the other hand above the elbow. <strong>Before you pull, draw the shoulder blade down and don't let it travel forward</strong> — if the blade slides, you're stretching your back instead of the back of the shoulder, which is the part that shortens from swimming. It should be felt behind the shoulder, never as a pinch at the front." },
+    childLat: { name: "Child's pose with lat bias", sets: 1, reps: "2 min", tag: "No equipment",
+      cue: "Sitting back on your heels, arms stretched out in front. <strong>Walk both hands well over to the left to stretch the right lat</strong>, breathe there, then over to the right. The lat is what pulls the shoulder into internal rotation; if you don't release it, everything above works against you." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES */
+  const RELEASE = ["rollLat", "ballPec"];
+  const PREP = ["openBook", "wallAngel", "serratusSlide"];
+  const STRENGTH = {
+    home: ["isoER", "sideLyingER", "doorRow", "proneIYT", "pushPlus"],
+    band: ["isoER", "bandER", "bandFacePull", "proneIYT", "pushPlus"],
+    gym:  ["isoER", "scapPullUp", "cableER", "inclineRow", "bottomsUp", "pushPlus"]
+  };
+  const MOBILITY = ["crossBody", "childLat"];
+
+  const WHY = "Swimming is thousands of strokes pulling inward and backward. The internal rotators — lats and pecs — get huge, and the external rotators and the muscles that steer the shoulder blade get left behind. The shoulder rolls forward, the space inside the joint narrows, and every time the arm comes out of the water the tendon is pinched against bone. So this doesn't train \"the shoulder\": it releases what pulls it forward, wakes up the serratus so the shoulder blade rotates upward properly, and builds endurance in the external rotators. Those are endurance muscles, not max-strength ones — hence the high reps and the light load.";
+
+  const PLACE = { home: "At home · no band", band: "At home · with a band", gym: "At the gym" };
+
+  const WARNING = "<strong>Twice a week.</strong> Same day as swimming is fine — after, not before: with a tired cuff your stroke technique falls apart on its own.<br><br>" +
+    "<strong>The shoulder traffic light.</strong> A dull ache or fatigue behind the shoulder or between the blades: that's exactly where it should be felt, keep going. <strong>Sharp, pinching pain at the front or top of the shoulder, especially past 90°: that set ends there.</strong> That's the impingement, and in the shoulder pushing through doesn't inflame — it tears.<br><br>" +
+    "<strong>And watch the shoulders, not the arm.</strong> When the cuff tires, the upper trap takes over and the shoulder shrugs up toward the ear. The moment that shrug shows up, the set is over — the reps after it are being done by a different muscle.";
+
+  function build(place, tools) {
+    const pick = (ids) => ids.map((id) => {
+      const e = L[id];
+      if (!e) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({}, e);
+    });
+
+    const phases = [];
+    // The roller earns a place in the mobility block too, not just the release
+    // one: thoracic extension over a roller is the version that actually moves
+    // a stiff spine, and the open book is what stands in for it without one.
+    if (tools === "yes") phases.push({ name: "Release", exercises: pick(RELEASE) });
+    phases.push({ name: "Mobility and activation",
+      exercises: pick(tools === "yes" ? ["thoracicExt"].concat(PREP) : PREP) });
+    phases.push({ name: "Strength", exercises: pick(STRENGTH[place]) });
+    phases.push({ name: "Final mobility", exercises: pick(MOBILITY) });
+
+    return {
+      title: "Swimmer's shoulder",
+      crumb: "Shoulder",
+      kicker: "Strength",
+      subtitle: "Release, mobility, strength and stretching. Finish each set and tap the button — the only clock here is the rest between sets.",
+      context: PLACE[place] + (tools === "yes" ? " · with roller" : ""),
+      why: WHY,
+      warning: WARNING,
+      doneSub: "Done. A healthy shoulder goes unnoticed — which is why this work has to happen before you need it.",
+      phases: phases
+    };
+  }
+
+  return { build: build, library: L };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { place: "home", tools: "yes" };
+
+  document.querySelectorAll(".setup-opts").forEach((group) => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.STRENGTH_DATA = window.SHOULDER_ROUTINE.build(choice.place, choice.tools);
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/strength-tool.js";
+    document.body.appendChild(s);
+
+    // Reload rather than re-initialise: the engine holds its rest timer in
+    // closure with no teardown. Same call as the knee and Achilles tools.
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Change options";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

@@ -1,0 +1,224 @@
+---
+layout: layouts/base.njk
+pageCss: "members-fuerza.css"
+title: "Ombro de Nadador — Triaperformance All-Access"
+---
+{#- SWIMMER'S SHOULDER TOOL, v1 — Portuguese sibling of /members/hombro/. Same 6
+    routines, same library structure, same clinical decisions; only the copy
+    changes.
+
+    Original note follows.
+
+    SWIMMER'S SHOULDER TOOL, v1 — built Sept 3, 2026 from Iván's
+    `Swimmer shoulder.md`. Home doc: `swimmer-shoulder-brief.md`.
+    Third artifact on the strength engine, after rodillas and aquiles.
+
+    Two questions (place × release tools) → one of 6 routines.
+      place: home (no band) | band (home, with band) | gym
+      tools: roller + ball, yes/no
+
+    "Home without a band" is a real option and not padding: this tool gets
+    opened by someone whose shoulder hurts in a hotel room, and every exercise
+    in that branch works with a doorframe and the floor.
+
+    *** THE SLEEPER STRETCH IS DELIBERATELY ABSENT. The source doc prescribed it
+    — lie ON the painful shoulder, 90° of abduction, and push into end-range
+    internal rotation under bodyweight. That is the impingement position, loaded.
+    It is replaced by the cross-body stretch, which reaches the same posterior
+    capsule and the same internal-rotation deficit without compressing the joint
+    into the position that pinches. Do not re-add it. Same class of finding as
+    the insertional branch on the Achilles tool: the source told a symptomatic
+    athlete to do the provocative thing. ***
+
+    Three additions to the source, chosen by Iván: an isometric external-rotation
+    entry, serratus anterior work in EVERY branch (gym included — the source
+    trained only the retractors, and it is serratus that upwardly rotates the
+    scapula), and thoracic extension/rotation. Frequency is 2×/week. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/pt/#biblioteca">Biblioteca</a> / Ombro</div></div>
+
+  <div class="setup-head">
+    <span class="label">Força</span>
+    <h1>Ombro de nadador</h1>
+    <p>Milhares de braçadas puxando para dentro deixam o ombro enrolado para a frente, e o tendão fica pinçado toda vez que o braço sai da água. Isto puxa a escápula para trás e para baixo, e dá resistência aos rotadores externos.</p>
+  </div>
+
+  <div class="setup-warn">
+    <strong>Antes de começar.</strong> Isto é treino de força, não é tratamento. <strong>Se a dor apareceu depois de uma queda ou de um puxão forte, se você não consegue levantar o braço sozinho mesmo que outra pessoa consiga levantá-lo, se ela acorda você à noite, ou se você tem formigamento ou dormência que desce abaixo do cotovelo, não é disto que você precisa</strong> — você precisa que um profissional te avalie. Me escreve que a gente vê isso.
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Onde você vai treinar?</div>
+    <div class="setup-opts" data-axis="place">
+      <button type="button" class="setup-opt" data-val="home" aria-pressed="true">Em casa<span>sem elástico</span></button>
+      <button type="button" class="setup-opt" data-val="band" aria-pressed="false">Em casa<span>com elástico</span></button>
+      <button type="button" class="setup-opt" data-val="gym" aria-pressed="false">Academia<span>polias e pesos</span></button>
+    </div>
+    <p class="setup-hint">Um elástico é a única coisa necessária e custa muito pouco — se você não tem, a rotina continua completa: mudam os exercícios de rotação, não o objetivo. <strong>A academia só soma quando o ombro já não incomoda no dia a dia</strong>; uma polia não conserta uma escápula que ainda não sabe se mover.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Você tem rolo e bolinha?</div>
+    <div class="setup-opts" data-axis="tools">
+      <button type="button" class="setup-opt" data-val="yes" aria-pressed="true">Sim</button>
+      <button type="button" class="setup-opt" data-val="no" aria-pressed="false">Não</button>
+    </div>
+    <p class="setup-hint">Rolo para o dorsal, bolinha de tênis para o peitoral. Sem isso o bloco de liberação é pulado e você começa pela mobilidade — perde-se algo, mas não o importante.</p>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Montar minha rotina →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/strength-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.SHOULDER_ROUTINE = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY */
+  const L = {
+    /* --- liberação (só com rolo e bolinha) --- */
+    rollLat: { name: "Rolo: dorsal", sets: 1, reps: "60-90s por lado", tag: "Rolo",
+      cue: "De lado, o rolo logo abaixo da axila, sobre a lateral das costelas. <strong>Quando encontrar um ponto sensível, pare ali e suba e desça o braço devagar</strong> — esse movimento solta o tecido muito mais do que continuar rolando. O dorsal é o que enrola o seu ombro para a frente." },
+    ballPec: { name: "Bolinha: peitoral menor", sets: 1, reps: "60s por lado", tag: "Bolinha de tênis",
+      cue: "A bolinha na parte alta do peito, perto da frente do ombro, e se apoie contra uma parede. <strong>Pressão moderada, não esmague</strong>: ali embaixo tem nervos e tendões, e este não é um ponto para brigar." },
+
+    /* --- mobilidade e ativação (as seis rotinas) --- */
+    openBook: { name: "Abertura torácica (livro aberto)", sets: 1, reps: "8 por lado", tag: "Sem equipamento",
+      cue: "De lado, joelhos dobrados, braços esticados juntos à frente. Abra o braço de cima e leve para o outro lado acompanhando com o olhar, <strong>mantendo os joelhos parados no chão</strong>. Se as costas altas não giram, o ombro precisa buscar a amplitude que falta na coluna." },
+    thoracicExt: { name: "Extensão torácica no rolo", sets: 1, reps: "8 respirações", tag: "Rolo",
+      cue: "Rolo atravessado sob as costas altas, mãos atrás da nuca, e <strong>deixe a cabeça cair para trás soltando o ar</strong>. Mova o rolo dois dedos para cima e repita. Nunca abaixo das últimas costelas: ali quem estende é a lombar, que não é a parte rígida." },
+    wallAngel: { name: "Anjos na parede", sets: 2, reps: "12", rest: 30, tag: "Parede",
+      cue: "Costas coladas na parede, cotovelos e punhos encostados nela como uma trave. Suba devagar até o \"Y\". <strong>Se a lombar descolar ou os punhos saírem da parede, sua amplitude termina ali</strong> — não force, o ganho está na amplitude que você controla." },
+    serratusSlide: { name: "Deslizamento de antebraços na parede", sets: 2, reps: "10", rest: 30, tag: "Parede",
+      cue: "De frente para a parede, antebraços apoiados. Deslize-os para cima e <strong>lá em cima empurre a parede como se quisesse se afastar dela</strong>, deixando as escápulas abraçarem as costelas. Esse empurrão final é o serrátil, e é o músculo que abre espaço para o tendão quando você levanta o braço." },
+
+    /* --- força: comum às três versões --- */
+    isoER: { name: "Rotação externa isométrica", sets: 3, reps: "30s por lado", rest: 30, tag: "Batente da porta",
+      cue: "Em pé, de lado para o batente, cotovelo colado nas costelas e dobrado a 90°, o dorso do punho contra o batente. <strong>Empurre para fora a 50% e sustente. Nada se move.</strong> Comece sempre por aqui: se hoje está doendo, isto baixa a dor e te deixa fazer o resto com boa técnica em vez de fugindo dela." },
+    pushPlus: { name: "Flexão \"plus\" (protração)", sets: 3, reps: "10-12", rest: 45, tag: "Sem equipamento",
+      cue: "Prancha alta — ou de joelhos, ou contra a parede se o ombro estiver sensível. Desça e suba normal, e <strong>lá em cima, com os cotovelos já esticados, empurre o chão um pouco mais até as costas altas arredondarem</strong>. Esse centímetro a mais é o exercício inteiro." },
+
+    /* --- força: em casa sem elástico --- */
+    sideLyingER: { name: "Rotação externa deitado de lado", sets: 3, reps: "15-20 por braço", rest: 45, tag: "Sem equipamento",
+      cue: "Deitado sobre o lado bom, o braço de cima com o cotovelo colado nas costelas (uma toalha enrolada embaixo ajuda) e dobrado a 90°. Gire o antebraço em direção ao teto. <strong>Pouco ou nenhum peso e muitas repetições</strong>: o manguito é um grupo de resistência, não de força máxima. Uma garrafinha de água basta e sobra." },
+    doorRow: { name: "Remada no batente da porta", sets: 3, reps: "12 por braço", rest: 45, tag: "Batente da porta",
+      cue: "Segure o batente com uma mão, pés próximos, e incline-se para trás com o corpo reto. Puxe. <strong>O cotovelo vai para trás colado ao corpo e a escápula desce, não sobe</strong> — se você sentir o pescoço, o trapézio superior chegou primeiro." },
+    proneIYT: { name: "I-Y-T de bruços", sets: 3, reps: "8 em cada posição", rest: 60, tag: "Sem equipamento",
+      cue: "De bruços, testa apoiada, polegares para o teto. Descole os braços: à frente (I), na diagonal (Y) e em cruz (T). <strong>Junte as escápulas para baixo, nunca em direção às orelhas.</strong> As três sem peso primeiro; o peso vem depois que as 24 repetições saírem sem encolher o ombro." },
+
+    /* --- força: em casa com elástico --- */
+    bandER: { name: "Rotação externa com elástico", sets: 3, reps: "15-20 por braço", rest: 45, tag: "Elástico",
+      cue: "Elástico amarrado na maçaneta, de lado, cotovelo colado nas costelas com uma toalha enrolada embaixo. Gire o antebraço para fora. <strong>Pouca resistência e muitas repetições</strong> — se você precisa puxar com o corpo, o elástico está duro demais." },
+    bandFacePull: { name: "Face pull com elástico", sets: 3, reps: "15", rest: 45, tag: "Elástico",
+      cue: "Elástico ancorado na altura do rosto. Traga as mãos até a testa <strong>levando os cotovelos para trás e girando as mãos para cima</strong>, até terminar como quem faz bíceps. É o exercício que pega mais direto rotadores externos e trapézio médio ao mesmo tempo." },
+
+    /* --- força: academia --- */
+    scapPullUp: { name: "Barra escapular", sets: 3, reps: "8-12", rest: 60, tag: "Barra fixa",
+      cue: "Pendurado com os braços esticados. <strong>Sem dobrar os cotovelos, desça e junte as escápulas até subir dois ou três centímetros.</strong> Segure 2 segundos e desça. É exatamente o controle que você precisa na pegada da braçada, quando o ombro está mais exposto." },
+    cableER: { name: "Rotação externa na polia", sets: 3, reps: "15 por braço", rest: 45, tag: "Polia baixa",
+      cue: "Igual à versão com elástico, mas a polia mantém a tensão constante em todo o percurso. Cotovelo colado, toalha embaixo. <strong>Peso baixo e sem trancos</strong>: aqui não se busca carga, se busca resistência." },
+    inclineRow: { name: "Remada com halteres no banco inclinado", sets: 3, reps: "12", rest: 60, tag: "Banco inclinado",
+      cue: "De bruços sobre o banco a 30-45°. Reme apertando o meio das costas. <strong>O banco é o ponto: ele tira a lombar da equação</strong>, então o peso é levantado por quem tem que levantar." },
+    bottomsUp: { name: "Desenvolvimento com kettlebell invertido", sets: 3, reps: "8 por braço", rest: 60, tag: "Kettlebell leve",
+      cue: "Kettlebell de cabeça para baixo, segura pela alça com o peso apontando para o teto, e você empurra por cima. <strong>Comece com uma ridiculamente leve</strong>: mantê-la em pé exige do manguito tudo o que este bloco vem treinando, e é aí que se vê se o ombro já está estável." },
+
+    /* --- mobilidade final (as seis rotinas) --- */
+    crossBody: { name: "Alongamento cruzado de ombro", sets: 1, reps: "90s por lado", tag: "Sem equipamento",
+      cue: "Leve o braço cruzado sobre o peito e segure com a outra mão acima do cotovelo. <strong>Antes de puxar, abaixe a escápula e não deixe ela viajar para a frente</strong> — se a escápula escorrega, você alonga as costas e não a parte de trás do ombro, que é a que encurta nadando. Tem que ser sentido atrás do ombro, nunca como uma fisgada na frente." },
+    childLat: { name: "Postura da criança com viés dorsal", sets: 1, reps: "2 min", tag: "Sem equipamento",
+      cue: "Sentado sobre os calcanhares, braços esticados à frente. <strong>Caminhe as duas mãos bem para a esquerda para alongar o dorsal direito</strong>, respire ali, e depois para a direita. O dorsal é o que puxa o ombro para rotação interna; se você não o soltar, tudo o que vem acima trabalha contra." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES */
+  const RELEASE = ["rollLat", "ballPec"];
+  const PREP = ["openBook", "wallAngel", "serratusSlide"];
+  const STRENGTH = {
+    home: ["isoER", "sideLyingER", "doorRow", "proneIYT", "pushPlus"],
+    band: ["isoER", "bandER", "bandFacePull", "proneIYT", "pushPlus"],
+    gym:  ["isoER", "scapPullUp", "cableER", "inclineRow", "bottomsUp", "pushPlus"]
+  };
+  const MOBILITY = ["crossBody", "childLat"];
+
+  const WHY = "Nadar são milhares de braçadas puxando para dentro e para trás. Os rotadores internos — dorsal e peitoral — ficam enormes, e os rotadores externos e os estabilizadores da escápula ficam para trás. O ombro enrola para a frente, o espaço na articulação diminui, e cada vez que o braço sai da água o tendão fica pinçado contra o osso. Por isso aqui não se treina \"o ombro\": solta-se o que puxa para a frente, acorda-se o serrátil para que a escápula gire bem para cima, e dá-se resistência aos rotadores externos. São músculos de resistência, não de força máxima — daí as repetições altas e o peso baixo.";
+
+  const PLACE = { home: "Em casa · sem elástico", band: "Em casa · com elástico", gym: "Na academia" };
+
+  const WARNING = "<strong>Duas vezes por semana.</strong> Pode ser no mesmo dia em que você nada, melhor depois e não antes — com o manguito cansado a técnica de braçada se desfaz sozinha.<br><br>" +
+    "<strong>O semáforo do ombro.</strong> Incômodo surdo ou fadiga atrás do ombro ou entre as escápulas: é exatamente onde tem que ser sentido, siga. <strong>Dor aguda e em fisgada na frente ou em cima do ombro, principalmente ao passar dos 90° com o braço: essa série termina ali.</strong> Isso é o pinçamento, e no ombro insistir não inflama, rompe.<br><br>" +
+    "<strong>E olhe os ombros, não o braço.</strong> Quando o manguito cansa, o trapézio superior assume e o ombro encolhe em direção à orelha. No momento em que esse encolhimento aparece, a série acabou — as repetições seguintes está fazendo outro músculo.";
+
+  function build(place, tools) {
+    const pick = (ids) => ids.map((id) => {
+      const e = L[id];
+      if (!e) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({}, e);
+    });
+
+    const phases = [];
+    // The roller earns a place in the mobility block too, not just the release
+    // one: thoracic extension over a roller is the version that actually moves
+    // a stiff spine, and the open book is what stands in for it without one.
+    if (tools === "yes") phases.push({ name: "Liberação", exercises: pick(RELEASE) });
+    phases.push({ name: "Mobilidade e ativação",
+      exercises: pick(tools === "yes" ? ["thoracicExt"].concat(PREP) : PREP) });
+    phases.push({ name: "Força", exercises: pick(STRENGTH[place]) });
+    phases.push({ name: "Mobilidade final", exercises: pick(MOBILITY) });
+
+    return {
+      title: "Ombro de nadador",
+      crumb: "Ombro",
+      kicker: "Força",
+      subtitle: "Liberação, mobilidade, força e alongamento. Termine cada série e toque o botão — o único relógio aqui é o descanso entre séries.",
+      context: PLACE[place] + (tools === "yes" ? " · com rolo" : ""),
+      why: WHY,
+      warning: WARNING,
+      doneSub: "Feito. Um ombro saudável não se nota; por isso este trabalho tem que ser feito antes de você precisar dele.",
+      phases: phases
+    };
+  }
+
+  return { build: build, library: L };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { place: "home", tools: "yes" };
+
+  document.querySelectorAll(".setup-opts").forEach((group) => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.STRENGTH_DATA = window.SHOULDER_ROUTINE.build(choice.place, choice.tools);
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/strength-tool.js";
+    document.body.appendChild(s);
+
+    // Reload rather than re-initialise: the engine holds its rest timer in
+    // closure with no teardown. Same call as the knee and Achilles tools.
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Mudar opções";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}
