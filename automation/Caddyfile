@@ -264,6 +264,28 @@ triaperformance.com {
 	redir /blog/plan-entrenamiento-maraton-valencia-12-18-semanas/ /blog/plan-entrenamiento-maraton-valencia/ permanent
 	redir /blog/plan-entrenamiento-maraton-valencia-12-18-semanas /blog/plan-entrenamiento-maraton-valencia/ permanent
 
+	# Groups A-E, September 3, 2026 — nine articles folded into five older ones.
+	redir /blog/durabilidad-muscular-maraton-entrenamiento/ /blog/durabilidad-maraton-evitar-muro/ permanent
+	redir /blog/durabilidad-muscular-maraton-entrenamiento /blog/durabilidad-maraton-evitar-muro/ permanent
+	redir /en/blog/marathon-muscular-durability-training/ /en/blog/marathon-durability-avoiding-the-wall/ permanent
+	redir /en/blog/marathon-muscular-durability-training /en/blog/marathon-durability-avoiding-the-wall/ permanent
+	redir /pt/blog/durabilidade-muscular-maratona-ritmo/ /pt/blog/durabilidade-maratona-evitar-muro/ permanent
+	redir /pt/blog/durabilidade-muscular-maratona-ritmo /pt/blog/durabilidade-maratona-evitar-muro/ permanent
+	redir /blog/metodo-noruego-umbral-running-rpe/ /blog/metodo-noruego-entrenamiento-running-autoregulacion/ permanent
+	redir /blog/metodo-noruego-umbral-running-rpe /blog/metodo-noruego-entrenamiento-running-autoregulacion/ permanent
+	redir /en/blog/simplified-norwegian-method-threshold-training/ /en/blog/simplified-norwegian-method-amateurs/ permanent
+	redir /en/blog/simplified-norwegian-method-threshold-training /en/blog/simplified-norwegian-method-amateurs/ permanent
+	redir /pt/blog/metodo-noruegues-simplificado-limiar/ /pt/blog/metodo-noruegues-simplificado-rpe-lactato/ permanent
+	redir /pt/blog/metodo-noruegues-simplificado-limiar /pt/blog/metodo-noruegues-simplificado-rpe-lactato/ permanent
+	redir /en/blog/cycling-weight-loss-training-plan/ /en/blog/cycling-training-plan-weight-loss/ permanent
+	redir /en/blog/cycling-weight-loss-training-plan /en/blog/cycling-training-plan-weight-loss/ permanent
+	redir /en/blog/zone-2-running-for-weight-loss-plan/ /en/blog/running-plan-for-weight-loss/ permanent
+	redir /en/blog/zone-2-running-for-weight-loss-plan /en/blog/running-plan-for-weight-loss/ permanent
+	redir /en/blog/improve-threshold-running-without-wearables/ /en/blog/threshold-training-without-lactate-strips/ permanent
+	redir /en/blog/improve-threshold-running-without-wearables /en/blog/threshold-training-without-lactate-strips/ permanent
+	redir /en/blog/cycling-zone-2-fat-loss-plan/ /en/blog/cycling-training-plan-weight-loss/ permanent
+	redir /en/blog/cycling-zone-2-fat-loss-plan /en/blog/cycling-training-plan-weight-loss/ permanent
+
 	# Spanish lives at the ROOT of this site (/planes/, /blog/), not under an /es/
 	# prefix -- only EN and PT are prefixed. At least one third-party marketplace
 	# listing Iván cannot edit himself points at https://triaperformance.com/es/,

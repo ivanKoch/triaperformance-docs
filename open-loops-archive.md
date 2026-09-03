@@ -257,6 +257,29 @@
 
 - [ ] **MCP tool integrations — Google Workspace, and Twenty via the community MCP server.** Confirmed still not started by Iván, Aug 14, 2026. *(Duplicate of the entry in the promoted-from-infra list above — that one is the owner.)*
 
+## Closed — September 3, 2026 (duplicate article merges)
+
+- [x] ~~**Merge the duplicate article pairs — seven groups.**~~ **DONE September 3, 2026. Ten articles folded into five, plus the Valencia pair done the day before.**
+
+  | kept | folded in | sections moved |
+  |---|---|---|
+  | `como-evitar-el-muro` (ES/EN/PT, Aug 4) | `durabilidade-na-maratona` (ES/EN/PT) | 5 each |
+  | `autoregulacion-vs-lactato` (ES/EN/PT, Aug 4–24) | `doble-umbral-simplificado` (ES/EN/PT) | 3 each |
+  | `weight-loss-for-cyclists` (EN, Aug 12) | `cycling-weight-loss` (EN) | 3 |
+  | `weight-loss-running` (EN, Aug 12) | `zone-2-weight-loss` (EN) | 4 |
+  | `umbral-sin-lactato` (EN, Jul 31) | `threshold-running-without-wearables` (EN) | 3 |
+  | `maraton-de-valencia` (ES, Aug 4) | `12-o-18-semanas-para-valencia` (ES) | 2 |
+
+  ***The Aug 30 rule was applied exactly: keep the older article — age, internal links, whatever indexing exists — fold in only what is genuinely new, redirect, retire the file.*** *What moved was substantive rather than cosmetic: the polarized→pyramidal periodization transition, the marathon-pace long run and the strength pillar into all three durability articles; the metrics hierarchy, double threshold and calibration cycle into all three Norwegian-method articles; gut troubleshooting, fasted-run carbohydrate periodization and by-feel session execution into the English weight-loss and threshold pieces.*
+
+  **Deliberately NOT moved, and this is the half that keeps a merge honest:** *anything the keeper already covered, every `planCard` that would have duplicated a link, the load-cycle section (already folded into the Valencia article the day before — one home per idea applies to article sections too), and the zone-model sections, which every threshold article on the site already repeats.* *Verified: **zero duplicate `planCard` ids** across all ten keepers.*
+
+  **18 redirect lines in `automation/Caddyfile`** *(trailing and non-trailing slash for each of the nine URLs)*; the nine files are in `_to_delete/merged-duplicates-2026-09-03/`. ***Every retired article belonged to a transKey group that was retired whole***, *so no language sibling is left pointing at a deleted parent — which is precisely the defect the Aug 25 item was opened for.* *`npm test` green; each folded section confirmed present in the built HTML, not just in the source.*
+
+  ✅ ***All seven groups closed — Iván's call on the last one was to fold.*** *`Cycling Zone 2 Fat Loss Workout Plan` went into the same keeper, taking* **eleven** *articles folded into five and the English cycling weight-loss subject from three competing pages to one.* *Three sections moved: the metric-priority argument (power over heart rate, which the keeper had nothing on), the two-comeback-weeks protocol after illness, and the HIIT counter-argument —* ***kept because it is a genuinely different objection from the keeper's own volume counter-argument, so the article now closes by answering both.*** *Its heading arrived as "3. Two comeback weeks", numbered for a list that did not come with it; the numeral was stripped rather than left to render as an orphan.* **Final state: 102 articles → 91. Zero duplicate `planCard` ids, 20 redirect lines, no transKey group left half-retired.**
+
+---
+
 ## Closed — September 2, 2026 (weekly hygiene pass)
 
 - [x] ~~**🚨 Unmap `id` from the notifier's Postgres insert.**~~ **FIXED AND VERIFIED September 3, 2026.** *`id` mapped to a literal `0` on an INSERT into a `bigserial PRIMARY KEY`: the first row took `id = 0` and every later error would have died on a duplicate key —* ***silently***, *because the Telegram node runs in parallel and keeps working.* **Verified the only way that proves anything here: two consecutively forced errors, producing ids 1 and 2 rather than one row and a swallowed failure.** *Repo copy mirrored.* ⚠️ ***Found by reading the export, not by anything failing*** *— the smoke test had already passed, because one insert is exactly the number that works.* **That is the shape of four separate defects this session: `gbp_keywords`' destructive write, the GA4 rule that never matched, the unreachable collector, and this. Each worked once or looked green, and each failed in the half nobody watches.**
