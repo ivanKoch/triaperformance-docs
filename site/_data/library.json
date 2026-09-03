@@ -192,6 +192,14 @@
       },
       {
         "tag": "Guide",
+        "name": "Setting Up Your Garmin",
+        "desc": "Your seven zones in the watch's five fields, per sport, and how TrainingPeaks and Garmin coexist without contradicting each other.",
+        "key": "garmin",
+        "url": "/en/all-access/#biblioteca",
+        "gated": true
+      },
+      {
+        "tag": "Guide",
         "name": "Training Load Explained",
         "desc": "TSS, CTL, ATL, TSB and the PMC chart explained once and properly, with real TrainingPeaks screenshots.",
         "key": "load",
@@ -216,10 +224,6 @@
       }
     ],
     "soon": [
-      {
-        "name": "Setting up your Garmin",
-        "desc": "Your seven zones in the watch's five fields, per sport, and how TrainingPeaks and Garmin coexist without contradicting each other."
-      },
       {
         "name": "Race execution and pacing",
         "desc": "A race plan by distance, from 5k to Ironman."
@@ -315,6 +319,14 @@
       },
       {
         "tag": "Guia",
+        "name": "Configurar seu Garmin",
+        "desc": "Suas sete zonas nos cinco campos do relógio, por esporte, e como TrainingPeaks e Garmin convivem sem se contradizer.",
+        "key": "garmin",
+        "url": "/pt/all-access/#biblioteca",
+        "gated": true
+      },
+      {
+        "tag": "Guia",
         "name": "Carga de Treino Explicada",
         "desc": "TSS, CTL, ATL, TSB e o gráfico PMC explicados uma vez e direito, com telas reais do TrainingPeaks.",
         "key": "load",
@@ -339,10 +351,6 @@
       }
     ],
     "soon": [
-      {
-        "name": "Configurar seu Garmin",
-        "desc": "Suas sete zonas nos cinco campos do relógio, por esporte, e como TrainingPeaks e Garmin convivem sem se contradizer."
-      },
       {
         "name": "Execução de prova e pacing",
         "desc": "Plano de prova por distância, do 5k ao Ironman."

@@ -1,6 +1,14 @@
 # Garmin setup — public article + members guide
 
-**Status: v1 SHIPPED in Spanish, September 3, 2026.** Public: `/blog/garmin-dice-sobreentrenamiento/`. Members: `/members/garmin/`. EN/PT pending.
+**Status: v1 SHIPPED in all three languages, September 3, 2026.**
+
+| | Public article | Members guide |
+|---|---|---|
+| ES | `/blog/garmin-dice-sobreentrenamiento/` | `/members/garmin/` |
+| EN | `/en/blog/garmin-says-youre-overtraining/` | `/members/en/garmin/` |
+| PT | `/pt/blog/garmin-diz-que-voce-esta-em-overtraining/` | `/members/pt/garmin/` |
+
+*All six share `transKey: garmin-sobreentrenamiento`, so hreflang wires the three articles together. Each article's `toolCta` points at the calculator **in its own language** — that was the failure in the lead-magnet emails (§25) and it was checked here rather than assumed.*
 
 **Source:** a draft Iván supplied, already SEO-targeted. The physiology was sound; the work here was the split, the zone mapping, and the guardrail.
 
@@ -44,5 +52,5 @@ Everything else maps one to one. No gaps, no overlaps.
 
 ## Open
 
-- **Not translated.** EN/PT for both pages. **`library.json` carries the members guide as `live` in ES and in `soon` for EN/PT**, per that file's own rule — a page is only "live" in a language where it exists.
+- **Translated Sept 3, 2026.** `library.json` moved the members guide from `soon` to `live` in EN and PT in the same pass, and **every `live` entry across all three languages was re-checked against `site/members/` on disk** — the rule that file added after `cyclistcore` and `strength` were both sold before they existed. All 33 entries have a page.
 - **The article is not in the content engine.** It was hand-built because the content already existed and was good. *If it performs, it is the template for the next platform-problem article — and those are worth feeding through `/admin/ideas/new`.*

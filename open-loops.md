@@ -240,9 +240,9 @@
 
 ---
 
-- [ ] **The Garmin pair needs EN + PT.** Shipped ES-only Sept 3, 2026: public article `/blog/garmin-dice-sobreentrenamiento/` and gated `/members/garmin/`. Home doc: `garmin-setup-brief.md`.
+- [x] ~~**The Garmin pair needs EN + PT.**~~ **CLOSED September 3, 2026 — live in all three languages.** Public articles at `/blog/garmin-dice-sobreentrenamiento/`, `/en/blog/garmin-says-youre-overtraining/`, `/pt/blog/garmin-diz-que-voce-esta-em-overtraining/`; members guides at `/members/garmin/` + `en`/`pt`. Home doc: `garmin-setup-brief.md`.
   ***This is the first public asset built specifically to close the funnel gap*** — cold search traffic → the free zones calculator, which until now was the only thing a stranger could touch and nothing pointed at it. **If it draws traffic, it is the template for the next one**, and platform-problem queries ("my watch says X") are the cheapest acquisition surface this business has.
-  *Also new: the `garminZones` shortcode derives the 7→5 zone mapping from `data/zones.csv` and fails the build if the X/Y carve-outs stop being contiguous. `library.json` lists the members guide as live in ES and in `soon` for EN/PT, per that file's own rule.*
+  *Verified: six pages, two viewports, every internal link resolves, hreflang wires es/en/pt/x-default, and each article's tool CTA points at the calculator in its own language. The `garminZones` shortcode derives the 7→5 mapping from `data/zones.csv` and fails the build if the X/Y carve-outs stop being contiguous.*
 
 ### Small slot: CoachMatch follow-up — three consecutive days (opened September 2, 2026)
 

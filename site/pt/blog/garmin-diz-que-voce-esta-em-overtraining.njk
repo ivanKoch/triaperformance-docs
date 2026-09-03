@@ -1,0 +1,114 @@
+---
+transKey: garmin-sobreentrenamiento
+topic: running
+toolCta: zones
+date: 2026-09-03
+category: "Dados"
+pageCss: blog.css
+readingTime: 9
+title: "Por que o seu Garmin diz que você está em overtraining (e por que quase nunca é verdade) | Triaperformance"
+headline: "Por que o seu Garmin diz que você está em overtraining (e por que quase nunca é verdade)"
+shortTitle: "Quando o Garmin erra"
+standfirst: "\"Improdutivo\". \"Sobrecarga\". Uma hora leve que o relógio registra em zona 5. Quase sempre o problema não é a sua forma física: são as zonas que o relógio inventou."
+description: "Seu Garmin diz overtraining, marca zona 5 num rodízio leve ou derruba o Training Readiness sem motivo. Por que acontece, e como configurar suas zonas reais para parar de acontecer."
+---
+{#- PUBLIC article — Portuguese sibling of /blog/garmin-dice-sobreentrenamiento/.
+
+    Original note follows.
+
+    PUBLIC article, Sept 2026. Home doc: `garmin-setup-brief.md`.
+
+    Deliberate split with /members/garmin/: this page owns WHY the watch is
+    wrong plus the generic fixes; the members page owns the actual 7→5 zone
+    mapping (rendered from data/zones.csv) and the TrainingPeaks sync. Do not
+    duplicate the mapping table here — a public copy would drift from the CSV.
+
+    `toolCta: zones` sends the reader to the PUBLIC zones calculator, which is
+    the point of publishing this at all: the article's core instruction is
+    "enter your tested zones", and that tool is where a stranger gets them.
+
+    The guardrail in the project instructions says nothing Garmin-specific that
+    excludes Polar/Wahoo athletes. Iván's call: Garmin title (that is where the
+    search volume is) with a real section for the others, since the failure mode
+    is identical on every platform. Do not delete that section to tighten the
+    article — it is what keeps this inside the guardrail. -#}
+<p>Você fez o teste. Sabe o seu limiar, o seu FTP está atualizado, o plano vem saindo como estava escrito. Aí você olha o relógio e ele diz <strong>"Improdutivo"</strong>. Ou <strong>"Sobrecarga"</strong>. Ou você termina uma hora de rodízio regenerativo e o relógio garante que você passou sessenta minutos em zona 5.</p>
+
+<p>A pergunta é sempre a mesma: <em>será que estou em overtraining?</em></p>
+
+<p><strong>Quase com certeza, não.</strong> O que está errado não é a sua forma física: são os números com os quais o relógio está fazendo as contas.</p>
+
+<h2>O relógio está adivinhando</h2>
+
+<p>Um Garmin recém-tirado da caixa não sabe nada sobre você. Para conseguir dar feedback desde o primeiro dia, ele usa fórmulas genéricas — a mais famosa é <strong>220 menos a sua idade</strong> para estimar a frequência cardíaca máxima — e algoritmos que vão "detectando" os seus limiares sozinhos.</p>
+
+<p>Funciona surpreendentemente bem para quem está começando. Para de funcionar assim que você treina a sério.</p>
+
+<p>Um exemplo concreto. O seu limiar real, medido num teste de campo, está em <strong>170 bpm</strong>. O relógio estimou 155. A partir daí, tudo o que ele calcula está deslocado:</p>
+
+<ul>
+  <li>Cada rodízio em ritmo confortável é lido como uma sessão de limiar.</li>
+  <li>Cada sessão de limiar é lida como um esforço máximo.</li>
+  <li>A sua carga aguda infla semana após semana.</li>
+  <li>E como a carga parece altíssima, o relógio conclui a única coisa que pode concluir: <strong>você está em overtraining</strong>.</li>
+</ul>
+
+<p>O relógio não está quebrado. Está fazendo aritmética impecável com um dado errado.</p>
+
+<h2>O conserto: dar os seus números e tirar o volante dele</h2>
+
+<p>São duas partes, e quase todo mundo pula a segunda.</p>
+
+<p><strong>Primeiro, carregue as suas zonas reais</strong> — medidas num teste, não estimadas. E carregue <strong>por esporte</strong>: o seu limiar na bike normalmente é mais baixo do que correndo, então um perfil único garante que um dos dois esportes sempre vai ler errado. No Garmin Connect isso fica em <em>Perfil do usuário → Zonas de frequência cardíaca e potência</em>, e vale mudar a base de <em>%FC máx.</em> para <strong>%LTHR</strong>.</p>
+
+<p><strong>Segundo, e este é o importante: desligue a detecção automática.</strong> Se deixar ligada, o relógio vai reestimar os seus limiares por conta própria e sobrescrever os números que você acabou de carregar. Ele não avisa. Simplesmente, algumas semanas depois, você volta ao ponto de partida sem entender por quê.</p>
+
+<div class="datanote">
+  <p><strong>Não mediu as suas zonas?</strong> Esse é o passo zero e não tem atalho. A <a href="/pt/calculadora-de-zonas/">calculadora de zonas</a> diz qual teste fazer conforme o seu esporte e converte o resultado nas suas zonas de pace, frequência cardíaca e potência. É grátis e não precisa se cadastrar.</p>
+</div>
+
+<h2>Quando você arrumou as zonas e o relógio <em>ainda assim</em> marca zona 5</h2>
+
+<p>Se já está tudo carregado direito e uma sessão leve continua aparecendo com a frequência nas alturas, o mais provável é que você esteja vendo <strong>travamento de cadência</strong>.</p>
+
+<p>O sensor óptico do pulso não mede batidas: mede mudanças no fluxo de sangue iluminando a pele com luz verde. O problema é que correr e pedalar são movimentos rítmicos, e essa vibração regular pode enganar o sensor — em vez de ler a sua frequência, <strong>ele engata na sua cadência</strong>. Se você dá 170 passos por minuto, o relógio informa 170 bpm.</p>
+
+<p>Se reconoce fácil una vez que sabés qué buscar:</p>
+
+<ul>
+  <li>O número se parece suspeitosamente com a sua cadência.</li>
+  <li>Aparece de repente e fica cravado, em vez de subir e descer como sobe e desce uma frequência real.</li>
+  <li><strong>O esforço parece um 3 de 10 e o relógio diz 170.</strong> Quando a sensação e o dado se contradizem com essa força, quem está errado é o dado.</li>
+</ul>
+
+<p>É mais frequente <strong>na bike do que correndo</strong> — o pulso flexionado sobre o guidão mais a vibração do caminho são a combinação perfeita para confundir o sensor — e piora no frio, porque cai o fluxo de sangue na pele.</p>
+
+<p>Para treino de tiros e para a bike, uma cinta peitoral resolve o problema por completo. Uma braçadeira com sensor óptico é um bom meio-termo: bem mais confiável que o pulso e bem mais confortável que o peito. <strong>Para rodízios leves e contínuos, o pulso dá conta perfeitamente</strong> — não precisa comprar nada para isso.</p>
+
+<h2>Training Readiness e HRV: o que eles medem de verdade</h2>
+
+<p>Os Garmin mais novos mostram um <strong>Training Readiness</strong> de 0 a 100 e um <strong>HRV Status</strong>. Quando caem, a reação típica é se assustar. Duas coisas ajudam a lê-los:</p>
+
+<p><strong>Zonas quebradas quebram a pontuação também.</strong> O Training Readiness combina sono, HRV e a sua carga recente. Se as suas zonas estavam erradas, o relógio acredita que a sua carga foi enorme, e a pontuação afunda por um motivo que não tem nada a ver com você. Atenção: <strong>depois de arrumar as zonas, a pontuação demora algumas semanas para normalizar</strong>, porque continua arrastando a carga mal calculada dos dias anteriores.</p>
+
+<p><strong>E HRV baixo não é um alarme, é uma descrição.</strong> A variabilidade da frequência cardíaca reflete o estado do seu sistema nervoso autônomo, e uma sessão dura ou um bloco longo a deprimem por 24 a 72 horas. Isso não é problema: <strong>é exatamente o que tem que acontecer quando você treina a sério</strong>. HRV cair e o Readiness ficar em "recuperando" no meio de um bloco de carga é o normal, não a exceção. O que vale a pena olhar é a tendência ao longo de semanas, não o número desta manhã.</p>
+
+<h2>Se você não usa Garmin</h2>
+
+<p>Nada disso é exclusivo do Garmin. <strong>Polar, Coros, Suunto e Wahoo fazem exatamente o mesmo</strong> — estimam as suas zonas para poder dar feedback desde o minuto zero, e vários deles também as reajustam sozinhos com o tempo. Muda onde fica o menu, não o problema:</p>
+
+<ul>
+  <li><strong>Polar Flow:</strong> ajustes por perfil de esporte, com zonas de frequência configuráveis por esporte e opção de zonas manuais.</li>
+  <li><strong>Coros:</strong> os limiares ficam no perfil do atleta no app e podem ser fixados à mão.</li>
+  <li><strong>Suunto e Wahoo:</strong> zonas por perfil de esporte, igual ao de cima.</li>
+</ul>
+
+<p>A regra é a mesma em todos: <strong>carregue os seus números medidos e desative qualquer ajuste automático que possa sobrescrevê-los.</strong></p>
+
+<h2>O relógio registra; a leitura é sua</h2>
+
+<p>A Garmin faz um hardware extraordinário, e o software dela é pensado para milhões de pessoas que nunca fizeram um teste. Esse é exatamente o ponto: <strong>os valores padrão são feitos para alguém que não é você</strong>.</p>
+
+<p>Quando o relógio te contradiz — diz sobrecarga enquanto você vem absorvendo o plano sem problemas, ou marca zona 5 numa sessão que foi de conversa — a resposta quase nunca é mudar o treino. É conferir de onde saíram esses números.</p>
+
+<p>Um relógio bem configurado é uma ferramenta excelente. Um mal configurado é um gerador de ansiedade com pulseira.</p>

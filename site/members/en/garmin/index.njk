@@ -1,0 +1,108 @@
+---
+layout: layouts/base.njk
+pageCss:
+  - members.css
+  - members-carga.css
+
+title: "Setting Up Your Garmin — Triaperformance All-Access"
+---
+{#- GARMIN SETUP, members version — English sibling of /members/garmin/.
+
+    Original note follows.
+
+    GARMIN SETUP, members version. Sept 2026. Home doc: `garmin-setup-brief.md`.
+
+    Split from the public article deliberately:
+      public  → why the watch is wrong, the generic fixes, cadence lock, HRV
+      members → the MAPPING with real numbers, and the TrainingPeaks sync
+
+    That split is the reason there are two pages and not one duplicated twice.
+    The public article owns the explanation; this page owns the doing.
+
+    *** The mapping table is rendered by the `garminZones` shortcode from
+    data/zones.csv. Do NOT hand-type the percentages here. Four articles once
+    hand-typed the seven-zone table and all four drifted from the calculator;
+    a typed Garmin mapping would drift the same way and would then contradict
+    the calculator this very page tells people to use. *** -#}
+<header class="artifact-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/members/en/#biblioteca">Library</a> / Garmin</div>
+    <span class="label">Guide</span>
+    <h1>Setting up your Garmin with your real zones</h1>
+    <p>Your seven zones fit into the watch's five fields without losing anything. Here are the exact numbers and the order to enter them in.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="callout callout--warn">
+      <h3 class="callout-title">First: none of this works without a test</h3>
+      <p>Everything below is a percentage <strong>of your threshold</strong>. If your LTHR is a number the watch guessed, entering these zones just organises an error very neatly. <strong>Test first, configure second.</strong></p>
+      <p>If you have not measured your threshold, or you have not checked it in months, start with the <a href="/members/en/training-zones-calculator/">Training Zones Calculator</a> — it tells you which test to do and turns the result into your seven zones.</p>
+    </div>
+
+    <h2>1. Turn off auto-detection</h2>
+    <p>This is the step people skip, and it is the one that undoes everything else: <strong>leave it on and the watch will overwrite your numbers whenever it decides to</strong>, putting you back where you started without you noticing.</p>
+    <p>In Garmin Connect: <strong>User Profile → Heart Rate &amp; Power Zones</strong>. Scroll down and turn <strong>Auto Detection</strong> off for max heart rate, lactate threshold and FTP.</p>
+
+    <h2>2. Switch the basis to %LTHR</h2>
+    <p>By default the watch builds zones on your <em>max heart rate</em>, almost always estimated with 220 minus your age. Change <strong>"Based On"</strong> from <strong>%Max HR</strong> to <strong>%LTHR</strong>, and enter your measured threshold.</p>
+
+    <h2>3. Enter the zones — seven into five fields</h2>
+
+    <p>This is the part that confuses everyone. <strong>Garmin gives you five zones and our model has seven</strong> (1, 2, X, 3, Y, 4, 5). Nothing is lost, because X and Y are not extra zones: <strong>X is the top half of zone 2, and Y is the floor of zone 4</strong>. So they group like this:</p>
+
+    <h3>Running</h3>
+    {% garminZones "running" %}
+
+    <h3>Cycling</h3>
+    {% garminZones "cycling" %}
+
+    <div class="callout">
+      <p><strong>Yes, the percentages are the same for both sports — the heart rates are not.</strong> Your running LTHR is typically higher than your cycling LTHR, so the same 90% is two different bpm numbers. That is why you enter zones per sport rather than one shared profile.</p>
+      <p>At the bottom of the heart rate menu: <strong>Add Sport Heart Rate</strong>. Create one profile for running and one for cycling, each with its own LTHR.</p>
+    </div>
+
+    <h2>4. Power, if you have a meter</h2>
+    <p>Same menu, <strong>power zones</strong> section: enter your measured FTP and the percentages from your power table. And again — <strong>auto-detection off</strong>, or the watch will "correct" your FTP after any hard ride.</p>
+  </div>
+</section>
+
+<section class="section--wash">
+  <div class="wrap">
+    <h2>TrainingPeaks and Garmin: which one rules</h2>
+
+    <p>Both systems hold zones, and they do not sync with each other. <strong>That is normal and not a problem, as long as you know what each one does.</strong></p>
+
+    <table class="tp-table tp-table--stack">
+      <thead><tr><th>System</th><th>What it does with your zones</th></tr></thead>
+      <tbody>
+        <tr><td class="tsb-band">TrainingPeaks</td><td data-label="What it does with your zones"><strong>This is the one that rules.</strong> Your zones here are what I prescribe from, and what your TSS, CTL and form are calculated with. Right here means your load is measured correctly.</td></tr>
+        <tr><td class="tsb-band">Garmin</td><td data-label="What it does with your zones"><strong>This is where you see them while training</strong>, and where Training Readiness, HRV Status and the status warnings come from. Wrong here and the file still reaches TrainingPeaks perfectly — what breaks is what the watch tells you on your wrist.</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Put the same numbers in both.</strong> When they differ you get the most confusing outcome possible: TrainingPeaks shows a perfect zone 2 session and the watch insists you were in zone 4. Both read the same file; they just hold different tables.</p>
+
+    <div class="callout">
+      <p><strong>Every retest is two updates, not one.</strong> New threshold → TrainingPeaks and Garmin. It is the most common thing forgotten after a test, and it leaves the watch arguing with your plan for months.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What to expect once it is fixed</h2>
+    <ul>
+      <li><strong>Easy sessions start reading as easy again.</strong> That is the immediate change and the most useful one.</li>
+      <li><strong>Training Readiness takes a few weeks.</strong> The score carries your load from the past days and weeks, calculated with the old zones. It will stay odd for a while even once everything is right.</li>
+      <li><strong>The estimated VO2max will move</strong>, up or down. It is the watch's estimate, not a measurement — do not decide anything with it.</li>
+    </ul>
+
+    <div class="callout">
+      <p><strong>And the rule that still holds:</strong> when the watch and how you feel disagree, how you feel wins, and the plan wins. The watch is a tool for recording the work — the reading is done by you and me.</p>
+    </div>
+
+    <p>The long explanation of why the watch gets it wrong — cadence lock, how to read HRV, and what to do if you use Polar, Coros or Wahoo — is in the public article: <a href="/en/blog/garmin-says-youre-overtraining/">Why your Garmin says you are overtraining</a>.</p>
+  </div>
+</section>

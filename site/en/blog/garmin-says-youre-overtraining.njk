@@ -1,0 +1,114 @@
+---
+transKey: garmin-sobreentrenamiento
+topic: running
+toolCta: zones
+date: 2026-09-03
+category: "Data"
+pageCss: blog.css
+readingTime: 9
+title: "Why Your Garmin Says You Are Overtraining (And Why It Almost Never Is) | Triaperformance"
+headline: "Why your Garmin says you are overtraining (and why it almost never is)"
+shortTitle: "When Garmin gets it wrong"
+standfirst: "\"Unproductive\". \"Strained\". An easy hour the watch logs as zone 5. Almost always the problem is not your fitness — it is the zones the watch invented."
+description: "Your Garmin says overtraining, logs zone 5 on an easy run, or drops your Training Readiness for no reason. Why it happens, and how to set your real zones so it stops."
+---
+{#- PUBLIC article — English sibling of /blog/garmin-dice-sobreentrenamiento/.
+
+    Original note follows.
+
+    PUBLIC article, Sept 2026. Home doc: `garmin-setup-brief.md`.
+
+    Deliberate split with /members/garmin/: this page owns WHY the watch is
+    wrong plus the generic fixes; the members page owns the actual 7→5 zone
+    mapping (rendered from data/zones.csv) and the TrainingPeaks sync. Do not
+    duplicate the mapping table here — a public copy would drift from the CSV.
+
+    `toolCta: zones` sends the reader to the PUBLIC zones calculator, which is
+    the point of publishing this at all: the article's core instruction is
+    "enter your tested zones", and that tool is where a stranger gets them.
+
+    The guardrail in the project instructions says nothing Garmin-specific that
+    excludes Polar/Wahoo athletes. Iván's call: Garmin title (that is where the
+    search volume is) with a real section for the others, since the failure mode
+    is identical on every platform. Do not delete that section to tighten the
+    article — it is what keeps this inside the guardrail. -#}
+<p>You did the test. You know your threshold, your FTP is current, the plan is going exactly as written. Then you look at your watch and it says <strong>"Unproductive"</strong>. Or <strong>"Strained"</strong>. Or you finish an hour of easy recovery spinning and the watch insists you just spent sixty minutes in zone 5.</p>
+
+<p>The question is always the same: <em>am I overtraining?</em></p>
+
+<p><strong>Almost certainly not.</strong> What is wrong is not your fitness — it is the numbers the watch is doing its arithmetic with.</p>
+
+<h2>The watch is guessing</h2>
+
+<p>A Garmin out of the box knows nothing about you. To give you feedback from day one it uses generic formulas — the famous one being <strong>220 minus your age</strong> for max heart rate — plus algorithms that "detect" your thresholds on their own.</p>
+
+<p>It works surprisingly well for someone starting out. It stops working the moment you train seriously.</p>
+
+<p>Take a concrete example. Your real threshold, measured in a field test, is <strong>170 bpm</strong>. The watch guessed 155. From there, everything it calculates is shifted:</p>
+
+<ul>
+  <li>Every comfortable run reads as a threshold session.</li>
+  <li>Every threshold session reads as a maximal effort.</li>
+  <li>Your acute load inflates week after week.</li>
+  <li>And because the load looks enormous, the watch concludes the only thing it can: <strong>you are overtraining</strong>.</li>
+</ul>
+
+<p>The watch is not broken. It is doing flawless arithmetic with the wrong input.</p>
+
+<h2>The fix: give it your numbers, then take the wheel away</h2>
+
+<p>There are two parts, and almost everyone skips the second.</p>
+
+<p><strong>First, enter your real zones</strong> — measured in a test, not estimated. And enter them <strong>per sport</strong>: your cycling threshold is normally lower than your running one, so a single shared profile guarantees that one of the two sports always reads wrong. In Garmin Connect that lives under <em>User Profile → Heart Rate &amp; Power Zones</em>, and it is worth switching the basis from <em>%Max HR</em> to <strong>%LTHR</strong>.</p>
+
+<p><strong>Second, and this is the important one: turn off auto-detection.</strong> Leave it on and the watch will re-estimate your thresholds on its own and overwrite the numbers you just entered. It does not tell you. A few weeks later you are simply back where you started with no idea why.</p>
+
+<div class="datanote">
+  <p><strong>Have not measured your zones?</strong> That is step zero and there is no shortcut. The <a href="/en/training-zones-calculator/">training zones calculator</a> tells you which test to do for your sport and turns the result into your pace, heart rate and power zones. It is free and there is no sign-up.</p>
+</div>
+
+<h2>When you have fixed the zones and the watch <em>still</em> says zone 5</h2>
+
+<p>If everything is entered correctly and an easy session still shows a sky-high heart rate, what you are most likely seeing is <strong>cadence lock</strong>.</p>
+
+<p>The optical sensor on your wrist does not measure beats: it measures changes in blood flow by shining green light through your skin. The problem is that running and pedalling are rhythmic, and that regular vibration can fool the sensor — instead of reading your pulse, <strong>it latches onto your cadence</strong>. Take 170 steps a minute and the watch reports 170 bpm.</p>
+
+<p>Se reconoce fácil una vez que sabés qué buscar:</p>
+
+<ul>
+  <li>The number looks suspiciously like your cadence.</li>
+  <li>It jumps up and stays pinned, instead of drifting up and down the way a real heart rate does.</li>
+  <li><strong>The effort feels like a 3 out of 10 and the watch says 170.</strong> When feel and data disagree that hard, the data is what is wrong.</li>
+</ul>
+
+<p>It is more common <strong>on the bike than running</strong> — a wrist flexed over the bars plus road vibration is the perfect combination to confuse the sensor — and it gets worse in the cold, because blood flow to the skin drops.</p>
+
+<p>For interval work and for the bike, a chest strap solves the problem entirely. An optical arm band is a good middle ground: considerably more reliable than the wrist and considerably more comfortable than the chest. <strong>For steady easy sessions the wrist is perfectly fine</strong> — you do not need to buy anything for those.</p>
+
+<h2>Training Readiness and HRV: what they are actually measuring</h2>
+
+<p>Newer Garmins show a <strong>Training Readiness</strong> score from 0 to 100 and an <strong>HRV Status</strong>. When they drop, the usual reaction is alarm. Two things help you read them:</p>
+
+<p><strong>Broken zones break the score too.</strong> Training Readiness combines sleep, HRV and your recent load. If your zones were wrong, the watch believes your load was enormous, and the score sinks for a reason that has nothing to do with you. Watch for this: <strong>after fixing the zones, the score takes a few weeks to normalise</strong>, because it is still carrying the miscalculated load from the days before.</p>
+
+<p><strong>And low HRV is not an alarm, it is a description.</strong> Heart rate variability reflects the state of your autonomic nervous system, and a hard session or a long block suppresses it for 24 to 72 hours. That is not a problem: <strong>it is exactly what should happen when you train seriously</strong>. HRV dropping and Readiness sitting in "recovering" in the middle of a loading block is normal, not the exception. What is worth watching is the trend across weeks, not this morning's number.</p>
+
+<h2>If you do not use Garmin</h2>
+
+<p>None of this is Garmin-specific. <strong>Polar, Coros, Suunto and Wahoo all do the same thing</strong> — they estimate your zones so they can give you feedback from minute zero, and several of them also re-adjust those zones on their own over time. What changes is where the menu lives, not the problem:</p>
+
+<ul>
+  <li><strong>Polar Flow:</strong> per-sport profile settings, with heart rate zones configurable per sport and a manual zone option.</li>
+  <li><strong>Coros:</strong> thresholds live in the athlete profile in the app and can be set by hand.</li>
+  <li><strong>Suunto and Wahoo:</strong> zones per sport profile, same as above.</li>
+</ul>
+
+<p>The rule is the same everywhere: <strong>enter your measured numbers, and switch off any automatic adjustment that can overwrite them.</strong></p>
+
+<h2>The watch records; you do the reading</h2>
+
+<p>Garmin makes extraordinary hardware, and its software is built for millions of people who have never done a test. That is exactly the point: <strong>the defaults are built for someone who is not you</strong>.</p>
+
+<p>When the watch contradicts you — it says strained while you are absorbing the plan comfortably, or logs zone 5 on a session that felt conversational — the answer is almost never to change the training. It is to check where those numbers came from.</p>
+
+<p>A well-configured watch is an excellent tool. A badly configured one is an anxiety generator with a strap.</p>
