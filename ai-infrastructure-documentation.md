@@ -1681,7 +1681,7 @@ on a clean output, not on the script existing. It is not clean.*
 
 | file | lines | verdict |
 |---|---|---|
-| `/root/.hermes/deploy-website.sh` | 165 | **real, and the most exposed** |
+| `/root/.hermes/deploy-website.sh` | 165 | ~~real~~ **NOT an orphan — self-updating, see the retraction below** |
 | `/root/.members-auth/auth_service/app.py` | 171 | ~~real~~ **stale copy — NOT the build source** |
 | `/root/.analytics/scripts/sync_pixel_data.py` | 105 | almost certainly a dead orphan |
 | `/root/.hermes/lazy-packages/typing_extensions.py` | 4317 | **false positive — vendored upstream** |
@@ -1692,13 +1692,15 @@ on a clean output, not on the script existing. It is not clean.*
 >
 > **`sync_pixel_data.py` at `/root/.analytics/scripts/` is dead.** *`crontab -l | grep -c analytics/scripts` returns* **0**; *the live line runs the clone copy.* ⚠️ ***But three documents still named the orphan as the live script — including that script's own docstring — so the stale path, not the stale file, was the real hazard.*** *All three corrected.*
 >
-> **So: one genuine finding (`deploy-website.sh`), two stale copies to delete, one vendored false positive.**
+> **Final tally, after the retraction: ZERO genuine orphans. Two stale copies to delete, one vendored false positive, and one self-updating script the audit could not recognise.**
 
 ***All three real ones have identical line counts to their repo copies*** — 165, 171 and 105 —
 so nothing has drifted yet. **That is the whole reason to fix it now: the cost of this problem is
 zero today and unbounded on the first edit.**
 
-**`deploy-website.sh` is the one that matters,** because it is the script that deploys the site
+> 🚨 ***RETRACTED the same evening, September 3, 2026: `deploy-website.sh` is not an orphan and never was.*** *Its last step, lines 148–163, `cmp`s itself against `automation/deploy-website.sh` and copies the repo version over itself —* **at the END, after a successful deploy**, *so a bad commit cannot brick the deploy path and the new version only takes effect on the next run.* **That is why all three line counts matched: mechanism, not luck.** ***The comment there already names the hazard this session then 'discovered' independently*** *— "bash reads scripts incrementally, so rewriting the running file mid-execution is its own class of bug" — and solves it better than the dispatcher that was written to fix it, which would have pulled and exec'd on every run and made a bad commit take effect immediately. The dispatcher is withdrawn.* ⚠️ **The audit was not wrong so much as blind: it models two shapes — inside the clone, or a dispatcher — and a self-updating script is a third.** *It now reports a file byte-identical to a same-named file in the clone as `MIRROR` rather than `OUTSIDE`, because that file does have version history and the only open question is what keeps it in sync.* ***The lesson is the one this repo keeps re-learning from the other direction: a diagnostic that over-reports costs real work. An hour went into fixing something that was already handled, and the answer was fifteen lines into the file itself.***
+
+~~**`deploy-website.sh` is the one that matters,**~~ because it is the script that deploys the site
 *and* validates and installs `/etc/caddy/Caddyfile`. The cutover note in §15 says it plainly —
 "replace `~/.hermes/deploy-website.sh` with the version in `automation/`" — a manual copy, made
 once, that never updates itself. Every Caddyfile change reviewed in the repo since is a change to

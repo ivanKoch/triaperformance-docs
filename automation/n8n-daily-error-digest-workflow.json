@@ -136,5 +136,6 @@
     "executionOrder": "v1"
   },
   "pinData": {},
-  "tags": []
+  "tags": [],
+  "_liveStateNote": "REFERENCE COPY -- n8n is the source of truth, this file is documentation. The `active: false` and `REPLACE_ME` credential ids below are EXPORT ARTEFACTS, not live state. Confirmed September 2, 2026: the Daily Error Digest is ACTIVE on the live instance and has run successfully every day; a session read these two fields here and concluded the workflows had never been deployed. Do not infer deployment state from this file -- ask Ivan or look at n8n."
 }

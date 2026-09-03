@@ -1,0 +1,212 @@
+{
+  "name": "Error Notifier (global)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Global error notifier\n\nFires whenever ANY workflow that names this one as its Error Workflow fails.\n\nSet it per workflow: open the workflow -> three dots -> Settings -> **Error Workflow** -> `Error Notifier (global)`. Worth setting on every workflow, not just subscription-lifecycle.\n\nWhy this exists: notifications sit at the END of a chain, so a failure halfway through used to produce NO message at all -- the run just stopped and nothing said so.",
+        "height": 200,
+        "width": 560
+      },
+      "id": "d9d6abf3-2da2-4513-8502-5d39c2ee84c2",
+      "name": "READ ME",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "eac5ad9a-b064-4716-975b-d65d3bdf876e",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        272,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=🔴 FALLO n8n\nWorkflow: {{ $json.workflow.name }}\nUltimo nodo: {{ $json.execution.lastNodeExecuted }}\nError: {{ $json.execution.error.message }}\nCuando: {{ $json.execution.startedAt }}\n\nVer ejecucion: {{ $json.execution.url }}",
+        "additionalFields": {}
+      },
+      "id": "fa1d0393-0dbe-4a49-9aea-42e99899fd81",
+      "name": "Telegram - Fallo n8n",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        496,
+        272
+      ],
+      "webhookId": "82f342b9-f2aa-413c-9076-8cad17ee0e93",
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "name",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "n8n_errors",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "workflow_name": "={{ $json.workflow?.name || '' }}",
+            "workflow_id": "={{ $json.workflow?.id || '' }}",
+            "node_name": "={{ $json.execution?.lastNodeExecuted || '' }}",
+            "error_message": "={{ $json.execution?.error?.message || '' }}",
+            "execution_id": "={{ $json.execution?.id || '' }}",
+            "execution_url": "={{ $json.execution?.url || '' }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "occurred_at",
+              "displayName": "occurred_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow_name",
+              "displayName": "workflow_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow_id",
+              "displayName": "workflow_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "node_name",
+              "displayName": "node_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "execution_id",
+              "displayName": "execution_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "execution_url",
+              "displayName": "execution_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.7,
+      "position": [
+        496,
+        480
+      ],
+      "id": "9774c8f3-10ed-4da6-831f-f09541ea94d4",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "postgres": {
+          "id": "PekCFvYYTxXhKXbq",
+          "name": "Members Postgres"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram - Fallo n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "8631cace-e738-4a16-9820-1d3756e66b33",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8e076cafb52cccf2e8bbadb4d0f2ec8c146f30578d107bdefeabccfda2ab75a9"
+  },
+  "nodeGroups": [],
+  "id": "GWBWznYoPiHdbmVt",
+  "tags": [],
+  "_liveStateNote": "REFERENCE COPY -- n8n is the source of truth; this file is documentation. Exported from the live instance September 3, 2026 and mirrored again the same evening after the id fix. THIS IS THE WORKFLOW EVERY OTHER WORKFLOW NAMES IN ITS Error Workflow FIELD. It had no copy in this repo until September 3, which is why a session reading only the collector concluded that was the error mechanism and wrote the wiring instruction naming it; n8n allows one error workflow per workflow and this is the one that was set. FIXED AND VERIFIED September 3, 2026: the first export mapped the column id with a literal 0 on an INSERT into a bigserial PRIMARY KEY, so the first row took id=0 and every later error would have died on a duplicate key -- silently, because the Telegram node runs in parallel and keeps working. id is now unmapped, occurred_at stays unmapped, and two consecutively forced errors produced ids 1 and 2. DO NOT re-add id or occurred_at to the mapping: both are database-generated."
+}

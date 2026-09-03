@@ -60,6 +60,16 @@ c_hdr=$'\033[1m';  c_off=$'\033[0m'
 
 pass()   { echo "  ${c_ok}IN REPO${c_off}  $1"; ok=$((ok+1)); }
 fail()   { echo "  ${c_bad}OUTSIDE${c_off}  $1"; bad=$((bad+1)); }
+mirror() { echo "  ${c_warn}MIRROR ${c_off}  $1"; }
+# A THIRD SHAPE, added Sep 3 2026. This script modelled two: inside the clone,
+# or a dispatcher that pulls and delegates. It flagged ~/.hermes/deploy-website.sh
+# as OUTSIDE and a session spent an hour building a dispatcher to "fix" it --
+# but that script SELF-UPDATES: its last step cmp's itself against the repo copy
+# and replaces itself, at the END, after a successful deploy, so a bad commit
+# cannot brick the deploy path. Better than the dispatcher, and invisible here.
+# A file byte-identical to a same-named file in the clone is therefore reported
+# as MIRROR, not OUTSIDE: it has version history, and the only open question is
+# what keeps it in sync -- which a human must answer by reading it.
 review() { echo "  ${c_man}CHECK  ${c_off}  $1"; manual=$((manual+1)); }
 hdr()    { echo; echo "${c_hdr}=== $1 ===${c_off}"; }
 
