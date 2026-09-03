@@ -24,7 +24,38 @@ matrixMode: true
     The engine (activation-tool.js) is unchanged. It boots off
     window.ACTIVATION_DATA, so this page builds that object after the athlete
     answers and only then injects the engine script — which is why the partial
-    is included with `matrixMode`. -#}
+    is included with `matrixMode`.
+
+    *** v1.1, Sept 3, 2026 — SWIMMING added as a third sport, mirroring the
+    Spanish page. 14 routines, not 12: swimming has three equipment options
+    where run and bike have two, so the grid is 4 + 4 + 6. Home doc:
+    `activation-matrix.md` §v1.1, which owns the reasoning for all of it.
+
+    Two structural changes came with it:
+      1. The equipment question is SPORT-AWARE — a mini-band is the right
+         question for run and bike and the wrong object for swimming. EQUIP
+         holds the options per sport; switching sport also RESETS the answer,
+         because swim|..|stick exists and run|..|stick does not.
+      2. Phase names live in each routine, not in build(). Run and bike go
+         floor → knees → standing; swimming warms up standing, drops to the
+         floor, and finishes standing on the stroke.
+
+    *** CLINICAL: stick DISLOCATES are deliberately not here. The source doc
+    called them indispensable for opening the anterior capsule; competitive
+    swimmers are typically lax there, not stiff, and short of internal rotation
+    — which is what the swimmer's-shoulder tool is built around. What ships
+    instead is a capped pass-through that stops at the first compensation. Do
+    not restore dislocates. ***
+
+    *** GUARDRAIL: methodology.md says Iván does not teach swimming. The catch
+    simulation primes the feel of pressure; it must never become stroke
+    instruction. ***
+
+    *** EVERY NOTE ABOUT THIS PAGE BELONGS IN THIS BLOCK. Almost the entire
+    page is inside a raw block, and Nunjucks comments are NOT comments in
+    there — they are literal text and they render to the reader. Two did
+    exactly that on the Spanish page on Sept 3, 2026. `automation/build-sanity.js`
+    now asserts no template delimiters survive into any built HTML. -#}
 {% raw %}
 <div class="setup" id="setup">
   <div class="crumb-bar"><div class="wrap"><a href="/members/pt/#biblioteca">Biblioteca</a> / Ativação</div></div>
@@ -32,7 +63,7 @@ matrixMode: true
   <div class="setup-head">
     <span class="label">Ativação</span>
     <h1>Sua ativação de hoje</h1>
-    <p>Três perguntas e o circuito se monta sozinho. Do chão até de pé, sem voltar a descer — 40 segundos por exercício, os unilaterais 40 por lado.</p>
+    <p>Três perguntas e o circuito se monta sozinho. Cada exercício vai por tempo, os unilaterais por lado — não há nada para contar.</p>
   </div>
 
   <div class="setup-q">
@@ -40,6 +71,7 @@ matrixMode: true
     <div class="setup-opts" data-axis="sport">
       <button type="button" class="setup-opt" data-val="run" aria-pressed="true">Correr</button>
       <button type="button" class="setup-opt" data-val="bike" aria-pressed="false">Pedalar</button>
+      <button type="button" class="setup-opt" data-val="swim" aria-pressed="false">Nadar</button>
     </div>
   </div>
 
@@ -49,16 +81,16 @@ matrixMode: true
       <button type="button" class="setup-opt" data-val="wake" aria-pressed="true">Acabei de acordar</button>
       <button type="button" class="setup-opt" data-val="sit" aria-pressed="false">Sentado o dia todo</button>
     </div>
-    <p class="setup-hint">Recém-acordado, o corpo está rígido mas neutro. Depois de oito horas sentado, o quadril está encurtado e os glúteos desligados — não se resolve com a mesma rotina.</p>
+    <p class="setup-hint" id="momentHint">Recém-acordado, o corpo está rígido mas neutro. Depois de oito horas sentado, o quadril está encurtado e os glúteos desligados — não se resolve com a mesma rotina.</p>
   </div>
 
   <div class="setup-q">
-    <div class="setup-label">Você tem miniband?</div>
-    <div class="setup-opts" data-axis="band">
-      <button type="button" class="setup-opt" data-val="none" aria-pressed="true">No</button>
-      <button type="button" class="setup-opt" data-val="band" aria-pressed="false">Sim</button>
-    </div>
+    <div class="setup-label" id="equipLabel">Você tem miniband?</div>
+    <div class="setup-opts" data-axis="band" id="equipOpts"></div>
+    <p class="setup-hint" id="equipHint"></p>
   </div>
+
+  <p class="setup-hint setup-aside" id="shoulderAside" hidden>O ombro já dói hoje? Isto é ativação, não reabilitação. Comece por <a href="/members/pt/ombro/">Ombro de nadador</a> e volte aqui quando o incômodo baixar.</p>
 
   <button type="button" class="btn-primary setup-go" id="setupGo">Montar minha ativação →</button>
 </div>
@@ -130,51 +162,170 @@ window.ACTIVATION_MATRIX = (function () {
     ankle: { name: "Círculos de tornozelo + panturrilha", mode: "bi", tag: "Sem equipamento",
       cue: "Dez círculos em cada direção com cada pé, e depois elevações de panturrilha lentas. <strong>O tornozelo é a primeira articulação que toca o chão</strong> — se ele está dormindo, tudo acima compensa." },
     ankleBand: { name: "Círculos de tornozelo + panturrilha com miniband", mode: "bi", tag: "Miniband",
-      cue: "Círculos primeiro, depois elevações com a miniband nos tornozelos resistindo a subida. Descida lenta e completa." }
+      cue: "Círculos primeiro, depois elevações com a miniband nos tornozelos resistindo a subida. Descida lenta e completa." },
+
+    /* ---------------------------------------------------------- NATAÇÃO
+       Added Sept 3, 2026. Shares only catcow and child with run/bike — the
+       overlap really is that small, and that is fine: this sport's problem is
+       thoracic, scapular and core, not hip. Times replace the source doc's rep
+       counts because this engine is timed and the whole matrix is. */
+
+    /* -- aquecimento: vai PRIMEIRO, ao contrário do documento original -- */
+    armCircles: { name: "Círculos de braços completos", mode: "bi", tag: "Sem equipamento",
+      cue: "Em pé, abdômen firme para não arquear a lombar. Círculos amplos para trás passando o bíceps perto da orelha, e depois para a frente. <strong>Lentos e controlados: isto lubrifica o ombro nos mesmos planos em que ele vai trabalhar</strong>, não é cardio." },
+    swimSquat: { name: "Agachamento com alcance ao teto", mode: "bi", tag: "Sem equipamento",
+      cue: "Desça a um agachamento profundo e ao subir estique os braços para o teto, terminando na ponta dos pés. <strong>Conecta a extensão do tornozelo com a abertura do ombro</strong> — e é o que mais rápido levanta sua temperatura se a piscina estiver fria." },
+    neckRot: { name: "Rotação de pescoço para respirar", mode: "uni", tag: "Sem equipamento", secs: 30,
+      cue: "Gire a cabeça como se fosse respirar de lado, devagar, e sustente olhando para trás. <strong>O queixo fica baixo, perto do ombro.</strong> Um pescoço rígido depois de um dia de escritório é por que a cabeça se levanta em vez de girar — e levantar a cabeça afunda o quadril." },
+
+    /* -- torácica e escápula -- */
+    threadNeedle: { name: "Rotação torácica em quatro apoios", mode: "uni", tag: "Sem equipamento", secs: 30,
+      cue: "Em quatro apoios, uma mão atrás da cabeça. Leve esse cotovelo em direção ao joelho oposto e depois abra girando o tronco, seguindo o cotovelo com o olhar. <strong>O quadril fica quadrado</strong> — se ele for junto, você está girando pela lombar e não pelas costas altas, que é o que falta para respirar." },
+    ytw: { name: "Y-T-W de bruços", mode: "bi", tag: "Sem equipamento", secs: 45,
+      cue: "De bruços, testa apoiada, polegares para o teto. Descole os braços em Y, depois em T (em cruz), depois em W (cotovelos a 90° junto às costelas, juntando as escápulas). <strong>As escápulas vão para baixo, nunca em direção às orelhas</strong>: se você encolher, quem trabalha é o trapézio superior." },
+    swimStreamline: { name: "Prancha em tensão de streamline", mode: "bi", tag: "Sem equipamento", secs: 40,
+      cue: "Prancha alta. Encaixe o quadril, contraia forte o abdômen e <strong>alinhe-se como uma flecha, com a cabeça neutra olhando para o chão e não para a frente</strong>. É o tônus que evita que o quadril afunde no crawl e no borboleta. Uma vez só, bem feita." },
+    ankleSwim: { name: "Tornozelos para a pernada", mode: "bi", tag: "Sem equipamento", secs: 40,
+      cue: "Sentado com as pernas esticadas, aponte as pontas dos pés o mais longe que conseguir e sustente, depois círculos amplos. <strong>Se você vem da corrida, este é o seu ponto fraco na água</strong>: um tornozelo rígido não empurra, freia." },
+    childSwim: { name: "Postura da criança com alcance lateral", mode: "uni", tag: "Sem equipamento", secs: 30,
+      cue: "Sentado sobre os calcanhares, caminhe as mãos para um lado até sentir o dorsal. <strong>O dorsal é o que enrola o seu ombro para a frente</strong> — soltá-lo antes de nadar te devolve amplitude de braçada de graça." },
+
+    /* -- com elástico longo -- */
+    pullApart: { name: "Aberturas com elástico", mode: "bi", tag: "Elástico longo",
+      cue: "Elástico à frente, braços esticados na altura dos ombros, separe as mãos juntando as escápulas. <strong>Resistência baixa e muitas repetições</strong> — ativa o manguito posterior, que é o que protege o ombro na fase de recuperação." },
+    catchSim: { name: "Simulação de pegada com elástico", mode: "bi", tag: "Elástico longo",
+      cue: "Elástico ancorado a meia altura ou pisado. Incline-se um pouco à frente e empurre em direção às coxas com o braço longo e o cotovelo alto. <strong>Você busca lembrar a pressão, não corrigir a técnica</strong>: é para chegar à água com o gesto acordado, e a técnica se trabalha na água com o seu treinador de natação." },
+    bandOverhead: { name: "Passada de elástico por cima", mode: "bi", tag: "Elástico longo",
+      cue: "Pegada bem aberta, braços esticados, passe o elástico da frente para trás por cima da cabeça. O elástico cede onde o cabo não cede. <strong>Pare assim que as costelas abrirem ou os ombros subirem</strong> — até aí vai a sua amplitude de hoje." },
+
+    /* -- com cabo --
+       Deliberately a CAPPED pass-through and not a dislocate: see the clinical
+       note at the top of this file. The cue carries the cap. */
+    stickPass: { name: "Passada de cabo (com limite)", mode: "bi", tag: "Cabo ou vassoura", secs: 45,
+      cue: "Pegada bem aberta, braços esticados, passe o cabo das coxas para a lombar e volte. <strong>Isto não é um concurso de flexibilidade: pare onde as costelas abrirem, a lombar arquear ou os ombros subirem.</strong> A frente do ombro de um nadador costuma estar solta de sobra; o que você busca aqui são as costas altas, não mais amplitude na frente. Se tiver que forçar, abra mais a pegada." },
+
+    /* -- sem equipamento: o fecho em pé, para não terminar no chão -- */
+    dryStroke: { name: "Braçada em seco", mode: "bi", tag: "Sem equipamento",
+      cue: "Incline-se um pouco à frente e faça o gesto da braçada devagar, com o cotovelo alto e o braço longo. <strong>É para chegar à água com o gesto acordado</strong>, não para corrigir nada: a técnica se trabalha na água." }
   };
 
   /* ------------------------------------------------------------- ROUTINES
-     Eight lists of ids, floor → knees → standing. Read them against
-     `activation-matrix.md`; they are Iván's routines, unchanged. */
+     Lists of ids with their own phase names. Run and bike are Iván's original
+     routines, unchanged — floor → knees → standing, never back down.
+
+     *** Phase names live HERE, not in build(). They were hardcoded until
+     swimming arrived, which does not follow that progression. The engine has
+     always read phase names from the data, so this cost nothing. */
   const R = {
-    "bike|wake|none": { floor: ["floss","fig4","bridge","deadbug","catcow"],
-                        knees: ["child","hipflex"],
-                        stand: ["hipCircles","swingFB","latRaise","calf"] },
-    "bike|wake|band": { floor: ["floss","fig4","bridgeBand","deadbugBand","catcow"],
-                        knees: ["child","hipflex"],
-                        stand: ["hipCircles","swingFB","latRaiseBand","calf"] },
-    "bike|sit|none":  { floor: ["kneeChest","fig4","bridge","twist"],
-                        knees: ["catcow","child","hipflexSqueeze"],
-                        stand: ["hipCircles","swingFB","squat2stand","calf"] },
-    "bike|sit|band":  { floor: ["kneeChest","fig4","bridgeBand","twist"],
-                        knees: ["catcow","child","hipflexSqueeze"],
-                        stand: ["hipCircles","swingFB","squat2standBand","calf"] },
-    "run|wake|none":  { floor: ["floss","fig4","bridge","deadbug","hamTowel"],
-                        knees: ["catcow","hipflex","wgs"],
-                        stand: ["swingFB","swingLat","aSkip","march","ankle"] },
-    "run|wake|band":  { floor: ["floss","fig4","bridgeBand","deadbugBand","hamTowel"],
-                        knees: ["catcow","hipflex","wgs"],
-                        stand: ["swingFB","swingLat","aSkip","march","ankleBand"] },
-    "run|sit|none":   { floor: ["kneeChest","fig4","bridge","twist","deadbug"],
-                        knees: ["catcow","hipflexSqueeze","wgs"],
-                        stand: ["swingFB","swingLat","march","aSkip","squat2stand","calf"] },
-    "run|sit|band":   { floor: ["kneeChest","fig4","bridgeBand","twist","deadbugBand"],
-                        knees: ["catcow","hipflexSqueeze","wgs"],
-                        stand: ["swingFB","swingLat","marchBand","aSkip","squat2standBand","calf"] }
+    "bike|wake|none": { phases: [
+      { name: "Chão", ids: ["floss","fig4","bridge","deadbug","catcow"] },
+      { name: "Ajoelhado", ids: ["child","hipflex"] },
+      { name: "Em pé", ids: ["hipCircles","swingFB","latRaise","calf"] }] },
+    "bike|wake|band": { phases: [
+      { name: "Chão", ids: ["floss","fig4","bridgeBand","deadbugBand","catcow"] },
+      { name: "Ajoelhado", ids: ["child","hipflex"] },
+      { name: "Em pé", ids: ["hipCircles","swingFB","latRaiseBand","calf"] }] },
+    "bike|sit|none": { phases: [
+      { name: "Chão", ids: ["kneeChest","fig4","bridge","twist"] },
+      { name: "Ajoelhado", ids: ["catcow","child","hipflexSqueeze"] },
+      { name: "Em pé", ids: ["hipCircles","swingFB","squat2stand","calf"] }] },
+    "bike|sit|band": { phases: [
+      { name: "Chão", ids: ["kneeChest","fig4","bridgeBand","twist"] },
+      { name: "Ajoelhado", ids: ["catcow","child","hipflexSqueeze"] },
+      { name: "Em pé", ids: ["hipCircles","swingFB","squat2standBand","calf"] }] },
+    "run|wake|none": { phases: [
+      { name: "Chão", ids: ["floss","fig4","bridge","deadbug","hamTowel"] },
+      { name: "Ajoelhado", ids: ["catcow","hipflex","wgs"] },
+      { name: "Em pé", ids: ["swingFB","swingLat","aSkip","march","ankle"] }] },
+    "run|wake|band": { phases: [
+      { name: "Chão", ids: ["floss","fig4","bridgeBand","deadbugBand","hamTowel"] },
+      { name: "Ajoelhado", ids: ["catcow","hipflex","wgs"] },
+      { name: "Em pé", ids: ["swingFB","swingLat","aSkip","march","ankleBand"] }] },
+    "run|sit|none": { phases: [
+      { name: "Chão", ids: ["kneeChest","fig4","bridge","twist","deadbug"] },
+      { name: "Ajoelhado", ids: ["catcow","hipflexSqueeze","wgs"] },
+      { name: "Em pé", ids: ["swingFB","swingLat","march","aSkip","squat2stand","calf"] }] },
+    "run|sit|band": { phases: [
+      { name: "Chão", ids: ["kneeChest","fig4","bridgeBand","twist","deadbugBand"] },
+      { name: "Ajoelhado", ids: ["catcow","hipflexSqueeze","wgs"] },
+      { name: "Em pé", ids: ["swingFB","swingLat","marchBand","aSkip","squat2standBand","calf"] }] },
+
+    /* --- NATAÇÃO — de pé → chão → de pé, e essa volta ao chão é de propósito:
+       aquece-se em pé (numa piscina fria isso importa mais que a ordem
+       arrumada), faz-se o bloco de chão, e a ÚLTIMA coisa antes de entrar na
+       água é o gesto da braçada. O cabo não acrescenta um exercício: substitui
+       a passada de elástico, que faz o mesmo trabalho pior. */
+    "swim|wake|none": { phases: [
+      { name: "Aquecimento", ids: ["armCircles","swimSquat"] },
+      { name: "Chão", ids: ["threadNeedle","ytw","swimStreamline","ankleSwim"] },
+      { name: "Antes de entrar", ids: ["dryStroke"] }] },
+    "swim|wake|band": { phases: [
+      { name: "Aquecimento", ids: ["armCircles","swimSquat"] },
+      { name: "Chão", ids: ["threadNeedle","ytw","swimStreamline","ankleSwim"] },
+      { name: "Antes de entrar", ids: ["bandOverhead","pullApart","catchSim"] }] },
+    "swim|wake|stick": { phases: [
+      { name: "Aquecimento", ids: ["armCircles","swimSquat"] },
+      { name: "Chão", ids: ["threadNeedle","ytw","swimStreamline","ankleSwim"] },
+      { name: "Antes de entrar", ids: ["stickPass","pullApart","catchSim"] }] },
+    "swim|sit|none": { phases: [
+      { name: "Aquecimento", ids: ["armCircles","neckRot"] },
+      { name: "Chão", ids: ["threadNeedle","childSwim","ytw","swimStreamline","ankleSwim"] },
+      { name: "Antes de entrar", ids: ["dryStroke"] }] },
+    "swim|sit|band": { phases: [
+      { name: "Aquecimento", ids: ["armCircles","neckRot"] },
+      { name: "Chão", ids: ["threadNeedle","childSwim","ytw","swimStreamline","ankleSwim"] },
+      { name: "Antes de entrar", ids: ["bandOverhead","pullApart","catchSim"] }] },
+    "swim|sit|stick": { phases: [
+      { name: "Aquecimento", ids: ["armCircles","neckRot"] },
+      { name: "Chão", ids: ["threadNeedle","childSwim","ytw","swimStreamline","ankleSwim"] },
+      { name: "Antes de entrar", ids: ["stickPass","pullApart","catchSim"] }] }
+  };
+
+  /* Equipment options per sport. A mini-band is the right question for run and
+     bike and the wrong object for swimming, so the question itself changes —
+     not just the answer. The setup script renders this. */
+  const EQUIP = {
+    run:  { label: "Você tem miniband?", hint: "",
+            opts: [{ v: "none", t: "Não" }, { v: "band", t: "Sim" }] },
+    bike: { label: "Você tem miniband?", hint: "",
+            opts: [{ v: "none", t: "Não" }, { v: "band", t: "Sim" }] },
+    swim: { label: "O que você tem à mão?",
+            hint: "Em um clube costuma haver elástico e algum cabo na área de material. Em um hotel, quase nunca — e sem nada a rotina fica completa do mesmo jeito.",
+            opts: [{ v: "none", t: "Nada" }, { v: "band", t: "Elástico longo" }, { v: "stick", t: "Elástico e cabo" }] }
   };
 
   const WHY = {
     bike: "Pedalar com o quadril fechado e os glúteos desligados manda o trabalho para o quadríceps e para a lombar. A posição da bike já encurta o psoas; começar sem abri-lo é começar com a potência mal distribuída.",
-    run: "Correr com os glúteos dormindo e o quadril rígido joga o trabalho na lombar, nos posteriores e nas panturrilhas. Dez minutos de ativação melhoram a técnica desde o primeiro quilômetro e reduzem o risco de incômodos."
+    run: "Correr com os glúteos dormindo e o quadril rígido joga o trabalho na lombar, nos posteriores e nas panturrilhas. Dez minutos de ativação melhoram a técnica desde o primeiro quilômetro e reduzem o risco de incômodos.",
+    swim: "Uma boa ativação em seco faz três coisas antes de você tocar a água: solta a parte alta das costas, que é de onde saem a rotação e a respiração; acorda as escápulas e o manguito rotador, que é o que protege o ombro em cada recuperação; e liga o core na posição de flecha, que é o que mantém o quadril alto. Entrar frio e curvado depois de oito horas de escritório é como começam a maioria dos ombros de nadador."
   };
   const CONTEXT = {
     "wake": "Acabei de acordar",
     "sit": "Depois de ficar sentado"
   };
-  const SPORT = { bike: "Ativação para o ciclismo", run: "Ativação para a corrida" };
+  const SUBTITLE = {
+    bike: "Do chão até de pé, sem voltar a descer. 40 segundos por exercício; os unilaterais, 40 por lado.",
+    run: "Do chão até de pé, sem voltar a descer. 40 segundos por exercício; os unilaterais, 40 por lado.",
+    swim: "Na borda da piscina, antes de entrar. Você aquece de pé, desce ao chão e termina no gesto da braçada."
+  };
+  const DONE = {
+    run: "Pronto para correr.",
+    bike: "Pronto para subir na bike.",
+    swim: "Pronto para entrar na água."
+  };
+  /* The equipment suffix on the context pill, per sport — "mini-band" is
+     meaningless for a swimmer holding a broomstick. */
+  const EQUIP_LABEL = {
+    run:  { none: "", band: " · com miniband" },
+    bike: { none: "", band: " · com miniband" },
+    swim: { none: "", band: " · com elástico", stick: " · com elástico e cabo" }
+  };
+  const SPORT = { bike: "Ativação para o ciclismo", run: "Ativação para a corrida", swim: "Ativação em seco" };
 
   function build(sport, moment, band) {
-    const r = R[sport + "|" + moment + "|" + band];
+    const key = sport + "|" + moment + "|" + band;
+    const r = R[key];
+    if (!r) throw new Error("Unknown routine: " + key);
     const pick = ids => ids.map(id => {
       const ex = L[id];
       if (!ex) throw new Error("Unknown exercise id: " + id);
@@ -183,35 +334,75 @@ window.ACTIVATION_MATRIX = (function () {
     return {
       title: SPORT[sport],
       crumb: "Ativação",
-      subtitle: "Do chão até de pé, sem voltar a descer. 40 segundos por exercício; os unilaterais, 40 por lado.",
-      context: CONTEXT[moment] + (band === "band" ? " · com miniband" : ""),
+      subtitle: SUBTITLE[sport],
+      context: CONTEXT[moment] + (EQUIP_LABEL[sport][band] || ""),
       why: WHY[sport],
-      doneSub: sport === "run" ? "Pronto para correr." : "Pronto para subir na bike.",
-      phases: [
-        { name: "Chão", exercises: pick(r.floor) },
-        { name: "Ajoelhado", exercises: pick(r.knees) },
-        { name: "Em pé", exercises: pick(r.stand) }
-      ]
+      doneSub: DONE[sport],
+      phases: r.phases.map(ph => ({ name: ph.name, exercises: pick(ph.ids) }))
     };
   }
 
-  return { build: build, library: L, routines: R };
+  return { build: build, library: L, routines: R, equip: EQUIP };
 })();
 
 /* --------------------------------------------------------------- SETUP UI */
 (function () {
   const choice = { sport: "run", moment: "wake", band: "none" };
+  const EQUIP = window.ACTIVATION_MATRIX.equip;
 
-  document.querySelectorAll(".setup-opts").forEach(group => {
+  /* The equipment question is rebuilt whenever the sport changes, because the
+     question itself differs by sport. Rebuilding also resets the answer, which
+     matters: "swim|wake|band" exists but "run|wake|stick" does not, so a stale
+     answer carried across a sport switch would throw. */
+  function renderEquip() {
+    const cfg = EQUIP[choice.sport];
+    const opts = document.getElementById("equipOpts");
+    document.getElementById("equipLabel").textContent = cfg.label;
+    const hint = document.getElementById("equipHint");
+    hint.textContent = cfg.hint || "";
+    hint.hidden = !cfg.hint;
+
+    if (!cfg.opts.some(o => o.v === choice.band)) choice.band = cfg.opts[0].v;
+
+    opts.innerHTML = "";
+    cfg.opts.forEach(o => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "setup-opt";
+      b.dataset.val = o.v;
+      b.textContent = o.t;
+      b.setAttribute("aria-pressed", String(o.v === choice.band));
+      b.addEventListener("click", () => {
+        choice.band = o.v;
+        opts.querySelectorAll(".setup-opt").forEach(x =>
+          x.setAttribute("aria-pressed", String(x === b)));
+      });
+      opts.appendChild(b);
+    });
+  }
+
+  function renderSportBits() {
+    // Swimming is the only sport where "it already hurts" has a tool to go to.
+    document.getElementById("shoulderAside").hidden = choice.sport !== "swim";
+    document.getElementById("momentHint").textContent = choice.sport === "swim"
+      ? "Recém-acordado você está rígido e frio. Depois de oito horas sentado você está curvado: ombros à frente, peito fechado e pescoço duro — que é justamente a postura que faz o ombro fisgar ao nadar."
+      : "Recém-acordado, o corpo está rígido mas neutro. Depois de oito horas sentado, o quadril está encurtado e os glúteos desligados — não se resolve com a mesma rotina.";
+  }
+
+  document.querySelectorAll(".setup-opts[data-axis='sport'], .setup-opts[data-axis='moment']").forEach(group => {
     const axis = group.dataset.axis;
     group.querySelectorAll(".setup-opt").forEach(btn => {
       btn.addEventListener("click", () => {
         choice[axis] = btn.dataset.val;
         group.querySelectorAll(".setup-opt").forEach(b =>
           b.setAttribute("aria-pressed", String(b === btn)));
+        if (axis === "sport") { renderEquip(); renderSportBits(); }
       });
     });
   });
+
+  renderEquip();
+  renderSportBits();
 
   document.getElementById("setupGo").addEventListener("click", () => {
     window.ACTIVATION_DATA = window.ACTIVATION_MATRIX.build(choice.sport, choice.moment, choice.band);

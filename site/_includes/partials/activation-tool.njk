@@ -69,7 +69,13 @@
 
       <!-- done overlay -->
       <div class="stage-overlay" id="doneOverlay" style="display:none">
-        <div class="done-title">{{ aui.doneTitle }}</div>
+        {#- `id` added Sept 3, 2026 for /members/movilidad/. This string is
+            baked in at build time from activationUi.json, which is keyed by
+            language and knows nothing about which tool is asking — so a
+            mobility tool finished on "Activación completa" and no JS override
+            could reach it, because there was nothing to address. Existing pages
+            set nothing and are unchanged. -#}
+        <div class="done-title" id="doneTitle">{{ aui.doneTitle }}</div>
         <p class="done-sub" id="doneSub"></p>
         <div class="done-stats">
           <div class="done-stat"><div class="done-val" id="statEx">0</div><div class="done-lbl">{{ aui.statEx }}</div></div>

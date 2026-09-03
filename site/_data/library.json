@@ -25,6 +25,14 @@
       },
       {
         "tag": "Rutina",
+        "name": "Movilidad Post-Entreno",
+        "desc": "Elegís de qué venís y cuánto tiempo tenés, y la vuelta a la calma se arma sola: 10, 20 o 30 minutos con timer. Solo necesitás una colchoneta y una pared.",
+        "key": "mobility",
+        "url": "/all-access/#biblioteca",
+        "gated": true
+      },
+      {
+        "tag": "Rutina",
         "name": "Rodillas Sin Dolor",
         "desc": "Fuerza para blindar la rodilla: glúteo medio, vasto interno y cadena posterior. Elegís casa o gimnasio, con contador de series y descanso.",
         "key": "knees",
@@ -149,7 +157,7 @@
       {
         "tag": "Routine",
         "name": "Activation",
-        "desc": "Answer three questions — sport, how you're arriving, whether you have a mini-band — and the circuit builds itself. Floor to standing, timed per exercise.",
+        "desc": "Answer three questions — run, ride or swim, how you're arriving and what kit you have — and the circuit builds itself, timed per exercise. The swim version is dryland, for the pool deck before you get in.",
         "key": "activation",
         "url": "/en/all-access/#biblioteca",
         "gated": true
@@ -280,7 +288,7 @@
       {
         "tag": "Rotina",
         "name": "Ativação",
-        "desc": "Você responde três perguntas — esporte, como está chegando, se tem miniband — e o circuito se monta sozinho. Do chão até de pé, com timer por exercício.",
+        "desc": "Você responde três perguntas — correr, pedalar ou nadar, como está chegando e que equipamento tem — e o circuito se monta sozinho, com timer por exercício. A de natação é em seco, para a borda da piscina antes de entrar.",
         "key": "activation",
         "url": "/pt/all-access/#biblioteca",
         "gated": true

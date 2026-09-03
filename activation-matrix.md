@@ -4,7 +4,17 @@
 
 ## v1.1 — SWIMMING added as a third sport (September 3, 2026)
 
-**Spanish only so far.** `/members/activacion/` now builds **14 routines**, not 8: run and bike keep two equipment options each, swimming has three, so the grid is 4 + 4 + 6. EN and PT still ship the run/bike matrix and are the next step. *`library.json` and the members-home card were updated in ES only, for the same reason — the swim routines do not exist in those languages yet.*
+**Live in all three languages** — `/members/activacion/`, `/members/en/activation/`, `/members/pt/ativacao/`. Each builds **14 routines**, not 8: run and bike keep two equipment options each, swimming has three, so the grid is 4 + 4 + 6. `library.json` and all three members-home cards name the three sports.
+
+*ES shipped first and EN/PT followed the same day, once Iván had checked the Spanish page.* **The EN and PT edits were applied by one script for both languages**, so the *structural* transformation is provably identical and only the copy differs — which is also what makes the run/bike regression snapshots meaningful. Every replacement asserted its anchor before firing.
+
+### ⚠️ A Nunjucks comment rendered on the live page
+
+Two explanatory comments written **inside `{% raw %}`** shipped as visible text on the Spanish page, and Iván saw them before any check did. Inside a raw block a Nunjucks comment is not a comment — **it is literal text**.
+
+Nothing caught it: the build succeeded, every routine assertion passed, and the 390px sweep was clean, because the leak is perfectly valid markup that simply says the wrong thing to a human. **`automation/build-sanity.js` now walks every built HTML page and fails on any surviving template delimiter** — and it was tested by injecting the exact bug and confirming it fires. *A site-wide sweep at the time found these two and nothing else.*
+
+**The rule, written at the top of all three pages:** every note about these pages goes in the front-matter comment block, which is outside the raw block. Or use an HTML comment.
 
 ### Why it lives here and not on its own page
 

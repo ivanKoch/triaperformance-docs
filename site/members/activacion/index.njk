@@ -53,7 +53,25 @@ matrixMode: true
     The engine (activation-tool.js) is unchanged. It boots off
     window.ACTIVATION_DATA, so this page builds that object after the athlete
     answers and only then injects the engine script — which is why the partial
-    is included with `matrixMode`. -#}
+    is included with `matrixMode`.
+
+    *** EVERY NOTE ABOUT THIS PAGE BELONGS IN THIS BLOCK. Almost the entire page
+    is inside {% raw %}, and Nunjucks comments are NOT comments in there — they
+    are literal text, and they render to the reader. Two did exactly that on
+    Sept 3, 2026 and Iván saw them on the live page. There is now a build check
+    asserting no `{#` survives into any built HTML, but the simpler rule is:
+    put the note here, or use an HTML comment. ***
+
+    Two notes that were inline and had to move here:
+
+    - The setup-head paragraph is SPORT-NEUTRAL on purpose, because it is read
+      before the sport is chosen. It used to promise "del suelo a estar de pie,
+      sin volver a bajar", which stopped being true of every routine the moment
+      swimming arrived. The per-sport version of that sentence is each
+      routine's own `subtitle`.
+    - #equipOpts is left empty in the markup: its options AND its label are
+      written by the setup script from EQUIP[sport], so that switching sport
+      changes the question and not just the answer. -#}
 {% raw %}
 <div class="setup" id="setup">
   <div class="crumb-bar"><div class="wrap"><a href="/members/#biblioteca">Biblioteca</a> / Activación</div></div>
@@ -61,10 +79,6 @@ matrixMode: true
   <div class="setup-head">
     <span class="label">Activación</span>
     <h1>Tu activación de hoy</h1>
-    {#- Sport-neutral on purpose: this line is read BEFORE the sport is chosen.
-        It used to promise "del suelo a estar de pie, sin volver a bajar", which
-        stopped being true of every routine the moment swimming arrived. The
-        per-sport version of this sentence is the routine's own `subtitle`. -#}
     <p>Tres preguntas y armamos el circuito. Cada ejercicio va por tiempo, los unilaterales por lado — no hay nada que contar.</p>
   </div>
 
@@ -86,8 +100,6 @@ matrixMode: true
     <p class="setup-hint" id="momentHint">Recién levantado, el cuerpo está rígido pero neutro. Después de ocho horas sentado, la cadera está acortada y los glúteos apagados — no se arregla con lo mismo.</p>
   </div>
 
-  {#- Options and label are written by the setup script from EQUIP[sport], so
-      that switching sport changes the question and not just the answer. -#}
   <div class="setup-q">
     <div class="setup-label" id="equipLabel">¿Tenés minibanda?</div>
     <div class="setup-opts" data-axis="band" id="equipOpts"></div>

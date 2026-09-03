@@ -1,0 +1,471 @@
+---
+layout: layouts/base.njk
+pageCss: "members-activacion.css"
+title: "Movilidad post-entreno — Triaperformance All-Access"
+matrixMode: true
+---
+{#- MOVILIDAD POST-ENTRENO — the after-session sibling of the activation matrix.
+    Home doc: `mobility-brief.md`. Built September 3, 2026 from Iván's
+    "Sistema Maestro de Movilidad" source doc, section A of each sport.
+
+    Two questions -> one of 15 routines (sport x duration). Same engine, same
+    setup pattern and the same CSS file as /members/activacion/.
+
+    *** THE FIVE DECISIONS TAKEN BEFORE BUILDING, all Iván's, all reversals of
+    the source doc. Read these before editing anything:
+
+    1. DURATIONS ARE 10/20/30, NOT the source's 30/45/60. Nobody does an hour of
+       stretching after a session; 30 minutes is longer than several sessions in
+       his own plans. The 30/45/60 ladder is not wrong, it is the RECOVERY-DAY
+       ladder, and it goes on that tool (section B of the source doc), which is
+       a separate artifact by Iván's call. Do not "restore" the source numbers
+       here.
+
+    2. THE BASE ROUTINES ARE MAT-ONLY (plus a wall, which the copy declares).
+       The source opened three of five sports on a foam roller and also needed a
+       lacrosse ball, a doorframe, a yoga block and a chair - while the promise
+       was "you only need a mat". Roller and ball work is preserved as
+       `variants`, which the engine already swaps in and whose button hides
+       itself when a routine has none. No third axis, promise stays true.
+
+    3. INTENSITY, NOT DEPTH, is what separates this tool from the recovery-day
+       one. Post-session is 45-60s holds at submaximal range on tissue that was
+       just loaded. The source's 60-minute tiers put passive frog and winged
+       dragon (Yin) on freshly damaged tissue; that work belongs on a fresh day.
+       So the third tier here adds COVERAGE and a real downshift, not range.
+
+    4. TRIATHLON IS THE BRICK and "todo el cuerpo" is sport-neutral. Otherwise
+       the two produce near-identical lists and one of them should not exist.
+       `tri` = quads and calves from the run + hip flexors from the bike + lats
+       from the swim. `all` = no sport assumed, and it also serves a gym day.
+
+    5. "Agnostic" became "Todo el cuerpo". The word means nothing to an athlete.
+
+    *** CLINICAL: three things from the source are deliberately absent. All three
+    are reversals of a prescription that looks completely normal on the page.
+
+    - THE SLEEPER STRETCH (source 3.A #4, swimmers). Already rejected twice in
+      this repo in writing - `swimmer-shoulder-brief.md` §3 calls it "the
+      impingement position, loaded" and says do not re-add it, and the
+      activation matrix cites it as the reference class for the dislocates
+      decision. Replaced by `crossBody`, the cross-body horizontal adduction
+      stretch, which reaches the same posterior capsule without compressing the
+      joint. Its cue carries the part that makes it work: depress the scapula
+      and do not let the shoulder travel forward.
+    - THE DOORFRAME PEC STRETCH (source 3.A #2 and 4.A #5). End-range
+      glenohumeral extension on a fatigued cuff, in the population whose
+      anterior capsule is typically lax rather than stiff - same family of error
+      as the sleeper. Replaced by `pecFloorProne`, which is floor-based and
+      self-limiting, and whose cue caps it at the chest rather than the joint.
+    - USTRASANA / CAMEL (source 2.A 45min). Loaded end-range lumbar extension
+      with the neck back on a fatigued athlete post-ride. It is the one item
+      here where a real injury is plausible, and the same routine already gets
+      thoracic extension and hip flexor length three other ways.
+
+    Also reworded rather than removed: the source's "foam roller enfocado
+    AGRESIVAMENTE en banda IT". The IT band is not contractile and does not
+    lengthen; the targets are TFL and vastus lateralis, and "aggressively"
+    contradicts the source's own never-past-7/10 instruction. `itCross` carries
+    the correct target and says so in the cue.
+
+    *** BOX BREATHING IS NOT REBUILT HERE. The source's 60-minute tiers spend
+    5-8 minutes on it and on savasana. /members/respiracion/ already owns box
+    breathing, so `breathFloor` does the closing downshift with a simple 4-6
+    pattern and LINKS OUT. Same one-home argument that put swimming inside the
+    activation tool rather than on its own page.
+
+    *** EVERY NOTE ABOUT THIS PAGE BELONGS IN THIS BLOCK. Almost the whole page
+    is inside {% raw %}, where a Nunjucks comment is NOT a comment - it is
+    literal text that renders to the reader. That happened on the activation
+    page on Sept 3, 2026 and Iván saw it live. `automation/build-sanity.js` now
+    fails the build on any surviving template delimiter, but the simpler rule is
+    to write the note here or use an HTML comment.
+
+    Two notes that would otherwise be inline:
+
+    - The sport question uses `.setup-opts--wrap`, added to
+      members-activacion.css for this page. Five children at `flex: 1` are 65px
+      wide at 390px and every label wraps to three lines.
+    - The pain aside is sport-aware and always visible for at least one tool,
+      because every sport here has somewhere to hand off to. That is
+      methodology.md §11 respected in the product: this is mobility, not rehab. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/#biblioteca">Biblioteca</a> / Movilidad</div></div>
+
+  <div class="setup-head">
+    <span class="label">Movilidad</span>
+    <h1>Tu vuelta a la calma</h1>
+    <p>Dos preguntas y armamos la sesión. Cada ejercicio va por tiempo, los unilaterales por lado — no hay nada que contar.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">¿De qué venís?</div>
+    <div class="setup-opts setup-opts--wrap" data-axis="sport">
+      <button type="button" class="setup-opt" data-val="run" aria-pressed="true">Correr</button>
+      <button type="button" class="setup-opt" data-val="bike" aria-pressed="false">Bici</button>
+      <button type="button" class="setup-opt" data-val="swim" aria-pressed="false">Nadar</button>
+      <button type="button" class="setup-opt" data-val="tri" aria-pressed="false">Triatlón</button>
+      <button type="button" class="setup-opt" data-val="all" aria-pressed="false">Todo el cuerpo</button>
+    </div>
+    <p class="setup-hint" id="sportHint"></p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">¿Cuánto tiempo tenés?</div>
+    <div class="setup-opts" data-axis="mins">
+      <button type="button" class="setup-opt" data-val="10" aria-pressed="true">10 min</button>
+      <button type="button" class="setup-opt" data-val="20" aria-pressed="false">20 min</button>
+      <button type="button" class="setup-opt" data-val="30" aria-pressed="false">30 min</button>
+    </div>
+    <p class="setup-hint">Los tres arrancan igual. Veinte suma el resto de la cadena, y treinta suma las zonas que nadie estira y un cierre largo para bajar pulsaciones.</p>
+  </div>
+
+  <p class="setup-hint">Alcanza con una colchoneta y una pared. Si tenés rodillo o pelota, algunos ejercicios ofrecen esa versión con el botón <strong>Cambiar ejercicio</strong>.</p>
+
+  <p class="setup-hint setup-aside" id="painAside"></p>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Armar mi sesión →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/activation-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.MOBILITY_MATRIX = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY
+     One definition per exercise, one cue. An exercise shared by four sports
+     cannot drift into four slightly different cues, which is the whole reason
+     this is a library and a set of id lists rather than 15 written routines.
+
+     `secs` is the hold. The engine's default is 40; post-session the standard
+     here is 45 (60 for the decompression pieces, 30 for the light ones), which
+     is deliberately SHORTER than the source doc's 2-4 minutes per movement.
+     Long passive holds are the recovery-day tool's job.
+
+     `variants` carry the roller and ball versions. The base routine never needs
+     them, and the engine hides its own "Cambiar ejercicio" button on any
+     exercise that has none. */
+  const L = {
+
+    /* ------------------------------------------------------- PIERNA / CADERA */
+    calfWall: { name: "Sóleo en pared", mode: "uni", tag: "Pared", secs: 45,
+      cue: "Punta del pie contra la pared, talón en el piso, y <strong>llevá la rodilla hacia la pared manteniéndola flexionada</strong>. Rodilla doblada es sóleo, y el sóleo es el que se come la carga cuando corrés. Si lo sentís en la panza del gemelo, doblá más la rodilla.",
+      variants: [{ name: "Gemelos con rodillo", mode: "uni", tag: "Rodillo",
+        cue: "Sentado, el gemelo sobre el rodillo y la otra pierna cruzada encima para cargar. <strong>Parate 20 segundos en el punto que más se queja</strong> en vez de ir y venir rápido." }] },
+
+    calfGastro: { name: "Gemelo en pared", mode: "uni", tag: "Pared", secs: 45,
+      cue: "Misma posición, pero ahora <strong>con la rodilla estirada y el talón clavado en el piso</strong>. Rodilla derecha es gemelo. Cadera adelante y tronco erguido — si te vas de espaldas, perdiste el estiramiento." },
+
+    hamSupine: { name: "Isquios boca arriba", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Agarrate por detrás del muslo y <strong>estirá la rodilla hasta donde llegue sin que la cadera se despegue del piso</strong>. La otra pierna queda apoyada. La punta del pie hacia vos recién al final, no desde el principio.",
+      variants: [{ name: "Isquios con toalla", mode: "uni", tag: "Toalla",
+        cue: "Toalla en la planta del pie, pierna extendida hacia el techo. <strong>Tirá desde la toalla, no desde el cuello.</strong>" }] },
+
+    fig4: { name: "Figura 4 boca arriba", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Cruzá un tobillo sobre la rodilla contraria y traé la pierna de abajo hacia el pecho. <strong>Empujá suave la rodilla cruzada hacia afuera con el codo.</strong> Empezá por el lado que sentís más rígido.",
+      variants: [{ name: "Glúteo con pelota", mode: "uni", tag: "Pelota",
+        cue: "Sentado sobre la pelota, buscá el punto del glúteo que se queja y <strong>quedate quieto ahí respirando</strong> en vez de rodar. Cruzá el tobillo sobre la rodilla para llegar más profundo." }] },
+
+    psoas: { name: "Psoas de rodillas con apriete", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Media rodilla, pie de adelante plano. <strong>Meté la pelvis y apretá fuerte el glúteo de atrás antes de avanzar</strong> — sin ese apriete estás estirando la lumbar y no el psoas. Ese apriete es el ejercicio." },
+
+    quadSide: { name: "Cuádriceps de costado", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "De costado, agarrá el tobillo de arriba y llevá el talón a la cola <strong>con la pelvis metida y la rodilla apuntando al piso</strong>, no abierta hacia afuera. Si la lumbar se arquea, aflojá el rango.",
+      variants: [{ name: "Cuádriceps con rodillo", mode: "uni", tag: "Rodillo",
+        cue: "Boca abajo, el muslo sobre el rodillo, del pliegue de la cadera hasta arriba de la rodilla. <strong>Presión media: si tenés que aguantar la respiración, es demasiada.</strong>" },
+        { name: "Couch stretch en pared", mode: "uni", tag: "Pared",
+        cue: "De rodillas de espaldas a la pared, el empeine apoyado en ella. <strong>Meté la pelvis antes de subir el tronco</strong> — casi nadie necesita subir tanto como cree." }] },
+
+    itCross: { name: "Cruce de cadera externa", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Boca arriba, llevá una rodilla cruzada al lado opuesto <strong>dejando que la pelvis rote con ella</strong>, brazos abiertos. Buscás el tensor y el glúteo, por fuera de la cadera. <strong>La cintilla iliotibial no se estira ni se ablanda a golpes: lo que se afloja es lo que tira de ella.</strong>",
+      variants: [{ name: "Tensor y vasto externo con rodillo", mode: "uni", tag: "Rodillo",
+        cue: "El rodillo justo debajo del hueso de la cadera por fuera, y después en el lateral del muslo. <strong>Presión moderada y lenta.</strong> No busques la cintilla: buscá el músculo de arriba y el de adelante-afuera." }] },
+
+    adductor: { name: "Estocada lateral en media rodilla", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "De rodillas, una pierna estirada al costado con el pie apoyado, y <strong>llevá la cadera hacia atrás y hacia el lado contrario</strong>. Espalda larga. Es el aductor largo, que en carrera y en bici trabaja mucho más de lo que nadie cree." },
+
+    butterfly: { name: "Mariposa", mode: "bi", tag: "Sin equipo", secs: 60,
+      cue: "Plantas de los pies juntas, y <strong>inclinate desde la cadera con la espalda larga</strong> — no redondees para llegar más abajo, que es puro engaño. Los codos pueden empujar suave las rodillas." },
+
+    footArch: { name: "Arco y dedos del pie", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Sentado sobre los talones con los dedos de los pies flexionados hacia adelante — si es mucho, apoyá las manos y sacá peso. Después abrí y cerrá los dedos. <strong>La fascia plantar se endurece después de correr y nadie la toca hasta que duele.</strong>",
+      variants: [{ name: "Fascia plantar con pelota", mode: "uni", tag: "Pelota",
+        cue: "Rodá la planta del pie sobre la pelota, del talón a los dedos, lento, <strong>frenando en los puntos que se quejan</strong>. Presión que puedas sostener respirando normal." }] },
+
+    ankleKick: { name: "Tobillos y empeine", mode: "bi", tag: "Sin equipo", secs: 45,
+      cue: "Sentado sobre los talones con los empeines planos en el piso, <strong>y subí apenas las rodillas para cargar el empeine</strong>. Después, círculos amplios de tobillo. Si venís de nadar, un tobillo que no apunta frena la patada; si venís de correr, es el que se te puso duro.",
+      variants: [{ name: "Empeine y tibial con rodillo", mode: "bi", tag: "Rodillo",
+        cue: "En cuadrupedia, el rodillo sobre la parte de adelante de la tibia, y rodá despacio de la rodilla al tobillo. Zona sensible: <strong>menos presión de la que creés.</strong>" }] },
+
+    /* ------------------------------------------------------- TRONCO / ESPALDA */
+    childPose: { name: "Postura del niño", mode: "bi", tag: "Sin equipo", secs: 60,
+      cue: "Sentado sobre los talones, brazos largos adelante, frente al piso. <strong>Respirá hacia la espalda baja</strong> y dejá que la cadera baje un poco más con cada exhalación. Acá el objetivo es bajar pulsaciones, no estirar más." },
+
+    childReach: { name: "Niño con alcance lateral", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Desde la postura del niño, caminá las manos hacia un costado hasta sentir el dorsal por el lateral del tronco. <strong>La cadera se queda atrás</strong>, no la sigas con el tronco." },
+
+    twist: { name: "Torsión boca arriba", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Rodilla cruzada al lado opuesto, brazos abiertos, mirada al lado contrario. <strong>El hombro no se despega del piso</strong> — si se despega, bajá la rodilla. Soltá un poco más en cada exhalación." },
+
+    sphinx: { name: "Esfinge suave", mode: "bi", tag: "Sin equipo", secs: 60,
+      cue: "Boca abajo, codos debajo de los hombros, pelvis pesada en el piso. <strong>Es una extensión suave y sostenida, no una cobra.</strong> Si te aprieta la lumbar, llevá los codos más adelante hasta que deje de apretar." },
+
+    openBook: { name: "Libro abierto", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "De costado, rodillas flexionadas y apiladas, brazos juntos adelante. <strong>Abrí el brazo de arriba siguiendo la mano con la mirada, y dejá las rodillas quietas.</strong> Si las rodillas se separan, la rotación se te fue a la lumbar." },
+
+    catcow: { name: "Gato-camello", mode: "bi", tag: "Sin equipo", secs: 45,
+      cue: "En cuadrupedia, alterná redondear y arquear al ritmo de la respiración. <strong>Vértebra por vértebra</strong>, no en bloque. Lento: post-entreno esto es para soltar, no para movilizar fuerte." },
+
+    thoracicExt: { name: "Extensión torácica en cuadrupedia", mode: "bi", tag: "Sin equipo", secs: 60,
+      cue: "De rodillas, antebrazos apoyados adelante y la cola hacia los talones. <strong>Hundí el pecho hacia el piso dejando que se abran las axilas.</strong> El movimiento es de la espalda alta: si se arquea la lumbar, acercá más la cola a los talones." },
+
+    /* --------------------------------------------------------- HOMBRO / CUELLO
+       El cruce de hombro reemplaza al sleeper stretch del documento original, y
+       la apertura boca abajo reemplaza al estiramiento en el marco de la puerta.
+       Las dos razones están arriba, en el bloque de notas. */
+    crossBody: { name: "Cruce de hombro", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Llevá el brazo cruzado por delante del pecho y <strong>empujá desde el codo, nunca desde la muñeca</strong>. La clave: bajá el omóplato y no dejes que el hombro se vaya adelante. Si se va adelante, estás moviendo la escápula en vez de soltar la parte de atrás del hombro." },
+
+    pecFloor: { name: "Apertura de pecho boca abajo", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Boca abajo, un brazo extendido en cruz a la altura del hombro, y rodá el cuerpo hacia ese lado apoyando el pie contrario. <strong>Buscá el pecho, no el frente del hombro</strong> — si lo sentís dentro de la articulación, bajá el brazo unos centímetros y volvé a probar.",
+      variants: [{ name: "Pectoral menor con pelota", mode: "uni", tag: "Pelota",
+        cue: "Boca abajo, la pelota debajo de la clavícula, por dentro del hombro. <strong>Presión suave y quieta.</strong> Esta zona no se rodea, se sostiene." }] },
+
+    tricep: { name: "Tríceps y dorsal por encima de la cabeza", mode: "uni", tag: "Sin equipo", secs: 30,
+      cue: "Codo arriba junto a la oreja, mano entre los omóplatos, y empujá suave el codo con la otra mano. <strong>Costillas abajo</strong> — si la lumbar se arquea, ganaste rango con la espalda y no con el hombro." },
+
+    neckTrap: { name: "Cuello y trapecio", mode: "uni", tag: "Sin equipo", secs: 30,
+      cue: "Sentado, la mano del lado que estirás sujeta el borde de la colchoneta, y llevá la oreja al hombro contrario <strong>sin encoger el hombro</strong>. No tires con la otra mano: el peso de la cabeza alcanza y sobra." },
+
+    forearm: { name: "Antebrazos y muñecas", mode: "uni", tag: "Sin equipo", secs: 30,
+      cue: "En cuadrupedia, girá la mano hasta que los dedos apunten a las rodillas y <strong>sentate lento hacia atrás</strong>. Después dá vuelta la mano y apoyá el dorso para el otro lado. Horas agarrado al manillar se pagan acá." },
+
+    /* --------------------------------------------------------------- CIERRE */
+    wallLegs: { name: "Piernas en la pared", mode: "bi", tag: "Pared", secs: 120,
+      cue: "Cola cerca de la pared, piernas verticales apoyadas en ella, brazos al costado. <strong>Dos minutos enteros, y no estás estirando nada: estás bajando pulsaciones y sacándote el peso de las piernas.</strong> Si tira mucho de los isquios, alejá la cola de la pared." },
+
+    breathClose: { name: "Respiración de cierre", mode: "bi", tag: "Sin equipo", secs: 180,
+      cue: "Boca arriba, rodillas dobladas, una mano en el pecho y otra en la panza. <strong>Inhalá 4 segundos por la nariz llevando el aire a la panza, exhalá 6 por la boca.</strong> La exhalación larga es la que baja el sistema nervioso, y es lo que convierte esto en recuperación y no en una entrada en calor tardía. Si querés un protocolo con timer, tenés <a href=\"/members/respiracion/\">Respiración en caja</a>." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES
+     Three tables, not fifteen routines. BASE is the 10-minute session; 20
+     minutes is BASE + EXT; 30 is BASE + EXT + DEEP. That is the source doc's
+     own additive design (Núcleo -> Extensión -> Inmersión) and the reason 15
+     routines are 3 lists per sport rather than 15 written ones.
+
+     The closing block is NOT in these tables. It is appended by tier, because
+     it has to be last: `wallLegs` is a closing item by nature, and a routine
+     that lies down for two minutes and then gets up to do more mobility is
+     sequenced wrong. So 10 has no close, 20 closes on the wall, and 30 closes
+     on the wall plus the breathing. */
+  const BASE = {
+    run:  ["calfWall", "hamSupine", "fig4", "psoas", "quadSide", "childPose"],
+    bike: ["sphinx", "psoas", "quadSide", "fig4", "openBook", "neckTrap"],
+    swim: ["childReach", "crossBody", "pecFloor", "tricep", "ankleKick", "neckTrap"],
+    tri:  ["calfWall", "psoas", "childReach", "fig4", "quadSide", "childPose"],
+    all:  ["hamSupine", "quadSide", "fig4", "pecFloor", "twist", "childPose"]
+  };
+
+  const EXT = {
+    run:  ["footArch", "adductor", "itCross", "twist", "childReach"],
+    bike: ["thoracicExt", "hamSupine", "forearm", "catcow", "childReach"],
+    swim: ["openBook", "psoas", "thoracicExt", "footArch", "childPose"],
+    tri:  ["hamSupine", "crossBody", "openBook", "ankleKick", "twist"],
+    all:  ["psoas", "childReach", "butterfly", "calfWall", "neckTrap"]
+  };
+
+  const DEEP = {
+    run:  ["calfGastro", "sphinx", "ankleKick", "butterfly", "neckTrap"],
+    bike: ["pecFloor", "butterfly", "adductor", "calfWall", "twist"],
+    swim: ["catcow", "fig4", "calfWall", "twist", "adductor"],
+    tri:  ["sphinx", "itCross", "footArch", "butterfly", "adductor"],
+    all:  ["catcow", "crossBody", "itCross", "sphinx", "adductor"]
+  };
+
+  /* The tail, by tier. See the note above the tables for why it lives here. */
+  const CLOSE = { 10: [], 20: ["wallLegs"], 30: ["wallLegs", "breathClose"] };
+
+  const PHASE = {
+    base:  "Descarga",
+    ext:   "Cadena completa",
+    deep:  "Zonas olvidadas",
+    close: "Cierre"
+  };
+
+  const SPORT = {
+    run:  "Movilidad post-carrera",
+    bike: "Movilidad post-bici",
+    swim: "Movilidad post-natación",
+    tri:  "Movilidad post-combinado",
+    all:  "Movilidad de cuerpo completo"
+  };
+
+  const SUBTITLE = {
+    run:  "Cadena posterior, psoas y glúteo, que es lo que te acaba de trabajar. Sostenés cada posición, no rebotás.",
+    bike: "Abrir lo que la posición de bici cerró: cadera, pecho y espalda alta. Sostenés cada posición, no rebotás.",
+    swim: "Descomprimir el hombro y la espalda alta — y las piernas, que patearon una hora y nadie estira.",
+    tri:  "Lo que dejaron las tres cosas juntas: cuádriceps y gemelos de correr, cadera de la bici, dorsal de nadar.",
+    all:  "Sin deporte asignado: recorrido completo de arriba a abajo. Sirve igual después del gimnasio o de un día largo."
+  };
+
+  const WHY = {
+    run:  "Correr deja el sóleo y los isquios con tono alto y el psoas corto, y después te sentás ocho horas encima de eso. Diez minutos en el piso ahora valen más que media hora mañana, porque el tejido todavía está caliente y todavía te acordás de qué te molestó.",
+    bike: "En la bici estás una hora o cinco en la misma posición: cadera cerrada, espalda alta redondeada, cuello extendido para mirar adelante y las manos agarrando. Nada de eso se arregla solo, y es acumulativo — la molestia lumbar del ciclista casi nunca empieza en la lumbar.",
+    swim: "Nadar deja el dorsal y el pectoral menor tirando del hombro hacia adelante, que es exactamente la posición desde la que se pincha. Y deja las piernas afuera de la conversación: pateaste una hora con el tobillo en punta y mañana salís a correr con eso.",
+    tri:  "Un día combinado deja tres deudas distintas y ninguna se paga con la misma postura. Esta sesión toca las tres: lo que corriste, lo que pedaleaste y lo que nadaste, en ese orden de prioridad.",
+    all:  "Cuando no sabés qué te dejó duro, o fue de todo un poco, el mejor uso del tiempo es un recorrido completo en vez de insistir sobre una sola zona. Vale igual para un día de gimnasio o para un día largo de trabajo."
+  };
+
+  const DONE = {
+    run:  "Listo. Comé algo en la próxima media hora.",
+    bike: "Listo. Comé algo en la próxima media hora.",
+    swim: "Listo. Comé algo en la próxima media hora.",
+    tri:  "Listo. Comé algo en la próxima media hora.",
+    all:  "Listo. Eso es la sesión completa."
+  };
+
+  /* Where to send someone whose problem is pain and not stiffness. Every sport
+     here has somewhere to hand off to, which is methodology.md §11 respected in
+     the product: this tool is movilidad, no rehabilitación. */
+  const PAIN = {
+    run:  'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/rodillas/">Rodillas</a> o <a href="/members/aquiles/">Aquiles</a>. Y si el dolor sigue, es consulta médica, no una rutina.',
+    bike: 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/rodillas/">Rodillas</a>. Y si el dolor sigue, es consulta médica, no una rutina.',
+    swim: 'Si el hombro <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/hombro/">Hombro de nadador</a>. Y si el dolor sigue, es consulta médica, no una rutina.',
+    tri:  'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/rodillas/">Rodillas</a>, <a href="/members/aquiles/">Aquiles</a> u <a href="/members/hombro/">Hombro</a>. Y si el dolor sigue, es consulta médica, no una rutina.',
+    all:  'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/rodillas/">Rodillas</a>, <a href="/members/aquiles/">Aquiles</a> u <a href="/members/hombro/">Hombro</a>. Y si el dolor sigue, es consulta médica, no una rutina.'
+  };
+
+  const SPORT_HINT = {
+    run:  "",
+    bike: "",
+    swim: "",
+    tri:  "Para un día con más de un deporte: un ladrillo, o bici a la mañana y carrera a la tarde.",
+    all:  "Si sentís todo duro, si fue día de gimnasio, o si no querés elegir."
+  };
+
+  function build(sport, mins) {
+    const m = String(mins);
+    if (!BASE[sport]) throw new Error("Unknown sport: " + sport);
+    if (!CLOSE[m]) throw new Error("Unknown duration: " + m);
+
+    const pick = ids => ids.map(id => {
+      const ex = L[id];
+      if (!ex) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({ video: null, variants: [] }, ex);
+    });
+
+    const phases = [{ name: PHASE.base, exercises: pick(BASE[sport]) }];
+    if (m === "20" || m === "30") phases.push({ name: PHASE.ext, exercises: pick(EXT[sport]) });
+    if (m === "30") phases.push({ name: PHASE.deep, exercises: pick(DEEP[sport]) });
+    if (CLOSE[m].length) phases.push({ name: PHASE.close, exercises: pick(CLOSE[m]) });
+
+    return {
+      title: SPORT[sport],
+      crumb: "Movilidad",
+      subtitle: SUBTITLE[sport],
+      context: m + " minutos",
+      why: WHY[sport],
+      doneSub: DONE[sport],
+      kicker: "Movilidad",
+      restSeconds: 10,
+      phases: phases
+    };
+  }
+
+  /* Chrome that would otherwise say "activación" on a mobility page. All of it
+     comes from site/_data/activationUi.json, which is keyed by LANGUAGE and has
+     no concept of which tool is asking, so each string is corrected where it
+     actually lands — and the three land in three different ways:
+
+       kicker       the engine already takes a per-routine override (D.kicker),
+                    so it is set in build().
+       startRoutine the engine reads it through t() at render time, so patching
+                    window.ACTIVATION_UI before the engine boots is enough.
+       doneTitle    is NOT an engine string. The partial bakes it into the
+                    markup at build time, so it can only be written by id after
+                    the tool is shown. A window.ACTIVATION_UI override for it
+                    silently does nothing — which is exactly what happened, and
+                    is why the partial got an id.
+
+     *** WHEN THIS PAGE IS TRANSLATED, THESE THREE STRINGS TRAVEL WITH IT. They
+     are the only interface text this tool owns, and they are the exact kind of
+     thing a translation pass reads straight past. *** */
+  const UI_OVERRIDE = { startRoutine: "Empezar la sesión →" };
+  const DONE_TITLE = "Sesión completa";
+
+  return { build: build, library: L, base: BASE, ext: EXT, deep: DEEP,
+           close: CLOSE, pain: PAIN, sportHint: SPORT_HINT, ui: UI_OVERRIDE,
+           doneTitle: DONE_TITLE };
+})();
+
+/* --------------------------------------------------------------- SETUP UI
+   Two questions instead of the activation matrix's three, and neither one
+   changes the other's options — so there is no equivalent here of that page's
+   sport-aware equipment rebuild. What IS sport-aware is the pain hand-off,
+   which changes which tool it points at. */
+(function () {
+  const M = window.MOBILITY_MATRIX;
+  const choice = { sport: "run", mins: "10" };
+
+  function renderSportBits() {
+    const hint = document.getElementById("sportHint");
+    hint.innerHTML = M.sportHint[choice.sport] || "";
+    hint.hidden = !M.sportHint[choice.sport];
+    document.getElementById("painAside").innerHTML = M.pain[choice.sport];
+  }
+
+  document.querySelectorAll(".setup-opts[data-axis]").forEach(group => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach(btn => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach(b =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+        if (axis === "sport") renderSportBits();
+      });
+    });
+  });
+
+  renderSportBits();
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.ACTIVATION_DATA = M.build(choice.sport, choice.mins);
+    Object.assign(window.ACTIVATION_UI, M.ui);
+
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    // Labels the partial normally writes at parse time — done here instead,
+    // because at parse time there was no routine yet.
+    document.getElementById("doneSub").textContent = window.ACTIVATION_DATA.doneSub;
+    document.getElementById("crumbLabel").textContent = window.ACTIVATION_DATA.crumb;
+    document.getElementById("doneTitle").textContent = M.doneTitle;
+
+    // Boot the shared engine. Injected rather than loaded with the page, so the
+    // engine needs no awareness of this tool at all: by the time it runs,
+    // window.ACTIVATION_DATA looks like any other activation routine.
+    const s = document.createElement("script");
+    s.src = "/assets/js/activation-tool.js";
+    document.body.appendChild(s);
+
+    // One way back. Reloads rather than re-initialising, for the same reason as
+    // the activation matrix: the engine holds timer state in closure and has no
+    // teardown, and a stale interval running under a second routine is a worse
+    // bug than a page load.
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Cambiar opciones";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

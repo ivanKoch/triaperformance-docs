@@ -392,3 +392,20 @@ footer a { color: var(--text-dim); }
 /* Sits above the tabs, quiet. Getting back to the questions should be possible
    and should not compete with starting the routine. */
 .setup-back { display: block; margin: 12px 0 -4px 4px; }
+
+/* --- A five-option question needs to wrap (mobility matrix, Sept 3, 2026) ---
+   .setup-opts is a flex row with `flex: 1` children, which is right for the two
+   and three-option questions the activation matrix asks. The mobility tool asks
+   for one of FIVE sports, and five equal children at 390px is 65px each — every
+   label wraps to three lines and "Todo el cuerpo" to four.
+
+   Modifier rather than a change to .setup-opts, so the existing questions on
+   this page and on /members/core/ are untouched. Renders 3 + 2: the second row
+   grows to fill, which reads as deliberate rather than as a ragged wrap. */
+.setup-opts--wrap { flex-wrap: wrap; }
+/* `flex: 1 0`, NOT `1 1`. With a shrink factor of 1 the five buttons simply
+   compress to 61-72px each and stay on one row — wrap never fires, because
+   flex-wrap only wraps items that cannot shrink to fit. Caught at 390px by the
+   rendered check, not by reading the CSS: the rule was present and correct-
+   looking, and the page was still wrong. */
+.setup-opts--wrap .setup-opt { flex: 1 0 calc(33.333% - 6px); min-width: 0; }
