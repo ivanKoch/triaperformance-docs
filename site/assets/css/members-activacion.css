@@ -374,6 +374,18 @@ footer a { color: var(--text-dim); }
 .setup-opt[aria-pressed="true"] { border-color: var(--blue-bright); background: var(--blue-dim); color: var(--blue-bright); }
 
 .setup-hint { font-size: 13px; color: var(--text-dim); line-height: 1.55; margin-top: 10px; }
+.setup-hint[hidden] { display: none; }
+
+/* The "it already hurts" aside, shown only for swimming, which is the only
+   sport in the matrix with a rehab tool to hand off to. Boxed rather than left
+   as another grey hint, because it is a redirect away from this page and a
+   plain hint reads as more small print. */
+.setup-aside {
+  border-left: 2px solid var(--blue-bright); background: var(--blue-dim);
+  border-radius: 0 6px 6px 0; padding: 12px 14px; margin-top: 24px;
+}
+.setup-aside[hidden] { display: none; }
+.setup-aside a { color: var(--blue-bright); font-weight: 700; }
 
 .setup-go { width: 100%; margin-top: 32px; }
 

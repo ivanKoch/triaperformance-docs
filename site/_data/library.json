@@ -18,7 +18,7 @@
       {
         "tag": "Rutina",
         "name": "Activación",
-        "desc": "Respondés tres preguntas — deporte, cómo llegás, si tenés minibanda — y el circuito se arma solo. Del suelo a estar de pie, con timer por ejercicio.",
+        "desc": "Respondés tres preguntas — correr, bici o nadar, cómo llegás y qué equipo tenés — y el circuito se arma solo, con timer por ejercicio. La versión de natación es en seco, para hacer en el borde antes de entrar.",
         "key": "activation",
         "url": "/all-access/#biblioteca",
         "gated": true

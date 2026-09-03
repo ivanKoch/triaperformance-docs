@@ -1,5 +1,70 @@
 # Activation Matrix — the adaptive activation routine
 
+---
+
+## v1.1 — SWIMMING added as a third sport (September 3, 2026)
+
+**Spanish only so far.** `/members/activacion/` now builds **14 routines**, not 8: run and bike keep two equipment options each, swimming has three, so the grid is 4 + 4 + 6. EN and PT still ship the run/bike matrix and are the next step. *`library.json` and the members-home card were updated in ES only, for the same reason — the swim routines do not exist in those languages yet.*
+
+### Why it lives here and not on its own page
+
+Iván left the call to me. It goes in the matrix, but the usual argument for merging does **not** apply and the doc should say so plainly: **the exercise overlap with run and bike is almost nil.** The run/bike library is hip and leg; swimming is thoracic, scapular and core. Two exercises rhyme (cat-cow, child's pose) and even those got swim-specific cues, so nothing is literally shared.
+
+**The merge is justified by product coherence, not code reuse.** The library carried two activation entries once — the fixed running and cycling tools — and consolidating them into one adaptive tool was a deliberate Aug 13 decision. A standalone `/members/activacion-natacion/` re-creates exactly the thing that decision removed, in a business whose core market does all three sports. *Do not let a future pass "simplify" this by splitting it back out; the reason is written at the top of the page too.*
+
+### Two structural changes it forced
+
+1. **The equipment question is now sport-aware** — the question itself, not just the answer. A mini-band is right for run and bike and is the wrong *object* for swimming, where the useful kit is a long band and a stick. `EQUIP[sport]` holds label, hint and options, and the third question re-renders when the sport changes. **It also resets the answer**: `swim|…|stick` exists and `run|…|stick` does not, so a stale answer carried across a sport switch would have thrown. That reset is asserted in the verification.
+2. **Phase names moved out of `build()` and into each routine.** They were hardcoded `Suelo / De rodillas / De pie`, which was true of all eight routines until swimming arrived. Swimming goes **standing → floor → standing**: you warm up on your feet (in a cold pool hall that matters more than a tidy progression), do the floor block, and the *last* thing before the water is the stroke gesture. The engine has always read phase names from the data, so this cost nothing.
+
+### ⚠️ Stick dislocates are deliberately absent
+
+The source doc called them *"insustituible para abrir la cápsula anterior."* **For swimmers that is usually backwards.** Competitive swimmers are typically **lax** at the anterior capsule, not stiff; what they lack is internal rotation and stability — which is exactly what `/members/hombro/` is built around, shipped the same day. Prescribing end-range external rotation and extension on a long lever, to the population most likely to be impinged, is **the same class of error as the sleeper stretch**.
+
+What ships instead is a **capped pass-through** (`stickPass`) whose cue carries the cap in the text, so it cannot be performed as a dislocate by someone who skips the preamble: *stop where the ribs flare, the lower back arches, or the shoulders rise.* **Do not restore dislocates.**
+
+### 🚧 Guardrail: this must not become stroke teaching
+
+`methodology.md` is explicit that Iván does not teach swimming. The catch simulation sits right on that line. Its cue primes the *feel of pressure* and then defers: *"la técnica se trabaja en el agua."* **A verification assertion checks that deferral is present in every swim routine** — because the natural way to improve this cue is to add technique detail, and that is precisely what must not happen.
+
+### Content changes to Iván's source, all four chosen by him
+
+| Change | Why |
+|---|---|
+| **Warm-up moved first** | The source opened on the floor in quadruped; arm circles and the squat — the only two things that raise temperature — were third and fifth. Backwards for a 6am pool deck. |
+| **Ankle plantarflexion added** | The source only mentions it in passing inside the squat. This is a triathlon business: swimmers who also run have the stiffest ankles in the pool, and a stiff ankle brakes rather than propels. |
+| **Neck rotation added** | Breathing rotation is as much a neck movement as a trunk one. A stiff neck after a desk day is why athletes lift the head instead of rotating — and lifting the head sinks the hips. `sit` routines only. |
+| **Link out to the shoulder tool** | An aside on the setup screen, shown for swimming only, sending a shoulder that already hurts to `/members/hombro/` rather than activating into pain. |
+
+**Two things were cut from the source on volume grounds:** the 3-round plank became a single 40s streamline hold (three rounds plus rest was a third of a 5–7 minute activation on one exercise — that is training, not activation), and rep counts became times, because this engine is timed and the whole matrix is. *"8–10 per side" renders as 30s per side, which is the same work.*
+
+### Duration — and one thing worth knowing
+
+Target was 8–10 minutes, Iván's call, against the source's 5–7 and the run/bike siblings' 16–19.
+
+| routine | min | | routine | min |
+|---|---|---|---|---|
+| `swim\|wake\|none` | 6.8 | | `swim\|sit\|none` | 8.9 |
+| `swim\|wake\|band` | 8.7 | | `swim\|sit\|band` | **10.8** |
+| `swim\|wake\|stick` | 8.8 | | `swim\|sit\|stick` | **10.8** |
+
+**The first build had the two `sit` routines at 12.4 minutes, and the cause was structural rather than arithmetic:** `sit` was *adding* `neckRot` and `childSwim` on top of the complete `wake` routine. That is not how `run|sit` works either — that one **swaps** `floss` for `kneeChest`. Fixed by swapping too: `sit` drops `swimSquat` and gains the neck and lat work, on the content reasoning that **after eight hours at a desk you are not cold, you are folded shut** — temperature is the `wake` problem, opening is the `sit` problem. `threadNeedle` and `childSwim` also dropped from 40s to 30s per side, which is closer to the source's own 8–10 slow reps than 40s was.
+
+***The two longest still land at 10.8, not 10.*** Left there and reported rather than trimmed further: contorting the content to hit a round number I proposed is worse than saying what it actually is. **Worth Iván's eye when he runs it.**
+
+### Verification
+
+**151 checks** (`swim-activation.js`), including:
+
+- **A regression snapshot.** All eight run/bike routines were captured *before* the change — every exercise name, mode, duration, tag and cue, plus titles, contexts and done-text — and compared after. **Byte-identical.** This is the check that matters most: the change touched the shared `build()` and the shared routine table, and the eight routines Iván already approved must not have moved a character.
+- All 14 routines build; no duplicated exercise within a routine; every exercise carries a cue.
+- **Clinical:** no dislocates in any wording, in any branch; the stick exercise is capped *and says so*; the three stated objectives (thoracic, scapular, streamline core) each appear; ankle work everywhere; neck work in `sit`.
+- **Equipment honesty:** no routine may require kit the athlete said they lack — `none` branches contain no band or stick tag, `band` branches contain no stick tag. And the context pill never says "minibanda" for a swimmer.
+- **The sport switch:** three options for swimming and two otherwise, the question text changes, the aside appears and hides, and **a stale `stick` answer is reset when switching back to running** rather than producing a routine key that does not exist.
+- A full timed walk to the done overlay on `swim|sit|stick`, and 390px layout on both the 3-option sport group and the 3-option swim equipment group.
+
+---
+
 **Status: v1 SHIPPED in Spanish (EN + PT same day), August 13, 2026 **· verified: 2026-08-14**** — `/members/activacion/`. The two fixed tools it replaced (`/members/activacion/` running and `/members/activacion-ciclismo/`) are deleted, on Iván's call. **The tightness axis is v2 and deliberately absent from v1.**
 
 **Sequence Iván set:** v1 Spanish → translate to EN and PT → happy across all three → *then* v2 adds tightness. ***EN and PT shipped the same day*** — `/members/en/activation/` and `/members/pt/ativacao/`. **Next step is Iván actually running one, in each language, on a phone**, before v2 starts. *Do not add the tightness axis to Spanish only; that reintroduces exactly the drift the i18n branch exists to stop.*
@@ -31,9 +96,9 @@ A single activation tool that builds the routine from what the athlete answers, 
 
 | Axis | Options | Count |
 |---|---|---|
-| Sport | cycling, running | 2 |
+| Sport | cycling, running, ~~and that is all~~ **swimming** *(added Sept 3, 2026 — see v1.1 at the top)* | ~~2~~ **3** |
 | Moment | just woke up, sat all day | 2 |
-| Equipment | none, mini-band | 2 |
+| Equipment | none, mini-band — ***sport-dependent since v1.1:*** *swimming offers none / long band / band + stick* | 2 *(3 for swim)* |
 | Tightness | none, or one of 10 named areas | 11 |
 
 That is **8 base routines** (2 × 2 × 2), each with an optional add-on drawn from a **10 × 2 tightness table** — the tightness fix differs by sport, so lower back is the same movement for both while hamstrings, glutes and ankles are not.
