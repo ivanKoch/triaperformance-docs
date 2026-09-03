@@ -70,6 +70,14 @@ Send as **one message**, not five. Athletes answer long messages in full (Nadine
 
 *Question 4 is the one that isn't in the current process. It is what makes A3 possible.*
 
+**A2b · The attribution line — added September 3, 2026, and it is not a qualification question.**
+
+Send it **first, on its own, before the five**, as a warm human aside — never appended as a sixth numbered item, which turns a compliment into a form field.
+
+> Antes de nada, me da curiosidad: ¿cómo llegaste a mí? Me sirve muchísimo saberlo.
+
+***Why it earns its place in a document that is otherwise ruthless about message count.*** *On September 3, 2026 a Bogotá lead opened with* **"te busqué por IA y me apareció tu nombre… eres el número 1"** *— a channel that did not exist in `leadSource` and that nothing in the stack can see, because she came from the ChatGPT mobile app straight to WhatsApp and never touched the website.* **Direct is 46.6% of external sessions and WhatsApp inbound carries no source at all**, *so the honest answer to "how many leads does channel X send me" is currently "unknown" for every channel that does not pass a referrer.* **One line, asked once, at the only moment the lead is willing to answer it.** *Write the answer into Twenty's `leadSource` (`AI_ASSISTANT`, `REFERRAL`, `WEBSITE_FORM`, `COACHMATCH`, …) and the exact words into `leadNotes`.*
+
 ### A3 · The mirror — the message that earns the price
 
 **This is the highest-leverage text in the document.** It is the Nadine message, generalised. It has four parts and the order matters:

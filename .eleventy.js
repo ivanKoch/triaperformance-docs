@@ -207,6 +207,74 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
   });
 
   // ---------------------------------------------------------------------------
+  // garminZones — the 7-zone model collapsed into Garmin's 5 heart-rate fields.
+  //
+  // Added Sept 2026 for the Garmin article. Garmin (and Polar, and Coros) give
+  // you FIVE zone boxes; this model has seven, because X and Y exist. An athlete
+  // told to "enter your zones" opens the app, sees five boxes, and stops.
+  //
+  // The collapse is lossless and it is Iván's own wording to athletes: X is part
+  // of zone 2, so Garmin's Z2 runs from z2's floor to X's ceiling; Y is part of
+  // zone 4, so Garmin's Z4 runs from Y's floor to z4's ceiling. Nothing is
+  // dropped and nothing overlaps.
+  //
+  // Numbers are DERIVED from data/zones.csv for the same reason zoneTable exists
+  // -- four articles once hand-typed the zone table and all four drifted. A
+  // hand-typed Garmin mapping would drift the same way, and would then disagree
+  // with the calculator the article sends people to.
+  //
+  // Usage:  {% garminZones "running" %}
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addShortcode("garminZones", function (sport) {
+    const ctx = this.ctx || {};
+    const zones = ctx.zones || this.context?.environments?.zones;
+    const lang = ctx.lang || "es";
+    const t = {
+      es: { g: "Garmin", pct: "% de tu LTHR", eq: "Equivale a", z: "Zona",
+            plus: "+", cap: "Porcentajes de tu LTHR del deporte correspondiente. Tu LTHR de bici y de carrera no son el mismo número." },
+      en: { g: "Garmin", pct: "% of your LTHR", eq: "Equals", z: "Zone",
+            plus: "+", cap: "Percentages of the LTHR for that sport. Your bike and run LTHR are not the same number." },
+      pt: { g: "Garmin", pct: "% do seu LTHR", eq: "Equivale a", z: "Zona",
+            plus: "+", cap: "Percentuais do LTHR do esporte correspondente. Seu LTHR de bike e de corrida não são o mesmo número." },
+    }[lang] || {};
+
+    const tbl = zones && zones.tables[sport] && zones.tables[sport].lthr;
+    if (!tbl) throw new Error(`garminZones: no lthr table for ${sport}`);
+    const at = (z) => {
+      const row = tbl.find((r) => String(r.zone) === z);
+      if (!row) throw new Error(`garminZones: ${sport}/lthr missing zone ${z}`);
+      return row;
+    };
+
+    // Assert the carve-outs really are contiguous before collapsing them. If a
+    // future edit to zones.csv breaks that, this mapping silently invents a gap
+    // or an overlap -- so fail the build instead.
+    if (at("X").ceiling !== at("3").floor)
+      throw new Error(`garminZones: ${sport} zone X ceiling ${at("X").ceiling} != zone 3 floor ${at("3").floor}`);
+    if (at("Y").floor !== at("3").ceiling)
+      throw new Error(`garminZones: ${sport} zone Y floor ${at("Y").floor} != zone 3 ceiling ${at("3").ceiling}`);
+
+    const bands = [
+      { g: 1, floor: at("1").floor, ceiling: at("1").ceiling, eq: `${t.z} 1` },
+      { g: 2, floor: at("2").floor, ceiling: at("X").ceiling, eq: `${t.z} 2 ${t.plus} X` },
+      { g: 3, floor: at("3").floor, ceiling: at("3").ceiling, eq: `${t.z} 3` },
+      { g: 4, floor: at("Y").floor, ceiling: at("4").ceiling, eq: `Y ${t.plus} ${t.z} 4` },
+      { g: 5, floor: at("5").floor, ceiling: at("5").ceiling, eq: `${t.z} 5` },
+    ];
+
+    const rows = bands.map((b) =>
+      `<tr><td class="tsb-band">${t.g} ${b.g}</td>` +
+      `<td data-label="${t.pct}">${b.floor}% – ${b.ceiling}%</td>` +
+      `<td data-label="${t.eq}">${b.eq}</td></tr>`).join("");
+
+    return `<table class="tp-table tp-table--stack">` +
+      `<thead><tr><th>${t.g}</th><th>${t.pct}</th><th>${t.eq}</th></tr></thead>` +
+      `<tbody>${rows}</tbody></table>` +
+      `<p class="fineprint">${t.cap}</p>`;
+  });
+
+
+  // ---------------------------------------------------------------------------
   // withUtm — appends UTM + plan_id to a TrainingPeaks plan URL.
   //
   // Every outbound redirect from the storefront to a TP purchase page must

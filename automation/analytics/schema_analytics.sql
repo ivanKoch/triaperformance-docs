@@ -431,6 +431,34 @@ SELECT
     medium,
     campaign,
     CASE
+        -- AI assistants FIRST, matched on SOURCE and never on medium alone.
+        -- ChatGPT has appended utm_source=chatgpt.com to DESKTOP citation
+        -- links since June 2025, so a desktop click lands as source
+        -- chatgpt.com / medium referral. Reporting differs per platform:
+        -- perplexity.ai and copilot.microsoft.com arrive as referral, and
+        -- some GA4 properties now stamp medium 'ai-assistant' natively --
+        -- hence the extra medium branch, which costs nothing if unused.
+        -- Before this branch existed these all landed in 'Referral' or
+        -- 'Other: (not set)'.
+        --
+        -- TWO LIMITS THIS VIEW CANNOT FIX, both stated so the number is not
+        -- read as a total:
+        --   1. The ChatGPT MOBILE APP passes no referrer. Those sessions are
+        --      Direct and always will be -- which is the majority of this
+        --      channel, and the reason `leadSource` in Twenty is the primary
+        --      instrument and this view is the secondary one.
+        --   2. Gemini and Google AI Overviews arrive as Organic, indistinct
+        --      from ordinary search. Not separable here.
+        -- Added September 3, 2026. See open-loops.md.
+        WHEN medium = 'ai-assistant'                  THEN 'AI Assistant'
+        WHEN source LIKE '%chatgpt%'    OR source LIKE '%openai%'
+          OR source LIKE '%perplexity%' OR source LIKE '%claude.ai%'
+          OR source LIKE '%gemini%'     OR source LIKE '%bard.google%'
+          OR source LIKE '%copilot%'    OR source LIKE '%you.com%'
+          OR source LIKE '%grok%'       OR source LIKE '%x.ai%'
+          OR source LIKE '%deepseek%'   OR source LIKE '%meta.ai%'
+          OR source LIKE '%mistral%'    OR source LIKE '%poe.com%'
+                                                      THEN 'AI Assistant'
         WHEN source = '(direct)' AND medium IN ('(none)', '(not set)') THEN 'Direct'
         WHEN medium = 'organic'                       THEN 'Organic Search'
         WHEN medium IN ('cpc', 'ppc', 'paid')         THEN 'Paid Search'
@@ -457,6 +485,13 @@ SELECT
     -- link and a raw referral are genuinely different events and the raw value
     -- is the only place that distinction survives.
     CASE
+        -- AI hosts before the %google% branch, which would otherwise swallow
+        -- gemini.google.com, and before %bing%/%microsoft% style matches.
+        WHEN source LIKE '%chatgpt%' OR source LIKE '%openai%' THEN 'chatgpt'
+        WHEN source LIKE '%perplexity%'    THEN 'perplexity'
+        WHEN source LIKE '%claude.ai%'     THEN 'claude'
+        WHEN source LIKE '%gemini%' OR source LIKE '%bard.google%' THEN 'gemini'
+        WHEN source LIKE '%copilot%'       THEN 'copilot'
         WHEN source LIKE '%trainingpeaks%' THEN 'trainingpeaks'
         WHEN source LIKE '%instagram%'     THEN 'instagram'
         WHEN source LIKE '%facebook%'      THEN 'facebook'

@@ -1,0 +1,104 @@
+---
+layout: layouts/base.njk
+pageCss:
+  - members.css
+  - members-carga.css
+
+title: "Configurar tu Garmin — Triaperformance All-Access"
+---
+{#- GARMIN SETUP, members version. Sept 2026. Home doc: `garmin-setup-brief.md`.
+
+    Split from the public article deliberately:
+      public  → why the watch is wrong, the generic fixes, cadence lock, HRV
+      members → the MAPPING with real numbers, and the TrainingPeaks sync
+
+    That split is the reason there are two pages and not one duplicated twice.
+    The public article owns the explanation; this page owns the doing.
+
+    *** The mapping table is rendered by the `garminZones` shortcode from
+    data/zones.csv. Do NOT hand-type the percentages here. Four articles once
+    hand-typed the seven-zone table and all four drifted from the calculator;
+    a typed Garmin mapping would drift the same way and would then contradict
+    the calculator this very page tells people to use. *** -#}
+<header class="artifact-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/members/#biblioteca">Biblioteca</a> / Garmin</div>
+    <span class="label">Guía</span>
+    <h1>Configurar tu Garmin con tus zonas reales</h1>
+    <p>Tus siete zonas entran en los cinco campos del reloj sin perder nada. Acá están los números exactos y el orden en que hay que cargarlos.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="callout callout--warn">
+      <h3 class="callout-title">Antes que nada: esto no sirve sin un test</h3>
+      <p>Todo lo de abajo son porcentajes <strong>de tu umbral</strong>. Si tu LTHR es un número que estimó el reloj, cargar estas zonas solo va a ordenar prolijamente un error. <strong>Primero el test, después la configuración.</strong></p>
+      <p>Si no tenés tu umbral medido o hace meses que no lo revisás, empezá por la <a href="/members/calculadora-de-zonas/">Calculadora de Zonas</a> — te dice qué test hacer y convierte el resultado en tus siete zonas.</p>
+    </div>
+
+    <h2>1. Apagá la detección automática</h2>
+    <p>Es el paso que más se saltea y el que arruina todo lo demás: <strong>si lo dejás encendido, el reloj va a sobrescribir tus números cuando le parezca</strong>, y vas a volver a estar donde empezaste sin darte cuenta.</p>
+    <p>En Garmin Connect: <strong>Perfil de usuario → Zonas de frecuencia cardíaca y potencia</strong>. Bajá y apagá la <strong>detección automática</strong> para frecuencia cardíaca máxima, umbral de lactato y FTP.</p>
+
+    <h2>2. Cambiá la base a %LTHR</h2>
+    <p>Por defecto el reloj calcula las zonas sobre tu <em>frecuencia máxima</em>, casi siempre estimada con la fórmula de 220 menos la edad. Cambiá <strong>"Basado en"</strong> de <strong>%FC máx.</strong> a <strong>%LTHR</strong>, y cargá tu umbral medido.</p>
+
+    <h2>3. Cargá las zonas — siete en cinco campos</h2>
+
+    <p>Acá está la parte que confunde a todo el mundo. <strong>Garmin te da cinco zonas y nuestro modelo tiene siete</strong> (1, 2, X, 3, Y, 4, 5). No se pierde nada, porque X e Y no son zonas extra: <strong>X es la parte alta de la zona 2, e Y es el piso de la zona 4</strong>. Entonces se agrupan así:</p>
+
+    <h3>Carrera</h3>
+    {% garminZones "running" %}
+
+    <h3>Ciclismo</h3>
+    {% garminZones "cycling" %}
+
+    <div class="callout">
+      <p><strong>Sí, los porcentajes son los mismos en los dos deportes — y las pulsaciones no.</strong> Tu LTHR de carrera es típicamente más alto que el de bici, así que el mismo 90% son dos números distintos de latidos. Por eso hay que cargar zonas por deporte y no un perfil único.</p>
+      <p>En el menú de frecuencia cardíaca, abajo de todo: <strong>Añadir FC por deporte</strong>. Creá un perfil para carrera y otro para ciclismo, con el LTHR de cada uno.</p>
+    </div>
+
+    <h2>4. Potencia, si tenés medidor</h2>
+    <p>Mismo menú, sección de <strong>zonas de potencia</strong>: cargá tu FTP medido y los porcentajes de tu tabla de potencia. Y otra vez — <strong>detección automática apagada</strong>, o el reloj va a "corregirte" el FTP después de cualquier salida dura.</p>
+  </div>
+</section>
+
+<section class="section--wash">
+  <div class="wrap">
+    <h2>TrainingPeaks y Garmin: cuál manda</h2>
+
+    <p>Los dos sistemas tienen zonas, y no se sincronizan solos. <strong>Es normal y no es un problema, siempre que sepas qué hace cada uno.</strong></p>
+
+    <table class="tp-table tp-table--stack">
+      <thead><tr><th>Sistema</th><th>Qué hace con las zonas</th></tr></thead>
+      <tbody>
+        <tr><td class="tsb-band">TrainingPeaks</td><td data-label="Qué hace con las zonas"><strong>Es donde manda.</strong> Tus zonas ahí son las que uso para prescribir y para calcular tu TSS, tu CTL y tu forma. Si están bien acá, tu carga está bien medida.</td></tr>
+        <tr><td class="tsb-band">Garmin</td><td data-label="Qué hace con las zonas"><strong>Es donde las ves mientras entrenás</strong>, y de dónde salen Training Readiness, HRV Status y los avisos de estado. Si están mal acá, el archivo llega igual de bien a TrainingPeaks — lo que se rompe es lo que el reloj te dice en la muñeca.</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Cargá los mismos números en los dos.</strong> Cuando difieren, pasa lo más confuso posible: TrainingPeaks te muestra una sesión perfecta en zona 2 y el reloj insiste en que estuviste en zona 4. Los dos leyeron el mismo archivo; solo tienen tablas distintas.</p>
+
+    <div class="callout">
+      <p><strong>Cada vez que retesteás, son dos actualizaciones, no una.</strong> Umbral nuevo → TrainingPeaks y Garmin. Es el olvido más común después de un test, y deja al reloj peleando con tu plan durante meses.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Qué esperar después de arreglarlo</h2>
+    <ul>
+      <li><strong>Las sesiones fáciles vuelven a aparecer como fáciles.</strong> Es el cambio inmediato y el más útil.</li>
+      <li><strong>Training Readiness tarda unas semanas.</strong> El puntaje arrastra tu carga de los últimos días y semanas, calculada con las zonas viejas. Va a seguir raro un tiempo aunque ya esté todo bien.</li>
+      <li><strong>El VO2máx estimado se va a mover</strong>, para arriba o para abajo. Es una estimación del reloj, no una medición — no la uses para decidir nada.</li>
+    </ul>
+
+    <div class="callout">
+      <p><strong>Y la regla que sigue valiendo:</strong> cuando el reloj y las sensaciones no coinciden, mandan las sensaciones y manda el plan. El reloj es una herramienta para registrar el trabajo — la lectura la hacemos vos y yo.</p>
+    </div>
+
+    <p>La explicación larga de por qué el reloj se equivoca — el bloqueo de cadencia, cómo leer el HRV, y qué hacer si usás Polar, Coros o Wahoo — está en el artículo público: <a href="/blog/garmin-dice-sobreentrenamiento/">Por qué tu Garmin dice que estás sobreentrenando</a>.</p>
+  </div>
+</section>
