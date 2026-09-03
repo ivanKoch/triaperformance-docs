@@ -41,6 +41,14 @@
       },
       {
         "tag": "Rutina",
+        "name": "Hombro de Nadador",
+        "desc": "El hombro que se pincha al salir del agua. Liberación, movilidad y fuerza para los rotadores externos y el omóplato. Con o sin banda, en casa o en el gimnasio.",
+        "key": "shoulder",
+        "url": "/all-access/#biblioteca",
+        "gated": true
+      },
+      {
+        "tag": "Rutina",
         "name": "Core Sin Excusas",
         "desc": "Activación, core y movilidad en una sola rutina cronometrada. Sin equipo y sin más espacio que el largo de tu cuerpo — para viajes y semanas complicadas.",
         "key": "core",
@@ -108,10 +116,6 @@
       {
         "name": "Rutina de espalda baja",
         "desc": "Para la lumbar que se queja después del sillín o del fondo."
-      },
-      {
-        "name": "Rutina de hombro",
-        "desc": "Para nadadores: lo que la rodilla es al corredor, el hombro lo es en el agua."
       },
       {
         "name": "Más herramientas de preparación mental",
