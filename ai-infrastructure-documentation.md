@@ -1382,6 +1382,14 @@ No pro model is callable on this key.
 
 **`~/.hermes/cron/jobs.json` was deliberately NOT tracked, and the reasoning is the more useful half.** *The dashboard rewrites it whenever a job is created or edited, so a sync would fight the UI daily.* ***What actually hurt was never the file being untracked — it was a pin going stale silently.*** So the deploy now *reports* each agent-mode job's pin against `model.default` every morning, cannot fail the deploy, and names `no_agent` jobs as immune rather than as unpinned. **A file is worth owning when its contents are decisions; it is worth only watching when its contents are state.**
 
+### The writer question, closed — by decision, September 4, 2026
+
+***Iván's call: the writer uses pro.*** **Settled, not deferred.** *This section has said since August 17 that the question would be settled by drafting the same idea on both models and reading the Spanish. It was carried across three Flash releases in that state, and it closed without the comparison ever being run — which is a legitimate ending, and worth recording as one rather than leaving the instruction live.*
+
+⚠️ **Do not re-open it on the next Flash release, and do not re-propose the comparison.** *`writer_agent.py`'s docstring carried "settle it by comparison" as an executable instruction and has been rewritten to carry the decision instead* — **that docstring is where a session actually looks, so leaving it would have re-raised this every three weeks regardless of what this document said.**
+
+**What would legitimately re-open it:** *Google publishing multilingual or long-form-prose evaluation for the Flash line, or `gemini-3.1-pro-preview` ceasing to answer (confirmed callable September 4, 2026).* ***A new Flash release on coding and agentic benchmarks is not a reason, however large the numbers*** — that is the proxy substitution this section rejected in August, and the numbers getting bigger is exactly what makes it tempting.
+
 ### The cost that is not tokens
 
 **Every one of these migrations re-pays the same three manual steps**, and none of them is in a repo: the `~/.hermes/config.yaml` edit, the pin sweep over Hermes's agent-mode cron jobs, and the restart. *The Monday coaching check-in had to be re-pinned again here — it was pinned to 3.7 on August 24 after the 3.7 migration made it fail closed and skip a Monday, which is the failure the pin exists to prevent and also the failure the pin guarantees on the next migration if nobody sweeps.*

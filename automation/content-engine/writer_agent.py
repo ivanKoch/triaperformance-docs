@@ -47,7 +47,7 @@ ENVIRONMENT (read automatically from ~/.hermes/.env and ~/.analytics/.env)
                      supersede the model this default names, while being GA
                      rather than -preview and ~1/3 the cost.
 
-                     The default has deliberately NOT been changed yet. Every
+                     The default has deliberately NOT been changed. Every
                      3.7 benchmark Google published is coding and agentic; none
                      of it measures Spanish prose in a specific brand voice,
                      which is this agent's only job. "WHY A STRONGER MODEL"
@@ -64,12 +64,27 @@ ENVIRONMENT (read automatically from ~/.hermes/.env and ~/.analytics/.env)
                      research agent and Hermes moved to 3.8 that day; this
                      default did not, for the third release running.
 
-                     Settle it by comparison, not by reading:
-                       WRITER_MODEL=gemini-3.8-flash python3 writer_agent.py \
-                           --dry-run
-                     against the same idea drafted on the current default, and
-                     let Iván judge the Spanish. Flip the default (here AND in
-                     ~/.hermes/.env, which overrides it) only after that.
+                     DECIDED, September 4, 2026 (Iván): the writer uses pro.
+                     Settled, not deferred. The comparison this docstring used
+                     to prescribe -- draft the same idea on both and read the
+                     Spanish -- was open from August 17 across three Flash
+                     releases and was closed by a call rather than by a test,
+                     which is a legitimate way for a question like this to end.
+
+                     Do NOT re-open this on the next Flash release and do NOT
+                     re-propose the comparison. This docstring is where a future
+                     session goes looking, and it had been carrying "settle it
+                     by comparison" as a live instruction.
+
+                     What WOULD legitimately re-open it: Google publishing
+                     multilingual or long-form-prose evaluation for the flash
+                     line, or gemini-3.1-pro-preview ceasing to answer --
+                     confirmed callable September 4, 2026, and the check is
+                       python3 research_agent.py --test-models
+                     A new flash release on coding and agentic benchmarks is
+                     not a reason, however large the numbers; that is the proxy
+                     substitution ai-infrastructure-documentation.md §33
+                     rejected in August.
     PG_*             Postgres connection
 """
 
