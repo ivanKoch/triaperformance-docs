@@ -130,6 +130,8 @@ Send it **first, on its own, before the five**, as a warm human aside — never 
 - *`{DEPORTES}` and `{OBJETIVO}` are mandatory substitutions. This is the exact line that shipped wrong to Gui.*
 - *Do not add "descuento", "precio preferencial", "tarifa Latam" or the Bronze/Silver/Gold comparison. See B5.*
 
+> 🚨 ***September 4, 2026 — the offer changed and this section has not been rewritten to match.*** **TrainingPeaks Premium is now included for every 1:1 athlete** *(owner: `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium; the rule that said it must not appear in A5 is struck there).* **The three homepages already say so on both coaching surfaces; these messages do not.** *That is a real gap rather than a cosmetic one — the website now promises something the closing message a lead actually receives does not mention, and Premium is a $19.95/month retail item, which is the single most quotable thing in the offer.* **Not written here today: message copy is Iván's voice, built from real transcripts, and inventing a line for it is exactly what this doc exists to prevent.** Logged in `open-loops.md`.
+
 ### A5 · Closing — the subscription steps
 
 **CoachMatch** (verbatim, his existing text — leave as is, it works):
@@ -141,7 +143,7 @@ Send it **first, on its own, before the five**, as a warm human aside — never 
 > .
 > https://www.trainingpeaks.com/coach/ivankoch#pricing
 
-**Private** (referral, website, Instagram — the channel worth $24.59/mo more; a *referred* athlete carries a $9 TrainingPeaks Premium cost, so $15.59 — see `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium):
+**Private** (referral, website, Instagram — the channel worth $24.59/mo more; ~~a *referred* athlete carries a $9 TrainingPeaks Premium cost, so $15.59~~ **every 1:1 athlete now carries the $9 TrainingPeaks Premium cost as of September 4, 2026, so the Private premium is $15.59 on all of them, not only referrals** — see `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium):
 
 > - Te dejo el link de suscripción: {CHECKOUT_URL}
 > - El primer mes incluye un fee de setup de 50 USD por el onboarding, el testing y la construcción de tu primer bloque.

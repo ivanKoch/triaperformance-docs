@@ -136,6 +136,17 @@
 
 ### Backlog
 
+- [ ] 🆕 **TrainingPeaks Premium is now included for every 1:1 athlete — the offer changed September 4, 2026 and three things follow.** *(Iván's decision, confirmed the same day when the homepage rewrite collided with the standing rule forbidding exactly this.)* Owner of the decision: `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium.
+
+  **Done:** the three homepages state it on both coaching surfaces (services card + $149 price card), the owning rule is struck with its reasoning, and `referral-program-brief.md` and `sales-playbook.md` both carry a dated flag.
+
+  1. ⚠️ **The referral program has lost its reward and nobody has replaced it.** *The $9 Premium inclusion existed precisely so a referred athlete got something a normal $149 athlete did not — Iván's framing was "I have one more thing to sell." Everyone has it now.* **The program stands on the $50 gift card alone until this is decided, and the disclosure message is what makes the promise — so decide before it sends.**
+  2. ⚠️ **`sales-playbook.md` A5 does not mention Premium**, so the website now promises something the closing message a lead actually receives does not. *Premium is a $19.95/month retail item — the most quotable single line in the offer, currently missing from the one place a buying decision gets made.* **Message copy is Iván's voice and was deliberately not invented for him.**
+  3. 🚨 **The cost is unmeasured and is large relative to this business.** *Close #1: **36 coaching athletes**, and a TrainingPeaks invoice carrying **1.4839 Premium licences ($13.36)** — Premium for roughly two people.* **Upper bound 36 × $9 = $324/month against August operating costs of $245.25, so the worst case more than doubles the cost base.** *The real number is lower — some athletes already hold Premium, some buy it annually, a churning athlete costs nothing — and the standing rule is that it is counted from the live roster, never derived.* **Count it at the September close so it does not arrive as a surprise line.**
+
+  ✅ *One thing genuinely improves: the open tension logged in the referral brief — a service difference keyed to acquisition channel, against pricing rule 4's "one uniform service" — is resolved in favour of rule 4.*
+
+
 - [ ] 🆕 **The homepage now presents three priced tiers, and the "Un precio claro" section below it still prices only one.** *(Opened September 4, 2026, as a direct consequence of reframing the services section the same day.)*
 
   *The services section now reads as a ladder — Coaching $149 → All-Access $39.99 → Planes desde $19.99, ordered by service level, each card carrying its price.* **The pricing section immediately underneath is still a single `.price-card` for 1:1 coaching only**, headed "Un precio claro" / "One Clear Price". *That was coherent when the section above made no price claim. It is now a visible gap: a reader who has just been shown three prices scrolls into a section that names one and calls itself the price.*

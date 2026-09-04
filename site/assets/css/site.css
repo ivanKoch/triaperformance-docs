@@ -255,6 +255,32 @@ h2 { font-size: 36px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
   font-size: 13px; font-weight: 700; letter-spacing: .02em; color: var(--blue);
 }
 
+/* Bulleted body for the homepage service cards. Replaced the single prose
+   paragraph on Sep 4, 2026 (Iván): the three offers are compared against each
+   other, and a reader comparing scans for differences rather than reading three
+   paragraphs. Custom marker rather than list-style so the bullet sits on the
+   first line's optical centre regardless of how many lines the item wraps to. */
+.card-list { list-style: none; margin: 0 0 4px; padding: 0; }
+
+.card-list li {
+  position: relative; padding-left: 18px; margin-bottom: 10px;
+  color: var(--slate); font-size: 15px; line-height: 1.5;
+}
+
+.card-list li::before {
+  content: ""; position: absolute; left: 2px; top: 9px;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--mist2, #c9ccc4);
+}
+
+/* The one item in a card that is an inclusion rather than a description —
+   currently "TrainingPeaks Premium incluido". Blue and bold so it reads as the
+   thing you get on top, not as another feature line. */
+.card-list li.card-list-hl {
+  color: var(--blue); font-weight: 700;
+}
+
+.card-list li.card-list-hl::before { background: var(--blue); }
+
 /* Pricing */
 .pricing {
   background: var(--wash);

@@ -26,12 +26,23 @@ description: "Coaching de triatlón y running basado en datos. Test, zonas corre
       <div class="card">
         <h3>Coaching 1:1</h3>
         <span class="card-meta">${{ site.coachingPrice }}/mes · seguimiento semanal</span>
-        <p>Check-in semanal siempre, ajustes y análisis cuando los pedís, WhatsApp durante la semana. Lunes de feedback sin falta, hace más de 2 años.</p>
+        <ul class="card-list">
+          <li>Planificación individual y personalizada de tu deporte, más fortalecimiento y movilidad.</li>
+          <li>Ajustes ilimitados.</li>
+          <li>Comunicación ilimitada por WhatsApp durante la semana.</li>
+          <li>Feedback semanal iniciado por el coach todos los lunes: analizamos progreso y sesiones clave, y aplicamos los ajustes necesarios.</li>
+          <li class="card-list-hl">TrainingPeaks Premium incluido</li>
+        </ul>
       </div>
       <div class="card">
         <h3>All-Access</h3>
         <span class="card-meta">${{ allAccess.es.price }}/mes · autoguiado, todo incluido</span>
-        <p>Todos los planes de una, sin comprarlos de a uno, + TrainingPeaks Premium + la biblioteca de herramientas del Área de Miembros. Ideal si entrenás para más de un objetivo al año.</p>
+        <ul class="card-list">
+          <li>Acceso a todo mi catálogo de planes en TrainingPeaks.</li>
+          <li>Acceso al Área de Miembros: rutinas para antes y después de entrenar, rutinas para cuando algo duele, y calculadoras para tus zonas.</li>
+          <li>Soporte por WhatsApp o email si tenés dudas o no sabés qué plan elegir.</li>
+          <li class="card-list-hl">TrainingPeaks Premium incluido</li>
+        </ul>
         <ul class="card-links">
           <li><a href="/all-access/">Conocé All-Access</a></li>
         </ul>
@@ -39,15 +50,20 @@ description: "Coaching de triatlón y running basado en datos. Test, zonas corre
       <div class="card">
         <h3>Planes de entrenamiento</h3>
         <span class="card-meta">Desde $19.99 · pago único</span>
-        <p>{{ plans.counts.total }} planes en TrainingPeaks, en español, inglés y portugués. Estructura profesional, a tu ritmo, sin coach 1:1.</p>
+        <ul class="card-list">
+          <li>{{ plans.counts.byLang.es }} planes publicados en TrainingPeaks, en español.</li>
+          <li>Metodología polarizada 80/20.</li>
+          <li>Reutilizá el plan las veces que quieras.</li>
+        </ul>
         {#- Deliberately NOT reusing nav.es.items[0].children here. The nav dropdown
             uses short Title Case labels; these card links use longer sentence-case
             anchor text chosen for SEO. Same destinations, different copy on purpose. -#}
         <ul class="card-links">
-          <li><a href="/planes/running/">Planes de running</a></li>
+          <li><a href="/planes/running/">Planes de entrenamiento de running</a></li>
+          <li><a href="/planes/ciclismo/">Planes de entrenamiento de ciclismo</a></li>
           <li><a href="/planes/triatlon/">Planes de entrenamiento de triatlón</a></li>
-          <li><a href="/planes/hyrox/">Planes HYROX</a></li>
-          <li><a href="/planes/bajar-de-peso/">Planes para bajar de peso</a></li>
+          <li><a href="/planes/hyrox/">Planes de entrenamiento HYROX</a></li>
+          <li><a href="/planes/bajar-de-peso/">Planes de entrenamiento para bajar de peso</a></li>
         </ul>
       </div>
     </div>
@@ -69,6 +85,7 @@ description: "Coaching de triatlón y running basado en datos. Test, zonas corre
         <li>WhatsApp durante la semana</li>
         <li>Plan 100% individual, no plantillas</li>
         <li>Fuerza incluida siempre</li>
+        <li>TrainingPeaks Premium incluido</li>
       </ul>
       <a href="#contacto" class="btn-primary">Quiero empezar</a>
     </div>
