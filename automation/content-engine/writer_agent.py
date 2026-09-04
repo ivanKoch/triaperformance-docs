@@ -53,8 +53,19 @@ ENVIRONMENT (read automatically from ~/.hermes/.env and ~/.analytics/.env)
                      which is this agent's only job. "WHY A STRONGER MODEL"
                      above is a claim about tiers, and the tiers moved.
 
+                     UPDATE, September 4, 2026 — the reasoning above is
+                     unchanged and the comparison target moved to
+                     gemini-3.8-flash. Google's 3.8 evidence is DeepSWE, Vals
+                     Finance Agent V2, Harvey Legal and HLE-Verified: coding,
+                     agentic, multi-step reasoning. Nothing on multilingual or
+                     long-form prose, which is the only thing this agent does.
+                     So 3.8 gives this decision no new information — it changes
+                     which model to draft against, not how to decide. The
+                     research agent and Hermes moved to 3.8 that day; this
+                     default did not, for the third release running.
+
                      Settle it by comparison, not by reading:
-                       WRITER_MODEL=gemini-3.7-flash python3 writer_agent.py \
+                       WRITER_MODEL=gemini-3.8-flash python3 writer_agent.py \
                            --dry-run
                      against the same idea drafted on the current default, and
                      let Iván judge the Spanish. Flip the default (here AND in

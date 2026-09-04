@@ -30,11 +30,13 @@ ENVIRONMENT (read from ~/.hermes/.env and ~/.analytics/.env automatically)
                         contains characters a URI cannot carry safely.
     GOOGLE_API_KEY      Gemini key, already on the box for Hermes
     IDEA_NOTIFY_WEBHOOK n8n webhook that sends the "ideas ready" email
-    CONTENT_MODEL       optional, defaults to gemini-3.7-flash
-                        (was gemini-3.5-flash until August 17, 2026 — 3.7 is GA,
-                        two generations newer, and half the input / 42% of the
-                        output cost. Google's own docs name it the migration
-                        target for 3.5-flash.)
+    CONTENT_MODEL       optional, defaults to gemini-3.8-flash
+                        (gemini-3.5-flash until August 17, 2026, then
+                        gemini-3.7-flash until September 4, 2026. The 3.5 → 3.7
+                        move was paid for by price; 3.7 → 3.8 is NOT — the two
+                        are priced identically on both sides. It was made on
+                        3.8's agentic benchmarks, which is the axis this agent
+                        and Hermes actually run on. §33.)
 """
 
 import argparse
@@ -261,6 +263,29 @@ def test_models(api_key, only=None):
         print("\nUsable flash-tier (oldest to newest):")
         for n in newest(flash):
             print(f"  {n}")
+
+    # A filtered run knows nothing about the models it did not call. Everything
+    # below reads as a statement about the KEY ("highest version usable on this
+    # key", "no pro model is callable"), and with --only it is computed from a
+    # sample the caller chose. Found September 4, 2026, from a real
+    # `--test-models --only 3.8` run that printed "No pro model is callable on
+    # this key" after calling exactly one flash model.
+    #
+    # Fourth instance of the pattern this repo keeps rediscovering —
+    # check-plan-links.py testing liveness and reading as correctness,
+    # audit-runtime-paths.sh reporting outside:0 regardless, and this same
+    # function's own August 17 wrong-model recommendation. In all four a tool
+    # answered a narrower question than its output appeared to answer.
+    #
+    # The fix is the August 17 fix again: refuse the claim rather than qualify
+    # it. Under --only the summary states its scope and asserts nothing about
+    # the key.
+    if only:
+        print("\n--- scope: --only %r. %d model(s) called. ---" % (only, len(cands)))
+        print("This run says NOTHING about models it did not call: not which")
+        print("version is highest on this key, not whether a pro model answers.")
+        print("Re-run without --only for a statement about the key.")
+        return
 
     both = newest(pro + flash)
     if both:
@@ -1440,10 +1465,18 @@ def main():
         sys.exit(f"The API key looks wrong ({len(api_key)} chars, contains a space?). "
                  "It was probably set to placeholder text rather than a real key. "
                  "Unset it and let the script read ~/.hermes/.env: unset GOOGLE_API_KEY")
-    # gemini-3.7-flash since August 17, 2026 (was gemini-3.5-flash). GA, not a
-    # -preview alias, so the pinned-release rule in §3 still holds. Cheaper on
-    # both sides: $0.75/$3.75 vs $1.50/$9.00 per 1M through Dec 31, 2026.
-    model = os.environ.get("CONTENT_MODEL", "gemini-3.7-flash")
+    # gemini-3.8-flash since September 4, 2026 (3.7-flash from August 17, and
+    # 3.5-flash before that). GA, not a -preview alias, so the pinned-release
+    # rule in §3 still holds.
+    #
+    # Note the argument changed shape between the two moves and the docstring
+    # says so deliberately: 3.5 → 3.7 halved the price, 3.7 → 3.8 is priced
+    # identically ($0.75/$3.75 per 1M to Dec 31, 2026, then $1.50/$7.50 — the
+    # same numbers 3.7 carries). Same rate per token is not the same cost per
+    # call: 3.8 defaults to reasoning level "medium" and thinking tokens bill at
+    # the output rate. model_usage.thinking_tokens is what settles that, and it
+    # needs a few real runs before it can. §33.
+    model = os.environ.get("CONTENT_MODEL", "gemini-3.8-flash")
 
     prompt = PROMPT.format(
         n=settings.get("ideas_per_run", 12),
