@@ -57,6 +57,7 @@ A triathlon and running coaching business, founded roughly three years ago, run 
   | Knees | `/members/rodillas/` | `/members/en/knees/` | `/members/pt/joelhos/` | 2 questions → 4 strength routines |
   | Achilles | `/members/aquiles/` | `/members/en/achilles/` | `/members/pt/aquiles/` | 4 questions → 8 routines + gated jump block |
   | Cyclist core | `/members/core-ciclista/` | `/members/en/cyclist-core/` | `/members/pt/core-do-ciclista/` | 1 question → 3 or 4 rounds, bodyweight, anti-rotation |
+  | Runner core | `/members/core-corredor/` | — | — | 1 question → 3 or 4 rounds, bodyweight. **ES only, Sept 4, 2026.** Standalone by decision — NOT merged with cyclist core. Home doc: `runner-core-brief.md` |
   | Strength guide | `/members/fuerza/` | `/members/en/strength/` | `/members/pt/forca/` | Hypertrophy vs max strength vs power, two periodization paths behind a goal switch |
   | Swimmer's shoulder | `/members/hombro/` | `/members/en/shoulder/` | `/members/pt/ombro/` | 2 questions → 6 routines on the strength engine. *Row added Sept 3, 2026 — see the note below* |
   | Mobility (post-exercise) | `/members/movilidad/` | `/members/en/mobility/` | `/members/pt/mobilidade/` | 2 questions → 15 routines, 10/20/30 min. ES Sept 3, **EN+PT Sept 4, 2026**. Home doc: `mobility-brief.md` |

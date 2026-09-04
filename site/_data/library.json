@@ -45,6 +45,18 @@
       },
       {
         "tag": "Rutina",
+        "name": "Recuperación Activa",
+        "desc": "Para el día que no entrenas: movilidad lenta, un bloque de activación y posturas largas. Eliges deporte y si tienes 30, 45 o 60 minutos. Colchoneta y pared.",
+        "key": "recovery",
+        "url": "/all-access/#biblioteca",
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/recuperacion/",
+        "memberCta": "Armar mi sesión →",
+        "memberDesc": "Para el día que no entrenas. Movilidad lenta, un bloque de activación real y posturas largas — 30, 45 o 60 minutos. Es una sesión suave, no un descanso."
+      },
+      {
+        "tag": "Rutina",
         "name": "Rodillas Sin Dolor",
         "desc": "Fuerza para blindar la rodilla: glúteo medio, vasto interno y cadena posterior. Eliges casa o gimnasio, con contador de series y descanso.",
         "key": "knees",
@@ -102,6 +114,18 @@
         "memberUrl": "/members/core-ciclista/",
         "memberCta": "Armar mi rutina →",
         "memberDesc": "Core anti-rotación, anti-extensión y anti-flexión lateral para que la pelvis no se mueva mientras las piernas empujan. Tres o cuatro vueltas, sin equipo."
+      },
+      {
+        "tag": "Rutina",
+        "name": "Core de Corredor",
+        "desc": "Correr es una sucesión de saltos a una sola pierna. Core anti-extensión, anti-rotación y estabilidad de cadera, terminando de pie sobre un solo pie. Tres o cuatro vueltas, sin equipo.",
+        "key": "runnercore",
+        "url": "/all-access/#biblioteca",
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/core-corredor/",
+        "memberCta": "Armar mi rutina →",
+        "memberDesc": "El core que sostiene la zancada: que la pelvis no se caiga en cada aterrizaje y que el tronco no rote contra el braceo. Tres o cuatro vueltas, sin equipo, y cierra de pie sobre una pierna."
       },
       {
         "tag": "Herramienta",
@@ -202,7 +226,7 @@
     ],
     "categoryCounts": {
       "numbers": 5,
-      "train": 5,
+      "train": 7,
       "pain": 3
     }
   },
