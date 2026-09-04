@@ -57,10 +57,11 @@ A triathlon and running coaching business, founded roughly three years ago, run 
   | Knees | `/members/rodillas/` | `/members/en/knees/` | `/members/pt/joelhos/` | 2 questions → 4 strength routines |
   | Achilles | `/members/aquiles/` | `/members/en/achilles/` | `/members/pt/aquiles/` | 4 questions → 8 routines + gated jump block |
   | Cyclist core | `/members/core-ciclista/` | `/members/en/cyclist-core/` | `/members/pt/core-do-ciclista/` | 1 question → 3 or 4 rounds, bodyweight, anti-rotation |
-  | Runner core | `/members/core-corredor/` | — | — | 1 question → 3 or 4 rounds, bodyweight. **ES only, Sept 4, 2026.** Standalone by decision — NOT merged with cyclist core. Home doc: `runner-core-brief.md` |
+  | Runner core | `/members/core-corredor/` | `/members/en/runner-core/` | `/members/pt/core-do-corredor/` | 1 question → 3 or 4 rounds, bodyweight. **All three languages Sept 4, 2026.** Standalone by decision — NOT merged with cyclist core. Home doc: `runner-core-brief.md` |
   | Strength guide | `/members/fuerza/` | `/members/en/strength/` | `/members/pt/forca/` | Hypertrophy vs max strength vs power, two periodization paths behind a goal switch |
   | Swimmer's shoulder | `/members/hombro/` | `/members/en/shoulder/` | `/members/pt/ombro/` | 2 questions → 6 routines on the strength engine. *Row added Sept 3, 2026 — see the note below* |
   | Mobility (post-exercise) | `/members/movilidad/` | `/members/en/mobility/` | `/members/pt/mobilidade/` | 2 questions → 15 routines, 10/20/30 min. ES Sept 3, **EN+PT Sept 4, 2026**. Home doc: `mobility-brief.md` |
+  | Recovery day | `/members/recuperacion/` | — | — | 2 questions → 15 routines, 30/45/60 min. **Spanish only; EN/PT not claimed.** Sibling of the mobility tool. Home doc: `recovery-brief.md` |
   | Downloads | `/members/guias/` | `/members/en/downloads/` | `/members/pt/downloads/` | 5 PDFs ES / 1 EN / 1 PT |
 
   **Two engines underneath, both owned code in the repo:** `activation-tool.js` (timed circuits) and `strength-tool.js` (sets × reps + rest timer, built the same day). UI chrome for both is language-keyed in `_data/`. **Retired the same day, deliberately, content not moved:** `/members/zonas/`, `/members/tests/` (absorbed by the calculator), `/members/carrera/` (race pacing), `/members/kettlebell/`, `/members/nutricion/`. *That is five retirements against three new tools — the library was curated down as well as up, and the two retirements that removed race-day support are a known gap (`open-loops.md`).*

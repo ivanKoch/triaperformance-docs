@@ -1,0 +1,177 @@
+---
+layout: layouts/base.njk
+pageCss: "members-fuerza.css"
+title: "Runner Core — Triaperformance All-Access"
+---
+{#- RUNNER CORE, v1 — English sibling of /members/core-corredor/. Same circuit,
+    same structure; only the copy changes.
+
+    Original note follows.
+
+    RUNNER CORE, v1 — built Sep 4, 2026 from Iván's `Running core.md`.
+    Home doc: `runner-core-brief.md`. Fifth artifact on the strength engine.
+
+    ONE question (3 or 4 rounds). Bodyweight only, same call as the cyclist one.
+
+    *** Rounds are rendered as PHASES — "Round 1", "Round 2", … — same pattern
+    as cyclist-core, and for the same reason: strength-tool.js already walks
+    phases in order and prints the phase name, so teaching it a "rounds" concept
+    would be a second idea doing the job of one it already has.
+    See `ai-infrastructure-documentation.md` §34. ***
+
+    Rest rides on the exercises: 15s between exercises inside a round (the engine
+    rests AFTER an exercise's last set), 75s on the last one, which is the rest
+    between rounds.
+
+    DELIBERATELY NOT MERGED with the cyclist core. Iván's call, Sep 4, 2026 —
+    two standalone routines, not one with a sport switch like activation and
+    mobility. The premises differ: a cyclist's pelvis is anchored to a saddle, a
+    runner's lands on one leg at a time.
+
+    Two changes from Iván's source doc, both his picks:
+      - thread the needle added to the warm-up. The circuit is entirely
+        anti-rotation; the thorax still has to be ABLE to rotate against the arm
+        swing, or the lumbar spine rotates in its place.
+      - paracaidista (prone superman + W) → single-leg deadlift, unloaded. The
+        superman holds simultaneous lumbar and hip extension, which is the exact
+        anterior-tilt fault exercise 1 exists to prevent — same argument as
+        hollow → long-lever plank on the cyclist page. The replacement closes
+        the circuit standing on one leg, which is what running is.
+    NOTE THE COST OF THAT SWAP: upper-back / scapular endurance (the "stay tall
+    when the lactate hits" rationale) is now trained nowhere in this routine.
+    Logged in the brief. Do not silently re-add a prone extension hold. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/en/#biblioteca">Library</a> / Runner Core</div></div>
+
+  <div class="setup-head">
+    <span class="label">Strength</span>
+    <h1>Runner core</h1>
+    <p>Running is a series of hops on one leg. On every landing the core doesn't create movement: it absorbs the impact, stops the hip dropping and resists the torsion of the arm swing, so the energy goes forward instead of side to side.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">How many rounds?</div>
+    <div class="setup-opts" data-axis="rounds">
+      <button type="button" class="setup-opt" data-val="3" aria-pressed="true">3 rounds<span>~30 min</span></button>
+      <button type="button" class="setup-opt" data-val="4" aria-pressed="false">4 rounds<span>~38 min</span></button>
+    </div>
+    <p class="setup-hint">Three rounds is the full session. The fourth gets added once three come out with your technique intact to the end — <strong>if the hip starts dropping in the side plank on the last round, that round was one too many</strong>.</p>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Build my routine →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/strength-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.RUNNER_CORE = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY */
+  const L = {
+    /* --- warm-up --- */
+    catcow: { name: "Cat-cow", sets: 1, reps: "10 reps", tag: "No equipment",
+      cue: "On all fours, alternate rounding and arching the spine with your breathing. <strong>Move vertebra by vertebra</strong>, not in one block: this is joint control, not a stretch." },
+    thread: { name: "Thread the needle", sets: 1, reps: "8 per side", tag: "No equipment",
+      cue: "On all fours, pass one arm under your body and let the shoulder rest on the floor; then open that same arm to the ceiling, following your hand with your eyes. <strong>The hips stay square</strong> — the rotation comes from the thoracic spine. The whole circuit today trains <em>not</em> rotating; for that the thorax has to be able to rotate, or the lower back rotates in its place." },
+    birddog: { name: "Dynamic bird dog", sets: 1, reps: "10 per side", tag: "No equipment",
+      cue: "Extend opposite arm and leg to the line of your trunk and alternate without long pauses. <strong>Flat back, as if you were balancing a glass of water on your lower back</strong>. This is the cross pattern of gait: shoulder against opposite glute, which is what holds the stride together." },
+    bridgeMarch: { name: "Glute bridge march", sets: 1, reps: "20 reps", tag: "No equipment",
+      cue: "Hips up and locked; lift one foot at a time, bringing the knee to your chest, and alternate. <strong>The pelvis doesn't drop to either side.</strong> If it sags, the glute isn't awake yet — slow the tempo before you cut the range." },
+
+    /* --- circuit --- */
+    deadbugPress: { name: "Dead bug with isometric press", sets: 1, reps: "10-12 per side", rest: 15, tag: "Anti-extension",
+      cue: "On your back, knees at 90°, palms against your thighs. Push your legs into your hands and resist without giving way; holding that tension, extend opposite arm and leg toward the floor without touching it. <strong>Your lower back presses into the floor the whole time</strong> — this is the first thing you lose in the final third, when the pelvis tips forward and the stride shortens on its own." },
+    sidePlankKnee: { name: "Side plank with knee drive", sets: 1, reps: "10-12 per side", rest: 15, tag: "Anti-lateral-flexion",
+      cue: "Forearm under the shoulder, hip up and in line. Once stable, drive the top knee to your chest like the flight phase of the stride, then extend it again. <strong>The bottom hip doesn't drop a centimetre.</strong> The glute medius on the support side is what stops the pelvis collapsing on every landing, and that collapse is where the IT band and most knees come from." },
+    plankReach: { name: "High plank with forward reach", sets: 1, reps: "16-20 reaches", rest: 15, tag: "Anti-rotation",
+      cue: "High plank, feet shoulder-width. Reach one arm forward as if to touch the wall, hold 2 seconds and lower. Alternate. <strong>Ribs down and hips still</strong> — take away one support and the trunk has to resist rotation, which is exactly what the arm swing asks of it. Every degree the trunk rotates is energy that didn't go forward." },
+    slBridgeIso: { name: "Single-leg glute bridge hold", sets: 1, reps: "30-40s per leg", rest: 15, tag: "Posterior chain",
+      cue: "One heel planted near your glute, the other knee hugged to your chest. Lift the hips until knee, hip and shoulder line up and <strong>stay there</strong>. If you feel it in your lower back or hamstrings, tuck the pelvis and drop the height a little: we're after the glute max, which is what holds you up and drives you forward while you're on one foot." },
+    lungeRot: { name: "Reverse lunge with rotation", sets: 1, reps: "10-12 per leg", rest: 15, tag: "Rotation · standing integration",
+      cue: "Step back into a lunge. At the bottom, arms extended in front, rotate your trunk <strong>toward the side of the front leg</strong>, return to centre and stand. <strong>The front knee doesn't cave inward.</strong> This is where the floor work moves into the runner's position: hip and knee stable while the upper body rotates under control." },
+    slDeadlift: { name: "Single-leg deadlift", sets: 1, reps: "8-10 per leg", rest: 75, tag: "Single-leg support",
+      cue: "Stand on one leg, knee softly bent. Send your trunk forward and the free leg back until they form one line, then come back without touching down. <strong>The free hip doesn't open: both hip bones point at the floor.</strong> Slow, no bounce. It's the exercise here that most resembles running — posterior chain, balance and anti-rotation, on one foot. If you wobble, shorten the range before you tap the other toe down." },
+
+    /* --- cool-down --- */
+    hipflex: { name: "Hip flexor with glute squeeze", sets: 1, reps: "60s per leg", tag: "Half-kneeling",
+      cue: "Half-kneeling, and <strong>squeeze the back glute hard before you push the hip forward</strong>. That squeeze is what switches the psoas off and lets it actually lengthen. Running shortens it kilometre by kilometre; this is the stretch that gives you most back." },
+    fig4: { name: "Figure four", sets: 1, reps: "60s per leg", tag: "Glute and piriformis",
+      cue: "On your back, cross one ankle over the opposite knee and pull the back thigh toward your chest. <strong>Breathe long and don't force the range</strong>: glute and piriformis are what stay tight after a long run, and what pull on the hip if you leave them there." }
+  };
+
+  const WARMUP  = ["catcow", "thread", "birddog", "bridgeMarch"];
+  const CIRCUIT = ["deadbugPress", "sidePlankKnee", "plankReach", "slBridgeIso", "lungeRot", "slDeadlift"];
+  const COOL    = ["hipflex", "fig4"];
+
+  const WHY = "Unlike cycling, where the pelvis is anchored to the saddle, running is a series of hops on one leg. On every landing the core has three jobs and none of them is producing movement: absorb the impact, stop the free-side hip dropping (frontal plane) and resist the torsion the arms and trunk generate (transverse plane). That is why the circuit is almost all <em>anti</em> work — and why it finishes standing, on one leg, which is the position you actually run in.";
+
+  function build(rounds) {
+    const pick = (ids) => ids.map((id) => {
+      const e = L[id];
+      if (!e) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({}, e);
+    });
+
+    const phases = [{ name: "Warm-up", exercises: pick(WARMUP) }];
+    for (let i = 1; i <= rounds; i++) {
+      phases.push({ name: "Round " + i + " of " + rounds, exercises: pick(CIRCUIT) });
+    }
+    phases.push({ name: "Cool-down", exercises: pick(COOL) });
+
+    return {
+      title: "Runner core",
+      crumb: "Runner Core",
+      kicker: "Strength",
+      subtitle: "Finish each exercise and tap the button. 15 seconds between exercises; 75 at the end of each round.",
+      context: rounds + " rounds · no equipment",
+      why: WHY,
+      warning: "<strong>Twice a week</strong>, on easy running days or after an easy run. <strong>Never before a quality session</strong>: this isn't an activation routine, it tires you enough to dirty your technique on the track.<br><br>" +
+               "<strong>Technique outranks the number.</strong> Here failure is not fatigue: it is the pelvis starting to move. When that happens, end the set there even with reps left — a rep with the hip dropping trains the exact opposite of what we came here to train.",
+      doneSub: "Done. You notice this in the last third of the race, not the first.",
+      phases: phases
+    };
+  }
+
+  return { build: build, library: L };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { rounds: "3" };
+
+  document.querySelectorAll(".setup-opts").forEach((group) => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.STRENGTH_DATA = window.RUNNER_CORE.build(Number(choice.rounds));
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/strength-tool.js";
+    document.body.appendChild(s);
+
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Change options";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

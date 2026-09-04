@@ -1,0 +1,177 @@
+---
+layout: layouts/base.njk
+pageCss: "members-fuerza.css"
+title: "Core do Corredor — Triaperformance All-Access"
+---
+{#- RUNNER CORE, v1 — Portuguese sibling of /members/core-corredor/. Same
+    circuit, same structure; only the copy changes.
+
+    Original note follows.
+
+    RUNNER CORE, v1 — built Sep 4, 2026 from Iván's `Running core.md`.
+    Home doc: `runner-core-brief.md`. Fifth artifact on the strength engine.
+
+    ONE question (3 or 4 rounds). Bodyweight only, same call as the cyclist one.
+
+    *** Rounds are rendered as PHASES — "Volta 1", "Volta 2", … — same pattern
+    as core-do-ciclista, and for the same reason: strength-tool.js already walks
+    phases in order and prints the phase name, so teaching it a "rounds" concept
+    would be a second idea doing the job of one it already has.
+    See `ai-infrastructure-documentation.md` §34. ***
+
+    Rest rides on the exercises: 15s between exercises inside a round (the engine
+    rests AFTER an exercise's last set), 75s on the last one, which is the rest
+    between rounds.
+
+    DELIBERATELY NOT MERGED with the cyclist core. Iván's call, Sep 4, 2026 —
+    two standalone routines, not one with a sport switch like activation and
+    mobility. The premises differ: a cyclist's pelvis is anchored to a saddle, a
+    runner's lands on one leg at a time.
+
+    Two changes from Iván's source doc, both his picks:
+      - thread the needle added to the warm-up. The circuit is entirely
+        anti-rotation; the thorax still has to be ABLE to rotate against the arm
+        swing, or the lumbar spine rotates in its place.
+      - paracaidista (prone superman + W) → single-leg deadlift, unloaded. The
+        superman holds simultaneous lumbar and hip extension, which is the exact
+        anterior-tilt fault exercise 1 exists to prevent — same argument as
+        hollow → long-lever plank on the cyclist page. The replacement closes
+        the circuit standing on one leg, which is what running is.
+    NOTE THE COST OF THAT SWAP: upper-back / scapular endurance (the "stay tall
+    when the lactate hits" rationale) is now trained nowhere in this routine.
+    Logged in the brief. Do not silently re-add a prone extension hold. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/pt/#biblioteca">Biblioteca</a> / Core do Corredor</div></div>
+
+  <div class="setup-head">
+    <span class="label">Força</span>
+    <h1>Core do corredor</h1>
+    <p>Correr é uma sucessão de saltos numa perna só. A cada aterrissagem o core não gera movimento: absorve o impacto, impede que o quadril caia e resiste à torção do balanço dos braços, para que a energia vá para a frente e não de um lado para o outro.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Quantas voltas?</div>
+    <div class="setup-opts" data-axis="rounds">
+      <button type="button" class="setup-opt" data-val="3" aria-pressed="true">3 voltas<span>~30 min</span></button>
+      <button type="button" class="setup-opt" data-val="4" aria-pressed="false">4 voltas<span>~38 min</span></button>
+    </div>
+    <p class="setup-hint">Três voltas é a sessão completa. A quarta entra quando as três saem com a técnica intacta até o fim — <strong>se na última volta o quadril começa a cair na prancha lateral, sobrava uma volta</strong>.</p>
+  </div>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Montar minha rotina →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/strength-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.RUNNER_CORE = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY */
+  const L = {
+    /* --- aquecimento --- */
+    catcow: { name: "Gato-camelo", sets: 1, reps: "10 repetições", tag: "Sem equipamento",
+      cue: "Em quatro apoios, alterne arredondar e arquear a coluna no ritmo da respiração. <strong>Mova-se vértebra por vértebra</strong>, não em bloco: isto é controle articular, não um alongamento." },
+    thread: { name: "Thread the needle", sets: 1, reps: "8 por lado", tag: "Sem equipamento",
+      cue: "Em quatro apoios, passe um braço por baixo do corpo apoiando o ombro; depois abra esse mesmo braço para o teto acompanhando a mão com o olhar. <strong>O quadril fica quadrado</strong> — a rotação sai da coluna torácica. Todo o circuito de hoje treina <em>não</em> rodar; para isso o tórax precisa poder rodar, ou a lombar roda no lugar dele." },
+    birddog: { name: "Bird dog dinâmico", sets: 1, reps: "10 por lado", tag: "Sem equipamento",
+      cue: "Estenda braço e perna contrários até a linha do tronco e alterne sem pausas longas. <strong>Costas planas, como se você equilibrasse um copo d'água na lombar</strong>. É o padrão cruzado da marcha: ombro contra glúteo oposto, que é o que sustenta a passada." },
+    bridgeMarch: { name: "Ponte de glúteos com marcha", sets: 1, reps: "20 repetições", tag: "Sem equipamento",
+      cue: "Quadril alto e travado; solte um pé por vez levando o joelho ao peito e alterne. <strong>A pelve não cai para nenhum lado.</strong> Se afundar, o glúteo ainda não acordou — baixe o ritmo antes de cortar a amplitude." },
+
+    /* --- circuito --- */
+    deadbugPress: { name: "Dead bug com pressão isométrica", sets: 1, reps: "10-12 por lado", rest: 15, tag: "Anti-extensão",
+      cue: "De barriga para cima, joelhos a 90°, palmas contra as coxas. Empurre as pernas contra as mãos e resista sem ceder; sem soltar essa tensão, estenda braço e perna contrários em direção ao chão sem tocá-lo. <strong>A lombar empurra contra o chão o tempo todo</strong> — é a primeira coisa que se perde no último terço, quando a pelve vai para a anteversão e a passada encurta sozinha." },
+    sidePlankKnee: { name: "Prancha lateral com joelho ao peito", sets: 1, reps: "10-12 por lado", rest: 15, tag: "Anti-flexão lateral",
+      cue: "Antebraço debaixo do ombro, quadril alto e alinhado. Já estável, leve o joelho da perna de cima ao peito como na fase de voo da passada e estenda de novo. <strong>O quadril de baixo não desce um centímetro.</strong> O glúteo médio do lado de apoio é o que impede a pelve de colapsar a cada aterrissagem, e desse colapso vêm a banda iliotibial e boa parte dos joelhos." },
+    plankReach: { name: "Prancha alta com alcance à frente", sets: 1, reps: "16-20 alcances", rest: 15, tag: "Anti-rotação",
+      cue: "Prancha alta, pés na largura dos ombros. Estenda um braço à frente como se quisesse tocar a parede, segure 2 segundos e desça. Alterne. <strong>Costelas para baixo e quadril parado</strong> — ao tirar um apoio o tronco tem que resistir à rotação, que é exatamente o que o balanço dos braços pede. Cada grau que o tronco roda é energia que não foi para a frente." },
+    slBridgeIso: { name: "Ponte de glúteos unilateral isométrica", sets: 1, reps: "30-40s por perna", rest: 15, tag: "Cadeia posterior",
+      cue: "Um calcanhar apoiado perto do glúteo, o outro joelho abraçado ao peito. Suba o quadril até alinhar joelho, quadril e ombro e <strong>fique ali</strong>. Se sentir na lombar ou nos posteriores, encaixe a pelve e baixe um pouco a altura: queremos glúteo máximo, que é o que sustenta e propulsiona enquanto você está apoiado num pé só." },
+    lungeRot: { name: "Afundo reverso com rotação", sets: 1, reps: "10-12 por perna", rest: 15, tag: "Rotação · integração em pé",
+      cue: "Passo atrás em afundo. Na posição baixa, com os braços estendidos à frente, rode o tronco <strong>para o lado da perna que ficou à frente</strong>, volte ao centro e suba. <strong>O joelho da frente não entra para dentro.</strong> Aqui o trabalho do chão passa para a posição do corredor: quadril e joelho estáveis enquanto o tronco superior roda sob controle." },
+    slDeadlift: { name: "Levantamento terra unilateral", sets: 1, reps: "8-10 por perna", rest: 75, tag: "Apoio unipodal",
+      cue: "Em pé sobre uma perna, joelho levemente flexionado. Leve o tronco à frente e a perna livre para trás até formarem uma só linha, e volte sem apoiar. <strong>O quadril livre não abre: os dois ossos do quadril apontam para o chão.</strong> Lento, sem embalo. É o exercício que mais se parece com correr de toda a lista — cadeia posterior, equilíbrio e anti-rotação, sobre um pé só. Se você balançar, encurte a amplitude antes de encostar a outra ponta do pé." },
+
+    /* --- desaquecimento --- */
+    hipflex: { name: "Psoas com aperto de glúteo", sets: 1, reps: "60s por perna", tag: "Meio ajoelhado",
+      cue: "Meio ajoelhado, e <strong>aperte forte o glúteo da perna de trás antes de avançar o quadril</strong>. Esse aperto é o que desliga o psoas e o deixa alongar de verdade. Correndo ele encurta quilômetro a quilômetro; é o alongamento que mais te devolve." },
+    fig4: { name: "Figura de 4", sets: 1, reps: "60s por perna", tag: "Glúteo e piriforme",
+      cue: "De barriga para cima, cruze um tornozelo sobre o joelho oposto e puxe a coxa de trás em direção ao peito. <strong>Respire longo e não force a amplitude</strong>: glúteo e piriforme são os que ficam duros depois de um longão, e os que puxam o quadril se você deixar por isso mesmo." }
+  };
+
+  const WARMUP  = ["catcow", "thread", "birddog", "bridgeMarch"];
+  const CIRCUIT = ["deadbugPress", "sidePlankKnee", "plankReach", "slBridgeIso", "lungeRot", "slDeadlift"];
+  const COOL    = ["hipflex", "fig4"];
+
+  const WHY = "Diferente do ciclismo, onde a pelve está ancorada no selim, correr é uma sucessão de saltos numa perna só. A cada aterrissagem o core tem três tarefas e nenhuma delas é produzir movimento: absorver o impacto, impedir que o quadril do lado livre caia (plano frontal) e resistir à torção que os braços e o tronco geram (plano transversal). Por isso o circuito é quase todo trabalho <em>anti</em> — e por isso termina em pé, sobre uma perna, que é a posição em que você realmente corre.";
+
+  function build(rounds) {
+    const pick = (ids) => ids.map((id) => {
+      const e = L[id];
+      if (!e) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({}, e);
+    });
+
+    const phases = [{ name: "Aquecimento", exercises: pick(WARMUP) }];
+    for (let i = 1; i <= rounds; i++) {
+      phases.push({ name: "Volta " + i + " de " + rounds, exercises: pick(CIRCUIT) });
+    }
+    phases.push({ name: "Desaquecimento", exercises: pick(COOL) });
+
+    return {
+      title: "Core do corredor",
+      crumb: "Core do Corredor",
+      kicker: "Força",
+      subtitle: "Termine cada exercício e toque no botão. Entre exercícios são 15 segundos; ao fechar cada volta, 75.",
+      context: rounds + " voltas · sem equipamento",
+      why: WHY,
+      warning: "<strong>Duas vezes por semana</strong>, em dias de corrida leve ou depois de correr fácil. <strong>Nunca antes de uma sessão de qualidade</strong>: isto não é uma ativação, cansa o suficiente para sujar sua técnica na pista.<br><br>" +
+               "<strong>A técnica manda sobre o número.</strong> Aqui a falha não é cansaço: é a pelve começar a se mexer. Quando isso acontece, encerre a série ali mesmo com repetições faltando — uma repetição com o quadril caindo treina exatamente o contrário do que viemos treinar.",
+      doneSub: "Pronto. Isso se nota no último terço da prova, não no primeiro.",
+      phases: phases
+    };
+  }
+
+  return { build: build, library: L };
+})();
+
+/* --------------------------------------------------------------- SETUP UI */
+(function () {
+  const choice = { rounds: "3" };
+
+  document.querySelectorAll(".setup-opts").forEach((group) => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach((b) =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.STRENGTH_DATA = window.RUNNER_CORE.build(Number(choice.rounds));
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/strength-tool.js";
+    document.body.appendChild(s);
+
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Trocar opções";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

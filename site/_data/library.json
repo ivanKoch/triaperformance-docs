@@ -334,6 +334,18 @@
         "memberDesc": "Anti-rotation, anti-extension and anti-lateral-flexion work so the pelvis stays still while the legs push. Three or four rounds, no equipment."
       },
       {
+        "tag": "Routine",
+        "name": "Runner Core",
+        "desc": "Running is a series of hops on one leg. Anti-extension, anti-rotation and hip stability, finishing standing on a single foot. Three or four rounds, no equipment.",
+        "key": "runnercore",
+        "url": "/en/all-access/#biblioteca",
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/en/runner-core/",
+        "memberCta": "Build my routine →",
+        "memberDesc": "The core that holds the stride together: the pelvis not dropping on every landing, the trunk not rotating against the arm swing. Three or four rounds, no equipment, finishing on one leg."
+      },
+      {
         "tag": "Tool",
         "name": "Box Breathing",
         "desc": "A guided 3, 5 or 10 minute timer for bringing the system down after a hard session or before sleep.",
@@ -432,7 +444,7 @@
     ],
     "categoryCounts": {
       "numbers": 5,
-      "train": 5,
+      "train": 6,
       "pain": 3
     }
   },
@@ -540,6 +552,18 @@
         "memberDesc": "Trabalho anti-rotação, anti-extensão e anti-flexão lateral para a pelve não se mexer enquanto as pernas empurram. Três ou quatro voltas, sem equipamento."
       },
       {
+        "tag": "Rotina",
+        "name": "Core do Corredor",
+        "desc": "Correr é uma sucessão de saltos numa perna só. Core anti-extensão, anti-rotação e estabilidade de quadril, terminando em pé sobre um pé só. Três ou quatro voltas, sem equipamento.",
+        "key": "runnercore",
+        "url": "/pt/all-access/#biblioteca",
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/pt/core-do-corredor/",
+        "memberCta": "Montar minha rotina →",
+        "memberDesc": "O core que sustenta a passada: a pelve que não cai a cada aterrissagem e o tronco que não roda contra o balanço dos braços. Três ou quatro voltas, sem equipamento, terminando sobre uma perna."
+      },
+      {
         "tag": "Ferramenta",
         "name": "Respiração em Caixa",
         "desc": "Timer guiado de 3, 5 ou 10 minutos para baixar a rotação depois de uma sessão forte ou antes de dormir.",
@@ -638,7 +662,7 @@
     ],
     "categoryCounts": {
       "numbers": 5,
-      "train": 5,
+      "train": 6,
       "pain": 3
     }
   }

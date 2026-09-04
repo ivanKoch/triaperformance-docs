@@ -1,6 +1,6 @@
 # Core de Corredor — runner core artifact
 
-**Status: v1 SHIPPED in Spanish only, September 4, 2026** — `/members/core-corredor/`. **No EN or PT sibling yet, and `site/_data/library.json` reflects that** (the entry is in `es.live` only; `en` and `pt` are untouched). Fifth artifact on the strength engine (`strength-tool.js`; engine home doc: `knee-strength-brief.md`).
+**Status: v1 SHIPPED in all three languages, September 4, 2026** — `/members/core-corredor/`, `/members/en/runner-core/`, `/members/pt/core-do-corredor/`. *ES first, EN and PT the same day, at Iván's request.* Fifth artifact on the strength engine (`strength-tool.js`; engine home doc: `knee-strength-brief.md`).
 
 ## What it is
 
@@ -44,9 +44,12 @@ Same pattern as `core-ciclista`, same reason: `strength-tool.js` walks phases in
 - Loaded glute-medius and knee-tracking work (wall sits, Copenhagen, step-downs) — `/members/rodillas/`.
 - A loaded suitcase carry, which is the best anti-lateral-flexion transfer a runner can do, ruled out by the bodyweight-only call rather than on merit. *Worth revisiting if bodyweight-only is ever relaxed.*
 
+## Translation note
+
+**EN and PT shipped the same day as ES**, which is the first time a strength-engine tool has not spent time in an ES-only state. *The three pages are structurally identical* — same 12 library keys, same `WARMUP`/`CIRCUIT`/`COOL` lists, same rest values (15s inside a round, 75s on the last exercise), same build function; only strings differ, and that parity was checked by script rather than by eye. **A change to the routine design goes into all three in one pass.** UI chrome was already three-language in `site/_data/strengthUi.json`.
+
 ## Open
 
-- **EN and PT do not exist.** `library.json` correctly does not sell them, so nothing is mis-sold — but the ES-only state is the same one `cyclistcore` sat in for six days in August. Logged in `open-loops.md`.
-- **Nobody has run it.** Two variants (3 and 4 rounds) built and the page compiles; not walked end to end in a browser and not done by a person. Same standing gap as every other tool.
+- **Nobody has run it.** Six variants (2 round-counts × 3 languages) built and compiling; none walked end to end in a browser and none done by a person. Same standing gap as every other tool.
 - **It is longer than the cyclist routine — ~30 min at 3 rounds vs ~25.** The rep counts came from the source doc and were not trimmed. If it feels long on a floor, the first numbers to move are the side plank and the lunge, not the number of exercises.
 - **The upper-back gap above.** Iván's call; do not re-add without asking.
