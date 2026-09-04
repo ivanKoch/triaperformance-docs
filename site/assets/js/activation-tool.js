@@ -221,7 +221,17 @@
     $("phaseName").textContent = ex.phase;
     $("blockProgress").textContent = Math.min(blocksDone() + 1, tb) + " / " + tb;
     $("totalBar").style.width = (blocksDone() / tb * 100) + "%";
-    $("exNum").textContent = "Ejercicio " + (idx + 1) + " de " + exercises.length;
+    /* Was hardcoded Spanish — "Ejercicio N de M" — and therefore rendered in
+       Spanish on /members/en/activation/, /members/pt/ativacao/, /members/en/core/
+       and /members/pt/core/ from Aug 13, 2026 until Sept 4, 2026. It is the one
+       string in this file that never went through t(), which is why §29's i18n
+       pass did not catch it: that pass moved the strings it could see in the
+       partial and in this file's t() calls. Found by looking at a rendered
+       Portuguese page, not by reading the file.
+       A template rather than two keys, because the word order is not the same
+       in all three languages. */
+    $("exNum").textContent = t("exerciseNum", "Ejercicio {n} de {total}")
+      .replace("{n}", idx + 1).replace("{total}", exercises.length);
     $("exName").textContent = ex.name;
     $("exTag").textContent = ex.phase + (ex.tag ? " · " + ex.tag : "");
     $("exSpec").textContent = MODE_LABEL(ex);

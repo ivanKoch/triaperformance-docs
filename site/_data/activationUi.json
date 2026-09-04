@@ -1,6 +1,5 @@
 {
   "_comment": "UI chrome for every activation-engine tool (activation matrix, core routine), keyed by language. Added Aug 13, 2026 while translating the activation matrix, which surfaced that /members/en/core/ and /members/pt/core/ had been shipping since Aug 12 with fully Spanish chrome — Inicio/Rutina/Ejercicios tabs, 'Empezar activación →', 'alternado · 45s' — around correctly translated exercise content. Same pattern and same reason as zonesUi.json: the page owns the content, this file owns the interface, and a new language is one object here rather than a fork of the engine. Keep the three objects structurally identical; a missing key renders as 'undefined' on a paid page.",
-
   "es": {
     "kicker": "Activación",
     "tabHome": "Inicio",
@@ -11,6 +10,7 @@
     "why": "Por qué importa",
     "exercise": "ejercicio",
     "exercises": "ejercicios",
+    "exerciseNum": "Ejercicio {n} de {total}",
     "startRoutine": "Empezar activación →",
     "start": "Empezar",
     "pause": "Pausar",
@@ -34,7 +34,6 @@
     "statSkip": "Salteados",
     "repeat": "Repetir"
   },
-
   "en": {
     "kicker": "Activation",
     "tabHome": "Start",
@@ -45,6 +44,7 @@
     "why": "Why it matters",
     "exercise": "exercise",
     "exercises": "exercises",
+    "exerciseNum": "Exercise {n} of {total}",
     "startRoutine": "Start the routine →",
     "start": "Start",
     "pause": "Pause",
@@ -68,7 +68,6 @@
     "statSkip": "Skipped",
     "repeat": "Repeat"
   },
-
   "pt": {
     "kicker": "Ativação",
     "tabHome": "Início",
@@ -79,6 +78,7 @@
     "why": "Por que importa",
     "exercise": "exercício",
     "exercises": "exercícios",
+    "exerciseNum": "Exercício {n} de {total}",
     "startRoutine": "Começar a rotina →",
     "start": "Começar",
     "pause": "Pausar",

@@ -2,7 +2,9 @@
 
 **Home doc for `/members/movilidad/`.** Owns the design, the dosing, the five decisions taken before building and the three clinical reversals. Owns no prices, no figures and no open items — open items live in `open-loops.md` and point back here.
 
-**Status: v1 SHIPPED in Spanish, September 3, 2026.** EN and PT are not built and are deliberately not claimed anywhere — `library.json` carries the entry in `es` only, per that file's own rule.
+**Status: v1 SHIPPED in all three languages.** Spanish September 3, 2026; **English and Portuguese September 4, 2026** — `/members/movilidad/`, `/members/en/mobility/`, `/members/pt/mobilidade/`. All three `library.json` blocks, all three members homes and all three All-Access pages carry it.
+
+⚠️ ***Iván has still not run this on a phone.*** *The Spanish page shipped with that as its gate and the gate was skipped, on his call, to translate the same day. It is the one open item that is not work.*
 
 **Source:** Iván's *"Triaperformance: Sistema Maestro de Movilidad — 30 Variantes"*, section **A** of each sport (post-exercise). Section **B** (recovery day) is a **separate artifact** and is not built. See §7.
 
@@ -120,10 +122,27 @@ Section **B** of the source doc (Día Cualquiera / Recuperación Activa) is **a 
 
 ---
 
-## 8. Open
+## 8. English and Portuguese (September 4, 2026)
+
+`/members/en/mobility/` and `/members/pt/mobilidade/`, **derived from the Spanish page by `automation/mobility-i18n.py`**, which substitutes string literals and nothing else. Same method and same reason as the activation matrix's EN/PT pass: the exercise ids, the three routine tables, the phase composition, every hold and every mode are identical to Spanish **by construction**, so only the copy can differ.
+
+**The script is not a build step.** It is the derivation record — when a Spanish cue is corrected, its map is what says which string in the other two languages corresponds to it, so all three can be fixed in one pass instead of drifting.
+
+**Two guards make it safe to re-run:** every mapping must fire (an untranslated key is a hard failure), and the output is swept for surviving Spanish. *Both fired on the first run* — the sweep caught four in-file section comments still in Spanish, which is exactly what it is for.
+
+**Verification is 534 data checks and 135 rendered checks**, up from 386 and 45. The additions are cross-language: the id tables must be byte-identical across languages; every built routine must have the same phase count, exercise count, modes, holds and variant counts; a **pinned fingerprint** of the Spanish structure (`ff885cd0cb4c`) catches all three moving together; and ***the clinical assertions run separately in each language, in that language's own wording*** — no sleeper stretch, no doorframe stretch, no camel, no Yin, the scapula cue intact, the IT band reason intact, the breathing link pointing at that language's own tool, and no Spanish URL left in any hand-off. *That separate run is the point: a translation is exactly where a clinical decision silently reverts, because the reviewer is reading for fluency.*
+
+### 🚨 The engine has been printing Spanish on four EN/PT pages since August 13
+
+`activation-tool.js` built its exercise counter as `"Ejercicio " + n + " de " + total` — **the one string in that file that never went through `t()`**. So `/members/en/activation/`, `/members/pt/ativacao/`, `/members/en/core/` and `/members/pt/core/` have shown **"Ejercicio 3 de 14"** to English and Portuguese subscribers since the §29 i18n pass three weeks ago.
+
+**§29 moved the strings it could see** — the ones already routed through `t()` and the ones in the partial. This one was neither, so a pass explicitly about hardcoded Spanish walked straight past it. **It was found by looking at a rendered Portuguese page**, not by reading the file, and not by any of the 534 data checks.
+
+Fixed with `exerciseNum` in `activationUi.json` (a template, `"Exercise {n} of {total}"`, because the word order is not the same in all three languages) and a `t()` call in the engine. **Seven pages verified rendering the counter in their own language** — the three mobility pages plus the four that were already wrong. A test now asserts the engine never hardcodes it again, and that all three chrome blocks carry the same keys.
+
+## 9. Open
 
 Tracked in `open-loops.md`, not here.
 
-- **EN and PT are not built.** `library.json` claims the tool in `es` only, and the EN/PT members homes and All-Access pages say nothing about it — the failure mode that hit `cyclistcore` (Aug 24) and `strength` (Sep 2) is avoided by construction, not by luck.
+- ⚠️ **Iván has not run it on a phone, in any language.** The Spanish page's own gate, skipped on his call.
 - **The recovery-day artifact** (source section B).
-- **Iván has not run it on a phone yet.** Same gate as the activation matrix: he runs one, in Spanish, before translation starts.

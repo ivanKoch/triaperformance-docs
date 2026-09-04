@@ -11,7 +11,16 @@ const fs = require("fs");
 const vm = require("vm");
 const path = require("path");
 
-const PAGE = "_site/members/movilidad/index.html";
+/* Three pages now. The Spanish one is the source; EN and PT are derived from it
+   by `automation/mobility-i18n.py`, which substitutes string literals only —
+   so this file's job is to prove that claim rather than assume it. */
+const ROOT = process.env.MOB_SITE || "_site";
+const PAGES = {
+  es: ROOT + "/members/movilidad/index.html",
+  en: ROOT + "/members/en/mobility/index.html",
+  pt: ROOT + "/members/pt/mobilidade/index.html"
+};
+const PAGE = PAGES.es;
 let pass = 0;
 const fails = [];
 function ok(cond, msg) { if (cond) pass++; else fails.push(msg); }
@@ -37,28 +46,45 @@ const end = html.indexOf("</script>", start);
 ok(start > 0 && end > start, "1.5 the matrix script is present in the built page");
 const src = html.slice(start, end);
 
-const handlers = [];
-function el(id) {
-  return { id, hidden: false, innerHTML: "", textContent: "", className: "",
-           dataset: {}, style: {}, classList: { add() {}, remove() {} },
-           setAttribute() {}, getAttribute() { return null; },
-           addEventListener(t, f) { handlers.push({ id, t, f }); },
-           querySelectorAll() { return []; }, prepend() {}, appendChild() {} };
+function loadMatrix(file, label) {
+  const h = fs.readFileSync(file, "utf8");
+  const st = h.indexOf("window.MOBILITY_MATRIX");
+  const en = h.indexOf("</script>", st);
+  ok(st > 0 && en > st, label + ": the matrix script is present in the built page");
+  const code = h.slice(st, en);
+
+  function el(id) {
+    return { id, hidden: false, innerHTML: "", textContent: "", className: "",
+             dataset: {}, style: {}, classList: { add() {}, remove() {} },
+             setAttribute() {}, getAttribute() { return null; },
+             addEventListener() {}, querySelectorAll() { return []; },
+             prepend() {}, appendChild() {} };
+  }
+  const doc = {
+    _els: {},
+    getElementById(id) { return this._els[id] || (this._els[id] = el(id)); },
+    querySelectorAll() { return []; }, querySelector() { return el("tool"); },
+    createElement() { return el("created"); },
+    body: { appendChild() {} }
+  };
+  const sandbox = { window: {}, document: doc, console };
+  sandbox.window.document = doc;
+  vm.createContext(sandbox);
+  try { vm.runInContext(code, sandbox); }
+  catch (e) { fails.push(label + ": script threw: " + e.message); return null; }
+  ok(!!sandbox.window.MOBILITY_MATRIX, label + ": MOBILITY_MATRIX evaluated");
+  return { M: sandbox.window.MOBILITY_MATRIX, html: h };
 }
-const document = {
-  _els: {},
-  getElementById(id) { return this._els[id] || (this._els[id] = el(id)); },
-  querySelectorAll() { return []; }, querySelector() { return el("tool"); },
-  createElement() { return el("created"); },
-  body: { appendChild() {} }
-};
-const sandbox = { window: {}, document, console };
-sandbox.window.document = document;
-vm.createContext(sandbox);
-try { vm.runInContext(src, sandbox); } catch (e) { fails.push("1.6 script threw: " + e.message); }
-const M = sandbox.window.MOBILITY_MATRIX;
-ok(!!M, "1.6 MOBILITY_MATRIX evaluated");
-if (!M) { console.log("EARLY EXIT — the matrix script did not evaluate:"); fails.forEach(f => console.log("  x " + f)); process.exit(1); }
+
+const loaded = {};
+for (const [lang, file] of Object.entries(PAGES)) {
+  if (!fs.existsSync(file)) { fails.push(lang + ": MISSING " + file); continue; }
+  const r = loadMatrix(file, lang.toUpperCase());
+  if (r) loaded[lang] = r;
+}
+const M = loaded.es && loaded.es.M;
+ok(!!M, "1.6 the Spanish matrix evaluated");
+if (!M) { console.log("EARLY EXIT:"); fails.forEach(f => console.log("  x " + f)); process.exit(1); }
 
 const SPORTS = ["run", "bike", "swim", "tri", "all"];
 const MINS = ["10", "20", "30"];
@@ -206,6 +232,169 @@ ok(/id="doneTitle"/.test(html), "8.4 the partial exposes an id for the done titl
 SPORTS.forEach(s => MINS.forEach(m => {
   eq(built[s + "|" + m].kicker, "Movilidad", "8.3 " + s + "|" + m + " kicker is Movilidad");
 }));
+
+
+/* ====================================================================== i18n
+   EN and PT are derived from the Spanish page by `automation/mobility-i18n.py`,
+   which substitutes string literals and nothing else. Everything below exists to
+   PROVE that rather than trust it — and to run the clinical assertions in each
+   language separately.
+
+   *** THAT SEPARATE RUN IS THE POINT. A translation is exactly where a clinical
+   decision silently reverts, because the reviewer is reading for fluency and
+   "sleeper stretch" has a plausible-sounding rendering in both English and
+   Portuguese. Same reasoning as swimmer-shoulder-brief.md §7. *** */
+
+const LANGS = ["en", "pt"];
+const STRUCT = m => {
+  const out = {};
+  SPORTS.forEach(s => MINS.forEach(mn => {
+    const r = m.build(s, mn);
+    out[s + "|" + mn] = r.phases.map(ph =>
+      ph.exercises.map(e => e.mode + ":" + e.secs + ":" + (e.variants || []).length).join(",")
+    ).join(" || ");
+  }));
+  return out;
+};
+
+/* 9.1 — the id tables themselves must be identical. If a translator ever hand-
+   edits a routine, this is what catches it. */
+LANGS.forEach(lang => {
+  const L2 = loaded[lang];
+  if (!L2) { fails.push("9.x " + lang + " did not load"); return; }
+  ["base", "ext", "deep"].forEach(tbl => {
+    eq(JSON.stringify(L2.M[tbl]), JSON.stringify(M[tbl]),
+       "9.1 " + lang + ": the " + tbl.toUpperCase() + " id table is identical to Spanish");
+  });
+  eq(JSON.stringify(L2.M.close), JSON.stringify(M.close),
+     "9.1 " + lang + ": the closing block is identical to Spanish");
+});
+
+/* 9.2 — and every built routine must have the same shape: same phase count,
+   same exercise count per phase, same modes, same holds, same variant counts.
+   Only the strings may differ. */
+const esStruct = STRUCT(M);
+LANGS.forEach(lang => {
+  if (!loaded[lang]) return;
+  const other = STRUCT(loaded[lang].M);
+  Object.keys(esStruct).forEach(k => {
+    eq(other[k], esStruct[k], "9.2 " + lang + "|" + k + " has the same structure as Spanish");
+  });
+});
+
+/* 9.3 — a pinned fingerprint of the Spanish structure. The cross-language checks
+   above prove the three agree; this one proves they did not all move together.
+   If this fails, the Spanish routines changed — which is allowed, but it must be
+   a decision, and the number below gets updated in the same commit. */
+const fp = require("crypto").createHash("md5")
+  .update(JSON.stringify(esStruct) + JSON.stringify(M.base) + JSON.stringify(M.ext) +
+          JSON.stringify(M.deep) + JSON.stringify(M.close)).digest("hex").slice(0, 12);
+eq(fp, "ff885cd0cb4c", "9.3 the Spanish routine structure is unchanged (update deliberately)");
+
+/* 9.4 — the clinical reversals, per language, in that language's own wording. */
+const CLINICAL = {
+  en: { sleeper: /sleeper/i, doorway: /doorway|door ?frame/i, camel: /camel/i,
+        yin: /\byin\b|frog pose|winged dragon/i, aggressive: /aggressiv/i,
+        scapula: /shoulder blade|scapula/i, itband: /it band does not stretch/i,
+        breathing: /\/members\/en\/breathing\//, doctor: /doctor/i,
+        painTools: /\/members\/en\/(knees|achilles|shoulder)\//,
+        legs: /ankle|instep/i },
+  pt: { sleeper: /sleeper/i, doorway: /batente|porta/i, camel: /camelo/i,
+        yin: /\byin\b|postura do sapo|drag[aã]o alado/i, aggressive: /agressiv/i,
+        scapula: /escápula|omoplata/i, itband: /banda iliotibial não alonga/i,
+        breathing: /\/members\/pt\/respiracao\//, doctor: /médic/i,
+        painTools: /\/members\/pt\/(joelhos|aquiles|ombro)\//,
+        legs: /tornozelo|peito do pé/i }
+};
+
+LANGS.forEach(lang => {
+  if (!loaded[lang]) return;
+  const m = loaded[lang].M;
+  const C = CLINICAL[lang];
+  const text = JSON.stringify(m.library);
+
+  ok(!C.sleeper.test(text), "9.4 " + lang + ": no sleeper stretch, in any wording");
+  ok(!C.doorway.test(text), "9.4 " + lang + ": no doorframe pec stretch");
+  ok(!C.camel.test(text), "9.4 " + lang + ": no camel pose");
+  ok(!C.yin.test(text), "9.4 " + lang + ": no Yin work — that is the recovery-day tool");
+  ok(!C.aggressive.test(text), "9.4 " + lang + ": nothing is prescribed aggressively");
+
+  ok(C.scapula.test(m.library.crossBody.cue),
+     "9.4 " + lang + ": the cross-body cue keeps the scapula instruction");
+  ok(C.itband.test(m.library.itCross.cue),
+     "9.4 " + lang + ": the IT band cue keeps the reason, not just the exercise");
+  ok(C.breathing.test(m.library.breathClose.cue),
+     "9.4 " + lang + ": the close links to THIS language's breathing tool");
+
+  SPORTS.forEach(sp => {
+    ok(C.painTools.test(m.pain[sp]), "9.4 " + lang + "/" + sp + ": pain aside points at this language's tools");
+    ok(C.doctor.test(m.pain[sp]), "9.4 " + lang + "/" + sp + ": pain aside ends at a doctor");
+    ok(!/\/members\/(rodillas|aquiles|hombro|respiracion)\//.test(m.pain[sp]),
+       "9.4 " + lang + "/" + sp + ": no Spanish URL left in the hand-off");
+  });
+
+  ok(C.legs.test(JSON.stringify(m.build("swim", "10"))),
+     "9.4 " + lang + ": the swim core still includes leg work");
+
+  /* Chrome, per language. */
+  ok(!/activation|ativa[çc][ãa]o|activaci[oó]n/i.test(m.ui.startRoutine),
+     "9.4 " + lang + ": the start button does not say activation");
+  ok(!/activation|ativa[çc][ãa]o|activaci[oó]n/i.test(m.doneTitle),
+     "9.4 " + lang + ": the done screen does not say activation");
+  SPORTS.forEach(sp => MINS.forEach(mn => {
+    const k = m.build(sp, mn).kicker;
+    ok(k && !/movilidad/i.test(k), "9.4 " + lang + "|" + sp + "|" + mn + ": kicker is translated");
+  }));
+
+  /* Equipment honesty has to hold in each language too — the tags are strings,
+     so a translation could quietly introduce a fourth one. */
+  const tags = new Set();
+  SPORTS.forEach(sp => MINS.forEach(mn =>
+    m.build(sp, mn).phases.forEach(ph => ph.exercises.forEach(e => tags.add(e.tag)))));
+  eq(tags.size, 2, "9.4 " + lang + ": exactly two equipment tags across all 15 routines — " + JSON.stringify([...tags]));
+
+  /* And no Spanish left anywhere in the shipped strings. */
+  const spanish = lang === "en"
+    ? /\b(rodilla|cadera|hombro|espalda|piso|pecho|ejercicio|minutos)\b/i
+    : /\b(rodilla|cadera|ejercicio|estiramiento|hacia el piso)\b/i;
+  ok(!spanish.test(text), "9.4 " + lang + ": no Spanish survives in the exercise library");
+});
+
+/* 9.5 — the built pages must not claim a language they are not in. */
+LANGS.forEach(lang => {
+  if (!loaded[lang]) return;
+  const h = loaded[lang].html;
+  const wrongCrumb = lang === "en" ? 'href="/members/pt/#biblioteca"' : 'href="/members/en/#biblioteca"';
+  ok(h.includes('href="/members/' + lang + '/#biblioteca"'), "9.5 " + lang + ": breadcrumb points at its own library");
+  ok(!h.includes(wrongCrumb), "9.5 " + lang + ": breadcrumb does not point at the other language");
+  ok(!h.includes('href="/members/#biblioteca"'), "9.5 " + lang + ": breadcrumb is not the Spanish one");
+});
+
+
+/* 9.6 — the shared engine's exercise counter. It was hardcoded Spanish
+   ("Ejercicio N de M") and rendered that way on four live EN/PT pages from
+   Aug 13 to Sept 4, 2026 — the one string in activation-tool.js that never went
+   through t(), which is why §29's i18n pass did not see it. Asserted here
+   because this tool is the third consumer of that engine and the next one will
+   inherit whatever is true then. */
+{
+  const engine = fs.readFileSync("site/assets/js/activation-tool.js", "utf8");
+  ok(!/"Ejercicio " \+/.test(engine), "9.6 the exercise counter is not hardcoded Spanish");
+  ok(/t\("exerciseNum"/.test(engine), "9.6 the exercise counter goes through t()");
+  const ui = JSON.parse(fs.readFileSync("site/_data/activationUi.json", "utf8"));
+  ["es", "en", "pt"].forEach(l => {
+    ok(!!ui[l].exerciseNum, "9.6 " + l + ": activationUi carries exerciseNum");
+    ok(/\{n\}/.test(ui[l].exerciseNum) && /\{total\}/.test(ui[l].exerciseNum),
+       "9.6 " + l + ": exerciseNum keeps both placeholders");
+  });
+  ok(!/Ejercicio/.test(ui.en.exerciseNum) && !/Ejercicio/.test(ui.pt.exerciseNum),
+     "9.6 EN and PT do not say Ejercicio");
+  /* Every language block must have the same keys — a missing one renders the
+     literal word "undefined" on a paid page. */
+  const ks = l => Object.keys(ui[l]).sort().join(",");
+  eq(ks("en"), ks("es"), "9.6 the EN chrome block has the same keys as ES");
+  eq(ks("pt"), ks("es"), "9.6 the PT chrome block has the same keys as ES");
+}
 
 /* --------------------------------------------------------------- 7. REPORT */
 console.log("\nDURATIONS (engine formula, rest 10s)\n");

@@ -43,91 +43,102 @@ let pass = 0; const fails = [];
 const ok = (c, m) => c ? pass++ : fails.push(m);
 const eq = (a, b, m) => ok(a === b, m + " — got " + JSON.stringify(a) + ", want " + JSON.stringify(b));
 
+const LANGS = {
+  es: { url: "/members/movilidad/", crumb: "Movilidad",
+        knees: "/members/rodillas/", shoulder: "/members/hombro/",
+        achilles: "/members/aquiles/", doctor: /m[eé]dic/,
+        badStart: /activaci[oó]n/i, badDone: /activaci[oó]n/i },
+  en: { url: "/members/en/mobility/", crumb: "Mobility",
+        knees: "/members/en/knees/", shoulder: "/members/en/shoulder/",
+        achilles: "/members/en/achilles/", doctor: /doctor/i,
+        badStart: /activation/i, badDone: /activation/i },
+  pt: { url: "/members/pt/mobilidade/", crumb: "Mobilidade",
+        knees: "/members/pt/joelhos/", shoulder: "/members/pt/ombro/",
+        achilles: "/members/pt/aquiles/", doctor: /m[eé]dic/,
+        badStart: /ativa[cç][ãa]o/i, badDone: /ativa[cç][ãa]o/i }
+};
+
 (async () => {
   await new Promise(r => server.listen(8099, r));
   const browser = await chromium.launch();
 
-  for (const width of [390, 768, 1440]) {
-    const page = await browser.newPage({ viewport: { width, height: 900 } });
-    // Analytics and fonts are not reachable here and are not what we're testing.
+  for (const [lang, C] of Object.entries(LANGS)) {
+    for (const width of [390, 768, 1440]) {
+      const page = await browser.newPage({ viewport: { width, height: 900 } });
+      await page.route("**", r => /localhost:8099/.test(r.request().url()) ? r.continue() : r.abort());
+      await page.goto("http://localhost:8099" + C.url, { waitUntil: "domcontentloaded" });
+
+      const sw = await page.evaluate(() => document.documentElement.scrollWidth);
+      eq(sw, width, `[${lang} ${width}] setup screen does not scroll sideways`);
+
+      const boxes = await page.$$eval(".setup-opts--wrap .setup-opt", els =>
+        els.map(e => ({ t: e.textContent.trim(), w: e.getBoundingClientRect().width,
+                        h: e.getBoundingClientRect().height,
+                        clipped: e.scrollWidth > e.clientWidth + 1 })));
+      eq(boxes.length, 5, `[${lang} ${width}] five sport options render`);
+      ok(boxes.every(b => b.w >= 88), `[${lang} ${width}] every sport button is at least 88px wide — ${JSON.stringify(boxes.map(b => Math.round(b.w)))}`);
+      ok(boxes.every(b => !b.clipped), `[${lang} ${width}] no sport label is clipped — ${JSON.stringify(boxes.filter(b => b.clipped).map(b => b.t))}`);
+      ok(boxes.every(b => b.h >= 44), `[${lang} ${width}] every sport button is a real tap target`);
+
+      if (width === 390) {
+        const rows = new Set(await page.$$eval(".setup-opts--wrap .setup-opt",
+          els => els.map(e => Math.round(e.getBoundingClientRect().top))));
+        eq(rows.size, 2, `[${lang} 390] the sport options wrap onto two rows`);
+      }
+
+      for (const [sport, must] of [["run", C.knees], ["swim", C.shoulder], ["bike", C.knees]]) {
+        await page.click(`.setup-opt[data-val="${sport}"]`);
+        const aside = await page.$eval("#painAside", e => e.innerHTML);
+        ok(aside.includes(must), `[${lang} ${width}] ${sport} pain aside links ${must}`);
+        ok(C.doctor.test(aside), `[${lang} ${width}] ${sport} pain aside ends at a doctor`);
+      }
+      ok(!(await page.$eval("#painAside", e => e.innerHTML)).includes(C.achilles),
+         `[${lang} ${width}] the bike aside does not offer an Achilles tool`);
+
+      await page.close();
+    }
+
+    /* A full walk to the done overlay on the longest routine, at phone width,
+       in every language — because the finish screen is one of the two places
+       the shared chrome leaks the wrong word, and it is only reachable here. */
+    const page = await browser.newPage({ viewport: { width: 390, height: 900 } });
     await page.route("**", r => /localhost:8099/.test(r.request().url()) ? r.continue() : r.abort());
-    await page.goto("http://localhost:8099/members/movilidad/", { waitUntil: "domcontentloaded" });
+    await page.goto("http://localhost:8099" + C.url, { waitUntil: "domcontentloaded" });
+    await page.click('.setup-opt[data-val="tri"]');
+    await page.click('.setup-opt[data-val="30"]');
+    await page.click("#setupGo");
+    await page.waitForSelector(".tool", { state: "visible" });
+    await page.waitForFunction(() => !!document.querySelector(".setup-back"));
 
-    const sw = await page.evaluate(() => document.documentElement.scrollWidth);
-    eq(sw, width, `[${width}] setup screen does not scroll sideways`);
+    ok(await page.isVisible(".setup-back"), `[${lang} walk] the way back to the questions exists`);
+    eq((await page.textContent("#crumbLabel")).trim(), C.crumb, `[${lang} walk] the breadcrumb label was written`);
 
-    // The five sport buttons must each be readable: no clipped text, no button
-    // narrower than a thumb target.
-    const boxes = await page.$$eval(".setup-opts--wrap .setup-opt", els =>
-      els.map(e => ({ t: e.textContent.trim(), w: e.getBoundingClientRect().width,
-                      h: e.getBoundingClientRect().height,
-                      clipped: e.scrollWidth > e.clientWidth + 1 })));
-    eq(boxes.length, 5, `[${width}] five sport options render`);
-    ok(boxes.every(b => b.w >= 88), `[${width}] every sport button is at least 88px wide — ${JSON.stringify(boxes.map(b => Math.round(b.w)))}`);
-    ok(boxes.every(b => !b.clipped), `[${width}] no sport label is clipped`);
-    ok(boxes.every(b => b.h >= 44), `[${width}] every sport button is a real tap target`);
+    /* The tool opens on its HOME tab, where the control is #startBtn. #mainBtn is
+       the play/pause inside the ROUTINE tab and is 0x0 until that tab is shown —
+       which is how this check first failed, and is why the walk starts here. */
+    const startLabel = await page.textContent("#startBtn");
+    ok(!C.badStart.test(startLabel), `[${lang} walk] the start button reads "${startLabel.trim()}"`);
+    await page.click("#startBtn");
+    await page.waitForSelector("#tab-workout.active", { timeout: 3000 }).catch(() => {});
+    await page.click("#mainBtn", { timeout: 3000 });
 
-    // 3 + 2, not 5 across, at phone width.
-    if (width === 390) {
-      const rows = new Set(await page.$$eval(".setup-opts--wrap .setup-opt",
-        els => els.map(e => Math.round(e.getBoundingClientRect().top))));
-      eq(rows.size, 2, "[390] the sport options wrap onto two rows");
+    let guard = 0;
+    while (guard++ < 120) {
+      if (await page.isVisible("#doneOverlay").catch(() => false)) break;
+      const restUp = await page.isVisible("#skipRestBtn").catch(() => false);
+      const clicked = await page.click(restUp ? "#skipRestBtn" : "#skipBtn", { timeout: 1500 })
+        .then(() => true).catch(() => false);
+      if (!clicked) break;
     }
-
-    // The pain hand-off is sport-aware and always points somewhere real.
-    for (const [sport, must] of [["run", "/members/rodillas/"], ["swim", "/members/hombro/"], ["bike", "/members/rodillas/"]]) {
-      await page.click(`.setup-opt[data-val="${sport}"]`);
-      const aside = await page.$eval("#painAside", e => e.innerHTML);
-      ok(aside.includes(must), `[${width}] ${sport} pain aside links ${must}`);
-      ok(/m[eé]dic/.test(aside), `[${width}] ${sport} pain aside ends at a doctor`);
-    }
-    ok(!(await page.$eval("#painAside", e => e.innerHTML)).includes("/members/aquiles/"),
-       `[${width}] the bike aside does not offer an Achilles tool`);
-
+    ok(guard < 120, `[${lang} walk] the routine reaches its end rather than looping`);
+    ok(await page.isVisible("#doneOverlay"), `[${lang} walk] the done overlay is reached on tri|30`);
+    const doneTitle = await page.textContent("#doneOverlay .done-title").catch(() => "");
+    ok(!C.badDone.test(doneTitle), `[${lang} walk] the done screen reads "${doneTitle.trim()}"`);
+    eq(await page.textContent("#statEx"), "18", `[${lang} walk] tri|30 is 18 exercises`);
+    eq(await page.evaluate(() => document.documentElement.scrollWidth), 390,
+       `[${lang} walk] the running tool does not scroll sideways at 390px`);
     await page.close();
   }
-
-  /* A full walk to the done overlay on the longest routine, at phone width. */
-  const page = await browser.newPage({ viewport: { width: 390, height: 900 } });
-  await page.route("**", r => /localhost:8099/.test(r.request().url()) ? r.continue() : r.abort());
-  await page.goto("http://localhost:8099/members/movilidad/", { waitUntil: "domcontentloaded" });
-  await page.click('.setup-opt[data-val="tri"]');
-  await page.click('.setup-opt[data-val="30"]');
-  await page.click("#setupGo");
-  await page.waitForSelector(".tool", { state: "visible" });
-  await page.waitForFunction(() => !!document.querySelector(".setup-back"));
-
-  ok(await page.isVisible(".setup-back"), "[walk] the way back to the questions exists");
-  const est = await page.textContent("#crumbLabel");
-  eq(est.trim(), "Movilidad", "[walk] the breadcrumb label was written");
-
-  /* The tool opens on its HOME tab, where the control is #startBtn. #mainBtn is
-     the play/pause inside the ROUTINE tab and is 0x0 until that tab is shown —
-     which is how this check first failed, and is worth keeping as the reason
-     the walk starts here and not there. */
-  const startLabel = await page.textContent("#startBtn");
-  ok(!/activaci[oó]n/i.test(startLabel), `[walk] the start button reads "${startLabel.trim()}", not "Empezar activación"`);
-  await page.click("#startBtn");
-  await page.waitForSelector("#tab-workout.active", { timeout: 3000 }).catch(() => {});
-  await page.click("#mainBtn", { timeout: 3000 });
-
-  // Skip through every block rather than waiting 31 real minutes. During a rest
-  // the control is #skipRestBtn, not #skipBtn, so click whichever is on screen.
-  let guard = 0;
-  while (guard++ < 120) {
-    if (await page.isVisible("#doneOverlay").catch(() => false)) break;
-    const restUp = await page.isVisible("#skipRestBtn").catch(() => false);
-    const sel = restUp ? "#skipRestBtn" : "#skipBtn";
-    const clicked = await page.click(sel, { timeout: 1500 }).then(() => true).catch(() => false);
-    if (!clicked) break;
-  }
-  ok(guard < 120, "[walk] the routine reaches its end rather than looping");
-  ok(await page.isVisible("#doneOverlay"), "[walk] the done overlay is reached on tri|30");
-  const doneTitle = await page.textContent("#doneOverlay .done-title").catch(() => "");
-  ok(!/activaci[oó]n/i.test(doneTitle), `[walk] the done screen reads "${doneTitle.trim()}", not "Activación completa"`);
-  eq(await page.textContent("#statEx"), "18", "[walk] tri|30 is 18 exercises");
-  const sideScroll = await page.evaluate(() => document.documentElement.scrollWidth);
-  eq(sideScroll, 390, "[walk] the running tool does not scroll sideways at 390px");
 
   await browser.close();
   server.close();

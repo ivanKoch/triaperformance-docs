@@ -164,6 +164,14 @@
       },
       {
         "tag": "Routine",
+        "name": "Post-Workout Mobility",
+        "desc": "Pick what you are coming off and how long you have, and the cool-down builds itself: 10, 20 or 30 minutes, timed. All you need is a mat and a wall.",
+        "key": "mobility",
+        "url": "/en/all-access/#biblioteca",
+        "gated": true
+      },
+      {
+        "tag": "Routine",
         "name": "Pain-Free Knees",
         "desc": "Strength to bulletproof the knee: glute medius, VMO and posterior chain. Pick home or gym, with a set counter and rest timer.",
         "key": "knees",
@@ -290,6 +298,14 @@
         "name": "Ativação",
         "desc": "Você responde três perguntas — correr, pedalar ou nadar, como está chegando e que equipamento tem — e o circuito se monta sozinho, com timer por exercício. A de natação é em seco, para a borda da piscina antes de entrar.",
         "key": "activation",
+        "url": "/pt/all-access/#biblioteca",
+        "gated": true
+      },
+      {
+        "tag": "Rotina",
+        "name": "Mobilidade Pós-Treino",
+        "desc": "Você escolhe de onde está vindo e quanto tempo tem, e a volta à calma se monta sozinha: 10, 20 ou 30 minutos, com timer. Basta um colchonete e uma parede.",
+        "key": "mobility",
         "url": "/pt/all-access/#biblioteca",
         "gated": true
       },

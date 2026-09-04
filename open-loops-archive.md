@@ -8,6 +8,20 @@
 
 ---
 
+## Closed — September 4, 2026
+
+- [x] ~~**Swimming has one entry out of eight, in a triathlon business.**~~ **CLOSED September 4, 2026 — swimming now has four entries out of thirteen, and every prediction the item made held.**
+
+  **What shipped, all of it between September 3 and 4, 2026:** `/members/hombro/` *(swimmer shoulder, six routines on the strength engine, ES/EN/PT — home doc `swimmer-shoulder-brief.md`)*; **swimming as a third sport inside `/members/activacion/`** *(14 routines, three equipment options where run and bike have two, ES/EN/PT — `activation-matrix.md` §v1.1)*; and **post-swim mobility inside `/members/movilidad/`** *(`swim` is one of five sports on the activation engine, ES only — home doc `mobility-brief.md`)*. *With the swimming CV zones already in the calculator, the count the item was named after is answered.*
+
+  ✅ **Both technical predictions in the original text were correct and are worth keeping.** *"The strength engine built today would carry it with no new code" — it did, `/members/hombro/` needed no engine change. And the architectural call went as predicted: swimming activation is a third sport inside an existing page, not a new page.* **The pattern generalises: a new sport on an existing engine is a data change, and a new sport is a new page only when its axes differ.**
+
+  ⚠️ **Deliberately NOT extended further, and this is the part to not re-raise.** *A fourth swimming tool was considered and declined on September 4. All three artifacts are **dryland** — nothing here is swimming as a swimmer would name it (technique, drills, a CSS-based set builder), and that gap is real. It stays open on purpose:* **close #1 records that 2 of 33 paying athletes have ever opened the members area and the one paying All-Access subscriber has never logged in.** *Building a fourth tool for an audience that has not opened the first three is creation where the constraint is distribution, which is the exact default this project inverts.* **The trigger to revisit is usage, not inventory: if the artifacts start getting opened, a swim set builder off the CV zones is the natural next one.**
+
+  **What remains is a translation, not a build** — `/members/movilidad/` is ES-only, tracked in its own live item. *PT matters more than EN here: PT is where this site is most visible, and a Portuguese swimmer today gets shoulder and activation but not mobility.*
+
+---
+
 ## Closed — September 2, 2026
 
 - [x] ~~**`Other: (not set)` is the largest single GA4 channel — 50 of 112 external sessions, 44.6%.**~~ *(Found in close #1.)* **CLOSED September 2, 2026. It was direct traffic, and the cause was a missing `NULLIF`.**
