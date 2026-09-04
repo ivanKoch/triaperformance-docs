@@ -103,6 +103,7 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 - `race-landing-pages-longlist.md`, `race-page-data-schema.md`, `race-page-content-outline.md` — the race-page initiative.
 - `en-listing-rewrites-2026-07.md`, `es-pt-listing-rewrites-2026-07.md` — the live TP listing experiment and its measurement plan.
 - `gbp-posts-2026-08.md` — the current Google Business Profile post set.
+- `linkedin-positioning.md` *(added September 4, 2026)* — **home doc for how Iván presents himself to the corporate market.** Owns the LinkedIn headline, About section and Triaperformance job description, plus the `/ai-systems/` showcase page (`site/ai-systems/`, noindex, link-only). **Owns no business figures** — every number in it is a copy of `monthly-close/YYYY-MM.md` or `ai-infrastructure-documentation.md` and is corrected when those move. *It also records two figures the old profile stated that this repo cannot reproduce: a 45+ athlete count (the close says 37 paying / 42 coached) and a 670% growth claim with no source file.*
 
 **Data & code**
 

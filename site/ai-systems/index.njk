@@ -1,0 +1,294 @@
+---
+layout: layouts/base.njk
+lang: en
+noindex: true
+navVariant: "none"
+footerVariant: "none"
+pageCss: ai-systems.css
+title: What I build — Iván Koch
+description: "Operations executive who designs and runs production AI systems: self-hosted agents, orchestrated pipelines, and per-caller LLM observability, all built and operated solo."
+ogTitle: "Iván Koch — what I build"
+---
+
+<header class="ai-top">
+  <div class="wrap">
+    <span class="name">Iván Koch</span>
+    <a class="home-link" href="/en/">triaperformance.com &rarr;</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="ai-hero">
+  <div class="wrap">
+    <span class="label">Operations executive · AI systems</span>
+    <h1>I don't buy the AI stack. I build it.</h1>
+    <p class="sub">Ten years owning operations and P&amp;L in high-velocity businesses — Uber&nbsp;Eats, Beat, Binance, OneLocal, ClickGuard. The last two years I stopped writing requirements for someone else to build and started shipping the systems myself: self-hosted agents, orchestrated pipelines with human approval gates, and the observability to know what any of it actually costs.</p>
+    <p class="ai-proof"><strong>This page is the shortest version of the argument.</strong> It is served by the same Linux box described below — same Caddy config, same build pipeline, same deploy cron — from a static site I designed and wrote. Nothing on this page is a slide.</p>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="ai-arch">
+  <div class="wrap">
+    <span class="label">The stack</span>
+    <h2>One box, five services, no managed platform.</h2>
+    <p class="lede">Everything below runs on a single self-managed VPS. The agent, the workflow engine, the CRM, the database and the public website are separate containers on one host, reachable over a private mesh network. No part of the control plane is exposed to the open internet.</p>
+
+    <div class="ai-diagram">
+      <svg viewBox="0 0 1000 560" role="img" aria-labelledby="arch-title arch-desc" xmlns="http://www.w3.org/2000/svg">
+        <title id="arch-title">System architecture</title>
+        <desc id="arch-desc">Three client interfaces connect over a Tailscale private mesh to a single Linux VPS running six Docker services, which in turn call four external services.</desc>
+
+        <defs>
+          <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#565a52"></path>
+          </marker>
+        </defs>
+
+        <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" fill="#1e2019">
+
+          <!-- Band 1 — interfaces -->
+          <text x="40" y="20" font-size="12" font-weight="700" letter-spacing="1.4" fill="#004aad">INTERFACES</text>
+          <g fill="#ffffff" stroke="#e4e6e1">
+            <rect x="40" y="34" width="280" height="46" rx="6"></rect>
+            <rect x="360" y="34" width="280" height="46" rx="6"></rect>
+            <rect x="680" y="34" width="280" height="46" rx="6"></rect>
+          </g>
+          <g font-size="14" text-anchor="middle">
+            <text x="180" y="63">Telegram — any phone</text>
+            <text x="500" y="63">Browser dashboard</text>
+            <text x="820" y="63">Desktop app</text>
+          </g>
+
+          <g stroke="#565a52" stroke-width="1.5" marker-end="url(#arw)">
+            <line x1="180" y1="80" x2="180" y2="112"></line>
+            <line x1="500" y1="80" x2="500" y2="112"></line>
+            <line x1="820" y1="80" x2="820" y2="112"></line>
+          </g>
+
+          <!-- Band 2 — VPN -->
+          <rect x="40" y="118" width="920" height="44" rx="6" fill="#ffffff" stroke="#004aad" stroke-width="1.5"></rect>
+          <text x="500" y="145" font-size="14" font-weight="700" text-anchor="middle" fill="#004aad">Tailscale private mesh — no public port, no OAuth callback, no reverse proxy</text>
+
+          <line x1="500" y1="162" x2="500" y2="194" stroke="#565a52" stroke-width="1.5" marker-end="url(#arw)"></line>
+
+          <!-- Band 3 — the box -->
+          <rect x="40" y="200" width="920" height="228" rx="8" fill="#edf3fb" stroke="#004aad" stroke-dasharray="4 4"></rect>
+          <text x="64" y="228" font-size="13" font-weight="700" letter-spacing="1.2" fill="#004aad">ONE LINUX VPS · DOCKER · UBUNTU</text>
+
+          <g fill="#ffffff" stroke="#e4e6e1">
+            <rect x="64" y="244" width="280" height="72" rx="6"></rect>
+            <rect x="360" y="244" width="280" height="72" rx="6"></rect>
+            <rect x="656" y="244" width="280" height="72" rx="6"></rect>
+            <rect x="64" y="332" width="280" height="72" rx="6"></rect>
+            <rect x="360" y="332" width="280" height="72" rx="6"></rect>
+            <rect x="656" y="332" width="280" height="72" rx="6"></rect>
+          </g>
+
+          <g text-anchor="middle">
+            <text x="204" y="274" font-size="15" font-weight="700">LLM agent</text>
+            <text x="204" y="296" font-size="13" fill="#565a52">always-on · tools · memory</text>
+
+            <text x="500" y="274" font-size="15" font-weight="700">n8n</text>
+            <text x="500" y="296" font-size="13" fill="#565a52">lead + lifecycle workflows</text>
+
+            <text x="796" y="274" font-size="15" font-weight="700">Twenty CRM</text>
+            <text x="796" y="296" font-size="13" fill="#565a52">self-hosted system of record</text>
+
+            <text x="204" y="362" font-size="15" font-weight="700">Postgres</text>
+            <text x="204" y="384" font-size="13" fill="#565a52">content · usage · tokens</text>
+
+            <text x="500" y="362" font-size="15" font-weight="700">Content engine</text>
+            <text x="500" y="384" font-size="13" fill="#565a52">3 agents on cron</text>
+
+            <text x="796" y="362" font-size="15" font-weight="700">Caddy + Eleventy</text>
+            <text x="796" y="384" font-size="13" fill="#565a52">public site, 3 languages</text>
+          </g>
+
+          <line x1="500" y1="428" x2="500" y2="462" stroke="#565a52" stroke-width="1.5" marker-end="url(#arw)"></line>
+
+          <!-- Band 4 — external -->
+          <text x="40" y="484" font-size="12" font-weight="700" letter-spacing="1.4" fill="#004aad">EXTERNAL</text>
+          <g fill="#ffffff" stroke="#e4e6e1">
+            <rect x="40" y="496" width="215" height="44" rx="6"></rect>
+            <rect x="275" y="496" width="215" height="44" rx="6"></rect>
+            <rect x="510" y="496" width="215" height="44" rx="6"></rect>
+            <rect x="745" y="496" width="215" height="44" rx="6"></rect>
+          </g>
+          <g font-size="14" text-anchor="middle">
+            <text x="147" y="523">Gemini API</text>
+            <text x="382" y="523">GitHub (write path)</text>
+            <text x="617" y="523">TrainingPeaks</text>
+            <text x="852" y="523">GA4 · BigQuery</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <p class="caption">The write path to GitHub deliberately lives in n8n, not on the server. The server holds no push credential — an unattended cron resolving a merge conflict is how you silently lose a published article.</p>
+  </div>
+</section>
+
+<!-- IN PRODUCTION -->
+<section class="ai-sec">
+  <div class="wrap">
+    <span class="label">In production</span>
+    <h2>Six systems, live, running unattended.</h2>
+    <p class="lede">Each of these was specified, built, deployed, broken, debugged and instrumented by me. Dates are the day they went live and stayed live.</p>
+
+    <ul class="ai-cards">
+      <li>
+        <h3>Always-on agent with tool access</h3>
+        <p>A self-hosted LLM agent with terminal and file tools, running in Docker, reachable from three interfaces that share one memory and one config. Its source of truth is a versioned business knowledge base pulled fresh every morning.</p>
+        <p class="meta">Guardrails were the design work: single-user allowlist, Computer&nbsp;Use disabled on a headless box, and a rejection of Docker-in-Docker sandboxing because mounting the host socket would have handed the container root-equivalent access it was meant to be isolated from.</p>
+      </li>
+      <li>
+        <h3>Orchestrated content pipeline</h3>
+        <p>Three agents on cron — research, writer, translator — feeding a human approval gate, then an atomic commit to git, a build, and a live page in three languages. Nine to five pieces end to end on the first full run.</p>
+        <p class="meta">Measured cost: ~US$0.08 per original article, ~US$0.20 for a full Spanish&nbsp;→&nbsp;English&nbsp;→&nbsp;Portuguese set. Agents propose; a human ships. That gate is what makes a bad draft cost a rejection instead of a published article.</p>
+      </li>
+      <li>
+        <h3>Per-caller LLM observability</h3>
+        <p>Five services shared one API key, so the vendor could attribute spend to the key and never to the consumer. I built token-level accounting: one row per call, with prompt, output and <em>thinking</em> tokens stored separately.</p>
+        <p class="meta">Thinking is its own column because on current models <code>in&nbsp;+&nbsp;out&nbsp;≠&nbsp;total</code> and the gap bills at the output rate. A one-word test probe logged 7 prompt / 1 output / <strong>108 thinking</strong> — an in/out table would have understated it by a factor of thirteen.</p>
+      </li>
+      <li>
+        <h3>Lead pipeline and CRM, self-hosted</h3>
+        <p>Inbound lead → CRM record → automated nurture sequence → status updates taken in free text over chat and written back to the CRM. Website forms, a gated members area with token auth, and lifecycle automation on the same rails.</p>
+        <p class="meta">Verified live against real leads, including a plain-language message — "mark this one as lost, too expensive" — correctly resolving to a CRM update.</p>
+      </li>
+      <li>
+        <h3>Analytics and a monthly close</h3>
+        <p>An event pipeline into BigQuery, GA4, Search Console and marketplace data, reconciled into a monthly close that produces a roster, a P&amp;L and a metrics file. Every figure in the business is reproducible from a file.</p>
+        <p class="meta">The first close corrected four things nobody had questioned, including a take rate everyone read as drifting between 28.6% and 29.7% — it was a flat 30.00%, and the denominator was silently tracking the country mix of each month's buyers.</p>
+      </li>
+      <li>
+        <h3>A three-language product surface</h3>
+        <p>A static site with a build-time i18n layer, a gated members area behind token auth routed by the token rather than the page, twelve interactive tools rendered from two owned JavaScript engines, and a 328-item catalogue built from data.</p>
+        <p class="meta">Marketing copy for the whole library reads from one data file, so shipping a tool is one edit — added after three sales pages were found selling products that did not exist in the buyer's language.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- DECISIONS -->
+<section class="ai-sec">
+  <div class="wrap">
+    <span class="label">Judgment</span>
+    <h2>The part that isn't the code.</h2>
+    <p class="lede">Anyone can now generate a working script. What a company is actually hiring is the decision about whether to run it. Four I'd defend in an interview.</p>
+
+    <ol class="ai-decisions">
+      <li>
+        <div>
+          <h3>I upgraded two of four model consumers and deliberately left two behind.</h3>
+          <p>A new model shipped, cheaper and stronger. Every published benchmark behind it measured coding, agentic and multimodal reasoning. Two of my four consumers were writing long-form prose in a specific brand voice — which none of those benchmarks measure.</p>
+          <p class="takeaway">So two moved on the evidence, and two were left pending a side-by-side read of real output. Moving all four would have been substituting a proxy for the thing being claimed. The saving would have been smaller than one month of the server.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>I built the instrumentation to confirm a hypothesis and it disproved it.</h3>
+          <p>The weekly cost spike looked like the weekly research agent. It wasn't. Research was the <em>cheapest</em> consumer on the box; the heaviest day was a Saturday, driven by translation, because a limit counted in articles was quietly costing two model calls each.</p>
+          <p class="takeaway">The design constraint that mattered: instrumentation must not be able to kill the thing it measures. The logger swallows <code>SystemExit</code> explicitly — it doesn't inherit from <code>Exception</code>, and a missing database password would otherwise have killed the writer mid-article.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>I stopped a translation agent from doing exactly what it was told.</h3>
+          <p>Given market notes, the translator localised the race in an article — a Valencia marathon became a US one for English readers. Defensible on its face, and wrong twice: it trades high-intent, low-competition search traffic for a keyword every domestic coach contests, and it makes the page's own "same content, translated" declaration false.</p>
+          <p class="takeaway">Agent output that looks correct and is structurally wrong is the failure mode that survives review. The fix was a rule in the contract, not a better prompt.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>I treat "the repo copy is not what the runtime reads" as the recurring bug, not a one-off.</h3>
+          <p>Four separate incidents of the same shape: a config edited in the right file and read from a different one, a deploy script updating itself mid-run, a duplicated environment variable that was a last-writer-wins bug waiting for the day the two values differed.</p>
+          <p class="takeaway">Every server-side script now lives in version control and is pulled at invocation, with the fixed-path file reduced to a six-line dispatcher. It is an operating-model fix, not a code fix — which is the category most AI-adjacent failures actually fall into.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="ai-sec">
+  <div class="wrap">
+    <span class="label">What it produces</span>
+    <h2>The systems exist to hold a P&amp;L up.</h2>
+    <p class="lede">A coaching business, run solo alongside executive roles. Figures below are from the August 2026 close — the same monthly process described above, reproducible from three data files.</p>
+
+    <div class="ai-table-wrap">
+      <table class="ai-table">
+        <thead>
+          <tr><th scope="col">Metric</th><th scope="col">Aug 2026</th><th scope="col">Why it's the number that matters</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Operating margin</td>
+            <td class="figure">71.6%</td>
+            <td class="note">Total operating cost — every server, subscription, certification and the LLC — is a fraction of what the sales channel takes in commission. Knowing that reframed the roadmap.</td>
+          </tr>
+          <tr>
+            <td>Net revenue retention</td>
+            <td class="figure">93.4%</td>
+            <td class="note">Reported per product line, never blended. Blending it hid a second line retaining at 27%.</td>
+          </tr>
+          <tr>
+            <td>Athletes coached</td>
+            <td class="figure">40+</td>
+            <td class="note">One person, no assistant coach, no ops hire. Headcount is the variable the system exists to hold flat.</td>
+          </tr>
+          <tr>
+            <td>Cost per published article</td>
+            <td class="figure">~$0.08</td>
+            <td class="note">Measured, not estimated — which is only possible because the token accounting was built before the question was asked.</td>
+          </tr>
+          <tr>
+            <td>Catalogue</td>
+            <td class="figure">328 plans</td>
+            <td class="note">Three languages, sold passively, rendered from a single data file at build time.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section class="ai-sec">
+  <div class="wrap">
+    <span class="label">Stack</span>
+    <h2>What I actually touch.</h2>
+    <div class="ai-stack">
+      <div>
+        <h3>Build</h3>
+        <p>Python · SQL · Postgres · JavaScript · Eleventy · Git · Bash</p>
+      </div>
+      <div>
+        <h3>Run</h3>
+        <p>Docker · Linux VPS · Caddy · Tailscale · cron · n8n · Twenty CRM</p>
+      </div>
+      <div>
+        <h3>AI &amp; data</h3>
+        <p>Gemini API · agent frameworks · prompt and output contracts · token-level cost accounting · GCP (BigQuery, Cloud&nbsp;Run) · GA4</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="ai-cta">
+  <div class="wrap">
+    <h2>Looking for an operating seat.</h2>
+    <p>COO, VP or Head of Operations, or GM — remote-first, with US and European teams. Bachelor's in Finance and an MBA; ten years of P&amp;L ownership; and a stack I can talk about at the level of the trade-off, not the tool name.</p>
+    <a class="btn" href="mailto:{{ site.email }}?subject=Operating%20role">Email me</a>
+    <a class="btn btn-ghost" href="/en/">See the business this runs</a>
+  </div>
+</section>
+
+<footer class="ai-foot">
+  <div class="wrap">
+    <p>Built, hosted and deployed by Iván Koch. Not indexed — this page exists to be linked, not found.</p>
+  </div>
+</footer>

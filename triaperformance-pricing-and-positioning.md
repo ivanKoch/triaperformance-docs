@@ -83,7 +83,14 @@ The same athlete is worth **$24.59/month more on Private** — **$15.59 if they 
 
 ⚠️ ***The consequence has to be stated, because it removes the referral program's reward without replacing it.*** *The $9 Premium inclusion existed specifically so a referred athlete got something a normal $149 athlete did not — Iván's framing was "I have one more thing to sell."* **If everyone gets Premium, that is no longer a reward, and the founding-member pitch in `referral-program-brief.md` loses its concrete half.** *The tension logged above — a service difference keyed to acquisition channel, against pricing rule 4's "one uniform service" — is now resolved in favour of rule 4. That is the upside, and it is real. But the referral offer needs a new differentiator or it needs to stand on the $50 gift card alone.* **Logged in `open-loops.md`; owner is `referral-program-brief.md`.**
 
-⚠️ **The cost is material against this business's actual cost base and is not yet measured.** *Close #1 records **36 coaching athletes** and a TrainingPeaks invoice carrying **1.4839 Premium licences ($13.36)** — i.e. Iván was buying Premium for about two people.* **Upper bound at 36 × $9 = $324/month, against total August operating costs of $245.25** — *so the worst case more than doubles the cost base.* **The real figure is lower and must be counted, not derived:** the standing rule in this section already says some athletes arrive holding Premium, some buy it annually themselves, and a churning athlete costs nothing — *so it is counted at decision time from the live roster.* **Read the actual number at the September close; do not let this land as a surprise line.**
+⚠️ **The cost is material against this business's actual cost base and is not yet measured.** *Close #1 records **36 coaching athletes** and a TrainingPeaks invoice carrying **1.4839 Premium licences ($13.36)** — i.e. Iván was buying Premium for about two people.* ~~**Upper bound at 36 × $9 = $324/month, against total August operating costs of $245.25** — *so the worst case more than doubles the cost base.*~~ **The real figure is lower and must be counted, not derived:** the standing rule in this section already says some athletes arrive holding Premium, some buy it annually themselves, and a churning athlete costs nothing — *so it is counted at decision time from the live roster.* **Read the actual number at the September close; do not let this land as a surprise line.**
+
+🚨 ***The cost estimate immediately above is WRONG and is struck, September 4, 2026 — corrected by Iván within the hour, then verified against `data/monthly_close/2026-08-roster.csv`.*** **TrainingPeaks pays for Premium on CoachMatch athletes** *(it is part of what the 20% commission buys)*, **All-Access already carries its own $9 deducted by TrainingPeaks before payout**, so ***the only athletes Iván pays Premium for are the Private ones.*** **The roster: `billing_channel` = COACHMATCH 35 · PRIVATE 4 · ALL_ACCESS 3, and `premium_fee` = 9 on exactly THREE rows in the whole file.** *Of the 4 Private athletes, 3 are active and one already carries `premium_fee: 9`.*
+
+**So the real marginal cost is 2 × $9 = $18/month, upper bound 3 × $9 = $27/month — not $324.** *Against $245.25 of operating costs that is ~7–11%, not a doubling. **The decision is cheap and the analysis that made it look expensive was mine, not the data's.***
+
+⚠️ ***The instructive part: this file already told me not to do what I did.*** *The referral note above says, in bold —* **"Do not size this from the Private headcount… The true figure is materially lower than headcount × $9 … it is counted at decision time from the live roster — never derived here."** *I derived it anyway, from the wrong headcount (all 36 coaching athletes rather than the 4 Private ones), and produced a figure 12–18× too high on a decision Iván was actively taking.* **The roster was one file away and answers it exactly.** ***A standing rule that says "count this, do not derive it" is worth reading before writing the number, not after.***
+
 
 ## Rules
 
@@ -137,6 +144,14 @@ The Portuguese discount is historical (weak BRL made USD pricing feel expensive)
 | Spanish | https://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd4edb446f3 | "Triaperformance All-Access — Todos los planes y guías + TrainingPeaks Premium" | $39.99 | 1 | Renamed Aug 13, 2026 |
 | English | https://checkout.trainingpeaks.com/product/7127a1e4-f736-45b7-b98d-1bbe468d950a | "Triaperformance All-Access — All training plans and guides + TrainingPeaks Premium" | $39.99 | 0 | Renamed Aug 13, 2026 |
 | Portuguese | https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a | "Acesso Total: Planos de Treino (Corrida + Ciclismo + Triatlo)" | $29.99 | 1 | No — existing subscriber |
+
+**Private 1:1 coaching checkout link** *(added September 4, 2026 — Iván. This URL had existed nowhere in the repo, which is why warm leads kept getting sent to `trainingpeaks.com/coach/ivankoch#pricing` and closing through CoachMatch at **20% instead of 3.5%**. `referral-program-brief.md` §4 and the Sept 3 AI-lead item both raised it; this is the fix.)*
+
+| Product | Checkout URL | Price |
+|---|---|---|
+| Private 1:1 coaching | https://checkout.trainingpeaks.com/product/89fd8761-0301-4cca-bded-394238ae1b8a | $149/mo |
+
+*This is the `{CHECKOUT_URL}` placeholder in `sales-playbook.md` A5 · Private, and the link the referral blurb carries.*
 
 Subscription flow: athlete pays via TrainingPeaks Payments checkout → TP links them to Iván's coach profile, grants TrainingPeaks Premium, and grants access to **the entire plan catalog**. *(Resolved Aug 2, 2026 — this line previously said "the plans Iván has selected into the offering (not the entire catalog — exact scope not yet documented)." Confirmed by Iván: all plans are included and it is safe to claim so in marketing copy. The old caveat is retired.)* Same product-in-TP-Payments mechanism as the 1:1 coaching plans, just a different product.
 

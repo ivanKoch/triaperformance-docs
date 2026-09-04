@@ -16,15 +16,15 @@
 
   "es": {
     "defaultPhone": "54",
-    "phoneOther": "Otro (escribí + código)",
+    "phoneOther": "Otro (escribe + código)",
     "phonePlaceholder": "11 1234 5678",
     "labelName": "Nombre",
     "labelEmail": "Email",
     "labelPhone": "WhatsApp",
     "labelSport": "Deporte",
-    "labelMessage": "Contanos tu objetivo",
+    "labelMessage": "Cuéntanos tu objetivo",
     "messagePlaceholder": "Ej: quiero correr mi primer 21k en noviembre",
-    "sportPlaceholder": "Seleccioná una opción",
+    "sportPlaceholder": "Selecciona una opción",
     "sports": [
       { "value": "Running", "label": "Running" },
       { "value": "Ciclismo", "label": "Ciclismo" },
@@ -34,8 +34,8 @@
     "submit": "Enviar",
     "submitting": "Enviando...",
     "success": "¡Gracias! Te contactamos en menos de 24 horas.",
-    "error": "Algo salió mal. Escribinos por WhatsApp mientras lo resolvemos.",
-    "divider": "o si preferís, escribinos directo",
+    "error": "Algo salió mal. Escríbenos por WhatsApp mientras lo resolvemos.",
+    "divider": "o si prefieres, escríbenos directo",
     "whatsappCta": "Escribir por WhatsApp"
   },
 

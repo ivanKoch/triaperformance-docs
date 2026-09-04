@@ -130,8 +130,6 @@ Send it **first, on its own, before the five**, as a warm human aside — never 
 - *`{DEPORTES}` and `{OBJETIVO}` are mandatory substitutions. This is the exact line that shipped wrong to Gui.*
 - *Do not add "descuento", "precio preferencial", "tarifa Latam" or the Bronze/Silver/Gold comparison. See B5.*
 
-> 🚨 ***September 4, 2026 — the offer changed and this section has not been rewritten to match.*** **TrainingPeaks Premium is now included for every 1:1 athlete** *(owner: `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium; the rule that said it must not appear in A5 is struck there).* **The three homepages already say so on both coaching surfaces; these messages do not.** *That is a real gap rather than a cosmetic one — the website now promises something the closing message a lead actually receives does not mention, and Premium is a $19.95/month retail item, which is the single most quotable thing in the offer.* **Not written here today: message copy is Iván's voice, built from real transcripts, and inventing a line for it is exactly what this doc exists to prevent.** Logged in `open-loops.md`.
-
 ### A5 · Closing — the subscription steps
 
 **CoachMatch** (verbatim, his existing text — leave as is, it works):
@@ -146,11 +144,14 @@ Send it **first, on its own, before the five**, as a warm human aside — never 
 **Private** (referral, website, Instagram — the channel worth $24.59/mo more; ~~a *referred* athlete carries a $9 TrainingPeaks Premium cost, so $15.59~~ **every 1:1 athlete now carries the $9 TrainingPeaks Premium cost as of September 4, 2026, so the Private premium is $15.59 on all of them, not only referrals** — see `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium):
 
 > - Te dejo el link de suscripción: {CHECKOUT_URL}
+> - Incluye **TrainingPeaks Premium** (por separado son 19,95 USD al mes), así tienes el calendario, las métricas avanzadas y TrainingPeaks Virtual sin pagarlo aparte.
 > - El primer mes incluye un fee de setup de 50 USD por el onboarding, el testing y la construcción de tu primer bloque.
 > - Una vez confirmado el pago, nuestras cuentas quedan vinculadas y te paso el cuestionario.
 > - Con eso preparo tus primeros entrenamientos y luego planeamos las próximas 2 semanas.
 
-*Checkout URLs: `triaperformance-pricing-and-positioning.md`. Startup-fee waiver code `NOSTARTUP` is a closing lever — see B6.*
+***The Premium line was added September 4, 2026, when the offer changed to include it for every 1:1 athlete.*** *It is placed **second — immediately after the link and before the setup fee** — deliberately: it is the one line in this message that gives something back, and the setup fee is the one that asks for more. Reading the $19.95 inclusion before the $50 fee is what makes the fee land as part of a package rather than as a surcharge.* **The retail figure is written out because "Premium included" means nothing to someone who has never paid for it** — which, per the `/all-access/` explainer item, is most of the market.
+
+*Checkout URL for `{CHECKOUT_URL}`: `triaperformance-pricing-and-positioning.md` §Private 1:1 coaching checkout link. Startup-fee waiver code `NOSTARTUP` is a closing lever — see B6, and it is also the referred athlete's half of the referral offer (`referral-program-brief.md` §1).*
 
 ### A5b · The flexible start date — the close for a *timing* objection
 

@@ -4,19 +4,26 @@ lang: pt
 transKey: all-access
 pageCss: all-access.css
 title: "Acesso Total — todos os planos + TrainingPeaks Premium"
-description: "Acesso Total: planos de corrida, ciclismo e triatlo + TrainingPeaks Premium incluído, por $29.99/mês. Troque de plano quando quiser."
+description: "Acesso Total: todos os planos de treino em português + TrainingPeaks Premium incluído, por $29.99/mês. Troque de plano quando quiser."
 checkout: https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a
 ---
-{#- NOTE: the Portuguese product is genuinely a different offer, not a translation —
-    $29.99/mo and running/cycling/triathlon plans only, vs $39.99/mo and everything
-    on ES/EN. Prices and the comparison maths below are deliberately different.
-    Confirmed product names live in triaperformance-pricing-and-positioning.md. -#}
+{#- NOTE: the Portuguese product is priced differently, not scoped differently —
+    $29.99/mo vs $39.99/mo on ES/EN. The comparison maths below are deliberately
+    different for that reason. Confirmed product names live in
+    triaperformance-pricing-and-positioning.md.
+
+    ~~running/cycling/triathlon plans only~~ CORRECTED September 4, 2026, Iván:
+    the page had always claimed three disciplines while the subscription grants
+    the whole catalogue, so it advertised 45 plans and delivered 53. The narrower
+    claim was a legacy of the product's TP Payments title, never a scope decision
+    — the pricing doc has said "all plans included" is an approved claim since
+    Aug 2, 2026. Now renders plans.counts.byLang.pt. -#}
 <!-- HERO -->
 <section class="hero-aa">
   <div class="wrap">
     <span class="label">Acesso Total</span>
     <h1>Por que comprar um plano se você pode ter todos?</h1>
-    <p class="sub">Planos de corrida, ciclismo e triatlo + TrainingPeaks Premium incluído. Troque de plano quantas vezes quiser, sem pagar separado de novo.</p>
+    <p class="sub">Todos os planos de treino em português + TrainingPeaks Premium incluído. Troque de plano quantas vezes quiser, sem pagar separado de novo.</p>
     <div class="price-tag">
       <span class="amount">$29.99<span>/mês</span></span>
     </div>
@@ -45,7 +52,7 @@ checkout: https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-341
         <h3>Com Acesso Total</h3>
         <ul>
           <li>TrainingPeaks Premium: incluído</li>
-          <li>Planos de corrida, ciclismo e triatlo: incluídos</li>
+          <li>Todos os planos de treino: incluídos</li>
           <li>Execute 2 planos ao mesmo tempo: por exemplo, seu plano de Ironman + um plano de ciclismo para melhorar seu FTP</li>
           <li>Troque de plano quando quiser, sem pagar de novo</li>
           <li>Acesso à Área de Membros: ferramentas para complementar o seu treino</li>
@@ -67,8 +74,8 @@ checkout: https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-341
     <div class="grid-3">
       <div class="include-card">
         <span class="tag">Planos</span>
-        <h3>Meus planos, dentro do TrainingPeaks</h3>
-        <p>Acesso completo aos <strong>{{ plans.counts.byLangSport.pt.runBikeTri }} planos de corrida, ciclismo e triatlo em português</strong>. Eles entram sozinhos no seu calendário do TrainingPeaks. <strong>Você pode ter mais de um plano rodando ao mesmo tempo</strong> e trocar quantas vezes quiser se o seu objetivo mudar, sem pagar de novo.</p>
+        <h3>Todos os meus planos, dentro do TrainingPeaks</h3>
+        <p>Acesso completo ao meu catálogo: <strong>{{ plans.counts.byLang.pt }} planos em português</strong> — corrida, ciclismo, triatlo, natação e duatlo. Eles entram sozinhos no seu calendário do TrainingPeaks. <strong>Você pode ter mais de um plano rodando ao mesmo tempo</strong> e trocar quantas vezes quiser se o seu objetivo mudar, sem pagar de novo.</p>
       </div>
       <div class="include-card">
         <span class="tag">Incluído</span>

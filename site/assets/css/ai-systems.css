@@ -1,0 +1,361 @@
+/* /ai-systems/ — Iván Koch's operator portfolio page.
+   English, noindex/nofollow, link-only from LinkedIn. Carries no site nav or
+   footer (navVariant/footerVariant "none") because the audience is a founder or
+   a recruiter, not an athlete — the triathlon menu would only be noise.
+   Built against brand-guidelines.md: white-first, Helvetica, TP Blue as the
+   only saturated colour, one washed section (the architecture band). */
+
+:root {
+  --ai-max: 1080px;
+}
+
+/* ---- top strip -------------------------------------------------------- */
+
+.ai-top {
+  border-bottom: 1px solid var(--mist, #e4e6e1);
+  padding: 20px 0;
+}
+
+.ai-top .wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ai-top .name {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.ai-top .home-link {
+  font-size: 14px;
+  color: var(--slate, #565a52);
+  text-decoration: none;
+}
+
+.ai-top .home-link:hover { color: var(--blue, #004aad); }
+
+/* ---- hero ------------------------------------------------------------- */
+
+.ai-hero { padding: 96px 0 72px; }
+
+.ai-hero h1 {
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 12px 0 24px;
+  max-width: 16ch;
+}
+
+.ai-hero .sub {
+  font-size: 19px;
+  line-height: 1.6;
+  max-width: 62ch;
+  margin: 0 0 32px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue, #004aad);
+  margin-bottom: 8px;
+}
+
+/* The proof note — the single most load-bearing sentence on the page. */
+.ai-proof {
+  border-left: 3px solid var(--blue, #004aad);
+  padding: 4px 0 4px 20px;
+  max-width: 62ch;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--slate, #565a52);
+}
+
+.ai-proof strong { color: var(--ink, #1e2019); }
+
+/* ---- generic section -------------------------------------------------- */
+
+.ai-sec { padding: 88px 0; border-top: 1px solid var(--mist, #e4e6e1); }
+
+.ai-sec h2 {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 8px 0 16px;
+}
+
+.ai-sec .lede {
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 65ch;
+  color: var(--slate, #565a52);
+  margin: 0 0 48px;
+}
+
+/* ---- architecture band (the page's one washed section) ---------------- */
+
+.ai-arch {
+  background: var(--wash, #edf3fb);
+  border-top: 1px solid var(--mist, #e4e6e1);
+  padding: 88px 0;
+}
+
+.ai-arch h2 {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 8px 0 16px;
+}
+
+.ai-arch .lede {
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 65ch;
+  margin: 0 0 40px;
+}
+
+/* The diagram scrolls inside its own box on narrow screens rather than
+   forcing the page body to scroll sideways. */
+.ai-diagram {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #fff;
+  border: 1px solid var(--mist, #e4e6e1);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.ai-diagram svg { display: block; min-width: 720px; width: 100%; height: auto; }
+
+.ai-arch .caption {
+  font-size: 14px;
+  color: var(--slate, #565a52);
+  margin: 16px 0 0;
+  max-width: 72ch;
+}
+
+/* ---- system cards ----------------------------------------------------- */
+
+.ai-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ai-cards li {
+  border: 1px solid var(--mist, #e4e6e1);
+  border-radius: 8px;
+  padding: 32px;
+  background: #fff;
+}
+
+.ai-cards h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 6px 0 12px;
+}
+
+.ai-cards p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 12px;
+  color: var(--ink, #1e2019);
+}
+
+.ai-cards p:last-child { margin-bottom: 0; }
+
+.ai-cards .meta {
+  font-size: 14px;
+  color: var(--slate, #565a52);
+}
+
+/* ---- decisions (numbered, no card chrome) ----------------------------- */
+
+.ai-decisions {
+  list-style: none;
+  counter-reset: dec;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 48px;
+}
+
+.ai-decisions li {
+  counter-increment: dec;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.ai-decisions li::before {
+  content: counter(dec, decimal-leading-zero);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--blue, #004aad);
+  line-height: 1.3;
+}
+
+.ai-decisions h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  max-width: 40ch;
+}
+
+.ai-decisions p {
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 65ch;
+  margin: 0 0 12px;
+}
+
+.ai-decisions p:last-child { margin-bottom: 0; }
+
+.ai-decisions .takeaway {
+  font-size: 16px;
+  color: var(--slate, #565a52);
+}
+
+/* ---- results table ---------------------------------------------------- */
+
+.ai-table-wrap { overflow-x: auto; }
+
+.ai-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  min-width: 520px;
+}
+
+.ai-table th,
+.ai-table td {
+  text-align: left;
+  padding: 16px 20px 16px 0;
+  border-bottom: 1px solid var(--mist, #e4e6e1);
+  vertical-align: top;
+}
+
+.ai-table th {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--slate, #565a52);
+}
+
+.ai-table td.figure {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ai-table td.note {
+  color: var(--slate, #565a52);
+  font-size: 15px;
+}
+
+/* ---- stack ------------------------------------------------------------ */
+
+.ai-stack {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+.ai-stack div h3 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue, #004aad);
+  margin: 0 0 12px;
+}
+
+.ai-stack p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ---- closing CTA ------------------------------------------------------ */
+
+.ai-cta {
+  background: var(--blue, #004aad);
+  color: #fff;
+  padding: 96px 0;
+}
+
+.ai-cta h2 {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 16px;
+  max-width: 22ch;
+}
+
+.ai-cta p {
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 60ch;
+  margin: 0 0 32px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.ai-cta .btn {
+  display: inline-block;
+  background: #fff;
+  color: var(--blue, #004aad);
+  font-weight: 700;
+  font-size: 17px;
+  padding: 16px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-right: 12px;
+}
+
+.ai-cta .btn:hover { background: #edf3fb; }
+
+.ai-cta .btn-ghost {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+}
+
+.ai-cta .btn-ghost:hover { background: rgba(255, 255, 255, 0.1); }
+
+.ai-foot {
+  padding: 32px 0;
+  font-size: 14px;
+  color: var(--slate, #565a52);
+}
+
+/* ---- responsive ------------------------------------------------------- */
+
+@media (max-width: 860px) {
+  .ai-cards { grid-template-columns: 1fr; }
+  .ai-stack { grid-template-columns: 1fr; gap: 24px; }
+}
+
+@media (max-width: 640px) {
+  .ai-hero { padding: 64px 0 48px; }
+  .ai-hero h1 { font-size: 36px; max-width: none; }
+  .ai-hero .sub { font-size: 17px; }
+  .ai-sec, .ai-arch { padding: 64px 0; }
+  .ai-sec h2, .ai-arch h2, .ai-cta h2 { font-size: 28px; }
+  .ai-cta { padding: 64px 0; }
+  .ai-cards li { padding: 24px; }
+  .ai-decisions li { grid-template-columns: 1fr; gap: 8px; }
+  .ai-cta .btn { display: block; margin: 0 0 12px; text-align: center; }
+}
