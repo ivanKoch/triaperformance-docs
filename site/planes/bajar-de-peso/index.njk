@@ -15,7 +15,7 @@ description: "Planes para bajar de peso de 4, 8 y 12 semanas. Running, ciclismo,
     <span class="label">Planes para Bajar de Peso</span>
     <h1>Planes para bajar de peso: running, ciclismo, natación, duatlón y triatlón</h1>
     <p>Elige tu deporte, tu entorno de entrenamiento — en casa sin equipo, o en gimnasio — y el tiempo que tienes disponible: 4, 8 o 12 semanas. Todos los planes incluyen fuerza, clave para bajar de peso sin perder masa muscular, y están pensados para principiantes.</p>
-    <a href="#4-semanas" class="btn-primary" style="flex:none; display:inline-block;">Ver planes</a>
+    <a href="#catalogo" class="btn-primary" style="flex:none; display:inline-block;">Ver planes</a>
   </div>
 </section>
 
@@ -28,7 +28,7 @@ description: "Planes para bajar de peso de 4, 8 y 12 semanas. Running, ciclismo,
 {%- set catalogPlans = plans.byLanguage.es -%}
 {%- set u = planUi.es -%}
 {%- set presetFeature = "weightloss" -%}
-<section style="padding-top:0;">
+<section id="catalogo" style="padding-top:0;">
   <div class="wrap">
     {% include "partials/plan-catalog-grid.njk" %}
   </div>

@@ -16,7 +16,7 @@ description: "Planes de running con estructura profesional para 5K, 10K, media m
     <h1>Planes de entrenamiento de running, por distancia y nivel</h1>
     <p>De 5 km a maratón, con estructura profesional. Cada plan define tus zonas de entrenamiento por pace o frecuencia cardíaca (algunos, también por potencia) y se ajusta a tu nivel.</p>
     <p>Todos los planes de esta página incluyen una rutina de fuerza — un complemento que recomendamos a cualquier runner, aunque no es obligatorio: si no tienes acceso a gimnasio, puedes seguir igual el plan de carrera y sumar la fuerza más adelante.</p>
-    <a href="#5k" class="btn-primary">Ver planes</a>
+    <a href="#catalogo" class="btn-primary">Ver planes</a>
   </div>
 </section>
 
@@ -27,7 +27,7 @@ description: "Planes de running con estructura profesional para 5K, 10K, media m
 {%- set catalogPlans = plans.byLanguage.es -%}
 {%- set u = planUi.es -%}
 {%- set presetSport = "Running" -%}
-<section style="padding-top:0;">
+<section id="catalogo" style="padding-top:0;">
   <div class="wrap">
     {% include "partials/plan-catalog-grid.njk" %}
   </div>

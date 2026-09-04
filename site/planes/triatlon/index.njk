@@ -16,7 +16,7 @@ description: "Planes de triatlón con estructura profesional para Sprint, Olímp
     <span class="credential">🏅 Coach certificado IRONMAN U</span>
     <p>De Sprint a distancia completa (Ironman), con estructura profesional. Zonas de entrenamiento por disciplina: natación y carrera por pace, ciclismo por potencia. Se ajusta a tu nivel.</p>
     <p>Algunos planes incluyen rutina de gimnasio como complemento — lo indicamos en cada plan. Ninguno lo exige: puedes seguir el plan de triatlón igual sin acceso a gimnasio.</p>
-    <a href="#sprint" class="btn-primary">Ver planes</a>
+    <a href="#catalogo" class="btn-primary">Ver planes</a>
   </div>
 </section>
 
@@ -29,7 +29,7 @@ description: "Planes de triatlón con estructura profesional para Sprint, Olímp
 {%- set catalogPlans = plans.byLanguage.es -%}
 {%- set u = planUi.es -%}
 {%- set presetSport = "Triathlon" -%}
-<section style="padding-top:0;">
+<section id="catalogo" style="padding-top:0;">
   <div class="wrap">
     {% include "partials/plan-catalog-grid.njk" %}
   </div>

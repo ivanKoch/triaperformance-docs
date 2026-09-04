@@ -24,6 +24,10 @@
 
 ## NOW
 
+- [ ] 🆕 **Read the EN and PT members FAQ before the announcement goes out — the only thing from the Sept 4 link fix that needs Iván's eye.** *(Opened September 4, 2026.)* **The members nav has carried an FAQ item pointing at `#faq` on `/members/en/` and `/members/pt/` since Aug 10, and the anchor did not exist** — *the link did nothing, on the two pages the un-told-cohort announcement (`members-area-announcement-2026-08.md`) is about to send subscribers to.* **Both sections now exist**, adapted from the Spanish one: five answers on TrainingPeaks access, the downloads page, password recovery, billing and what the subscription includes.
+  ⚠️ ***It is customer-facing copy that has not had his eye on it.*** *Nothing in it is new policy — every answer describes how the product already works, and the PT scope answer renders `plans.counts.byLang.pt` rather than restating a number.* **Ten minutes of reading, and it is the last gate on two pages a paying subscriber lands on.**
+
+
 
 **Big branch: the referral program — opened August 26, 2026.** Home doc: **`referral-program-brief.md`**, which owns every decision. *(The previous branch, members area in three languages, closed Aug 21 — WIP limit respected. This was `NEXT #10` and is promoted here; that item is struck below with the three decisions this session reversed.)*
 
@@ -116,10 +120,6 @@
   **The visible consequence:** a subscriber reads *"Elige de qué vienes"* on the members home card and *"Elegí de qué venís"* one click later, on the page that card links to.
   ***The recovery tool was shipped in voseo deliberately*** — it is the third tool in a family of three and making it the odd one out would have been worse than joining the debt. **The fix is one scripted pass over the tool pages, not a per-page decision, and the register is Iván's call to confirm** (§8 says tú, and the sales side has now been changed to match).
 
-- [ ] ✅ **Six broken internal links in blog posts — FIXED September 4, 2026.** *Found by running `tests/internal-links.test.js`, which is exactly what §37 built it for.* All seven files were content-engine posts inventing URLs: `/en/zone-calculator/{cycling,running}/`, `/en/cycling-zone-calculator/`, `/en/coaching/`, and — in two **Portuguese** posts — `/calculadora-de-zonas/cycling/`, *a Spanish path with an English segment, which is §37's original bug reappearing verbatim in a third language.* Every replacement was verified against the build.
-  - [ ] **The writer agent is still inventing internal links.** *The test catches them after publication; nothing stops them being written.* **`tests/internal-links.test.js` is not in the content engine's publish path** — it is a repo test run by hand. Worth wiring into the engine's own gate, or the same handful reappears next month.
-  > ⚠️ *Note for whoever runs that test: it reads `_site` and takes no override, so it silently checks whatever build happens to be on disk. It reported four already-fixed links until `_site` was rebuilt. Build into `_site` before trusting it.*
-
 - [ ] 🆕 **Movilidad post-entreno — live in all three languages.** *(ES September 3, EN + PT September 4, 2026.)* `/members/movilidad/`, `/members/en/mobility/`, `/members/pt/mobilidade/` — 15 routines each (5 sports × 10/20/30 min) on the activation engine. Home doc: **`mobility-brief.md`**, which owns every decision. EN/PT derived by `automation/mobility-i18n.py`, string literals only, so structure is identical by construction; **534 data checks + 135 rendered checks**, with the clinical assertions run separately in each language.
   - [ ] ⚠️ **Iván runs one on a phone. In any language.** *This was the Spanish page's stated gate and it was skipped, on his call, to translate the same day.* **It is the only thing between this and closed, and it is not work.**
   - [ ] **The recovery-day tool** — section B of his source doc, 30/45/60, dynamic and active where this one is static. **Iván's call to make it a second artifact rather than a fourth question on this page**; the argument for merging, and the cost to watch for, are in `mobility-brief.md` §7. *Do not re-open that from scratch.*
@@ -209,23 +209,6 @@
   🚨 ***The item is the pattern, not this instance.*** *A page-scoped stylesheet using bare element selectors will silently restyle every shared partial that page includes, and the damage shows up on the partial — far from the rule that caused it.* **Same family as `members-home.css` `.site-nav` vs `.site-nav-sticky` (§41) and §26 before it: a rule that is correct for what its author was looking at, and wrong for what they weren't.** *Worth a pass over the page-scoped stylesheets for bare `h1`/`h2`/`h3`/`p`/`a`/`ul` selectors and scoping them to their own sections. Cheap, and it retires a recurring class rather than another instance of it.*
 
 - [x] ✅ ~~**The Portuguese All-Access page sells a narrower product than TrainingPeaks actually grants.**~~ **RESOLVED September 4, 2026 — Iván: "Count all my published portuguese plans... that's what all access offers... no contradiction."** *The page now renders `plans.counts.byLang.pt` (**53**) instead of the three-discipline subset (45), and the hero, meta description, "Qué incluye" card and comparison bullet all widened to match, as did the PT homepage card.* **The narrow claim was a legacy of the product's TrainingPeaks Payments title, never a scope decision** — *`pricing-and-positioning.md` has said "all plans included" is an approved claim since Aug 2, 2026, so the page had been advertising 45 and delivering 53 for a month.* **The PT product still differs on price ($29.99 vs $39.99) and that stays.** → move to archive.
-
-- [ ] 🆕 **`npm test` reports 6 broken internal links, all invented by the writer agent in blog articles.** *(Found September 4, 2026, running the suite after unrelated work — **not** caused by it; no blog file was touched.)*
-
-  ```
-  /en/zone-calculator/cycling/      ← /en/blog/double-threshold-mistake-amateur-cyclists/
-  /en/zone-calculator/running/      ← /en/blog/intensity-regulation-adjusting-threshold-paces/
-  /en/cycling-zone-calculator/      ← /en/blog/static-ftp-myth-durability/
-  /en/coaching/                     ← /en/blog/load-adjustment-rules-marathon-injury/
-  /calculadora-de-zonas/cycling/    ← /pt/blog/erro-duplo-limiar-ciclistas-amadores/ + /pt/blog/mito-ftp-estatico/
-  /pt/calculadora-de-zonas/running/ ← /pt/blog/regulacao-intensidade-ajustar-ritmo-limiar-tempo-real/
-  ```
-
-  🚨 ***Every one is `ai-infrastructure-documentation.md` §37's finding repeating, and two are literally the same two URLs it fixed on September 1.*** *§37 fixed `/calculadora-de-zonas/cycling/` — the English path segment inside a Spanish URL — and `/coaching/`, which has never existed. **Both are back, in different articles, three days later.*** *The English calculator lives at `/en/training-zones-calculator/`, the Portuguese at `/pt/calculadora-de-zonas/`, and Coaching is the homepage anchor `/#coaching`, never a page.*
-
-  **So the fix §37 shipped is working exactly as designed and is not enough.** *`tests/internal-links.test.js` catches these at build time, which is why they are visible at all — but it runs on demand, and* ***nothing stops the writer agent generating the same wrong URLs tomorrow.*** **The durable fix is upstream, in the writer's prompt or a post-generation link rewrite, not another round of hand-fixing seven articles.** *Note the failure is stable and cheap to prevent: the agent reaches for the URL a reader would guess, and there are only a handful of real ones.*
-
-  ⚠️ **These are live pages with dead links in them today.** *Two jobs, and they should not be confused: fix the seven articles, then stop the source. The second one is the item.*
 
 
 - [ ] 🆕 **Link the members artifacts from TrainingPeaks workout descriptions — PROSPECTIVE ONLY, and that is the whole design.** *(Iván, September 3, 2026. Three slots per workout: `description`, `pre-workout comments`, `post-workout comments` — e.g. running activation pre-VO2max, box breathing post.)*
@@ -463,10 +446,6 @@
 - [ ] **#12 · Publish the LinkedIn rewrite and the `/ai-systems/` link.** *(Opened September 4, 2026. Home doc: `linkedin-positioning.md`, which owns the headline, the About section and the job description.)* **Built and in the repo: `site/ai-systems/index.njk` + `assets/css/ai-systems.css`** — noindex, no nav, no footer, verified out of `sitemap.xml`, GA4 present, build clean. **What is Iván's:** deploy, then paste the three copy blocks into LinkedIn and add the page to the Featured section. *Trigger: any time — no dependency.*
 
 - [ ] **#13 · Source the 670% growth figure, or leave it out.** *(Opened September 4, 2026.)* The old LinkedIn job description claimed *"grew revenue 670% in year two, and surpassed that full-year mark within the first seven months of year three."* 🚨 ***No file in this repo reproduces it.*** *`training-plans-analysis.md` owns plan-sales history and `monthly-close/` owns current revenue; neither produces a year-over-year total for years one to three, because coaching revenue before 2026 was never brought into a file.* **The rewrite drops the claim rather than restating it** — this repo's standing rule is that any figure quoted anywhere is reproducible from a file, and a profile whose pitch is data discipline cannot lead with a number its owner cannot re-derive. ***It is probably true and it is worth reinstating:*** the source would be TrainingPeaks' own annual payout totals for 2023, 2024 and 2025. **One export, one file in `data/`, and the line goes back in with a source behind it.**
-
-- [ ] **#14 · Seven broken internal links in agent-written blog articles.** *(Found September 4, 2026 by running `tests/internal-links.test.js` — the guard built in §37 for exactly this, doing its job.)* **All seven are links to zone-calculator and coaching URLs that do not exist**, invented by the writer agent inside article bodies:
-  `/en/zone-calculator/cycling/`, `/en/zone-calculator/running/`, `/en/cycling-zone-calculator/`, `/en/coaching/`, `/calculadora-de-zonas/cycling/` (twice, from two PT articles) and `/pt/calculadora-de-zonas/running/`.
-  ⚠️ ***The shape is the point: the agent is writing plausible URLs for pages it believes should exist, and four of the seven are near-misses on the real calculator slugs.*** *The real EN path is `/en/training-zones-calculator/`; there is no per-sport sub-path in any language.* **Two candidate fixes and they are not the same job:** (a) correct the seven links, which is ten minutes and fixes today; (b) give the writer the real internal URL set the way it is already given the plan catalogue, so it links from data instead of from memory. *(b) is the one that stops this recurring, and it is the same fix shape as the plan-card language check in §20.* **Nothing is redirecting these today — they 404.**
 
 ---
 

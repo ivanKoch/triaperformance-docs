@@ -797,3 +797,63 @@ Beyond the original scope, the storefront also gained: four generated content se
 Five items that lived only in `ai-infrastructure-documentation.md` were promoted here in the same session, because that doc's "Open items" section has been retired — it duplicated this file by design and had started to contradict it.
 
 This file replaces the open-item lists previously scattered across `ai-infrastructure-documentation.md`, `growth-roadmap.md` (Sequencing), `content-engine-brief.md` (Open decisions), and the runbooks. Those docs keep the *detail*; this file is the *list*. Update it at the end of every working session.
+
+
+---
+
+## Agent-invented internal links (NOW item + NEXT #14) — closed September 4, 2026
+
+- [ ] 🆕 **`npm test` reports 6 broken internal links, all invented by the writer agent in blog articles.** *(Found September 4, 2026, running the suite after unrelated work — **not** caused by it; no blog file was touched.)*
+
+  ```
+  /en/zone-calculator/cycling/      ← /en/blog/double-threshold-mistake-amateur-cyclists/
+  /en/zone-calculator/running/      ← /en/blog/intensity-regulation-adjusting-threshold-paces/
+  /en/cycling-zone-calculator/      ← /en/blog/static-ftp-myth-durability/
+  /en/coaching/                     ← /en/blog/load-adjustment-rules-marathon-injury/
+  /calculadora-de-zonas/cycling/    ← /pt/blog/erro-duplo-limiar-ciclistas-amadores/ + /pt/blog/mito-ftp-estatico/
+  /pt/calculadora-de-zonas/running/ ← /pt/blog/regulacao-intensidade-ajustar-ritmo-limiar-tempo-real/
+  ```
+
+  🚨 ***Every one is `ai-infrastructure-documentation.md` §37's finding repeating, and two are literally the same two URLs it fixed on September 1.*** *§37 fixed `/calculadora-de-zonas/cycling/` — the English path segment inside a Spanish URL — and `/coaching/`, which has never existed. **Both are back, in different articles, three days later.*** *The English calculator lives at `/en/training-zones-calculator/`, the Portuguese at `/pt/calculadora-de-zonas/`, and Coaching is the homepage anchor `/#coaching`, never a page.*
+
+  **So the fix §37 shipped is working exactly as designed and is not enough.** *`tests/internal-links.test.js` catches these at build time, which is why they are visible at all — but it runs on demand, and* ***nothing stops the writer agent generating the same wrong URLs tomorrow.*** **The durable fix is upstream, in the writer's prompt or a post-generation link rewrite, not another round of hand-fixing seven articles.** *Note the failure is stable and cheap to prevent: the agent reaches for the URL a reader would guess, and there are only a handful of real ones.*
+
+  ⚠️ **These are live pages with dead links in them today.** *Two jobs, and they should not be confused: fix the seven articles, then stop the source. The second one is the item.*
+
+- [ ] **#14 · Seven broken internal links in agent-written blog articles.** *(Found September 4, 2026 by running `tests/internal-links.test.js` — the guard built in §37 for exactly this, doing its job.)* **All seven are links to zone-calculator and coaching URLs that do not exist**, invented by the writer agent inside article bodies:
+  `/en/zone-calculator/cycling/`, `/en/zone-calculator/running/`, `/en/cycling-zone-calculator/`, `/en/coaching/`, `/calculadora-de-zonas/cycling/` (twice, from two PT articles) and `/pt/calculadora-de-zonas/running/`.
+  ⚠️ ***The shape is the point: the agent is writing plausible URLs for pages it believes should exist, and four of the seven are near-misses on the real calculator slugs.*** *The real EN path is `/en/training-zones-calculator/`; there is no per-sport sub-path in any language.* **Two candidate fixes and they are not the same job:** (a) correct the seven links, which is ten minutes and fixes today; (b) give the writer the real internal URL set the way it is already given the plan catalogue, so it links from data instead of from memory. *(b) is the one that stops this recurring, and it is the same fix shape as the plan-card language check in §20.* **Nothing is redirecting these today — they 404.**
+
+### CLOSED September 4, 2026 — agent-invented internal links, both items, plus the two classes the guard could not see
+
+**Both items above are one item and they are closed together.** *The NOW entry and NEXT #14 are the same seven links found the same day, written up twice — which is itself the duplication this list keeps producing. Closed as one.*
+
+**(a) The seven links: already fixed in commit `4774ed2`, before this session opened.** *Verified by reading the diff rather than the note: `/en/zone-calculator/cycling/` → `/en/training-zones-calculator/cycling/`, and so on across all seven articles.* ⚠️ ***One assertion in NEXT #14 was wrong and is worth keeping as a wrong belief: "there is no per-sport sub-path in any language."*** *There is. `/en/training-zones-calculator/{cycling,running,swimming}/`, `/calculadora-de-zonas/{ciclismo,running,natacion}/` and `/pt/calculadora-de-zonas/{ciclismo,corrida,natacao}/` have all existed since the zone-magnet build (Aug 13). The agent's four "near-misses" were nearer than the item credited — it had the right shape and the wrong slug, which is a different and easier failure to fix than inventing a structure.*
+
+**(b) The root fix shipped: `site_links()` + `check_links()` in `writer_agent.py`.** *This is option (b) from the item — link from data, not from memory — and it is deliberately the same shape as planCard, which has never produced a broken link because inventing one is impossible.*
+  • `site_links(lang)` derives the linkable URL set from `site/` **at run time**: a directory holding an `index.njk`/`index.md` is a page, which is Eleventy's own rule. **That answers the objection recorded in `tests/internal-links.test.js`** — *"giving it a whitelist would not help, because the URL set changes with the build."* ***A derived set cannot go stale; a listed one can. The objection was to the wrong mechanism, not to the idea.***
+  • **`noindex` is resolved the way Eleventy resolves it — directory data files, then front matter.** *Not a detail: the entire `/members/` tree is gated by one line in `site/members/members.json`, so a front-matter-only check would have handed the writer 40 gated pages and called them public.*
+  • `check_links()` runs inside `validate()`, so a draft with an invented URL is **rejected before it reaches review**, for both the writer and the translator paths.
+  • **Replayed against all seven historical failures: 7/7 caught. Replayed against all 116 published articles: 0 false positives.**
+  • The translate prompt gained the rule that made this recur across languages: ***internal links are not translated, they are replaced.*** *`/pt/calculadora-de-zonas/running/` is what translating a slug's words looks like when the real page is `corrida`.*
+
+**(c) A hand audit of every article and page found two classes the build guard was structurally blind to — both live at the time.** *This is the part the item did not anticipate, and it is the more useful half.*
+  1. **Absolute own-domain links.** `site/blog/dolor-tendon-de-aquiles.njk` linked `https://triaperformance.com/members/aquiles/` — **a public article pointing a non-subscriber at a gated page**, which is the gated_teaser rule broken in the one place it matters. The test skipped it because it starts with `https:`. *Fixed: the routine is named in bold and the All-Access link beside it is now root-relative.*
+  2. **Dead fragments.** Four plan-category pages had a "Ver planes" button on `#5k` / `#sprint` / `#running` / `#4-semanas` — **anchors deleted in the July 30 catalog refactor and never repointed.** *The page returns 200 and the button does nothing, which is why no crawler and no test ever complained.* And the members nav has shipped an FAQ item pointing at `#faq` on the **EN and PT** pages since Aug 10, where no FAQ section existed. *Fixed: the catalog section now carries `id="catalogo"` and the four buttons point at it; the EN and PT FAQ sections were written from the Spanish one.* ⚠️ **The FAQ copy is adapted, not new policy — every answer describes how the product already works — but it is customer-facing text that has not had Iván's eye on it.**
+  🚨 ***The lesson, and it generalises past links: a check scoped to what broke last time only ever catches what broke last time.*** *`internal-links.test.js` was written on Sept 1 against the two classes Ahrefs had just found, and it was still passing 4 days later with a gated page linked from a public article and five dead buttons on the site.* **Now four checks, not two.**
+
+**(d) One stale copy corrected on the way past.** `MARKET_NOTES["pt"]` in `writer_agent.py` told the translator the Portuguese catalogue "only has marathon, 5k, 10k, 21k and FTP" and excludes "swimming, HYROX or weight loss". ***It is the same false belief `/pt/all-access/` carried until it was fixed earlier the same day*** — the live PT catalogue is 53 plans across running (28), cycling (9), triathlon (8), swimming (4) and duathlon (4). **The note was steering Brazilian readers away from 22 plans they can already run.**
+
+***Still open, and deliberately not done here: nothing checks EXTERNAL links.*** *There are none in any article today — the writer has never emitted one — so there is no live problem, only an unguarded direction. Worth a rule the day the first one appears.*
+
+
+### Third write-up of the same finding, from the NOW list
+
+- [ ] ✅ **Six broken internal links in blog posts — FIXED September 4, 2026.** *Found by running `tests/internal-links.test.js`, which is exactly what §37 built it for.* All seven files were content-engine posts inventing URLs: `/en/zone-calculator/{cycling,running}/`, `/en/cycling-zone-calculator/`, `/en/coaching/`, and — in two **Portuguese** posts — `/calculadora-de-zonas/cycling/`, *a Spanish path with an English segment, which is §37's original bug reappearing verbatim in a third language.* Every replacement was verified against the build.
+  - [ ] **The writer agent is still inventing internal links.** *The test catches them after publication; nothing stops them being written.* **`tests/internal-links.test.js` is not in the content engine's publish path** — it is a repo test run by hand. Worth wiring into the engine's own gate, or the same handful reappears next month.
+  > ⚠️ *Note for whoever runs that test: it reads `_site` and takes no override, so it silently checks whatever build happens to be on disk. It reported four already-fixed links until `_site` was rebuilt. Build into `_site` before trusting it.*
+
+**CLOSED September 4, 2026 — and this was the THIRD write-up of one finding.** *The same seven links were entered here, in NOW, and as NEXT #14, all on the same day. `open-loops.md` was split on September 2 for exactly this and the behaviour survived the split.* **All three are now in this file, together, as one item.**
+
+- ✅ **"The writer agent is still inventing internal links"** — *fixed at the source, not by wiring the JS test into the publish path as this note proposed.* **`check_links()` runs inside `writer_agent.validate()`**, so an invented URL is rejected before a human ever reviews the draft — earlier than the build gate, and it covers the translator path too. See the main closing note below.
+- ✅ **The `_site` staleness trap** — *this note was right, and it cost time again the same day: the test reported 4/4 green against a build predating five live dead anchors.* **`internal-links.test.js` now refuses to run when `_site/` is older than `site/`** rather than answering confidently about bytes nobody is serving. ⚠️ ***That is the general shape of the bug and it is worth carrying forward: a guard reading a stale artifact does not fail, it lies.***

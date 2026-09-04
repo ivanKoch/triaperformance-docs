@@ -89,6 +89,7 @@ ENVIRONMENT (read automatically from ~/.hermes/.env and ~/.analytics/.env)
 """
 
 import argparse
+import glob
 import json
 import os
 import re
@@ -199,6 +200,171 @@ def plan_candidates(plans, idea):
     return out[:40]
 
 
+
+# ---------------------------------------------------------------------------
+# INTERNAL LINKS
+#
+# The writer invents internal URLs. It has invented the same ones twice: on
+# Sept 1, 2026 `/calculadora-de-zonas/cycling/` (an English path segment inside
+# a Spanish URL) and `/coaching/` (never a page — Coaching is the homepage
+# anchor `/#coaching`); on Sept 4 both were back, in different articles, plus
+# five more. Every one is a plausible guess at a page the model believes should
+# exist.
+#
+# `tests/internal-links.test.js` catches them at build time, which is how they
+# were found — but it runs on demand and it runs AFTER the article is written,
+# reviewed and published. The plan links have not had this problem once, and the
+# reason is structural: the writer names a plan_id and the shortcode joins the
+# real URL. It links from data instead of from memory.
+#
+# This is that same fix for pages. The URL set is derived from `site/` at run
+# time, so it cannot go stale the way a hand-kept whitelist would — that was the
+# objection recorded in tests/internal-links.test.js, and it is answered by
+# deriving rather than by listing.
+#
+# The set is deliberately PUBLIC pages only. `/members/*` is gated: an article
+# linking one sends a non-subscriber into a login wall, which is the gated_teaser
+# rule ("link {all_access_path} for the membership") broken in the one place it
+# matters. One live article did exactly that until Sept 4, 2026.
+# ---------------------------------------------------------------------------
+
+LANG_PREFIX = {"es": "", "en": "/en", "pt": "/pt"}
+
+# Assets an article may legitimately deep-link. Extensions, not paths, so a new
+# guide in the same folder needs no change here.
+LINKABLE_ASSET_DIRS = ("/assets/guias/",)
+
+
+def _front_matter(path):
+    txt = open(path, encoding="utf-8").read()
+    if not txt.startswith("---"):
+        return {}, txt
+    fm = txt.split("---", 2)[1]
+    get = lambda k: (m.group(1).strip().strip('"')
+                     if (m := re.search(rf"^{k}:\s*(.*)$", fm, re.M)) else "")
+    return {"title": get("title"), "headline": get("headline"),
+            "noindex": get("noindex").lower() == "true",
+            "lang": get("lang")}, txt
+
+
+def _dir_data_noindex(root, dirpath):
+    """`noindex` as Eleventy resolves it: directory data files, then front matter.
+
+    Not a detail. The whole /members/ tree is gated by ONE line in
+    site/members/members.json, not by front matter on 40 pages — so a check that
+    reads only front matter would hand the writer every gated page in the site
+    and call them public. Walking the directory chain means a folder gated in
+    future is excluded here the day it is gated, with no second edit.
+    """
+    flag = False
+    parts = os.path.relpath(dirpath, root).split(os.sep)
+    parts = [] if parts == ["."] else parts
+    for i in range(len(parts) + 1):
+        d = os.path.join(root, *parts[:i])
+        for jf in sorted(glob.glob(os.path.join(d, "*.json"))):
+            try:
+                data = json.load(open(jf, encoding="utf-8"))
+            except (ValueError, OSError):
+                continue
+            if isinstance(data, dict) and "noindex" in data:
+                flag = bool(data["noindex"])
+    return flag
+
+
+def site_links(lang):
+    """Every public URL an article in `lang` may link, read from site/.
+
+    Derived, not listed: a directory holding an index.njk/index.md IS a page,
+    which is exactly Eleventy's own rule (only the three plan templates and
+    sitemap.njk set an explicit permalink, and none of them belongs here).
+
+    Excluded on purpose:
+      * `noindex: true` — gated or private pages (/members/*, /ai-systems/).
+      * the other two languages — a Spanish article linking /en/all-access/ is
+        a broken promise even though the URL resolves.
+      * plan pages — those are planCard's job and always have been.
+    """
+    root = os.path.join(REPO, "site")
+    prefix = LANG_PREFIX[lang]
+    out = []
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames
+                       if d not in ("_includes", "_data", "assets", "p")]
+        idx = next((f for f in ("index.njk", "index.md") if f in filenames), None)
+        if not idx:
+            continue
+        rel = os.path.relpath(dirpath, root)
+        url = "/" if rel == "." else "/" + rel.replace(os.sep, "/") + "/"
+        # Language ownership by path prefix. "" (Spanish) owns everything that
+        # is not under /en/ or /pt/.
+        owner = "/en" if url.startswith("/en/") else "/pt" if url.startswith("/pt/") else ""
+        if owner != prefix:
+            continue
+        fm, _ = _front_matter(os.path.join(dirpath, idx))
+        if fm.get("noindex") or _dir_data_noindex(root, dirpath):
+            continue
+        out.append({"url": url,
+                    "page": fm.get("headline") or fm.get("title") or url})
+    # Published articles in this language, from the files the site serves — the
+    # same source research_agent.published_corpus() reads, and the same reason.
+    blog_dir = {"es": "site/blog", "en": "site/en/blog", "pt": "site/pt/blog"}[lang]
+    for path in sorted(glob.glob(os.path.join(REPO, blog_dir, "*.njk"))):
+        if path.endswith("index.njk"):
+            continue
+        fm, _ = _front_matter(path)
+        slug = os.path.basename(path)[:-4]
+        out.append({"url": f"{prefix}/blog/{slug}/",
+                    "page": fm.get("headline") or slug})
+    return sorted(out, key=lambda r: r["url"])
+
+
+def allowed_urls(lang):
+    """The link whitelist as a set, plus the anchors that are real pages."""
+    urls = {r["url"] for r in site_links(lang)}
+    # Homepage section anchors. These are sections, not pages, so no index.njk
+    # exists for them and they have to be named. `#coaching` is the one the
+    # writer has invented as `/coaching/` twice.
+    home = LANG_PREFIX[lang] + "/"
+    urls |= {home + a for a in ("#coaching", "#planes", "#contacto")}
+    return urls
+
+
+def check_links(body, lang):
+    """Reject internal links that do not exist. The hard stop.
+
+    A prompt rule is a request; this is the check. The repo has learned that
+    difference twice already — the duplicate-idea screen went from a prompt line
+    the agent said it had followed to `screen_ideas()` computing it, and plan
+    links have never broken because the shortcode makes inventing one impossible.
+    """
+    allowed = allowed_urls(lang)
+    problems = []
+    seen = set()
+    for raw in re.findall(r'href="([^"]+)"', body):
+        # Own-domain absolute URLs are the same link with a hostname glued on,
+        # and they slipped past the build guard for exactly that reason.
+        m = re.match(r"https?://(?:www\.)?triaperformance\.com(/.*)?$", raw)
+        if m:
+            problems.append(f"absolute own-domain link {raw} — write it root-relative")
+            raw = m.group(1) or "/"
+        if not raw.startswith("/") or raw.startswith("//"):
+            continue
+        if raw in seen:
+            continue
+        seen.add(raw)
+        path = raw.split("?")[0]
+        if path.startswith(LINKABLE_ASSET_DIRS):
+            continue
+        base, _, frag = path.partition("#")
+        if base and not base.endswith("/"):
+            base += "/"
+        candidate = base + ("#" + frag if frag else "")
+        if candidate in allowed or (not frag and base in allowed):
+            continue
+        problems.append(
+            f"links {raw}, which is not a page of the {LANG_NAME[lang]} site")
+    return problems
+
 PROMPT = """You are writing a blog article for Triaperformance, Iván Koch's triathlon and running coaching business. Write it in {language_name}, natively — not translated.
 
 THE IDEA (already approved; do not change its angle or its offer)
@@ -219,7 +385,16 @@ TRIAPERFORMANCE METHODOLOGY — the source of anything technical you assert
 PLANS YOU MAY LINK (only these; see the rule below)
 {plans}
 
+PAGES YOU MAY LINK (only these; url + what the page is)
+{site_links}
+
 HARD RULES
+0. NEVER WRITE AN INTERNAL URL FROM MEMORY. Every internal link must be copied,
+   character for character, from the page list above. If the page a sentence
+   wants does not appear there, it does not exist — rewrite the sentence without
+   the link. Do not guess a slug, do not translate a slug, and do not add a
+   sport to the end of one. A draft containing a URL that is not on that list is
+   rejected before review, so this costs you the whole article.
 1. NEVER write a TrainingPeaks URL. To link a plan, emit the shortcode exactly:
    {{% planCard "PLAN_ID", "one sentence on who this plan is for" %}}
    using a plan_id from the list above. A URL you invent will be a dead link.
@@ -285,6 +460,9 @@ BRAND VOICE
 PLANS AVAILABLE IN THIS LANGUAGE (only these)
 {plans}
 
+PAGES YOU MAY LINK IN THIS LANGUAGE (only these; url + what the page is)
+{site_links}
+
 THE SOURCE ARTICLE
 Headline: {headline}
 Standfirst: {standfirst}
@@ -293,6 +471,13 @@ Standfirst: {standfirst}
 </body>
 
 RULES
+- INTERNAL LINKS ARE NOT TRANSLATED, THEY ARE REPLACED. The source article's
+  URLs belong to the source language and none of them is valid here. For every
+  link in the source, find the equivalent page in the list above and copy that
+  URL exactly; if there is no equivalent, keep the sentence and drop the link.
+  Never take a source URL and translate its words — that is how
+  `/pt/calculadora-de-zonas/running/` was written for a page that is
+  `/pt/calculadora-de-zonas/corrida/`.
 - Same planCard rule: {{% planCard "PLAN_ID", "..." %}}, only ids from the list.
   If a plan referenced in the source has no equivalent here, drop that card
   rather than substituting something that isn't the same plan. The list above is
@@ -338,12 +523,24 @@ MARKET_NOTES = {
           "includes every plan in the catalogue. Link /en/all-access/. Give paces "
           "in both min/km and min/mile. If the article needs an example race and "
           "the source names none: NYC, Chicago, Boston, California International.",
+    # CORRECTED September 4, 2026. This read "covers running, cycling and
+    # triathlon plans only (not swimming, HYROX or weight loss)" and "the
+    # Portuguese catalogue only has marathon, 5k, 10k, 21k and FTP". Both were
+    # false, and they are the SAME false belief that /pt/all-access/ carried
+    # until it was fixed earlier the same day: the narrow list is a legacy of
+    # the product's TrainingPeaks Payments title, never a scope decision. The
+    # live Portuguese catalogue is 53 plans across running (28), cycling (9),
+    # triathlon (8), swimming (4) and duathlon (4), weight-loss and HYROX
+    # included — so this note was steering Brazilian readers away from 22 plans
+    # they can already run. Counts are not restated in prose anywhere: the page
+    # renders plans.counts.byLang.pt, and this note names no number on purpose.
     "pt": "Audience is BRAZIL, not Portugal — write Brazilian Portuguese. Acesso "
-          "Total is US$29.99/mo and covers running, cycling and triathlon plans "
-          "only (not swimming, HYROX or weight loss). Link /pt/all-access/. The "
-          "Portuguese catalogue only has marathon, 5k, 10k, 21k and FTP — do not "
-          "point readers at anything else. If an example race is needed and the "
-          "source names none: Rio, São Paulo.",
+          "Total is US$29.99/mo and includes every plan in the PORTUGUESE "
+          "catalogue — running, cycling, triathlon, swimming and duathlon, "
+          "weight-loss and HYROX included. Link /pt/all-access/. Plans in other "
+          "languages are not part of this product: the plan list above is "
+          "already filtered, so link only from it. If an example race is needed "
+          "and the source names none: Rio, São Paulo.",
     "es": "Audience is Spain and Latin America. All-Access is US$39.99/mo and "
           "includes every plan. Link /all-access/. Use voseo where natural.",
 }
@@ -407,6 +604,8 @@ def build_draft(idea, plans, model, api_key):
         topic_list=", ".join(TOPICS),
         all_access_path={"es": "/all-access/", "en": "/en/all-access/",
                          "pt": "/pt/all-access/"}[idea["language"]],
+        site_links="\n".join(f"{r['url']}  — {r['page']}"
+                             for r in site_links(idea["language"])),
     )
     return parse_draft(call_model(prompt, api_key, model, expect="text"))
 
@@ -440,6 +639,7 @@ def validate(draft, plans, lang):
         elif p["language"] != want_lang:
             problems.append(
                 f"planCard {pid} is a {p['language']} plan in a {want_lang} article")
+    problems += check_links(body, lang)
     words = len(re.sub(r"<[^>]+>", " ", body).split())
     if words < 700:
         problems.append(f"only {words} words — too thin")
@@ -691,6 +891,8 @@ def translate(conn, piece_id, plans, model, api_key, dry_run):
                                ("id", "name", "weeks", "difficulty", "metric", "strength")}
                               for p in cands[:40]], ensure_ascii=False)[:4000]
             or "none — do not link plans",
+            site_links="\n".join(f"{r['url']}  — {r['page']}"
+                                 for r in site_links(lang)),
             headline=src["headline"], standfirst=src["standfirst"] or "",
             body=src["body"])
         draft = parse_draft(call_model(prompt, api_key, model, expect="text"))
