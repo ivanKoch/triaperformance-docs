@@ -2,11 +2,11 @@
 
 *Mirror of the Claude.ai project **Memory** field. Edit this file, then paste it whole into Memory. Memory holds only what the repo can't — how Iván works, and what Claude has learned about operating in this environment. Business state (numbers, what's live, what's next) is deliberately excluded: it lives in the repo, versioned, and changes weekly.*
 
-*Last updated: August 12, 2026.*
+*Last updated: September 4, 2026.*
 
 ## Who this is
 
-Iván Koch runs Triaperformance (coach@triaperformance.com), a solo triathlon and running coaching business he is rebuilding to run without his personal hours once he's back in a full-time operating role. His domain is coaching, not software — but by August 2026 he has personally deployed and debugged a VPS, Docker, Caddy, n8n, Twenty CRM, Postgres and an Eleventy site. Treat him as technically competent and hands-on, not as a beginner. He executes every change against live systems himself; Claude designs, writes and documents.
+Iván Koch runs Triaperformance (coach@triaperformance.com), a solo triathlon and running coaching business he is rebuilding to run without his personal hours once he's back in a full-time operating role. His domain is coaching, not software — but by August 2026 he has personally deployed and debugged a VPS, Docker, Caddy, n8n, Twenty CRM, Postgres and an Eleventy site. Treat him as technically competent and hands-on, not as a beginner. He executes every change against live systems himself; Claude designs, writes and documents. **That includes git: Claude never commits, and when asked for a commit command, matches this repo's convention — a bare one-line subject, no body, no attribution trailers.** *(Sept 4, 2026. Claude checked the log for style, saw five bare one-liners, and added a three-line trailer block anyway. A convention you look up and then override was never really looked up.)*
 
 ## Where the truth lives
 

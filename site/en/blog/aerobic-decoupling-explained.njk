@@ -1,0 +1,265 @@
+---
+transKey: desacople-aerobico
+topic: physiology
+toolCta: load
+date: 2026-09-04
+category: "Training Science"
+pageCss: blog.css
+readingTime: 10
+title: "Aerobic Decoupling (Pa:Hr and Pw:Hr) Explained | Triaperformance"
+headline: "Aerobic Decoupling: what it measures, how to read it, and what corrupts it"
+shortTitle: "Aerobic decoupling"
+standfirst: "It's the metric I use most when giving feedback, and the one that generates the most questions. What the number means, when it's valid, and how to use it to know whether the pace of that session was right for that duration."
+description: "A complete guide to aerobic decoupling (Pa:Hr and Pw:Hr) in TrainingPeaks: what Efficiency Factor is, the 5% rule, good and bad worked examples, and what distorts it — heat, dehydration, fatigue and fuelling."
+---
+<p>If you're one of my athletes, this number shows up in your feedback almost every week. "Decoupling came in at 3%, the session was well executed." "It came in at 11%, that pace was too much for two hours." And the question that follows is always the same: <em>what exactly is decoupling, and why do you look at it before anything else?</em></p>
+
+<p>This is the long answer, written once so it doesn't have to be rebuilt every time. I look at it first because, of all the numbers a workout returns, it's the only one that answers a question nothing else does: <strong>was the effort you made sustainable for the length of time you made it?</strong></p>
+
+<h2>1. Before decoupling: Efficiency Factor</h2>
+
+<p>Decoupling is a comparison between two Efficiency Factors, so EF has to come first.</p>
+
+<p>Every workout has two sides. There's what you produce outward — watts on the bike, pace or power when running — and what it costs you internally to produce it, which is essentially your heart rate. <strong>Efficiency Factor (EF)</strong> divides one by the other:</p>
+
+<div class="datanote">
+  <p><strong>EF in cycling</strong> = Normalized Power ÷ average HR</p>
+  <p><strong>EF in running</strong> = Normalized Graded Pace (NGP) ÷ average HR</p>
+  <p>Translated: how much speed or how many watts each heartbeat is buying you.</p>
+</div>
+
+<p>A higher EF means the same heartbeat buys more work. That's why, tracked across months on comparable sessions, it's one of the best indicators that your aerobic base is genuinely growing. A real progression, same route, same 135 bpm:</p>
+
+<table>
+  <thead><tr><th>Date</th><th>Pace at 135 bpm</th><th>EF</th></tr></thead>
+  <tbody>
+    <tr><td>March</td><td>5:30 min/km</td><td>0.0225</td></tr>
+    <tr><td>June</td><td>5:05 min/km</td><td>0.0243</td></tr>
+  </tbody>
+</table>
+
+<p>8% more efficiency in three months. That's aerobic fitness, and no other metric shows it that cleanly.</p>
+
+<div class="datanote">
+  <p><strong>The absolute EF value means nothing between people.</strong> It depends on your max HR, your resting HR, the unit TrainingPeaks calculates pace in, and the sport. An EF of 1.45 on the bike and 0.023 running aren't comparable to each other, or to another athlete's. It only matters against yourself, on similar sessions.</p>
+</div>
+
+<h2>2. What decoupling is and how TrainingPeaks calculates it</h2>
+
+<p>Decoupling takes that same idea and looks at it <em>inside</em> a single session. TrainingPeaks splits the workout in half — by time — calculates the EF of the first half and of the second, and reports how much it dropped:</p>
+
+<div class="datanote">
+  <p><strong>Decoupling = (2nd-half EF − 1st-half EF) ÷ 1st-half EF</strong></p>
+  <p>In TrainingPeaks it appears as <strong>Pa:Hr</strong> for running (pace to heart rate) and <strong>Pw:Hr</strong> for cycling (power to heart rate). Same calculation, different output variable.</p>
+</div>
+
+<p>6% decoupling means that in the second half, each heartbeat bought you 6% less speed or fewer watts than in the first. The engine got more expensive halfway through.</p>
+
+<p>And here's the detail almost nobody notices: <strong>decoupling catches both ways that can happen.</strong> It isn't simply "your heart rate went up."</p>
+
+<ul>
+  <li><strong>You held the pace and the heart rate climbed.</strong> The classic shape. You held 5:20/km, but HR went from 138 to 152 bpm.</li>
+  <li><strong>You held the heart rate and the pace fell.</strong> Far more common than people think, especially in athletes who run by feel. HR sat pinned at 142 bpm and the pace drifted from 5:20 to 5:40/km without you noticing.</li>
+</ul>
+
+<p>Both are the same physiological event, and decoupling sees them equally well. Watching heart rate alone makes you miss half the story.</p>
+
+<h3>Where to find it</h3>
+<p>In the workout summary, both in the app and on the web, whenever the session has HR plus power (or pace). You can also select a specific range inside the graph and TrainingPeaks recalculates decoupling for that selection only — which is exactly what you should do when the session has a warm-up, a cool-down, or an interval block tacked onto the end.</p>
+
+<h2>3. The 5% rule and what each range means</h2>
+
+<p>TrainingPeaks' official reference is simple: <strong>under 5% indicates good aerobic endurance at that duration and that output</strong>. It's a good rule, but the full sentence matters more than the number, and the part that always gets dropped is "at that duration."</p>
+
+<table>
+  <thead><tr><th>Decoupling</th><th>What it's telling you</th><th>What to do</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Under 5%</strong></td>
+      <td>The effort was aerobically sustainable for that whole time. The session was what it claimed to be.</td>
+      <td>Nothing. If it was a long base run, this is what a well-executed one looks like.</td>
+    </tr>
+    <tr>
+      <td><strong>Under 2%</strong></td>
+      <td>Sustainable with room to spare. Careful: it's also what a session that was simply too easy returns.</td>
+      <td>If the goal was to find your aerobic ceiling for that duration, you still have headroom — in pace or in time.</td>
+    </tr>
+    <tr>
+      <td><strong>5% to 10%</strong></td>
+      <td>The pace was above what you can currently hold for that long. The second half wasn't the session that was planned.</td>
+      <td>Before dropping the pace, work through the checklist in section 6. If conditions were normal, the pace was too high.</td>
+    </tr>
+    <tr>
+      <td><strong>Over 10%</strong></td>
+      <td>The aerobic system gave out well before the end. It's rarely a pace problem alone.</td>
+      <td>Find the cause: heat, dehydration, running out of fuel, prior fatigue, illness. There's almost always one, and it's obvious once you look.</td>
+    </tr>
+    <tr>
+      <td><strong>Negative</strong></td>
+      <td>The second half was <em>more</em> efficient than the first. Can be a great signal, or an artefact of the warm-up.</td>
+      <td>Read section 5 before celebrating it.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="datanote">
+  <p>The 5% figure is the benchmark for continuous aerobic work — zone 2, long runs, base rides. For a tempo or threshold block, normal decoupling is much higher and the rule doesn't apply: an effort near threshold <em>has</em> to drift, that's the definition of being above steady state.</p>
+</div>
+
+<h2>4. Worked examples: what good and bad look like</h2>
+
+<h3>Running — good decoupling</h3>
+<p>2-hour zone 2 long run, cool morning, flat terrain.</p>
+<table>
+  <thead><tr><th>Half</th><th>NGP</th><th>Avg HR</th><th>EF</th></tr></thead>
+  <tbody>
+    <tr><td>First hour</td><td>5:20 min/km</td><td>132 bpm</td><td>0.0237</td></tr>
+    <tr><td>Second hour</td><td>5:20 min/km</td><td>136 bpm</td><td>0.0230</td></tr>
+  </tbody>
+</table>
+<p><strong>Pa:Hr = 2.9%.</strong> Four beats of drift across an hour. That pace is aerobic for you over two hours — not in theory, but verified.</p>
+
+<h3>Running — bad decoupling, pace held</h3>
+<p>The same run two weeks later, 30 °C and no bottle.</p>
+<table>
+  <thead><tr><th>Half</th><th>NGP</th><th>Avg HR</th><th>EF</th></tr></thead>
+  <tbody>
+    <tr><td>First hour</td><td>5:20 min/km</td><td>138 bpm</td><td>0.0226</td></tr>
+    <tr><td>Second hour</td><td>5:20 min/km</td><td>152 bpm</td><td>0.0206</td></tr>
+  </tbody>
+</table>
+<p><strong>Pa:Hr = 9.2%.</strong> Same pace, same athlete, same route, two weeks apart. What changed was temperature and hydration, not fitness. This comparison is the reason section 6 exists.</p>
+
+<h3>Running — the same problem in the other shape</h3>
+<p>Here HR stayed pinned because the athlete was running by feel, and what gave way was speed.</p>
+<table>
+  <thead><tr><th>Half</th><th>NGP</th><th>Avg HR</th><th>EF</th></tr></thead>
+  <tbody>
+    <tr><td>First hour</td><td>5:20 min/km</td><td>142 bpm</td><td>0.0220</td></tr>
+    <tr><td>Second hour</td><td>5:40 min/km</td><td>142 bpm</td><td>0.0207</td></tr>
+  </tbody>
+</table>
+<p><strong>Pa:Hr = 5.9%.</strong> If you were only watching heart rate, this session looked perfect: flat HR for two hours. Decoupling is what shows you were paying the same price for steadily less speed.</p>
+
+<h3>Cycling — good and bad, side by side</h3>
+<table>
+  <thead><tr><th>Session</th><th>1st half</th><th>2nd half</th><th>Pw:Hr</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Well-paced long ride</strong></td>
+      <td>205 W · 138 bpm (EF 1.49)</td>
+      <td>203 W · 140 bpm (EF 1.45)</td>
+      <td><strong>2.4%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Ride started too hard</strong></td>
+      <td>212 W · 141 bpm (EF 1.50)</td>
+      <td>205 W · 153 bpm (EF 1.34)</td>
+      <td><strong>10.9%</strong></td>
+    </tr>
+  </tbody>
+</table>
+<p>Look at the second one: average power across the whole ride is ~208 W in one case and ~204 W in the other. Practically identical. The session average can't tell them apart, and they're two completely different workouts.</p>
+
+<h2>5. The question decoupling actually answers: was the pace right?</h2>
+
+<p>This is the part that makes it worth looking at, and the reason it appears in my feedback so often.</p>
+
+<p>Low decoupling doesn't mean "you ran slow" and high decoupling doesn't mean "you ran fast." They mean something more precise: <strong>at that intensity, your aerobic system either held or didn't hold for that length of time.</strong> And because duration is part of the question, the same intensity can pass or fail depending on how long it lasts.</p>
+
+<p>The same athlete, the same 5:10 min/km, in two different sessions:</p>
+<table>
+  <thead><tr><th>Duration</th><th>1st-half HR</th><th>2nd-half HR</th><th>Pa:Hr</th><th>Verdict</th></tr></thead>
+  <tbody>
+    <tr><td>60 minutes</td><td>136 bpm</td><td>139 bpm</td><td><strong>2.2%</strong></td><td>Right pace for an hour</td></tr>
+    <tr><td>150 minutes</td><td>138 bpm</td><td>151 bpm</td><td><strong>8.6%</strong></td><td>Too fast for two and a half hours</td></tr>
+  </tbody>
+</table>
+
+<p>There's no contradiction between those rows. <strong>Decoupling never tells you "this is your zone 2 pace." It tells you "this is your zone 2 pace for this long."</strong> And the ceiling drops as the session stretches: it's the same idea as durability, measured from a different angle.</p>
+
+<h3>How I use it to decide</h3>
+<p>When I review a long session and decoupling has gone above 5%, the sequence is always this:</p>
+<ol>
+  <li><strong>Was there an external cause?</strong> Heat, dehydration, no fuel, a hard session the day before. If there was, the pace wasn't the problem and I change nothing.</li>
+  <li><strong>If there wasn't, what was the session for?</strong> If it was an aerobic base run, that pace was too high and the fix is to drop it. If it was race-pace work, high decoupling is information about the race, not the session: it means that pace doesn't hold that distance yet.</li>
+  <li><strong>Does it repeat?</strong> One session decides nothing. Three consecutive long runs with the same high decoupling in normal conditions means your zones are stale on the high side, and it's time to retest.</li>
+</ol>
+
+<p>The most useful case is the inverse: if you've been holding a pace at 2% decoupling for 90 minutes, you have headroom. The correct progression isn't to speed up — it's to <strong>lengthen first</strong>. Hold that same pace for 2 hours and look at the number again. When it holds 2 hours under 5%, then speed up.</p>
+
+<p>For race day this reasoning has a direct application in long-course triathlon, developed in the <a href="/en/blog/long-distance-triathlon-pacing-strategy/">long-distance pacing guide</a>: your target bike power is the highest you can hold for 4 to 5 hours with decoupling under 5%, regardless of what percentage of FTP that represents.</p>
+
+<h2>6. The negative-decoupling trap</h2>
+
+<p>Every so often a session returns negative decoupling — the second half more efficient than the first — and the instinctive reading is that you're in spectacular form. Sometimes that's true. Very often it's this:</p>
+
+<table>
+  <thead><tr><th>Half</th><th>NGP</th><th>Avg HR</th><th>EF</th></tr></thead>
+  <tbody>
+    <tr><td>First</td><td>5:45 min/km (includes 15' of warm-up at 6:20)</td><td>128 bpm</td><td>0.0226</td></tr>
+    <tr><td>Second</td><td>5:20 min/km</td><td>137 bpm</td><td>0.0228</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Pa:Hr = −0.7%.</strong> It looks like an excellent data point and it's actually an artefact: the warm-up landed inside the measurement window. The first 10 to 15 minutes of any session have HR still climbing toward its plateau, so the first half starts with an artificially low efficiency and the number comes out flattered.</p>
+
+<div class="datanote">
+  <p><strong>The fix is two clicks:</strong> select the working portion on the graph — from where HR stabilises to before the cool-down — and let TrainingPeaks recalculate decoupling on that selection only. That's the number worth having.</p>
+</div>
+
+<p>A <em>real</em> negative decoupling, over a clean segment in a long session, is a strong signal: it usually means your threshold has moved up and your zones are out of date. It's one of the triggers I use to bring a retest forward.</p>
+
+<h2>7. What corrupts the number</h2>
+
+<p>Decoupling measures the cardiac cost of sustaining an effort, and plenty of things besides fitness push that cost up. Before changing a plan over an ugly number, this is the list I work through, roughly in order of how often it's the answer:</p>
+
+<h3>Heat and humidity</h3>
+<p>Number one by a distance. Part of your cardiac output stops going to muscle and goes to the skin to shed heat, so HR rises without anything changing in the legs. Humidity makes it worse by slowing sweat evaporation. A session at 30 °C and one at 12 °C aren't comparable, and comparing decoupling between them doesn't measure fitness — it measures the weather. If you train through summer, your baseline decoupling shifts upward for the whole season.</p>
+
+<h3>Dehydration</h3>
+<p>Losing roughly 2% of body mass in sweat reduces plasma volume, and less volume per beat means more beats to move the same blood. That's the physiological reason a two-hour run without a bottle always decouples more than the same run with hydration, at identical fitness on the same day.</p>
+
+<h3>Fuel</h3>
+<p>In sessions over 90 minutes, running out of available carbohydrate changes muscle recruitment: less efficient fibres come in, the cost of the same pace rises, and decoupling spikes in the final third. If you under-ate at breakfast or missed intake during the session, the number is talking to you about nutrition, not aerobic fitness.</p>
+
+<h3>Residual fatigue</h3>
+<p>A session done the day after hard work decouples more. This isn't noise — it's legitimate information, and one of the reasons decoupling works as a readiness signal. But read it as such: "you were tired," not "your aerobic base got worse."</p>
+
+<h3>How you started</h3>
+<p>Going out too hard in the first 20 minutes leaves a debt that gets paid in the second half, and the number reflects all of it. It's the most common error on long group rides, where you don't choose the opening pace.</p>
+
+<h3>Sleep, illness, alcohol and stress</h3>
+<p>All of them raise HR at the same effort. A virus incubating shows up in decoupling before it shows up in how you feel. If the number breaks with no explanation and the week has felt odd, that's usually the explanation.</p>
+
+<h3>Altitude and stimulants</h3>
+<p>Altitude raises HR at the same work rate until you acclimatise. High-dose caffeine moves it a few beats too. Neither invalidates the session — they invalidate the <em>comparison</em> with sessions done in other conditions.</p>
+
+<h3>Technical problems</h3>
+<p>The most boring and the most frequent: a chest strap with dry electrodes gives erratic readings in the first few minutes and wrecks the first half; optical wrist HR simply doesn't have the precision this metric needs. For any session where decoupling matters, use a chest strap and wet the electrodes before you go out.</p>
+
+<h2>8. When the number is simply invalid</h2>
+
+<ul>
+  <li><strong>Sessions under 20 minutes.</strong> That's TrainingPeaks' stated minimum, and for good reason: below it, half the sample is the HR stabilisation process.</li>
+  <li><strong>Intervals.</strong> Decoupling assumes a continuous, steady effort. In an 8×3' session HR never reaches a plateau and the number means nothing. If you want to analyse the session, select one long interval or compare reps against each other — but the whole-session Pa:Hr is noise.</li>
+  <li><strong>Very broken terrain, or cycling with a lot of descending.</strong> On the bike, a long coasting descent puts zero watts into the sample and breaks the half-to-half comparison. In running, NGP corrects for gradient up to a point, but in real mountains the correction isn't enough.</li>
+  <li><strong>Urban running with traffic lights.</strong> Every stop resets HR downward. If one half has more stops than the other, the number is comparing two different things.</li>
+  <li><strong>Swimming.</strong> There's no equivalent. HR in water isn't comparable to HR on land, and measurement is unreliable.</li>
+</ul>
+
+<h2>9. What to actually do with the number</h2>
+
+<ol>
+  <li><strong>Build your own reference.</strong> 5% is a general guide. What matters to you is your habitual decoupling on your usual route, at your zone 2 pace, in normal conditions. Without that reference, a stray 6% tells you nothing.</li>
+  <li><strong>Compare like with like.</strong> Roughly the same duration, the same target intensity, similar conditions. If the weather changed, the experiment changed.</li>
+  <li><strong>Read it alongside EF, not alone.</strong> It's the combination that informs. EF climbing month over month with decoupling stable and low: you're genuinely improving. Very low decoupling but EF falling: you're just going slower.</li>
+  <li><strong>Use it as the progression metric for a base block.</strong> Fix the pace and let decoupling fall week by week. Or fix decoupling under 5% and let the duration grow. Both progressions are valid; doing both at once isn't.</li>
+  <li><strong>Treat high values as a question, not a verdict.</strong> The answer is almost always in section 7, and only when it isn't is it time to change the pace or the zones.</li>
+</ol>
+
+<h2>Step zero, again</h2>
+
+<p>All of this rests on your threshold HR, FTP or threshold pace being correctly measured and current. If your zones are stale, your "zone 2 pace" isn't zone 2, and decoupling is then perfectly measuring an effort that wasn't the one you thought you were doing. The number will be correct and your conclusion wrong.</p>
+
+<p>If you haven't tested in more than two or three months, start there: <a href="/en/blog/threshold-training-without-lactate-strips/">how to test your threshold without lactate strips</a>, then feed the result into the <a href="/en/training-zones-calculator/">Training Zones Calculator</a> to get your seven zones across all three sports. With that configured, decoupling becomes one of the most honest tools you have for knowing whether a session was what it claimed to be.</p>

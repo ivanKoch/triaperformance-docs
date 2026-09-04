@@ -8,6 +8,15 @@
 
 ---
 
+## Closed — September 4, 2026 (aerobic decoupling guide)
+
+- [x] **Aerobic decoupling explained — public blog post, three languages, shipped September 4, 2026.** *Opened and closed the same session, from Iván: "one question I get asked a lot is aerobic decoupling… so many times I find myself explaining it."* **Built as a public blog post rather than a members guide** *(his call) so the link can be sent to a lead or posted publicly, not only to someone holding a token — the TSS/CTL guide it was modelled on is gated and could not do that job.*
+  - `site/blog/desacople-aerobico-interpretar-pa-hr.njk` · `site/en/blog/aerobic-decoupling-explained.njk` · `site/pt/blog/desacoplamento-aerobico-interpretar-pa-hr.njk` — one `transKey: desacople-aerobico`, hreflang and the language switcher verified in the build output.
+  - Source: the TrainingPeaks help article Iván supplied, plus `methodology.md` §4 and §6 for the coaching read (decoupling is the first thing checked on an interval review, and low/negative decoupling at prescribed paces is a documented early-retest trigger).
+  - **The section that does the actual work is §5, "was the pace right?"** — the same 5:10/km returns 2.2% over 60 minutes and 8.6% over 150. *Decoupling never answers "is this my zone 2 pace"; it answers "is this my zone 2 pace for this long", and that framing is what Iván was re-explaining by hand each time.*
+  - The three members training-load guides now point at it, one line each: load is *how much*, decoupling is *whether the session was what it claimed to be*.
+  - ⚠️ **Every worked example in it is illustrative, not from a real file.** *The EF arithmetic is exact and reproducible, but no athlete's data was used — unlike `/members/carga/`, whose screenshots are Iván's own. If a real session is ever swapped in, the prose numbers move with it.*
+
 ## Closed — September 4, 2026 (Gemini 3.8 migration)
 
 *Moved out of `open-loops.md` the same session they closed, rather than left ticked in the live list. **That is the whole lesson of the September 2 split and it had already started repeating: two of the items below were opened and closed within four hours of each other, and the Garmin item had been ticked and left in place since September 3.***

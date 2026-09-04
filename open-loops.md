@@ -170,6 +170,10 @@
 
 ### Backlog
 
+- [ ] 🆕 **Decoupling now has a home doc; eight other places still explain it inline.** *(Opened September 4, 2026, the session the guide shipped.)* Owner: `/blog/desacople-aerobico-interpretar-pa-hr/` and its EN/PT siblings.
+  **The one-home rule applies to explanations, not only to figures.** *`pacing-triatlon-larga-distancia-ironman` (all three languages) states the 5% rule and derives it; `micro-intervalos-umbral-vs-tempo-running`, `metodo-noruego-*`, `w-prime-potencia-ciclismo-calcular-fatiga`, `como-entrenar-series-de-umbral-potencia-rpe` and `lead-magnet-sesiones-por-zona.md` each carry their own partial definition.* **None of them is wrong today** — which is exactly how the storefront brief started — *and the fix is a pointer per file, not a rewrite: keep the sentence that serves that article's argument, link the guide for the rest.*
+  ⚠️ *Do not sweep this without reading each passage. Two of them use decoupling as a retest trigger and one as a pacing rule; those are different claims and collapsing them into "see the guide" would lose the point of the paragraph.*
+
 - [ ] 🆕 **TrainingPeaks Premium is now included for every 1:1 athlete — the offer changed September 4, 2026 and three things follow.** *(Iván's decision, confirmed the same day when the homepage rewrite collided with the standing rule forbidding exactly this.)* Owner of the decision: `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium.
 
   **Done:** the three homepages state it on both coaching surfaces (services card + $149 price card), the owning rule is struck with its reasoning, and `referral-program-brief.md` and `sales-playbook.md` both carry a dated flag.
