@@ -222,6 +222,15 @@ h2 { font-size: 36px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 @media (max-width: 640px) { h2 { font-size: 28px; } }
 .section-intro { color: var(--slate); font-size: 17px; max-width: 65ch; margin-bottom: 56px; }
 
+/* Full-width variant. The 65ch cap above is right for an intro over prose; it
+   is wrong for one sitting directly above a full-width grid, where the heading
+   spans the container, the grid spans the container, and only the intro stops
+   at ~57% — which reads as a layout fault rather than as a measure. Added
+   Sep 4, 2026 for the homepage services section (Iván: "let's not cap that
+   width to half... so it better aligns with the content underneath").
+   Use it when an intro sits over a grid; leave the default over body copy. */
+.section-intro--full { max-width: none; }
+
 /* Services */
 .grid-3 {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
@@ -234,6 +243,17 @@ h2 { font-size: 36px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 .card:hover { box-shadow: 0 1px 3px rgba(30,32,25,.08); }
 .card h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
 .card p { color: var(--slate); font-size: 16px; }
+
+/* Price + service level on the homepage service cards. Added Sep 4, 2026: the
+   three offers differ on exactly two axes — how much coach you get and what it
+   costs — and the homepage stated NEITHER, so the section read as three
+   unrelated products rather than as one ladder. Sits between the title and the
+   description because that is the order the question gets asked in.
+   Prices render from site.json and allAccess.json; never type one here. */
+.card-meta {
+  display: block; margin: -6px 0 12px;
+  font-size: 13px; font-weight: 700; letter-spacing: .02em; color: var(--blue);
+}
 
 /* Pricing */
 .pricing {
@@ -461,7 +481,11 @@ body.nav-open { overflow: hidden; }
    washed sections, and a logo band reads better on plain ground anyway. */
 .cred-band { padding: 72px 0; border-top: 1px solid var(--mist); }
 .cred-band h2 { margin-bottom: 16px; }
-.cred-band-lead { font-size: 17px; color: var(--slate); max-width: 65ch; margin-bottom: 40px; }
+/* No measure cap: this lead sits directly above a four-column logo grid and was
+   stopping at ~57% of the band while the heading, the grid and the "Sobre Iván"
+   link all ran the full width. Iván flagged the ragged right edge twice.
+   Same reasoning as .section-intro--full. */
+.cred-band-lead { font-size: 17px; color: var(--slate); margin-bottom: 40px; }
 
 .cred-band-list {
   list-style: none; margin: 0;

@@ -136,6 +136,13 @@
 
 ### Backlog
 
+- [ ] 🆕 **The homepage now presents three priced tiers, and the "Un precio claro" section below it still prices only one.** *(Opened September 4, 2026, as a direct consequence of reframing the services section the same day.)*
+
+  *The services section now reads as a ladder — Coaching $149 → All-Access $39.99 → Planes desde $19.99, ordered by service level, each card carrying its price.* **The pricing section immediately underneath is still a single `.price-card` for 1:1 coaching only**, headed "Un precio claro" / "One Clear Price". *That was coherent when the section above made no price claim. It is now a visible gap: a reader who has just been shown three prices scrolls into a section that names one and calls itself the price.*
+
+  **Not fixed here on purpose — it is a design decision with real options and no obvious winner:** *(a)* widen it to a three-column price comparison, *(b)* leave it as the coaching-only conversion block and retitle it so it stops claiming to be the whole picture, or *(c)* delete it, since the services cards now carry the prices. ⚠️ *Note (a) is the one that changes what the homepage is for — a three-way price table invites comparison shopping on a page whose single CTA is a coaching enquiry, and coaching is the $2,773 line. Worth deciding deliberately rather than by symmetry.*
+
+
 - [ ] 🆕 **"Todos los planes de entrenamiento" does not explain itself, and it is the single biggest claim on the All-Access page.** *(Iván, September 4, 2026, reading his own page.)*
 
   **The problem in his words:** *if you don't know TrainingPeaks — and even if you do — that claim does not convey that you get his full catalogue and can load those plans into your own TrainingPeaks calendar.* **The buyer has to already understand a third-party product's plan-assignment model before the headline inclusion means anything**, and nothing on the page teaches it. *This is a different failure from the library one just fixed: that page was **wrong**, this one is **true and unintelligible**.*

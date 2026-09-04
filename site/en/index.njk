@@ -20,20 +20,26 @@ description: "Data-driven triathlon and running coaching. Testing, correct zones
 <div class="wrap">
   <section id="coaching">
     <span class="label">What We Do</span>
-    <h2>One Service, Three Ways to Use It</h2>
-    <p class="section-intro">No tiers, no fine print. Mandatory testing, weekly feedback every Monday, and adjustments whenever you need them.</p>
+    <h2>One Method, Three Ways In</h2>
+    <p class="section-intro section-intro--full">The method is the same in all three: the same testing, the same zones, the same way of building fitness. What changes is how much of me you get — and what it costs.</p>
     <div class="grid-3">
       <div class="card">
         <h3>1:1 Coaching</h3>
+        <span class="card-meta">${{ site.coachingPrice }}/mo · weekly guidance</span>
         <p>Always-on weekly check-in, adjustments and analysis whenever you ask, WhatsApp support all week. Monday feedback without fail, for over 2 years running.</p>
       </div>
       <div class="card">
-        <h3>Training Plans</h3>
-        <p>300+ plans on TrainingPeaks, in Spanish, English, and Portuguese. Professional structure, at your own pace, no 1:1 coach required.</p>
+        <h3>All-Access</h3>
+        <span class="card-meta">${{ allAccess.en.price }}/mo · self-guided, everything included</span>
+        <p>Every plan at once instead of one at a time, + TrainingPeaks Premium + the Members Area tool library. Worth it the moment you train for more than one goal a year.</p>
+        <ul class="card-links">
+          <li><a href="/en/all-access/">See All-Access</a></li>
+        </ul>
       </div>
       <div class="card">
-        <h3>All-Access</h3>
-        <p>Every plan + TrainingPeaks Premium + extras. Ideal if you're racing more than once a year.</p>
+        <h3>Training Plans</h3>
+        <span class="card-meta">From $19.99 · one-time</span>
+        <p>{{ plans.counts.total }} plans on TrainingPeaks, in Spanish, English, and Portuguese. Professional structure, at your own pace, no 1:1 coach required.</p>
       </div>
     </div>
   </section>

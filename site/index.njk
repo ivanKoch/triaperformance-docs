@@ -20,16 +20,26 @@ description: "Coaching de triatlón y running basado en datos. Test, zonas corre
 <div class="wrap">
   <section id="coaching">
     <span class="label">Lo que hacemos</span>
-    <h2>Un servicio, tres formas de usarlo</h2>
-    <p class="section-intro">Sin niveles, sin letra chica. Testing obligatorio, feedback semanal todos los lunes, y ajustes cuando los necesitás.</p>
+    <h2>Una metodología, tres formas de acceder a ella</h2>
+    <p class="section-intro section-intro--full">El método es el mismo en los tres: el mismo testing, las mismas zonas, la misma forma de progresar. Lo que cambia es cuánto seguimiento tenés de mi parte — y cuánto cuesta.</p>
     <div class="grid-3">
       <div class="card">
         <h3>Coaching 1:1</h3>
+        <span class="card-meta">${{ site.coachingPrice }}/mes · seguimiento semanal</span>
         <p>Check-in semanal siempre, ajustes y análisis cuando los pedís, WhatsApp durante la semana. Lunes de feedback sin falta, hace más de 2 años.</p>
       </div>
       <div class="card">
+        <h3>All-Access</h3>
+        <span class="card-meta">${{ allAccess.es.price }}/mes · autoguiado, todo incluido</span>
+        <p>Todos los planes de una, sin comprarlos de a uno, + TrainingPeaks Premium + la biblioteca de herramientas del Área de Miembros. Ideal si entrenás para más de un objetivo al año.</p>
+        <ul class="card-links">
+          <li><a href="/all-access/">Conocé All-Access</a></li>
+        </ul>
+      </div>
+      <div class="card">
         <h3>Planes de entrenamiento</h3>
-        <p>+300 planes en TrainingPeaks, en español, inglés y portugués. Estructura profesional, a tu ritmo, sin coach 1:1.</p>
+        <span class="card-meta">Desde $19.99 · pago único</span>
+        <p>{{ plans.counts.total }} planes en TrainingPeaks, en español, inglés y portugués. Estructura profesional, a tu ritmo, sin coach 1:1.</p>
         {#- Deliberately NOT reusing nav.es.items[0].children here. The nav dropdown
             uses short Title Case labels; these card links use longer sentence-case
             anchor text chosen for SEO. Same destinations, different copy on purpose. -#}
@@ -38,13 +48,6 @@ description: "Coaching de triatlón y running basado en datos. Test, zonas corre
           <li><a href="/planes/triatlon/">Planes de entrenamiento de triatlón</a></li>
           <li><a href="/planes/hyrox/">Planes HYROX</a></li>
           <li><a href="/planes/bajar-de-peso/">Planes para bajar de peso</a></li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>All-Access</h3>
-        <p>Todos los planes + TrainingPeaks Premium + extras. Ideal si vas a correr más de un plan al año.</p>
-        <ul class="card-links">
-          <li><a href="/all-access/">Conocé All-Access</a></li>
         </ul>
       </div>
     </div>
