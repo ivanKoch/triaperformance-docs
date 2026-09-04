@@ -1,0 +1,250 @@
+# Name split fix — paste file (September 4, 2026)
+
+PART 1 — workflow "CoachMatch Lead Automation" — DONE, pasted and tested Sept 4, 2026.
+   Nodes: Code in JavaScript / Code in JavaScript3 / Code in JavaScript4.
+   Nothing left to do there.
+
+PART 2 — workflow "Subscription Lifecycle Automation" — NOT DONE. Below.
+
+Same defect, found while writing the backfill: three more parsers split the name
+by popping the LAST token as the surname. These write the records for PAYING
+athletes (a CoachMatch hire, a new All-Access subscriber) and read the record on
+a churn, so the same "Hola Paula Maria Gonzalez" is stored on customers, not just
+on leads.
+
+Why it never showed in the welcome emails: "Build Welcome Email" and "Build
+All-Access Welcome" already do `.split(/\s+/)[0]` on firstname — they take the
+first token themselves. The house rule was already right in the templates; the
+parsers were the outlier. What was wrong is what landed in TWENTY, which is what
+the CoachMatch nurture emails 2 and 3 read back out.
+
+Replace the code in these three nodes (select all in the editor, paste over it).
+Execution modes are unchanged — do not touch them.
+
+DISPOSABLE: delete this file once Part 2 is pasted.
+
+==============================================================================
+Node: "Parse CoachMatch Hire"   (mode: runOnceForAllItems — leave as is)
+==============================================================================
+
+// Parses the "Congratulations, You Have Been Hired by a New Athlete" email.
+// Date in the body is MM/DD/YYYY -- evidenced, not assumed: the sample was sent
+// Aug 4 2026 and reads 08/05/2026. Under DD/MM that would be four months past.
+//
+// FIXED Aug 20, 2026, by the first REAL CoachMatch hire ever to reach this node.
+// It failed, and both failures came from the same place: every test payload this
+// branch was ever built and verified against was hand-authored, and hand-authored
+// payloads agree with whatever the code already assumes.
+//   (1) textPlain. This template arrives as a SINGLE text/html part -- the real
+//       message has "textPlain": "". Every August mock carried a textPlain key
+//       because a person typed it. Now falls back to stripping textHtml.
+//   (2) item.json.date is RFC-2822 ("Thu, 20 Aug 2026 18:04:37 +0000"), not ISO.
+//       .slice(0, 10) returned "Thu, 20 Au", which was headed for Twenty's
+//       signUpDate. Every mock used an ISO string, so this never showed either.
+// Both paths are kept: a plain part is still preferred if TrainingPeaks sends one.
+
+const decodeEntities = (s) => s
+  .replace(/&#(\d+);/g, (_, d) => String.fromCharCode(Number(d)))
+  .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
+  .replace(/&nbsp;/gi, ' ')
+  .replace(/&quot;/gi, '"')
+  .replace(/&lt;/gi, '<')
+  .replace(/&gt;/gi, '>')
+  .replace(/&amp;/gi, '&');   // last, so a decode can't re-create another entity
+
+const htmlToText = (html) => decodeEntities(
+  (html || '')
+    .replace(/<(style|script)[\s\S]*?<\/\1>/gi, ' ')
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<\/(p|div|tr|table|h[1-6])>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+);
+
+const bodyText = (j) => {
+  const plain = (j.textPlain || '').trim();
+  return plain ? plain : htmlToText(j.textHtml);
+};
+
+// RFC-2822 or ISO in, YYYY-MM-DD out, '' if unparseable. Never a truncated string:
+// a blank date fails a Twenty write loudly, "Thu, 20 Au" fails it silently.
+const isoDate = (v) => {
+  const dt = new Date(v || '');
+  return isNaN(dt.getTime()) ? '' : dt.toISOString().slice(0, 10);
+};
+
+return $input.all().map(item => {
+  const flat = bodyText(item.json).replace(/\s+/g, ' ').trim();
+
+  const m = flat.match(
+    /hired by\s+(.+?)\s*\(([^)]+)\)\s+at the\s+(.+?)\s+package starting on\s+(\d{2})\/(\d{2})\/(\d{4})/i
+  );
+
+  const fullName = m ? m[1].trim() : '';
+  // Latin naming: first non-initial token is the given name, the rest is the
+  // surname. "Paula Maria Gonzalez" -> "Paula" / "Maria Gonzalez". The old rule
+  // popped only the LAST token, which is right on a two-token name and wrong on
+  // the two-surname norm -- it put the whole string into firstname. Same fix as
+  // the CoachMatch lead parser, September 4, 2026.
+  const titleCase = (s) => s.replace(
+    /[\p{L}][\p{L}'\u2019-]*/gu,
+    (t) => t.charAt(0).toLocaleUpperCase('es') + t.slice(1).toLocaleLowerCase('es')
+  );
+  const isInitial = (t) => /^[\p{L}]\.?$/u.test(t);
+  const isShouted = (s) => s === s.toLocaleUpperCase('es') && /\p{Lu}/u.test(s);
+  const isAllLower = (s) => s === s.toLocaleLowerCase('es') && /\p{Ll}/u.test(s);
+
+  const cleanName = (isShouted(fullName) || isAllLower(fullName)) ? titleCase(fullName) : fullName;
+  const nameParts = cleanName.split(/\s+/).filter(Boolean);
+
+  let firstIdx = nameParts.findIndex((t) => !isInitial(t));
+  if (firstIdx === -1) firstIdx = 0;
+  const firstname = nameParts[firstIdx] || '';
+  const lastname = nameParts.slice(firstIdx + 1).join(' ');
+
+  const packageName = m ? m[3].trim() : '';
+  const tierMatch = packageName.match(/Coach Match\s+(\w+)\s+level/i);
+
+  return {
+    json: {
+      // parse_ok is explicit on purpose: if TrainingPeaks rewords this email the
+      // regex returns null and every field goes blank, which looks identical to
+      // a real athlete with no name unless something says so. It went unread from
+      // Aug 8 to Aug 20, 2026, and on Aug 20 a real athlete was written to Twenty
+      // with a blank name and a blank email because of it. READ IT DOWNSTREAM.
+      parse_ok: Boolean(m),
+      full_name: fullName,
+      firstname,
+      lastname,
+      email: m ? m[2].trim() : '',
+      package_name: packageName,
+      tier: tierMatch ? tierMatch[1] : '',
+      coaching_start_date: m ? `${m[6]}-${m[4]}-${m[5]}` : '',
+      sign_up_date: isoDate(item.json.date),
+      source_subject: item.json.subject,
+    }
+  };
+});
+
+
+==============================================================================
+Node: "Parse New Subscription Email"   (mode: Run Once for All Items (default) — leave as is)
+==============================================================================
+
+// Parses the "New subscription confirmation" email from receipt@trainingpeaks.com
+const results = [];
+
+for (const item of $input.all()) {
+  // Collapse all whitespace/line-wraps so multi-line fields become single-line before matching
+  const flat = (item.json.textPlain || '').replace(/\s+/g, ' ').trim();
+
+  const nameEmail = flat.match(/Customer Name:\s*([^(]+?)\s*\(([^)]+)\)/i);
+  const subMatch = flat.match(/Subscription:\s*([\s\S]+?)\s-\s\$/);
+  const invoiceMatch = flat.match(/Invoice Number:\s*(\S+)/i);
+  const amountMatch = flat.match(/Amount Charged:\s*\$([\d.,]+)/i);
+
+  const fullName = nameEmail ? nameEmail[1].trim() : '';
+  // Latin naming: first non-initial token is the given name, the rest is the
+  // surname. "Paula Maria Gonzalez" -> "Paula" / "Maria Gonzalez". The old rule
+  // popped only the LAST token, which is right on a two-token name and wrong on
+  // the two-surname norm -- it put the whole string into firstname. Same fix as
+  // the CoachMatch lead parser, September 4, 2026.
+  const titleCase = (s) => s.replace(
+    /[\p{L}][\p{L}'\u2019-]*/gu,
+    (t) => t.charAt(0).toLocaleUpperCase('es') + t.slice(1).toLocaleLowerCase('es')
+  );
+  const isInitial = (t) => /^[\p{L}]\.?$/u.test(t);
+  const isShouted = (s) => s === s.toLocaleUpperCase('es') && /\p{Lu}/u.test(s);
+  const isAllLower = (s) => s === s.toLocaleLowerCase('es') && /\p{Ll}/u.test(s);
+
+  const cleanName = (isShouted(fullName) || isAllLower(fullName)) ? titleCase(fullName) : fullName;
+  const nameParts = cleanName.split(/\s+/).filter(Boolean);
+
+  let firstIdx = nameParts.findIndex((t) => !isInitial(t));
+  if (firstIdx === -1) firstIdx = 0;
+  const firstname = nameParts[firstIdx] || '';
+  const lastname = nameParts.slice(firstIdx + 1).join(' ');
+
+  results.push({
+    json: {
+      firstname,
+      lastname,
+      email: nameEmail ? nameEmail[2].trim() : '',
+      subscription_name: subMatch ? subMatch[1].trim() : '',
+      invoice_number: invoiceMatch ? invoiceMatch[1] : '',
+      amount_charged: amountMatch ? amountMatch[1] : '',
+      source_subject: item.json.subject,
+      source_date: item.json.date,
+    }
+  });
+}
+
+return results;
+
+==============================================================================
+Node: "Parse Churn Email"   (mode: Run Once for All Items (default) — leave as is)
+==============================================================================
+
+// Parses the "Subscription cancellation" (confirmed, not "scheduled") email
+const results = [];
+
+for (const item of $input.all()) {
+  const flat = (item.json.textPlain || '').replace(/\s+/g, ' ').trim();
+
+  const m = flat.match(/that\s+(.+?)'s\s*\(([^)]+)\)\s+subscription to\s+(.+?)\s+has been cancelled/i);
+
+  const fullName = m ? m[1].trim() : '';
+  // Latin naming: first non-initial token is the given name, the rest is the
+  // surname. "Paula Maria Gonzalez" -> "Paula" / "Maria Gonzalez". The old rule
+  // popped only the LAST token, which is right on a two-token name and wrong on
+  // the two-surname norm -- it put the whole string into firstname. Same fix as
+  // the CoachMatch lead parser, September 4, 2026.
+  const titleCase = (s) => s.replace(
+    /[\p{L}][\p{L}'\u2019-]*/gu,
+    (t) => t.charAt(0).toLocaleUpperCase('es') + t.slice(1).toLocaleLowerCase('es')
+  );
+  const isInitial = (t) => /^[\p{L}]\.?$/u.test(t);
+  const isShouted = (s) => s === s.toLocaleUpperCase('es') && /\p{Lu}/u.test(s);
+  const isAllLower = (s) => s === s.toLocaleLowerCase('es') && /\p{Ll}/u.test(s);
+
+  const cleanName = (isShouted(fullName) || isAllLower(fullName)) ? titleCase(fullName) : fullName;
+  const nameParts = cleanName.split(/\s+/).filter(Boolean);
+
+  let firstIdx = nameParts.findIndex((t) => !isInitial(t));
+  if (firstIdx === -1) firstIdx = 0;
+  const firstname = nameParts[firstIdx] || '';
+  const lastname = nameParts.slice(firstIdx + 1).join(' ');
+
+  results.push({
+    json: {
+      firstname,
+      lastname,
+      email: m ? m[2].trim() : '',
+      subscription_name: m ? m[3].trim() : '',
+      source_subject: item.json.subject,
+      source_date: item.json.date,
+    }
+  });
+}
+
+return results;
+
+================================================================================
+Then the backfill — automation/backfill_person_names.py
+================================================================================
+Run it from the VPS (it needs TWENTY_API_KEY and Tailscale reach to Twenty).
+Dry run is the DEFAULT; it prints exactly what --apply would send.
+
+  python3 ~/.hermes/triaperformance-docs/automation/backfill_person_names.py
+  python3 ...backfill_person_names.py --fix-case            # dry run incl. casing
+  python3 ...backfill_person_names.py --apply --fix-case    # writes
+
+Read the dry-run output before applying. Two things to look at:
+
+- The SKIPPED list. The script refuses any change where the token list would
+  differ before and after — it re-partitions a name, it never edits one. A name
+  stored as "J. Paula" / "Perez" lands there, because the new rule drops the
+  initial and dropping a stored token is data loss in a backfill even though it
+  is correct in a fresh parse. Decide those by hand; there are probably none.
+- --fix-case changes characters, not just the boundary (PAULA -> Paula), which
+  is why it is opt-in. Everything else is a pure re-partition and the full
+  display name is identical before and after.

@@ -15,7 +15,7 @@ A triathlon and running coaching business, founded roughly three years ago, run 
 |---|---|---|---|
 | CoachMatch (1:1) | **33** | 20% to TrainingPeaks | Inbound, TP-sourced leads only. **Cannot be delegated to a hired coach.** |
 | Private (1:1) | **3** | 3.5% via TP Payments | Referral / Instagram / website sourced. **Can be delegated to a hired coach.** |
-| All-Access | **1** (Portuguese) | 3.5% + $9 TP Premium | Dormant — built, never marketed. |
+| All-Access | **1** (Portuguese) | 3.5% + $9 TP Premium | Dormant — built, never marketed. **Self-serve by design** — see below. |
 | **Paying total** | **37** | | |
 | Passive plans | 328 listings (ES 164 / EN 111 / PT 53) | Standard TP marketplace terms | Near-zero hours invested in H1 2026. Sales figures: `training-plans-analysis.md`. |
 
@@ -24,6 +24,12 @@ A triathlon and running coaching business, founded roughly three years ago, run 
 **For August's revenue, margin, churn, NRR and cost structure, read `monthly-close/2026-08.md`. Do not restate any of it here.**
 
 > ***Why this section no longer carries its own numbers.*** *It was a June snapshot, and it was read as a run rate for two months — passive plans sat at **$847**, which is June's earnings to the cent and the best month in the file, while July was $301.63 and August $212.05.* **Nobody typed a wrong number; a photograph was quoted as a film.** *That is the failure the monthly close exists to remove, and it only stops if this file cites the close instead of keeping a copy.*
+
+***All-Access is a self-serve product, and that is a decision, not a shortfall.*** *(Iván, September 4, 2026, when a WhatsApp draft written for the one live subscriber had nowhere to send.)* **The subscriber buys through a TrainingPeaks checkout, receives their plans and their members token by email, and never needs a conversation. No phone number is collected and none should be.**
+
+**The channel is open inbound, not closed — and the asymmetry is the point.** *Iván's number is public on the site, on Instagram and in Google Business Profile; a subscriber who writes on WhatsApp gets an answer, and that is the coach-support promise working as intended.* **What does not happen is Iván initiating.** *Collecting a phone number by default would turn a support line the subscriber opens when they need it into a list Triaperformance is expected to work — a support expectation the $29.99–39.99 price does not carry, on the one channel that exists precisely because it does not consume Iván's calendar.*
+
+**Do not log "All-Access subscribers have no phone number" as a gap to close** — it was raised as one on September 4, 2026 and struck the same day. *Read it as designed: they can reach him, he does not chase them.* **The practical consequence for anyone drafting a lifecycle message: email is the only outbound channel to a subscriber, so it has to carry the whole message on its own** — the coach-support card added on that date is async and email-shaped for the same reason (`triaperformance-pricing-and-positioning.md`).
 
 **Target:** $5,000+/month.
 
