@@ -1370,7 +1370,17 @@ No pro model is callable on this key.
 
 **Fixed with August 17's own fix rather than a better one: refuse the claim instead of qualifying it.** Under `--only`, the summary now prints its scope, states that it knows nothing about models it did not call, points at the unfiltered run, and returns before the ranking block. *A qualified claim would still have been read as a claim.*
 
-⚠️ **Still unverified as of this writing: whether `gemini-3.1-pro-preview` is callable.** An unfiltered `--test-models` answers it; until it has run, the writer's model is *unknown*, not *dead* and not *fine*.
+~~⚠️ **Still unverified as of this writing: whether `gemini-3.1-pro-preview` is callable.**~~ ***Run unfiltered the same day: it WORKS (out=65536).*** *25 models called, 16 usable — the writer, the translator and the n8n briefing are on a live model.* **The three 2.5 models still return "no longer available to new users", so the July failure is still live on this key and this gate is still not a formality.**
+
+**Two findings from that run, both durable.** ***(1) Usable pro-tier is exactly one model, and has been for four Flash releases*** — `gemini-3.1-pro-preview` against a flash line now running 3-preview → 3.5 → 3.6 → 3.7 → 3.8. *This section has called "pro beats flash" a claim about a lineup that no longer exists since August 17; four releases on, that is a trend and not a moment.* ***(2) A failure class this repo had never recorded:*** six models — `antigravity-preview-05-2026`, three `deep-research-*`, two `gemini-omni-*` — answer **"This model only supports Interactions API."** *That is not an access problem and not a billing problem; it is a different API surface, and this codebase speaks `generateContent`.* **Recorded so six `no` lines are not read as a key issue and chased.**
+
+### The `config.yaml` item, closed the same day
+
+**`~/.hermes/config.yaml` holds no secrets** — the grep's two hits were the words "silicon and secrets" inside a system prompt and a key named `oauth:` whose value is `null`. *So the file is trackable as-is: `automation/hermes-config.yaml`, synced by `deploy-website.sh` one block below the `Caddyfile`, same invariant and same validate-the-repo-copy-first order.* **The validation asserts `model.default` survives the parse rather than only that the YAML parses**, because a truncated file parses fine and is missing the model block, and Hermes would then start on a default nobody chose.
+
+🚨 ***The trade, stated in the script rather than left to be discovered: the Hermes dashboard's config editor becomes a view.*** *An edit made there is reverted on the next 6am deploy — the same bargain already accepted for `/etc/caddy/Caddyfile`, and the entire point of the change.*
+
+**`~/.hermes/cron/jobs.json` was deliberately NOT tracked, and the reasoning is the more useful half.** *The dashboard rewrites it whenever a job is created or edited, so a sync would fight the UI daily.* ***What actually hurt was never the file being untracked — it was a pin going stale silently.*** So the deploy now *reports* each agent-mode job's pin against `model.default` every morning, cannot fail the deploy, and names `no_agent` jobs as immune rather than as unpinned. **A file is worth owning when its contents are decisions; it is worth only watching when its contents are state.**
 
 ### The cost that is not tokens
 

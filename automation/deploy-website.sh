@@ -107,6 +107,85 @@ else
   echo "[$(date -Is)] Caddyfile unchanged"
 fi
 
+# ---- Hermes config sync. Same "repo is truth" invariant as the site and the
+# Caddyfile: ~/.hermes/config.yaml carried Hermes's model, allowlist and
+# transcription settings and existed in no repo at all, so a rebuild lost them
+# and no change to them was reviewable. Added September 4, 2026, after the
+# second Gemini migration in three weeks re-paid the same manual edit.
+#
+# Validated against the REPO's copy before anything live is touched, exactly like
+# the Caddyfile — a bad commit fails loudly here and leaves the running config
+# alone. The validation is deliberately stronger than "does it parse": a
+# truncated or half-written YAML can parse fine and still be missing the model
+# block, and the failure mode of that is Hermes starting on a default nobody
+# chose. So it asserts the model key survives the round trip.
+#
+# CONSEQUENCE, stated because it is a real trade and not a detail: the Hermes
+# dashboard's config editor becomes a VIEW. Anything edited there is reverted on
+# the next deploy. That is the same bargain already accepted for /etc/caddy/
+# Caddyfile, and it is the point — a box-only config is what this closes.
+HERMES_CFG="$HOME/.hermes/config.yaml"
+REPO_CFG="$REPO/automation/hermes-config.yaml"
+if [ -f "$REPO_CFG" ]; then
+  if ! cmp -s "$REPO_CFG" "$HERMES_CFG"; then
+    echo "[$(date -Is)] hermes config.yaml changed — validating the repo copy"
+    if docker exec -i hermes-gateway python3 -c \
+         "import yaml,sys; d=yaml.safe_load(sys.stdin); assert isinstance(d,dict), 'not a mapping'; assert d.get('model',{}).get('default'), 'model.default missing'" \
+         < "$REPO_CFG"; then
+      cp "$HERMES_CFG" "$HERMES_CFG.bak-$(date +%F-%H%M)"
+      cp "$REPO_CFG" "$HERMES_CFG"
+      docker restart hermes-gateway hermes-dashboard >/dev/null
+      echo "[$(date -Is)] hermes config.yaml updated and containers restarted"
+    else
+      echo "[$(date -Is)] HERMES CONFIG VALIDATION FAILED — live config left untouched" >&2
+    fi
+  else
+    echo "[$(date -Is)] hermes config.yaml unchanged"
+  fi
+fi
+
+# ---- Hermes cron pin drift check. Deliberately NOT a sync: ~/.hermes/cron/
+# jobs.json is written by the dashboard every time a job is created or edited,
+# so tracking it would fight the UI daily for no benefit. What actually hurt was
+# never the file being untracked — it was a pin going stale silently. An
+# agent-mode job pinned to a model that is no longer the default FAILS CLOSED
+# (Hermes skips it rather than running on a model it wasn't created against),
+# which is the safe direction and also the invisible one: on August 24 that cost
+# a Monday coaching check-in, announced as one line in Telegram among other
+# traffic.
+#
+# So this reports rather than repairs. Read-only, and it cannot fail the deploy:
+# an instrumentation step must not be able to kill the thing it measures.
+echo "[$(date -Is)] checking Hermes cron pins against the model default"
+docker exec -i hermes-gateway python3 - <<'PYCHECK' || echo "[$(date -Is)] pin check skipped (hermes not reachable)" >&2
+import json, os, yaml
+try:
+    default = yaml.safe_load(open('/opt/data/config.yaml'))['model']['default']
+    d = json.load(open('/opt/data/cron/jobs.json'))
+    jobs = d if isinstance(d, list) else d.get('jobs', d)
+    jobs = jobs if isinstance(jobs, list) else list(jobs.values())
+except Exception as e:
+    print("  pin check could not read config or jobs: %s" % e); raise SystemExit(0)
+stale = 0
+for j in jobs:
+    # no_agent jobs run a script with no LLM call at all, so the drift guard
+    # does not apply to them. They are immune, not merely unpinned.
+    if j.get('no_agent'):
+        print("  ok      %-42s no_agent (no model)" % j.get('name'))
+        continue
+    m = j.get('model')
+    if not m:
+        print("  WARN    %-42s UNPINNED -> runs on the global default" % j.get('name'))
+        stale += 1
+    elif m != default:
+        print("  WARN    %-42s pinned %s, default is %s" % (j.get('name'), m, default))
+        stale += 1
+    else:
+        print("  ok      %-42s %s" % (j.get('name'), m))
+if stale:
+    print("  %d job(s) will FAIL CLOSED and skip their next run until re-pinned." % stale)
+PYCHECK
+
 # ---- Post-deploy verification. Test what a visitor actually gets, not just
 # whether files exist — the 403 that motivated this was invisible to a file check.
 echo "[$(date -Is)] verifying the live site responds"
