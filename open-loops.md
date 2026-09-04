@@ -136,6 +136,29 @@
 
 ### Backlog
 
+- [ ] 🆕 **"Todos los planes de entrenamiento" does not explain itself, and it is the single biggest claim on the All-Access page.** *(Iván, September 4, 2026, reading his own page.)*
+
+  **The problem in his words:** *if you don't know TrainingPeaks — and even if you do — that claim does not convey that you get his full catalogue and can load those plans into your own TrainingPeaks calendar.* **The buyer has to already understand a third-party product's plan-assignment model before the headline inclusion means anything**, and nothing on the page teaches it. *This is a different failure from the library one just fixed: that page was **wrong**, this one is **true and unintelligible**.*
+
+  **Interim copy shipped the same day, so the page is not left as it was:** the card is now *"Todos mis planes, dentro de TrainingPeaks"* and states the catalogue size, that plans load into the TrainingPeaks calendar, that more than one can run at once, and that switching is free. **Counts render from `plans.js` `counts` — never typed.** *That is a patch on a text card; it is not the fix.*
+
+  **The real fix is a demonstration, and Iván's instinct is a YouTube video showing what it means.** *Options, none decided:* **(a)** a short screen recording — subscribe → open TrainingPeaks → browse the catalogue → drag a plan onto the calendar → swap it; **(b)** a public page with real screenshots, which doubles as indexable content where a video does not; **(c)** both, the page embedding the video. ⚠️ **Whichever it is, this belongs in front of the paywall** — it is the same "nothing is visible to a prospect" gap the library item records, applied to the larger half of the product. *A video also answers the "¿Cómo accedo después de suscribirme?" FAQ better than the FAQ does.*
+
+- [ ] 🆕 **`all-access.css` styles bare `h2` and `.section-intro`, and it leaks into every shared partial the page includes.** *(Root cause of the "Acreditaciones text only uses half the area" bug Iván reported September 4, 2026 — his words: **"this bug keeps happening"**, which is the part worth acting on.)*
+
+  **What happened:** `all-access.css` line 33 is a bare `h2 { … text-align: center }` for the page's own sections. `partials/credentials-band.njk` is a **shared** partial designed left-aligned — label, lead, logo grid and "Sobre Iván" link all start at the same left edge — and it renders correctly on the homepage and the three About pages, *which do not load this stylesheet.* On All-Access the bare rule reached in and centred only its heading, over a lead paragraph capped at `65ch`. **Measured: every element at `left=204`, the h2 alone at `text-align: center`.** *A centred heading over a left-aligned half-width paragraph is what "only uses half the area" looks like.*
+
+  **Fixed narrowly** with `.cred-band h2 { text-align: left; }` — restoring the partial's own design rather than un-centring the page, since the centred h2 *is* correct for this page's own sections.
+
+  🚨 ***The item is the pattern, not this instance.*** *A page-scoped stylesheet using bare element selectors will silently restyle every shared partial that page includes, and the damage shows up on the partial — far from the rule that caused it.* **Same family as `members-home.css` `.site-nav` vs `.site-nav-sticky` (§41) and §26 before it: a rule that is correct for what its author was looking at, and wrong for what they weren't.** *Worth a pass over the page-scoped stylesheets for bare `h1`/`h2`/`h3`/`p`/`a`/`ul` selectors and scoping them to their own sections. Cheap, and it retires a recurring class rather than another instance of it.*
+
+- [ ] 🆕 **The Portuguese All-Access page sells a narrower product than TrainingPeaks actually grants, and nobody has decided which is right.** *(Found September 4, 2026 while writing the plan-card copy — the numbers forced the question.)*
+
+  *`triaperformance-pricing-and-positioning.md` states that a subscription grants* **the entire plan catalog** *and that "all plans included" is an approved claim, confirmed by Iván Aug 2, 2026. The PT page sells* **"planos de corrida, ciclismo e triatlo"** *and its own front matter calls the PT offer "genuinely a different offer, not a translation".* **The catalogue says PT has 53 published plans: 28 running, 9 cycling, 8 triathlon, 4 swimming, 4 duathlon.** *So the page describes 45 and the subscription probably delivers 53 — or 328, if the entitlement really is the whole catalogue regardless of language.*
+
+  **The copy shipped today deliberately kept the narrow claim (45) rather than widening it**, because widening a product claim is Iván's call and not a copy fix. ⚠️ **Both directions are defensible and they are not the same decision:** *narrow is safe and undersells a $29.99 product against a $39.99 one; wide matches what the pricing doc says is actually granted and is the stronger offer.* **What is not defensible is the current state, where two documents describe the same product differently and the page has the smaller number.** *Cheap to settle — it needs one answer from Iván, then one edit.*
+
+
 - [ ] 🆕 **`npm test` reports 6 broken internal links, all invented by the writer agent in blog articles.** *(Found September 4, 2026, running the suite after unrelated work — **not** caused by it; no blog file was touched.)*
 
   ```
@@ -480,3 +503,10 @@
 ---
 
 *Closed items and the full session log: **`open-loops-archive.md`**.*
+
+- [ ] 🆕 **The About page does not tell the story, and the story is the strongest asset the site has.** *(Iván, September 4, 2026.)* **The arc: he started coaching himself, then a friend, then family. For years the goal for the whole year was to help one person. Now he coaches 50+ athletes across LatAm.** *That progression is the claim — not the number on its own. It says the coaching was real before it was a business, which is the one thing a prospect cannot verify from a price page and the one thing most coach bios cannot say.* Three pages: `site/sobre-ivan`, `site/en/about`, `site/pt/sobre-ivan`. Voice: `brand-guidelines.md` §8.
+  ⚠️ **Guardrail for whoever writes it: 50+ is CUMULATIVE and must never be phrased as a current count.** *`data/athlete_tenure.csv` holds 98 athletes lifetime; `monthly-close/2026-08.md` puts the current book at **37 paying** at 2026-08-31.* **"I've coached more than 50 athletes" is true and strong. "I coach 50 athletes" is false and is the kind of sentence that ends up quoted back in a sales conversation.** *Same rule for "across LatAm" — check it against `data/monthly_close/2026-08-roster.csv` before it ships rather than assuming it.*
+
+- [ ] 🆕 **There is no explainer for how the coaching actually works — probably a video, recorded by Iván.** *(Iván, September 4, 2026.)* **What 1:1 coaching looks like week to week: the feedback cycle, what he looks at, how the plan gets adjusted and why.** *The content already exists and is written down — `methodology.md` owns the weekly decision loop, the adjustment rules and the communication voice; `sales-playbook.md` owns the service-definition block already used in pre-sale. **This item owns publishing it, not deciding it.** Nothing new has to be figured out; it has to be said out loud on camera.*
+  **Why it is worth Iván's face rather than a page:** *the process IS the product — the price ladder sells one consistent service, so what separates it from a $30 plan is the loop, and a loop is easier to believe from a person than from a bullet list.*
+  🔗 **It also answers the live item "Nothing in the library is visible to a prospect."** *That one asks for pre-purchase evidence and lists ungating a tool, screenshots or a screen capture. A methodology video is the same job from the other direction — it shows the coaching rather than the software — and unlike the artifacts it carries no gate to open.* **Whoever picks up either item should read both.**

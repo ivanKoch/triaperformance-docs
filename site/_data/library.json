@@ -1,5 +1,5 @@
 {
-  "_comment": "THE SINGLE SOURCE FOR WHAT THE MEMBERS LIBRARY CONTAINS, keyed by language. Added Aug 13, 2026 after finding that all three All-Access sales pages described the members area as 'flexibility, kettlebell, fixing lower back pain' — one deleted that same day, two that never existed — while naming none of the eight real entries. The pages had been hand-written, so they decayed silently every time the library changed. Rendered by _includes/partials/library-showcase.njk. WHEN A TOOL SHIPS OR RETIRES, EDIT THIS FILE AND NOTHING ELSE ON THE MARKETING SIDE. Inventory of record (URLs, engines, retirements) stays in triaperformance-business-overview.md §Interactive tools; this file is the customer-facing wording of the same list. The n8n emails deliberately do NOT name individual tools — they say 'the library, and I add new tools every week' and link to the members home, which is why they were the only surface that did not rot. Keep them that way. Each live entry also carries `key` (stable id used by partials/tool-cta.njk from an article's `toolCta` front matter), `url` (where a PUBLIC reader should land — the public calculator for zones, the All-Access library anchor for everything gated, because sending article traffic at a login wall converts nothing) and `gated`. RULE: an entry belongs in 'live' only when the page exists in THAT language; anything else goes in 'soon'. Checked against site/members/ on every hygiene pass (cyclistcore Aug 24, strength Sep 2 were both sold before they existed). GROUPING, added Sep 4 2026: every live entry also carries `category` (train | pain | numbers), and each language carries `categories` (the display label per category) + `categoryOrder`. Both the sales showcase and the three members homes render grouped by it, so a new tool needs ONE edit here and lands in six places. The buckets are deliberately problem-shaped ('when something hurts'), not schedule-shaped ('pre-workout'): a pre/post/recovery split was mapped against the real 13 entries first and produced four buckets of one card each with the two core routines homeless, which makes a 13-tool library look thinner than a flat grid does. Keep every bucket at 3+ entries; if a new category would hold one card, it is a tag, not a category. MEMBERS SIDE, same date: `memberUrl`, `memberCta` and `memberDesc` were lifted verbatim out of the three hand-written members homes, which now render from here too — that closes the open-loops item warning they were 'three more files that will drift the next time a tool ships'. The members copy is longer and more instructional than `desc` on purpose: `desc` sells to a stranger, `memberDesc` orients someone who already paid. Do not collapse them into one field. `categoryCounts` is derived from `live` and exists only so a template can ask 'does this bucket have anything' without a filter — Nunjucks is not Jinja2 and has no working selectattr/equalto here (it silently returned the whole list, putting all 13 cards in all three groups). Regenerate it whenever an entry is added, moved or retired.",
+  "_comment": "THE SINGLE SOURCE FOR WHAT THE MEMBERS LIBRARY CONTAINS, keyed by language. Added Aug 13, 2026 after finding that all three All-Access sales pages described the members area as 'flexibility, kettlebell, fixing lower back pain' — one deleted that same day, two that never existed — while naming none of the eight real entries. The pages had been hand-written, so they decayed silently every time the library changed. Rendered by _includes/partials/library-showcase.njk. WHEN A TOOL SHIPS OR RETIRES, EDIT THIS FILE AND NOTHING ELSE ON THE MARKETING SIDE. Inventory of record (URLs, engines, retirements) stays in triaperformance-business-overview.md §Interactive tools; this file is the customer-facing wording of the same list. The n8n emails deliberately do NOT name individual tools — they say 'the library, and I add new tools every week' and link to the members home, which is why they were the only surface that did not rot. Keep them that way. Each live entry also carries `key` (stable id used by partials/tool-cta.njk from an article's `toolCta` front matter), `url` (where a PUBLIC reader should land — the public calculator for zones, the All-Access library anchor for everything gated, because sending article traffic at a login wall converts nothing) and `gated`. RULE: an entry belongs in 'live' only when the page exists in THAT language; anything else goes in 'soon'. Checked against site/members/ on every hygiene pass (cyclistcore Aug 24, strength Sep 2 were both sold before they existed). GROUPING, added Sep 4 2026: every live entry also carries `category` (train | pain | numbers), and each language carries `categories` (the display label per category) + `categoryOrder`. Both the sales showcase and the three members homes render grouped by it, so a new tool needs ONE edit here and lands in six places. The buckets are deliberately problem-shaped ('when something hurts'), not schedule-shaped ('pre-workout'): a pre/post/recovery split was mapped against the real 13 entries first and produced four buckets of one card each with the two core routines homeless, which makes a 13-tool library look thinner than a flat grid does. Keep every bucket at 3+ entries; if a new category would hold one card, it is a tag, not a category. MEMBERS SIDE, same date: `memberUrl`, `memberCta` and `memberDesc` were lifted verbatim out of the three hand-written members homes, which now render from here too — that closes the open-loops item warning they were 'three more files that will drift the next time a tool ships'. The members copy is longer and more instructional than `desc` on purpose: `desc` sells to a stranger, `memberDesc` orients someone who already paid. Do not collapse them into one field. `categoryCounts` is derived from `live` and exists only so a template can ask 'does this bucket have anything' without a filter — Nunjucks is not Jinja2 and has no working selectattr/equalto here (it silently returned the whole list, putting all 13 cards in all three groups). Regenerate it whenever an entry is added, moved or retired. RENAME, Sep 4 2026 (Iván): the `core` entry went from \"Core Sin Excusas\" / \"No-Excuses Core\" / \"Core Sem Desculpas\" to \"Core para el Hotel\" / \"Hotel Room Core\" / \"Core para o Hotel\". The URL is unchanged (/members/core/) and no redirect is needed. The rename is not cosmetic — the artifact pages already carried `context: \"Habitación de hotel · sin equipo\"` and a `why` written entirely about travel, so the old title was the only part of the tool not saying what it is for. A name that states the OCCASION beats one that states the excuse.",
   "es": {
     "heading": "La biblioteca del Área de Miembros",
     "intro": "Herramientas interactivas que te armás en el momento, no PDFs para archivar. Todo incluido en la suscripción.",
@@ -81,15 +81,15 @@
       },
       {
         "tag": "Rutina",
-        "name": "Core Sin Excusas",
-        "desc": "Activación, core y movilidad en una sola rutina cronometrada. Sin equipo y sin más espacio que el largo de tu cuerpo — para viajes y semanas complicadas.",
+        "name": "Core para el Hotel",
+        "desc": "¿Viaje de trabajo y no vas a poder entrenar? Activación, core y movilidad en una rutina cronometrada, al lado de la cama. Sin equipo y sin más espacio que el largo de tu cuerpo.",
         "key": "core",
         "url": "/all-access/#biblioteca",
         "gated": true,
         "category": "train",
         "memberUrl": "/members/core/",
         "memberCta": "Ver rutina →",
-        "memberDesc": "Activación, core y movilidad en una sola rutina cronometrada — sin equipo, sin más espacio que el largo de tu cuerpo. Para viajes y semanas complicadas."
+        "memberDesc": "¿Saliste de viaje por trabajo y no vas a poder entrenar? Hacé al menos esta rutina de activación, core y movilidad para mantenerte activo. 20 minutos al lado de la cama del hotel y listo — sin equipo, sin más espacio que el largo de tu cuerpo."
       },
       {
         "tag": "Rutina",
@@ -287,15 +287,15 @@
       },
       {
         "tag": "Routine",
-        "name": "No-Excuses Core",
-        "desc": "Activation, core and mobility in one timed routine. No equipment and no more space than your own body length — for travel and difficult weeks.",
+        "name": "Hotel Room Core",
+        "desc": "Work trip, no chance to train? Activation, core and mobility in one timed routine, beside the bed. No equipment and no more space than your own body length.",
         "key": "core",
         "url": "/en/all-access/#biblioteca",
         "gated": true,
         "category": "train",
         "memberUrl": "/members/en/core/",
         "memberCta": "Open the routine →",
-        "memberDesc": "Activation, core and mobility in one timed routine — no equipment, nothing but your own body length of floor. Built for hotel rooms and weeks that fall apart."
+        "memberDesc": "Away for work and not going to get a session in? Do at least this activation, core and mobility routine to stay ticking over. 20 minutes beside the hotel bed and you're done — no equipment, no more space than your own body length."
       },
       {
         "tag": "Routine",
@@ -493,15 +493,15 @@
       },
       {
         "tag": "Rotina",
-        "name": "Core Sem Desculpas",
-        "desc": "Ativação, core e mobilidade em uma rotina cronometrada. Sem equipamento e sem mais espaço que o comprimento do seu corpo — para viagens e semanas complicadas.",
+        "name": "Core para o Hotel",
+        "desc": "Viagem de trabalho e sem chance de treinar? Ativação, core e mobilidade numa rotina cronometrada, ao lado da cama. Sem equipamento e sem mais espaço que o comprimento do seu corpo.",
         "key": "core",
         "url": "/pt/all-access/#biblioteca",
         "gated": true,
         "category": "train",
         "memberUrl": "/members/pt/core/",
         "memberCta": "Abrir a rotina →",
-        "memberDesc": "Ativação, core e mobilidade numa rotina cronometrada — sem equipamento, só o comprimento do seu corpo de chão. Feita para quartos de hotel e semanas que desandam."
+        "memberDesc": "Viajou a trabalho e não vai conseguir treinar? Faça pelo menos esta rotina de ativação, core e mobilidade para se manter ativo. 20 minutos ao lado da cama do hotel e pronto — sem equipamento, sem mais espaço que o comprimento do seu corpo."
       },
       {
         "tag": "Rotina",

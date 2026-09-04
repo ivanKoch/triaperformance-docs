@@ -388,5 +388,41 @@ module.exports = function () {
     `${all.filter((p) => p.weeklyBreakdown).length} with weekly breakdown`
   );
 
-  return { byId, all, byLanguage, problems, verified: linkStatus !== null };
+  /* ---------------------------------------------------------------------
+     counts — catalogue sizes, so no page ever hand-types one.
+
+     Added September 4, 2026. The All-Access pages need "my catalogue of N
+     plans" and the ONE thing this repo has proved repeatedly is that a number
+     typed into a template stops being true and nothing notices: the same pages
+     claimed "Ocho herramientas" for three weeks against a real thirteen, and
+     `pricing-and-positioning.md` carried a 303-plan catalogue while the real
+     figure was 328. These derive from the same rows the catalogue is built
+     from, at build time, so they cannot drift from it.
+
+     `byLangSport` exists because the PORTUGUESE product is deliberately
+     narrower than the Spanish and English one — its page sells "planos de
+     corrida, ciclismo e triatlo", not the whole catalogue — so that page needs
+     the count for those three sports, not the language total.
+     --------------------------------------------------------------------- */
+  const counts = { total: all.length, byLang: {}, byLangSport: {} };
+  for (const code of ["es", "en", "pt"]) {
+    counts.byLang[code] = byLanguage[code].length;
+    counts.byLangSport[code] = {};
+    for (const plan of byLanguage[code]) {
+      const k = (plan.sport || "Unknown").toLowerCase();
+      counts.byLangSport[code][k] = (counts.byLangSport[code][k] || 0) + 1;
+    }
+    // The three disciplines the Portuguese product names. Computed for every
+    // language so the field means the same thing everywhere it is read.
+    const s2 = counts.byLangSport[code];
+    counts.byLangSport[code].runBikeTri =
+      (s2.running || 0) + (s2.cycling || 0) + (s2.triathlon || 0);
+  }
+  console.log(
+    `[plans] counts: total ${counts.total} — ` +
+    `es ${counts.byLang.es} / en ${counts.byLang.en} / pt ${counts.byLang.pt}; ` +
+    `pt run+bike+tri ${counts.byLangSport.pt.runBikeTri}`
+  );
+
+  return { byId, all, byLanguage, counts, problems, verified: linkStatus !== null };
 };

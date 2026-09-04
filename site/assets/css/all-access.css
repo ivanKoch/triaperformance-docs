@@ -32,6 +32,18 @@
 
 h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 12px; text-align: center; }
 
+/* ⚠️ The rule above is a BARE `h2` and it centres every h2 on the page —
+   including the ones inside SHARED partials that were designed left-aligned and
+   render left-aligned everywhere else on the site.
+   `partials/credentials-band.njk` is the one that breaks: its label, lead
+   paragraph, logo grid and "Sobre Iván" link are all left-aligned, and only its
+   heading was pulled to the centre, over a lead paragraph capped at 65ch — which
+   is what reads as "the text only uses half the area". On the homepage and the
+   About pages, which do not load this stylesheet, the same partial is correct.
+   Restoring the partial's own alignment rather than un-centring the page:
+   the centred h2 IS the design for this page's own sections. */
+.cred-band h2 { text-align: left; }
+
 @media (max-width: 640px) { h2 { font-size: 26px; } }
 
 .section-intro { color: var(--slate); font-size: 16px; max-width: 65ch; margin: 0 auto 48px; text-align: center; }
