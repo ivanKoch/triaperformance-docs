@@ -93,6 +93,36 @@ h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 
 .include-card.featured p { color: var(--white); opacity: 0.9; }
 
+/* The link inside the featured card had no rule of its own, so it inherited
+   --blue (#004aad) on a --blue background: contrast ratio 1:1, invisible.
+   Found Sep 4, 2026. Underlined rather than just recoloured — on a solid fill
+   colour alone is not a reliable affordance. */
+.include-card.featured a {
+    color: var(--white); text-decoration: underline; font-weight: 700;
+  }
+
+.include-card.featured a:hover { text-decoration: none; }
+
+/* "Qué incluye" holds exactly four cards since Sep 4, 2026 (the three guide
+   cards and the weekly live call came out; coach support went in). Four in a
+   three-column grid leaves the last one alone on its own row, which reads as a
+   card that failed to load. 2x2 instead — scoped to this section so the
+   13-card library showcase below keeps three columns. */
+.includes-section .grid-3 { grid-template-columns: 1fr 1fr; }
+
+@media (max-width: 800px) { .includes-section .grid-3 { grid-template-columns: 1fr; } }
+
+/* Library groups on the sales showcase — same three buckets as the members
+   home, rendered from library.json `category`. See members-home.css for why
+   the schedule-shaped split (pre/post/recovery) was rejected. */
+.lib-group { margin-bottom: 40px; }
+
+.lib-group-title {
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--slate); margin-bottom: 16px; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,0,0,.10); text-align: left;
+  }
+
 /* FAQ */
   .faq-item { max-width: 700px; margin: 0 auto 24px; }
 
@@ -114,13 +144,20 @@ h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
    Rendered from _data/library.json by partials/library-showcase.njk. Reuses
    .include-card so the library reads as part of "what's included" rather than
    as a separate pitch. */
+/* Left-aligned since Sep 4, 2026: the library is grouped now, and a centred
+   label above left-aligned group headings read as a stray line. It stays
+   because the live/coming distinction is the one this page previously got
+   wrong — it sold tools that did not exist. */
 .lib-label {
-  display: block; text-align: center;
+  display: block; text-align: left;
   font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
   color: var(--blue); margin-bottom: 20px;
 }
 
 .lib-grid { margin-bottom: 48px; }
+
+/* ...except inside a group, where .lib-group owns the spacing. */
+.lib-group .lib-grid { margin-bottom: 0; }
 
 /* Deliberately not cards. What is coming should read as a roadmap the coach is
    working through, not as more product — cards would make unbuilt things look

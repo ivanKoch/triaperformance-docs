@@ -1,8 +1,8 @@
 {
-  "_comment": "THE SINGLE SOURCE FOR WHAT THE MEMBERS LIBRARY CONTAINS, keyed by language. Added Aug 13, 2026 after finding that all three All-Access sales pages described the members area as 'flexibility, kettlebell, fixing lower back pain' — one deleted that same day, two that never existed — while naming none of the eight real entries. The pages had been hand-written, so they decayed silently every time the library changed. Rendered by _includes/partials/library-showcase.njk. WHEN A TOOL SHIPS OR RETIRES, EDIT THIS FILE AND NOTHING ELSE ON THE MARKETING SIDE. Inventory of record (URLs, engines, retirements) stays in triaperformance-business-overview.md §Interactive tools; this file is the customer-facing wording of the same list. The n8n emails deliberately do NOT name individual tools — they say 'the library, and I add new tools every week' and link to the members home, which is why they were the only surface that did not rot. Keep them that way. Each live entry also carries `key` (stable id used by partials/tool-cta.njk from an article's `toolCta` front matter), `url` (where a PUBLIC reader should land — the public calculator for zones, the All-Access library anchor for everything gated, because sending article traffic at a login wall converts nothing) and `gated`. RULE: an entry belongs in 'live' only when the page exists in THAT language; anything else goes in 'soon'. Checked against site/members/ on every hygiene pass (cyclistcore Aug 24, strength Sep 2 were both sold before they existed).",
+  "_comment": "THE SINGLE SOURCE FOR WHAT THE MEMBERS LIBRARY CONTAINS, keyed by language. Added Aug 13, 2026 after finding that all three All-Access sales pages described the members area as 'flexibility, kettlebell, fixing lower back pain' — one deleted that same day, two that never existed — while naming none of the eight real entries. The pages had been hand-written, so they decayed silently every time the library changed. Rendered by _includes/partials/library-showcase.njk. WHEN A TOOL SHIPS OR RETIRES, EDIT THIS FILE AND NOTHING ELSE ON THE MARKETING SIDE. Inventory of record (URLs, engines, retirements) stays in triaperformance-business-overview.md §Interactive tools; this file is the customer-facing wording of the same list. The n8n emails deliberately do NOT name individual tools — they say 'the library, and I add new tools every week' and link to the members home, which is why they were the only surface that did not rot. Keep them that way. Each live entry also carries `key` (stable id used by partials/tool-cta.njk from an article's `toolCta` front matter), `url` (where a PUBLIC reader should land — the public calculator for zones, the All-Access library anchor for everything gated, because sending article traffic at a login wall converts nothing) and `gated`. RULE: an entry belongs in 'live' only when the page exists in THAT language; anything else goes in 'soon'. Checked against site/members/ on every hygiene pass (cyclistcore Aug 24, strength Sep 2 were both sold before they existed). GROUPING, added Sep 4 2026: every live entry also carries `category` (train | pain | numbers), and each language carries `categories` (the display label per category) + `categoryOrder`. Both the sales showcase and the three members homes render grouped by it, so a new tool needs ONE edit here and lands in six places. The buckets are deliberately problem-shaped ('when something hurts'), not schedule-shaped ('pre-workout'): a pre/post/recovery split was mapped against the real 13 entries first and produced four buckets of one card each with the two core routines homeless, which makes a 13-tool library look thinner than a flat grid does. Keep every bucket at 3+ entries; if a new category would hold one card, it is a tag, not a category. MEMBERS SIDE, same date: `memberUrl`, `memberCta` and `memberDesc` were lifted verbatim out of the three hand-written members homes, which now render from here too — that closes the open-loops item warning they were 'three more files that will drift the next time a tool ships'. The members copy is longer and more instructional than `desc` on purpose: `desc` sells to a stranger, `memberDesc` orients someone who already paid. Do not collapse them into one field. `categoryCounts` is derived from `live` and exists only so a template can ask 'does this bucket have anything' without a filter — Nunjucks is not Jinja2 and has no working selectattr/equalto here (it silently returned the whole list, putting all 13 cards in all three groups). Regenerate it whenever an entry is added, moved or retired.",
   "es": {
     "heading": "La biblioteca del Área de Miembros",
-    "intro": "Herramientas interactivas que te armás en el momento, no PDFs para archivar. Todo está adentro de la suscripción, en español, inglés y portugués.",
+    "intro": "Herramientas interactivas que te armás en el momento, no PDFs para archivar. Todo incluido en la suscripción.",
     "liveLabel": "Disponible ahora",
     "soonHeading": "Lo que viene",
     "soonIntro": "Sumo herramientas nuevas todas las semanas. Esto es lo que sigue en la lista:",
@@ -13,7 +13,11 @@
         "desc": "Metés el resultado de tu test y salen tus siete zonas de ritmo, pulso y potencia en los tres deportes. Con el registro de tests para saber cuándo toca volver a medir.",
         "key": "zones",
         "url": "/calculadora-de-zonas/",
-        "gated": false
+        "gated": false,
+        "category": "numbers",
+        "memberUrl": "/members/calculadora-de-zonas/",
+        "memberCta": "Abrir la calculadora →",
+        "memberDesc": "Convertí tu test en tus siete zonas — ritmo, potencia y pulso, en los tres deportes. Incluye cómo testear bien, tu registro de tests, y la guía de sesiones en PDF."
       },
       {
         "tag": "Rutina",
@@ -21,7 +25,11 @@
         "desc": "Respondés tres preguntas — correr, bici o nadar, cómo llegás y qué equipo tenés — y el circuito se arma solo, con timer por ejercicio. La versión de natación es en seco, para hacer en el borde antes de entrar.",
         "key": "activation",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/activacion/",
+        "memberCta": "Armar mi activación →",
+        "memberDesc": "Respondé tres preguntas — correr, bici o nadar, cómo llegás y qué equipo tenés — y el circuito se arma solo, con timer por ejercicio. La de natación es en seco, para el borde de la pileta."
       },
       {
         "tag": "Rutina",
@@ -29,7 +37,11 @@
         "desc": "Elegís de qué venís y cuánto tiempo tenés, y la vuelta a la calma se arma sola: 10, 20 o 30 minutos con timer. Solo necesitás una colchoneta y una pared.",
         "key": "mobility",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/movilidad/",
+        "memberCta": "Armar mi sesión →",
+        "memberDesc": "La otra mitad: elegí de qué venís y cuánto tiempo tenés, y la vuelta a la calma se arma sola. 10, 20 o 30 minutos. Alcanza con una colchoneta y una pared."
       },
       {
         "tag": "Rutina",
@@ -37,7 +49,11 @@
         "desc": "Fuerza para blindar la rodilla: glúteo medio, vasto interno y cadena posterior. Elegís casa o gimnasio, con contador de series y descanso.",
         "key": "knees",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "pain",
+        "memberUrl": "/members/rodillas/",
+        "memberCta": "Armar mi rutina →",
+        "memberDesc": "Fuerza para blindar la rodilla — glúteo medio, vasto interno y cadena posterior. Elegís casa o gimnasio y la rutina se arma, con contador de series y descanso."
       },
       {
         "tag": "Rutina",
@@ -45,7 +61,11 @@
         "desc": "Carga progresiva para tendinopatía de aquiles, según dónde te duele exactamente. Con las reglas para saber cada día si te pasaste.",
         "key": "achilles",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "pain",
+        "memberUrl": "/members/aquiles/",
+        "memberCta": "Armar mi rutina →",
+        "memberDesc": "Carga progresiva para tendinopatía de aquiles — isométricos, excéntricos o carga pesada, y las reglas del semáforo para saber cada día si te pasaste."
       },
       {
         "tag": "Rutina",
@@ -53,7 +73,11 @@
         "desc": "El hombro que se pincha al salir del agua. Liberación, movilidad y fuerza para los rotadores externos y el omóplato. Con o sin banda, en casa o en el gimnasio.",
         "key": "shoulder",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "pain",
+        "memberUrl": "/members/hombro/",
+        "memberCta": "Armar mi rutina →",
+        "memberDesc": "El hombro que se pincha al salir del agua — liberación, movilidad torácica y fuerza para los rotadores externos y el omóplato. Con o sin banda, en casa o en el gimnasio."
       },
       {
         "tag": "Rutina",
@@ -61,7 +85,11 @@
         "desc": "Activación, core y movilidad en una sola rutina cronometrada. Sin equipo y sin más espacio que el largo de tu cuerpo — para viajes y semanas complicadas.",
         "key": "core",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/core/",
+        "memberCta": "Ver rutina →",
+        "memberDesc": "Activación, core y movilidad en una sola rutina cronometrada — sin equipo, sin más espacio que el largo de tu cuerpo. Para viajes y semanas complicadas."
       },
       {
         "tag": "Rutina",
@@ -69,7 +97,11 @@
         "desc": "Core anti-rotación, anti-extensión y anti-flexión lateral: que la pelvis no se mueva mientras las piernas empujan. Tres o cuatro vueltas, sin equipo.",
         "key": "cyclistcore",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/core-ciclista/",
+        "memberCta": "Armar mi rutina →",
+        "memberDesc": "Core anti-rotación, anti-extensión y anti-flexión lateral para que la pelvis no se mueva mientras las piernas empujan. Tres o cuatro vueltas, sin equipo."
       },
       {
         "tag": "Herramienta",
@@ -77,7 +109,11 @@
         "desc": "Temporizador guiado de 3, 5 o 10 minutos para bajar revoluciones después de una sesión fuerte o antes de dormir.",
         "key": "breathing",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/respiracion/",
+        "memberCta": "Abrir la herramienta →",
+        "memberDesc": "Temporizador guiado de 3, 5 o 10 minutos — 4 tiempos inhalando, 4 sosteniendo, 4 exhalando, 4 sosteniendo. Para bajar revoluciones después de una sesión fuerte."
       },
       {
         "tag": "Guía",
@@ -85,7 +121,11 @@
         "desc": "Tus siete zonas en los cinco campos del reloj, por deporte, y cómo conviven TrainingPeaks y Garmin sin contradecirse.",
         "key": "garmin",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/garmin/",
+        "memberCta": "Ver guía →",
+        "memberDesc": "Tus siete zonas en los cinco campos del reloj, los números exactos por deporte, y cómo conviven TrainingPeaks y Garmin sin contradecirse."
       },
       {
         "tag": "Guía",
@@ -93,7 +133,11 @@
         "desc": "TSS, CTL, ATL, TSB y el gráfico PMC explicados una vez y bien, con capturas reales de TrainingPeaks.",
         "key": "load",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/carga/",
+        "memberCta": "Ver guía →",
+        "memberDesc": "TSS, CTL, ATL, TSB y el gráfico PMC — qué significan y cómo leerlos de verdad."
       },
       {
         "tag": "Guía",
@@ -101,7 +145,11 @@
         "desc": "Tres adaptaciones, tres protocolos, y cómo ordenarlas en el año — con un bloque para rendimiento y otro para quien quiere masa muscular.",
         "key": "strength",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/fuerza/",
+        "memberCta": "Ver guía →",
+        "memberDesc": "Tres adaptaciones distintas y tres protocolos distintos, más cómo ordenarlas en el año sin que el gimnasio te arruine el bloque de resistencia."
       },
       {
         "tag": "Descargas",
@@ -109,7 +157,11 @@
         "desc": "Sesiones por zona, nutrición y preparación mental — para descargar cuando quieras.",
         "key": "downloads",
         "url": "/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/guias/",
+        "memberCta": "Ver descargas →",
+        "memberDesc": "Sesiones por zona, nutrición y preparación mental — cinco guías en PDF, disponibles cuando quieras."
       }
     ],
     "soon": [
@@ -137,11 +189,26 @@
     "ctaLabel": "Herramienta",
     "ctaGated": "Incluido en All-Access",
     "ctaOpen": "Abrir la herramienta →",
-    "ctaSee": "Ver la biblioteca →"
+    "ctaSee": "Ver la biblioteca →",
+    "categories": {
+      "train": "Antes y después de entrenar",
+      "pain": "Cuando algo duele",
+      "numbers": "Entender tus números"
+    },
+    "categoryOrder": [
+      "train",
+      "pain",
+      "numbers"
+    ],
+    "categoryCounts": {
+      "numbers": 5,
+      "train": 5,
+      "pain": 3
+    }
   },
   "en": {
     "heading": "The Members Area library",
-    "intro": "Interactive tools you build in the moment, not PDFs to file away. All of it is inside the subscription, in English, Spanish and Portuguese.",
+    "intro": "Interactive tools you build in the moment, not PDFs to file away. All of it included in the subscription.",
     "liveLabel": "Available now",
     "soonHeading": "What's coming",
     "soonIntro": "I add new tools every week. This is what's next on the list:",
@@ -152,7 +219,11 @@
         "desc": "Put in your test result and out come your seven pace, heart rate and power zones across all three sports. With the testing log that tells you when to retest.",
         "key": "zones",
         "url": "/en/training-zones-calculator/",
-        "gated": false
+        "gated": false,
+        "category": "numbers",
+        "memberUrl": "/members/en/training-zones-calculator/",
+        "memberCta": "Open the calculator →",
+        "memberDesc": "Turn your test into your seven zones — pace, power and heart rate, across all three sports. Includes the sessions guide as a free PDF."
       },
       {
         "tag": "Routine",
@@ -160,7 +231,11 @@
         "desc": "Answer three questions — run, ride or swim, how you're arriving and what kit you have — and the circuit builds itself, timed per exercise. The swim version is dryland, for the pool deck before you get in.",
         "key": "activation",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/en/activation/",
+        "memberCta": "Build my activation →",
+        "memberDesc": "Answer three questions — run, ride or swim, how you're arriving and what kit you have — and the circuit builds itself, timed per exercise. The swim one is dryland, for the pool deck."
       },
       {
         "tag": "Routine",
@@ -168,7 +243,11 @@
         "desc": "Pick what you are coming off and how long you have, and the cool-down builds itself: 10, 20 or 30 minutes, timed. All you need is a mat and a wall.",
         "key": "mobility",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/en/mobility/",
+        "memberCta": "Build my session →",
+        "memberDesc": "The other half: pick what you are coming off and how long you have, and the cool-down builds itself. 10, 20 or 30 minutes. A mat and a wall are enough."
       },
       {
         "tag": "Routine",
@@ -176,7 +255,11 @@
         "desc": "Strength to bulletproof the knee: glute medius, VMO and posterior chain. Pick home or gym, with a set counter and rest timer.",
         "key": "knees",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "pain",
+        "memberUrl": "/members/en/knees/",
+        "memberCta": "Build my routine →",
+        "memberDesc": "Strength to bulletproof the knee — glute medius, VMO and posterior chain. Pick home or gym and the routine builds itself, with a set counter and rest timer."
       },
       {
         "tag": "Routine",
@@ -184,7 +267,11 @@
         "desc": "Progressive loading for Achilles tendinopathy, matched to exactly where it hurts. With the rules for knowing each day whether you overdid it.",
         "key": "achilles",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "pain",
+        "memberUrl": "/members/en/achilles/",
+        "memberCta": "Build my routine →",
+        "memberDesc": "Progressive loading for Achilles tendinopathy — isometrics, eccentrics or heavy slow resistance, and the traffic-light rules for knowing each day whether you overdid it."
       },
       {
         "tag": "Routine",
@@ -192,7 +279,11 @@
         "desc": "The shoulder that pinches as the arm leaves the water. Release, mobility and strength for the external rotators and the shoulder blade. With or without a band, at home or at the gym.",
         "key": "shoulder",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "pain",
+        "memberUrl": "/members/en/shoulder/",
+        "memberCta": "Build my routine →",
+        "memberDesc": "The shoulder that pinches as the arm leaves the water — release, thoracic mobility and strength for the external rotators and the shoulder blade. With or without a band, at home or at the gym."
       },
       {
         "tag": "Routine",
@@ -200,7 +291,11 @@
         "desc": "Activation, core and mobility in one timed routine. No equipment and no more space than your own body length — for travel and difficult weeks.",
         "key": "core",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/en/core/",
+        "memberCta": "Open the routine →",
+        "memberDesc": "Activation, core and mobility in one timed routine — no equipment, nothing but your own body length of floor. Built for hotel rooms and weeks that fall apart."
       },
       {
         "tag": "Routine",
@@ -208,7 +303,11 @@
         "desc": "Anti-rotation, anti-extension and anti-lateral-flexion work so the pelvis stays still while the legs push. Three or four rounds, no equipment.",
         "key": "cyclistcore",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/en/cyclist-core/",
+        "memberCta": "Build my routine →",
+        "memberDesc": "Anti-rotation, anti-extension and anti-lateral-flexion work so the pelvis stays still while the legs push. Three or four rounds, no equipment."
       },
       {
         "tag": "Tool",
@@ -216,7 +315,11 @@
         "desc": "A guided 3, 5 or 10 minute timer for bringing the system down after a hard session or before sleep.",
         "key": "breathing",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/en/breathing/",
+        "memberCta": "Open the tool →",
+        "memberDesc": "A guided 3, 5 or 10 minute timer — four counts in, four holding, four out, four holding. For bringing the system down after a hard session."
       },
       {
         "tag": "Guide",
@@ -224,7 +327,11 @@
         "desc": "Your seven zones in the watch's five fields, per sport, and how TrainingPeaks and Garmin coexist without contradicting each other.",
         "key": "garmin",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/en/garmin/",
+        "memberCta": "Read the guide →",
+        "memberDesc": "Your seven zones in the watch's five fields, the exact numbers per sport, and how TrainingPeaks and Garmin coexist without contradicting each other."
       },
       {
         "tag": "Guide",
@@ -232,7 +339,11 @@
         "desc": "TSS, CTL, ATL, TSB and the PMC chart explained once and properly, with real TrainingPeaks screenshots.",
         "key": "load",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/en/training-load/",
+        "memberCta": "Read the guide →",
+        "memberDesc": "IF, TSS, CTL, ATL, TSB and the PMC chart — what they mean and how to actually read them, with real screenshots."
       },
       {
         "tag": "Guide",
@@ -240,7 +351,11 @@
         "desc": "Three adaptations, three protocols, and how to sequence them across a year — with one block for performance and another for athletes who want the muscle.",
         "key": "strength",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/en/strength/",
+        "memberCta": "Read the guide →",
+        "memberDesc": "Three different adaptations and three different protocols, plus how to order them across the year without the gym wrecking your endurance block."
       },
       {
         "tag": "Downloads",
@@ -248,7 +363,11 @@
         "desc": "Training zone sessions, plus nutrition and mental prep — downloadable whenever you want them.",
         "key": "downloads",
         "url": "/en/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/en/downloads/",
+        "memberCta": "See downloads →",
+        "memberDesc": "Your PDF guides, available whenever you want them. Starting with training zone sessions — more are being added."
       }
     ],
     "soon": [
@@ -276,11 +395,26 @@
     "ctaLabel": "Tool",
     "ctaGated": "Included with All-Access",
     "ctaOpen": "Open the tool →",
-    "ctaSee": "See the library →"
+    "ctaSee": "See the library →",
+    "categories": {
+      "train": "Before and after training",
+      "pain": "When something hurts",
+      "numbers": "Understand your numbers"
+    },
+    "categoryOrder": [
+      "train",
+      "pain",
+      "numbers"
+    ],
+    "categoryCounts": {
+      "numbers": 5,
+      "train": 5,
+      "pain": 3
+    }
   },
   "pt": {
     "heading": "A biblioteca da Área de Membros",
-    "intro": "Ferramentas interativas que você monta na hora, não PDFs para arquivar. Tudo dentro da assinatura, em português, espanhol e inglês.",
+    "intro": "Ferramentas interativas que você monta na hora, não PDFs para arquivar. Tudo incluído na assinatura.",
     "liveLabel": "Disponível agora",
     "soonHeading": "O que vem por aí",
     "soonIntro": "Subo ferramentas novas toda semana. Isto é o que vem a seguir:",
@@ -291,7 +425,11 @@
         "desc": "Você coloca o resultado do seu teste e saem as suas sete zonas de pace, frequência cardíaca e potência nos três esportes. Com o registro de testes para saber quando retestar.",
         "key": "zones",
         "url": "/pt/calculadora-de-zonas/",
-        "gated": false
+        "gated": false,
+        "category": "numbers",
+        "memberUrl": "/members/pt/calculadora-de-zonas/",
+        "memberCta": "Abrir a calculadora →",
+        "memberDesc": "Transforme o seu teste nas suas sete zonas — ritmo, potência e frequência cardíaca, nos três esportes. Inclui o guia de sessões em PDF."
       },
       {
         "tag": "Rotina",
@@ -299,7 +437,11 @@
         "desc": "Você responde três perguntas — correr, pedalar ou nadar, como está chegando e que equipamento tem — e o circuito se monta sozinho, com timer por exercício. A de natação é em seco, para a borda da piscina antes de entrar.",
         "key": "activation",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/pt/ativacao/",
+        "memberCta": "Montar minha ativação →",
+        "memberDesc": "Responda três perguntas — correr, pedalar ou nadar, como está chegando e que equipamento tem — e o circuito se monta sozinho, com timer por exercício. A de natação é em seco, para a borda da piscina."
       },
       {
         "tag": "Rotina",
@@ -307,7 +449,11 @@
         "desc": "Você escolhe de onde está vindo e quanto tempo tem, e a volta à calma se monta sozinha: 10, 20 ou 30 minutos, com timer. Basta um colchonete e uma parede.",
         "key": "mobility",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/pt/mobilidade/",
+        "memberCta": "Montar minha sessão →",
+        "memberDesc": "A outra metade: escolha de onde está vindo e quanto tempo tem, e a volta à calma se monta sozinha. 10, 20 ou 30 minutos. Basta um colchonete e uma parede."
       },
       {
         "tag": "Rotina",
@@ -315,7 +461,11 @@
         "desc": "Força para blindar o joelho: glúteo médio, vasto medial e cadeia posterior. Você escolhe casa ou academia, com contador de séries e descanso.",
         "key": "knees",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "pain",
+        "memberUrl": "/members/pt/joelhos/",
+        "memberCta": "Montar minha rotina →",
+        "memberDesc": "Força para blindar o joelho — glúteo médio, vasto medial e cadeia posterior. Escolha casa ou academia e a rotina se monta, com contador de séries e descanso."
       },
       {
         "tag": "Rotina",
@@ -323,7 +473,11 @@
         "desc": "Carga progressiva para tendinopatia do aquiles, conforme onde exatamente dói. Com as regras para saber a cada dia se você passou do ponto.",
         "key": "achilles",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "pain",
+        "memberUrl": "/members/pt/aquiles/",
+        "memberCta": "Montar minha rotina →",
+        "memberDesc": "Carga progressiva para tendinopatia do aquiles — isométricos, excêntricos ou carga pesada, e as regras do semáforo para saber a cada dia se você passou do ponto."
       },
       {
         "tag": "Rotina",
@@ -331,7 +485,11 @@
         "desc": "O ombro que fisga ao sair da água. Liberação, mobilidade e força para os rotadores externos e a escápula. Com ou sem elástico, em casa ou na academia.",
         "key": "shoulder",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "pain",
+        "memberUrl": "/members/pt/ombro/",
+        "memberCta": "Montar minha rotina →",
+        "memberDesc": "O ombro que fisga ao sair da água — liberação, mobilidade torácica e força para os rotadores externos e a escápula. Com ou sem elástico, em casa ou na academia."
       },
       {
         "tag": "Rotina",
@@ -339,7 +497,11 @@
         "desc": "Ativação, core e mobilidade em uma rotina cronometrada. Sem equipamento e sem mais espaço que o comprimento do seu corpo — para viagens e semanas complicadas.",
         "key": "core",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/pt/core/",
+        "memberCta": "Abrir a rotina →",
+        "memberDesc": "Ativação, core e mobilidade numa rotina cronometrada — sem equipamento, só o comprimento do seu corpo de chão. Feita para quartos de hotel e semanas que desandam."
       },
       {
         "tag": "Rotina",
@@ -347,7 +509,11 @@
         "desc": "Trabalho anti-rotação, anti-extensão e anti-flexão lateral para a pelve não se mexer enquanto as pernas empurram. Três ou quatro voltas, sem equipamento.",
         "key": "cyclistcore",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/pt/core-do-ciclista/",
+        "memberCta": "Montar minha rotina →",
+        "memberDesc": "Trabalho anti-rotação, anti-extensão e anti-flexão lateral para a pelve não se mexer enquanto as pernas empurram. Três ou quatro voltas, sem equipamento."
       },
       {
         "tag": "Ferramenta",
@@ -355,7 +521,11 @@
         "desc": "Timer guiado de 3, 5 ou 10 minutos para baixar a rotação depois de uma sessão forte ou antes de dormir.",
         "key": "breathing",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/pt/respiracao/",
+        "memberCta": "Abrir a ferramenta →",
+        "memberDesc": "Um timer guiado de 3, 5 ou 10 minutos — quatro tempos inspirando, quatro segurando, quatro expirando, quatro segurando. Para baixar a rotação depois de uma sessão forte."
       },
       {
         "tag": "Guia",
@@ -363,7 +533,11 @@
         "desc": "Suas sete zonas nos cinco campos do relógio, por esporte, e como TrainingPeaks e Garmin convivem sem se contradizer.",
         "key": "garmin",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/pt/garmin/",
+        "memberCta": "Ler o guia →",
+        "memberDesc": "Suas sete zonas nos cinco campos do relógio, os números exatos por esporte, e como TrainingPeaks e Garmin convivem sem se contradizer."
       },
       {
         "tag": "Guia",
@@ -371,7 +545,11 @@
         "desc": "TSS, CTL, ATL, TSB e o gráfico PMC explicados uma vez e direito, com telas reais do TrainingPeaks.",
         "key": "load",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/pt/carga-de-treino/",
+        "memberCta": "Ler o guia →",
+        "memberDesc": "IF, TSS, CTL, ATL, TSB e o gráfico PMC — o que significam e como lê-los de verdade, com telas reais."
       },
       {
         "tag": "Guia",
@@ -379,7 +557,11 @@
         "desc": "Três adaptações, três protocolos, e como sequenciá-los no ano — com um bloco para desempenho e outro para quem quer massa muscular.",
         "key": "strength",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/pt/forca/",
+        "memberCta": "Ler o guia →",
+        "memberDesc": "Três adaptações diferentes e três protocolos diferentes, mais como organizá-las ao longo do ano sem que a academia estrague o seu bloco de resistência."
       },
       {
         "tag": "Downloads",
@@ -387,7 +569,11 @@
         "desc": "Sessões por zona, mais nutrição e preparação mental — para baixar quando quiser.",
         "key": "downloads",
         "url": "/pt/all-access/#biblioteca",
-        "gated": true
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/pt/downloads/",
+        "memberCta": "Ver downloads →",
+        "memberDesc": "Seus guias em PDF, disponíveis quando quiser. Começando pelas sessões por zona — mais estão sendo adicionados."
       }
     ],
     "soon": [
@@ -415,6 +601,21 @@
     "ctaLabel": "Ferramenta",
     "ctaGated": "Incluído no All-Access",
     "ctaOpen": "Abrir a ferramenta →",
-    "ctaSee": "Ver a biblioteca →"
+    "ctaSee": "Ver a biblioteca →",
+    "categories": {
+      "train": "Antes e depois de treinar",
+      "pain": "Quando algo dói",
+      "numbers": "Entender seus números"
+    },
+    "categoryOrder": [
+      "train",
+      "pain",
+      "numbers"
+    ],
+    "categoryCounts": {
+      "numbers": 5,
+      "train": 5,
+      "pain": 3
+    }
   }
 }

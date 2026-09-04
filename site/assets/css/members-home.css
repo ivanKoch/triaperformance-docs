@@ -37,6 +37,32 @@ p { margin-bottom: 16px; max-width: 65ch; }
     border-bottom: 1px solid var(--border);
   }
 
+/* Mobile: drop the backdrop-filter, and the horizontal overflow goes with it.
+ *
+ * SAME defect and SAME fix as §26 (members-activacion.css and the other dark
+ * subpage stylesheets, Aug 13, 2026) — see that file for the full root cause and
+ * the three fixes that do NOT work. Short version: backdrop-filter makes an
+ * element the containing block for fixed descendants, so the closed slide-out
+ * menu parked at `right: -100%` stops being viewport-fixed and starts counting
+ * toward document width.
+ *
+ * WHY THIS FILE WAS MISSED for three weeks, which is the part worth keeping:
+ * the Aug 13 pass fixed `.site-nav-sticky`, the SUBPAGE nav variant. The members
+ * HOME uses `.site-nav`, a different selector in a different stylesheet, so it
+ * was never in scope and never looked wrong. That is exactly why `/members/`
+ * still reported scrollWidth 780 at a 390px viewport on Sep 3 while the tool
+ * pages under it — hombro, rodillas, aquiles — all correctly reported 390.
+ * A pass that fixes a class of defect does not fix the instances it cannot see.
+ *
+ * The breakpoint is 860 to match §26, deliberately wider than this file's own
+ * 700px drawer breakpoint: at 700-860px the drawer is not in use, so dropping
+ * the blur there costs nothing and keeps one number across all four stylesheets.
+ * Fixed and verified in a browser Sep 4, 2026 — 390 / 768 / 1440 all report
+ * scrollWidth == viewport, and the drawer still opens to right: 0. */
+@media (max-width: 860px) {
+  .site-nav { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
 .site-nav .wrap { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; }
 
 .logo { font-weight: 700; font-size: 18px; color: var(--white); letter-spacing: -0.01em; text-decoration: none; }
@@ -108,17 +134,21 @@ h2 { font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 
 .step p { margin-bottom: 0; color: var(--text-dim); font-size: 15px; }
 
-.filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+/* Library groups. Replaced the six filter chips on Sep 4, 2026: three of the six
+   matched exactly one card, and "Fuerza" held six unrelated ones (two core
+   routines, three injury protocols and a strength guide). EN and PT never had
+   filters at all. Three labelled groups need no click and no JS, and they read
+   the same in all three languages. Rules for .filters/.chip were deleted in the
+   same pass — nothing in site/ uses them any more. */
+.lib-group { margin-bottom: 44px; }
 
-.chip {
-    border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim);
-    font-size: 14px; font-weight: 700; padding: 8px 16px; border-radius: 999px;
-    cursor: pointer; font-family: inherit;
+.lib-group:last-child { margin-bottom: 0; }
+
+.lib-group-title {
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text-dim); margin-bottom: 18px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border);
   }
-
-.chip.active { background: var(--blue-dim); border-color: var(--blue); color: var(--blue-bright); }
-
-.chip:hover:not(.active) { border-color: var(--blue-bright); color: var(--text); }
 
 .card {
     background: var(--surface); border: 1px solid var(--border); border-radius: 8px;

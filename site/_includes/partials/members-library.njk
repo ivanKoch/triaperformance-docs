@@ -1,0 +1,43 @@
+{# The members-area library grid, grouped by category.
+
+   Renders entirely from site/_data/library.json off the page's own `lang`,
+   using the `memberUrl` / `memberCta` / `memberDesc` fields — NOT the `desc`
+   and `url` fields, which are the sales-page wording and deliberately differ.
+
+   Added Sep 4, 2026, replacing the hand-written card grids in
+   site/members/index.njk, site/members/en/index.njk and
+   site/members/pt/index.njk. Those three files each listed all 13 entries by
+   hand and were the open-loops item "three more files that will drift the next
+   time a tool ships or retires" — which is exactly what had already happened to
+   the sales pages. Shipping a tool is now one edit to library.json.
+
+   The ES home previously carried six filter chips over a flat grid; three of
+   the six matched exactly one card and "Fuerza" held six unrelated ones
+   (two core routines, three injury protocols and a strength guide). EN and PT
+   had no filters at all. Grouped headings replace them: a reader scanning three
+   labelled blocks does not need to click anything, and a category that holds
+   one card is a tag, not a category.
+
+   NOTE: filtering is an inline `{% if item.category == cat %}`, not selectattr —
+   Nunjucks is not Jinja2 and its selectattr/equalto silently returned the whole
+   list here, rendering all 13 cards under all three headings. `categoryCounts`
+   in library.json answers "is this bucket empty" without a filter. #}
+{%- set lib = library[lang] or library.es -%}
+{%- set order = lib.categoryOrder or ["train", "pain", "numbers"] -%}
+{%- for cat in order %}
+  {%- if lib.categoryCounts[cat] %}
+  <div class="lib-group">
+    <h3 class="lib-group-title">{{ lib.categories[cat] }}</h3>
+    <div class="grid-3">
+      {%- for item in lib.live %}{% if item.category == cat %}
+      <div class="card">
+        <span class="tag">{{ item.tag }}</span>
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.memberDesc or item.desc }}</p>
+        <a class="card-link" href="{{ item.memberUrl }}">{{ item.memberCta }}</a>
+      </div>
+      {%- endif %}{% endfor %}
+    </div>
+  </div>
+  {%- endif %}
+{%- endfor %}

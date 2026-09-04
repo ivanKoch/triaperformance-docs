@@ -7,23 +7,37 @@
    two that never existed — while naming none of the eight real entries.
 
    Shipping a tool is now one edit to library.json, in three languages, and
-   every sales page updates. Do not hand-write entries back into the pages. #}
+   every sales page updates. Do not hand-write entries back into the pages.
+
+   Grouped by `category` since Sep 4, 2026 — the flat grid of 13 gave a reader
+   no way to tell what was for them. Same three buckets as the members home,
+   same source. The card above this section must NOT re-list individual tools:
+   it did until Sep 4 and named six of the thirteen, which read as duplication
+   and went stale ("Ocho herramientas" while the real count was 13). #}
 {%- set lib = library[lang] or library.es -%}
+{%- set order = lib.categoryOrder or ["train", "pain", "numbers"] -%}
 <section class="section--wash" id="biblioteca">
   <div class="wrap">
     <h2>{{ lib.heading }}</h2>
     <p class="section-intro">{{ lib.intro }}</p>
 
     <span class="lib-label">{{ lib.liveLabel }}</span>
-    <div class="grid-3 lib-grid">
-      {%- for item in lib.live %}
-      <div class="include-card">
-        <span class="tag">{{ item.tag }}</span>
-        <h3>{{ item.name }}</h3>
-        <p>{{ item.desc }}</p>
+    {%- for cat in order %}
+      {%- if lib.categoryCounts[cat] %}
+    <div class="lib-group">
+      <h3 class="lib-group-title">{{ lib.categories[cat] }}</h3>
+      <div class="grid-3 lib-grid">
+        {%- for item in lib.live %}{% if item.category == cat %}
+        <div class="include-card">
+          <span class="tag">{{ item.tag }}</span>
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.desc }}</p>
+        </div>
+        {%- endif %}{% endfor %}
       </div>
-      {%- endfor %}
     </div>
+      {%- endif %}
+    {%- endfor %}
 
     <div class="lib-soon">
       <h3 class="lib-soon-title">{{ lib.soonHeading }}</h3>
