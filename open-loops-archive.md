@@ -10,6 +10,12 @@
 
 ## Closed — September 4, 2026
 
+- [x] ~~**Re-run `schema_analytics.sql` on the box — `ga4_selftraffic_month` was returning NULL where it means zero.**~~ **CLOSED September 4, 2026.** *Schema file re-run on the box September 2 (`DROP VIEW` / `CREATE VIEW` both landed, every other statement an idempotent skip, no errors); view confirmed live and returning sane values September 4 — the September row reads `internal_sessions = 7`, `internal_pct = 38.9`, where two days earlier it printed blank and 0.0.*
+
+  **The defect:** `SUM(...) FILTER (...)` *returns NULL, not 0, when nothing matches — so a month with **no internal sessions detected** and a month with **no data at all** printed identically (blank),* **in the one view whose entire job is measuring what the reported numbers cannot see.** *Fix was `COALESCE(..., 0)` on both session columns.* ⚠️ ***`internal_pct` was already coalesced, which is why the percentage read correctly while the count beside it was blank*** — **a partially-applied guard, which is how this survived the view's own first review.** *Third instance of the family in this repo, after `refresh_internal_devices`' single aggregate log line and §20's `content-<agent>.status`.* **The rule the three converge on: an empty result must not render as a zero result.**
+
+  *Honest limit on the verification: a non-NULL 7 does not exercise the COALESCE path — only a month with genuinely zero internal sessions would. What was open here was the **deployment**, and that is confirmed.*
+
 - [x] ~~**The three All-Access sales pages said "eight interactive tools" while the library held thirteen.**~~ **CLOSED September 4, 2026 — found by Iván reading his own live page.**
 
   ***This is `library.json`'s own failure mode, one level up.*** *That file was created Aug 13, 2026 precisely so the three sales pages would stop hand-listing the library and decaying. It worked — the **list** stayed correct through five tool ships. What it never covered was the **sentence above the list**, which was hand-written in all three languages and said `Ocho` / `Eight` / `Oito`.* **Post-Workout Mobility, Swimmer's Shoulder and the strength guide all shipped after that number was typed, and none of them moved it.** *The card also re-named six of the thirteen tools inline, immediately above a section that named all thirteen — so the page was simultaneously stale and redundant.*
@@ -33,6 +39,20 @@
   ⚠️ **Deliberately NOT extended further, and this is the part to not re-raise.** *A fourth swimming tool was considered and declined on September 4. All three artifacts are **dryland** — nothing here is swimming as a swimmer would name it (technique, drills, a CSS-based set builder), and that gap is real. It stays open on purpose:* **close #1 records that 2 of 33 paying athletes have ever opened the members area and the one paying All-Access subscriber has never logged in.** *Building a fourth tool for an audience that has not opened the first three is creation where the constraint is distribution, which is the exact default this project inverts.* **The trigger to revisit is usage, not inventory: if the artifacts start getting opened, a swim set builder off the CV zones is the natural next one.**
 
   **What remains is a translation, not a build** — `/members/movilidad/` is ES-only, tracked in its own live item. *PT matters more than EN here: PT is where this site is most visible, and a Portuguese swimmer today gets shoulder and activation but not mobility.*
+
+---
+
+## Closed — September 4, 2026
+
+- [x] ~~🚨 **The GA4 internal-traffic rule has never matched. Self-traffic exclusion is being carried entirely by the other three rules.**~~ **CLOSED September 4, 2026 — the rule fired.** `analytics_internal_devices` *now reads* **`localhost 2 · manual 2 · telegram 1 · traffic_type 2`**, *against `traffic_type` = **0** for the property's entire life until now.*
+
+  🚨 ***The two `traffic_type` rows are NEW devices, and that is the part worth keeping.*** *The insert is* `ON CONFLICT (user_pseudo_id) DO NOTHING`, *so a device any other rule had already caught could not have been re-inserted under a new reason.* **Both of these were invisible to all four cookie-bound rules until the IP rule started stamping.** *Known devices went 5 → 7 on the first day the rule could report.* ***That is the drift the item predicted, measured rather than argued:*** *the same person, on cookies nothing else recognised.*
+
+  **The whole arc, for anyone who finds this later.** *(1) Aug 30: suspicion that the IP rule was aimed at the wrong city. (2) Aug 31: `traffic_type` = 0 found, read as "the rule has never matched", per-rule counts and a nightly warning added — the instrumentation was right and the diagnosis was not. (3) Sept 2: the actual cause — **the GA4 data filter was set to `Active`, which drops events before the BigQuery export**, so the rule was working in the one mode that makes this pipeline blind to it. Rebuilt as `Testing` Sept 1. (4) Sept 4: confirmed firing.* ⚠️ ***And the Sept 2 session ruled `Active` out with an argument that could not fail*** — *"the `manual` and `localhost` devices would also be gone, and they aren't" — against a **persisted cumulative** table whose rows predate the filter.* **A hypothesis tested against a table structurally incapable of falsifying it, and the clean result read as evidence.** *Same family as the aggregate log line this item already recorded.*
+
+  ⚠️ **Cost of the Active window (~Aug 30 → Sept 1): those sessions are deleted, not tagged, unrecoverable.** *External figures unaffected — internal sessions were never in them — so **close #1 needs no correction**. August's `internal_pct` of 40.2% is understated for Aug 30–31, and was already a floor.*
+
+  **What this does and does not buy.** *It fixes the laptop-on-home-network case and adds the only rule that survives a cookie reset.* ***It does not reach a phone on mobile data or the Bogotá tester on gym wifi*** — *that residual moved to the `Deeper analytics` item in LATER, which now carries the tester as a trigger rather than only as a rationale.* **The Direct figure it gates:** *August was Direct 55 of 118 external sessions (46.6%), 20 of them landing on `/`; whether that is real readership or uncaught self-traffic is now measurable for the first time, from September forward.*
 
 ---
 

@@ -216,6 +216,10 @@ def main():
                     help="also title-case names stored ALL CAPS or all lowercase.")
     ap.add_argument("--source", default=None, metavar="ENUM",
                     help="narrow to one leadSource, e.g. COACHMATCH. Default: every person.")
+    ap.add_argument("--exclude", default=None, metavar="REGEX",
+                    help="skip records whose primary email matches this regex. "
+                         "Use it to leave test records alone, e.g. "
+                         r"--exclude 'coach\+.*@triaperformance\.com'")
     ap.add_argument("--limit", type=int, default=0,
                     help="stop after N changes (useful for a first cautious --apply).")
     args = ap.parse_args()
@@ -225,13 +229,20 @@ def main():
         print("TWENTY_API_KEY is not set and was not found in the usual .env paths.", file=sys.stderr)
         sys.exit(1)
 
+    exclude_re = re.compile(args.exclude, re.IGNORECASE) if args.exclude else None
+
     people = fetch_people(args.source)
     scope = f"leadSource = {args.source}" if args.source else "all people"
     print(f"Fetched {len(people)} records ({scope}).\n")
 
-    changes, skipped = [], []
+    changes, skipped, excluded = [], [], 0
 
     for p in people:
+        email = ((p.get("emails") or {}).get("primaryEmail") or "")
+        if exclude_re and exclude_re.search(email):
+            excluded += 1
+            continue
+
         name = p.get("name") or {}
         old_first = (name.get("firstName") or "").strip()
         old_last = (name.get("lastName") or "").strip()
@@ -250,7 +261,7 @@ def main():
 
         row = {
             "id": p["id"],
-            "email": ((p.get("emails") or {}).get("primaryEmail") or ""),
+            "email": email,
             "source": p.get("leadSource") or "",
             "status": p.get("leadStatus") or "",
             "old": (old_first, old_last),
@@ -260,6 +271,8 @@ def main():
 
     if not changes:
         print("Nothing to change. Every record already splits the way the parsers now do.")
+        if excluded:
+            print(f"{excluded} record(s) excluded by --exclude.")
         if skipped:
             print(f"\n{len(skipped)} record(s) skipped by the safety check -- see below.")
         else:
@@ -276,6 +289,8 @@ def main():
         print(f"Hola {was}".ljust(width + 5) + f"  ->  Hola {now}".ljust(26) + tail)
 
     print(f"\n{len(changes)} record(s) would change.")
+    if excluded:
+        print(f"{excluded} record(s) excluded by --exclude.")
     if skipped:
         print(f"{len(skipped)} record(s) SKIPPED by the safety check "
               f"(token list would have changed -- inspect these by hand):")
