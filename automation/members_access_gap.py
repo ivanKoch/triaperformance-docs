@@ -274,6 +274,122 @@ def fetch_members(path=None):
     return rows
 
 
+# ---------------------------------------------------------------------------
+# --grant: issue a members token to someone this script just proved is owed one.
+#
+# BOUNDARY WITH backfill_existing_customers.py, so this does not become a second
+# granting tool (added September 5, 2026):
+#   that script owns BULK ONBOARDING FROM A CSV -- it creates or updates the
+#   Twenty record and then makes a token, for people who may not be in Twenty at
+#   all. This mode owns the other case: somebody already in Twenty, already
+#   correct, whom the reconciliation above has just identified. Running the CSV
+#   script on those people means accepting an unwanted PATCH (it defaults
+#   leadStatus to WON_CUSTOMER) in order to get the token half.
+# The token alphabet is IMPORTED from that script rather than copied, because it
+# must stay identical to the n8n "Generate Member Token" node and there are
+# already two copies of it.
+#
+# THREE SAFETY PROPERTIES, all deliberate:
+#   1. Nothing is granted without --only or --grant-all. Iván's own address is
+#      in the entitled list; a bare --grant that provisioned everybody would be
+#      a bad default.
+#   2. It NEVER PRINTS A TOKEN. A token is a working password into paid content,
+#      and the whole table has been pasted into a chat transcript three times in
+#      three days (schema.sql, token_roster). Pull one at a time with
+#      OPERATIONS.md section 3 at the moment you message that athlete.
+#   3. An existing row for that email -- active OR revoked -- is a REFUSAL, not
+#      an insert. A revoked athlete coming back needs a reactivate
+#      (OPERATIONS.md section 5), not a second row; the backfill script's known
+#      gap is exactly this, and duplicate active tokens are a documented
+#      cleanup query.
+# ---------------------------------------------------------------------------
+def _token_alphabet():
+    import importlib.util
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        "members-area", "backfill_existing_customers.py")
+    try:
+        spec = importlib.util.spec_from_file_location("_bf", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod.TOKEN_ALPHABET
+    except Exception as e:
+        sys.exit(f"Could not read TOKEN_ALPHABET from {path}: {e}\n"
+                 "Refusing to invent an alphabet -- it must match the n8n "
+                 "Generate Member Token node exactly.")
+
+
+def psql(sql, quiet=False):
+    try:
+        return subprocess.check_output(
+            ["docker", "exec", "-i", "analytics-postgres", "psql",
+             "-U", "analytics", "-d", "members", "-At", "-c", sql],
+            text=True, stderr=subprocess.STDOUT, timeout=60)
+    except FileNotFoundError:
+        sys.exit("docker not found -- --grant must run on the VPS.")
+    except subprocess.CalledProcessError as e:
+        if not quiet:
+            sys.exit(f"psql failed:\n{e.output[:600]}")
+        raise
+
+
+def grant(no_access, only, apply_it):
+    import secrets
+    alphabet = _token_alphabet()
+    wanted = ([e for e, _, _ in no_access] if only == "ALL"
+              else [x.strip().lower() for x in only.split(",") if x.strip()])
+    by_email = {e: p for e, p, _ in no_access}
+
+    plan, refused = [], []
+    for email in wanted:
+        person = by_email.get(email)
+        if not person:
+            refused.append((email, "not in the PAYING-NO-ACCESS list -- "
+                                   "re-run without --grant and check"))
+            continue
+        existing = psql("SELECT active FROM subscriber_tokens "
+                        f"WHERE lower(email) = '{email}';").strip()
+        if existing:
+            refused.append((email, f"a row already exists (active={existing}). "
+                                   "Reactivate it -- OPERATIONS.md section 5 -- "
+                                   "do not create a second."))
+            continue
+        lang = person.get("preferredLanguage") or "SPANISH"
+        if lang not in ("SPANISH", "ENGLISH", "PORTUGUESE"):
+            refused.append((email, f"preferredLanguage is {lang!r}; set it in "
+                                   "Twenty first so the login routes correctly"))
+            continue
+        plan.append((email, person["id"], lang,
+                     "".join(secrets.choice(alphabet) for _ in range(20)),
+                     not person.get("preferredLanguage")))
+
+    for email, why in refused:
+        print(f"  REFUSED  {email:45s} {why}")
+    if refused and plan:
+        print()
+    for email, pid, lang, _tok, defaulted in plan:
+        flag = "  <-- no preferredLanguage in Twenty, defaulting" if defaulted else ""
+        print(f"  {'WOULD GRANT' if not apply_it else 'GRANTED    '}  "
+              f"{email:45s} {lang}{flag}")
+    if not plan:
+        print("\nNothing to grant.")
+        return
+
+    if not apply_it:
+        print(f"\n{len(plan)} token(s) ready. Add --apply to write them.")
+        print("Tokens are generated at write time and are never printed.")
+        return
+
+    for email, pid, lang, tok, _ in plan:
+        psql("INSERT INTO subscriber_tokens "
+             "(twenty_person_id, email, token, preferred_language, active) "
+             f"VALUES ('{pid}', '{email}', '{tok}', '{lang}', TRUE);")
+    print(f"\n{len(plan)} token(s) written. NOT printed here, on purpose.")
+    print("Pull each one when you message that athlete:")
+    print("  docker exec -it analytics-postgres psql -U analytics -d members -c \\")
+    print("    \"SELECT token FROM subscriber_tokens WHERE email = '<theirs>';\"")
+    print("No email is sent by this script. Send the password yourself.")
+
+
 def is_test(email):
     e = (email or "").lower()
     return any(m in e for m in TEST_EMAIL_MARKERS)
@@ -289,6 +405,14 @@ def main():
                     help=f"GraphQL page size (default {PAGE_SIZE})")
     ap.add_argument("--expect", type=int, default=None,
                     help="fail unless exactly N people are fetched -- a second, independent gate on top of totalCount")
+    ap.add_argument("--only", default=None, metavar="EMAILS",
+                    help="grant tokens to these comma-separated addresses "
+                         "(must appear in the PAYING-NO-ACCESS list)")
+    ap.add_argument("--grant-all", action="store_true",
+                    help="grant to every address in that list -- read it first, "
+                         "Ivan's own address is usually in it")
+    ap.add_argument("--apply", action="store_true",
+                    help="actually write the tokens (default is a dry run)")
     ap.add_argument("--probe", action="store_true",
                     help="try every query variant and print what each returns, then exit")
     ap.add_argument("--include-test", action="store_true",
@@ -369,6 +493,10 @@ def main():
 
     print("\nNeither list is automatically wrong -- a comp athlete or a barter")
     print("arrangement legitimately appears in list 2. Read it, do not sweep it.")
+
+    if args.only or args.grant_all:
+        print(f"\n=== GRANTING {'(APPLY)' if args.apply else '(DRY RUN)'} ===\n")
+        grant(no_access, "ALL" if args.grant_all else args.only, args.apply)
 
 
 if __name__ == "__main__":

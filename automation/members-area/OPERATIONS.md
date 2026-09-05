@@ -7,6 +7,25 @@ decoupled (see `ai-infrastructure-documentation.md` §13).
 
 ## 1. New athlete — create their access token
 
+> ✅ **Read this before doing it by hand. September 5, 2026.**
+>
+> **If the athlete is already in Twenty and correct there — which is every 1:1 coaching athlete — do not look up their person ID in the UI. `automation/members_access_gap.py` already holds it.**
+>
+> ```bash
+> python3 automation/members_access_gap.py --expect <count>                    # who is owed one
+> python3 automation/members_access_gap.py --expect <count> --only a@b.com     # dry run
+> python3 automation/members_access_gap.py --expect <count> --only a@b.com --apply
+> ```
+>
+> *Comma-separate for several; `--grant-all` takes the whole list.* ⚠️ **Read the list before using `--grant-all` — Iván's own address is usually in it.**
+>
+> **It never prints a token**, by design: a token is a working password into paid content, and the reason the `token_roster` view exists is three transcript leaks in three days. Pull each one from §3 at the moment you message that athlete. **It also refuses rather than inserting when a row already exists for that email, active or revoked** — a returning athlete needs §5 (reactivate), not a second row. *That is the one gap `backfill_existing_customers.py` documents in its own docstring and asks you to check by hand.*
+>
+> **Which of the two tools:** *that script owns **bulk onboarding from a CSV** — it creates or updates the Twenty record and then makes a token, for people who may not be in Twenty at all. This one owns **granting a token to somebody already in Twenty and already correct**. Using the CSV script on those people means accepting an unwanted `leadStatus` PATCH to get the token half.*
+>
+> *The steps below remain correct and are the fallback when the person is not in Twenty, or when the VPS is all you have.*
+
+
 You've already created/updated the Person in Twenty manually. Now:
 
 **Step 1 — get their Twenty person ID.** Open their record in Twenty, copy
