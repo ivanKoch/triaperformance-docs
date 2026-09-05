@@ -350,3 +350,32 @@ Everything in Step 3 again, plus the two cases that were silent before:
 
 - **Submit twice with the same email.** First submission: email + Twenty record. **Second: email again**, plus the duplicate Telegram. *Before this change the second produced nothing.*
 - **Force a Twenty rejection** — reuse a name that already exists (`Raviol -` does). Expect the email to arrive **and** the `Telegram alert - Twenty error`.
+
+### 🚨 Step 10 — the one field the rewire breaks (found on the first run, September 5, 2026)
+
+**Symptom:** `Check Twenty for existing Person` → `Invalid URL: /rest/people. URL must start with "http" or "https".`
+
+**Cause.** That node's URL was `={{ $json.TWENTY_BASE_URL }}/rest/people` — a **positional** reference, reading whatever item feeds it. It worked only because `Config` used to be its immediate upstream. The rewire puts `Send confirmation email` there instead, and that item has no `TWENTY_BASE_URL`, so the expression resolves to an empty string.
+
+**Fix — one field, and it makes the node consistent rather than special.** On `Check Twenty for existing Person`, change `URL` to:
+
+```
+={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people
+```
+
+*That is exactly what `Create Person in Twenty` and `Create Person in Twenty (no phone)` already do. This node was the odd one out.*
+
+**Audited: it is the only breakage.** Six nodes use bare `$json`; five of them read their *immediate* upstream, and none of those links changed:
+
+| node | reads | upstream after rewire | ok |
+|---|---|---|---|
+| `Check Twenty for existing Person` | `$json.TWENTY_BASE_URL` | `Send confirmation email` | 🚨 **broken** |
+| `Already exists?` | `$json.data` | `Check Twenty` | ✅ |
+| `Create Person in Twenty` | `JSON.stringify($json)` | `Build Twenty payload` | ✅ |
+| `Create Person in Twenty (no phone)` | `JSON.stringify($json)` | `Build Twenty payload (no phone)` | ✅ |
+| `Person Created` | `$json.data` | `Create Person…` | ✅ |
+| `Is phone error?` | `JSON.stringify($json)` | `Create Person…` error out | ✅ |
+
+> ***The lesson, and it is mechanical rather than clever: a rewire audit has to cover data dependencies, not just the connection graph.*** *The graph was verified before this rewire was specced; the expressions were not. **`$json` means "whatever is plugged into me right now", so every node that uses it is silently coupled to its position** — and reordering is exactly the operation that breaks that coupling, with an error that names the wrong culprit (a URL, not a moved node).* **Grep the export for `$json.` before proposing any reorder.**
+
+⚠️ **The lead from the failing execution reached the email but not Twenty.** *That is the rewire behaving as designed — mail no longer depends on the CRM — but the CRM record is genuinely missing and needs adding by hand, or the form re-submitted after the fix.*
