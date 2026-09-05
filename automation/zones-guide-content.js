@@ -171,7 +171,7 @@ const es = {
       body:
         "El TTE es cuánto puedes sostener tu umbral <em>hoy</em>. Dos atletas con el mismo FTP no son el mismo atleta: uno lo sostiene 25 minutos y el otro 55. En atletas entrenados suele caer entre <strong>30 y 70 minutos</strong>.",
       why:
-        "Esto es lo que explica para qué existe la Zona 4. El objetivo del trabajo de umbral no es solamente subir el número — es <strong>estirar cuánto tiempo lo aguantas</strong>. Por eso una sesión de umbral se prescribe como tiempo acumulado en zona, y por eso ese tiempo crece poco a poco a lo largo del bloque.",
+        "Esto es lo que explica para qué existe la Zona 4. El objetivo del trabajo de umbral no es solamente subir el número — es <strong>estirar cuánto tiempo lo aguantas</strong>. Por eso una sesión de umbral se prescribe como tiempo acumulado en zona, y por eso ese tiempo crece de a poco a lo largo del bloque.",
     },
   },
 

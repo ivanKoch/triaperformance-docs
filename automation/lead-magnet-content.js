@@ -7,7 +7,9 @@
  * the builder at all.
  *
  * Written natively per language, not translated line by line — brand-guidelines
- * §8. Spanish uses voseo, matching the site.
+ * §8. Spanish is TUTEO and neutral Latin American (§8, September 5, 2026).
+ * ~~Spanish uses voseo, matching the site~~ — that was true when this file was
+ * written and stopped being true on September 4.
  *
  * Zone percentages are copies of data/zones.csv, which owns them. Prices are
  * copies of triaperformance-pricing-and-positioning.md — those two move here in

@@ -167,7 +167,7 @@
               "id": "4",
               "name": "leadNotes",
               "type": "string",
-              "value": "={{ 'Consulta desde el catalogo de planes (\"ayudame a elegir\"). Plan: ' + $('Webhook - Plan Lead').item.json.body.plan_name + ' (ID ' + $('Webhook - Plan Lead').item.json.body.plan_id + '). Ubicacion del formulario: ' + ($('Webhook - Plan Lead').item.json.body.placement || 'buybox') + '. Pagina: ' + $('Webhook - Plan Lead').item.json.body.page_url }}"
+              "value": "={{ 'Consulta desde el catalogo de planes (\"ayúdame a elegir\"). Plan: ' + $('Webhook - Plan Lead').item.json.body.plan_name + ' (ID ' + $('Webhook - Plan Lead').item.json.body.plan_id + '). Ubicacion del formulario: ' + ($('Webhook - Plan Lead').item.json.body.placement || 'buybox') + '. Pagina: ' + $('Webhook - Plan Lead').item.json.body.page_url }}"
             },
             {
               "id": "5",

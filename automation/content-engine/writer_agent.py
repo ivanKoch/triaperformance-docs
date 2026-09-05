@@ -103,6 +103,16 @@ REPO = os.path.dirname(os.path.dirname(HERE))
 
 # Real published articles, used as voice examples. Few-shot on actual output
 # beats any amount of describing the voice in prose.
+#
+# 🚨 THE EXAMPLE TEACHES REGISTER, AND FOR MONTHS IT TAUGHT THE WRONG ONE.
+# Until September 5, 2026 the ES entry below pointed at a voseo article while the
+# per-language note above said "use voseo where natural" and brand-guidelines.md
+# §8 said tuteo. Two of the three signals reaching the model were wrong, which is
+# why every generated Spanish article came out voseo. The instruction is fixed
+# above and THIS FILE was converted to tuteo the same day, specifically so the
+# few-shot stops contradicting the rule.
+# If you ever repoint the ES example, repoint it at a tuteo article. The rest of
+# site/blog/ is still voseo and is tracked in open-loops.md.
 STYLE_EXAMPLES = {
     "es": "site/blog/entrenar-el-umbral-sin-tiras-de-lactato.njk",
     "en": "site/en/blog/threshold-training-without-lactate-strips.njk",
@@ -542,7 +552,10 @@ MARKET_NOTES = {
           "already filtered, so link only from it. If an example race is needed "
           "and the source names none: Rio, São Paulo.",
     "es": "Audience is Spain and Latin America. All-Access is US$39.99/mo and "
-          "includes every plan. Link /all-access/. Use voseo where natural.",
+          "includes every plan. Link /all-access/. Spanish is TUTEO and neutral "
+          "Latin American — brand-guidelines.md §8. Never voseo (`tienes`, not "
+          "`tenés`), and never Rioplatense vocabulary (`aquí` not `acá`, `piscina` "
+          "not `pileta`).",
 }
 LANG_NAME = {"es": "Spanish", "en": "English", "pt": "Portuguese"}
 

@@ -65,7 +65,7 @@ eleventyExcludeFromCollections: true
   {%- if workoutLinkTable.uncovered.length %}
   <section class="adm-warn">
     <h2>⚠️ Herramientas vivas sin enlace</h2>
-    <p>Están en la biblioteca y no se pueden linkear desde un workout. Agregá el código en <code>site/_data/workoutLinks.json</code>.</p>
+    <p>Están en la biblioteca y no se pueden linkear desde un workout. Agrega el código en <code>site/_data/workoutLinks.json</code>.</p>
     <ul>
       {%- for t in workoutLinkTable.uncovered %}
       <li><strong>{{ t.name }}</strong> <code>{{ t.key }}</code></li>
