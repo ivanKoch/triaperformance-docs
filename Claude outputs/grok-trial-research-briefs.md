@@ -157,6 +157,28 @@ Run the same dossier prompt above, with one change to the opening: instead of a 
 
 ---
 
+### CLOSED September 5, 2026 — five batches run, 19 races researched, handed off to the build conversation
+
+**Output files, all in `Claude outputs/`:**
+
+| File | Contents | Status |
+|---|---|---|
+| `race-dossiers-batch1-2026-09.md` | Mexico City, Buenos Aires, Valencia, Miami, Santiago, Rio, SP City, Medellín | Usable. Santiago's cut-off `NOTHING FOUND` was a false negative — corrected in batch 3. |
+| `race-dossiers-batch2-2026-09.md` | Bogotá, Sevilla, Barcelona, Lisboa, Porto Alegre, Monterrey + Part A fixes | Usable. |
+| `race-dossiers-batch3-2026-09.md` | Madrid, Málaga, Floripa, Lima, Disney, Chicago | ⚠️ **Part A usable, Part B OFF-SPEC** — three sections dropped. Backfilled in batch 4. |
+| `race-dossiers-batch4-2026-09.md` | Boston, NYC, Berlin, São Paulo Yescom, Porto + batch-3 backfill | Usable. Strongest batch. |
+| `race-dossiers-batch5-section8-2026-09.md` | §8 harvest, 18 races, plus the recurring-theme count | **Read this one first.** It gives the page template its section order. |
+
+**The four conclusions the build should inherit:**
+1. **Inventory is not a gate.** The HR ladder is complete at 42 km in all three languages (`race-landing-pages-longlist.md` §1). Race pages are gated on the template, not on plans.
+2. **Official documents win.** Never publish a page that contradicts an organiser's reglamento; a conflict is a question for the organiser, not a claim.
+3. **Field distribution buckets do not exist.** Chicago publishes more than any marathon on earth and still has none. They exist only where a third party counted (Soy Corredor/Barcelona, CAPIS/Sevilla, Runify/Berlin). Stop asking.
+4. **The travel thesis holds.** Visa regime, kit-collection rules, transport to the start and language of the official product are genuinely different content for a travelling Latin American athlete.
+
+**And the finding that should shape the template: the course question is asked half as often as who may collect your kit** (8/18 vs 16/18). Registration mechanics dominate. Block order: registration → kit → corral → course → cut-offs in clock time → getting to the start.
+
+---
+
 ## Brief 2 — Portuguese market research (feeds the PT offering item)
 
 **Why this one:** the demand is confirmed and the site is nowhere near it. What's missing is a picture of what page-one for those queries actually looks like — which is public information and pure legwork.

@@ -52,7 +52,7 @@
         en: "Got it. We'll be in touch within 24 hours.",
         pt: "Pronto. Entramos em contato em até 24 horas." }[lang];
     var errorText = form.dataset.error || {
-      es: "No se pudo enviar — podés seguir con la compra igual.",
+      es: "No se pudo enviar — puedes seguir con la compra igual.",
       en: "Couldn't send that — you can still go ahead and buy.",
       pt: "Não deu para enviar — você pode seguir com a compra normalmente.",
     }[lang];

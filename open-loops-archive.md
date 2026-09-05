@@ -43,6 +43,96 @@
 
 ---
 
+## Closed — September 5, 2026 — Spanish register: TUTEO + neutral Latin American, every surface
+
+***The parent item, closed in full.*** *It opened September 4 on Iván's call ("we should standardize to Tuteo honestly") and closed the next day with the blog, which had been deferred that morning and was pulled forward because he wanted it finished in one sitting.* **The item's own text is preserved below, unedited, because its warnings were right every single time and a future register job should read them before starting.**
+
+**Final state.** `register-sweep.py` over `site/`, `automation/`, `docs/`, `website/` and 50 root docs: **zero lines would change.** All 243 rendered Spanish pages: **one marker**, `seguí como corredor`, protected. Build green (546 files), `npm test` 39/39, mobility 534/534, recovery 824/824, both i18n scripts re-derive EN/PT byte-identical.
+
+### What the blog actually was, versus what the list said
+
+**The list said ~20 articles and ~306 markers. The truth was 7 files and 99 lines.** *The 306 came from counting rendered pages, where every article's standfirst and description repeat across the index and the topic pages — the same string counted five or six times.* 🔑 ***A count taken from rendered output measures impressions, not work.*** *A nested note elsewhere in this file had said "five articles" from a source-file count and was closer to right than the headline item, and it was the one nobody trusted because it was smaller.*
+
+### Four more defects the pass produced, all caught before writing
+
+**1. `un parate` → `un párate`.** *`parate` is both a noun (a layoff) and a reflexive imperative (stand up), and the word map got there before the lexicon phrase did.* **Fixed by ordering: lexicon phrases now run BEFORE the word map as well as after** — *some phrases disambiguate a word the map would rewrite, others are written against post-conversion wording, and running them at both ends is the only ordering where both kinds work.*
+
+**2. `por vos` → `por tú`.** *`por` was simply missing from the preposition list.* **The fix is not the missing pair, it is the post-condition:** `gate_prep` *now fails on any* `<preposition> tú`, *which is ungrammatical Spanish in every case.* 🔑 ***It immediately caught a second instance I had already shipped and committed hours earlier*** — `hace la cuenta por tú` *on the style-example article.* **A detector finds what you thought to look for; a post-condition finds what you got wrong.**
+
+**3. `cargálas`.** *Voseo + clitic is normally written unaccented (`cargalas`), but a writer left the imperative's accent in: the word ends in `-as`, so the final-accent gate cannot see it, and the stem gate matches unaccented letters, so it cannot either.* **A sixth gate now looks for an accent INSIDE a word ending in a clitic.** *One instance in the whole repo, on a live page.*
+
+**4. Nested placeholders in the script's own citation guard.** *A `backticked` span inside a "quoted" span left the inner placeholder unrestored — the preview rendered* `add a "card" to \`file\`` *as* `add a  0  to  1 `. **Shipped for exactly one run, on --diff only, never on --write.** *Restoration now loops.*
+
+### 🚨 A concurrent writer, three times on one file
+
+***`automation/zones-guide-content.js` was overwritten by a parallel session at 20:15, 20:54 and 21:30 UTC***, each time reverting the register fix and each time re-introducing `de a poco`. *That session was doing real work — it rewrote the lactate-curve sections, added the whole Portuguese block, rebuilt the PDF and corrected `nav.json` — and its edits are intact; only the register was re-applied on top, three times.* **It also left `nav.json` as invalid JSON** *(unescaped quotes inside `_membersNote`), which broke the site build entirely until it was fixed.* 🔑 ***A shared working tree has no lock and gives no signal but an mtime.*** **If that file is edited again before the commit, re-run `register-sweep.py automation/zones-guide-content.js` — it is one command and it is the only thing standing between a correct repo and a fourth revert.**
+
+### The exclusion that hid a whole class
+
+**`site/assets/js/` was skipped by every sweep because it is called "assets".** *It holds the tool ENGINES — `activation-tool.js`, `strength-tool.js`, `box-breathing.js`, `plan-capture.js` — and every Spanish string they render.* `plan-capture.js` *was shipping* `No se pudo enviar — podés seguir con la compra igual` *to anyone whose capture-form submit failed.* 🔑 ***Directories excluded by NAME rather than by CONTENT are where entire categories of user-facing copy go to hide.***
+
+### Documentation quoting live copy goes stale silently
+
+*Three runbooks quoted UI strings that had been corrected on the site and nowhere else:* `Escribinos por WhatsApp`, `revisá tu bandeja de entrada`, `te podés dar de baja`. **This repo already has the rule — one home per figure, every other mention is a copy corrected in the same session — but quoted UI strings were not being read as copies.** *The tool now reports every quoted span in markdown that contains a mapped form, because only a human can tell a deliberate record of old copy from a stale copy of current copy. Both look identical.*
+
+### Two stale open items, closed as collateral
+
+*`zones-calculator-brief.md` carried "Remove the Empezá acá onboarding section" for* **26 days after it was executed** *(removed August 10), and a nested note in `open-loops.md` duplicated the blog-voseo tracking.* 🚨 ***Both surfaced only because they happened to quote the defect in voseo. Nothing was checking either one*** — which is the argument for running `register-sweep.py` on a schedule rather than when someone asks.
+
+---
+
+### The original item, preserved
+
+- [ ] **Spanish register standardised to TUTEO — decided September 4, 2026 (Iván: "we should standardize to Tuteo honestly"). Marketing surfaces DONE; blog and members tools NOT.**
+
+  ~~*`site/all-access/index.njk` is written in voseo against `brand-guidelines.md` §8's explicit rule; it should be a deliberate call, including the option of amending §8 instead.*~~ **The call was made and it went the other way: §8 stands, the site was wrong, and the site changed.**
+
+  ✅ **Converted, verified zero voseo markers remaining in rendered HTML:** the homepage, `/all-access/`, `/sobre-ivan/`, `/referidos/`, all 7 `/planes/` hubs, all 4 `/calculadora-de-zonas/` pages, and the UI data files `library.json` (ES block only), `planUi.json`, `zonesUi.json`, `forms.json`, `strengthUi.json`. **~205 replacements across 19 files.**
+
+  ⚠️ ***Three classes were deliberately protected and must stay protected in the remaining pass:***
+  - **First-person preterite is not voseo.** *`Empecé como remero`, `terminé en triatlón`, `Cómo llegué acá`, `corrí`, `dejé`, `seguí como corredor` — these are Iván's own bio and are identical in both registers.* **A naive `-é`/`-í` rule destroys them.**
+  - **Testimonials are quotes.** *`Comencé bajo su cuidado`, `logré correr un 42k` are athletes' own words on the homepage.* **Never edit a quote to fix register.**
+  - **`library.json` holds ES, EN and PT in one file**, and Portuguese `sequenciá-los` / `organizá-las` look exactly like voseo imperatives. *The conversion was bounded to the `"es"` block by string offset for this reason.*
+
+  🚨 **The first pass shipped an incomplete map and produced MIXED-register lines** — *`vos eliges y ejecutás`, `Suscríbete y accedé`, `Calentá y corre`* — **which is worse than consistent voseo**, and it was only caught by dumping every changed line for review rather than trusting the replacement count. *A second pass with a completed map fixed it. **The lesson: a register conversion is not a find-and-replace, it is a find-and-replace plus a full read of the diff plus a re-scan that must return zero.***
+
+  ✅ ***The transactional emails are DONE — all three Spanish bodies, September 5, 2026.*** *`Build Welcome Email` was already tuteo; `Build All-Access Welcome` (six markers) and `Build Resend Email` (one line) were converted and published by Iván the same day, and mirrored into `automation/subscription-lifecycle-automation.json`. Verified zero voseo markers in all three.* ⚠️ ***Recorded here rather than dropped, because these bodies live inside n8n Code nodes and are invisible to any `site/` grep*** — *a future register sweep over the repo will not see them, will not find them dirty, and could reasonably conclude they were never done. **They were. Do not re-raise them.*** 🔑 **What remains on this item is therefore only the two surfaces named below — blog articles and members tool pages.** *Closing notes: `open-loops-archive.md`, September 5, 2026, both email entries.*
+
+  ✅ ***The members tool pages, the PDF lead magnets, the remaining n8n bodies and the comms docs are DONE — September 5, 2026.*** ~~*~10 members tool pages (`movilidad` 27, `aquiles` 25, `fuerza` 23, `hombro` 22, `rodillas` 20, `activacion` 20, `core`, `carga`, `garmin`, `core-ciclista`) — exercise cues, almost entirely imperatives, the place where a bad conversion produces a wrong instruction rather than a wrong tone.*~~ **17 files, 355 lines, 751 substitutions across 191 distinct forms; `mobility-i18n.py` and `recovery-i18n.py` converted in the same pass and both re-derive EN/PT byte-identical.** *Full record of what moved and what deliberately did not: `open-loops-archive.md`, September 5, 2026, "Register sweep — members tools, PDFs, comms".*
+
+  🔑 ***A second axis was added on Iván's call the same day: neutral Latin American vocabulary, not just tuteo verbs.*** **`acá`→`aquí`, `pileta`/`natatorio`→`piscina`, `canilla`→`espinilla`, `cola`→`glúteos`, `de a poco`→`poco a poco`, `un parate`→`una pausa`, `prolijo`→`ordenado`.** *This is the half a verb-only find-and-replace cannot see, and it reached surfaces the September 4 pass had already signed off as done — `planUi.json` was still selling `Acceso a pileta` on 51 rendered plan pages, `library.json` still said `el borde de la pileta`, and `/referidos/` still said `Acá te puedes poner en contacto`.* **The rule is now written down in `brand-guidelines.md` §8 so it is not rediscovered a third time.**
+
+  ⚠️ ***Two classes of leftover are deliberate and must not be "fixed":***
+  - **`seguí como corredor` on `/sobre-ivan/` is first-person preterite**, not an imperative — the protected class this item already named. It is the single marker a rendered-HTML scan still returns, and returning zero would mean the bio had been corrupted.
+  - **The 1:1 WhatsApp library in `sales-playbook.md` is exempt**, carve-out taken September 4 and ***re-confirmed by Iván on September 5 when this sweep reached it***. *Consequence to know about: the forwardable blurb in §B9b now differs by one word from the same blurb rendered on `/referidos/` — the page says `Aquí te puedes poner en contacto`, the playbook still says `Acá`. That is the carve-out working, not drift.*
+
+  ✅ ***Exemptions confirmed by Iván, September 5, on reviewing the paste list:*** **the athlete-intake AI prompt and the Telegram notifications to himself stay voseo** — *he is the only reader, and the live n8n was never updated, so converting the repo copies would only make the documentation disagree with the system it documents.* **Both files were converted and then REVERTED the same day**, and the reasons are written into `automation/register-sweep.py`'s `EXEMPT` list so a future sweep does not "fix" them back into drift. *`sales-playbook.md` is exempt for a different reason and is in the same list.*
+
+  🚨 ***Preparing the paste list found six more live surfaces that three gates had passed*** — *`i18n.json`'s site-wide `Empezá ahora` CTA and `¿Querés que tu plan lo arme…`, `planUi.json`'s `Mandanos un mail` and `Ayudame a elegir`, `strengthUi.json`'s `Sin descanso — seguí` on the strength timer in all three languages, `/calculadora-de-zonas/`'s `convertilo`, and* **`Cuentame, con qué objetivo…` — the first WhatsApp message every Spanish CoachMatch lead receives.** 🔑 ***The pattern in all six is the same and it is worth stating plainly: they are UI labels and short strings, not prose.*** *A sweep reads for sentences; a button label is three words and slips through, and buttons are where intent is highest.* **`register-sweep.py` catches all six now.**
+
+  ✅ ***Everything except the blog is now verified clean by a repo-wide sweep, September 5*** — `site/`, `automation/`, `docs/`, `website/` and all 50 root docs: **zero lines would change.** *The eleven files that still report are report-only and correct: athlete testimonials (`lo adapté a mis horarios` — never edit a quote), first-person preterite (`recibí tu solicitud`, `seguí como corredor`), Portuguese, and struck-through records.*
+
+  ⚠️ ***Widening that sweep found four more, and the pattern in three of them is worth naming: documentation quoting live copy goes stale silently.*** *`contact-form-pipeline-runbook.md` quoted the form's error as* `Escribinos por WhatsApp` *and* `zone-magnet-runbook.md` *quoted* `revisá tu bandeja de entrada` *and* `te podés dar de baja` *— all three had been corrected on the site and nowhere else.* **A doc that quotes a string is a copy of that string, and this repo's own rule already says every copy gets corrected in the same session the original moves. Quoted UI strings were not being treated as copies.**
+  - 🚨 ***The fourth was live:*** `site/assets/js/plan-capture.js` *shipped* `No se pudo enviar — podés seguir con la compra igual` *to anyone whose capture-form submit failed.* **`site/assets/js/` holds the tool ENGINES and every Spanish string they render, and it had been excluded from every sweep as an "assets" directory.** *Excluding a directory by its name rather than its contents is how a whole class of user-facing copy stays invisible.*
+
+  ✅ ***Two stale open items were closed while doing this, neither found by any check:*** *`zones-calculator-brief.md` carried "Remove the Empezá acá onboarding section" for* **26 days after it was removed** *(August 10), and a nested note in this file duplicated the blog-voseo tracking.* 🔑 **Both surfaced only because they happened to quote the defect in voseo. Nothing was checking either one** — *which is an argument for `register-sweep.py` running on a schedule, not just when someone asks.*
+
+  🚨 ***Two handover steps before this is really done, both Iván's:*** **(1) paste the converted Spanish bodies into the live n8n instance** — `plan-lead-workflow` and `zone-workouts-workflow` *Send reply email* Text fields, `athlete-intake-workflow`'s system prompt and Telegram line, and the SPANISH body in `stage11-cancellation-paste` *(the repo copies are documentation; n8n is the source of truth)*; **(2) rebuild the ES guide PDFs** — `build-lead-magnet-pdf.js es` and `build-zones-guide-pdf.js es`. ⚠️ ***`zonas-de-entrenamiento.pdf` is the urgent one: a parallel session rebuilt it at 20:15 from the pre-conversion content, so it is a fresh build of the old register rather than an obviously stale one.***
+
+  🚨 ***THE BLOG WAS BEING REFILLED FASTER THAN IT COULD BE CONVERTED, and that was found on September 5 only because Iván asked for the n8n paste list.*** **`automation/content-engine/writer_agent.py` was telling the model, per language, `"Use voseo where natural"`** *— while `brand_voice()` two hundred lines above it fed the same model `brand-guidelines.md` §8, which says tú.* **And `STYLE_EXAMPLES["es"]` pointed at `entrenar-el-umbral-sin-tiras-de-lactato.njk`, one of the most voseo-dense articles in the blog, as the few-shot voice example.** *Three signals reached the writer and two of them said voseo.* ✅ **Both fixed September 5: the per-language note now states tuteo + neutral LatAm explicitly, and the ES style example article was converted so the few-shot stops contradicting the rule.** *The engine has been live on cron since August 4, so every Spanish article it produced is voseo by instruction, not by accident.* 🔑 ***The lesson generalises past this item: a register standard applied to output while the generator still teaches the old one is not a standard, it is a cleanup schedule.*** **Before converting a body of generated text, fix what generates it.**
+
+  ⚠️ ***Also found in that same pass, on surfaces already signed off:*** *the zone-magnet email said `Elegi las dos sesiones` and `Si preferis` — unaccented voseo in an ASCII-only body, in all three copies; the athlete-intake AI prompt used `escribi`/`deci` and, worse,* **instructed the model in so many words to write `en espanol rioplatense neutro`**; *and `lead-magnet-content.js` carried a header comment asserting "Spanish uses voseo, matching the site".* **All fixed.** 🔑 ***Two of those three are instructions to a generator rather than copy — the same class as the blog defect above, and neither would ever appear in a scan of rendered output.***
+
+  **Still to do — the blog, ~290 markers across 42 rendered pages, and it is a different job:**
+  - **~21 blog articles** *(`como-elegir-tu-plan-de-maraton` 26, `correr-para-bajar-de-peso` 16, and others).* Long-form prose; the same map covers most of it. **Deferred by Iván on September 5** so the surfaces a paying subscriber touches moved first. *`entrenar-el-umbral-sin-tiras-de-lactato` is already done — it had to be, it is the generator's style example.*
+  - ✅ ***The source is no longer refilling*** — articles generated from September 5 onward come out tuteo. **The remaining articles are a finite backlog, not a leak.**
+  - 🔑 ***The blog is already MIXED, which is the argument for doing it soon rather than the argument for leaving it:*** *voseo present tense (`tenés`, `podés`) sits next to tuteo future (`terminarás`, `encontrarás`, `verás`) inside the same articles.* **A reader meets both registers in one page today.**
+  - ⚠️ ***Reusable, and it is what makes a second session cheap:*** the conversion map, the three gates and the lexicon list are the artifact, not the diff. **The map is 191 hand-classified forms; the gates are (1) every á/é/í token must be in the map or in a reviewed allowlist or the run fails, (2) a clitic sweep, because `quedate`→`quédate` and `revisalo`→`revísalo` carry no accent and no accent-based scan can see them, and (3) an UNACCENTED sweep, because `automation/plan-lead-workflow.json` turned out to be a customer-facing email written entirely without accents — `podes`, `venis`, `Respondeme` — invisible to every other check.** *That third gate found four live surfaces the first two could not.*
+
+
+
+---
+
 ## Closed — September 5, 2026 — Register sweep: members tools, PDFs, n8n bodies, comms docs
 
 ***Closes "The members tool pages are still voseo while the sales surface and `library.json` moved to tuteo" (opened September 4, 2026).*** *The parent item — "Spanish register standardised to TUTEO" — stays open in `open-loops.md` and now carries only the blog.*

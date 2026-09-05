@@ -81,6 +81,9 @@ PHRASE = [
     ("con vos", "contigo"),
     ("hacia vos", "hacia ti"), ("para vos", "para ti"), ("a vos", "a ti"),
     ("de vos", "de ti"), ("en vos", "en ti"), ("sobre vos", "sobre ti"),
+    ("por vos", "por ti"), ("ante vos", "ante ti"), ("bajo vos", "bajo ti"),
+    ("sin vos", "sin ti"), ("tras vos", "tras ti"), ("desde vos", "desde ti"),
+    ("hasta vos", "hasta ti"), ("contra vos", "contra ti"), ("según vos", "según tú"),
     ("entre vos", "entre tú"), ("como vos", "como tú"), ("que vos", "que tú"),
     ("vos mismo", "tú mismo"), ("vos misma", "tú misma"),
     ("vos elegís", "tú eliges"), ("vos sabés", "tú sabes"),
@@ -112,7 +115,7 @@ PRESENT = {
     "sacás":"sacas","separás":"separas","juntás":"juntas","alejás":"alejas",
     "acercás":"acercas","respirás":"respiras","caminás":"caminas",
     "alternás":"alternas","frenás":"frenas","aflojás":"aflojas",
-    "acelerás":"aceleras","comparás":"comparas","tratás":"tratas",
+    "acelerás":"aceleras","adapté":"adapté","comparás":"comparas","tratás":"tratas",
     "esperás":"esperas","dibujás":"dibujas","imaginás":"imaginas",
     "aguantás":"aguantas","recortás":"recortas","completás":"completas",
     "flexionás":"flexionas","programás":"programas","organizás":"organizas",
@@ -240,7 +243,7 @@ CLITIC = {
     "contanos":"cuéntanos","decime":"dime","decinos":"dinos","mandame":"mándame",
     "mandanos":"mándanos","avisame":"avísame","avisanos":"avísanos",
     "escuchame":"escúchame","mirame":"mírame","dejame":"déjame","ponete":"ponte",
-    "revisalo":"revísalo","revisala":"revísala","rotalo":"rótalo","rotala":"rótala",
+    "revisalo":"revísalo","cargálas":"cárgalas","cargálo":"cárgalo","llevála":"llévala","respondelas":"respóndelas","respondelo":"respóndelo","pagalo":"págalo","pagala":"págala","revisala":"revísala","rotalo":"rótalo","rotala":"rótala",
     "apoyalos":"apóyalos","apoyalas":"apóyalas","traelas":"tráelas","traelos":"tráelos",
     "estiralos":"estíralos","llevalas":"llévalas","dejalas":"déjalas",
 }
@@ -259,7 +262,7 @@ exprés porqué quizás jamás compás interés jerez marroquí israelí quién 
 cómo dónde cuándo porqués ademá
 olá até pés trás você vocé nahí josué fechá sequenciá organizá-las
 # Portuguese function words in the trilingual data files — not Spanish, not voseo
-já dá vá há lá aí cá pé né dás vás hás
+já dá vá há lá aí cá pé né dás vás hás daí aí mostrá separá deixá prescrevê
 # irregular futures: the stem is not the infinitive, so the generic rule misses them
 verás veré verá harás haré hará irás iré irá dirás diré dirá podrás podré podrá
 pondrás pondré pondrá tendrás tendré tendrá saldrás saldrá vendrás vendrá
@@ -267,7 +270,7 @@ querrás querrá sabrás sabré sabrá valdrá habrá dará darás daré
 descompondrá expondrá compondrá supondrá propondrá dispondrá repondrá
 sí mí ti tú él sé dé té ó
 # reviewed and left alone: "más allá de" (standard), 1st-person preterite (Ivan's own voice)
-allá quizá estés josé lesioné busqué describí armé planifiqué avisé mandé pasé estemos estén terminé olvidé empecé llegué dejé logré comencé corrí comparé mejoré aprendí revisé
+allá quizá estás estés adapté apliqué agregué ajusté prioricé cambié armé josé lesioné busqué describí armé planifiqué avisé mandé pasé estemos estén terminé olvidé empecé llegué dejé logré comencé corrí comparé mejoré aprendí revisé
 estaré tendré descubrí construí repartí probé gané perdí volví salí viví hice fui
 """.split())
 
@@ -286,6 +289,11 @@ PAIRS=[
  ("el aire a la panza","el aire al abdomen"),
  ("Inhala a la panza","Inhala al abdomen"),
  ("de a poco","poco a poco"),
+ # `parate` the noun vs `parate` the imperative. The phrase wins, and it only wins
+ # because PAIRS run BEFORE the word map as well as after — caught in the blog diff,
+ # where "volviendo después de un parate" came out as "un párate".
+ ("de un parate","de una pausa"), ("un parate largo","una pausa larga"),
+ ("un parate","una pausa"),
  ("Después dá vuelta la mano","Después gira la mano"),
  ("Cola cerca de la pared","Glúteos cerca de la pared"),
  ("Cola metida, costillas","Pelvis metida, costillas"),
@@ -394,13 +402,13 @@ _KEYS = sorted(WORD, key=len, reverse=True)
 # of a note somebody has to remember.
 _WORD_PAT = re.compile(r"\b(?:" + "|".join(re.escape(k) for k in _KEYS) + r")\b(?!-l[oa]s?\b)", re.I | re.U)
 
-def convert(text):
+def convert(text, md=False):
     """Convert a whole text. Lines containing `~~` are left alone: in this repo a
     strikethrough marks a belief that was corrected, and the old wording IS the
     record (see the hygiene rules in the project instructions). Rewriting the
     register inside one turns the record into a contradiction."""
     if "~~" in text:
-        return "\n".join(l if "~~" in l else convert(l) for l in text.split("\n"))
+        return "\n".join(l if "~~" in l else convert(l, md) for l in text.split("\n"))
     # A `backticked` span is a citation of a literal string, not prose. Docs and code
     # comments state the rule as "`tienes`, not `tenés`" — converting the second token
     # would rewrite the rule into a tautology. Same for the quoted examples in
@@ -409,7 +417,29 @@ def convert(text):
     def _stash(m):
         spans.append(m.group(0))
         return "\x00%d\x00" % (len(spans) - 1)
+    # Lexicon phrases run BEFORE the word map (and again after, below): some of them
+    # disambiguate a word the map would otherwise rewrite, and some are written
+    # against the post-conversion wording. Applying them at both ends costs nothing
+    # — the replacements do not re-trigger each other — and it is the only ordering
+    # in which both kinds work.
     text = re.sub(r"`[^`\n]*`", _stash, text)
+    # In MARKDOWN, a "double-quoted" span is a quotation too — these docs quote the
+    # copy they are describing, and half the time the copy they quote is the OLD,
+    # defective wording kept deliberately as the record. Rewriting it turns "this
+    # said X and was wrong" into "this said Y and was wrong", which is worse than
+    # leaving it: it destroys the evidence AND reads as a contradiction.
+    # They are not converted, but they ARE reported (gate 5) — because the same
+    # syntax also holds live copy quoted in a runbook, and only a human can tell a
+    # record from a stale copy. Four stale copies were found that way on Sept 5.
+    if md:
+        text = re.sub(r'"[^"\n]{2,160}"', _stash, text)
+    # Lexicon phrases get first refusal over the word map — `un parate` is a NOUN and
+    # the map would make it `un párate` — and run again at the end, because some are
+    # written against post-conversion wording. Both passes happen AFTER stashing:
+    # brand-guidelines.md §8 states the rule as "`una pausa` not `un parate`", and a
+    # pre-pass that ran before the guard rewrote the rule's own counter-example.
+    for a, b in PAIRS:
+        text = text.replace(a, b)
     out = text
     for a, b in PHRASE:
         out = re.sub(r"\b" + re.escape(a) + r"\b", lambda m: match_case(m.group(0), b), out, flags=re.I)
@@ -417,7 +447,24 @@ def convert(text):
                         if m.group(0).lower() in WORD else m.group(0), out)
     for a, b in PAIRS:
         out = out.replace(a, b)
-    return re.sub(r"\x00(\d+)\x00", lambda m: spans[int(m.group(1))], out)
+    # Restore iteratively: a "quoted span" can CONTAIN a `backticked` span, so one
+    # pass leaves the inner placeholder sitting in the text it just restored. That
+    # bug shipped for exactly one run and turned `add a "card" to `file`` into
+    # `add a  0  to  1 ` in the --diff preview. Loop until nothing is left.
+    for _ in range(10):
+        if "\x00" not in out:
+            break
+        out = re.sub(r"\x00(\d+)\x00", lambda m: spans[int(m.group(1))], out)
+    return out
+
+def strip_citations(text, md=False):
+    """Blank out `backticked` spans (and, in markdown, "quoted" ones) before gating.
+    A doc that documents a defect necessarily contains the defect; without this the
+    archive of the September 5 sweep reports itself on every run, forever."""
+    text = re.sub(r"`[^`\n]*`", " ", text)
+    if md:
+        text = re.sub(r'"[^"\n]{2,160}"', " ", text)
+    return text
 
 def gate_accented(text):
     """Anything that could be voseo and is not classified fails the run."""
@@ -469,6 +516,50 @@ def gate_homograph(text):
             out.append((m.group(0), i, line.strip()[:160]))
     return out
 
+# A FOURTH blind spot, found in the blog: `cargálas`. Voseo + clitic is normally
+# written WITHOUT an accent (`cargalas`), but writers slip and leave the imperative's
+# accent in place. The result ends in `-as`, so gate 1 (which keys on a final accent)
+# cannot see it, and gate 2's stem match runs on unaccented letters, so it cannot
+# either. This gate looks for an accent INSIDE a word that ends in a clitic.
+ACC_CLITIC = re.compile(r"\b[a-zñáéíóú]*[áéí](?:te|lo|la|los|las|le|les|me|nos)\b", re.I | re.U)
+ACC_OK = {"cuáles", "cuál", "árboles"}
+
+def gate_accented_clitic(text):
+    bad = collections.Counter()
+    for m in ACC_CLITIC.finditer(text):
+        w = m.group(0).lower()
+        if w in ACC_OK or w in CLITIC:
+            continue
+        bad[w] += 1
+    return bad
+
+CITE = re.compile(r'"[^"\n]{2,160}"')
+
+def gate_citation(text):
+    """Markdown only. A quoted span holding a voseo form is EITHER a record of copy
+    that was corrected (leave it — the old wording is the evidence) OR a stale copy
+    of copy that has since been fixed (correct it, same session, per the repo's
+    one-home-per-figure rule). The script cannot tell those apart. It reports."""
+    out = []
+    for i, line in enumerate(text.split("\n"), 1):
+        if "~~" in line:
+            continue
+        for m in CITE.finditer(line):
+            q = m.group(0)
+            if _WORD_PAT.search(q):
+                out.append((i, q[:140]))
+    return out
+
+PREP_TU = re.compile(r"\b(a|de|en|con|para|por|hacia|sobre|entre|hasta|desde|sin|contra|tras|ante|bajo)\s+tú\b", re.I)
+
+def gate_prep(text):
+    """POST-CONDITION, not a detector. After a preposition Spanish takes `ti`, never
+    `tú` — so a hit here means a `<prep> vos` pair is missing from PHRASE and the
+    conversion has produced ungrammatical Spanish. `por vos` -> `por tú` shipped in
+    the blog diff for exactly this reason. This gate makes that class impossible to
+    miss instead of relying on someone spotting it in a 99-line diff."""
+    return [(m.group(0), text[:m.start()].count("\n") + 1) for m in PREP_TU.finditer(text)]
+
 def gate_unaccented(text):
     bad = collections.Counter()
     for m in UNACC_PAT.finditer(text):
@@ -479,7 +570,10 @@ def gate_unaccented(text):
     return bad
 
 EXTS = ("njk", "html", "js", "json", "py", "md", "txt", "gs")
-SKIP_DIRS = {"node_modules", ".git", "__pycache__", "_site", "en", "pt", "assets"}
+SKIP_DIRS = {"node_modules", ".git", "__pycache__", "_site", "en", "pt"}
+# NOTE: site/assets/js holds the tool ENGINES (activation-tool.js, strength-tool.js,
+# box-breathing.js) and every Spanish string they render. Excluding it, as an
+# earlier version of this script did, hides an entire class of user-facing copy.
 
 def walk(targets):
     out = []
@@ -509,12 +603,17 @@ def main():
         if exempt(rel):
             continue
         src = io.open(f, encoding="utf-8").read()
-        new = convert(src)
-        hits = gate_accented(new) + gate_clitic(new, wide) + gate_unaccented(new)
-        review = gate_homograph(new)
+        md = rel.endswith(".md")
+        new = convert(src, md)
+        prose = strip_citations(new, md)
+        hits = (gate_accented(prose) + gate_clitic(prose, wide)
+                + gate_unaccented(prose) + gate_accented_clitic(prose))
+        review = gate_homograph(prose)
+        cites = gate_citation(new) if md else []
+        preps = gate_prep(new)
         changed = [(i + 1, a, b) for i, (a, b) in
                    enumerate(zip(src.split("\n"), new.split("\n"))) if a != b]
-        if changed or hits or review:
+        if changed or hits or review or cites or preps:
             dirty += 1
             print("\n##### %s  (%d lines would change)" % (rel, len(changed)))
             if show:
@@ -523,10 +622,16 @@ def main():
                     print("+%d: %s" % (n, b.strip()))
             if hits:
                 print("   UNCLASSIFIED (decide by hand, then add to the map): %s" % dict(hits))
+            for frag, ln in preps:
+                print("   BAD GRAMMAR line %-5d %r — after a preposition it is `ti`, not `tú`." % (ln, frag))
+                print("              ^ a `<preposition> vos` pair is missing from PHRASE. Add it, do not hand-patch.")
+            for ln, q in cites:
+                print("   CITATION   line %-5d %s" % (ln, q))
+                print("              ^ a record of corrected copy (leave), or a stale copy of copy already fixed (correct it)?")
             for form, ln, line in review:
                 print("   HOMOGRAPH  %-10s line %-5d %s" % (form, ln, line))
                 print("              ^ voseo imperative, or Iván's own first-person preterite? Decide, edit by hand.")
-        if write and changed and not hits and not review:
+        if write and changed and not hits and not review and not cites and not preps:
             io.open(f, "w", encoding="utf-8").write(new)
             print("   WRITTEN")
     print("\n%d file(s) need attention." % dirty if dirty else "\nClean.")

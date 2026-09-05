@@ -75,6 +75,16 @@
         return cc ? ("+" + cc + " " + local) : form.phone.value.trim();
       })(),
       sport: form.sport.value,
+      // The visible label, in the visitor's language. `sport` itself is always
+      // a Spanish string in every language (see the _note in _data/forms.json --
+      // n8n maps those four values to Twenty's `sport` enum, so they must not
+      // change). The confirmation email needs the translated label, and
+      // forms.json is its only home -- sending it here keeps n8n from holding a
+      // second copy that would drift. Added September 5, 2026.
+      sport_label: (function () {
+        var o = form.sport.options[form.sport.selectedIndex];
+        return o && o.value ? o.text : form.sport.value;
+      })(),
       message: form.message.value.trim(),
       source: "website_contact_form",
       language: {{ lang | dump | safe }},

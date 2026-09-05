@@ -22,7 +22,7 @@
  * touching the live sessions-guide builder, which is logged in open-loops.md
  * rather than done here.
  *
- * Usage:  node automation/build-zones-guide-pdf.js [es] [outfile.pdf]
+ * Usage:  node automation/build-zones-guide-pdf.js [es|en|pt] [outfile.pdf]
  * Needs:  playwright + chromium.
  */
 
@@ -31,7 +31,7 @@ const path = require("path");
 
 const LANG = (process.argv[2] || "es").toLowerCase();
 const C = require("./zones-guide-content.js")[LANG];
-if (!C) { console.error(`unknown language "${LANG}" — expected es`); process.exit(2); }
+if (!C) { console.error(`unknown language "${LANG}" — expected es | en | pt`); process.exit(2); }
 const OUT = process.argv[3] || path.join(__dirname, "..", "site", "assets", "guias", C.filename);
 
 /* ------------------------------------------------- zones.csv → geometry */

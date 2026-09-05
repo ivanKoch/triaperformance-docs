@@ -112,7 +112,7 @@ Set the workflow Inactive, or remove the `/api/zone-workouts` route from `automa
 
 **Found by Iván within minutes of the pipeline going green:** "when the lead already exists in Twenty it doesn't send the email?" It didn't. `Already exists? → true` went straight to the Telegram notice and the success response, with the email node sitting only on the create-Person branch.
 
-**Why that was inherited, and why it was wrong here.** In `plan-lead-workflow.json` the email is a personal *"tell me your goal and I'll pick a plan"* reply; sending it twice to the same person reads badly, so gating it behind the duplicate check is correct there. In this workflow **the email is the deliverable**. Suppressing it for known contacts means every 1:1 athlete, every All-Access subscriber, every prior contact-form or CoachMatch lead — and eventually the 2,073 migrated HubSpot contacts — asks for the guide, is told *"revisá tu bandeja de entrada"*, and receives nothing. **The most engaged part of the list was the part being silently dropped.**
+**Why that was inherited, and why it was wrong here.** In `plan-lead-workflow.json` the email is a personal *"tell me your goal and I'll pick a plan"* reply; sending it twice to the same person reads badly, so gating it behind the duplicate check is correct there. In this workflow **the email is the deliverable**. Suppressing it for known contacts means every 1:1 athlete, every All-Access subscriber, every prior contact-form or CoachMatch lead — and eventually the 2,073 migrated HubSpot contacts — asks for the guide, is told *"revisa tu bandeja de entrada"*, and receives nothing. **The most engaged part of the list was the part being silently dropped.**
 
 ***The general lesson, which is why this is written up rather than just fixed:*** deduplicating a CRM record and withholding a deliverable are two different decisions. The clone inherited one node placement that quietly bundled them. Any future workflow cloned from a pattern needs its terminal actions re-read against the new purpose, not just its wiring checked for correctness — this wiring was correct, it was correct *for a different job*.
 
@@ -166,6 +166,6 @@ Body:
 
 ## Open items
 
-- **No consent/unsubscribe copy on the capture form**, only the "te podés dar de baja" line in the fine print with no mechanism behind it. Fine for a single transactional send; not fine the moment this list gets a sequence. Same open item as the plan-catalog capture, now on two forms.
+- **No consent/unsubscribe copy on the capture form**, only the "te puedes dar de baja" line in the fine print with no mechanism behind it. Fine for a single transactional send; not fine the moment this list gets a sequence. Same open item as the plan-catalog capture, now on two forms.
 - **`name.firstName` is derived from the email's local part** (`athlete@` → `athlete`). Placeholder, not a real name — do not use it in a greeting. The delivery email deliberately opens with "Hola," and no name.
 - ~~**The guide is Spanish-only.**~~ **Closed August 13, 2026.** Three PDFs exist and the `Send reply email` node selects by `body.language` with a Spanish fallback. The EN/PT calculators shipped the same day, so the gap never opened. *If you re-import the workflow from the repo, this is one of the changes you would lose by importing an older copy — the file in `automation/` is current.*

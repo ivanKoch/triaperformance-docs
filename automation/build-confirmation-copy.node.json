@@ -1,0 +1,20 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Builds the confirmation email in the visitor's own language.\n//\n// `language` has been in the form payload since the Eleventy cutover; this\n// workflow simply never read it. `sport_label` was added to the payload on\n// September 5, 2026 -- `body.sport` is ALWAYS a Spanish string in every\n// language (see the _note in site/_data/forms.json: those four values map to\n// Twenty's `sport` enum and must not change), so the raw value would print\n// \"Ciclismo\" inside an English email. forms.json owns the translated labels;\n// this node must never hold a second copy of them.\n//\n// Falls back to `body.sport` when `sport_label` is absent, so this works\n// before the site deploy as well as after it.\n//\n// Execution mode is deliberately Run Once for Each Item. A poll delivering two\n// leads at once is exactly the case this branch has to get right, and the\n// July 31, 2026 incident showed the default silently updates only the first.\n\nconst b = $('Webhook - Contact Form').item.json.body;\nconst lang = ['es', 'en', 'pt'].includes(b.language) ? b.language : 'es';\nconst first = String(b.name || '').trim().split(' ')[0];\nconst sport = b.sport_label || b.sport || '';\n\nconst GUIDE = {\n  es: 'https://triaperformance.com/assets/guias/zonas-de-entrenamiento.pdf',\n  en: 'https://triaperformance.com/assets/guias/training-zones.pdf',\n  pt: 'https://triaperformance.com/assets/guias/zonas-de-treino.pdf',\n};\n\nconst COPY = {\n  es: {\n    subject: 'Recibimos tu mensaje - Triaperformance',\n    body:\n      `Hola ${first},\\n\\n` +\n      `Gracias por escribirnos. Recibimos tu consulta sobre ${sport} y te vamos a contactar por WhatsApp en menos de 24 horas.\\n\\n` +\n      `Mientras tanto, esta es nuestra guía gratuita de zonas de entrenamiento:\\n${GUIDE.es}\\n\\n` +\n      `Iván Koch - Triaperformance`,\n  },\n  en: {\n    subject: 'We got your message - Triaperformance',\n    body:\n      `Hi ${first},\\n\\n` +\n      `Thanks for writing. We received your enquiry about ${sport} and we'll get in touch on WhatsApp within 24 hours.\\n\\n` +\n      `In the meantime, here is our free training zones guide:\\n${GUIDE.en}\\n\\n` +\n      `Iván Koch - Triaperformance`,\n  },\n  pt: {\n    subject: 'Recebemos a sua mensagem - Triaperformance',\n    body:\n      `Olá ${first},\\n\\n` +\n      `Obrigado por escrever. Recebemos a sua consulta sobre ${sport} e vamos entrar em contato pelo WhatsApp em menos de 24 horas.\\n\\n` +\n      `Enquanto isso, este é o nosso guia gratuito de zonas de treino:\\n${GUIDE.pt}\\n\\n` +\n      `Iván Koch - Triaperformance`,\n  },\n};\n\nconst c = COPY[lang];\nreturn { json: { subject: c.subject, body: c.body, emailLang: lang } };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2176,
+        608
+      ],
+      "id": "9c1f0a44-3f21-4a7e-9f0e-2b7c5d8e1a01",
+      "name": "Build confirmation copy"
+    }
+  ],
+  "connections": {},
+  "pinData": {}
+}
