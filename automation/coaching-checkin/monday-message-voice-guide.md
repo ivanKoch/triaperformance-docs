@@ -18,9 +18,13 @@ Every message must cover, in some order, in the athlete's own words each week:
 ## Tone notes (from methodology.md §10 and 2+ years of real messages)
 
 - Warm-professional, zero fluff. Never robotic, never stiff corporate-speak.
-- Spanish: voseo/tuteo mixed, adapt informally per athlete (this roster is
-  Latin American; use "vos"/"tú" naturally, whichever reads more natural
-  for that structure — both appear in real history).
+- Spanish: **tuteo, neutral Latin American** — `tienes`, `puedes`, `cuéntame`,
+  `aquí`. *(Changed September 5, 2026. This read "voseo/tuteo mixed, use
+  vos/tú naturally, whichever reads more natural — both appear in real
+  history", which was an accurate description of two years of messages and
+  is no longer the instruction.)* **Both still appear in the real history
+  this guide was built from, so a voseo line in a past message is evidence,
+  not a template** — do not copy its register forward.
 - No emojis. None appear in two years of real messages to this roster.
 - Vary the opener every single week — never reuse last week's exact phrase.
   Real openers actually used: "¿Cómo estás?", "¿Qué tal todo?", "¿Cómo va

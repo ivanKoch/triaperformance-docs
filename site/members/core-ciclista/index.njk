@@ -35,7 +35,7 @@ title: "Core de Ciclista — Triaperformance All-Access"
   <div class="setup-head">
     <span class="label">Fuerza</span>
     <h1>Core de ciclista</h1>
-    <p>El core del ciclista no genera movimiento: lo impide. Todo acá entrena resistir — que la pelvis no bascule, que el tronco no rote, que la columna no se extienda — mientras las piernas empujan.</p>
+    <p>El core del ciclista no genera movimiento: lo impide. Todo aquí entrena resistir — que la pelvis no bascule, que el tronco no rote, que la columna no se extienda — mientras las piernas empujan.</p>
   </div>
 
   <div class="setup-q">
@@ -63,33 +63,33 @@ window.CYCLIST_CORE = (function () {
   const L = {
     /* --- entrada en calor --- */
     catcow: { name: "Gato-camello", sets: 1, reps: "10 repeticiones", tag: "Sin equipo",
-      cue: "En cuadrupedia, alterná redondear y arquear la columna al ritmo de la respiración. <strong>Movete vértebra por vértebra</strong>, no en bloque: esto es control pélvico y articular, no un estiramiento." },
+      cue: "En cuadrupedia, alterna redondear y arquear la columna al ritmo de la respiración. <strong>Muévete vértebra por vértebra</strong>, no en bloque: esto es control pélvico y articular, no un estiramiento." },
     thread: { name: "Thread the needle", sets: 1, reps: "8 por lado", tag: "Sin equipo",
-      cue: "En cuadrupedia, pasá un brazo por debajo del cuerpo y rotá apoyando el hombro; después abrí el mismo brazo hacia el techo siguiéndolo con la mirada. <strong>La cadera se queda quieta y encuadrada</strong> — la rotación sale de la columna dorsal, que es exactamente lo que se te traba después de horas en el manillar." },
+      cue: "En cuadrupedia, pasa un brazo por debajo del cuerpo y rota apoyando el hombro; después abre el mismo brazo hacia el techo siguiéndolo con la mirada. <strong>La cadera se queda quieta y encuadrada</strong> — la rotación sale de la columna dorsal, que es exactamente lo que se te traba después de horas en el manillar." },
     birddog: { name: "Bird dog", sets: 1, reps: "10 por lado", tag: "Sin equipo",
-      cue: "Extendé brazo y pierna contrarios hasta la línea del tronco. <strong>Espalda plana como si tuvieras un vaso de agua en la lumbar</strong>, y apretá el glúteo al estirar la pierna." },
+      cue: "Extiende brazo y pierna contrarios hasta la línea del tronco. <strong>Espalda plana como si tuvieras un vaso de agua en la lumbar</strong>, y aprieta el glúteo al estirar la pierna." },
     bridge: { name: "Puente de glúteos", sets: 1, reps: "15 repeticiones", tag: "Sin equipo",
-      cue: "Empujá con los talones y <strong>sostené 2 segundos arriba apretando fuerte los glúteos</strong>. La pausa es lo que despierta el glúteo; sin ella son quince repeticiones de nada." },
+      cue: "Empuja con los talones y <strong>sostén 2 segundos arriba apretando fuerte los glúteos</strong>. La pausa es lo que despierta el glúteo; sin ella son quince repeticiones de nada." },
 
     /* --- circuito --- */
     deadbug: { name: "Dead bug", sets: 1, reps: "12-15 por lado", rest: 15, tag: "Anti-extensión",
-      cue: "Brazos al techo, piernas a 90°. Extendé brazo y pierna contrarios hacia el suelo sin tocarlo. <strong>La lumbar empuja contra el piso todo el tiempo</strong> — es la capacidad de mantener el tronco rígido mientras las piernas se mueven en rango amplio, que es literalmente pedalear." },
+      cue: "Brazos al techo, piernas a 90°. Extiende brazo y pierna contrarios hacia el suelo sin tocarlo. <strong>La lumbar empuja contra el piso todo el tiempo</strong> — es la capacidad de mantener el tronco rígido mientras las piernas se mueven en rango amplio, que es literalmente pedalear." },
     bearTaps: { name: "Plancha de oso con toques de hombro", sets: 1, reps: "16-20 toques", rest: 15, tag: "Anti-rotación",
-      cue: "En cuadrupedia con las rodillas despegadas unos centímetros del piso, tocá el hombro contrario con una mano. <strong>La cadera no bascula ni un grado.</strong> Con la rodilla debajo de la cadera el ángulo se parece mucho más al de la bici que una plancha larga — y es más difícil de lo que parece." },
+      cue: "En cuadrupedia con las rodillas despegadas unos centímetros del piso, toca el hombro contrario con una mano. <strong>La cadera no bascula ni un grado.</strong> Con la rodilla debajo de la cadera el ángulo se parece mucho más al de la bici que una plancha larga — y es más difícil de lo que parece." },
     sidePlank: { name: "Plancha lateral con elevación de pierna", sets: 1, reps: "30-40s por lado", rest: 15, tag: "Anti-flexión lateral",
-      cue: "Antebrazo debajo del hombro, cuerpo en línea, cadera arriba. Una vez estable, subí y bajá la pierna de arriba controlada. <strong>Oblicuos y glúteo medio</strong> — los que evitan que la rodilla se meta hacia adentro en la fase de empuje." },
+      cue: "Antebrazo debajo del hombro, cuerpo en línea, cadera arriba. Una vez estable, sube y baja la pierna de arriba controlada. <strong>Oblicuos y glúteo medio</strong> — los que evitan que la rodilla se meta hacia adentro en la fase de empuje." },
     slBridge: { name: "Puente de glúteos a una pierna", sets: 1, reps: "12-15 por pierna", rest: 15, tag: "Cadena posterior",
-      cue: "Un talón apoyado cerca de la cola, la otra rodilla abrazada al pecho. Empujá con el talón. <strong>Si lo sentís en la lumbar, meté la pelvis y bajá la altura</strong>: la idea es aislar el glúteo, no que el psoas dominante haga otra vez todo el trabajo." },
+      cue: "Un talón apoyado cerca de los glúteos, la otra rodilla abrazada al pecho. Empuja con el talón. <strong>Si lo sientes en la lumbar, mete la pelvis y baja la altura</strong>: la idea es aislar el glúteo, no que el psoas dominante haga otra vez todo el trabajo." },
     crossReach: { name: "Plancha con alcance cruzado", sets: 1, reps: "10-12 alcances", rest: 15, tag: "Anti-rotación",
-      cue: "En plancha alta, estirá una mano lejos y cruzada, pasando la línea de la otra mano, lento. <strong>La cadera no rota ni se hunde</strong>. Es la versión sin peso del arrastre: pide la misma tensión cruzada entre el dorsal de un lado y el glúteo del otro — la conexión de tirar del manillar mientras empujás el pedal contrario." },
+      cue: "En plancha alta, estira una mano lejos y cruzada, pasando la línea de la otra mano, lento. <strong>La cadera no rota ni se hunde</strong>. Es la versión sin peso del arrastre: pide la misma tensión cruzada entre el dorsal de un lado y el glúteo del otro — la conexión de tirar del manillar mientras empujas el pedal contrario." },
     longPlank: { name: "Plancha larga", sets: 1, reps: "20-30s", rest: 75, tag: "Anti-extensión",
-      cue: "Plancha de antebrazos, pero con los codos bastante más adelante que los hombros. <strong>Cola metida, costillas hacia abajo</strong>. Cuanto más adelante los codos, más brutal — buscá la distancia donde podés aguantar 20 segundos sin que la lumbar se hunda, ni un centímetro más." },
+      cue: "Plancha de antebrazos, pero con los codos bastante más adelante que los hombros. <strong>Pelvis metida, costillas hacia abajo</strong>. Cuanto más adelante los codos, más brutal — busca la distancia donde puedes aguantar 20 segundos sin que la lumbar se hunda, ni un centímetro más." },
 
     /* --- enfriamiento --- */
     hipflex: { name: "Psoas con apriete de glúteo", sets: 1, reps: "60s por pierna", tag: "Posición de caballero",
-      cue: "Media rodilla, y <strong>apretá fuerte el glúteo de la pierna de atrás antes de avanzar</strong>. Ese apriete es lo que apaga el psoas y lo deja estirar de verdad. Después de horas de sillín, este es el estiramiento que más te devuelve." },
+      cue: "Media rodilla, y <strong>aprieta fuerte el glúteo de la pierna de atrás antes de avanzar</strong>. Ese apriete es lo que apaga el psoas y lo deja estirar de verdad. Después de horas de sillín, este es el estiramiento que más te devuelve." },
     child: { name: "Postura del niño", sets: 1, reps: "1-2 min", tag: "Sin equipo",
-      cue: "Sentado sobre los talones, brazos largos adelante. <strong>Respirá profundo y largo</strong> para soltar lumbar y dorsales. No es relleno: es donde el sistema baja de revoluciones después de 20 minutos de tensión." }
+      cue: "Sentado sobre los talones, brazos largos adelante. <strong>Respira profundo y largo</strong> para soltar lumbar y dorsales. No es relleno: es donde el sistema baja de revoluciones después de 20 minutos de tensión." }
   };
 
   const WARMUP  = ["catcow", "thread", "birddog", "bridge"];
@@ -115,11 +115,11 @@ window.CYCLIST_CORE = (function () {
       title: "Core de ciclista",
       crumb: "Core de Ciclista",
       kicker: "Fuerza",
-      subtitle: "Terminá cada ejercicio y tocá el botón. Entre ejercicios hay 15 segundos; al cerrar cada vuelta, 75.",
+      subtitle: "Termina cada ejercicio y toca el botón. Entre ejercicios hay 15 segundos; al cerrar cada vuelta, 75.",
       context: rounds + " vueltas · sin equipo",
       why: WHY,
       warning: "<strong>Dos veces por semana</strong>, en días de resistencia suave o después de rodar, nunca antes de una sesión de calidad.<br><br>" +
-               "<strong>La técnica manda sobre el número.</strong> En todos estos ejercicios el fallo no es cansancio: es que la cadera empieza a moverse. Cuando eso pasa, cortá la serie ahí aunque falten repeticiones — una repetición con la pelvis basculando entrena exactamente lo contrario de lo que vinimos a entrenar.",
+               "<strong>La técnica manda sobre el número.</strong> En todos estos ejercicios el fallo no es cansancio: es que la cadera empieza a moverse. Cuando eso pasa, corta la serie ahí aunque falten repeticiones — una repetición con la pelvis basculando entrena exactamente lo contrario de lo que vinimos a entrenar.",
       doneSub: "Listo. Esto se nota en la tercera hora, no en la primera.",
       phases: phases
     };

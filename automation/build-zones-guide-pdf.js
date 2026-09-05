@@ -75,7 +75,7 @@ const TICKS = [...new Set([LOW, B["2"].floor, LT1, B["3"].floor, LT2, B["4"].flo
 const F = C.fig;
 
 const figCurve = `
-<figure class="fig">
+<figure class="fig fig--curve">
   <svg viewBox="0 0 600 250" width="100%" role="img">
     <text x="8" y="120" class="ax" transform="rotate(-90 8 120)" text-anchor="middle">${F.curve.y}</text>
     <line x1="55" y1="18" x2="55" y2="222" class="axis"/>
@@ -116,8 +116,6 @@ const figStack = `
       <div class="band b-low"  style="${span(LOW, LT1)}">${S.three[0]}</div>
       <div class="band b-hole" style="${span(LT1, LT2)}">${S.three[1]}</div>
       <div class="band b-high" style="${span(LT2, HIGH)}">${S.three[2]}</div>`, "sf-row--tall")}
-
-    ${stackRow("", `<div class="hole-tag" style="${span(LT1, LT2)}">${S.blackHole}</div>`, "sf-row--tag")}
 
     ${stackRow(S.rows.seven, ORDER.map((z) => {
       const sp = (z === "X" || z === "Y") ? " band--special" : "";
@@ -180,7 +178,7 @@ const HTML = `<!DOCTYPE html>
   p.lede{color:var(--slate);max-width:158mm;margin-bottom:6mm}
 
   /* rows — same pattern as the sessions guide's intro block */
-  .row{margin-bottom:3.6mm;padding-bottom:3.6mm;border-bottom:1px solid var(--mist)}
+  .row{margin-bottom:3.2mm;padding-bottom:3.2mm;border-bottom:1px solid var(--mist)}
   .row:last-child{border-bottom:0;padding-bottom:0;margin-bottom:0}
   .row h4{font-size:11pt;font-weight:700;margin-bottom:1.4mm}
   .row p{color:var(--slate);font-size:10pt;line-height:1.52}
@@ -210,6 +208,8 @@ const HTML = `<!DOCTYPE html>
   /* ---------- figures ---------- */
   figure.fig{margin:6mm 0 5mm;page-break-inside:avoid}
   figure.fig--tight{margin:5mm 0 4mm}
+  figure.fig--curve{margin:5mm 0 4mm}
+  figure.fig--curve svg{display:block;width:87%;margin:0 auto}
   figcaption{font-size:8pt;color:var(--slate);margin-top:2.5mm;font-style:italic}
   svg .axis{stroke:var(--ink);stroke-width:1.2;fill:none}
   svg .dash{stroke:var(--mist);stroke-width:1.4;stroke-dasharray:4 4}

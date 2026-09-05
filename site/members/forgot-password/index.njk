@@ -22,7 +22,7 @@ title: "Recuperar contraseña — Triaperformance"
     one day. Nothing reads it today. Do not treat it as load-bearing. -#}
 <div class="card">
   <h1>Recuperar contraseña</h1>
-  <p class="sub" id="sub">Ingresá el email con el que te suscribiste a All-Access. Si está registrado, te enviamos la contraseña.</p>
+  <p class="sub" id="sub">Ingresa el email con el que te suscribiste a All-Access. Si está registrado, te enviamos la contraseña.</p>
 
   <form id="forgot-form">
     <label for="email">Email</label>
@@ -56,13 +56,13 @@ title: "Recuperar contraseña — Triaperformance"
       body: JSON.stringify({ email: document.getElementById('email').value.trim(), lang: 'es' })
     })
       .then(function () {
-        result.textContent = 'Si el email está registrado, te enviamos la contraseña. Revisá tu bandeja de entrada.';
+        result.textContent = 'Si el email está registrado, te enviamos la contraseña. Revisa tu bandeja de entrada.';
         result.classList.add('show');
         form.style.display = 'none';
         sub.style.display = 'none';
       })
       .catch(function () {
-        result.textContent = 'Algo salió mal. Escribinos a coach@triaperformance.com.';
+        result.textContent = 'Algo salió mal. Escríbenos a coach@triaperformance.com.';
         result.classList.add('show');
         submitBtn.disabled = false;
         submitBtn.textContent = 'Enviar';

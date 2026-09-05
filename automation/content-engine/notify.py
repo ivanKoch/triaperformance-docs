@@ -256,7 +256,7 @@ def build_message(c, fails, stales, gone=(), analytics=()):
         for pid, lang, path in gone:
             lines.append(f"  `{pid}` {lang} — {path}")
         lines.append("_El traductor los trata como fuente válida. "
-                     "Marcalos REJECTED o restaurá el archivo._")
+                     "Márcalos REJECTED o restaura el archivo._")
         lines.append("")
     if analytics:
         lines.append("⚠️ *Pipeline de analítica*")

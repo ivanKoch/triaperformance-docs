@@ -8,6 +8,50 @@
 
 ---
 
+## Closed — September 5, 2026 — Register sweep: members tools, PDFs, n8n bodies, comms docs
+
+***Closes "The members tool pages are still voseo while the sales surface and `library.json` moved to tuteo" (opened September 4, 2026).*** *The parent item — "Spanish register standardised to TUTEO" — stays open in `open-loops.md` and now carries only the blog.*
+
+**What moved.** 17 members `.njk` files (355 lines, 751 substitutions, 191 distinct forms), `mobility-i18n.py` and `recovery-i18n.py`, `lead-magnet-content.js` and `zones-guide-content.js` (ES blocks only, bounded by line range), `plan-lead-workflow.json`, `athlete-intake-workflow.json`, the three `zone-workouts` copies, `stage11-cancellation-paste.json`, `subscription-lifecycle-automation.json`, `notify.py`, the content-engine admin UI, `i18n.json`, `zonesUi.json`, `planUi.json`, `library.json`, `/referidos/`, `/sobre-ivan/`, `/calculadora-de-zonas/natacion/`, `/admin/enlaces/`, plus `lead-magnet-sesiones-por-zona.md`, `members-area-announcement-2026-08.md`, `knee-strength-brief.md`, `referral-program-brief.md`, `activation-matrix.md` and the Monday check-in voice guide.
+
+**Verification.** Eleventy build green (546 files); `npm test` 12 + 23 + 4 + workout-links all green; `mobility-matrix.js` 534/534; `recovery-matrix.js` 824/824; both i18n scripts re-derive EN/PT **byte-identical**, which is the strongest available evidence the ES pages changed only in string literals. **A scan of 200 rendered Spanish HTML pages returns exactly one marker — `seguí como corredor` on `/sobre-ivan/`, which is first-person preterite and must stay.**
+
+---
+
+### The four findings worth keeping
+
+**1. 🚨 An accent-based scan cannot see voseo written without accents, and a live customer email was written that way.** *`automation/plan-lead-workflow.json` — the plan-lead auto-reply — is deliberately ASCII in all three languages, so its Spanish read `Cuantos dias por semana **podes** entrenar`, `Que **venis** haciendo`, `**Respondeme** este mail`.* **Every gate built for this job keys on `á`/`é`/`í`. None of them could see it.** *It was found only because a third gate was added on a hunch after `parate` turned up in that file and turned out to be the noun.* 🔑 ***The general form: a detector built from the shape of the evidence you have will not find evidence of a different shape.*** *Three surfaces were dirty this way — the plan-lead email, the zone-workouts email (`Aca esta la guia`, `respondeme`), and `zonesUi.json`'s `"Mandame las sesiones"` button.* **The ASCII ones were fixed in ASCII** (`Responde a este mail`, not `Respóndeme`) — *the accent-free spelling is load-bearing in that node and re-introducing accents there is a different change nobody asked for.*
+
+**2. 🚨 Clitic imperatives carry no accent in voseo and are invisible to the same scan.** *`quedate` → `quédate`, `revisalo` → `revísalo`, `apoyalos` → `apóyalos`, `escribime` → `escríbeme`, `plegate` → `pliégate`.* **The only difference between the two registers there is where the written accent goes, so the voseo form ends in an ordinary Spanish letter and looks like an ordinary word.** *A dedicated sweep found 13 forms in the members pages alone that the primary gate had passed as clean.*
+
+**2b. 🚨 The September 4 pass had signed the homepage and the plan catalogue off as done, and three customer-facing CTAs in them were still voseo.** *`Déjanos tus datos` on the homepage contact block, `Déjanos tu email` and `Ayúdame a elegir` on the plan-catalogue capture form, `Mándame las sesiones` on the zones calculator, `Cuéntanos tu objetivo` in `i18n.json`.* **All five are clitic imperatives, all five were spelled without the accent, and all five sit on the highest-intent elements on those pages.** 🔑 ***"Verified zero voseo markers in rendered HTML" was true and still missed them, because the verification and the conversion shared the same blind spot.*** *A re-scan that reuses the pass's own detector cannot find what the pass could not see — the second detector has to be built from a different premise, not a longer list.*
+
+⚠️ ***One process note, not a content one: `automation/zones-guide-content.js` was rewritten by someone else at 20:15 UTC while this sweep was running***, replacing the lactate-curve and zone-systems sections with new prose — and that save reverted the register conversion this session had already applied to it. *It was caught by the final rendered scan, not by anything watching the file.* **The conversion was re-applied on top of the new content at 20:19** *(and the new prose brought one new form, `estimás`, with it)* — **their editorial work is intact; only the register was changed on top of it.** *The same batch also touched `build-zones-guide-pdf.js`, `methodology.md`, `zones-calculator-brief.md` and rebuilt `zonas-de-entrenamiento.pdf`, all at 20:15:22–20:15:44.* 🔑 **If that file is edited again before the commit, its register needs re-checking — a working tree with two writers has no lock, and the only signal was an mtime.**
+
+**3. ⚠️ The map itself introduced two defects, and both were caught by reading the diff rather than by any count.** *(The parent item predicted exactly this: "a register conversion is not a find-and-replace, it is a find-and-replace plus a full read of the diff plus a re-scan that must return zero." It was right twice more.)*
+  - **`allá` → `allí` rewrote `más allá de` into `más allí de`** in the Achilles insertional cue — *a clinical instruction about how far the heel may drop.* **`allá` was removed from the lexicon map entirely: it is standard everywhere and was never the Rioplatense half of the pair. `acá` is.**
+  - **`separate` → `sepárate`** fired on the English word *separate* in a build comment. *Three collision-prone entries (`separate`, `animate`, `tomate` — the last is a tomato) were removed after checking that none of them appears as Spanish in this repo.*
+  🔑 ***Both were collisions between a Spanish key and a longer or foreign string, and neither would have changed a replacement count that looked plausible.***
+
+**4. ⚠️ `recibí tu solicitud en TrainingPeaks` is first-person preterite, and the map would have turned it into an imperative.** *Caught in `coachmatch-lead-automation.json`'s subject line — "I received your request" would have shipped as "receive your request".* **Every `-í` imperative in Spanish is homographic with a first-person preterite** (`subí`, `abrí`, `seguí`, `sentí`, `elegí`, `construí`, `repartí`), *so that whole class was resolved by reading each occurrence in context rather than by rule.* **`Empecé`, `terminé`, `llegué`, `corrí`, `dejé`, `olvidé`, `logré`, `comencé` and `seguí` are now in the reviewed allowlist by name**, which is what keeps the bio and the athlete testimonials intact.
+
+---
+
+### Decisions taken, so they are not re-litigated
+
+- ***Neutral Latin American vocabulary is now part of the standard, not just tuteo verbs*** *(Iván, September 5)*. **Written into `brand-guidelines.md` §8 with the substitution list**, because it is the axis a verb map cannot reach and it had already survived one full pass.
+- ***The 1:1 WhatsApp library in `sales-playbook.md` stays exempt*** — *carve-out taken September 4, put back to Iván on September 5 when the sweep reached it, and re-confirmed.* **`sales-playbook.md` was not touched.** *Known consequence, recorded so it does not read as drift later: the forwardable blurb in §B9b says `Acá te puedes poner en contacto`, and the same blurb rendered on `/referidos/` now says `Aquí`.*
+- ***`recovery-matrix.js` §5.4 was rewritten, not just repaired.*** *It asserted the literal string `pará donde` on the capped stick pass-through — a safety cue. The tuteo rendering is `detente donde` (a bare `para donde` reads as the preposition on a safety line), so the assertion now accepts either spelling and still requires the trigger (`costillas|lumbar|hombros`).* 🔑 **A test that pins the wording of a safety cue will fail on any rewrite and tell you nothing about whether the cue is still safe. It should assert the constraint, not the sentence.**
+- ***The blog was deferred*** *(Iván, September 5)* — 306 markers across 43 rendered pages. **It is already mixed today** — voseo present beside tuteo future in the same article — *which is the argument for doing it soon.*
+
+### Handover — three steps that are Iván's
+
+1. **Paste the converted Spanish bodies into the live n8n instance.** *The repo copies are documentation; n8n is the source of truth.* Nodes: `plan-lead-workflow` → *Send reply email* (Text), `zone-workouts-workflow` → *Send reply email* (Text), `athlete-intake-workflow` (system prompt + the Telegram line), `stage11-cancellation-paste` → the SPANISH body.
+2. 🚨 **Rebuild the ES guide PDFs** — `node automation/build-lead-magnet-pdf.js es` and `node automation/build-zones-guide-pdf.js es`. *Not run here: playwright is not installed in the sandbox that reached the repo, and a PDF rebuilt with substitute fonts is worse than a stale one.* **Until they are rebuilt, the lead-magnet emails deliver voseo PDFs from tuteo landing pages.**
+   ⚠️ ***`site/assets/guias/zonas-de-entrenamiento.pdf` specifically: it was rebuilt at 20:15 UTC by the parallel session, from the content as it stood BEFORE the register conversion landed at 20:19.*** *So that PDF is not merely stale — it is a fresh build of the old register, which is the version most likely to be trusted.* **Rebuild it after the commit, not before.**
+3. **Commit, push, deploy.**
+
+
 ## Closed — September 5, 2026 (Movilidad post-entreno, all three languages) — *and the phone gate that had been deferred three times*
 
 **Closed by Iván running the tool on a phone, September 5, 2026, no defect reported.** *That was the only thing left: the pages had been live since September 3 (ES) and September 4 (EN + PT), with 534 data checks and 135 rendered checks behind them, and the clinical assertions run separately in each language.*

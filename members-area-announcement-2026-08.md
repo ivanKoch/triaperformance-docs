@@ -44,7 +44,7 @@ Two athletes are currently *using* their access — `jonah.warner` (16 visits) a
 
 Voice per `automation/coaching-checkin/monday-message-voice-guide.md` and `methodology.md` §10 — warm-professional, zero fluff, no emojis, varied and natural. Deliberately **not** a marketing email: these people already pay, there is nothing to sell them, and the only job is to hand over something they already own.
 
-**Subject:** `Algo que ya tenés y todavía no usaste`
+**Subject:** `Algo que ya tienes y todavía no usaste`
 
 *(Alternatives, if that reads too clever: `Tu acceso al Área de Miembros` · `Te debía este acceso`)*
 
@@ -55,7 +55,7 @@ Hola {{ first_name }}!
 
 Te escribo por algo que tendría que haberte mandado hace rato.
 
-Desde julio tenés acceso a un área de miembros del sitio, con las
+Desde julio tienes acceso a un área de miembros del sitio, con las
 herramientas y guías que uso en el coaching: los protocolos de testing,
 la guía de zonas y umbral, cómo leer la carga de entrenamiento (TSS,
 CTL, ATL, el gráfico PMC), los playbooks de ejecución de carrera por
@@ -64,7 +64,7 @@ par de rutinas de fuerza y activación para las semanas complicadas.
 
 Nunca te avisé que estaba ahí. Culpa mía.
 
-Entrá acá: https://triaperformance.com/members/
+Entra aquí: https://triaperformance.com/members/
 Contraseña: {{ token }}
 
 Es tuya, no la compartas. Queda guardada en el navegador, así que la
@@ -84,7 +84,7 @@ Iván
 - **It opens by admitting the gap.** "Tendría que haberte mandado hace rato" and "culpa mía" — because the honest version is the true one, and it pre-empts the obvious question of why they're only hearing about this now. Anything that dressed it up as a launch would be a lie they can date-check against their own start date.
 - **It names the actual contents, specifically.** "Un área de miembros con recursos" gets deleted. Naming TSS/CTL/ATL and the PMC chart is the line that makes a coached athlete recognise it as something they'd want.
 - **No CTA language, no urgency, no deadline.** They already pay. There is nothing to convert.
-- **The last paragraph is the useful part.** "Decime qué falta" turns a one-way announcement into a read on the tools backlog — which is currently prioritised on Iván's judgement alone. 33 replies would be the best input available for deciding what gets built after the zone calculator.
+- **The last paragraph is the useful part.** "Dime qué falta" turns a one-way announcement into a read on the tools backlog — which is currently prioritised on Iván's judgement alone. 33 replies would be the best input available for deciding what gets built after the zone calculator.
 - **No mention of "new tools every week."** That promise lives in the All-Access welcome email and is already a standing commitment; repeating it to coaching athletes adds a second audience to it for no gain.
 
 ---

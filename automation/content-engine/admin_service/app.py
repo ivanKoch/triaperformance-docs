@@ -253,7 +253,7 @@ def ideas():
   {''.join(cards)}
 </form>
 <footer>Las que dejes pendientes vuelven a aparecer. Las aprobadas pasan a la cola del redactor.</footer>"""
-    return page("Ideas pendientes", f"{len(rows)} propuestas · revisá en lote y guardá una vez",
+    return page("Ideas pendientes", f"{len(rows)} propuestas · revisa en lote y guarda una vez",
                 body, active="ideas")
 
 
@@ -331,7 +331,7 @@ def _idea_form(msg="", f=None):
   </div>
   <div class="field">
     <label>El ángulo</label>
-    <div class="hint">Qué podés decir vos que las fuentes no. Si esto queda genérico, el artículo también.</div>
+    <div class="hint">Qué puedes decir tú que las fuentes no. Si esto queda genérico, el artículo también.</div>
     <textarea name="angle" required>{g('angle')}</textarea>
   </div>
   <div class="row3">
@@ -350,7 +350,7 @@ def _idea_form(msg="", f=None):
   </div>
   <div class="field">
     <label>Destino del CTA</label>
-    <div class="hint">Un plan_id, o una ruta de /members/ si querés que el artículo empuje una herramienta.</div>
+    <div class="hint">Un plan_id, o una ruta de /members/ si quieres que el artículo empuje una herramienta.</div>
     <input type="text" name="cta_target" list="toolpaths" value="{g('cta_target')}">
     <datalist id="toolpaths">{dl}</datalist>
   </div>

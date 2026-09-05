@@ -1,5 +1,5 @@
 {
-  "_note": "UI copy for the auto-generated plan pages and catalogs (site/planes/p/, site/en/plans/p/, site/pt/planos/p/, and the three catalog index pages). Written natively per language, not machine-translated — SPANISH IS TUTEO as of September 4, 2026 (Iván's call) — ~~matches the vos/voseo register the rest of the site already uses~~; the whole ES marketing surface was converted that day and now complies with brand-guidelines.md §8, which had specified tú since the start and was simply not being followed (not the tu form brand-guidelines.md nominally calls for; the live site is consistently vos in Spanish, this follows it). Distance/focus values from the inventory (Sprint, Olympic, HYROX, Base, FTP...) are shown as-is in every language — they're used as loanwords in ES/PT endurance-sport content and a clean per-value translation table isn't worth building for Phase 1.",
+  "_note": "UI copy for the auto-generated plan pages and catalogs (site/planes/p/, site/en/plans/p/, site/pt/planos/p/, and the three catalog index pages). Written natively per language, not machine-translated — SPANISH IS TUTEO as of September 4, 2026 (Iván's call) — ~~matches the vos/voseo register the rest of the site already uses~~; the whole ES marketing surface was converted that day and now complies with brand-guidelines.md §8, which had specified tú since the start and was simply not being followed (not the tu form brand-guidelines.md nominally calls for; ~~the live site is consistently vos in Spanish, this follows it~~ — FALSE as of September 5, 2026: the sweep finished and no Spanish surface is voseo any more; the blog is the only remainder and it is tracked in open-loops.md). Distance/focus values from the inventory (Sprint, Olympic, HYROX, Base, FTP...) are shown as-is in every language — they're used as loanwords in ES/PT endurance-sport content and a clean per-value translation table isn't worth building for Phase 1.",
   "es": {
     "breadcrumbHome": "Inicio",
     "breadcrumbPlans": "Planes",
@@ -43,10 +43,10 @@
     "ctaBuy": "Comprar en TrainingPeaks",
     "ctaNote": "Te lleva a TrainingPeaks para completar la compra de forma segura.",
     "captureHeading": "¿No sabes si este plan es para ti?",
-    "captureBody": "Dejanos tu email y te ayudamos a elegir el plan correcto para tu objetivo y tu fecha. Sin costo, y no hace falta para comprar.",
+    "captureBody": "Déjanos tu email y te ayudamos a elegir el plan correcto para tu objetivo y tu fecha. Sin costo, y no hace falta para comprar.",
     "captureEmailLabel": "Email",
     "capturePlaceholder": "tu@email.com",
-    "captureSubmit": "Ayudame a elegir",
+    "captureSubmit": "Ayúdame a elegir",
     "captureSubmitting": "Enviando…",
     "captureSuccess": "Listo. Te escribimos dentro de las próximas 24 horas.",
     "captureError": "No se pudo enviar — puedes seguir con la compra igual.",
@@ -79,7 +79,7 @@
     "filterResetShort": "Limpiar",
     "forWhoTitle": "Para quién es este plan",
     "forWhoLevel": {
-      "Beginner": "Estás empezando, o vuelves después de un parate. El plan arranca desde una base accesible y progresa sin saltos.",
+      "Beginner": "Estás empezando, o vuelves después de una pausa. El plan arranca desde una base accesible y progresa sin saltos.",
       "Intermediate": "Ya entrenas de forma regular y quieres estructura. El plan asume una base aeróbica formada.",
       "Advanced": "Tienes temporadas encima y buscas rendimiento. El volumen y la intensidad son exigentes desde el arranque."
     },
@@ -109,9 +109,9 @@
       "power": "Potenciómetro o rodillo inteligente que mida potencia."
     },
     "gearSport": {
-      "Swimming": "Acceso a pileta.",
+      "Swimming": "Acceso a piscina.",
       "Cycling": "Bici de ruta o rodillo.",
-      "Triathlon": "Acceso a pileta, bici o rodillo, y espacio para correr.",
+      "Triathlon": "Acceso a piscina, bici o rodillo, y espacio para correr.",
       "Duathlon": "Bici o rodillo, y espacio para correr.",
       "Running": "Espacio para correr, en calle o cinta."
     },

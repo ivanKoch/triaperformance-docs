@@ -341,21 +341,21 @@ COPY = {
  "¿Cuál es tu deporte?": "What is your sport?",
  "Correr": "Running", "Bici": "Cycling", "Nadar": "Swimming",
  "Triatlón": "Triathlon", "Todo el cuerpo": "Full body",
- "¿Cuánto tiempo tenés?": "How long do you have?",
+ "¿Cuánto tiempo tienes?": "How long do you have?",
  "30 min": "30 min", "45 min": "45 min", "60 min": "60 min",
  "Los tres tienen los mismos tres bloques y crecen juntos. Sesenta es donde entran el flujo largo y las posturas pasivas profundas, que es lo que no cabe en ningún otro lado.":
    "All three have the same three blocks and they grow together. Sixty is where the long flow and the deep passive holds fit — the things that do not fit anywhere else.",
- "Alcanza con una colchoneta y una pared. Si tenés banda, rodillo, bastón o un escalón, algunos ejercicios ofrecen esa versión con el botón":
+ "Alcanza con una colchoneta y una pared. Si tienes banda, rodillo, bastón o un escalón, algunos ejercicios ofrecen esa versión con el botón":
    "A mat and a wall are enough. If you have a band, a roller, a stick or a step, some exercises offer that version through the",
  "Cambiar ejercicio": "Change exercise",
  "Esto es una sesión suave, no un día libre.": "This is an easy session, not a day off.",
- " Hay un bloque de activación real — glúteo, core y escápula. Ponelo en un día fácil o de descanso, no la víspera de una sesión de calidad ni de un fondo.":
+ " Hay un bloque de activación real — glúteo, core y escápula. Ponlo en un día fácil o de descanso, no la víspera de una sesión de calidad ni de un fondo.":
    " There is a real activation block in here — glutes, core and shoulder blades. Put it on an easy or rest day, not the day before a quality session or a long one.",
- "¿Entrenás hoy? Entonces esto no es lo que buscás: ": "Training today? Then this is not what you want: ",
+ "¿Entrenas hoy? Entonces esto no es lo que buscas: ": "Training today? Then this is not what you want: ",
  "Activación": "Activation",
  " antes de entrenar, ": " before you train, ",
  "Movilidad": "Mobility",
- " después. Esta sesión es para el día que no entrenás.": " after. This session is for the day you do not train.",
+ " después. Esta sesión es para el día que no entrenas.": " after. This session is for the day you do not train.",
  "Armar mi sesión →": "Build my session →",
  "Empezar la sesión →": "Start the session →",
  "Sesión completa": "Session complete",
@@ -388,9 +388,9 @@ COPY = {
    "A swimmer's shoulder is not fixed by stretching: it is fixed with scapular control and range you can hold. That is slow, repeated work, and it needs a day when you do not have to get in the water afterwards.",
  "Tres deportes dejan tres patrones y ninguno se corrige apurado. Este es el día para lo que no entra en una activación: CARs largos, posturas pasivas, contracción-suelta y equilibrio, que es lo primero que se pierde con el volumen.":
    "Three sports leave three patterns and none of them is corrected in a hurry. This is the day for what does not fit into an activation: long CARs, passive holds, contract-relax and balance, which is the first thing volume takes away.",
- "Un día de recuperación bien usado hace más por tu rango que tres activaciones apuradas. Acá hay tiempo para lo lento, lo largo y lo aburrido, que es donde está casi todo el beneficio.":
+ "Un día de recuperación bien usado hace más por tu rango que tres activaciones apuradas. Aquí hay tiempo para lo lento, lo largo y lo aburrido, que es donde está casi todo el beneficio.":
    "A recovery day used well does more for your range than three rushed activations. Here there is time for the slow, the long and the boring, which is where almost all of the benefit lives.",
- "Listo. Eso es una sesión, no un descanso — tenelo en cuenta mañana.":
+ "Listo. Eso es una sesión, no un descanso — tenlo en cuenta mañana.":
    "Done. That was a session, not a rest — keep it in mind tomorrow.",
  "Sin deporte asignado. Sirve igual para un día de gimnasio o para uno de escritorio.":
    "No sport assumed. Works just as well for a gym day or a desk day.",
@@ -409,21 +409,21 @@ COPY = {
  "¿Cuál es tu deporte?": "Qual é o seu esporte?",
  "Correr": "Corrida", "Bici": "Bike", "Nadar": "Natação",
  "Triatlón": "Triatlo", "Todo el cuerpo": "Corpo inteiro",
- "¿Cuánto tiempo tenés?": "Quanto tempo você tem?",
+ "¿Cuánto tiempo tienes?": "Quanto tempo você tem?",
  "30 min": "30 min", "45 min": "45 min", "60 min": "60 min",
  "Los tres tienen los mismos tres bloques y crecen juntos. Sesenta es donde entran el flujo largo y las posturas pasivas profundas, que es lo que no cabe en ningún otro lado.":
    "Os três têm os mesmos três blocos e crescem juntos. Sessenta é onde entram o fluxo longo e as posturas passivas profundas, que é o que não cabe em nenhum outro lugar.",
- "Alcanza con una colchoneta y una pared. Si tenés banda, rodillo, bastón o un escalón, algunos ejercicios ofrecen esa versión con el botón":
+ "Alcanza con una colchoneta y una pared. Si tienes banda, rodillo, bastón o un escalón, algunos ejercicios ofrecen esa versión con el botón":
    "Basta um colchonete e uma parede. Se você tiver faixa, rolo, bastão ou um degrau, alguns exercícios oferecem essa versão pelo botão",
  "Cambiar ejercicio": "Trocar exercício",
  "Esto es una sesión suave, no un día libre.": "Isto é uma sessão leve, não um dia de folga.",
- " Hay un bloque de activación real — glúteo, core y escápula. Ponelo en un día fácil o de descanso, no la víspera de una sesión de calidad ni de un fondo.":
+ " Hay un bloque de activación real — glúteo, core y escápula. Ponlo en un día fácil o de descanso, no la víspera de una sesión de calidad ni de un fondo.":
    " Há um bloco de ativação de verdade — glúteo, core e escápula. Coloque num dia leve ou de descanso, não na véspera de uma sessão de qualidade nem de um longão.",
- "¿Entrenás hoy? Entonces esto no es lo que buscás: ": "Vai treinar hoje? Então não é isto que você procura: ",
+ "¿Entrenas hoy? Entonces esto no es lo que buscas: ": "Vai treinar hoje? Então não é isto que você procura: ",
  "Activación": "Ativação",
  " antes de entrenar, ": " antes de treinar, ",
  "Movilidad": "Mobilidade",
- " después. Esta sesión es para el día que no entrenás.": " depois. Esta sessão é para o dia em que você não treina.",
+ " después. Esta sesión es para el día que no entrenas.": " depois. Esta sessão é para o dia em que você não treina.",
  "Armar mi sesión →": "Montar minha sessão →",
  "Empezar la sesión →": "Começar a sessão →",
  "Sesión completa": "Sessão completa",
@@ -456,9 +456,9 @@ COPY = {
    "O ombro do nadador não se resolve alongando: resolve-se com controle escapular e amplitude que você consiga sustentar. Isso é trabalho lento e repetido, e precisa de um dia em que você não tenha que entrar na água depois.",
  "Tres deportes dejan tres patrones y ninguno se corrige apurado. Este es el día para lo que no entra en una activación: CARs largos, posturas pasivas, contracción-suelta y equilibrio, que es lo primero que se pierde con el volumen.":
    "Três esportes deixam três padrões e nenhum se corrige com pressa. Este é o dia para o que não cabe numa ativação: CARs longos, posturas passivas, contração-soltura e equilíbrio, que é a primeira coisa que o volume tira.",
- "Un día de recuperación bien usado hace más por tu rango que tres activaciones apuradas. Acá hay tiempo para lo lento, lo largo y lo aburrido, que es donde está casi todo el beneficio.":
+ "Un día de recuperación bien usado hace más por tu rango que tres activaciones apuradas. Aquí hay tiempo para lo lento, lo largo y lo aburrido, que es donde está casi todo el beneficio.":
    "Um dia de recuperação bem usado faz mais pela sua amplitude do que três ativações apressadas. Aqui há tempo para o lento, o longo e o chato, que é onde está quase todo o benefício.",
- "Listo. Eso es una sesión, no un descanso — tenelo en cuenta mañana.":
+ "Listo. Eso es una sesión, no un descanso — tenlo en cuenta mañana.":
    "Pronto. Isso foi uma sessão, não um descanso — leve isso em conta amanhã.",
  "Sin deporte asignado. Sirve igual para un día de gimnasio o para uno de escritorio.":
    "Sem esporte definido. Serve igual para um dia de academia ou de escritório.",
@@ -477,7 +477,7 @@ C1 = ("SOLO EN ESTA HERRAMIENTA\n"
       "       ser la matriz de activación estirada. */")
 C2 = ("=== MOVILIDAD\n"
       "       Movimientos que también existen en /members/core/ o en la matriz de\n"
-      "       activación. Están acá porque son los correctos, pero son MINORÍA y van\n"
+      "       activación. Están aquí porque son los correctos, pero son MINORÍA y van\n"
       "       después de los de arriba — ver la decisión 1 en el bloque de notas. */")
 C3 = ("========== ACTIVACIÓN\n"
       "       Esto es trabajo de fuerza y control, no movilidad, y por eso el bloque se\n"
@@ -542,23 +542,23 @@ URLS = {
 # "gimnasio o para uno". Four of five failures from one shortcut. ***
 PAIN = {
 "en": {
- 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/rodillas/">Rodillas</a> o <a href="/members/aquiles/">Aquiles</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
+ 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasa por <a href="/members/rodillas/">Rodillas</a> o <a href="/members/aquiles/">Aquiles</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
    'If something <strong>hurts</strong> rather than feels stiff, this is not the right tool today: go to <a href="/members/en/knees/">Knees</a> or <a href="/members/en/achilles/">Achilles</a>. And if the pain persists, that is a doctor, not a routine.',
- 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/rodillas/">Rodillas</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
+ 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasa por <a href="/members/rodillas/">Rodillas</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
    'If something <strong>hurts</strong> rather than feels stiff, this is not the right tool today: go to <a href="/members/en/knees/">Knees</a>. And if the pain persists, that is a doctor, not a routine.',
- 'Si el hombro <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/hombro/">Hombro de nadador</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
+ 'Si el hombro <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasa por <a href="/members/hombro/">Hombro de nadador</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
    'If the shoulder <strong>hurts</strong> rather than feels stiff, this is not the right tool today: go to <a href="/members/en/shoulder/">Swimmer\u2019s Shoulder</a>. And if the pain persists, that is a doctor, not a routine.',
- 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/rodillas/">Rodillas</a>, <a href="/members/aquiles/">Aquiles</a> u <a href="/members/hombro/">Hombro</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
+ 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasa por <a href="/members/rodillas/">Rodillas</a>, <a href="/members/aquiles/">Aquiles</a> u <a href="/members/hombro/">Hombro</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
    'If something <strong>hurts</strong> rather than feels stiff, this is not the right tool today: go to <a href="/members/en/knees/">Knees</a>, <a href="/members/en/achilles/">Achilles</a> or <a href="/members/en/shoulder/">Shoulder</a>. And if the pain persists, that is a doctor, not a routine.',
 },
 "pt": {
- 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/rodillas/">Rodillas</a> o <a href="/members/aquiles/">Aquiles</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
+ 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasa por <a href="/members/rodillas/">Rodillas</a> o <a href="/members/aquiles/">Aquiles</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
    'Se algo <strong>dói</strong> em vez de estar duro, esta não é a ferramenta de hoje: passe por <a href="/members/pt/joelhos/">Joelhos</a> ou <a href="/members/pt/aquiles/">Aquiles</a>. E se a dor continuar, é consulta médica, não uma rotina.',
- 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/rodillas/">Rodillas</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
+ 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasa por <a href="/members/rodillas/">Rodillas</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
    'Se algo <strong>dói</strong> em vez de estar duro, esta não é a ferramenta de hoje: passe por <a href="/members/pt/joelhos/">Joelhos</a>. E se a dor continuar, é consulta médica, não uma rotina.',
- 'Si el hombro <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/hombro/">Hombro de nadador</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
+ 'Si el hombro <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasa por <a href="/members/hombro/">Hombro de nadador</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
    'Se o ombro <strong>dói</strong> em vez de estar duro, esta não é a ferramenta de hoje: passe por <a href="/members/pt/ombro/">Ombro de Nadador</a>. E se a dor continuar, é consulta médica, não uma rotina.',
- 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasá por <a href="/members/rodillas/">Rodillas</a>, <a href="/members/aquiles/">Aquiles</a> u <a href="/members/hombro/">Hombro</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
+ 'Si algo <strong>duele</strong> en vez de sentirse duro, esto no es lo tuyo hoy: pasa por <a href="/members/rodillas/">Rodillas</a>, <a href="/members/aquiles/">Aquiles</a> u <a href="/members/hombro/">Hombro</a>. Y si el dolor sigue, es consulta médica, no una rutina.':
    'Se algo <strong>dói</strong> em vez de estar duro, esta não é a ferramenta de hoje: passe por <a href="/members/pt/joelhos/">Joelhos</a>, <a href="/members/pt/aquiles/">Aquiles</a> ou <a href="/members/pt/ombro/">Ombro</a>. E se a dor continuar, é consulta médica, não uma rotina.',
 },
 }

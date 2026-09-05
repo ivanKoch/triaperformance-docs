@@ -87,7 +87,7 @@ One `L` library object (one definition per exercise, one cue) and eight `R` rout
 
 **Two content decisions taken during the build, both needing Iván's confirmation:**
 
-1. **"Figure 4 right priority" and "hold 90 seconds right side" were neutralised.** Those are Iván's own asymmetry — his right-side neural tension — written when this was a routine for himself. Published to every athlete they would prescribe one person's imbalance to everyone. The cue now reads *"empezá por el lado que sentís más rígido."* **If a right-side bias is meant generally, say so and it goes back.**
+1. **"Figure 4 right priority" and "hold 90 seconds right side" were neutralised.** Those are Iván's own asymmetry — his right-side neural tension — written when this was a routine for himself. Published to every athlete they would prescribe one person's imbalance to everyone. The cue now reads *"empieza por el lado que sientes más rígido."* **If a right-side bias is meant generally, say so and it goes back.**
 2. **The routines run 16–19 minutes**, not the ~10 of the tools they replaced — 13–14 exercises, most unilateral, at 40–45s per side plus 15s rest. Roughly five of those minutes are rest. *Levers if that is too long: cut `restSeconds`, drop rest between the floor holds, or trim exercises.* Left at Iván's numbers rather than quietly shortened his prescription.
 
 ---

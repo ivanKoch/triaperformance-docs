@@ -44,7 +44,7 @@ Two questions — where (home / gym) × foam roller (yes / no) — build one of 
 
 - **Iván has not run it yet.** Twelve routines (4 × 3 languages) walked end to end in a browser, tapping through every set to the done screen; none verified by a human doing the reps. **This is the only thing standing between v1 and "finished".**
 - **The two omitted exercises** (eccentric soleus, knee-flexion hamstring) — revisit only if Iván raises them.
-- **The red-flag box ends with "Escribime y lo vemos"** / "Write to me and we'll sort it out" / "Me escreva e a gente vê". *That is a promise of a reply, in three languages, from a page that any subscriber can reach.* Fine at 2 subscribers; worth re-reading if that number moves.
+- **The red-flag box ends with "Escríbeme y lo vemos"** / "Write to me and we'll sort it out" / "Me escreva e a gente vê". *That is a promise of a reply, in three languages, from a page that any subscriber can reach.* Fine at 2 subscribers; worth re-reading if that number moves.
 
 ## Translation note
 

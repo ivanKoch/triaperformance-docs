@@ -29,7 +29,7 @@
 
 | | **Disclosure** | **The personal ask** |
 |---|---|---|
-| What | "This program exists, here's how it works" | "¿Tenés a alguien en mente?" |
+| What | "This program exists, here's how it works" | "¿Tienes a alguien en mente?" |
 | Who | Every engaged athlete, any tenure | Best relationships only |
 | When | Once. Then part of onboarding forever | After a result — a PR, a race, a clean test |
 | Result required | **No** | Yes |

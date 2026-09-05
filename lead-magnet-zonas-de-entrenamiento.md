@@ -16,7 +16,7 @@ Rebuild it with `node automation/build-zones-guide-pdf.js es`. **Playwright is n
 
 **Six failures were found in the old PDF; four of them were content, not design.** They are recorded here because they are the reason the new file is shaped the way it is, and because the same mistakes are cheap to make again.
 
-1. **🚨 The "black hole" framing condemned two of our own key sessions.** The old guide mapped 5-zone Z3 and Z4 into Seiler's Zone 2 and labelled both *"genera mucha fatiga para la adaptación que ofrece · a minimizar"*. `site/_data/zoneCopy.json` calls Z3 **"Extensivo de umbral. Sesión clave"** and Z4 **"Intensivo de umbral. La otra sesión clave"**, and `methodology.md` §5 lists a weekly session above threshold as a non-negotiable. *A prospect read that guide, bought coaching, and got a plan contradicting it in week one.*
+1. **🚨 It told the reader to minimise two of our own key sessions.** The old guide mapped 5-zone Z3 and Z4 into the 3-zone model's Zone 2 and labelled both *"genera mucha fatiga para la adaptación que ofrece · a minimizar"*. `site/_data/zoneCopy.json` calls Z3 **"Extensivo de umbral. Sesión clave"** and Z4 **"Intensivo de umbral. La otra sesión clave"**, and `methodology.md` §5 lists a weekly session above threshold as a non-negotiable. *A prospect read that guide, bought coaching, and got a plan contradicting it in week one.*
 2. **The distribution was stated as pure 80/20.** `methodology.md` §5 is **80/15/5 or 70/25/5**, shifting pyramidal near the race. The middle is trained on purpose, 15–25% of the volume. Separately, even Seiler's own elite data carries 5–10% moderate work — the zero-percent version is the YouTube compression, not the source.
 3. **It promised 7 zones and delivered a generic 5.** Zone X and Zone Y never appeared. Worse, the borrowed chart on the last page labelled *its* 7-zone row `Z0 · Z1 · Z2 · Z3 · Z4 · Z5a/b/c` — a different model entirely. A reader who finished that PDF and opened the calculator saw a table matching nothing they had just read.
 4. **The bridging number was never given.** Everything this business publishes is anchored at **100% = LT2 = threshold**. That makes the mapping arithmetic. It was absent, which is precisely why the guide could not resolve the confusion it existed to resolve.
@@ -33,15 +33,23 @@ This is the decision the whole rebuild turns on. The old PDF was a **fifth hand-
 **2 · The two anchors, and how honest each one is.**
 `LT2 = 100%` is arithmetic — the threshold *is* the anchor, and it is the Zone 3 ceiling. **`LT1 ≈ 90%` is an approximation**, and the guide says so on the page: LT1 lands roughly 85–95% of threshold depending on the athlete. It is drawn as the Zone 2 ceiling because that is where it falls for most athletes, and the copy calls it a band rather than a line. *Do not let a future edit quietly promote it to a fact — the caveat is what makes the rest credible.*
 
-**3 · Seiler's Zone 2 is our Zone X + our Zone 3. Zone Y is its lid.**
-That is the guide's central claim and it is exact given decision 2: LT1→LT2 is 90→100%, which is X (90–95) plus 3 (95–100). Zone Y (100–102) sits on the line itself. **The honest consequence, which the guide states rather than hides: our Zone 3 is inside the black hole and we train it deliberately.** That is not a contradiction to be smoothed over — it is the difference between polarized-with-threshold and pure polarized, and owning it is more persuasive than pretending we run 80/0/20.
+**3 · The 3-zone model's Zone 2 equals Zone X + Zone 3. That is the guide's central claim.**
+It is exact given decision 2: LT1→LT2 is 90→100%, which is X (90–95) plus Zone 3 (95–100). Zone Y (100–102) sits on the threshold line itself.
+
+**3a · No "black hole." Decision by Iván, September 5, 2026, and it overturns his own earlier framing.**
+The old PDF — and, in one line, `lead-magnet-sesiones-por-zona.md` — called the band between LT1 and LT2 *el agujero negro* and told the reader to avoid it. **That is wrong on the merits, not just in tone: well prescribed, that band is marathon pace, half- and full-Ironman pace, and the tempo work that is a key weekly session in these plans.** The guide now describes the moderate domain neutrally and puts the real point where it belongs — *the franja intermedia is prescribed, not improvised*. The cost being warned about is unplanned drift into it on an easy day, never the zone itself. **Do not reintroduce the pejorative label in the EN or PT translation.**
+
+**3b · Zone X and Zone Y are not ours. They come from `80/20 Running` (Matt Fitzgerald).**
+*(Iván, September 5, 2026 — he is explicit that he is not the author of that system.)* The guide credits it by name on page 3. **Two repo docs asserted the opposite — `methodology.md` §4 and `zones-calculator-brief.md` §2 both said "house conventions, not standard" — and both were struck through with a dated note in the same session.** A third copy is customer-facing and still live: `lead-magnet-sesiones-por-zona.md` says *"Les dimos nombre propio"*, which is shipped in all three sessions-guide PDFs. That one is logged in `open-loops.md`, not silently edited, because fixing it means rebuilding three published files.
 
 **4 · Three figures, all ours, all vector. No borrowed images, ever.**
-Fig 1, the lactate curve (inline SVG). Fig 2, the stack — one axis, five rows: 3-zone, our 7, RPE, sustainable time, session name. Fig 3, the two "Zona 2" bands on the same axis. Together they replace the two scanned third-party charts *and* the two large tables from the old file. **The old guide's second image had no attributable source and must not be reused in any language.**
+Fig 1, the lactate curve (inline SVG). Fig 2, the stack — one axis, five rows: 3-zone, 7-zone, RPE, sustainable time, session name. Fig 3, the two "Zona 2" bands on the same axis. Together they replace the two scanned third-party charts *and* the two large tables from the old file. **The old guide's second image had no attributable source and must not be reused in any language.**
 
 **5 · One RPE mapping in the document, and one only.** Fig 2 gives the numbers; the talk-test table on page 6 gives the feel. They are generated from the same zone IDs. *The old file's three conflicting mappings is the failure mode this replaces.*
 
 **6 · Same filename, same path.** Overwrite in place. The old URL is linked from already-sent emails, `automation/contact-form-workflow.json`, `automation/coachmatch-email-nurture-2-3.json`, `site/members/guias/index.njk`, `site/blog/como-elegir-tu-plan-de-maraton.njk` and a permanent redirect in `automation/Caddyfile`. Renaming would mean editing all of them and still keeping a redirect. *Nothing downstream was touched.*
+
+**6a · Register: explanatory, never anticipatory.** *(Iván, September 5, 2026.)* The first draft opened with *"Si leíste que hay que evitar la zona 2… para que no vuelvas a dudar"* and carried the same shape throughout — presuming what the reader already believes, then correcting it. **It reads as defensive.** The guide now states what things are and lets the reader place themselves: *"«Zona 2» no significa lo mismo en cada sistema"*, not *"si te dijeron X, en realidad es Y."* **Watch for this in translation** — the anticipatory construction is easy to reintroduce, and it is the single note Iván gave twice.
 
 **7 · CTA order is All-Access first, coaching second, single plan third** — same call, same reasoning, as `lead-magnet-sesiones-por-zona.md`, Aug 13, 2026.
 
@@ -54,12 +62,12 @@ Fig 1, the lactate curve (inline SVG). Fig 2, the stack — one axis, five rows:
 | # | Page | Job |
 |---|---|---|
 | 1 | Cover | Zonestrip `1 2 X 3 Y 4 5`, X and Y highlighted — same device as the sessions guide |
-| 2 | No hay un umbral. Hay dos. | Fig 1. LT1, LT2, the curve moving right. Closes on the anchor: everything is a % of LT2 |
-| 3 | Un solo eje, tres marcos | **Fig 2.** The page the guide exists for |
-| 4 | Las dos "Zona 2" ni siquiera se tocan | Fig 3 + the two quotes + the one-line translation + the short rule |
+| 2 | No hay un umbral. Hay dos. | Fig 1, then **three blocks in sequence: LT1 → entre LT1 y LT2 → LT2.** The middle block is load-bearing — it is what makes LT2 "exponential accumulation" rather than "the point where accumulation starts." Closes on lab → field → LT2 is the 100% |
+| 3 | Múltiples sistemas, una fisiología | **Fig 2.** The page the guide exists for |
+| 4 | "Zona 2" no significa lo mismo en cada sistema | Fig 3 + the two model descriptions + the translation + how to tell which one you are being given |
 | 5 | Encontrá tu umbral | Test protocols straight from `methodology.md` §3, hygiene rules, calculator CTA |
 | 6 | RPE y tiempo sostenible | One RPE mapping. TTE, and why Zone 4 exists |
-| 7 | Qué hacemos con esto | 80/15/5, why not 80/0/20, X and Y avoided for opposite reasons, bridge to the sessions guide, quiénes somos |
+| 7 | Cómo lo usamos | 80/15/5 → pyramidal; the middle band is prescribed not improvised; X as marathon pace; Y as the threshold band; bridge to the sessions guide; quiénes somos |
 | 8 | CTA | Three offers, `page-break-inside:avoid` |
 
 ---
@@ -69,6 +77,7 @@ Fig 1, the lactate curve (inline SVG). Fig 2, the stack — one axis, five rows:
 - [ ] **EN and PT.** Add `en` and `pt` keys to `zones-guide-content.js`; the builder needs no change. Filenames follow the sessions-guide convention (`training-zone-sessions.pdf` / `sessoes-por-zona.pdf` → pick the equivalents before building).
 - [ ] **Add playwright to `package.json`** as a devDependency so neither guide's builder depends on a machine-local install.
 - [ ] **`site/members/guias/index.njk` still describes the old guide.** Check the blurb matches the new title before the next site build.
+- [ ] **`lead-magnet-sesiones-por-zona.md` claims authorship of Zones X and Y** (*"Les dimos nombre propio"*) and calls the moderate band *el agujero negro*. Both are now superseded — see decisions 3a and 3b. The text is live in three published PDFs, so this is a rebuild, not an edit. Natural moment: the EN/PT pass above.
 - [ ] **Deliberately not done:** extracting shared PDF CSS into `automation/pdf-style.js`. See standing decision 8.
 
 *Related and separate: the Backlog item on the four remaining Spanish-only legacy guides (`intervalos.pdf`, `pre-entreno.pdf`, `guia-de-herramientas-mentales.pdf`, `guia-de-herramientas-nutricionales.pdf`) — same vintage, same 20×-too-large problem, no funnel urgency.*

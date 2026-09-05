@@ -35,7 +35,7 @@ El modelo es polarizado 80/20: cerca del 80% del volumen se mantiene suave, el 2
 
 **La X y la Y no son zonas nuevas.** Son pedazos que les recortamos a la Zona 2 y a la Zona 4. Les dimos nombre propio porque a las dos las queremos evitar — y no se pueden evitar zonas que no tienen nombre. Lo interesante es que las evitamos por razones exactamente opuestas.
 
-**Zona X — la parte rápida de la Zona 2.** Es el techo de tu Zona 2. Sale bastante más cara en fatiga y te devuelve prácticamente el mismo estímulo aeróbico que si hubieras ido más lento: pagás más y te llevás lo mismo. Es el error más común del entrenamiento de resistencia, y casi nunca es una decisión — salís a hacer un rodaje suave, te sentís bien, el ritmo se acomoda solo unos segundos, y terminás la semana con la fatiga de una sesión de calidad que nunca hiciste y sin piernas para la que sí tenías programada. La excepción es el maratón y el Ironman: ahí la Zona X es tu ritmo de competición y hay que entrenarla a propósito.
+**Zona X — la parte rápida de la Zona 2.** Es el techo de tu Zona 2. Sale bastante más cara en fatiga y te devuelve prácticamente el mismo estímulo aeróbico que si hubieras ido más lento: pagas más y te llevas lo mismo. Es el error más común del entrenamiento de resistencia, y casi nunca es una decisión — sales a hacer un rodaje suave, te sientes bien, el ritmo se acomoda solo unos segundos, y terminas la semana con la fatiga de una sesión de calidad que nunca hiciste y sin piernas para la que sí tenías programada. La excepción es el maratón y el Ironman: ahí la Zona X es tu ritmo de competición y hay que entrenarla a propósito.
 
 **Zona Y — el piso de la Zona 4.** También se evita, pero la intuición es la contraria: no es que sobre, es que no alcanza. Tu umbral no es una línea fija — se mueve con la forma, el descanso, el calor y el día. Entrenar justo al 100% de tu número no te garantiza nada: si ese día tu umbral real está un poco más arriba, la sesión te quedó corta y las adaptaciones no llegaron. Pagaste el costo de una sesión de umbral sin comprar el beneficio. Para asegurarlas hay que entrenar un poco por encima: desde el **102%**, que es justamente el piso de la Zona 4. La Zona Y es esa franja de duda entre el 100 y el 102, y se entrena sólo cuando es tu ritmo exacto de competición.
 
@@ -76,7 +76,7 @@ Todos los porcentajes son **sobre tu umbral**, no sobre tu frecuencia cardíaca 
 
 ## Zona 2 · Aeróbico base — 81–90% FC · 76–87% ritmo
 
-**Qué es.** Tu ritmo de rodaje natural. Tenés que poder sostener una conversación completa sin que se te corte la respiración.
+**Qué es.** Tu ritmo de rodaje natural. Tienes que poder sostener una conversación completa sin que se te corte la respiración.
 
 **Qué adapta.** Desarrollo mitocondrial, más capilares, mejor uso de la grasa como combustible, resistencia a la fatiga. Es la zona que construye el motor.
 
@@ -103,7 +103,7 @@ Todos los porcentajes son **sobre tu umbral**, no sobre tu frecuencia cardíaca 
 1. **Larga con calidad** — 45–60 minutos en Z2, después 40–50 minutos en Zona X, 10' de vuelta a la calma.
 2. **Bloques fraccionados** — 3 x 20 minutos en Zona X con 5' en Z1 entre bloques, dentro de una tirada larga.
 
-**Qué no hacer.** No caigas acá por accidente en un día fácil. Si no estás preparando una distancia larga, evitala.
+**Qué no hacer.** No caigas aquí por accidente en un día fácil. Si no estás preparando una distancia larga, evítala.
 
 **Cuánto.** 0% si no estás en bloque de maratón o IM. En bloque, 5–10%, y se descuenta del 20% intenso — no es una zona barata.
 
@@ -121,7 +121,7 @@ Todos los porcentajes son **sobre tu umbral**, no sobre tu frecuencia cardíaca 
 2. **Intervalos cruise** — 4 x 8 minutos en Z3 con 2 minutos en Z1.
 3. **Tempo fraccionado largo** — 3 x 15 minutos en Z3 con 3 minutos en Z1. Sesión avanzada: 45 minutos de trabajo, no la pongas antes de tener varios meses de tempos continuos encima.
 
-**Qué no hacer.** Convertir el tempo en carrera. Si te vas a Z4, perdés el propósito metabólico y llegás fatigado a la sesión siguiente.
+**Qué no hacer.** Convertir el tempo en carrera. Si te vas a Z4, pierdes el propósito metabólico y llegas fatigado a la sesión siguiente.
 
 **Cuánto.** ~5–10%.
 
@@ -131,11 +131,11 @@ Todos los porcentajes son **sobre tu umbral**, no sobre tu frecuencia cardíaca 
 
 **Qué es.** La franja finísima justo alrededor del umbral. Demasiado exigente para sostenerla como un tempo, y demasiado suave para dar las adaptaciones de VO2máx.
 
-**Dónde vive en la práctica:** es territorio de **15k**, y son los **últimos 3 kilómetros de un medio maratón** — cuando ya no queda nada que administrar y el ritmo sube solo. Si tenés que ponerle una carrera, esa es. Fuera de ahí, es una zona rara de entrenar a propósito.
+**Dónde vive en la práctica:** es territorio de **15k**, y son los **últimos 3 kilómetros de un medio maratón** — cuando ya no queda nada que administrar y el ritmo sube solo. Si tienes que ponerle una carrera, esa es. Fuera de ahí, es una zona rara de entrenar a propósito.
 
 **Qué adapta.** Tolerancia a trabajar exactamente en el umbral, y familiaridad con ese ritmo si es tu ritmo de competición.
 
-**Sesiones — solo si competís a este ritmo**
+**Sesiones — solo si compites a este ritmo**
 
 1. **Simulacro de carrera** — 3 x 10 minutos en Zona Y con 3' de recuperación.
 2. **Medio maratón por el final** — 30 minutos continuos en Z3 y, sin pausa, 10 minutos en Zona Y. Entrena exactamente lo que decide un medio: cerrar por encima del umbral con 18 kilómetros en las piernas. Es la sesión que más justifica que esta zona exista.
@@ -159,7 +159,7 @@ Todos los porcentajes son **sobre tu umbral**, no sobre tu frecuencia cardíaca 
 2. **Series medias** — 8 x 3 minutos en Z4 con 90 segundos en Z1.
 3. **Bloques dobles** — 2 x 12 minutos en la parte baja de la Z4 con 3 minutos en Z1.
 
-**Qué no hacer.** No la corras a ritmo de 5k. La Z4 por ritmo llega hasta el 115%, pero estas sesiones viven en la mitad baja de esa franja: si arrancás demasiado rápido, la sesión se convierte en VO2máx a medias y no cumple ninguna de las dos funciones.
+**Qué no hacer.** No la corras a ritmo de 5k. La Z4 por ritmo llega hasta el 115%, pero estas sesiones viven en la mitad baja de esa franja: si arrancas demasiado rápido, la sesión se convierte en VO2máx a medias y no cumple ninguna de las dos funciones.
 
 **Cuánto.** ~5–8%.
 
@@ -177,11 +177,11 @@ Todos los porcentajes son **sobre tu umbral**, no sobre tu frecuencia cardíaca 
 2. **Intervalos por tiempo** — 5 x 3 minutos con 2 a 3 minutos de recuperación.
 3. **Series cortas** — 10 a 12 x 400 metros con 90 segundos a 2 minutos.
 
-**Trabajo neuromuscular** (cuestas cortas, rectas progresivas): 8 a 10 x 15 segundos en subida a tope, bajando caminando, con 2 a 3 minutos entre repeticiones. **No se prescribe por zona sino por duración y esfuerzo máximo** — el esfuerzo termina antes de que el pulso llegue a ningún lado, así que ni la FC ni la zona te dicen nada útil acá. Van al final de un rodaje suave, en dosis muy chicas.
+**Trabajo neuromuscular** (cuestas cortas, rectas progresivas): 8 a 10 x 15 segundos en subida a tope, bajando caminando, con 2 a 3 minutos entre repeticiones. **No se prescribe por zona sino por duración y esfuerzo máximo** — el esfuerzo termina antes de que el pulso llegue a ningún lado, así que ni la FC ni la zona te dicen nada útil aquí. Van al final de un rodaje suave, en dosis muy chicas.
 
-**Qué no hacer.** Recortar los descansos por falso heroísmo. Si acortás la recuperación vas a llegar a la serie 5 tan cansado que el ritmo se cae a Z3 y la sesión deja de ser VO2máx. Tenés que poder repetir el mismo ritmo en la última serie que en la primera.
+**Qué no hacer.** Recortar los descansos por falso heroísmo. Si acortas la recuperación vas a llegar a la serie 5 tan cansado que el ritmo se cae a Z3 y la sesión deja de ser VO2máx. Tienes que poder repetir el mismo ritmo en la última serie que en la primera.
 
-**Métricas.** Acá el ritmo es lo único que manda. La FC llega tarde: si esperás a que el pulso suba para regular, el primer minuto lo corriste como un sprint y la serie se arruina. Salí al ritmo objetivo desde el segundo cero.
+**Métricas.** Aquí el ritmo es lo único que manda. La FC llega tarde: si esperas a que el pulso suba para regular, el primer minuto lo corriste como un sprint y la serie se arruina. Sal al ritmo objetivo desde el segundo cero.
 
 **Cuánto.** ~2–5%, incluyendo el trabajo neuromuscular.
 
@@ -216,7 +216,7 @@ Suma cerca de 100% en cualquier combinación válida: si estás en bloque de mar
 | 4 · Umbral alto | 102–110% | 102–105% | Intensivo de umbral. La otra sesión clave |
 | 5 · VO2máx | 110–150% | 105–120% | Series cortas, poco volumen, alto costo |
 
-**Qué métrica manda:** potencia, siempre. La FC va detrás con varios minutos de retraso y en intervalos cortos no sirve para pautar nada. Sí sirve para una cosa que la potencia no te dice: el desacople. Si a las tres horas seguís en Z2 de vatios pero el pulso se fue a Z3, tu Zona 2 metabólica se terminó por hoy.
+**Qué métrica manda:** potencia, siempre. La FC va detrás con varios minutos de retraso y en intervalos cortos no sirve para pautar nada. Sí sirve para una cosa que la potencia no te dice: el desacople. Si a las tres horas sigues en Z2 de vatios pero el pulso se fue a Z3, tu Zona 2 metabólica se terminó por hoy.
 
 ## Zona 1 · Recuperación — 50–70% FTP
 
@@ -229,7 +229,7 @@ Suma cerca de 100% en cualquier combinación válida: si estás en bloque de mar
 1. **Rodillo regenerativo** — 30 a 45 minutos a cadencia alta (90+ rpm) sin resistencia.
 2. **Calentamiento y vuelta a la calma** — 15 minutos suaves antes y después de un bloque de intervalos.
 
-**Qué no hacer.** Empujar en los repechos. En la calle, la tentación de pararte en los pedales en una subida te manda a Z3 o Z4 en segundos. Si salís afuera, plato chico y piñón grande; si estás en rodillo, modo ERG.
+**Qué no hacer.** Empujar en los repechos. En la calle, la tentación de pararte en los pedales en una subida te manda a Z3 o Z4 en segundos. Si sales afuera, plato chico y piñón grande; si estás en rodillo, modo ERG.
 
 **Cuánto.** ~20–25%.
 
@@ -244,7 +244,7 @@ Suma cerca de 100% en cualquier combinación válida: si estás en bloque de mar
 1. **Salida larga** — 2 a 4+ horas estables en la mitad de la Z2.
 2. **Rodaje de semana** — 60 a 90 minutos estables.
 
-**Qué no hacer.** Ser reactivo al terreno. El error más caro del ciclismo es el índice de variabilidad alto: bajar a cero vatios y subir cada repecho en Z4. Pedaleá también en las bajadas para sostener la tensión muscular dentro de la zona.
+**Qué no hacer.** Ser reactivo al terreno. El error más caro del ciclismo es el índice de variabilidad alto: bajar a cero vatios y subir cada repecho en Z4. Pedalea también en las bajadas para sostener la tensión muscular dentro de la zona.
 
 **Cuánto.** ~55–60%.
 
@@ -275,7 +275,7 @@ Suma cerca de 100% en cualquier combinación válida: si estás en bloque de mar
 2. **Criss-cross** — 3 x 15 minutos alternando 2 minutos en la parte baja de la Z3 y 1 minuto en la parte alta.
 3. **Intervalos de umbral base** — 4 x 10 minutos al 95% del FTP con 3' de recuperación.
 
-**Qué no hacer.** Pasarte de vatios en los primeros tres minutos. El lactato que generás ahí no lo vas a poder reciclar después, y la sesión se convierte en una agonía anaeróbica que no entrena lo que venías a entrenar.
+**Qué no hacer.** Pasarte de vatios en los primeros tres minutos. El lactato que generas ahí no lo vas a poder reciclar después, y la sesión se convierte en una agonía anaeróbica que no entrena lo que venías a entrenar.
 
 **Cuánto.** ~5–10%.
 
@@ -285,12 +285,12 @@ Suma cerca de 100% en cualquier combinación válida: si estás en bloque de mar
 
 **Qué adapta.** Familiaridad con el ritmo de competición y tolerancia a sostenerlo sin pasarse.
 
-**Sesiones — solo si competís a este ritmo**
+**Sesiones — solo si compites a este ritmo**
 
 1. **Potencia de olímpico** — 2 x 20 minutos al 100–102% del FTP con 5 a 10 minutos de recuperación.
 2. **Bloques de contrarreloj** — 3 x 12 minutos en Zona Y con 4' suaves.
 
-**Qué no hacer.** Vivir acá. Un par de vatios por encima del FTP durante 20 minutos es sostenible; cinco no lo son, y la diferencia no la vas a sentir hasta el minuto 15.
+**Qué no hacer.** Vivir aquí. Un par de vatios por encima del FTP durante 20 minutos es sostenible; cinco no lo son, y la diferencia no la vas a sentir hasta el minuto 15.
 
 **Cuánto.** Residual fuera de bloques de competición.
 
@@ -306,7 +306,7 @@ Suma cerca de 100% en cualquier combinación válida: si estás en bloque de mar
 2. **Over-unders** — 4 x 9 minutos alternando 2 minutos al 105% y 1 minuto al 95%.
 3. **Series medias** — 8 x 3 minutos en Z4 con 90 segundos suaves.
 
-**Qué no hacer.** Hacer trampa con la cadencia. Si terminás moviendo los vatios a 60 rpm estás haciendo pesas arriba de la bici en lugar de estresar el sistema cardiovascular. Sostené 90–100 rpm.
+**Qué no hacer.** Hacer trampa con la cadencia. Si terminas moviendo los vatios a 60 rpm estás haciendo pesas arriba de la bici en lugar de estresar el sistema cardiovascular. Sostén 90–100 rpm.
 
 **Cuánto.** ~5–8%.
 
@@ -324,7 +324,7 @@ Suma cerca de 100% en cualquier combinación válida: si estás en bloque de mar
 
 **Trabajo neuromuscular:** 8 x 20 segundos a máximo esfuerzo (bien por encima del 150% del FTP) con recuperación completa de 3 minutos o más. **No se prescribe por zona sino por esfuerzo y duración** — se mide después, mirando los picos de potencia.
 
-**Qué no hacer.** Recortar los descansos. Si llegás a la serie 4 sin poder repetir los vatios de la primera, dejaste de hacer VO2máx y estás acumulando fatiga por deporte.
+**Qué no hacer.** Recortar los descansos. Si llegas a la serie 4 sin poder repetir los vatios de la primera, dejaste de hacer VO2máx y estás acumulando fatiga por deporte.
 
 **Cuánto.** ~2–5%, incluyendo el trabajo neuromuscular.
 
@@ -333,7 +333,7 @@ Suma cerca de 100% en cualquier combinación válida: si estás en bloque de mar
 
 # Natación — métrica principal: ritmo sobre tu velocidad crítica (CSS)
 
-El agua neutraliza la frecuencia cardíaca: es imprecisa y encima no la podés mirar mientras nadás. Todo se pauta con el **ritmo sobre tu velocidad crítica (CSS)** y el reloj de pared.
+El agua neutraliza la frecuencia cardíaca: es imprecisa y encima no la puedes mirar mientras nadas. Todo se pauta con el **ritmo sobre tu velocidad crítica (CSS)** y el reloj de pared.
 
 | Zona | % de tu CSS | Si tu CSS es 1:30/100m | Para qué sirve |
 |---|---|---|---|
@@ -345,11 +345,11 @@ El agua neutraliza la frecuencia cardíaca: es imprecisa y encima no la podés m
 | 4 · Umbral alto | 102–106% | 1:25 – 1:28 | Intensivo de umbral |
 | 5 · VO2máx | 106–140% | 1:04 – 1:25 | Series cortas, alto costo |
 
-> **Por qué esto va en porcentajes y no en "CSS + 5 segundos".** Los segundos por 100 no son transferibles entre nadadores. La Zona 2 son **+7 a +14 segundos** sobre el CSS si nadás 1:15, y **+12 a +23 segundos** si nadás 2:00. Un mismo "+5 segundos" es Zona 2 para uno y Zona 3 para el otro. La calculadora hace esa cuenta con tu número; la tabla de arriba es la que no cambia.
+> **Por qué esto va en porcentajes y no en "CSS + 5 segundos".** Los segundos por 100 no son transferibles entre nadadores. La Zona 2 son **+7 a +14 segundos** sobre el CSS si nadas 1:15, y **+12 a +23 segundos** si nadas 2:00. Un mismo "+5 segundos" es Zona 2 para uno y Zona 3 para el otro. La calculadora hace esa cuenta con tu número; la tabla de arriba es la que no cambia.
 
 ## Zona 1 · Recuperación y técnica — 75–84% CSS
 
-**Qué es.** Nado muy lento y consciente. El día que no venís a entrenar el motor, venís a entrenar la mano.
+**Qué es.** Nado muy lento y consciente. El día que no vienes a entrenar el motor, vienes a entrenar la mano.
 
 **Qué adapta.** Sensibilidad con el agua y corrección técnica.
 
@@ -364,7 +364,7 @@ El agua neutraliza la frecuencia cardíaca: es imprecisa y encima no la podés m
 
 ## Zona 2 · Aeróbico base — 84–91% CSS
 
-**Qué es.** Ritmo continuo y fluido, claramente más lento que tu CSS. **Es la zona que más gente nada demasiado rápido**, porque en la pileta el ritmo cómodo se parece bastante al ritmo de umbral.
+**Qué es.** Ritmo continuo y fluido, claramente más lento que tu CSS. **Es la zona que más gente nada demasiado rápido**, porque en la piscina el ritmo cómodo se parece bastante al ritmo de umbral.
 
 **Qué adapta.** Resistencia muscular del tren superior, eficiencia mecánica, base aeróbica.
 
@@ -374,7 +374,7 @@ El agua neutraliza la frecuencia cardíaca: es imprecisa y encima no la podés m
 2. **Endurance pull** — 1000 metros continuos con pull-buoy, para aislar la brazada.
 3. **Escalera aeróbica** — 400 / 300 / 200 / 100 en Z2 con 20 segundos, repetido dos veces.
 
-**Qué no hacer.** Picarte con el del carril de al lado. Es el error número uno de las piletas y convierte todo tu volumen aeróbico en Zona 3.
+**Qué no hacer.** Picarte con el del carril de al lado. Es el error número uno de las piscinas y convierte todo tu volumen aeróbico en Zona 3.
 
 **Cuánto.** ~55–60%.
 
@@ -395,7 +395,7 @@ El agua neutraliza la frecuencia cardíaca: es imprecisa y encima no la podés m
 
 ## Zona 3 · Tempo — 96–100% CSS
 
-**Qué es.** Tu ritmo de umbral. Requiere concentración alta: tenés que convertirte en un metrónomo.
+**Qué es.** Tu ritmo de umbral. Requiere concentración alta: tienes que convertirte en un metrónomo.
 
 **Qué adapta.** Eleva el umbral de lactato en hombros y dorsales, y asienta el ritmo de competición.
 
@@ -405,15 +405,15 @@ El agua neutraliza la frecuencia cardíaca: es imprecisa y encima no la podés m
 2. **Tirada a ritmo** — 4 x 200 metros en Z3 con 20 segundos.
 3. **Bloques largos de umbral** — 3 x 300 metros en Z3 con 30 segundos.
 
-**Qué no hacer.** Estirar los descansos en la pared. El estímulo depende de que sean cortos: si descansás un minuto entre 100 y 100, la serie deja de ser de umbral.
+**Qué no hacer.** Estirar los descansos en la pared. El estímulo depende de que sean cortos: si descansas un minuto entre 100 y 100, la serie deja de ser de umbral.
 
 **Cuánto.** ~5–10%.
 
 ## Zona Y · Umbral bajo — 100–102% CSS
 
-**Qué es.** La franja finísima justo por encima del CSS. En natación es el ritmo con el que cerrás una prueba de 1500 metros.
+**Qué es.** La franja finísima justo por encima del CSS. En natación es el ritmo con el que cierras una prueba de 1500 metros.
 
-**Sesiones — solo si competís a este ritmo**
+**Sesiones — solo si compites a este ritmo**
 
 1. **Cierre de 1500** — 6 x 150 metros en Zona Y con 30 segundos de descanso.
 2. **Simulacro** — 3 x 400 metros: los primeros 300 en Z3 y los últimos 100 en Zona Y, sin cambiar la técnica.
@@ -434,7 +434,7 @@ El agua neutraliza la frecuencia cardíaca: es imprecisa y encima no la podés m
 2. **Pirámide invertida** — 200 / 150 / 100 / 50, acelerando a medida que se acorta, con 30 segundos entre repeticiones.
 3. **Series de 100** — 8 x 100 metros en Z4 con 30 segundos.
 
-**Qué no hacer.** Desarmar la técnica. En el agua, más fuerza bruta sin técnica es más arrastre, no más velocidad. Si sentís que estás apaleando el agua, bajá a Z3.
+**Qué no hacer.** Desarmar la técnica. En el agua, más fuerza bruta sin técnica es más arrastre, no más velocidad. Si sientes que estás apaleando el agua, baja a Z3.
 
 **Cuánto.** ~5–8%.
 
@@ -460,7 +460,7 @@ El agua neutraliza la frecuencia cardíaca: es imprecisa y encima no la podés m
 
 En triatlón las zonas se ven afectadas por la fatiga acumulada, y ahí la regla de métricas cambia. Correr en "Zona 2" apenas bajado de la bici ignora que el costo fisiológico de la bici ya te subió el pulso: el ritmo que ayer era fácil, hoy es metabólicamente caro.
 
-En un brick, **la FC manda sobre el ritmo** — es la única de las dos que sabe lo que pasó en las tres horas anteriores. Si el pulso se te va a Z3, frená el ritmo aunque el reloj diga que vas suave. Es la única situación de todo este documento donde el pulso gana.
+En un brick, **la FC manda sobre el ritmo** — es la única de las dos que sabe lo que pasó en las tres horas anteriores. Si el pulso se te va a Z3, frena el ritmo aunque el reloj diga que vas suave. Es la única situación de todo este documento donde el pulso gana.
 
 
 ---

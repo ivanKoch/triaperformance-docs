@@ -35,8 +35,8 @@ title: "Aquiles Sin Dolor — Triaperformance All-Access"
 
   <div class="setup-warn">
     <strong>Antes de empezar, dos cosas.</strong><br>
-    <strong>1. Si sentiste un chasquido y no podés empujar con la punta del pie o pararte en puntas de ese pie, andá a una guardia hoy</strong> — eso no es tendinopatía. <br>
-    <strong>2. Esto empieza después de que un profesional te vea</strong> y descarte una rotura parcial. Con hinchazón, calor o enrojecimiento, o si tomaste antibióticos del grupo de las quinolonas hace poco, hablalo antes de cargar el tendón. Escribime y lo vemos.
+    <strong>1. Si sentiste un chasquido y no puedes empujar con la punta del pie o pararte en puntas de ese pie, ve a una guardia hoy</strong> — eso no es tendinopatía. <br>
+    <strong>2. Esto empieza después de que un profesional te vea</strong> y descarte una rotura parcial. Con hinchazón, calor o enrojecimiento, o si tomaste antibióticos del grupo de las quinolonas hace poco, háblalo antes de cargar el tendón. Escríbeme y lo vemos.
   </div>
 
   <div class="setup-q">
@@ -45,7 +45,7 @@ title: "Aquiles Sin Dolor — Triaperformance All-Access"
       <button type="button" class="setup-opt" data-val="mid" aria-pressed="true">En el medio<span>2-6 cm sobre el talón</span></button>
       <button type="button" class="setup-opt" data-val="ins" aria-pressed="false">Abajo del todo<span>donde se pega al hueso</span></button>
     </div>
-    <p class="setup-hint"><strong>Apretá con dos dedos y fijate dónde salta.</strong> No es un detalle: si el dolor está abajo, en la inserción, llevar el talón por debajo del escalón aplasta el tendón contra el hueso en cada repetición. Es el error más común de la rehabilitación de aquiles, y la rutina cambia para evitarlo.</p>
+    <p class="setup-hint"><strong>Aprieta con dos dedos y fíjate dónde salta.</strong> No es un detalle: si el dolor está abajo, en la inserción, llevar el talón por debajo del escalón aplasta el tendón contra el hueso en cada repetición. Es el error más común de la rehabilitación de aquiles, y la rutina cambia para evitarlo.</p>
   </div>
 
   <div class="setup-q">
@@ -58,7 +58,7 @@ title: "Aquiles Sin Dolor — Triaperformance All-Access"
   </div>
 
   <div class="setup-q">
-    <div class="setup-label">¿Tenés rodillo (foam roller)?</div>
+    <div class="setup-label">¿Tienes rodillo (foam roller)?</div>
     <div class="setup-opts" data-axis="roller">
       <button type="button" class="setup-opt" data-val="yes" aria-pressed="true">Sí</button>
       <button type="button" class="setup-opt" data-val="no" aria-pressed="false">No</button>
@@ -66,12 +66,12 @@ title: "Aquiles Sin Dolor — Triaperformance All-Access"
   </div>
 
   <div class="setup-q">
-    <div class="setup-label">¿La fuerza ya la hacés sin dolor?</div>
+    <div class="setup-label">¿La fuerza ya la haces sin dolor?</div>
     <div class="setup-opts" data-axis="stage">
       <button type="button" class="setup-opt" data-val="no" aria-pressed="true">Todavía no</button>
       <button type="button" class="setup-opt" data-val="yes" aria-pressed="false">Sí, sin dolor</button>
     </div>
-    <p class="setup-hint">Si ya hacés toda la fuerza sin molestia y sin rigidez al día siguiente, se agrega un bloque de saltos. <strong>Ahí es donde el tendón vuelve a aprender a ser un resorte</strong> — y donde más gente se relesiona, por pasar de las elevaciones pesadas directo a las series. Si tenés dudas, dejalo en "todavía no".</p>
+    <p class="setup-hint">Si ya haces toda la fuerza sin molestia y sin rigidez al día siguiente, se agrega un bloque de saltos. <strong>Ahí es donde el tendón vuelve a aprender a ser un resorte</strong> — y donde más gente se relesiona, por pasar de las elevaciones pesadas directo a las series. Si tienes dudas, déjalo en "todavía no".</p>
   </div>
 
   <button type="button" class="btn-primary setup-go" id="setupGo">Armar mi rutina →</button>
@@ -89,30 +89,30 @@ window.ACHILLES_ROUTINE = (function () {
   /* ---------------------------------------------------------------- LIBRARY */
   const L = {
     /* --- rodillo --- */
-    rollCalf: { name: "Rodillo: panza del gemelo", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
-      cue: "Solo la parte carnosa de arriba y los costados de la pierna. <strong>Nunca pases el rodillo por el tendón</strong> — es tejido muy inervado y ya irritado; la fricción ahí solo lo empeora. De la rodilla para abajo hasta donde el músculo se vuelve tendón, y ahí parás." },
+    rollCalf: { name: "Rodillo: vientre del gemelo", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+      cue: "Solo la parte carnosa de arriba y los costados de la pierna. <strong>Nunca pases el rodillo por el tendón</strong> — es tejido muy inervado y ya irritado; la fricción ahí solo lo empeora. De la rodilla para abajo hasta donde el músculo se vuelve tendón, y ahí paras." },
 
     /* --- isométricos (analgésico + activación) --- */
     isoStep: { name: "Isométrico en puntas (escalón)", sets: 3, reps: "30-45s", rest: 60, tag: "Escalón",
-      cue: "Con los dos pies en el borde del escalón, subí a puntas y <strong>sostené arriba, quieto</strong>. Los isométricos pesados son analgésicos naturales para el tendón: si arrancás con esto, el resto de la rutina duele menos." },
+      cue: "Con los dos pies en el borde del escalón, sube a puntas y <strong>sostén arriba, quieto</strong>. Los isométricos pesados son analgésicos naturales para el tendón: si arrancas con esto, el resto de la rutina duele menos." },
     isoFlat: { name: "Isométrico en puntas (piso)", sets: 3, reps: "30-45s", rest: 60, tag: "Sin equipo",
-      cue: "Igual, pero <strong>en piso plano, no en el escalón</strong>: con dolor en la inserción no queremos el talón por debajo del nivel del pie. Subí a puntas y sostené quieto arriba. Es el analgésico natural del tendón." },
+      cue: "Igual, pero <strong>en piso plano, no en el escalón</strong>: con dolor en la inserción no queremos el talón por debajo del nivel del pie. Sube a puntas y sostén quieto arriba. Es el analgésico natural del tendón." },
 
     /* --- energía elástica (bloque final, solo si ya no duele) --- */
     pogo: { name: "Pogos (saltitos de tobillo)", sets: 3, reps: "20", rest: 60, tag: "Sin equipo",
-      cue: "Saltitos chicos en el lugar, <strong>solo desde el tobillo, con la rodilla casi fija</strong>. El contacto tiene que ser corto y sonar poco. No buscás altura: buscás rigidez elástica, que es lo que el tendón hace cuando corrés." },
+      cue: "Saltitos chicos en el lugar, <strong>solo desde el tobillo, con la rodilla casi fija</strong>. El contacto tiene que ser corto y sonar poco. No buscas altura: buscas rigidez elástica, que es lo que el tendón hace cuando corres." },
     skip: { name: "Skipping bajo", sets: 3, reps: "30s", rest: 60, tag: "Sin equipo",
       cue: "Skipping suave en el lugar o avanzando. <strong>Rebote rápido, apoyo de metatarso, sin machacar el talón.</strong> Si el tendón habla, se corta el bloque — no se negocia." },
     slHop: { name: "Saltos a una pierna", sets: 3, reps: "10 por lado", rest: 60, tag: "Sin equipo",
-      cue: "Saltitos en el lugar sobre una pierna, aterrizando en el metatarso con la rodilla suave. <strong>Es el último escalón antes de volver a correr fuerte</strong>. Si mañana amanecés más rígido que hoy, era demasiado pronto." },
+      cue: "Saltitos en el lugar sobre una pierna, aterrizando en el metatarso con la rodilla suave. <strong>Es el último escalón antes de volver a correr fuerte</strong>. Si mañana amaneces más rígido que hoy, era demasiado pronto." },
 
     /* --- fuerza en casa: excéntricos --- */
     eccStraight: { name: "Bajada excéntrica, pierna recta", sets: 3, reps: "15 por lado", rest: 60, tag: "Escalón",
-      cue: "En el escalón, subí con las dos piernas, sacá la pierna sana y <strong>bajá solo con la lesionada en 4-5 segundos</strong>, dejando el talón caer por debajo del escalón. Volvé a apoyar la sana para subir. La bajada es todo el ejercicio; nunca subas con la pierna lesionada." },
+      cue: "En el escalón, sube con las dos piernas, saca la pierna sana y <strong>baja solo con la lesionada en 4-5 segundos</strong>, dejando el talón caer por debajo del escalón. Vuelve a apoyar la sana para subir. La bajada es todo el ejercicio; nunca subas con la pierna lesionada." },
     eccBent: { name: "Bajada excéntrica, rodilla flexionada", sets: 3, reps: "15 por lado", rest: 60, tag: "Escalón",
       cue: "Exactamente lo mismo, pero <strong>con la rodilla de trabajo flexionada unos 30 grados todo el movimiento</strong>. Eso baja la carga del gemelo al sóleo, que es el músculo que más trabaja corriendo en llano." },
     eccStraightFlat: { name: "Bajada excéntrica, pierna recta", sets: 3, reps: "15 por lado", rest: 60, tag: "Piso plano",
-      cue: "<strong>En el piso, no en el escalón.</strong> Subí a puntas con las dos, sacá la pierna sana y bajá con la lesionada en 4-5 segundos <strong>hasta que el talón toque el piso, y ahí parás</strong>. Nunca más abajo: con dolor en la inserción, ese rango de más aplasta el tendón contra el hueso." },
+      cue: "<strong>En el piso, no en el escalón.</strong> Sube a puntas con las dos, saca la pierna sana y baja con la lesionada en 4-5 segundos <strong>hasta que el talón toque el piso, y ahí paras</strong>. Nunca más abajo: con dolor en la inserción, ese rango de más aplasta el tendón contra el hueso." },
     eccBentFlat: { name: "Bajada excéntrica, rodilla flexionada", sets: 3, reps: "15 por lado", rest: 60, tag: "Piso plano",
       cue: "Igual que el anterior, en piso y frenando en el talón, pero <strong>con la rodilla flexionada unos 30 grados</strong> para llevar la carga al sóleo." },
 
@@ -120,27 +120,27 @@ window.ACHILLES_ROUTINE = (function () {
     seatedCalf: { name: "Elevación de talón sentado", sets: 4, reps: "6-8", rest: 120, tag: "Máquina",
       cue: "Pesado, y <strong>3 segundos para subir, 3 para bajar</strong>. El tempo no es un detalle estético: la tensión sostenida es lo que remodela el colágeno. Sentado y con rodilla flexionada, el que trabaja es el sóleo — el caballo de batalla del fondista." },
     seatedCalfNeutral: { name: "Elevación de talón sentado", sets: 4, reps: "6-8", rest: 120, tag: "Máquina · rango limitado",
-      cue: "Pesado, 3 segundos arriba y 3 abajo, pero <strong>frená cuando el talón llega a la altura del apoyo — no lo dejes caer por debajo</strong>. Ese último tramo es el que comprime la inserción, y es el que no te está dejando mejorar." },
+      cue: "Pesado, 3 segundos arriba y 3 abajo, pero <strong>frena cuando el talón llega a la altura del apoyo — no lo dejes caer por debajo</strong>. Ese último tramo es el que comprime la inserción, y es el que no te está dejando mejorar." },
     legPressCalf: { name: "Elevación de talón en prensa", sets: 4, reps: "8-10", rest: 120, tag: "Prensa",
       cue: "Piernas casi estiradas, sin bloquear la rodilla hacia atrás, empujando con el metatarso. Mismo tempo lento. Con la rodilla extendida el protagonista pasa a ser el gemelo." },
     legPressCalfNeutral: { name: "Elevación de talón en prensa", sets: 4, reps: "8-10", rest: 120, tag: "Prensa · rango limitado",
       cue: "Igual, tempo lento, pero <strong>sin dejar que el talón baje más allá de la línea del apoyo</strong>. Mismo motivo: en la inserción, el rango de más no es más estímulo, es compresión." },
     farmerToes: { name: "Caminata en puntas con peso", sets: 3, reps: "30s", rest: 90, tag: "Mancuernas",
-      cue: "Mancuernas pesadas, caminá lento <strong>manteniéndote alto sobre el metatarso todo el recorrido</strong>, sin que el talón baje. Entrena rigidez del tobillo bajo carga — que es justo lo que le falta al ciclista que hunde el talón cuando aprieta." },
+      cue: "Mancuernas pesadas, camina lento <strong>manteniéndote alto sobre el metatarso todo el recorrido</strong>, sin que el talón baje. Entrena rigidez del tobillo bajo carga — que es justo lo que le falta al ciclista que hunde el talón cuando aprieta." },
 
     /* --- pie y tobillo --- */
     towel: { name: "Arrugar la toalla", sets: 3, reps: "20 por lado", rest: 30, tag: "Toalla",
-      cue: "Sentado y descalzo, toalla en el piso, <strong>arrugala hacia vos solo con los dedos</strong>. Un pie fuerte se queda con parte del trabajo del despegue en vez de mandárselo entero al tendón." },
+      cue: "Sentado y descalzo, toalla en el piso, <strong>arrúgala hacia ti solo con los dedos</strong>. Un pie fuerte se queda con parte del trabajo del despegue en vez de mandárselo entero al tendón." },
     shortFoot: { name: "Pie corto", sets: 3, reps: "30s por lado", rest: 30, tag: "Sin equipo",
-      cue: "Descalzo, pie apoyado, <strong>acercá la base de los dedos al talón levantando el arco, sin arrugar los dedos y sin girar el tobillo</strong>. Es diminuto y cuesta encontrarlo; cuando aparece, sentís el arco activo. El pie y el aquiles se reparten el resorte: si el arco se cae, el tendón paga la diferencia." },
+      cue: "Descalzo, pie apoyado, <strong>acerca la base de los dedos al talón levantando el arco, sin arrugar los dedos y sin girar el tobillo</strong>. Es diminuto y cuesta encontrarlo; cuando aparece, sientes el arco activo. El pie y el aquiles se reparten el resorte: si el arco se cae, el tendón paga la diferencia." },
     tibRaise: { name: "Elevación de punta (tibial anterior)", sets: 3, reps: "20", rest: 30, tag: "Pared de apoyo",
-      cue: "De espaldas a la pared, talones un paso adelante, <strong>subí las puntas hacia las canillas lo más alto que puedas y bajá lento</strong>. Es el antagonista del gemelo: te da control de la caída del pie al aterrizar, en vez de solo frenarla." },
+      cue: "De espaldas a la pared, talones un paso adelante, <strong>sube las puntas hacia las espinillas lo más alto que puedas y baja lento</strong>. Es el antagonista del gemelo: te da control de la caída del pie al aterrizar, en vez de solo frenarla." },
 
     /* --- cadera --- */
     hipAbd: { name: "Elevación lateral acostado", sets: 3, reps: "15 por lado", rest: 30, tag: "Sin equipo",
       cue: "De costado, pierna de arriba recta y <strong>la punta apuntando levemente al piso</strong>. Tiene que arder en el lateral del glúteo. Lo que la cadera no estabiliza arriba, el tobillo lo compensa abajo." },
     slBridge: { name: "Puente de glúteos a una pierna", sets: 3, reps: "10 por lado", rest: 45, tag: "Sin equipo",
-      cue: "Empujá con el talón y apretá el glúteo arriba. <strong>Si lo sentís en la lumbar, meté la pelvis y bajá la altura.</strong> Cadena posterior fuerte, menos trabajo de frenado para abajo." },
+      cue: "Empuja con el talón y aprieta el glúteo arriba. <strong>Si lo sientes en la lumbar, mete la pelvis y baja la altura.</strong> Cadena posterior fuerte, menos trabajo de frenado para abajo." },
 
     /* --- movilidad (post, en caliente) --- */
     wallStraight: { name: "Estiramiento en pared, pierna recta", sets: 1, reps: "2 min por lado", tag: "Pared",
@@ -148,7 +148,7 @@ window.ACHILLES_ROUTINE = (function () {
     wallBent: { name: "Estiramiento en pared, rodilla flexionada", sets: 1, reps: "2 min por lado", tag: "Pared",
       cue: "Misma posición, pero <strong>flexionando levemente la rodilla de atrás sin despegar el talón</strong>. El estiramiento baja y se acerca al tendón: ahí está el sóleo." },
     ankleMob: { name: "Movilidad de tobillo sin forzar", sets: 1, reps: "90s por lado", tag: "Sin equipo",
-      cue: "Sentado, círculos amplios y lentos con el tobillo, y después puntas hacia adelante sostenidas. <strong>Acá no hay estiramiento de gemelo a propósito</strong>: con dolor en la inserción, llevar el pie a dorsiflexión máxima comprime el tendón contra el hueso, que es exactamente lo que estamos evitando toda la rutina. Movilidad sí, tironeo no." }
+      cue: "Sentado, círculos amplios y lentos con el tobillo, y después puntas hacia adelante sostenidas. <strong>Aquí no hay estiramiento de gemelo a propósito</strong>: con dolor en la inserción, llevar el pie a dorsiflexión máxima comprime el tendón contra el hueso, que es exactamente lo que estamos evitando toda la rutina. Movilidad sí, tironeo no." }
   };
 
   /* ------------------------------------------------------------- ROUTINES */
@@ -168,12 +168,12 @@ window.ACHILLES_ROUTINE = (function () {
 
   const RULES =
     "<strong>Las reglas del semáforo.</strong> Molestia de <strong>1 a 3 sobre 10</strong> durante el ejercicio está bien, siempre que no aumente serie a serie y baje al rato de terminar. " +
-    "<strong>Pará</strong> si pasa de 4, si se vuelve punzante, o si te cambia la forma de caminar.<br><br>" +
-    "<strong>La prueba real es a la mañana siguiente.</strong> El tendón responde con retraso: si amanecés bastante más rígido o dolorido que tu día normal, la carga fue mucha. Bajá peso o series en la próxima sesión — no aguantes.<br><br>" +
-    "<strong>Mirá el truco de la pierna sana.</strong> Cuando aparece el cansancio, el cuerpo pasa el peso a la pierna buena para subir. Repartí 50 y 50, siempre.";
+    "<strong>Detente</strong> si pasa de 4, si se vuelve punzante, o si te cambia la forma de caminar.<br><br>" +
+    "<strong>La prueba real es a la mañana siguiente.</strong> El tendón responde con retraso: si amaneces bastante más rígido o dolorido que tu día normal, la carga fue mucha. Baja peso o series en la próxima sesión — no aguantes.<br><br>" +
+    "<strong>Mira el truco de la pierna sana.</strong> Cuando aparece el cansancio, el cuerpo pasa el peso a la pierna buena para subir. Reparte 50 y 50, siempre.";
 
   const FREQ = {
-    home: "<strong>Todos los días, y si podés dos veces por día.</strong> Es el protocolo excéntrico clásico: mucha frecuencia con poco peso, sostenido unas 12 semanas.",
+    home: "<strong>Todos los días, y si puedes dos veces por día.</strong> Es el protocolo excéntrico clásico: mucha frecuencia con poco peso, sostenido unas 12 semanas.",
     gym: "<strong>Tres veces por semana</strong>, con al menos un día entre sesiones. Carga pesada y lenta, también unas 12 semanas."
   };
   const SITE_LABEL = { mid: "Dolor en el medio del tendón", ins: "Dolor en la inserción" };
@@ -202,7 +202,7 @@ window.ACHILLES_ROUTINE = (function () {
       title: "Aquiles sin dolor",
       crumb: "Aquiles",
       kicker: "Fuerza",
-      subtitle: "Terminá cada serie y tocá el botón — el único reloj acá es el descanso. Los excéntricos son lentos a propósito: 4-5 segundos de bajada.",
+      subtitle: "Termina cada serie y toca el botón — el único reloj aquí es el descanso. Los excéntricos son lentos a propósito: 4-5 segundos de bajada.",
       context: SITE_LABEL[site] + " · " + PLACE_LABEL[place] + (stage === "yes" ? " · con saltos" : ""),
       why: WHY,
       warning: FREQ[place] + "<br><br>" + RULES,

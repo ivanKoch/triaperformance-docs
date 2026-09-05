@@ -119,4 +119,5 @@ A second run then caught the three Spanish JS section comments, which now get re
 
 Tracked in `open-loops.md`.
 
-- ⚠️ **The members tool pages are still voseo while the sales surface and `library.json` moved to tuteo.** Not introduced here — this page follows its siblings — but a subscriber reads *"Elige de qué vienes"* on the members home and *"Elegí de qué venís"* one click later. **One scripted pass over the tool pages, and the register is Iván's to confirm.**
+- ~~⚠️ **The members tool pages are still voseo while the sales surface and `library.json` moved to tuteo.** Not introduced here — this page follows its siblings — but a subscriber reads *"Elige de qué vienes"* on the members home and *"Elegí de qué venís"* one click later. **One scripted pass over the tool pages, and the register is Iván's to confirm.**~~
+  ✅ **DONE September 5, 2026** — the scripted pass ran over all 17 members files, this page included, and `recovery-i18n.py` moved with it and re-derives EN/PT byte-identical. *The two quoted strings are kept above as the record of the defect: the members home and this page now both read* **"Elige de qué vienes"**. *Closing note and the four reusable findings: `open-loops-archive.md`, September 5, 2026, "Register sweep".*

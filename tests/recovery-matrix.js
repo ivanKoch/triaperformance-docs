@@ -157,7 +157,11 @@ ok(!/dislocaci[oó]n|dislocate/.test(allText), "5.1 NO shoulder dislocates, in a
 ok(/pasada de bast[oó]n/.test(allText), "5.2 the capped stick pass-through is what ships instead");
 const stick = Object.values(M.library).flatMap(e => e.variants || []).find(v => /bast[oó]n/i.test(v.name));
 ok(!!stick, "5.3 the stick exercise exists as a variant, not a base exercise");
-ok(stick && /par[aá] donde/i.test(stick.cue) && /costillas|lumbar|hombros/i.test(stick.cue),
+// The stop-word was `pará` until the September 5, 2026 tuteo pass, which rendered it
+// `detente` rather than `para` — a bare "para donde..." reads as the preposition on a
+// safety line. Both spellings are accepted here so this assertion tests the CAP, not the
+// register: what must survive any rewording is a stop instruction plus its trigger.
+ok(stick && /(?:par[aá]|detente|detenete) donde/i.test(stick.cue) && /costillas|lumbar|hombros/i.test(stick.cue),
    "5.4 the stick cue carries the cap in the text, so it cannot be done as a dislocate");
 
 ok(!/jefferson/.test(allText), "5.5 NO Jefferson curls");

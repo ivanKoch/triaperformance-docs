@@ -120,6 +120,8 @@ Rules: TP Blue `#004aad` stays a fill-only color on dark (fails contrast as text
 
 - Direct and data-grounded, like the coaching. Short sentences. Numbers over adjectives ("42k under 3 hours" beats "amazing results").
 - Second person, informal-professional: "tú" in Spanish, "you" in English, "você" in Portuguese.
+- **Spanish is neutral Latin American, not Rioplatense** *(Iván, September 5, 2026, when the register sweep reached the last two surfaces)*. Two separate axes, and both apply: **tuteo** for verbs and pronouns (`tienes`, not `tenés`; `apoya`, not `apoyá`; `tú`/`ti`, not `vos`), and **neutral vocabulary** for the words that are regional without being voseo — `aquí` not `acá`, `piscina` not `pileta`/`natatorio`, `espinilla` not `canilla`, `glúteos` not `cola`, `poco a poco` not `de a poco`, `una pausa` not `un parate`. *The second axis is the one that survives a verb-only find-and-replace, which is why it is written down.*
+  - ⚠️ **One deliberate exception: the 1:1 WhatsApp message library in `sales-playbook.md` is exempt** *(carve-out taken September 4, 2026 and re-confirmed by Iván on September 5 during the full sweep)*. Those are messages he sends as himself in a conversation; this section is a rule for published surfaces, and applying it to his own voice would be applying a website rule to a chat.
 - No hype vocabulary: avoid "unlock", "crush", "beast mode", exclamation marks.
 - Every page written natively per language (ES/EN/PT), not machine-translated verbatim — ES is the primary market and is written first.
 

@@ -143,13 +143,13 @@
       "running": [
         "Entra a <strong>Settings → Zones</strong> y elige <strong>Running</strong>.",
         "Carga tu ritmo de umbral, tu LTHR y —si usas medidor— tu potencia de umbral.",
-        "Re-testea cada 2–3 meses. Si vienes de una lesión, una enfermedad o un parate largo: dos semanas suaves primero, después testea, y espera un número más bajo."
+        "Re-testea cada 2–3 meses. Si vienes de una lesión, una enfermedad o una pausa larga: dos semanas suaves primero, después testea, y espera un número más bajo."
       ]
     },
     "captureTitle": "¿Y ahora qué hago con estas zonas?",
     "captureBody": "Tener los números es la mitad. La otra mitad es saber qué sesión hace crecer cada zona — cómo se construye una Z2 que no sea solo trotar despacio, la sesión a ritmo de maratón que justifica la Zona X, y cómo es una serie de umbral de verdad. Te mandamos la guía completa por email.",
     "capturePlaceholder": "tu@email.com",
-    "captureButton": "Mandame las sesiones",
+    "captureButton": "Mándame las sesiones",
     "captureFine": "La guía completa en PDF: las sesiones por zona para natación, ciclismo y running. Un solo email, nada más, y te puedes dar de baja cuando quieras.",
     "captureThanks": "Listo — revisa tu bandeja de entrada en un rato. Mientras tanto, mira abajo:",
     "captureError": "Algo salió mal al enviar. Escríbenos a coach@triaperformance.com y te las mandamos a mano.",

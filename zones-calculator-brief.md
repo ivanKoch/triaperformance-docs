@@ -32,7 +32,7 @@ Earlier standing decision, unchanged: **one tool, not two.** Threshold and zones
 | Cycling | LTHR, FTP | 2 |
 | Swimming | Critical velocity | 1 |
 
-Seven zones in every table, in order: **1, 2, X, 3, Y, 4, 5.** X sits in the upper half of Z2 (marathon pace, separated because it adds fatigue without proportional benefit); Y sits at the bottom of Z4. Both are house conventions, not standard. Explained in `methodology.md` §4 — and, until it is retired, on `/members/zonas/`.
+Seven zones in every table, in order: **1, 2, X, 3, Y, 4, 5.** X sits in the upper half of Z2 (marathon pace, separated because it adds fatigue without proportional benefit); Y sits at the bottom of Z4. ~~Both are house conventions, not standard.~~ ***Corrected September 5, 2026 (Iván) — they come from `80/20 Running` (Matt Fitzgerald), not from this business.*** *Recorded rather than deleted because the false version had already reached customer-facing copy. See `lead-magnet-zonas-de-entrenamiento.md` decision 3b.* Explained in `methodology.md` §4 — and, until it is retired, on `/members/zonas/`.
 
 Every zone has a **floor and a ceiling** — including Z1, which the published articles show as an open-ended "< 80%". **Decision 9: render the bands exactly as the CSV gives them**, no open ends.
 
