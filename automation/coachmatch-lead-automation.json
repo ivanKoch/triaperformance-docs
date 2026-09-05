@@ -8,10 +8,10 @@
       "type": "n8n-nodes-base.emailReadImap",
       "typeVersion": 2.1,
       "position": [
-        0,
-        0
+        -1568,
+        48
       ],
-      "id": "b0715a84-595e-423a-948f-14bc5efd68de",
+      "id": "f624b553-775c-4552-bf74-131909d2fdc4",
       "name": "Email Trigger (IMAP)",
       "credentials": {
         "imap": {
@@ -27,10 +27,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        416,
-        0
+        -1152,
+        48
       ],
-      "id": "ee967baf-3fdf-41b6-bcfc-82767b536c6b",
+      "id": "fd9edfb6-0a7f-4733-84dd-94285980d03c",
       "name": "Code in JavaScript"
     },
     {
@@ -40,10 +40,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        624,
-        0
+        -944,
+        48
       ],
-      "id": "63000993-37ce-4a08-b72d-869ae08e08c8",
+      "id": "7507316d-1be4-4a37-a830-a2c8d66f5eb9",
       "name": "Code in JavaScript1"
     },
     {
@@ -53,10 +53,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        832,
-        0
+        -736,
+        48
       ],
-      "id": "31203c16-5c31-49af-9f24-27a0ac2924a8",
+      "id": "916c5a3c-0742-4ae3-b8a8-78e2b837cd15",
       "name": "Code in JavaScript2"
     },
     {
@@ -73,10 +73,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1040,
-        0
+        -528,
+        48
       ],
-      "id": "cc1bdb1e-bba0-41f8-ab55-5ccb69f01bed",
+      "id": "038775cb-5daa-4b3d-a59a-82cf6abb1289",
       "name": "HTTP Request",
       "credentials": {
         "httpHeaderAuth": {
@@ -113,10 +113,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1248,
-        0
+        -320,
+        48
       ],
-      "id": "542b3737-ef49-4222-b9f0-20d380c303ff",
+      "id": "6020f459-0ff1-43a4-b45b-96500c01b786",
       "name": "If"
     },
     {
@@ -127,10 +127,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1456,
-        96
+        -112,
+        240
       ],
-      "id": "d64ce657-0928-47bc-b8c3-d218766d6f70",
+      "id": "e84383de-4a60-472c-8e6f-665537829251",
       "name": "Code in JavaScript3"
     },
     {
@@ -142,10 +142,10 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1664,
-        96
+        96,
+        224
       ],
-      "id": "8a7aa76b-6d84-46b4-b8ee-4638558a898c",
+      "id": "c224661a-136f-4fa9-a2b4-a21a2dd9d14d",
       "name": "Send a text message",
       "webhookId": "3debcd42-59ca-4335-bbb1-570c0726d33d",
       "credentials": {
@@ -158,15 +158,15 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const lead = $('Code in JavaScript1').item.json;\n\n// Never send \"Hola ,\" if the name field came through empty\nconst greeting = lead.firstname ? `Hola ${lead.firstname}` : 'Hola';\n\nconst message = `${greeting}\\n\\nMi nombre es Iván, de Triaperformance, soy coach certificado y partner de Training Peaks. Te contacto ya que solicitaste información en Training Peaks sobre coaching personalizado.\\n\\nCuentame, con qué objetivo y cómo estás entrenando hoy en día?`;\n\nconst waLink = lead.phone_wa\n  ? `https://wa.me/${lead.phone_wa}?text=${encodeURIComponent(message)}`\n  : null;\n\nconst summaryLines = [\n  `✅ ${`${lead.firstname} ${lead.lastname}`.trim()} · ${lead.country} · ${lead.sport_enum || 'sin deporte'} · ${lead.athlete_level_enum || 'sin nivel'}`,\n  waLink ? `📱 ${waLink}` : `⚠️ Sin telefono, contactar por email: ${lead.email}`,\n];\n\n  return { json: { telegram_message: summaryLines.join('\\n') } };"
+        "jsCode": "const lead = $('Code in JavaScript1').item.json;\nconst isPT = lead.preferred_language_enum === 'PORTUGUESE';\n\n// Never send \"Hola ,\" if the name field came through empty\nconst greeting = lead.firstname\n  ? (isPT ? `Olá ${lead.firstname}!` : `Hola ${lead.firstname}`)\n  : (isPT ? 'Olá!' : 'Hola');\n\nconst message = isPT\n  ? `${greeting}\\n\\nAqui é o Iván, da Triaperformance — coach certificado e partner da TrainingPeaks. Vi o seu pedido no Coach Match.\\n\\nMe conta: qual é o seu objetivo e como você está treinando hoje?\\n\\n(Só para já deixar claro: o acompanhamento 1:1 eu faço em espanhol ou inglês. Se você preferir tudo em português, tenho o All-Access por 29,99 USD — todos os planos, TrainingPeaks Premium e a área de membros. Te explico.)`\n  : `${greeting}\\n\\nMi nombre es Iván, de Triaperformance, soy coach certificado y partner de Training Peaks. Te contacto ya que solicitaste información en Training Peaks sobre coaching personalizado.\\n\\nCuentame, con qué objetivo y cómo estás entrenando hoy en día?`;\n\nconst waLink = lead.phone_wa\n  ? `https://wa.me/${lead.phone_wa}?text=${encodeURIComponent(message)}`\n  : null;\n\nconst summaryLines = [\n  `${isPT ? '🇧🇷' : '✅'} ${`${lead.firstname} ${lead.lastname}`.trim()} · ${lead.country} · ${lead.sport_enum || 'sin deporte'} · ${lead.athlete_level_enum || 'sin nivel'}`,\n  waLink ? `📱 ${waLink}` : `⚠️ Sin telefono, contactar por email: ${lead.email}`,\n];\n\nreturn { json: { telegram_message: summaryLines.join('\\n') } };"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1664,
-        -96
+        96,
+        32
       ],
-      "id": "39f1fc70-61f3-41bb-9d92-58c29502bdee",
+      "id": "7b8b5b47-3bf1-4ec9-9ef9-084382670b97",
       "name": "Code in JavaScript4"
     },
     {
@@ -178,10 +178,10 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1904,
-        -96
+        336,
+        32
       ],
-      "id": "40e16c9e-e7a3-40b9-a411-174f90ec3d5b",
+      "id": "7f8cdd96-c413-40a0-931f-ed66031a5a5b",
       "name": "Send a text message1",
       "webhookId": "f3661ffc-b25e-4e74-bbdb-7a7eef979aba",
       "credentials": {
@@ -199,10 +199,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2080,
-        -96
+        512,
+        32
       ],
-      "id": "64768b95-6bce-427d-9856-a79ac8a7f695",
+      "id": "ed673b9c-0528-463e-8915-0fb733ee3b97",
       "name": "Code in JavaScript5"
     },
     {
@@ -219,10 +219,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2288,
-        -96
+        720,
+        32
       ],
-      "id": "cdcfaffd-2e56-4297-ad3b-2573f9f833d8",
+      "id": "046e7edb-3f33-4a8b-8681-1aeabda3543a",
       "name": "HTTP Request2",
       "credentials": {
         "httpHeaderAuth": {
@@ -242,10 +242,10 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        1456,
-        -288
+        96,
+        -384
       ],
-      "id": "e13ff645-7e3f-451c-9c7e-e2daf3a90989",
+      "id": "d89b6a4c-94d6-4771-bd1f-165f5e3779c1",
       "name": "Send an Email",
       "webhookId": "ca289025-7afb-4021-ad89-f9da9102c304",
       "credentials": {
@@ -263,10 +263,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1664,
+        320,
         -288
       ],
-      "id": "ccd388bc-c9a3-46e5-a7af-73b0d870f53f",
+      "id": "00cdce74-6c9d-4ab3-ade6-112bb9045e6e",
       "name": "Code in JavaScript6"
     },
     {
@@ -283,10 +283,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1856,
+        528,
         -288
       ],
-      "id": "cf720f48-fdd1-4527-a3ee-edd194b41c9f",
+      "id": "5442f926-2dc7-4810-8536-8422c031e7a9",
       "name": "HTTP Request3",
       "credentials": {
         "httpHeaderAuth": {
@@ -322,10 +322,10 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
       "position": [
-        208,
-        0
+        -1360,
+        48
       ],
-      "id": "1f1adda0-7ef0-4ed4-9cee-61d6491b240e",
+      "id": "3e4375ea-8406-4e9d-a832-ffd167151727",
       "name": "Filter"
     },
     {
@@ -338,15 +338,6 @@
             "version": 3
           },
           "conditions": [
-            {
-              "id": "747ead67-3321-4616-bec6-26bf9982cfdd",
-              "leftValue": "={{ $('Code in JavaScript1').item.json.country.toLowerCase().trim() }}",
-              "rightValue": "brazil",
-              "operator": {
-                "type": "string",
-                "operation": "notEquals"
-              }
-            },
             {
               "id": "2b46f7ef-6bbf-43c2-8acb-94499db48c70",
               "leftValue": "={{ $('Code in JavaScript1').item.json.country.toLowerCase().trim() }}",
@@ -374,11 +365,102 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
       "position": [
-        1456,
-        -96
+        -112,
+        32
       ],
-      "id": "cf366e21-3f19-4988-8486-e62732ef07c9",
-      "name": "Skip WhatsApp Outreach — BR/AR"
+      "id": "8e825821-4878-4e5e-a697-31a4a4714000",
+      "name": "Skip WhatsApp Outreach — AR"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e6f57bbb-fbbe-43ae-b27c-fd7538d40f3e",
+                    "leftValue": "={{ $('Code in JavaScript1').item.json.preferred_language_enum }}",
+                    "rightValue": "PORTUGUESE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PT"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b9e52c8a-45b1-4f1a-ae44-b5885ac54fc7",
+                    "leftValue": "={{ $('Code in JavaScript1').item.json.preferred_language_enum }}",
+                    "rightValue": "SPANISH",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ES"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": 1
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -128,
+        -288
+      ],
+      "id": "e54b8baf-dd5e-400a-b472-9fd769eff2ba",
+      "name": "Route by Language"
+    },
+    {
+      "parameters": {
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $('Code in JavaScript1').item.json.email }}",
+        "subject": "={{ $('Code in JavaScript1').item.json.firstname }}, recebi o seu pedido na TrainingPeaks (próximos passos)",
+        "html": "=<p>Olá {{ $('Code in JavaScript1').item.json.firstname }},</p>\n\n<p>Sou o Iván, Head Coach da Triaperformance e coach certificado pela TrainingPeaks. Recebi o seu pedido no Coach Match e li pessoalmente.</p>\n\n<p>Antes de falar de planos, o mais importante para mim é entender onde você está hoje e quais são as suas metas. O treinamento exige que a gente faça um bom \"match\" para o processo funcionar.</p>\n\n<p>Sobre como eu trabalho, o nosso plano inclui:</p>\n\n<ul>\n  <li>Planejamento 100% personalizado, estruturado em torno da sua vida real e da sua agenda.</li>\n  <li>Treino integral: planejamos juntos tanto o seu esporte quanto o seu trabalho de força na academia.</li>\n  <li>Ajustes ilimitados: mudamos o seu plano quantas vezes for necessário quando surgir um imprevisto.</li>\n  <li>Comunicação direta: contato aberto comigo no WhatsApp para analisar as suas sessões e tirar dúvidas durante toda a semana.</li>\n</ul>\n\n<p>O custo do plano é de 149 USD por mês. Você assina com cartão de crédito direto no site da TrainingPeaks e não tem tempo mínimo de permanência.</p>\n\n<p><strong>Uma coisa que prefiro dizer agora e não depois:</strong> o acompanhamento 1:1 eu faço em espanhol ou em inglês. Não em português. Boa parte dos atletas brasileiros que treino se vira muito bem em qualquer um dos dois — e o TrainingPeaks, os treinos e os números você lê na sua língua de qualquer forma. Se for o seu caso, seguimos.</p>\n\n<p><strong>E se você preferir tudo em português, tenho a alternativa certa.</strong></p>\n\n<p>Chama-se <strong>Triaperformance All-Access</strong>, custa <strong>29,99 USD por mês</strong>, e é o produto que está inteiramente em português:</p>\n\n<ul>\n  <li>Os <strong>53 planos de treino em português</strong> — corrida, ciclismo, triatlo, natação e duatlo — e você troca de plano quantas vezes quiser, sem custo.</li>\n  <li><strong>TrainingPeaks Premium incluído</strong> (19,95 USD/mês por fora).</li>\n  <li>A <strong>Área de Membros</strong>: 13 ferramentas em português que se montam sozinhas — calculadora das suas zonas, ativação e mobilidade, rotinas para joelho, aquiles e ombro, como configurar o Garmin, o guia de carga de treino.</li>\n  <li><strong>Suporte meu por escrito</strong>, em português: dúvida sobre uma ferramenta, sobre as suas zonas ou sobre qual plano escolher, você me escreve e eu respondo. Não inclui revisão dos seus treinos nem ajuste semanal do plano — isso é o 1:1.</li>\n</ul>\n\n<p>Assinar leva um minuto: <a href=\"https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a\">Assinar o All-Access — 29,99 USD/mês</a><br>\n<em>No checkout da TrainingPeaks o produto aparece como \"Acesso Total: Planos de Treino\" — é este mesmo.</em></p>\n\n<p>Qualquer um dos dois caminhos, o mais rápido é conversarmos: <a href=\"https://wa.me/573105437088\">WhatsApp</a>. Me conte o seu objetivo e vemos qual faz sentido para você.</p>\n\n<p>Enquanto isso, deixo o que dizem outros atletas:</p>\n\n<ul>\n  <li>Avaliações no Google — a experiência real de quem já treina comigo: <a href=\"https://maps.app.goo.gl/Dfw4166sxw3WGwA3A\">Link</a></li>\n  <li>Instagram <a href=\"https://www.instagram.com/triaperformance/\">@Triaperformance</a> — como treinam e competem os meus atletas.</li>\n</ul>\n\n<p>Falamos em breve,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        96,
+        -192
+      ],
+      "id": "174a3318-83e7-4844-8fb0-89a569e1d1f7",
+      "name": "Send an Email PT",
+      "webhookId": "ae5bfb2a-f62c-4989-aa9f-20cb4a53b53e",
+      "credentials": {
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -442,12 +524,12 @@
       "main": [
         [
           {
-            "node": "Send an Email",
+            "node": "Route by Language",
             "type": "main",
             "index": 0
           },
           {
-            "node": "Skip WhatsApp Outreach — BR/AR",
+            "node": "Skip WhatsApp Outreach — AR",
             "type": "main",
             "index": 0
           }
@@ -505,11 +587,6 @@
         ]
       ]
     },
-    "HTTP Request2": {
-      "main": [
-        []
-      ]
-    },
     "Send an Email": {
       "main": [
         [
@@ -543,7 +620,36 @@
         ]
       ]
     },
-    "Skip WhatsApp Outreach — BR/AR": {
+    "Route by Language": {
+      "main": [
+        [
+          {
+            "node": "Send an Email PT",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an Email PT": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip WhatsApp Outreach — AR": {
       "main": [
         [
           {
@@ -565,7 +671,7 @@
     "timeSavedPerExecution": 3,
     "errorWorkflow": "GWBWznYoPiHdbmVt"
   },
-  "versionId": "ca1a7691-945e-4545-b905-854123fd4350",
+  "versionId": "cb3dc6bf-0794-4d65-80e8-a7955791ce4a",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "8e076cafb52cccf2e8bbadb4d0f2ec8c146f30578d107bdefeabccfda2ab75a9"
