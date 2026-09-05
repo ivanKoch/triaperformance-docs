@@ -273,13 +273,80 @@ Create Person   ✘ error → Is phone error? ✘ → Telegram alert - Twenty er
 
 *Proposed, not built: move `Build confirmation copy` → `Send confirmation email` onto the path immediately after `Config`, so it fires for every submission, and let the Twenty branch run for the CRM record only. `Set leadStatus = MESSAGE_SENT` stays on the Twenty path since it needs `personId`. Needs Iván's call before rewiring.*
 
-### Why the duplicate check missed it
+### Why the duplicate check missed it — RESOLVED September 5, 2026
 
-**This is documented behaviour, twice — `ai-infrastructure-documentation.md` §and `athlete-onboarding-flow.md`:** *"Twenty's duplicate detection considers more than the field you filter on. Dedupe by email passed, then `createPerson` rejected with `A duplicate entry was detected` because a hand-created athlete existed under the same **name**."*
+**Cause 1, confirmed by reading the failed execution's `Check Twenty for existing Person` output:**
 
-`Check Twenty for existing Person` filters on `emails.primaryEmail[eq]` only. **So there are two candidate causes and they need different fixes** — do not guess between them:
+```json
+{ "data": { "people": [] }, "totalCount": 0,
+  "pageInfo": { "startCursor": null, "endCursor": null, "hasNextPage": false, "hasPreviousPage": false } }
+```
 
-1. **A person exists under the same name, with a different email or none.** The email filter correctly finds nothing; Twenty rejects on name. *The documented, recurring case.*
-2. **The email filter itself is silently failing.** The node carries `neverError: true`, so a malformed filter or a 4xx returns an error-shaped body, `$json.data.people` is `undefined`, `undefined > 0` is `false`, and the run proceeds to create. **`neverError` is exactly the "success-shaped failure" pattern `ai-infrastructure-documentation.md` warns against on the neighbouring node.** *If this is the cause, every repeat contact has been hitting the create path all along.*
+***That is a well-formed Twenty response, not an error body*** — `totalCount` and a full `pageInfo` are present. **So the filter works, the check correctly returned false, and `neverError: true` is exonerated here.** *The competing hypothesis — that a silently-failing filter had been sending every repeat contact down the create path — is dead, and worth recording as dead so it is not re-raised.*
 
-**The execution that failed settles it at zero cost:** open that run, click `Check Twenty for existing Person`, read its output. `{"data":{"people":[]}}` → cause 1. An error body, or a shape without `data.people` → cause 2.
+**The rejection is the documented case:** `emails.primaryEmail` genuinely held no match, and Twenty refused the create on a different criterion — the name `Raviol -` surviving from an earlier test, or the address sitting as a *secondary* email on an existing person. Already recorded in `ai-infrastructure-documentation.md` and `athlete-onboarding-flow.md`; this is the third occurrence.
+
+**Deliberately NOT fixed by widening the check to include name.** *A name lookup would dedupe two genuinely different people who happen to share one* — `Juan Pérez` *is not a primary key, and a false-positive dedupe is worse than a false negative: the lead is silently dropped into the "already exists" branch instead of being created.* **The right response to a name collision is the Telegram alert that already fires, plus a human decision. The real defect this exposed is the one above — that the alert path sends no email.**
+
+---
+
+## The rewire — email no longer depends on Twenty (Iván, September 5, 2026: approved)
+
+**Before.** `Send confirmation email` hangs off `Person Created`, so it only fires when Twenty accepts the write. Two silent dead ends, both leaving the visitor with nothing.
+
+**After.** The email fires immediately after `Config`, for every submission. Twenty runs behind it, for the CRM record only.
+
+```
+Webhook → Config → Build confirmation copy → Send confirmation email → Check Twenty for existing Person → Already exists? → …
+                                                    ✘ error ↓
+                                        Telegram alert - email failed → Check Twenty for existing Person
+
+Person Created → Set leadStatus = MESSAGE_SENT → Telegram notify Ivan → Respond success
+```
+
+### The exact changes
+
+**Three connections to delete:**
+
+1. `Config` → `Check Twenty for existing Person`
+2. `Person Created` → `Send confirmation email`
+3. `Send confirmation email` → `Set leadStatus = MESSAGE_SENT`
+
+**Four to add:**
+
+4. `Config` → `Build confirmation copy`
+5. `Build confirmation copy` → `Send confirmation email`
+6. `Send confirmation email` *(main / success output)* → `Check Twenty for existing Person`
+7. `Person Created` → `Set leadStatus = MESSAGE_SENT`
+
+**One node setting:** on `Send confirmation email`, Settings → **On Error → Continue (using error output)**.
+
+> ***This setting is the whole point of the rewire, not a detail.*** *Moving the email to the front makes it the first thing that can fail. Left on the default, an SMTP hiccup would now kill the run **before** Twenty, turning a lost email into a lost lead — strictly worse than the bug being fixed.*
+
+**One node to add:** paste `automation/telegram-alert-email-failed.node.json` onto the canvas, then wire:
+
+8. `Send confirmation email` *(error output)* → `Telegram alert - email failed`
+9. `Telegram alert - email failed` → `Check Twenty for existing Person`
+
+*Both outputs of the email node converge on `Check Twenty`, so the lead reaches the CRM whether or not the mail went out. **A silent email failure is exactly the "failed in the half nobody watches" pattern this repo keeps paying for** — hence the alert rather than a bare continue.*
+
+### What changes in behaviour
+
+| case | before | after |
+|---|---|---|
+| New lead, Twenty OK | email ✅ | email ✅ |
+| **Repeat contact** (email already in Twenty) | **silence** | **email ✅**, Telegram to Iván as before |
+| **Twenty rejects the create** (name collision, any 400) | **silence** | **email ✅**, Telegram alert as before |
+| Twenty down | silence | email ✅ |
+| SMTP down | lead reached Twenty | lead still reaches Twenty, **plus a Telegram** |
+
+**The one accepted downside:** someone who submits the form twice in a day now gets two identical emails. *That is the correct trade against a warm lead receiving nothing, and it is the same trade `zone-magnet-runbook.md` already made.*
+
+**`Set leadStatus = MESSAGE_SENT` stays on the Twenty path** — it needs `$('Person Created').item.json.personId`, which only exists there. *Consequence, accepted: when Twenty rejects the lead the email is sent but no CRM record says so. There is no record to write it on.*
+
+### Re-test after rewiring
+
+Everything in Step 3 again, plus the two cases that were silent before:
+
+- **Submit twice with the same email.** First submission: email + Twenty record. **Second: email again**, plus the duplicate Telegram. *Before this change the second produced nothing.*
+- **Force a Twenty rejection** — reuse a name that already exists (`Raviol -` does). Expect the email to arrive **and** the `Telegram alert - Twenty error`.

@@ -1,0 +1,27 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=⚠️ No se pudo enviar el email de confirmación al lead (SMTP). El lead SÍ sigue su curso hacia Twenty.\nNombre: {{ $('Webhook - Contact Form').item.json.body.name }}\nEmail: {{ $('Webhook - Contact Form').item.json.body.email }}\nIdioma: {{ $('Build confirmation copy').item.json.emailLang }}\nDeporte: {{ $('Webhook - Contact Form').item.json.body.sport }}\nWhatsApp: https://wa.me/{{ $('Webhook - Contact Form').item.json.body.phone.replace(/[^0-9]/g, '') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        640
+      ],
+      "id": "b7c2e19a-5d43-4f81-9a6d-3e2f7c0b4d55",
+      "name": "Telegram alert - email failed",
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      }
+    }
+  ],
+  "connections": {},
+  "pinData": {}
+}
