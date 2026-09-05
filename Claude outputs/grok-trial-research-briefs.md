@@ -147,6 +147,16 @@ Run the same dossier prompt above, with one change to the opening: instead of a 
 
 ---
 
+### Two rules added after batch 2 (September 5, 2026) — fold into §1A
+
+**RULE: `NOTHING FOUND` on an official-document question must be proven against the organiser's document library, not its FAQ page.** *Batch 1 recorded "no published time limit" for Santiago. Batch 2 found* **`BASES-MARATON-DE-SANTIAGO-2026-VF1.pdf`** *— Art. 3 gives 6 hours, Art. 10º.5 gives gates at 21 km in 3:00 and 32 km in 4:35.* ***A confirmed false negative.*** *Consequence: the model's own richness self-assessment cannot be trusted for shortlisting — "thinnest of the eight" meant "I did not find the PDF," not "the material does not exist." Every `NOTHING FOUND` about rules, cut-offs, limits or course data is provisional until the organiser's own PDF library has been searched.*
+
+**RULE: flag any figure that contradicts your own earlier output.** *Three field sizes moved silently between batches with no note:* **Rio 2025 13,070–13,132 → 12,951; SP City 5,386 → 5,317; Medellín 5,787 → 4,505 (a 22% move, and a different MarathonView race ID).* *Self-consistency is part of the standing rule, not separate from it.*
+
+**On §5 — the "compute don't search" fix did not work, and the reason is technical.** *Results hosts (Runking, Sportmaniacs, RockTheSport) are JavaScript SPAs that cannot be dumped. The only batch-2 races with real buckets were* **Barcelona** *(Soy Corredor counted 24,943: sub-3 9.65%, sub-3:30 30.01%, sub-4 58.29%) and* **Sevilla** *(CAPIS counted 2,257 sub-3 net, 5,428 sub-3:30, 8,962 sub-4) —* ***both because a third party had already counted.*** **So the correct instruction order is: look for a published third-party count first, attempt the dump second, `NOTHING FOUND` third.**
+
+---
+
 ## Brief 2 — Portuguese market research (feeds the PT offering item)
 
 **Why this one:** the demand is confirmed and the site is nowhere near it. What's missing is a picture of what page-one for those queries actually looks like — which is public information and pure legwork.

@@ -1,117 +1,181 @@
-MEMBERS-AREA PARAGRAPH — email copy update, August 13, 2026
-===========================================================
+MEMBERS-AREA PARAGRAPH — email copy update
+==========================================
+Written August 13, 2026.  REWRITTEN September 5, 2026 — read the next block
+before pasting, the August version is no longer the copy to paste.
 
-WHY THIS IS SMALL ON PURPOSE
-----------------------------
-The three All-Access sales pages had to be rebuilt today because they hand-wrote
-the tool list and decayed: they were still selling "flexibility, kettlebell,
-fixing lower back pain" months after none of those existed.
 
-The emails did NOT decay, and the reason is worth keeping: they never named a
-single tool. They say "the calculators and guides, and I add new tools every
-week", which stays true whatever ships.
+WHY THIS WAS REWRITTEN (September 5, 2026)
+------------------------------------------
+The August 13 version of this file broke its own rule. It said, in capitals:
 
-*** So the rule going forward: emails name CATEGORIES and ONE durable starting
-point. They never name the current line-up. The sales pages name everything and
-are generated from site/_data/library.json. ***
+    *** emails name CATEGORIES and ONE durable starting point. They never name
+    the current line-up. ***
 
-The only change below is adding a first step. A subscriber currently gets a
-password and a link with nothing telling them what to do first, which is the
-difference between "I have access" and "I used it".
+...and then the replacement copy underneath it named seven tools by name
+("calculadora de zonas, activación, rutinas de fuerza para rodilla y aquiles,
+core, respiración y las guías en PDF").
+
+By today that list is already wrong. site/_data/library.json carries 15 live ES
+tools. The August paste is missing SEVEN of them: Movilidad, Recuperación,
+Hombro de Nadador, Core de Ciclista, Core de Corredor, Configurar tu Garmin,
+Carga de Entrenamiento.
+
+It was never pasted, so nothing was ever sent wrong. But it decayed in the drawer
+in three weeks — which is the same failure that forced the three All-Access sales
+pages to be rebuilt, and it is exactly what the rule above exists to prevent.
+The sales pages solved this by generating from library.json. An email cannot do
+that, so the email must not enumerate.
+
+The copy below is CATEGORY-ONLY plus ONE durable starting point. It stays true
+whatever ships next, and it never needs re-pasting.
+
+
+WHAT CHANGED BESIDES THE COPY: SPANISH REGISTER
+-----------------------------------------------
+Node 1 ("Build All-Access Welcome") is written in VOSEO — tenés, podés, aplicás,
+Guardá. Node 2 ("Build Welcome Email") is already TUTEO. They have disagreed with
+each other since August.
+
+Iván's September 4 decision standardised Spanish to TUTEO (brand-guidelines.md §8).
+And the logged lesson from the marketing pass is that a MIXED-register line is
+worse than consistent voseo. So the new sentence cannot simply be dropped into a
+voseo email.
+
+Node 1's Spanish is therefore converted to tuteo in this same paste. It is six
+markers in the whole node. They are listed individually below — do them all or
+do none of them, because doing some is the failure mode.
+
+Node 2 needs no register change. It is already tuteo.
 
 Both nodes live in: subscription-lifecycle-automation.json
 
 
--------------------------------------------------------------------
+===================================================================
 NODE 1 — "Build All-Access Welcome"     (the paying-subscriber email)
--------------------------------------------------------------------
+===================================================================
 
-SPANISH — find this line:
+1A. SPANISH — SIX EDITS, ALL OF THEM
+------------------------------------
 
-Ahí están las calculadoras y las guías, y subo herramientas nuevas todas las semanas.
+edit 1 of 6 — near the top, in the PLAN_HOWTO block
 
-replace with:
-
-Ahí están las herramientas: calculadora de zonas, activación, rutinas de fuerza
-para rodilla y aquiles, core, respiración y las guías en PDF. Subo herramientas
-nuevas todas las semanas.
-Si no sabés por dónde arrancar: empezá por la calculadora de zonas. Todo lo demás
-se apoya en tener bien tus zonas.
+find:     Los aplicás desde tu cuenta de TrainingPeaks, y podés cambiar de plan cuando quieras.
+replace:  Los aplicas desde tu cuenta de TrainingPeaks, y puedes cambiar de plan cuando quieras.
 
 
-ENGLISH — find this line:
+edit 2 of 6 — first line of the Spanish body
 
-That's where the calculators and guides live, and I add new tools every week.
-
-replace with:
-
-That's where the tools live: zones calculator, activation builder, knee and
-Achilles strength routines, core, breathing and the PDF guides. I add new tools
-every week.
-If you don't know where to start: start with the zones calculator. Everything
-else rests on having your zones right.
+find:     Ya tenés All-Access activo. Esto es lo que incluye.
+replace:  Ya tienes All-Access activo. Esto es lo que incluye.
 
 
-PORTUGUESE — find this line:
+edit 3 of 6 — under TODOS LOS PLANES
 
-É lá que ficam as calculadoras e os guias, e eu subo ferramentas novas toda semana.
+find:     Tenés acceso a todo el catálogo en español, y podés cambiar de plan las veces
+replace:  Tienes acceso a todo el catálogo en español, y puedes cambiar de plan las veces
 
-replace with:
-
-É lá que ficam as ferramentas: calculadora de zonas, ativação, rotinas de força
-para joelho e aquiles, core, respiração e os guias em PDF. Subo ferramentas novas
-toda semana.
-Se não souber por onde começar: comece pela calculadora de zonas. Todo o resto se
-apoia em ter as suas zonas certas.
+          (the next line, "que quieras, sin costo extra.", is identical in both
+           registers — leave it alone)
 
 
--------------------------------------------------------------
+edit 4 of 6 — under ÁREA DE MIEMBROS.  THIS IS THE ACTUAL POINT OF THE ITEM.
+
+find:     Ahí están las calculadoras y las guías, y subo herramientas nuevas todas las semanas.
+
+replace:  Ahí están las calculadoras, las rutinas y las guías, y subo herramientas
+          nuevas todas las semanas.
+          Si no sabes por dónde empezar: empieza por la calculadora de zonas. Todo
+          lo demás se apoya en tener bien tus zonas.
+
+          (paste it flush left, without the indent shown here)
+
+
+edit 5 of 6 — the last line of the Spanish body
+
+find:     Guardá este correo: es tu única copia de la contraseña.
+replace:  Guarda este correo: es tu única copia de la contraseña.
+
+
+edit 6 of 6 — VERIFY, don't edit. Search the Spanish block for these strings and
+confirm ZERO hits before you save:  tenés   podés   aplicás   Guardá   arrancá
+empezá   sabés .  A single survivor is the mixed-register bug.
+
+
+1B. ENGLISH — ONE EDIT
+----------------------
+
+find:     That's where the calculators and guides live, and I add new tools every week.
+
+replace:  That's where the calculators, routines and guides live, and I add new
+          tools every week.
+          If you don't know where to start: start with the zones calculator.
+          Everything else rests on having your zones right.
+
+
+1C. PORTUGUESE — ONE EDIT
+-------------------------
+
+find:     É lá que ficam as calculadoras e os guias, e eu subo ferramentas novas toda semana.
+
+replace:  É lá que ficam as calculadoras, as rotinas e os guias, e eu subo
+          ferramentas novas toda semana.
+          Se não souber por onde começar: comece pela calculadora de zonas. Todo
+          o resto se apoia em ter as suas zonas certas.
+
+
+=============================================================
 NODE 2 — "Build Welcome Email"     (the 1:1 coaching athlete)
--------------------------------------------------------------
+=============================================================
 
-SPANISH — find this line:
+No register change needed — this node is already tuteo.
 
-Ahi estan las calculadoras, guias y herramientas. Guarda este correo: es tu
-
-replace with:
-
-Ahi estan las calculadoras, rutinas y guias. Empeza por la calculadora de zonas
-cuando hagamos tu primer test. Guarda este correo: es tu
+NOTE: this node is deliberately ASCII, no accents, because that workflow strips
+them. The missing accents below are correct. Do not "fix" them.
 
 
-ENGLISH — find this line:
+2A. SPANISH
 
-That's where the calculators, guides and tools live. Keep this email: it's
+find:     Ahi estan las calculadoras, guias y herramientas. Guarda este correo: es tu
 
-replace with:
+replace:  Ahi estan las calculadoras, rutinas y guias. Empieza por la calculadora de
+          zonas cuando hagamos tu primer test. Guarda este correo: es tu
 
-That's where the calculators, routines and guides live. Start with the zones
-calculator once we do your first test. Keep this email: it's
+          (the following line, "unica copia de la contrasena.", stays as it is)
 
-
-PORTUGUESE — find this line:
-
-E la que estao as calculadoras, guias e ferramentas. Guarde este email: e a
-
-replace with:
-
-E la que estao as calculadoras, rotinas e guias. Comece pela calculadora de zonas
-quando fizermos o seu primeiro teste. Guarde este email: e a
+          ⚠ The August draft of this file said "Empeza", which is neither register
+            — it is ASCII-stripped voseo. It is "Empieza". Use "Empieza".
 
 
------------------------------------------------------------------------
-NOTE ON THE COACHING EMAIL: it is deliberately ASCII (no accents) because
-that workflow strips them. Do not "fix" the missing accents above — they
-match the surrounding text on purpose.
------------------------------------------------------------------------
+2B. ENGLISH
+
+find:     That's where the calculators, guides and tools live. Keep this email: it's
+
+replace:  That's where the calculators, routines and guides live. Start with the
+          zones calculator once we do your first test. Keep this email: it's
 
 
+2C. PORTUGUESE
+
+find:     E la que estao as calculadoras, guias e ferramentas. Guarde este email: e a
+
+replace:  E la que estao as calculadoras, rotinas e guias. Comece pela calculadora de
+          zonas quando fizermos o seu primeiro teste. Guarde este email: e a
+
+
+===============
 AFTER YOU PASTE
----------------
-Tell me and I mirror both into the reference JSON in the repo. The n8n instance
-is the source of truth; the repo copy is documentation, and it is only correct
-once you have actually made the change.
+===============
+Tell me and I mirror both nodes into the reference JSON in the repo. The n8n
+instance is the source of truth; the repo copy is documentation, and it is only
+correct once you have actually made the change.
 
-CHECK IT WORKED: the reliable test is a real subscription event, not a manual
-node run — but at minimum, run the node once and read the `body` field in the
-output for each of the three languages.
+CHECK IT WORKED: the reliable test is a real subscription event, not a manual node
+run — but at minimum, run each node once and read the `body` field in the output
+for all three languages. On the Spanish output of Node 1, re-run the edit-6 search
+against the RENDERED body, not the source.
+
+STANDING RULE, restated because this file broke it once:
+emails name CATEGORIES and ONE durable starting point. They never name the current
+line-up. The sales pages name everything and are generated from
+site/_data/library.json. If a future session wants to add a tool name to these
+emails, that is the moment to re-read this paragraph instead.

@@ -8,6 +8,36 @@
 
 ---
 
+## Closed — September 5, 2026 (resend-password email, ES/EN/PT) — *the build had been live for weeks and the item never checked*
+
+**Verified live by Iván**, three real recovery requests through the production webhook using `coach+qa-es`, `coach+qa-en` and `coach+qa-pt`. Portuguese and English both arrived correct, each with its own language's login URL and its own paragraph breaks. *Tokens were redacted out of the transcript — worth recording, because pasting the table into a chat is the failure this project has already had three times.*
+
+🚨 ***The item was wrong in three separate ways, and every one of them was answerable by opening the workflow JSON.*** *It had sat in the list since August 10 describing work that did not need doing.*
+
+1. **"Needs a Switch on `lang`."** *No Switch, and `lang` is the wrong input.* The posted `lang` only says which screen the person opened; someone can land on the Spanish recovery page and still be a Portuguese subscriber. `preferred_language` on the `subscriber_tokens` row is the source of truth — **the same rule `app.py` already applied to login routing**, decided months earlier and never carried across to this item's text.
+2. **"Needs three email bodies."** *They already existed*, in the repo copy of `subscription-lifecycle-automation.json`, authored during the members-area i18n branch.
+3. **"Still sends Spanish to everyone."** *It had not, for some time.* `Build Resend Email` was live in n8n, wired between `Token Found?` and `Send Resend Email`, reading `preferred_language` exactly as designed. **Nobody had looked.**
+
+🔑 ***The lesson, and it is not "read the JSON" — it is narrower and more useful than that.*** *This item carried its own guard rail:* **"A field being sent is not the same as a field being read — do not mark this done because the frontend side is."** *That warning was correct, it was well written, and it produced the opposite of its intent: it made the item feel checked. An item that argues for its own openness stops being re-examined, because the argument is right there and reads like evidence.* ***A caution about a false positive is not itself a status check.*** **Where that guard rail belonged was on the last node in the chain, not the first** — the real risk was never the frontend, it was `Send Resend Email` still holding a hardcoded Spanish subject downstream of a perfectly good builder. That is the node the test actually cleared.
+
+💡 ***Iván's call on method, and it was the right one.*** *The proposed close was: read the Send node's Subject/Text fields, read the Postgres query, then test. He asked why not just go to production and test.* **The outcome test subsumes both field checks** — a Portuguese email arriving at all proves `Send Resend Email` reads `$json.subject`/`$json.text` **and** that the query returns `preferred_language`, because neither can be false and still produce that email. *Reading fields tells you what should happen; the email tells you what did.* **This is this project's own standing rule** — *done means a real result reported back, not code that looks right* — **and the inspection steps were the ones out of order, not the test.**
+
+*One honest caveat on what the test proves, recorded so it is not overstated later:* **each address was submitted from its own language's page, so the run does not by itself separate "reads the DB" from "reads the posted `lang`."** *What settles that is the source: the node reads `item.json.preferred_language` and never touches `$json.body.lang`. Code for the language source, live test for the wiring — together conclusive, and neither sufficient alone.*
+
+**Two small things left behind, both deliberately not held here:**
+- *The one voseo line in the Spanish body* (`Si no fuiste vos, ignorá este email`) **moved to the tuteo item in `open-loops.md`**, which owns register. It carries a note that the three email bodies live in n8n nodes and are therefore invisible to any `site/` grep — *a register sweep over the repo will never find them.*
+- *The live node's comment header is a condensed version of the repo copy's* (the repo's cites `app.py` and the `Look Up Active Token` column; live's does not). **Logic, strings and `pairedItem` are identical.** *Comments only — recorded rather than churned, and the repo copy is the better documentation of the two.*
+
+🗑️ *`automation/resend-password-i18n-paste.txt` was written this session for a build that turned out to be live, and is retired the same session rather than left in the repo to be found and pasted by someone later. Moved to `_to_delete/`.*
+
+⚠️ **`ai-infrastructure-documentation.md` §21's "Known gap, not fixed here" paragraph is corrected in the same session** — it was the second place asserting the workflow sends Spanish to everyone, and leaving it would have re-opened this item from the other end.
+
+*Original item, retained — its scope check was right and only its prescription was wrong:*
+
+> - [ ] **The resend-password n8n workflow ignores the `lang` field the pages now send.** The three forgot-password pages POST `{email, lang}`, but `Webhook - Resend Password` (in `subscription-lifecycle-automation.json`) still sends Spanish to everyone. **A field being sent is not the same as a field being read** — do not mark this done because the frontend side is. ~~Needs a Switch on `lang` and three email bodies, made by Iván in the n8n UI, then mirrored into the reference JSON.~~ 🚨 ***Wrong on both counts — found September 5, 2026, by reading the workflow JSON instead of the item.*** **(1) No Switch, and `lang` is the wrong input.** *The posted `lang` only says which screen the person opened; someone can land on the Spanish recovery page and still be a Portuguese subscriber. `preferred_language` on the `subscriber_tokens` row is the source of truth — the same rule `app.py` already applies to login routing.* **(2) There is nothing to build: `Build Resend Email` already exists in the repo copy**, authored during the members-area i18n branch and never pasted into n8n — the repo got ahead of live. `Look Up Active Token` already SELECTs `preferred_language`, so one Code node between `Token Found?` and `Send Resend Email` is the entire change. **Step-by-step paste, with a live-state check first: `automation/resend-password-i18n-paste.txt`** *(written September 5, 2026).* ⚠️ *When this closes, `ai-infrastructure-documentation.md` §21 carries a "Known gap, not fixed here" paragraph that must be corrected in the same session.* Blast radius today: one PT subscriber, zero EN.
+
+---
+
 ## Closed — September 5, 2026, evening (per-athlete usage logging + the `/w/` workout-link scheme)
 
 *Two items, built and deployed together in one session because they turned out to be one question asked twice. **Verified live before closing**, which for this pair meant a real row in `member_access_log` for each half — three `link` rows and three `page` rows — not a container starting and not a page loading. Technical record: `ai-infrastructure-documentation.md` §43. **The pasting pass stays open in `open-loops.md`**: the infrastructure is what closed here, and the links are not in any workout yet.*
