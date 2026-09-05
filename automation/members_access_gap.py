@@ -81,12 +81,21 @@ def load_api_key():
 
 API_KEY = None
 
-# Two shapes: totalCount is the guard, but not every Twenty version exposes it
-# on a connection, so the script degrades to the plain query rather than dying.
-QUERY_TMPL = """
+# ---------------------------------------------------------------------------
+# The paginated query is a BYTE-FOR-BYTE copy of the one in
+# backfill_person_names.py, minus the fields this script does not need.
+#
+# September 5, 2026: an earlier version of this file asked for `totalCount` on
+# the same connection it was paginating, and pagination stopped dead at page 2
+# -- 120 of 290 -- with hasNextPage/endCursor apparently repeating. The count
+# and the walk are therefore taken as TWO SEPARATE CALLS. Do not "tidy" them
+# back into one: one script in this repo is proven to paginate this endpoint
+# correctly, and the rule that came out of this is to copy it rather than write
+# a variant of it.
+# ---------------------------------------------------------------------------
+PEOPLE_QUERY = """
 query People($first: Int!, $after: String, $filter: PersonFilterInput) {
   people(filter: $filter, first: $first, after: $after, orderBy: { createdAt: AscNullsLast }) {
-    __TOTAL__
     pageInfo { hasNextPage endCursor }
     edges {
       node {
@@ -103,8 +112,11 @@ query People($first: Int!, $after: String, $filter: PersonFilterInput) {
 }
 """
 
-QUERY_COUNTED = QUERY_TMPL.replace("__TOTAL__", "totalCount")
-QUERY_PLAIN = QUERY_TMPL.replace("__TOTAL__\n", "")
+COUNT_QUERY = """
+query PeopleCount {
+  people(first: 1) { totalCount }
+}
+"""
 
 
 def run_graphql(query, variables=None):
@@ -126,56 +138,48 @@ def run_graphql(query, variables=None):
     return body.get("data") or {}
 
 
+def fetch_total():
+    """Its own call, deliberately -- see the note above PEOPLE_QUERY."""
+    try:
+        return ((run_graphql(COUNT_QUERY).get("people") or {}).get("totalCount"))
+    except SystemExit:
+        return None
+
+
 def fetch_people(page_size, expect=None):
-    """Paginate to exhaustion, then REFUSE to return a short read.
+    """Walk every page, then REFUSE to return a short read.
 
-    September 5, 2026: the first live run of this script returned 87 people
-    while backfill_person_names.py returned 290 from the same endpoint minutes
-    earlier, and nothing said so -- the output looked complete and reported 15
-    athletes as having stale access, three of whom are documented active
-    athletes. A partial fetch here does not fail, it LIES, and it lies in the
-    direction of telling Iván to revoke a paying athlete's password.
-
-    So the guard is the point of this function, not the pagination:
-      - trust `totalCount` over `hasNextPage` where Twenty exposes it,
-      - keep going while edges keep arriving, even if hasNextPage says stop,
-      - stop on a repeated cursor (the only real infinite-loop risk),
-      - and exit non-zero on any mismatch rather than printing a list.
+    The guard is the point of this function, not the pagination. The first live
+    run returned 87 of 290 and said nothing: the report looked complete and
+    named 15 athletes as holding stale access, three of whom this repo
+    documents by name as active. A partial fetch here does not fail, it LIES,
+    and it lies in the direction of telling Ivan to revoke a paying athlete's
+    password.
     """
-    query, counted = QUERY_COUNTED, True
-    out, cursor, seen_cursors, total = [], None, set(), None
+    total = fetch_total()
+    out, cursor, seen = [], None, set()
     while True:
-        try:
-            data = run_graphql(query, {"first": page_size, "after": cursor, "filter": None})
-        except SystemExit:
-            if not counted:
-                raise
-            query, counted = QUERY_PLAIN, False       # no totalCount on this version
-            out, cursor, seen_cursors = [], None, set()
-            continue
-        conn = data.get("people") or {}
-        if counted and total is None:
-            total = conn.get("totalCount")
-        edges = conn.get("edges", [])
+        data = run_graphql(PEOPLE_QUERY,
+                           {"first": page_size, "after": cursor, "filter": None})
+        block = data.get("people") or {}
+        edges = block.get("edges", [])
         out += [e["node"] for e in edges]
-        info = conn.get("pageInfo") or {}
-        nxt = info.get("endCursor")
-        if not edges or not nxt or nxt in seen_cursors:
+        info = block.get("pageInfo") or {}
+        if not info.get("hasNextPage"):
             break
-        seen_cursors.add(nxt)
-        if not info.get("hasNextPage") and len(edges) < page_size:
+        cursor = info.get("endCursor")
+        if not cursor or cursor in seen:      # infinite-loop guard only
             break
+        seen.add(cursor)
 
     if total is not None and len(out) != total:
         sys.exit(f"SHORT READ: Twenty reports totalCount={total}, fetched {len(out)}. "
-                 f"Refusing to report a gap from an incomplete list. "
-                 f"Retry with --page-size {min(page_size * 2, 200)}.")
+                 f"Refusing to report a gap from an incomplete list.")
     if expect is not None and len(out) != expect:
-        sys.exit(f"SHORT READ: expected {expect} people, fetched {len(out)}.")
+        sys.exit(f"SHORT READ: --expect {expect}, fetched {len(out)}.")
     if total is None:
-        print(f"  (note: this Twenty exposes no totalCount -- {len(out)} people fetched, "
-              f"paginated to exhaustion. Cross-check against "
-              f"`backfill_person_names.py`, which prints its own count.)", file=sys.stderr)
+        print("  (note: no totalCount available -- cross-check the people count "
+              "against backfill_person_names.py, which prints its own.)", file=sys.stderr)
     return out
 
 
@@ -221,8 +225,7 @@ def main():
     ap.add_argument("--page-size", type=int, default=PAGE_SIZE,
                     help=f"GraphQL page size (default {PAGE_SIZE})")
     ap.add_argument("--expect", type=int, default=None,
-                    help="fail unless exactly N people are fetched -- pass the count "
-                         "backfill_person_names.py printed, as an independent check")
+                    help="fail unless exactly N people are fetched -- a second, independent gate on top of totalCount")
     ap.add_argument("--include-test", action="store_true",
                     help="do not filter out coach+/test/prueba records")
     args = ap.parse_args()
