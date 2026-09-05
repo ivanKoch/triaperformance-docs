@@ -132,16 +132,17 @@ Send it **first, on its own, before the five**, as a warm human aside — never 
 
 ### A5 · Closing — the subscription steps
 
-**CoachMatch** (verbatim, his existing text — leave as is, it works):
+**CoachMatch** (his existing text, with one line added September 5, 2026 — see the note below):
 
 > - Ingresá en el link que te paso a continuación, seleccioná el plan Bronze.
+> - Incluye **TrainingPeaks Premium** (por separado son 19,95 USD al mes), así tenés el calendario, las métricas avanzadas y TrainingPeaks Virtual sin pagarlo aparte.
 > - Una vez que hagas el pago del primer mes, nuestras cuentas quedan vinculadas.
 > - Cuando me llegue la notificación, te paso un cuestionario para que completes con información tuya, de tus últimos entrenamientos, carreras y preferencias personales.
 > - Con eso te puedo enviar unos entrenamientos para los próximos días y luego planear con más tiempo las próximas 2 semanas.
 > .
 > https://www.trainingpeaks.com/coach/ivankoch#pricing
 
-**Private** (referral, website, Instagram — the channel worth $24.59/mo more; ~~a *referred* athlete carries a $9 TrainingPeaks Premium cost, so $15.59~~ **every 1:1 athlete now carries the $9 TrainingPeaks Premium cost as of September 4, 2026, so the Private premium is $15.59 on all of them, not only referrals** — see `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium):
+**Private** (referral, website, Instagram — the channel worth $24.59/mo more; ~~a *referred* athlete carries a $9 TrainingPeaks Premium cost, so $15.59~~ **every PRIVATE athlete now carries the $9 TrainingPeaks Premium cost as of September 4, 2026, so the Private premium is $15.59 on all of them, not only referrals.** *Not every 1:1 athlete — a CoachMatch athlete has Premium too and it costs Iván nothing, because TrainingPeaks pays for it out of the 20%* — see `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium):
 
 > - Te dejo el link de suscripción: {CHECKOUT_URL}
 > - Incluye **TrainingPeaks Premium** (por separado son 19,95 USD al mes), así tienes el calendario, las métricas avanzadas y TrainingPeaks Virtual sin pagarlo aparte.
@@ -150,6 +151,10 @@ Send it **first, on its own, before the five**, as a warm human aside — never 
 > - Con eso preparo tus primeros entrenamientos y luego planeamos las próximas 2 semanas.
 
 ***The Premium line was added September 4, 2026, when the offer changed to include it for every 1:1 athlete.*** *It is placed **second — immediately after the link and before the setup fee** — deliberately: it is the one line in this message that gives something back, and the setup fee is the one that asks for more. Reading the $19.95 inclusion before the $50 fee is what makes the fee land as part of a package rather than as a surcharge.* **The retail figure is written out because "Premium included" means nothing to someone who has never paid for it** — which, per the `/all-access/` explainer item, is most of the market.
+
+🔑 ***The September 5 addition went to the CoachMatch half, not the Private half, and the reason is worth recording.*** *The open item read "A5 does not mention Premium" — **half true**. Private had carried the line since September 4; CoachMatch never had it, and* **a CoachMatch athlete gets Premium too** *(TrainingPeaks pays for it out of the 20%, which is why the cost item found `premium_fee` on Private rows only).* **So the website was promising Premium on both coaching surfaces while the message half the leads actually receive said nothing about it** — *and an item phrased as "A5 doesn't mention X" invited a session to check one block, find it, and close the item wrongly.* ⚠️ *Same placement logic as Private: immediately after the link, before anything that asks for something. CoachMatch has no setup fee, so it simply lands second.*
+
+⚠️ **Register: the CoachMatch block is voseo (`Ingresá`, `tenés`) and the Private block is tuteo (`te dejo`, `tienes`), and BOTH are correct as they stand.** *The September 4 tuteo standardisation applies to marketing surfaces — the site, `library.json`, the tool pages. **These are messages Iván sends as himself in WhatsApp**, and normalising his own voice across them would be applying a website rule to a conversation. Do not "fix" either one.*
 
 *Checkout URL for `{CHECKOUT_URL}`: `triaperformance-pricing-and-positioning.md` §Private 1:1 coaching checkout link. Startup-fee waiver code `NOSTARTUP` is a closing lever — see B6, and it is also the referred athlete's half of the referral offer (`referral-program-brief.md` §1).*
 
