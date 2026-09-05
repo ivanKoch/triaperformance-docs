@@ -409,3 +409,11 @@ footer a { color: var(--text-dim); }
    rendered check, not by reading the CSS: the rule was present and correct-
    looking, and the page was still wrong. */
 .setup-opts--wrap .setup-opt { flex: 1 0 calc(33.333% - 6px); min-width: 0; }
+
+/* The recovery tool's routing note ("training today? use Activation instead")
+   is a plain hint rather than a boxed aside, deliberately — three boxed asides
+   in a row read as three warnings of equal weight, and the load warning has to
+   carry the emphasis. But a plain hint inherits the dim body colour, which left
+   its two links weaker than a tap target should be. Scoped to the one id that
+   uses it, so no other page changes. */
+#activationAside a { color: var(--blue-bright); font-weight: 700; }

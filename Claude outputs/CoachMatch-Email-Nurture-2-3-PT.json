@@ -28,7 +28,7 @@
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"query\": \"query FindPeopleForEmailNurture($status: String!) { people(filter: { leadStatus: { eq: $status }, emailTouchCount: { lt: 3 } }) { edges { node { id name { firstName lastName } emails { primaryEmail } emailTouchCount createdAt } } } }\",\n  \"variables\": {\n    \"status\": \"MESSAGE_SENT\"\n  }\n}",
+        "jsonBody": "{\n  \"query\": \"query FindPeopleForEmailNurture($status: String!) { people(filter: { leadStatus: { eq: $status }, emailTouchCount: { lt: 3 } }) { edges { node { id name { firstName lastName } emails { primaryEmail } emailTouchCount createdAt preferredLanguage } } } }\",\n  \"variables\": {\n    \"status\": \"MESSAGE_SENT\"\n  }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -48,7 +48,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Decides which nurture email is due today.\n//\n// The sequence is three CONSECUTIVE CALENDAR DAYS from the lead's creation\n// date: day 0 email 1 (sent by the CoachMatch lead workflow, not here),\n// day 1 email 2, day 2 email 3. Calendar days, not business days.\n//\n// Changed September 2, 2026 -- this used elapsed hours (>= 24 / >= 48) against\n// a 09:00 trigger, so any lead created after 09:00 missed its window by a few\n// hours and slipped a full day: a 14:00 lead got email 2 on day 2 and email 3\n// on day 3. Comparing calendar dates instead makes the boundary the thing the\n// sequence is actually defined by.\n//\n// Day boundaries are America/Cordoba (UTC-3). Argentina has had no DST since\n// 2009, so shifting the timestamp by -3h and reading its UTC date is exact and\n// needs no timezone database.\nconst AR_OFFSET_MS = 3 * 60 * 60 * 1000;\nconst arDate = (d) => new Date(d.getTime() - AR_OFFSET_MS).toISOString().slice(0, 10);\nconst daysBetween = (a, b) =>\n  Math.round((Date.parse(arDate(b)) - Date.parse(arDate(a))) / 86400000);\n\nconst now = new Date();\nconst results = [];\n\nfor (const edge of $input.first().json.data.people.edges) {\n  const person = edge.node;\n  const touchCount = person.emailTouchCount;\n\n  // Which email this lead should be at today: 1 on the day it arrived, 2 the\n  // next calendar day, 3 the day after. Capped at 3 -- there is no email 4.\n  // Expressed as \"which email is due\" rather than \"has enough time passed\" so\n  // that a second run on the same day sends nothing (touchCount already equals\n  // the expected number) and a missed day resumes at the next email in\n  // sequence instead of skipping one.\n  const expected = Math.min(daysBetween(new Date(person.createdAt), now) + 1, 3);\n  const isDue = touchCount >= 1 && touchCount < expected;\n\n  if (isDue) {\n    results.push({\n      json: {\n        id: person.id,\n        firstname: person.name.firstName,\n        lastname: person.name.lastName,\n        email: person.emails.primaryEmail,\n        emailTouchCount: touchCount\n      }\n    });\n  }\n}\n\nreturn results;"
+        "jsCode": "// Decides which nurture email is due today.\n//\n// The sequence is three CONSECUTIVE CALENDAR DAYS from the lead's creation\n// date: day 0 email 1 (sent by the CoachMatch lead workflow, not here),\n// day 1 email 2, day 2 email 3. Calendar days, not business days.\n//\n// Changed September 2, 2026 -- this used elapsed hours (>= 24 / >= 48) against\n// a 09:00 trigger, so any lead created after 09:00 missed its window by a few\n// hours and slipped a full day: a 14:00 lead got email 2 on day 2 and email 3\n// on day 3. Comparing calendar dates instead makes the boundary the thing the\n// sequence is actually defined by.\n//\n// Day boundaries are America/Cordoba (UTC-3). Argentina has had no DST since\n// 2009, so shifting the timestamp by -3h and reading its UTC date is exact and\n// needs no timezone database.\nconst AR_OFFSET_MS = 3 * 60 * 60 * 1000;\nconst arDate = (d) => new Date(d.getTime() - AR_OFFSET_MS).toISOString().slice(0, 10);\nconst daysBetween = (a, b) =>\n  Math.round((Date.parse(arDate(b)) - Date.parse(arDate(a))) / 86400000);\n\nconst now = new Date();\nconst results = [];\n\nfor (const edge of $input.first().json.data.people.edges) {\n  const person = edge.node;\n  const touchCount = person.emailTouchCount;\n\n  // Which email this lead should be at today: 1 on the day it arrived, 2 the\n  // next calendar day, 3 the day after. Capped at 3 -- there is no email 4.\n  // Expressed as \"which email is due\" rather than \"has enough time passed\" so\n  // that a second run on the same day sends nothing (touchCount already equals\n  // the expected number) and a missed day resumes at the next email in\n  // sequence instead of skipping one.\n  const expected = Math.min(daysBetween(new Date(person.createdAt), now) + 1, 3);\n  const isDue = touchCount >= 1 && touchCount < expected;\n\n  if (isDue) {\n    results.push({\n      json: {\n        id: person.id,\n        firstname: person.name.firstName,\n        lastname: person.name.lastName,\n        email: person.emails.primaryEmail,\n        emailTouchCount: touchCount,\n        preferredLanguage: person.preferredLanguage || null\n      }\n    });\n  }\n}\n\nreturn results;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -86,19 +86,28 @@
                 },
                 "conditions": [
                   {
+                    "id": "145098f2-d557-443d-9a06-4e7cd1dc7629",
                     "leftValue": "={{ $json.emailTouchCount }}",
                     "rightValue": 1,
                     "operator": {
                       "type": "number",
                       "operation": "equals"
-                    },
-                    "id": "6f0ab971-1e3b-41e8-90a4-6e873ed3dd52"
+                    }
+                  },
+                  {
+                    "id": "9bd5baaf-787c-476d-a5c8-843e1aa86e40",
+                    "leftValue": "={{ $json.preferredLanguage }}",
+                    "rightValue": "PORTUGUESE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    }
                   }
                 ],
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "Email 2 due"
+              "outputKey": "Email 2 ES"
             },
             {
               "conditions": {
@@ -110,11 +119,20 @@
                 },
                 "conditions": [
                   {
-                    "id": "b8bbe0a6-54d7-468c-8c32-d19d2a43fd5b",
+                    "id": "752fe74f-7153-4922-b604-059bbb84bdda",
                     "leftValue": "={{ $json.emailTouchCount }}",
-                    "rightValue": 2,
+                    "rightValue": 1,
                     "operator": {
                       "type": "number",
+                      "operation": "equals"
+                    }
+                  },
+                  {
+                    "id": "2e65e855-8f5a-4dd5-93bf-90df07f45cbc",
+                    "leftValue": "={{ $json.preferredLanguage }}",
+                    "rightValue": "PORTUGUESE",
+                    "operator": {
+                      "type": "string",
                       "operation": "equals"
                     }
                   }
@@ -122,7 +140,73 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "Email 3 due"
+              "outputKey": "Email 2 PT"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "9583f8ce-1572-40e9-b6a8-043329fad85d",
+                    "leftValue": "={{ $json.emailTouchCount }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  },
+                  {
+                    "id": "eecbe24f-7db3-4d39-aef0-bb12c9900a76",
+                    "leftValue": "={{ $json.preferredLanguage }}",
+                    "rightValue": "PORTUGUESE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Email 3 ES"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "aa5c4e04-908d-4d4b-a688-0ab9af878478",
+                    "leftValue": "={{ $json.emailTouchCount }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  },
+                  {
+                    "id": "5b3ad055-25e6-499f-b4c9-787814ff0748",
+                    "leftValue": "={{ $json.preferredLanguage }}",
+                    "rightValue": "PORTUGUESE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Email 3 PT"
             }
           ]
         },
@@ -148,8 +232,8 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        1456,
-        -160
+        1120,
+        -280
       ],
       "id": "6634c713-9b03-4834-b9da-3252cd0af524",
       "name": "Send an Email",
@@ -168,8 +252,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1648,
-        -160
+        1440,
+        -190
       ],
       "id": "22568730-c48f-4437-b74e-b3d2df834b14",
       "name": "Code in JavaScript1"
@@ -185,8 +269,8 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        1456,
-        16
+        1120,
+        80
       ],
       "id": "add2314c-33f3-4058-89c2-900b6a245583",
       "name": "Send an Email1",
@@ -205,8 +289,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1664,
-        16
+        1440,
+        170
       ],
       "id": "03708f6a-eed5-41d2-aa5a-138900b6eaea",
       "name": "Code in JavaScript2"
@@ -225,8 +309,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2176,
-        16
+        1680,
+        -190
       ],
       "id": "2fbd29c5-675a-4937-a356-dd899a2d1515",
       "name": "HTTP Request1",
@@ -251,8 +335,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1872,
-        16
+        1680,
+        170
       ],
       "id": "16266de7-51a5-4c32-b82a-75391caaf65e",
       "name": "HTTP Request2",
@@ -260,6 +344,54 @@
         "httpHeaderAuth": {
           "id": "JHN5QPZo087TvBnD",
           "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "Iván Koch - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.firstname }}, não procure um plano — procure um treinador",
+        "html": "=<p>Olá {{ $json.firstname }},</p>\n\n<p>Seguindo o meu email de ontem, queria te contar uma coisa que aprendi treinando dezenas de atletas.</p>\n\n<p>Um plano perfeito no papel não serve de nada se não se adapta à sua realidade. Um PDF não sabe que você teve reunião até tarde, que dormiu mal, ou que hoje acordou com mais energia do que o normal.</p>\n\n<p>Por isso o que eu te oferecia ontem não é \"subir treinos no TrainingPeaks\". É comunicação constante e feedback de verdade, sempre incluído, sem custo extra:</p>\n\n<ul>\n  <li>Apareceu uma viagem de última hora? A gente ajusta o plano.</li>\n  <li>Não entendeu uma sessão? Você me escreve e resolvemos.</li>\n  <li>Precisa de um empurrão? Estarei ali.</li>\n</ul>\n\n<p>Se você ler as <a href=\"https://maps.app.goo.gl/Dfw4166sxw3WGwA3A\">avaliações no Google</a>, vai ver que o que os meus atletas mais valorizam não são os números — é exatamente isso: a adaptação à agenda deles e o check-in semanal.</p>\n\n<p>Não quero te vender uma planilha. Quero fazer parte do seu processo.</p>\n\n<p>Seguimos no <a href=\"https://wa.me/573105437088\">WhatsApp</a> e vemos como encaixar isso nos seus horários. (E se a questão for a língua, o All-Access que te mencionei ontem continua de pé, todo em português.)</p>\n\n<p>Abraço,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1120,
+        -100
+      ],
+      "id": "f5816314-66bc-4c9d-ad21-5117686e9d95",
+      "name": "Send an Email PT",
+      "webhookId": "9ad69776-cc53-4493-a930-ef0e812e9345",
+      "credentials": {
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "Iván Koch - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.firstname }}, e se o problema for a língua?",
+        "html": "=<p>Olá {{ $json.firstname }},</p>\n\n<p>Imagino que você esteja ocupado, ou que já tenha encontrado o treinador que procurava. Sem problema nenhum.</p>\n\n<p>Mas se o que te segurou foi eu ter dito que o acompanhamento 1:1 é em espanhol ou inglês, então vale um último email — porque para isso eu tenho a resposta certa.</p>\n\n<p><strong>Triaperformance All-Access, 29,99 USD por mês, inteiramente em português.</strong></p>\n\n<ul>\n  <li><strong>Os 53 planos em português</strong>: 28 de corrida, 9 de ciclismo, 8 de triatlo, 4 de natação e 4 de duatlo. Troque de plano quantas vezes quiser, sem custo — terminou um bloco de 10k e quer partir para a meia, é só trocar.</li>\n  <li><strong>TrainingPeaks Premium incluído.</strong> Sozinho custa 19,95 USD/mês, ou seja, mais de metade do preço da assinatura.</li>\n  <li><strong>13 ferramentas na Área de Membros</strong>, todas em português e todas montadas na hora, no celular: as suas sete zonas nos três esportes, ativação e mobilidade que se adaptam ao seu dia, rotinas de carga progressiva para joelho, aquiles e ombro de nadador, core para quarto de hotel, configuração do Garmin campo a campo, e o guia de carga de treino (TSS, CTL, ATL e o PMC) explicado direito. Subo ferramentas novas quase toda semana.</li>\n  <li><strong>Suporte meu por escrito, em português.</strong> Dúvida sobre uma ferramenta, sobre as suas zonas ou sobre qual plano escolher: me escreve que eu respondo.</li>\n</ul>\n\n<p>Comparado com o que você já ia gastar: só o TrainingPeaks Premium mensal são 19,95 USD, e um plano avulso costuma sair entre 40 e 50 USD. O All-Access custa 29,99 USD e inclui os dois, mais tudo o que está acima.</p>\n\n<p><a href=\"https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a\"><strong>Assinar o All-Access — 29,99 USD/mês</strong></a><br>\n<em>No checkout da TrainingPeaks o produto aparece como \"Acesso Total: Planos de Treino\" — é este mesmo. Cancela quando quiser.</em></p>\n\n<p>E se preferir retomar a conversa sobre o acompanhamento 1:1, estou aqui: <a href=\"https://wa.me/573105437088\">WhatsApp</a>.</p>\n\n<p>Um abraço,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1120,
+        260
+      ],
+      "id": "897c5872-83d3-4de1-84a2-08bc16cb15f5",
+      "name": "Send an Email1 PT",
+      "webhookId": "dfeafa85-9ce9-44fd-b3de-5b0841214704",
+      "credentials": {
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
         }
       }
     }
@@ -322,7 +454,21 @@
         ],
         [
           {
+            "node": "Send an Email PT",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
             "node": "Send an Email1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send an Email1 PT",
             "type": "main",
             "index": 0
           }
@@ -394,9 +540,31 @@
           }
         ]
       ]
+    },
+    "Send an Email PT": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an Email1 PT": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
@@ -406,7 +574,6 @@
     "timeSavedPerExecution": 5,
     "errorWorkflow": "GWBWznYoPiHdbmVt"
   },
-  "versionId": "22dcdddc-d030-4b99-8b5a-c7247ba24984",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "8e076cafb52cccf2e8bbadb4d0f2ec8c146f30578d107bdefeabccfda2ab75a9"

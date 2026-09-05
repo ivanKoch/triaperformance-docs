@@ -38,82 +38,19 @@
 
 ## Email 1 — day 0
 
-**Node:** `Send an Email` in `coachmatch-lead-automation.json`, PT branch.
-**Assunto:** `{{firstname}}, sobre o seu pedido (e o preço, sem rodeios)`
+**Node:** `Send an Email PT` in `coachmatch-lead-automation.json`, off the `Route by Language` Switch.
+**Assunto:** `{{firstname}}, recebi o seu pedido na TrainingPeaks (próximos passos)`
 
-```html
-<p>Olá {{ firstname }},</p>
+🚨 ***Rebuilt September 5, 2026, and the reason matters more than the copy.*** *The first version of this email was translated from the Spanish body **in the repo copy of the workflow**, which was stale — the live Spanish email 1 had been rewritten and no longer contains the "$149 vs $229 vs $359 / esqueça essa limitação" pitch at all. It now opens with "antes de falar de planos, entender onde você está", adds the gym/strength bullet, and states the price with "não tem tempo mínimo de permanência".* **The repo copies of n8n workflows are documentation, not the live source — a translation made from one is a translation of the past.** *Iván caught it by reading the export. Standing consequence: before translating or quoting any n8n copy, get a fresh export.*
 
-<p>Sou o Iván, Head Coach da Triaperformance e coach certificado pela
-TrainingPeaks. Recebi o seu pedido no Coach Match e li pessoalmente.</p>
+The current body is in `automation/coachmatch-lead-automation.json`, node `Send an Email PT`. It mirrors the live Spanish email exactly — same opening, same "good match" framing, same four bullets, same $149 and same no-commitment line — and adds two blocks after the price:
 
-<p>Vou direto ao preço, porque sei que é a primeira coisa que se olha.</p>
+1. **The language condition.** The 1:1 happens in Spanish or English, not Portuguese; many Brazilian athletes are fine with either, and TrainingPeaks itself is in their language regardless.
+2. **All-Access at $29.99** as the answer to the objection that condition creates — 53 PT plans, Premium, 13 tools, written support with the 1:1 boundary stated, checkout link, and the "Acesso Total" title named in advance.
 
-<p>Na TrainingPeaks você viu várias opções: US$ 149, US$ 229 e US$ 359. A de
-US$ 149 provavelmente aparecia como a versão reduzida — uma chamada por mês,
-um email e pouco mais. Faz sentido que não tenha convencido.</p>
+**Coaching is still the lead offer and still the first price the lead sees.** A Brazilian happy to work in Spanish or English reads it as an ordinary $149 pitch with a footnote.
 
-<p>Esqueça essa limitação. Comigo, US$ 149 não é o plano de entrada
-recortado: é o serviço completo. Por esses mesmos US$ 149 por mês você tem
-plano 100% personalizado e ajustado à sua vida real, ajustes sempre que
-precisar, análise das suas sessões quando pedir, e comunicação direta comigo
-no WhatsApp durante toda a semana.</p>
-
-<p><strong>Uma coisa que prefiro dizer agora e não depois:</strong> o
-acompanhamento 1:1 eu faço em espanhol ou em inglês. Não em português. Boa
-parte dos atletas brasileiros que treino se vira muito bem em qualquer um
-dos dois — e o TrainingPeaks, os treinos e os números você lê na sua língua
-de qualquer forma. Se for o seu caso, seguimos.</p>
-
-<p><strong>E se você preferir tudo em português, tenho a alternativa
-certa.</strong></p>
-
-<p>Chama-se <strong>Triaperformance All-Access</strong>, custa
-<strong>US$ 29,99 por mês</strong>, e é o produto que está inteiramente em
-português:</p>
-
-<ul>
-  <li>Os <strong>53 planos de treino em português</strong> — corrida,
-  ciclismo, triatlo, natação e duatlo — e você troca de plano quantas vezes
-  quiser, sem custo.</li>
-  <li><strong>TrainingPeaks Premium incluído</strong> (US$ 19,95/mês por
-  fora).</li>
-  <li>A <strong>Área de Membros</strong>: 13 ferramentas em português que se
-  montam sozinhas — calculadora das suas zonas, ativação e mobilidade,
-  rotinas para joelho, aquiles e ombro, como configurar o Garmin, o guia de
-  carga de treino.</li>
-  <li><strong>Suporte meu por escrito</strong>, em português: dúvida sobre
-  uma ferramenta, sobre as suas zonas ou sobre qual plano escolher, você me
-  escreve e eu respondo. Não inclui revisão dos seus treinos nem ajuste
-  semanal do plano — isso é o 1:1.</li>
-</ul>
-
-<p>Assinar leva um minuto:
-<a href="https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a">Assinar o All-Access — US$ 29,99/mês</a><br>
-<em>No checkout da TrainingPeaks o produto aparece como "Acesso Total:
-Planos de Treino" — é este mesmo.</em></p>
-
-<p>Qualquer um dos dois caminhos, o mais rápido é conversarmos:
-<a href="https://wa.me/573105437088">WhatsApp</a>. Me conte o seu objetivo e
-vemos qual faz sentido para você.</p>
-
-<p>Enquanto isso, o que dizem outros atletas:</p>
-
-<ul>
-  <li>Avaliações no Google:
-  <a href="https://maps.app.goo.gl/Dfw4166sxw3WGwA3A">Link</a></li>
-  <li>Instagram
-  <a href="https://www.instagram.com/triaperformance/">@Triaperformance</a></li>
-</ul>
-
-<p>Até breve,<br>
-Iván Koch — Head Coach, Triaperformance<br>
-TrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>
-```
-
-**Why the language paragraph sits where it does:** after the $149 pitch, not before. Leading with "I don't speak Portuguese" makes the whole email read as a disqualification. Placed after, it is a condition on an offer the lead already wants.
-
----
+**Why the language paragraph sits after the $149 pitch, not before:** leading with "I don't coach in Portuguese" makes the whole email read as a disqualification. Placed after, it is a condition on an offer the lead already wants.
 
 ## Email 2 — day 1
 
@@ -238,35 +175,31 @@ inglês. Se você preferir tudo em português, tenho o All-Access por US$ 29,99
 
 ## The n8n changes
 
-**Neither workflow branches on language today, and both already have the value.** `coachmatch-lead-automation.json` computes `preferred_language = country === 'brazil' ? 'Portuguese' : 'Spanish'` in `Code in JavaScript1` and writes `PORTUGUESE` to Twenty — then sends a hardcoded Spanish email. *A field being set is not a field being read.*
+**Both workflows were rebuilt as complete JSON and handed over September 5, 2026** — paste-into-canvas replacements, not step-by-step edits, because the node count and rewiring made hand-editing the riskier option. Both import inactive with `versionId` stripped, credential references intact, and no orphan nodes.
 
-### 1. `coachmatch-lead-automation.json` — email 1
+### `coachmatch-lead-automation.json` — 19 nodes
 
-- Insert a **Switch** node between `HTTP Request2` and `Send an Email`, on
-  `={{ $('Code in JavaScript1').item.json.preferred_language_enum }}`
-  → outputs `PORTUGUESE` and `SPANISH` (fallback output → Spanish).
-- Duplicate `Send an Email` as **`Send an Email PT`** with the subject and HTML above.
-- Existing `Send an Email` stays untouched on the Spanish output.
+- **`Route by Language`** — new Switch after `If`, on `preferred_language_enum`. `PT` → `Send an Email PT`, `ES` → the existing `Send an Email`, **`fallbackOutput: 1`** so English or empty routes Spanish rather than nowhere.
+- **`Send an Email PT`** — feeds the *existing* `Code in JavaScript6`, so there remains exactly one path that writes `emailTouchCount: 1`.
+- **`Skip WhatsApp Outreach — BR/AR` → `Skip WhatsApp Outreach — AR`.** Brazil condition removed; Argentina and the no-phone check kept. *Renamed so the name cannot outlive the rule.*
+- **`Code in JavaScript4`** — WhatsApp first-touch message branches on language, empty-name guard preserved on both branches, Brazilian leads prefixed 🇧🇷 in the Telegram line.
 
-### 2. `coachmatch-lead-automation.json` — WhatsApp first touch
+### `coachmatch-email-nurture-2-3.json` — 13 nodes
 
-- **`Skip WhatsApp Outreach — BR/AR`:** delete the `brazil` condition, keep `argentina` and keep the no-phone condition. **Rename the node `Skip WhatsApp Outreach — AR`** so the name does not outlive the rule.
-- **`Code in JavaScript4`:** branch the `message` constant on `lead.preferred_language_enum === 'PORTUGUESE'`. Node is already `runOnceForEachItem` — leave it that way.
-- **`automation/twenty_followup_check.py`:** `NO_WHATSAPP_COUNTRIES` drops `brazil` and `brasil`, keeps `argentina`. *Repo edit, reaches the box on the dispatcher's next `git pull`.* ⚠️ *The follow-up nudge copy in that script is Spanish and will now go to Brazilian leads — it needs a PT variant in the same pass, or the fix produces Spanish WhatsApp nudges to exactly the athletes this whole change exists to reach in Portuguese.*
+- **`HTTP Request`** — the GraphQL selection set now fetches `preferredLanguage`. ⚠️ *This had to come first: the Switch had nothing to read until it existed, and the field had been written to Twenty since July while nothing read it.*
+- **`Code in JavaScript`** — carries `preferredLanguage` through to the loop.
+- **`Switch`** — two outputs became four: `Email 2 ES` / `Email 2 PT` / `Email 3 ES` / `Email 3 PT`. **The ES branches test `≠ PORTUGUESE`, not `= SPANISH`**, so an English or null lead still gets a sequence instead of dropping out.
+- **`Send an Email PT`** and **`Send an Email1 PT`** feed the existing increment nodes. **No duplicate increment path** — a second one is how a lead skips an email.
 
-### 3. `coachmatch-email-nurture-2-3.json` — emails 2 and 3
+### `automation/twenty_followup_check.py` — done September 5, 2026
 
-⚠️ **The GraphQL query does not fetch `preferredLanguage`, so there is nothing to branch on yet.** First change is in `HTTP Request`: add `preferredLanguage` to the `node { … }` selection set. Then carry it through the `Code in JavaScript` node's `results.push({ json: { … } })`.
-
-- The **`Switch`** currently has two outputs on `emailTouchCount` (1 → email 2, 2 → email 3). It becomes **four**: `1+SPANISH`, `1+PORTUGUESE`, `2+SPANISH`, `2+PORTUGUESE`.
-- Two new email nodes: **`Send an Email PT`** (email 2) and **`Send an Email1 PT`** (email 3).
-- Both new nodes wire into the same `Code in JavaScript1` / `Code in JavaScript2` touch-count increments as their Spanish counterparts. **Do not duplicate the increment nodes** — a second increment path is how a lead skips an email.
+`NO_WHATSAPP_COUNTRIES` is now `{"argentina"}`; `MESSAGE_TEMPLATES` is keyed by language with Portuguese nudges 2 and 3; the GraphQL query fetches `preferredLanguage`; `build_whatsapp_link()` takes a language and **falls back to Spanish on anything not explicitly Portuguese**, so a null value produces a message rather than a `KeyError`. Portuguese leads are prefixed 🇧🇷 in the digest. *The Portuguese message 3 swaps the Spanish version's "web with coaching plans" line for the All-Access checkout link — the last WhatsApp touch and the last email now make the same ask.* **Reaches the box on the dispatcher's next `git pull`, so it needs Iván's commit and push.**
 
 ### Testing — what a manual single-item test cannot catch
 
 **Set the execution mode explicitly on every Code node touched** (`runOnceForEachItem` vs `runOnceForAllItems`). *Confirmed live July 31, 2026: an IMAP poll delivering two leads at once caused follow-up nodes to update only the first, with no error thrown.* **Replay a real multi-item execution containing one Brazilian and one Spanish-speaking lead** — a single-item test in the n8n UI cannot see this class of bug, and this change adds branches on exactly the field that distinguishes them.
 
----
+⚠️ **Sequence-straddling:** Portuguese email 2 opens with *"seguindo o meu email de ontem"*, which is only true if email 1 was also Portuguese. **Activate the lead workflow first**, or make sure no lead is mid-sequence when the nurture workflow flips.
 
 ## Measurement
 

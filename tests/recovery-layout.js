@@ -47,7 +47,21 @@ const LANGS = {
   es: { url: "/members/recuperacion/", crumb: "Recuperación",
         knees: "/members/rodillas/", shoulder: "/members/hombro/",
         achilles: "/members/aquiles/", doctor: /m[eé]dic/,
-        badStart: /activaci[oó]n/i, badDone: /activaci[oó]n/i }
+        badStart: /activaci[oó]n/i, badDone: /activaci[oó]n/i,
+        load: /sesi[oó]n suave, no un d[ií]a libre/i,
+        act: "/members/activacion/", mob: "/members/movilidad/" },
+  en: { url: "/members/en/recovery/", crumb: "Recovery",
+        knees: "/members/en/knees/", shoulder: "/members/en/shoulder/",
+        achilles: "/members/en/achilles/", doctor: /doctor/i,
+        badStart: /activation/i, badDone: /activation/i,
+        load: /easy session, not a day off/i,
+        act: "/members/en/activation/", mob: "/members/en/mobility/" },
+  pt: { url: "/members/pt/recuperacao/", crumb: "Recuperação",
+        knees: "/members/pt/joelhos/", shoulder: "/members/pt/ombro/",
+        achilles: "/members/pt/aquiles/", doctor: /m[eé]dic/,
+        badStart: /ativa[cç][ãa]o/i, badDone: /ativa[cç][ãa]o/i,
+        load: /sess[ãa]o leve, n[ãa]o um dia de folga/i,
+        act: "/members/pt/ativacao/", mob: "/members/pt/mobilidade/" }
 };
 
 (async () => {
@@ -89,10 +103,10 @@ const LANGS = {
 
       /* The three constant asides: the load warning, the routing to the other
          two tools, and the pain hand-off. Decision 4 lives in the first one. */
-      ok(/sesi[oó]n suave, no un d[ií]a libre/i.test(await page.$eval("#loadAside", e => e.innerHTML)),
+      ok(C.load.test(await page.$eval("#loadAside", e => e.innerHTML)),
          `[${lang} ${width}] the load warning says this is not a rest day`);
       const routing = await page.$eval("#activationAside", e => e.innerHTML);
-      ok(routing.includes("/members/activacion/") && routing.includes("/members/movilidad/"),
+      ok(routing.includes(C.act) && routing.includes(C.mob),
          `[${lang} ${width}] the setup screen routes to the other two tools`);
 
       await page.close();

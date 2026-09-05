@@ -1,0 +1,459 @@
+---
+layout: layouts/base.njk
+pageCss: "members-activacion.css"
+title: "Recuperação ativa — Triaperformance All-Access"
+matrixMode: true
+---
+{#- RECUPERACIÓN ACTIVA, PORTUGUESE SIBLING of /members/recuperacion/.
+    Derived from the Spanish page by `automation/recovery-i18n.py`, which
+    substitutes string literals and nothing else — so the exercise ids, the
+    three routine tables, the block composition, every hold and every mode are
+    identical to the Spanish page by construction, not by review.
+
+    *** DO NOT HAND-EDIT THE STRUCTURE HERE. *** If a routine changes, it
+    changes in the Spanish page and this one is regenerated. If a CUE changes,
+    fix it in both places in the same pass — the script's ordered list is the
+    record of which string corresponds to which.
+
+    Home doc: `recovery-brief.md`. It owns all of it: the six decisions, and in
+    particular why the three blocks are named the way they are (a third of this
+    session is strength work and the athlete is entitled to know), and why the
+    30-minute cores lead with CARs, flows and long holds rather than with the
+    movements the library already had.
+
+    *** THE CLINICAL REVERSALS ARE THE REASON THIS FILE IS TESTED IN ITS OWN
+    LANGUAGE: NO shoulder dislocates (third attempt — the capped stick pass-
+    through is a VARIANT and its cue carries the cap), NO Jefferson curls, and
+    the eyes-closed balance stays capped. A translation is exactly where a
+    clinical decision silently reverts, because the reviewer is reading for
+    fluency. The same assertions that run against the Spanish page run here. ***
+
+    *** AND THE TWO DELIBERATE DISAGREEMENTS WITH /members/pt/mobilidade/ SURVIVE
+    TRANSLATION: frog pose and winged dragon belong HERE, on fresh tissue, and
+    were cut from the post-workout tool for that reason. Do not harmonise. ***
+
+    *** EVERY NOTE ABOUT THIS PAGE BELONGS IN THIS BLOCK. Almost the whole page
+    is inside {% raw %}, where a Nunjucks comment is NOT a comment — it is
+    literal text that renders to the reader. Use an HTML comment or write it
+    here. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/pt/#biblioteca">Biblioteca</a> / Recuperação</div></div>
+
+  <div class="setup-head">
+    <span class="label">Recuperação ativa</span>
+    <h1>Seu dia de recuperação</h1>
+    <p>Duas perguntas e a sessão se monta sozinha. Mobilidade lenta, um pouco de ativação e posturas longas — tudo por tempo, os unilaterais por lado.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Qual é o seu esporte?</div>
+    <div class="setup-opts setup-opts--wrap" data-axis="sport">
+      <button type="button" class="setup-opt" data-val="run" aria-pressed="true">Corrida</button>
+      <button type="button" class="setup-opt" data-val="bike" aria-pressed="false">Bike</button>
+      <button type="button" class="setup-opt" data-val="swim" aria-pressed="false">Natação</button>
+      <button type="button" class="setup-opt" data-val="tri" aria-pressed="false">Triatlo</button>
+      <button type="button" class="setup-opt" data-val="all" aria-pressed="false">Corpo inteiro</button>
+    </div>
+    <p class="setup-hint" id="sportHint"></p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">Quanto tempo você tem?</div>
+    <div class="setup-opts" data-axis="mins">
+      <button type="button" class="setup-opt" data-val="30" aria-pressed="true">30 min</button>
+      <button type="button" class="setup-opt" data-val="45" aria-pressed="false">45 min</button>
+      <button type="button" class="setup-opt" data-val="60" aria-pressed="false">60 min</button>
+    </div>
+    <p class="setup-hint">Os três têm os mesmos três blocos e crescem juntos. Sessenta é onde entram o fluxo longo e as posturas passivas profundas, que é o que não cabe em nenhum outro lugar.</p>
+  </div>
+
+  <p class="setup-hint">Basta um colchonete e uma parede. Se você tiver faixa, rolo, bastão ou um degrau, alguns exercícios oferecem essa versão pelo botão <strong>Trocar exercício</strong>.</p>
+
+  <p class="setup-hint setup-aside" id="loadAside"><strong>Isto é uma sessão leve, não um dia de folga.</strong> Há um bloco de ativação de verdade — glúteo, core e escápula. Coloque num dia leve ou de descanso, não na véspera de uma sessão de qualidade nem de um longão.</p>
+
+  <p class="setup-hint" id="activationAside">Vai treinar hoje? Então não é isto que você procura: <a href="/members/pt/ativacao/">Ativação</a> antes de treinar, <a href="/members/pt/mobilidade/">Mobilidade</a> depois. Esta sessão é para o dia em que você não treina.</p>
+
+  <p class="setup-hint setup-aside" id="painAside"></p>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Montar minha sessão →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/activation-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.RECOVERY_MATRIX = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY
+     One definition per exercise, one cue. `secs` is the hold or the block —
+     longer than /members/pt/mobilidade/ throughout, because this is the tool with
+     the time: 60s CARs, 90s PNF, 120-240s flows and passive holds.
+
+     `variants` carry everything that is not a mat and a wall. The base routine
+     never needs them, and the engine hides its own "Trocar exercício" button
+     on any exercise that has none. */
+  const L = {
+
+    /* ============================================== SÓ NESTA FERRAMENTA
+       CARs, fluxos, posturas longas, PNF e equilíbrio. É o que uma ativação não
+       consegue fazer em doze minutos, e por isso ABREM as rotinas em vez de
+       fechá-las. Se um dia isto ficar no fim, a ferramenta voltou a ser a matriz
+       de ativação esticada. */
+    carsHip: { name: "CARs de quadril", mode: "uni", tag: "Sem equipamento", secs: 60,
+      cue: "Em pé ou em quatro apoios, leve o joelho ao peito, abra para o lado, gire para trás e desça — o maior círculo que conseguir <strong>sem que nada além do quadril se mova</strong>. Bem devagar: dois ou três círculos no minuto. <strong>Se o tronco compensar, diminua o círculo</strong>; a amplitude que você controla é a amplitude que você tem." },
+
+    carsShoulder: { name: "CARs de ombro", mode: "uni", tag: "Sem equipamento", secs: 60,
+      cue: "Braço estendido, suba pela frente até em cima, gire e desça por trás, desenhando o maior círculo possível. <strong>Costelas para baixo e a outra mão no esterno para sentir se o tronco se mexe.</strong> Duas ou três voltas no minuto, com tensão no braço inteiro." },
+
+    carsSpine: { name: "CARs de coluna", mode: "bi", tag: "Sem equipamento", secs: 90,
+      cue: "Sentado sobre os calcanhares ou numa cadeira. Segmento por segmento: flexão e extensão torácica, depois inclinação para cada lado, depois rotação. <strong>O quadril não se move — se ele se move, você já não está movendo a coluna.</strong> É lento e é chato, e é das coisas que mais devolvem amplitude." },
+
+    carsAnkle: { name: "CARs de tornozelo", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Sentado com a perna estendida, desenhe o maior círculo possível com a ponta do pé, nas duas direções. <strong>O joelho e a perna ficam parados.</strong> Procure o limite da amplitude e pare um segundo em cada ponto." },
+
+    dogFlow: { name: "Cão para baixo a cão para cima", mode: "bi", tag: "Sem equipamento", secs: 120,
+      cue: "Flua entre as duas posturas no ritmo da respiração: expire indo ao cão para baixo empurrando os calcanhares ao chão, inspire passando ao cão para cima abrindo o peito. <strong>Sem apressar a transição: metade do benefício está no caminho</strong>, não nas duas fotos." },
+
+    sunFlow: { name: "Saudação ao sol lenta", mode: "bi", tag: "Sem equipamento", secs: 240,
+      cue: "Sequência completa e lenta, um movimento por respiração: em pé, braços para cima, dobre à frente, meia elevação, prancha, cão para baixo, passo à frente, e volte. <strong>Repita quantas vezes couberem no bloco, alternando qual perna vai à frente.</strong> É a única parte da sessão que vai subir um pouco seus batimentos, e tudo bem que seja assim." },
+
+    warriorFlow: { name: "Guerreiro I a II e Triângulo", mode: "uni", tag: "Sem equipamento", secs: 120,
+      cue: "Guerreiro I com o quadril de frente, abra para Guerreiro II girando o tronco, e dali desça ao triângulo estendendo o braço longo. <strong>Sustente cada uma por umas cinco respirações antes de passar à seguinte.</strong> O joelho da frente sempre sobre o tornozelo, nunca à frente do pé." },
+
+    deepSquatHold: { name: "Agachamento profundo sustentado", mode: "bi", tag: "Sem equipamento", secs: 120,
+      cue: "Lá embaixo, calcanhares no chão, cotovelos por dentro dos joelhos empurrando suavemente para fora. <strong>Movimente-se dentro da postura: de um lado para o outro, um pouco para frente e para trás.</strong> Se os calcanhares levantarem, apoie-os em algo — a posição correta com ajuda vale mais que a incorreta sem ela." },
+
+    frog: { name: "Postura do sapo", mode: "bi", tag: "Sem equipamento", secs: 180,
+      cue: "Joelhos abertos e alinhados com o quadril, tornozelos atrás dos joelhos, antebraços no chão. Desça o quadril até o primeiro ponto de tensão e <strong>fique ali três minutos respirando, sem buscar mais</strong>. Esta é uma postura passiva: o tempo faz o trabalho, você não. <strong>Só num dia sem sessão</strong> — sobre tecido recém-treinado não vai." },
+
+    dragon: { name: "Dragão alado", mode: "uni", tag: "Sem equipamento", secs: 90,
+      cue: "Afundo bem longo, mãos por dentro do pé da frente, joelho de trás no chão. Deixe o joelho da frente cair para fora e desça sobre os antebraços se alcançar. <strong>É intensa: fique num 6 ou 7 de 10, nunca mais.</strong> Respire longo e não force com molejo." },
+
+    pnfHip: { name: "Psoas com contração e soltura", mode: "uni", tag: "Sem equipamento", secs: 90,
+      cue: "Meio ajoelhado com a pelve encaixada. <strong>Empurre o joelho de trás contra o chão a 20% por 5 segundos, solte, e avance um pouco.</strong> Três ou quatro vezes no bloco. Essa contração-e-soltura é o que realmente ganha amplitude; sem ela é só mais um alongamento." },
+
+    pnfHam: { name: "Isquiotibiais com contração e soltura", mode: "uni", tag: "Sem equipamento", secs: 90,
+      cue: "Deitado, perna para o teto segurada por trás da coxa. <strong>Empurre o calcanhar contra as mãos a 20% por 5 segundos, solte, e suba a perna um pouco mais.</strong> Três ou quatro ciclos. A perna de baixo fica apoiada o tempo todo." },
+
+    balance: { name: "Equilíbrio numa perna, olhos fechados", mode: "uni", tag: "Sem equipamento", secs: 40,
+      cue: "Em pé numa perna, feche os olhos. <strong>Com uma parede ou cadeira ao alcance da mão</strong> — você vai perder o equilíbrio, essa é a ideia. Deixe o pé trabalhar: dedos ativos, tornozelo corrigindo. Quarenta segundos por lado bastam e sobram." },
+
+    rollDown: { name: "Enrolamento vertebral deitado", mode: "bi", tag: "Sem equipamento", secs: 90,
+      cue: "Deitado, joelhos dobrados. Descole a pelve e suba <strong>vértebra por vértebra</strong> até apoiar nas escápulas, e desça igualmente devagar, apoiando de cima para baixo. O que você busca é a coluna articulando por segmentos, não subir alto. Cinco ou seis ciclos lentos." },
+
+    bodyScan: { name: "Escaneamento corporal", mode: "bi", tag: "Sem equipamento", secs: 180,
+      cue: "Deitado, pernas longas, palmas para cima. Percorra o corpo dos pés à cabeça, <strong>parando em cada região o tempo de uma respiração e soltando o que encontrar apertado</strong>. Mandíbula e trapézios no fim: quase sempre sobra algo ali." },
+
+    /* =========================================================== MOBILIDADE
+       Movimentos que também existem em /members/core/ ou na matriz de ativação.
+       Estão aqui porque são os corretos, mas são MINORIA e vêm depois do bloco
+       acima — ver a decisão 1 no cabeçalho. */
+    catcow: { name: "Gato-vaca", mode: "bi", tag: "Sem equipamento", secs: 60,
+      cue: "Em quatro apoios, alterne arredondar e arquear no ritmo da respiração, <strong>vértebra por vértebra</strong>. Aqui você tem tempo: faça o dobro de devagar do que faria antes de treinar, e procure os segmentos que não se movem." },
+
+    threadNeedle: { name: "Rotação torácica em quatro apoios", mode: "uni", tag: "Sem equipamento", secs: 60,
+      cue: "Em quatro apoios, uma mão atrás da cabeça. Leve o cotovelo em direção ao joelho oposto e depois abra girando o tronco, seguindo o cotovelo com o olhar. <strong>O quadril fica quadrado</strong> — se ele for junto, você está girando pela lombar." },
+
+    openBook: { name: "Livro aberto", mode: "uni", tag: "Sem equipamento", secs: 60,
+      cue: "Deitado de lado, joelhos flexionados e alinhados, braços juntos à frente. <strong>Abra o braço de cima acompanhando a mão com o olhar, e mantenha os joelhos parados.</strong> Fique cinco respirações onde chegar antes de voltar.",
+      variants: [{ name: "Extensão torácica sobre o rolo", mode: "bi", tag: "Rolo",
+        cue: "Rolo atravessado sob a parte alta das costas, mãos atrás da cabeça. Estenda para trás sobre ele e <strong>mova-o dois dedos para cima e repita</strong>, segmento por segmento. A lombar não arqueia: o quadril fica apoiado." }] },
+
+    wgs: { name: "O melhor alongamento do mundo", mode: "uni", tag: "Sem equipamento", secs: 60,
+      cue: "Afundo longo, mão de dentro no chão ao lado do pé, e <strong>abra o peito girando o braço de cima para o teto</strong>. Sustente em cima por três respirações antes de voltar. Quadril, adutor e torácica num só movimento." },
+
+    nineNinety: { name: "Quadril 90/90", mode: "uni", tag: "Sem equipamento", secs: 60,
+      cue: "Sentado, uma perna a 90° à frente e a outra a 90° ao lado. Incline-se sobre a da frente, volte, e <strong>passe para o outro lado levantando os joelhos e girando sem usar as mãos</strong>. Essa transição ativa é o exercício; a inclinação é só metade." },
+
+    spiderman: { name: "Afundo spiderman com rotação", mode: "uni", tag: "Sem equipamento", secs: 60,
+      cue: "Da prancha, leve o pé por fora da mão do mesmo lado. Desça o cotovelo em direção ao chão, e dali <strong>gire abrindo o braço para o teto</strong>. Duas ou três repetições lentas por lado dentro do bloco, não uma só sustentada." },
+
+    inchworm: { name: "Caminhada da lagarta", mode: "bi", tag: "Sem equipamento", secs: 60,
+      cue: "Em pé, dobre à frente e caminhe com as mãos até a prancha, sem mover os pés. Volte caminhando as mãos para trás. <strong>As pernas o mais estendidas que aguentarem</strong> — é aí que está o trabalho de isquiotibiais." },
+
+    cossack: { name: "Agachamento cossaco", mode: "uni", tag: "Sem equipamento", secs: 60,
+      cue: "Pés bem abertos, desça o peso sobre uma perna deixando a outra estendida com a ponta do pé para cima. <strong>Peito alto e o calcanhar da perna que desce colado ao chão.</strong> Passe de um lado ao outro devagar; não desça até embaixo se as costas arredondarem." },
+
+    legSwing: { name: "Balanço de pernas", mode: "uni", tag: "Parede", secs: 45,
+      cue: "Apoiado na parede, balance a perna para frente e para trás, depois cruzada de um lado ao outro. <strong>Aumente a amplitude aos poucos</strong> — começar no máximo é como se estira um isquiotibial, mesmo num dia leve." },
+
+    kneeWall: { name: "Joelho na parede", mode: "uni", tag: "Parede", secs: 45,
+      cue: "Pé a um palmo da parede, <strong>toque a parede com o joelho sem que o calcanhar saia do chão</strong>. Se conseguir fácil, afaste o pé um centímetro e tente de novo. É a medida mais honesta do seu tornozelo, e melhora com repetições, não com força." },
+
+    wallAngel: { name: "Anjos na parede", mode: "bi", tag: "Parede", secs: 60,
+      cue: "Costas contra a parede, <strong>lombar colada nela</strong>, braços em W com os cotovelos e o dorso das mãos encostados. Suba e desça os braços sem que nada descole. <strong>Pare exatamente onde algo descolar</strong> — até ali vai sua amplitude de hoje, e forçar mais não a aumenta.",
+      variants: [{ name: "Passada de bastão (com limite)", mode: "bi", tag: "Bastão ou cabo",
+        cue: "Pegada bem larga, braços estendidos, passe o bastão das coxas para trás e volte. <strong>Isto não é um concurso de flexibilidade: pare onde as costelas abrirem, a lombar arquear ou os ombros subirem.</strong> Se precisar forçar, feche a pegada." }] },
+
+    scorpion: { name: "Escorpião de bruços", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "De bruços, braços em cruz. Leve um calcanhar cruzado em direção à mão oposta deixando o quadril girar, <strong>e o peito o mais colado ao chão possível</strong>. Devagar na ida e devagar na volta." },
+
+    neckCars: { name: "CARs de pescoço", mode: "bi", tag: "Sem equipamento", secs: 60,
+      cue: "Sentado, ombros parados. Queixo ao peito, role em direção a um ombro, leve a orelha para trás e complete o círculo — bem devagar, procurando onde trava. <strong>Nunca à força e nunca rápido</strong>: se aparecer tontura ou formigamento, pare." },
+
+    /* ========================================================== ATIVAÇÃO
+       Isto é trabalho de força e controle, não mobilidade, e por isso o bloco se
+       chama como se chama. Ver a decisão 4 acima: a copy não pode sugerir que
+       esta sessão sai de graça. */
+    clamshell: { name: "Concha lenta", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Deitado de lado, joelhos dobrados e calcanhares juntos. Abra o joelho de cima <strong>sem que o quadril caia para trás</strong> — ponha a mão no glúteo e sinta que ele trabalha ali. Devagar, e sustente um segundo em cima.",
+      variants: [{ name: "Concha com miniband", mode: "uni", tag: "Miniband",
+        cue: "Faixa acima dos joelhos. Mesmo movimento contra resistência, <strong>e a descida tão lenta quanto a subida</strong>." }] },
+
+    bridgeSingle: { name: "Ponte numa perna", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Um pé apoiado, o outro joelho no peito. Suba o quadril empurrando pelo calcanhar e <strong>mantenha a pelve nivelada — sem deixar um lado cair</strong>. Se cair, reduza a amplitude ou faça com as duas pernas." },
+
+    gluteBridgeMarch: { name: "Ponte com marcha", mode: "bi", tag: "Sem equipamento", secs: 60,
+      cue: "Ponte em cima e sustentada, e dali descole um pé alguns centímetros, apoie, e troque. <strong>O quadril não desce e não gira.</strong> Devagar: isto é controle, não repetições." },
+
+    birdDog: { name: "Bird dog", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Em quatro apoios, estenda braço e perna contrários até a horizontal. <strong>Sustente três segundos em cima com a lombar parada</strong> — se as costas arquearem ou o quadril girar, desça a perna. Imagine um copo d'água sobre a lombar." },
+
+    deadBug: { name: "Dead bug", mode: "bi", tag: "Sem equipamento", secs: 60,
+      cue: "Lombar colada ao chão, braços e joelhos para cima. Estenda braço e perna contrários <strong>sem que as costas descolem um milímetro</strong>. Expire ao estender. Devagar: o objetivo é controle." },
+
+    sidePlank: { name: "Prancha lateral dinâmica", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Sobre o antebraço, quadril para cima e corpo alinhado. <strong>Desça o quadril até roçar o chão e suba de novo</strong>, devagar e controlado. Com os joelhos apoiados se a versão longa quebrar sua linha." },
+
+    bearCrawl: { name: "Caminhada do urso", mode: "bi", tag: "Sem equipamento", secs: 60,
+      cue: "Em quatro apoios com os joelhos a um palmo do chão. Avance e recue movendo mão e pé contrários, <strong>com o quadril baixo e sem balançar de um lado para o outro</strong>. Passos curtos." },
+
+    scapPushup: { name: "Flexão escapular", mode: "bi", tag: "Sem equipamento", secs: 45,
+      cue: "Em prancha alta com os <strong>cotovelos estendidos o tempo todo</strong>: deixe o peito descer juntando as escápulas, e depois empurre o chão afastando-as ao máximo. O movimento tem três ou quatro centímetros e é exatamente o músculo que falta a um nadador." },
+
+    ytwl: { name: "Y-T-W de bruços", mode: "bi", tag: "Sem equipamento", secs: 60,
+      cue: "De bruços, testa apoiada, polegares para o teto. Descole os braços em Y, depois em T, depois em W. <strong>As escápulas vão para baixo, nunca em direção às orelhas</strong>: se você encolher, o trabalho vai para o trapézio superior.",
+      variants: [{ name: "Y-T-W com faixa", mode: "bi", tag: "Faixa longa",
+        cue: "Em pé com a faixa à frente, mesma sequência contra resistência baixa. <strong>Muitas repetições e pouca tensão</strong> — é a isso que o manguito posterior responde, não à carga." }] },
+
+    extRotation: { name: "Rotação externa isométrica", mode: "uni", tag: "Parede", secs: 45,
+      cue: "Cotovelo colado ao corpo a 90°, dorso da mão contra o batente de uma porta ou a parede. <strong>Empurre para fora a 50% e sustente, sem que nada se mova.</strong> Não deixe o ombro ir à frente nem o cotovelo sair das costelas.",
+      variants: [{ name: "Rotação externa com miniband", mode: "uni", tag: "Miniband",
+        cue: "Faixa ancorada na altura do cotovelo, cotovelo colado ao corpo. Gire para fora e <strong>volte mais devagar do que foi</strong>. Amplitude curta e controle." }] },
+
+    latWalk: { name: "Caminhada lateral em meio agachamento", mode: "bi", tag: "Sem equipamento", secs: 60,
+      cue: "Meio agachamento, peito alto, e caminhe de lado com passos iguais sem juntar os pés por completo. <strong>Joelhos empurrando para fora o tempo todo</strong> e o quadril na mesma altura. Ida e volta.",
+      variants: [{ name: "Caminhada lateral com miniband", mode: "bi", tag: "Miniband",
+        cue: "Faixa nos tornozelos ou acima dos joelhos. Mesmo passo contra resistência, <strong>e sem que o pé de trás arraste</strong>." }] },
+
+    calfEcc: { name: "Elevação de panturrilha excêntrica", mode: "bi", tag: "Sem equipamento", secs: 60,
+      cue: "Suba com as duas pernas e <strong>desça com uma só, contando três segundos</strong>. A descida é o exercício. Alterne a perna que desce.",
+      variants: [{ name: "Excêntricas no degrau", mode: "bi", tag: "Degrau",
+        cue: "Meia planta na borda de um degrau. Suba com dois, desça com um <strong>deixando o calcanhar cair abaixo do degrau</strong>, três segundos. Se você está no protocolo de aquiles, não some volume aqui: conte estas séries como parte daquele." }] },
+
+    plantarFlex: { name: "Flexão plantar ativa", mode: "bi", tag: "Sem equipamento", secs: 45,
+      cue: "Sentado com as pernas estendidas, <strong>aponte as pontas dos pés o mais longe que conseguir e sustente cinco segundos</strong>, depois traga-as para você. Ativa, não passiva: é a amplitude que empurra a água na pernada." },
+
+    tva: { name: "Ativação do transverso", mode: "bi", tag: "Sem equipamento", secs: 60,
+      cue: "Deitado, joelhos dobrados, mãos sobre os ossos do quadril por dentro. <strong>Inspire para a barriga, e ao expirar leve o umbigo para dentro e para cima sem mover a pelve.</strong> Você deve sentir uma tensão suave sob os dedos. É sutil, e é a base de todo o resto." },
+
+    reverseLunge: { name: "Afundo reverso com braços acima", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Passo longo para trás descendo o joelho, <strong>com os dois braços estendidos acima da cabeça e as costelas para baixo</strong>. Os braços em cima são o que transforma isto em trabalho de quadril e torácica ao mesmo tempo." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES
+     Three tiers, three named blocks, and the tiers GROW THE BLOCKS rather than
+     appending new ones. That is the difference from /members/pt/mobilidade/, and it
+     is deliberate: there the tiers were the story (unload, then the rest of the
+     chain, then the forgotten spots), here the BLOCKS are the story, because
+     the athlete has to be able to see that a third of this session is
+     activation work and not mobility. Decision 4.
+
+     So: 30 = BASE, 45 = BASE + EXT, 60 = BASE + EXT + DEEP, merged per block.
+     `mov` always opens. Decision 1 lives in the ORDER of these lists — the
+     CARs, flows, PNF and holds come first inside `mov`, and the movements that
+     also exist in /members/core/ or the activation matrix follow them. */
+  const BASE = {
+    run: {
+      mov:  ["carsHip", "carsAnkle", "carsSpine", "nineNinety", "dogFlow", "deepSquatHold", "wgs", "legSwing"],
+      act:  ["calfEcc", "bridgeSingle", "birdDog", "deadBug", "balance"],
+      hold: ["pnfHam", "frog"] },
+    bike: {
+      mov:  ["carsSpine", "carsHip", "deepSquatHold", "threadNeedle", "openBook", "nineNinety", "spiderman", "catcow"],
+      act:  ["clamshell", "birdDog", "tva", "sidePlank"],
+      hold: ["pnfHip", "frog"] },
+    swim: {
+      mov:  ["carsShoulder", "neckCars", "carsSpine", "carsHip", "deepSquatHold", "wallAngel", "threadNeedle", "openBook", "catcow"],
+      act:  ["ytwl", "scapPushup", "extRotation", "deadBug", "plantarFlex"],
+      hold: ["pnfHip", "dragon"] },
+    tri: {
+      mov:  ["carsHip", "carsShoulder", "carsSpine", "dogFlow", "nineNinety", "deepSquatHold", "spiderman", "catcow"],
+      act:  ["clamshell", "birdDog", "deadBug", "balance", "calfEcc"],
+      hold: ["pnfHip", "frog"] },
+    all: {
+      mov:  ["carsHip", "carsShoulder", "carsSpine", "carsAnkle", "dogFlow", "deepSquatHold", "wgs", "catcow"],
+      act:  ["bridgeSingle", "birdDog", "deadBug", "sidePlank", "balance"],
+      hold: ["pnfHam", "frog"] }
+  };
+
+  const EXT = {
+    run:  { mov: ["cossack", "kneeWall", "inchworm", "catcow"], act: ["latWalk", "sidePlank"], hold: ["pnfHip", "rollDown"] },
+    bike: { mov: ["cossack", "kneeWall", "wallAngel", "legSwing"], act: ["latWalk", "bridgeSingle"], hold: ["pnfHam", "rollDown"] },
+    swim: { mov: ["scorpion", "spiderman", "kneeWall", "wgs"], act: ["bearCrawl", "sidePlank"], hold: ["frog", "rollDown"] },
+    tri:  { mov: ["inchworm", "cossack", "kneeWall", "wallAngel"], act: ["gluteBridgeMarch", "sidePlank"], hold: ["pnfHam", "rollDown"] },
+    all:  { mov: ["cossack", "inchworm", "openBook", "legSwing"], act: ["reverseLunge", "bearCrawl"], hold: ["pnfHip", "rollDown"] }
+  };
+
+  const DEEP = {
+    run:  { mov: ["sunFlow", "carsShoulder"], act: ["gluteBridgeMarch", "tva"], hold: ["dragon", "bodyScan"] },
+    bike: { mov: ["sunFlow", "carsAnkle"], act: ["gluteBridgeMarch", "deadBug"], hold: ["dragon", "bodyScan"] },
+    swim: { mov: ["sunFlow", "carsAnkle"], act: ["birdDog", "balance"], hold: ["pnfHam", "bodyScan"] },
+    tri:  { mov: ["warriorFlow", "carsAnkle"], act: ["bearCrawl", "tva"], hold: ["dragon", "bodyScan"] },
+    all:  { mov: ["sunFlow", "threadNeedle"], act: ["scapPushup", "tva"], hold: ["dragon", "bodyScan"] }
+  };
+
+  /* The block names ARE the honesty requirement from decision 4. Do not rename
+     "Ativação" to something softer: the athlete is entitled to know that this
+     part of a recovery session is strength and control work. */
+  const PHASE = { mov: "Mobilidade", act: "Ativação", hold: "Posturas longas" };
+
+  const SPORT = {
+    run:  "Recuperação para corredores",
+    bike: "Recuperação para ciclistas",
+    swim: "Recuperação para nadadores",
+    tri:  "Recuperação para triatletas",
+    all:  "Recuperação de corpo inteiro"
+  };
+
+  const SUBTITLE = {
+    run:  "Quadril, tornozelo e cadeia posterior, com controle lento e posturas longas. É uma sessão leve, não um dia de folga.",
+    bike: "Rotação torácica, independência de quadril e o glúteo que a bike desliga. É uma sessão leve, não um dia de folga.",
+    swim: "Controle escapular, torácica e pescoço — e o tornozelo, que na água empurra. É uma sessão leve, não um dia de folga.",
+    tri:  "As três cadeias conectadas, mais equilíbrio e propriocepção. É uma sessão leve, não um dia de folga.",
+    all:  "Uma passagem completa de cima a baixo, sem esporte definido. É uma sessão leve, não um dia de folga."
+  };
+
+  const WHY = {
+    run:  "Um dia sem correr é quando o tecido aceita trabalho que recusaria cansado: amplitude controlada, posturas passivas longas e contração-soltura. Nada disso cabe nos dez minutos antes de uma sessão, e é exatamente o que falta a um corredor que só corre.",
+    bike: "A bike deixa três dívidas que não se pagam pedalando: torácica que não gira, quadril que só trabalha num plano e glúteo que desligou. Um dia livre é quando dá para atacá-las de verdade, porque há tempo para o lento e para o longo.",
+    swim: "O ombro do nadador não se resolve alongando: resolve-se com controle escapular e amplitude que você consiga sustentar. Isso é trabalho lento e repetido, e precisa de um dia em que você não tenha que entrar na água depois.",
+    tri:  "Três esportes deixam três padrões e nenhum se corrige com pressa. Este é o dia para o que não cabe numa ativação: CARs longos, posturas passivas, contração-soltura e equilíbrio, que é a primeira coisa que o volume tira.",
+    all:  "Um dia de recuperação bem usado faz mais pela sua amplitude do que três ativações apressadas. Aqui há tempo para o lento, o longo e o chato, que é onde está quase todo o benefício."
+  };
+
+  const DONE = {
+    run:  "Pronto. Isso foi uma sessão, não um descanso — leve isso em conta amanhã.",
+    bike: "Pronto. Isso foi uma sessão, não um descanso — leve isso em conta amanhã.",
+    swim: "Pronto. Isso foi uma sessão, não um descanso — leve isso em conta amanhã.",
+    tri:  "Pronto. Isso foi uma sessão, não um descanso — leve isso em conta amanhã.",
+    all:  "Pronto. Isso foi uma sessão, não um descanso — leve isso em conta amanhã."
+  };
+
+  /* Same sport-aware hand-off as /members/pt/mobilidade/, same reason:
+     methodology.md §11 in the product. Mobility and recovery are not rehab. */
+  const PAIN = {
+    run:  'Se algo <strong>dói</strong> em vez de estar duro, esta não é a ferramenta de hoje: passe por <a href="/members/pt/joelhos/">Joelhos</a> ou <a href="/members/pt/aquiles/">Aquiles</a>. E se a dor continuar, é consulta médica, não uma rotina.',
+    bike: 'Se algo <strong>dói</strong> em vez de estar duro, esta não é a ferramenta de hoje: passe por <a href="/members/pt/joelhos/">Joelhos</a>. E se a dor continuar, é consulta médica, não uma rotina.',
+    swim: 'Se o ombro <strong>dói</strong> em vez de estar duro, esta não é a ferramenta de hoje: passe por <a href="/members/pt/ombro/">Ombro de Nadador</a>. E se a dor continuar, é consulta médica, não uma rotina.',
+    tri:  'Se algo <strong>dói</strong> em vez de estar duro, esta não é a ferramenta de hoje: passe por <a href="/members/pt/joelhos/">Joelhos</a>, <a href="/members/pt/aquiles/">Aquiles</a> ou <a href="/members/pt/ombro/">Ombro</a>. E se a dor continuar, é consulta médica, não uma rotina.',
+    all:  'Se algo <strong>dói</strong> em vez de estar duro, esta não é a ferramenta de hoje: passe por <a href="/members/pt/joelhos/">Joelhos</a>, <a href="/members/pt/aquiles/">Aquiles</a> ou <a href="/members/pt/ombro/">Ombro</a>. E se a dor continuar, é consulta médica, não uma rotina.'
+  };
+
+  const SPORT_HINT = {
+    run: "", bike: "", swim: "",
+    tri:  "Para quem faz os três: prioriza quadril e ombro, e soma equilíbrio.",
+    all:  "Sem esporte definido. Serve igual para um dia de academia ou de escritório."
+  };
+
+  /* Chrome the shared engine would otherwise render as "activación". See
+     ai-infrastructure-documentation.md §39 and §40 — three strings, three
+     different landing places, and `doneTitle` is markup rather than an engine
+     string. *** THESE TRAVEL WITH ANY TRANSLATION OF THIS PAGE. *** */
+  const UI_OVERRIDE = { startRoutine: "Começar a sessão →" };
+  const DONE_TITLE = "Sessão completa";
+
+  function build(sport, mins) {
+    const m = String(mins);
+    if (!BASE[sport]) throw new Error("Unknown sport: " + sport);
+    if (["30", "45", "60"].indexOf(m) === -1) throw new Error("Unknown duration: " + m);
+
+    const pick = ids => ids.map(id => {
+      const ex = L[id];
+      if (!ex) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({ video: null, variants: [] }, ex);
+    });
+
+    const merge = block => {
+      let ids = BASE[sport][block].slice();
+      if (m === "45" || m === "60") ids = ids.concat(EXT[sport][block]);
+      if (m === "60") ids = ids.concat(DEEP[sport][block]);
+      return ids;
+    };
+
+    return {
+      title: SPORT[sport],
+      crumb: "Recuperação",
+      subtitle: SUBTITLE[sport],
+      context: m + " minutos",
+      why: WHY[sport],
+      doneSub: DONE[sport],
+      kicker: "Recuperação ativa",
+      restSeconds: 10,
+      phases: ["mov", "act", "hold"].map(b => ({ name: PHASE[b], exercises: pick(merge(b)) }))
+    };
+  }
+
+  return { build: build, library: L, base: BASE, ext: EXT, deep: DEEP,
+           phase: PHASE, pain: PAIN, sportHint: SPORT_HINT, ui: UI_OVERRIDE,
+           doneTitle: DONE_TITLE };
+})();
+
+/* --------------------------------------------------------------- SETUP UI
+   Same two-question shape as /members/pt/mobilidade/. What is sport-aware here is
+   the pain hand-off; the load warning and the "are you training today?" aside
+   are constant, because they are true for every sport. */
+(function () {
+  const M = window.RECOVERY_MATRIX;
+  const choice = { sport: "run", mins: "30" };
+
+  function renderSportBits() {
+    const hint = document.getElementById("sportHint");
+    hint.innerHTML = M.sportHint[choice.sport] || "";
+    hint.hidden = !M.sportHint[choice.sport];
+    document.getElementById("painAside").innerHTML = M.pain[choice.sport];
+  }
+
+  document.querySelectorAll(".setup-opts[data-axis]").forEach(group => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach(btn => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach(b =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+        if (axis === "sport") renderSportBits();
+      });
+    });
+  });
+
+  renderSportBits();
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.ACTIVATION_DATA = M.build(choice.sport, choice.mins);
+    Object.assign(window.ACTIVATION_UI, M.ui);
+
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    document.getElementById("doneSub").textContent = window.ACTIVATION_DATA.doneSub;
+    document.getElementById("crumbLabel").textContent = window.ACTIVATION_DATA.crumb;
+    document.getElementById("doneTitle").textContent = M.doneTitle;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/activation-tool.js";
+    document.body.appendChild(s);
+
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Trocar opções";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

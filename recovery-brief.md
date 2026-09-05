@@ -2,7 +2,9 @@
 
 **Home doc for `/members/recuperacion/`.** Owns the design, the dosing, the six decisions taken before building and the clinical reversals. Owns no figures.
 
-**Status: v1 SHIPPED in Spanish, September 4, 2026.** EN and PT are not built and are deliberately not claimed anywhere — `library.json` carries the entry in `es` only.
+**Status: v1 SHIPPED in all three languages.** Spanish September 4, 2026; **English and Portuguese September 5, 2026** — `/members/recuperacion/`, `/members/en/recovery/`, `/members/pt/recuperacao/`. All three `library.json` blocks, all three members homes and all three All-Access pages carry it.
+
+✅ ***Iván ran all three tools on a phone on September 5 and confirmed them.*** *That gate, open since the mobility tool shipped, is closed.*
 
 **Source:** Iván's *"Sistema Maestro de Movilidad"*, section **B** of each sport (Día Cualquiera / Recuperación Activa). Section A is `/members/movilidad/`, owned by `mobility-brief.md`. **The two tools are siblings and the differences between them are deliberate — §5 lists the ones a future pass is most likely to "harmonise" away.**
 
@@ -93,10 +95,28 @@ Rendered: 390/768/1440, no sideways scroll, the five sport buttons wrapping 3 + 
 
 ---
 
-## 5. Open
+## 5. English and Portuguese (September 5, 2026)
+
+`/members/en/recovery/` and `/members/pt/recuperacao/`, derived by **`automation/recovery-i18n.py`**.
+
+**One mechanical improvement over `mobility-i18n.py`, and it is the reusable part.** That script matched Spanish source strings literally. This page has **50 name/cue pairs**, several of them long — 50 chances to mistype a source key, and a mistyped key is a mapping that silently never fires. So names and cues are translated **by position**, and the script asserts that the name it finds at position *i* is the name it expects at position *i*. ***A drift in the Spanish page is now a hard failure naming the exact position, rather than a no-op.*** Everything else is still literal substitution with a completeness sweep.
+
+### 🚨 The guards caught a real defect, and it is the instructive kind
+
+The first run failed with **five mappings that never matched**. One was a stray entry copied from the mobility script for text that does not exist on this page. **The other four had a single cause: I had mapped `" o "` and `" u "` as generic connectors** for the pain hand-off and applied them globally — which also rewrote *"bastón **o** un escalón"*, *"Bastón **o** palo"*, *"un día fácil **o** de descanso"* and *"gimnasio **o** para uno"*.
+
+***One shortcut, four corrupted strings, and every one of them was in copy a reader would see.*** The pain hand-off is now four complete literals carrying their own URLs and link text, which cannot do this. **The lesson is not "be careful with regexes" — it is that a substitution key shorter than a phrase will find matches you did not intend, and the completeness sweep is what turns that from a silent corruption into a failed run.**
+
+A second run then caught the three Spanish JS section comments, which now get replaced whole and **before** the copy pass — otherwise a generic key like `" minutos"` reaches inside one and half-rewrites it. It had already produced *"doce minutes"*.
+
+### Verification
+
+**824 data checks** (up from 651) and **153 rendered checks** (up from 51). The additions are cross-language: the three id tables byte-identical; every routine's shape identical; a **pinned fingerprint** of the Spanish structure (`d30ef88e06a3`); each page routing only to its own language, with no Spanish tool URL surviving; and ***the clinical assertions run separately in each language*** — no dislocates, no Jefferson curls, the stick cap intact, the roll-down still segmental, the balance still capped with its safety note, the step variant still deferring to the Achilles protocol, and **decision 4 surviving in both places it appears** (subtitle and finish screen).
+
+**And the overlap rebalance is re-measured per language**, against *that language's* activation matrix — because the names are translated, so the Spanish measurement proves nothing about the English page. All three stay at 13–25%.
+
+## 6. Open
 
 Tracked in `open-loops.md`.
 
-- **EN and PT are not built**, and nothing claims they are.
-- ⚠️ **The members tool pages are still voseo while the sales surface and `library.json` moved to tuteo.** Not introduced here — this page follows its two siblings — but it means a subscriber reads *"Elige de qué vienes"* on the members home and *"Elegí de qué venís"* one click later. **The fix is one scripted pass over the tool pages, not a per-page decision, and it is Iván's call.**
-- ⚠️ **Iván has still not run any of these three tools on a phone.**
+- ⚠️ **The members tool pages are still voseo while the sales surface and `library.json` moved to tuteo.** Not introduced here — this page follows its siblings — but a subscriber reads *"Elige de qué vienes"* on the members home and *"Elegí de qué venís"* one click later. **One scripted pass over the tool pages, and the register is Iván's to confirm.**

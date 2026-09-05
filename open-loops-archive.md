@@ -8,6 +8,26 @@
 
 ---
 
+## Closed — September 5, 2026 (Movilidad post-entreno, all three languages) — *and the phone gate that had been deferred three times*
+
+**Closed by Iván running the tool on a phone, September 5, 2026, no defect reported.** *That was the only thing left: the pages had been live since September 3 (ES) and September 4 (EN + PT), with 534 data checks and 135 rendered checks behind them, and the clinical assertions run separately in each language.*
+
+🔑 ***The gate is the part worth keeping, not the build.*** *"Iván runs one on a phone" was the Spanish page's stated gate on September 3. It was skipped — his call, deliberately, to translate the same day — and then inherited by the EN/PT pages, and then inherited again by the recovery tool. **By September 4 it was three tools deep and un-met**, and it was carried in the list as a warning on each of them.*
+
+💡 ***It was then met for all three in one sitting, which is the actual lesson.*** *The check was never expensive. What deferring it did was make it **untrustworthy rather than undone** — by the third carry, the gate no longer named which page it was supposed to cover, and closing it required deciding whether one phone run cleared one page or three.* **A skipped check does not get harder to run. It gets harder to interpret.** *Do not let this one accumulate a fourth deferral; it is not work.*
+
+🗑️ ***One stale sub-item deleted rather than struck: "The recovery-day tool — section B of his source doc."*** *That was an expired plan, not a falsified belief — the recovery tool was built and shipped in Spanish on September 4 and has carried its own item and its own home doc (`recovery-brief.md`) since. **Per this repo's own rule, an executed plan is noise and the built thing is its own record.*** *The decision it referenced — recovery as a second artifact rather than a fourth question on the mobility page — stays owned by `mobility-brief.md` §7 and is explicitly not re-opened.*
+
+**Not closed with it, and deliberately left on its own item:** *Recuperación activa is still ES-only. **EN + PT is now the single open thing there**, and it blocks two others — the three `/w/recuperacion*` codes fall back to the members home for EN/PT athletes, and it is the last tool whose `library.json` entry claims `es` only.* ⚠️ *The `/w/` links item had been describing those same missing pages from the other end since that build landed; it is now a pointer rather than a second copy. **The mobility build is the working template for it and is four days old.***
+
+*Original item, retained:*
+
+> - [ ] 🆕 **Movilidad post-entreno — live in all three languages.** *(ES September 3, EN + PT September 4, 2026.)* `/members/movilidad/`, `/members/en/mobility/`, `/members/pt/mobilidade/` — 15 routines each (5 sports × 10/20/30 min) on the activation engine. Home doc: **`mobility-brief.md`**, which owns every decision. EN/PT derived by `automation/mobility-i18n.py`, string literals only, so structure is identical by construction; **534 data checks + 135 rendered checks**, with the clinical assertions run separately in each language.
+>   - [ ] ⚠️ **Iván runs one on a phone. In any language.** *This was the Spanish page's stated gate and it was skipped, on his call, to translate the same day.* **It is the only thing between this and closed, and it is not work.**
+>   - [ ] **The recovery-day tool** — section B of his source doc, 30/45/60, dynamic and active where this one is static. **Iván's call to make it a second artifact rather than a fourth question on this page**; the argument for merging, and the cost to watch for, are in `mobility-brief.md` §7. *Do not re-open that from scratch.*
+
+---
+
 ## Closed — September 5, 2026 (the members-library email paragraph) — *and the paste file that decayed in the drawer*
 
 **Pasted live by Iván and mirrored into `automation/subscription-lifecycle-automation.json`.** Ten edits across two Code nodes: `Build All-Access Welcome` (7) and `Build Welcome Email` (3). Every find-string was checked as unique against the node source before he touched n8n, so each was a single safe replace.
@@ -29,6 +49,8 @@
 *One incidental catch, recorded because it is the same class of error:* **the August draft wrote `Empeza`, which is neither register** — *it is ASCII-stripped voseo, produced by applying that node's no-accents convention to `Empezá` without noticing the node was tuteo.* **It is `Empieza`.** *A convention applied mechanically across a register boundary makes a word that exists in no dialect.*
 
 🗑️ *`automation/members-library-email-paste.txt` is retired to `_to_delete/` in the same session it was executed — the second paste file retired today for the same reason. **A paste file is a one-shot instruction, and a one-shot instruction left in `automation/` is indistinguishable from a pending one.*** *That is precisely how this one got pasted-in-spirit three weeks late and nearly shipped a stale tool list.*
+
+✅ ***Closed the same evening, September 5, 2026 — Iván published `Si no fuiste tú, ignora este email` and it is mirrored into the repo JSON.*** **All three Spanish email bodies in `subscription-lifecycle-automation.json` are now tuteo, verified zero markers.** *It never became a standalone open item — it was attached to the tuteo item, which owns register, so there was nothing to move here; the note on that item was replaced with a done-marker instead.* 🔑 ***The done-marker is the point.*** *A finished thing normally leaves the list silently. These three cannot: they live inside n8n Code nodes, so a future register sweep over the repo will not see them, will not find them dirty, and could reasonably conclude they were never converted.* **Work that is invisible to the tool that would verify it has to say so out loud, or it gets done twice.**
 
 **Left open, deliberately, and moved rather than kept here:** *the last voseo line in the transactional emails —* `Build Resend Email`'s `Si no fuiste vos, ignorá este email` *— now sits on the tuteo item in `open-loops.md`, which owns register.* ⚠️ **All three Spanish email bodies live inside n8n Code nodes and are invisible to any `site/` grep** — *a register sweep over the repo will never find them, which is why they are named explicitly on that item.*
 

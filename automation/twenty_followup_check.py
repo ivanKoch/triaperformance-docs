@@ -36,7 +36,11 @@ AR_TZ = timezone(timedelta(hours=-3))  # America/Cordoba. Fixed offset on
 # created as MESSAGE_SENT and still run the 3-email nurture, so this script --
 # which filtered on leadStatus alone -- kept building WhatsApp nudges for them.
 # Matched lowercased against Twenty's addressCountry.
-NO_WHATSAPP_COUNTRIES = {"brazil", "brasil", "argentina"}
+NO_WHATSAPP_COUNTRIES = {"argentina"}
+# Brazil removed September 5, 2026: the n8n filter node (now "Skip WhatsApp
+# Outreach — AR") no longer blocks Brazilian leads, so they DO get WhatsApp
+# outreach and do need nudges. Their copy is Portuguese -- see
+# MESSAGE_TEMPLATES, keyed by language.
 
 def load_api_key():
     key = os.environ.get("TWENTY_API_KEY")
@@ -89,6 +93,7 @@ def run_graphql_query(query, variables=None):
 # deliberately no message 4; a lead sitting at touch 3 for too long gets
 # auto-marked LOST_NO_RESPONSE instead (see mark_lost below).
 MESSAGE_TEMPLATES = {
+  "SPANISH": {
     2: "Hola {first_name}. ¿Te encuentro con tiempo hoy para discutir sobre tus objetivos deportivos?",
     3: (
         "Hola {first_name}. Ultimo mensaje de mi parte, si aún sigues interesado en "
@@ -103,6 +108,24 @@ MESSAGE_TEMPLATES = {
         "• Nuestra web con planes de coaching, subscripciones y plantillas para seguir "
         "por tu cuenta https://triaperformance.com"
     ),
+  },
+  "PORTUGUESE": {
+    2: "Olá {first_name}! Consigo te encontrar com um tempo hoje para falar sobre os seus objetivos?",
+    3: (
+        "Olá {first_name}. Última mensagem da minha parte. Se ainda tiver interesse em "
+        "acompanhamento personalizado, é só me avisar. Caso contrário, deixo os nossos "
+        "links para seguirmos em contato, se um dia você quiser retomar esta conversa.\n"
+        "• Quer ver o que os nossos atletas estão conquistando e preparando? Dá uma "
+        "olhada no nosso Instagram! 👇\n"
+        "https://www.instagram.com/triaperformance/\n"
+        "• E se quiser saber o que dizem de nós, aqui estão as avaliações dos nossos "
+        "atletas: 👇\n"
+        "https://maps.app.goo.gl/Dfw4166sxw3WGwA3A\n"
+        "• E temos o All-Access: todos os 53 planos em português, TrainingPeaks Premium "
+        "e a área de membros, por 29,99 USD/mês 👇\n"
+        "https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a"
+    ),
+  },
 }
 
 def local_date(dt):
@@ -138,11 +161,15 @@ def expected_touch(created_at, now):
     return max(1, min(days + 1, 3))
 
 
-def build_whatsapp_link(first_name, calling_code, phone_number, message_number):
+def build_whatsapp_link(first_name, calling_code, phone_number, message_number, language="SPANISH"):
     if not phone_number:
         return None
     digits = f"{calling_code or ''}{phone_number}".replace("+", "").replace(" ", "").replace("-", "")
-    message = MESSAGE_TEMPLATES[message_number].format(first_name=first_name)
+    # Anything that is not explicitly Portuguese falls back to Spanish, so an
+    # English or null preferredLanguage still produces a message rather than
+    # a KeyError.
+    templates = MESSAGE_TEMPLATES.get(language) or MESSAGE_TEMPLATES["SPANISH"]
+    message = templates[message_number].format(first_name=first_name)
     encoded_message = urllib.parse.quote(message)
     return f"https://wa.me/{digits}?text={encoded_message}"
 
@@ -206,6 +233,7 @@ def main():
             emailTouchCount
             whatsappTouchCount
             addressCountry
+            preferredLanguage
           }
         }
       }
@@ -287,9 +315,11 @@ def main():
             continue
 
         message_number = wa_touch + 1  # 2 or 3
-        wa_link = build_whatsapp_link(first, calling_code, phone_number, message_number)
+        language = (node.get("preferredLanguage") or "SPANISH").upper().strip()
+        wa_link = build_whatsapp_link(first, calling_code, phone_number, message_number, language)
 
-        line = f"- {name} · {days_str} since last touch · emails sent: {email_touch}, WhatsApp: {wa_touch}"
+        flag = "🇧🇷 " if language == "PORTUGUESE" else ""
+        line = f"- {flag}{name} · {days_str} since last touch · emails sent: {email_touch}, WhatsApp: {wa_touch}"
         line += f"\n  📱 (mensaje {message_number}) {wa_link}"
         result = mark_whatsapp_touch(node.get("id"), message_number, now_str)
         if result is None:

@@ -10,7 +10,15 @@ const fs = require("fs");
 const vm = require("vm");
 
 const ROOT = process.env.MOB_SITE || "_site";
-const PAGE = ROOT + "/members/recuperacion/index.html";
+/* Three pages now. Spanish is the source; EN and PT are derived from it by
+   `automation/recovery-i18n.py`, which substitutes string literals only — so
+   this file's job is to PROVE that rather than assume it. */
+const PAGES = {
+  es: ROOT + "/members/recuperacion/index.html",
+  en: ROOT + "/members/en/recovery/index.html",
+  pt: ROOT + "/members/pt/recuperacao/index.html"
+};
+const PAGE = PAGES.es;
 /* The activation matrix, read only to MEASURE OVERLAP — see §6. */
 const ACTIVATION = ROOT + "/members/activacion/index.html";
 
@@ -52,9 +60,15 @@ function evaluate(file, globalName, label) {
   return sandbox.window[globalName];
 }
 
-const M = evaluate(PAGE, "RECOVERY_MATRIX", "recovery");
-ok(!!M, "1.6 RECOVERY_MATRIX evaluated");
-if (!M) { fails.forEach(f => console.log("  x " + f)); process.exit(1); }
+const loaded = {};
+for (const [lang, file] of Object.entries(PAGES)) {
+  if (!fs.existsSync(file)) { fails.push(lang + ": MISSING " + file); continue; }
+  const m = evaluate(file, "RECOVERY_MATRIX", lang.toUpperCase());
+  if (m) loaded[lang] = { M: m, html: fs.readFileSync(file, "utf8") };
+}
+const M = loaded.es && loaded.es.M;
+ok(!!M, "1.6 the Spanish RECOVERY_MATRIX evaluated");
+if (!M) { console.log("EARLY EXIT:"); fails.forEach(f => console.log("  x " + f)); process.exit(1); }
 
 const SPORTS = ["run", "bike", "swim", "tri", "all"];
 const MINS = ["30", "45", "60"];
@@ -228,6 +242,184 @@ if (!A) {
     ok(mov.length > 0, "7.4 " + s + " has a mobility block");
   });
 }
+
+
+/* ====================================================================== i18n
+   EN and PT are derived by `automation/recovery-i18n.py`, which translates
+   names and cues BY POSITION and substitutes string literals for everything
+   else. Nothing below trusts that; it proves it.
+
+   *** The clinical assertions run SEPARATELY IN EACH LANGUAGE, in that
+   language's own wording. A translation is exactly where a clinical decision
+   silently reverts, because the reviewer is reading for fluency — and this page
+   carries three of them plus two deliberate disagreements with
+   /members/movilidad/ that must also survive. *** */
+
+const LANGS = ["en", "pt"];
+const STRUCT = m => {
+  const out = {};
+  SPORTS.forEach(s => MINS.forEach(mn => {
+    const r = m.build(s, mn);
+    out[s + "|" + mn] = r.phases.map(ph =>
+      ph.exercises.map(e => e.mode + ":" + e.secs + ":" + (e.variants || []).length).join(",")
+    ).join(" || ");
+  }));
+  return out;
+};
+
+/* 10.1 — the three id tables and the block map must be identical. */
+LANGS.forEach(lang => {
+  const L2 = loaded[lang];
+  if (!L2) { fails.push("10.x " + lang + " did not load"); return; }
+  ["base", "ext", "deep"].forEach(tbl =>
+    eq(JSON.stringify(L2.M[tbl]), JSON.stringify(M[tbl]),
+       "10.1 " + lang + ": the " + tbl.toUpperCase() + " id table is identical to Spanish"));
+  eq(Object.keys(L2.M.phase).join(","), Object.keys(M.phase).join(","),
+     "10.1 " + lang + ": the same three block keys");
+});
+
+/* 10.2 — every built routine has the same shape. Only strings may differ. */
+const esStruct = STRUCT(M);
+LANGS.forEach(lang => {
+  if (!loaded[lang]) return;
+  const other = STRUCT(loaded[lang].M);
+  Object.keys(esStruct).forEach(k =>
+    eq(other[k], esStruct[k], "10.2 " + lang + "|" + k + " has the same structure as Spanish"));
+});
+
+/* 10.3 — pinned fingerprint of the Spanish structure. The cross-language checks
+   prove the three agree; this proves they did not all move together. */
+const fp = require("crypto").createHash("md5")
+  .update(JSON.stringify(esStruct) + JSON.stringify(M.base) + JSON.stringify(M.ext) +
+          JSON.stringify(M.deep)).digest("hex").slice(0, 12);
+eq(fp, "d30ef88e06a3", "10.3 the Spanish routine structure is unchanged (update deliberately)");
+
+/* 10.4 — the clinical reversals and the two deliberate disagreements, per
+   language, in that language's own wording. */
+const CL = {
+  en: { dislocate: /dislocat/i, jefferson: /jefferson/i, sleeper: /sleeper/i,
+        kettlebell: /kettlebell|halo/i, aggressive: /aggressiv/i,
+        capped: /stop where/i, ribs: /ribs|lower back|shoulders/i,
+        segmental: /vertebra by vertebra/i,
+        frog: /frog pose/i, dragon: /winged dragon/i, freshOnly: /recovery days only/i,
+        balanceGrab: /wall|chair/i, achilles: /achilles/i,
+        doctor: /doctor/i, tools: /\/members\/en\/(knees|achilles|shoulder)\//,
+        notRest: /not a day off/i, notRestDone: /not a rest/i,
+        spanish: /\b(rodilla|cadera|hombro|ejercicio|sesión|minutos)\b/i },
+  pt: { dislocate: /dislocaç|dislocat/i, jefferson: /jefferson/i, sleeper: /sleeper/i,
+        kettlebell: /kettlebell|halo/i, aggressive: /agressiv/i,
+        capped: /pare onde/i, ribs: /costelas|lombar|ombros/i,
+        segmental: /vértebra por vértebra/i,
+        frog: /postura do sapo/i, dragon: /dragão alado/i, freshOnly: /dia sem sessão/i,
+        balanceGrab: /parede|cadeira/i, achilles: /aquiles/i,
+        doctor: /médic/i, tools: /\/members\/pt\/(joelhos|aquiles|ombro)\//,
+        notRest: /não um dia de folga/i, notRestDone: /não um descanso/i,
+        spanish: /\b(rodilla|cadera|ejercicio|sesión)\b/i }
+};
+
+LANGS.forEach(lang => {
+  if (!loaded[lang]) return;
+  const m = loaded[lang].M;
+  const C = CL[lang];
+  const text = JSON.stringify(m.library);
+
+  /* The three reversals. */
+  ok(!C.dislocate.test(text), "10.4 " + lang + ": NO shoulder dislocates, in any wording");
+  ok(!C.jefferson.test(text), "10.4 " + lang + ": NO Jefferson curls");
+  ok(!C.sleeper.test(text), "10.4 " + lang + ": no sleeper stretch");
+  ok(!C.kettlebell.test(text), "10.4 " + lang + ": the kettlebell halo stayed cut");
+  ok(!C.aggressive.test(text), "10.4 " + lang + ": nothing is prescribed aggressively");
+
+  /* The capped stick is a VARIANT and its cue still carries the cap. */
+  const stick = Object.values(m.library).flatMap(e => e.variants || [])
+    .find(v => /bast|stick/i.test(v.name));
+  ok(!!stick, "10.4 " + lang + ": the stick exercise exists as a variant");
+  ok(stick && C.capped.test(stick.cue) && C.ribs.test(stick.cue),
+     "10.4 " + lang + ": the stick cue still carries the cap");
+  const baseTags = new Set();
+  SPORTS.forEach(sp => MINS.forEach(mn =>
+    m.build(sp, mn).phases.forEach(ph => ph.exercises.forEach(e => baseTags.add(e.tag)))));
+  eq(baseTags.size, 2, "10.4 " + lang + ": exactly two equipment tags across all 15 — " + JSON.stringify([...baseTags]));
+
+  /* The roll-down that replaced Jefferson curls is still segmental. */
+  ok(C.segmental.test(m.library.rollDown.cue),
+     "10.4 " + lang + ": the roll-down cue is still segmental");
+
+  /* The two deliberate disagreements with /members/movilidad/. */
+  ok(C.frog.test(text), "10.4 " + lang + ": frog pose survived translation");
+  ok(C.dragon.test(text), "10.4 " + lang + ": winged dragon survived translation");
+  ok(C.freshOnly.test(m.library.frog.cue),
+     "10.4 " + lang + ": the frog cue still says it is a recovery-day exercise");
+
+  /* Balance stayed capped, and still tells them to have something to grab. */
+  ok(m.library.balance.secs <= 45, "10.4 " + lang + ": balance is capped");
+  ok(C.balanceGrab.test(m.library.balance.cue), "10.4 " + lang + ": the balance cue keeps the safety note");
+
+  /* The step-eccentric variant still defers to the Achilles protocol. */
+  const step = (m.library.calfEcc.variants || [])[0];
+  ok(step && C.achilles.test(step.cue),
+     "10.4 " + lang + ": the step variant still defers to the Achilles protocol");
+
+  /* Decision 4 survives: this is a session, not a rest day, in three places. */
+  SPORTS.forEach(sp => {
+    ok(C.notRest.test(m.build(sp, "30").subtitle), "10.4 " + lang + "/" + sp + ": subtitle says not a rest day");
+    ok(C.notRestDone.test(m.build(sp, "30").doneSub), "10.4 " + lang + "/" + sp + ": finish screen says the same");
+  });
+
+  /* Hand-off points at THIS language's tools and ends at a doctor. */
+  SPORTS.forEach(sp => {
+    ok(C.tools.test(m.pain[sp]), "10.4 " + lang + "/" + sp + ": pain aside points at this language's tools");
+    ok(C.doctor.test(m.pain[sp]), "10.4 " + lang + "/" + sp + ": pain aside ends at a doctor");
+    ok(!/\/members\/(rodillas|aquiles|hombro|activacion|movilidad)\//.test(m.pain[sp]),
+       "10.4 " + lang + "/" + sp + ": no Spanish URL left in the hand-off");
+  });
+
+  /* Chrome, and no Spanish anywhere in the shipped strings. */
+  ok(!/activation|ativa[çc][ãa]o|activaci[oó]n/i.test(m.ui.startRoutine),
+     "10.4 " + lang + ": the start button does not say activation");
+  ok(!/activation|ativa[çc][ãa]o|activaci[oó]n/i.test(m.doneTitle),
+     "10.4 " + lang + ": the done screen does not say activation");
+  ok(!C.spanish.test(text), "10.4 " + lang + ": no Spanish survives in the exercise library");
+  SPORTS.forEach(sp => MINS.forEach(mn => {
+    const k = m.build(sp, mn).kicker;
+    ok(k && !/recuperaci[oó]n activa/i.test(k), "10.4 " + lang + "|" + sp + "|" + mn + ": kicker is translated");
+  }));
+});
+
+/* 10.5 — each page routes to its own language, and to the other two tools. */
+LANGS.forEach(lang => {
+  if (!loaded[lang]) return;
+  const h = loaded[lang].html;
+  ok(h.includes('href="/members/' + lang + '/#biblioteca"'), "10.5 " + lang + ": breadcrumb points at its own library");
+  ok(!h.includes('href="/members/#biblioteca"'), "10.5 " + lang + ": breadcrumb is not the Spanish one");
+  const act = lang === "en" ? "/members/en/activation/" : "/members/pt/ativacao/";
+  const mob = lang === "en" ? "/members/en/mobility/" : "/members/pt/mobilidade/";
+  ok(h.includes(act) && h.includes(mob), "10.5 " + lang + ": the routing aside points at this language's other two tools");
+  ok(!h.includes('href="/members/activacion/"') && !h.includes('href="/members/movilidad/"'),
+     "10.5 " + lang + ": no Spanish tool URL survives");
+});
+
+/* 10.6 — the overlap rebalance must hold in every language too. The names are
+   translated, so this compares against THAT language's activation matrix. */
+const ACT_PAGES = { es: ACTIVATION,
+                    en: ROOT + "/members/en/activation/index.html",
+                    pt: ROOT + "/members/pt/ativacao/index.html" };
+LANGS.forEach(lang => {
+  if (!loaded[lang] || !fs.existsSync(ACT_PAGES[lang])) {
+    fails.push("10.6 " + lang + ": could not read that language's activation matrix");
+    return;
+  }
+  const a = evaluate(ACT_PAGES[lang], "ACTIVATION_MATRIX", lang + " activation");
+  if (!a) return;
+  const an = new Set(Object.values(a.library).map(e => e.name.toLowerCase()));
+  SPORTS.forEach(s => {
+    const core = loaded[lang].M.build(s, "30").phases.flatMap(p => p.exercises);
+    const sh = core.filter(e => an.has(e.name.toLowerCase()));
+    ok(sh.length / core.length <= 0.34,
+       "10.6 " + lang + "/" + s + ": core overlap with the activation matrix is " +
+       Math.round(sh.length / core.length * 100) + "% (want ≤34%)");
+  });
+});
 
 /* --------------------------------------------------------- 8. TOOL CHROME */
 ok(!/activaci[oó]n/i.test(M.ui.startRoutine), "8.1 the start button does not say activación");

@@ -1,0 +1,459 @@
+---
+layout: layouts/base.njk
+pageCss: "members-activacion.css"
+title: "Active Recovery — Triaperformance All-Access"
+matrixMode: true
+---
+{#- RECUPERACIÓN ACTIVA, ENGLISH SIBLING of /members/recuperacion/.
+    Derived from the Spanish page by `automation/recovery-i18n.py`, which
+    substitutes string literals and nothing else — so the exercise ids, the
+    three routine tables, the block composition, every hold and every mode are
+    identical to the Spanish page by construction, not by review.
+
+    *** DO NOT HAND-EDIT THE STRUCTURE HERE. *** If a routine changes, it
+    changes in the Spanish page and this one is regenerated. If a CUE changes,
+    fix it in both places in the same pass — the script's ordered list is the
+    record of which string corresponds to which.
+
+    Home doc: `recovery-brief.md`. It owns all of it: the six decisions, and in
+    particular why the three blocks are named the way they are (a third of this
+    session is strength work and the athlete is entitled to know), and why the
+    30-minute cores lead with CARs, flows and long holds rather than with the
+    movements the library already had.
+
+    *** THE CLINICAL REVERSALS ARE THE REASON THIS FILE IS TESTED IN ITS OWN
+    LANGUAGE: NO shoulder dislocates (third attempt — the capped stick pass-
+    through is a VARIANT and its cue carries the cap), NO Jefferson curls, and
+    the eyes-closed balance stays capped. A translation is exactly where a
+    clinical decision silently reverts, because the reviewer is reading for
+    fluency. The same assertions that run against the Spanish page run here. ***
+
+    *** AND THE TWO DELIBERATE DISAGREEMENTS WITH /members/en/mobility/ SURVIVE
+    TRANSLATION: frog pose and winged dragon belong HERE, on fresh tissue, and
+    were cut from the post-workout tool for that reason. Do not harmonise. ***
+
+    *** EVERY NOTE ABOUT THIS PAGE BELONGS IN THIS BLOCK. Almost the whole page
+    is inside {% raw %}, where a Nunjucks comment is NOT a comment — it is
+    literal text that renders to the reader. Use an HTML comment or write it
+    here. -#}
+{% raw %}
+<div class="setup" id="setup">
+  <div class="crumb-bar"><div class="wrap"><a href="/members/en/#biblioteca">Library</a> / Recovery</div></div>
+
+  <div class="setup-head">
+    <span class="label">Active recovery</span>
+    <h1>Your recovery day</h1>
+    <p>Two questions and the session builds itself. Slow mobility, some activation work and long holds — all timed, single-side ones per side.</p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">What is your sport?</div>
+    <div class="setup-opts setup-opts--wrap" data-axis="sport">
+      <button type="button" class="setup-opt" data-val="run" aria-pressed="true">Running</button>
+      <button type="button" class="setup-opt" data-val="bike" aria-pressed="false">Cycling</button>
+      <button type="button" class="setup-opt" data-val="swim" aria-pressed="false">Swimming</button>
+      <button type="button" class="setup-opt" data-val="tri" aria-pressed="false">Triathlon</button>
+      <button type="button" class="setup-opt" data-val="all" aria-pressed="false">Full body</button>
+    </div>
+    <p class="setup-hint" id="sportHint"></p>
+  </div>
+
+  <div class="setup-q">
+    <div class="setup-label">How long do you have?</div>
+    <div class="setup-opts" data-axis="mins">
+      <button type="button" class="setup-opt" data-val="30" aria-pressed="true">30 min</button>
+      <button type="button" class="setup-opt" data-val="45" aria-pressed="false">45 min</button>
+      <button type="button" class="setup-opt" data-val="60" aria-pressed="false">60 min</button>
+    </div>
+    <p class="setup-hint">All three have the same three blocks and they grow together. Sixty is where the long flow and the deep passive holds fit — the things that do not fit anywhere else.</p>
+  </div>
+
+  <p class="setup-hint">A mat and a wall are enough. If you have a band, a roller, a stick or a step, some exercises offer that version through the <strong>Change exercise</strong>.</p>
+
+  <p class="setup-hint setup-aside" id="loadAside"><strong>This is an easy session, not a day off.</strong> There is a real activation block in here — glutes, core and shoulder blades. Put it on an easy or rest day, not the day before a quality session or a long one.</p>
+
+  <p class="setup-hint" id="activationAside">Training today? Then this is not what you want: <a href="/members/en/activation/">Activation</a> before you train, <a href="/members/en/mobility/">Mobility</a> after. This session is for the day you do not train.</p>
+
+  <p class="setup-hint setup-aside" id="painAside"></p>
+
+  <button type="button" class="btn-primary setup-go" id="setupGo">Build my session →</button>
+</div>
+
+<div id="toolWrap" hidden>
+{% endraw %}
+  {% include "partials/activation-tool.njk" %}
+{% raw %}
+</div>
+
+<script>
+window.RECOVERY_MATRIX = (function () {
+
+  /* ---------------------------------------------------------------- LIBRARY
+     One definition per exercise, one cue. `secs` is the hold or the block —
+     longer than /members/en/mobility/ throughout, because this is the tool with
+     the time: 60s CARs, 90s PNF, 120-240s flows and passive holds.
+
+     `variants` carry everything that is not a mat and a wall. The base routine
+     never needs them, and the engine hides its own "Change exercise" button
+     on any exercise that has none. */
+  const L = {
+
+    /* ============================================== ONLY IN THIS TOOL
+       CARs, flows, long holds, PNF and balance. This is what an activation
+       cannot do in twelve minutes, and it is why these OPEN the routines rather
+       than closing them. If this ever ends up at the bottom, the tool has gone
+       back to being the activation matrix stretched out. */
+    carsHip: { name: "Hip CARs", mode: "uni", tag: "No equipment", secs: 60,
+      cue: "Standing or on all fours, bring the knee to your chest, open it out to the side, rotate it behind you and lower — the biggest circle you can make <strong>with nothing moving but the hip</strong>. Very slow: two or three circles in the minute. <strong>If your torso compensates, make the circle smaller</strong>; the range you control is the range you have." },
+
+    carsShoulder: { name: "Shoulder CARs", mode: "uni", tag: "No equipment", secs: 60,
+      cue: "Arm straight, raise it in front of you to overhead, rotate it and lower it behind — the widest circle you can draw. <strong>Ribs down, and your other hand on your sternum to feel whether the torso moves.</strong> Two or three turns in the minute, with tension through the whole arm." },
+
+    carsSpine: { name: "Spine CARs", mode: "bi", tag: "No equipment", secs: 90,
+      cue: "Sitting on your heels or on a chair. Segment by segment: thoracic flexion and extension, then side bending each way, then rotation. <strong>The hips do not move — if they do, you have stopped moving your spine.</strong> It is slow and it is boring, and it is one of the things that gives back the most range." },
+
+    carsAnkle: { name: "Ankle CARs", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Sitting with the leg straight, draw the biggest circle you can with your toes, both directions. <strong>The knee and the leg stay still.</strong> Find the edge of the range and pause there a second at every point." },
+
+    dogFlow: { name: "Down dog to up dog", mode: "bi", tag: "No equipment", secs: 120,
+      cue: "Flow between the two positions with your breath: exhale into downward dog driving the heels toward the floor, inhale through to upward dog opening the chest. <strong>Do not rush the transition: half the benefit is in the journey</strong>, not in the two photographs." },
+
+    sunFlow: { name: "Slow sun salutation", mode: "bi", tag: "No equipment", secs: 240,
+      cue: "The full sequence, slowly, one movement per breath: standing, arms overhead, fold forward, half lift, plank, downward dog, step forward, and back up. <strong>Repeat it as many times as fit in the block, alternating which leg steps forward.</strong> It is the only part of the session that will lift your heart rate a little, and that is fine." },
+
+    warriorFlow: { name: "Warrior I to II and Triangle", mode: "uni", tag: "No equipment", secs: 120,
+      cue: "Warrior I with the hips square to the front, open into Warrior II turning the torso, and from there drop into triangle reaching the long arm out. <strong>Hold each one about five breaths before moving on.</strong> Front knee always over the ankle, never past the foot." },
+
+    deepSquatHold: { name: "Deep squat hold", mode: "bi", tag: "No equipment", secs: 120,
+      cue: "All the way down, heels on the floor, elbows inside the knees pressing gently outward. <strong>Move around inside the position: side to side, a little forward and back.</strong> If your heels lift, put something under them — the right position with help beats the wrong one without." },
+
+    frog: { name: "Frog pose", mode: "bi", tag: "No equipment", secs: 180,
+      cue: "Knees wide and in line with your hips, ankles behind the knees, forearms on the floor. Lower your hips to the first point of tension and <strong>stay there three minutes breathing, without chasing more</strong>. This is a passive position: the time does the work, you do not. <strong>Recovery days only</strong> — it does not belong on tissue you just trained." },
+
+    dragon: { name: "Winged dragon", mode: "uni", tag: "No equipment", secs: 90,
+      cue: "Very long lunge, hands inside the front foot, back knee down. Let the front knee fall outward and drop onto your forearms if you get there. <strong>It is intense: stay at a 6 or 7 out of 10, never more.</strong> Breathe long and do not force it with bouncing." },
+
+    pnfHip: { name: "Hip flexor, contract and release", mode: "uni", tag: "No equipment", secs: 90,
+      cue: "Half-kneeling with the pelvis tucked. <strong>Press the back knee into the floor at 20% for 5 seconds, release, and move a little further in.</strong> Three or four times in the block. That contract-and-release is what actually buys range; without it this is just another stretch." },
+
+    pnfHam: { name: "Hamstrings, contract and release", mode: "uni", tag: "No equipment", secs: 90,
+      cue: "On your back, leg toward the ceiling held behind the thigh. <strong>Press your heel into your hands at 20% for 5 seconds, release, and raise the leg a little further.</strong> Three or four cycles. The bottom leg stays down the whole time." },
+
+    balance: { name: "Single-leg balance, eyes closed", mode: "uni", tag: "No equipment", secs: 40,
+      cue: "Stand on one leg and close your eyes. <strong>With a wall or a chair within arm's reach</strong> — you will lose your balance, that is the point. Let the foot work: toes active, ankle correcting. Forty seconds a side is plenty." },
+
+    rollDown: { name: "Supine segmental roll-down", mode: "bi", tag: "No equipment", secs: 90,
+      cue: "On your back, knees bent. Peel the pelvis up <strong>vertebra by vertebra</strong> until you are resting on your shoulder blades, and come down the same way, laying the spine down from the top. What you want is the spine articulating in segments, not height. Five or six slow cycles." },
+
+    bodyScan: { name: "Body scan", mode: "bi", tag: "No equipment", secs: 180,
+      cue: "On your back, legs long, palms up. Travel through your body from feet to head, <strong>pausing at each area for the length of one breath and letting go of whatever you find tight</strong>. Jaw and upper traps last: there is almost always something left there." },
+
+    /* =========================================================== MOBILITY
+       Movements that also exist in /members/core/ or in the activation matrix.
+       They are here because they are the right ones, but they are a MINORITY and
+       they come after the block above — see decision 1 in the header. */
+    catcow: { name: "Cat-cow", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "On all fours, alternate rounding and arching with your breath, <strong>vertebra by vertebra</strong>. Here you have time: do it twice as slowly as you would before training, and hunt for the segments that are not moving." },
+
+    threadNeedle: { name: "Quadruped thoracic rotation", mode: "uni", tag: "No equipment", secs: 60,
+      cue: "On all fours, one hand behind your head. Take the elbow toward the opposite knee, then open, rotating the torso and following the elbow with your eyes. <strong>The hips stay square</strong> — if they travel with you, you are rotating from your lower back." },
+
+    openBook: { name: "Open book", mode: "uni", tag: "No equipment", secs: 60,
+      cue: "On your side, knees bent and stacked, arms together in front. <strong>Open the top arm following your hand with your eyes, and keep the knees still.</strong> Stay five breaths wherever you get to before coming back.",
+      variants: [{ name: "Thoracic extension over the roller", mode: "bi", tag: "Roller",
+        cue: "Roller across your upper back, hands behind your head. Extend back over it and <strong>move it two fingers higher and repeat</strong>, segment by segment. The lower back does not arch: your hips stay down." }] },
+
+    wgs: { name: "World's greatest stretch", mode: "uni", tag: "No equipment", secs: 60,
+      cue: "Long lunge, inside hand to the floor beside the foot, and <strong>open the chest rotating the top arm toward the ceiling</strong>. Hold at the top for three breaths before coming back. Hip, adductor and thoracic spine in one movement." },
+
+    nineNinety: { name: "90/90 hip", mode: "uni", tag: "No equipment", secs: 60,
+      cue: "Seated, one leg at 90° in front and the other at 90° to the side. Lean over the front leg, come back, and <strong>switch sides by lifting the knees and turning without using your hands</strong>. That active transition is the exercise; the lean is only half of it." },
+
+    spiderman: { name: "Spiderman lunge with rotation", mode: "uni", tag: "No equipment", secs: 60,
+      cue: "From a plank, bring your foot outside the hand on the same side. Drop the elbow toward the floor, and from there <strong>rotate, opening the arm to the ceiling</strong>. Two or three slow reps a side inside the block, not one long hold." },
+
+    inchworm: { name: "Inchworm", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "Standing, fold forward and walk your hands out to a plank without moving your feet. Walk them back to return. <strong>Legs as straight as they will tolerate</strong> — that is where the hamstring work is." },
+
+    cossack: { name: "Cossack squat", mode: "uni", tag: "No equipment", secs: 60,
+      cue: "Feet wide, shift your weight down over one leg leaving the other straight with the toes up. <strong>Chest tall and the heel of the working leg flat on the floor.</strong> Move side to side slowly; do not go all the way down if your back rounds." },
+
+    legSwing: { name: "Leg swings", mode: "uni", tag: "Wall", secs: 45,
+      cue: "Leaning on the wall, swing the leg forward and back, then across your body side to side. <strong>Build the range gradually</strong> — starting at your maximum is how a hamstring gets pulled, even on an easy day." },
+
+    kneeWall: { name: "Knee to wall", mode: "uni", tag: "Wall", secs: 45,
+      cue: "Foot a hand's width from the wall, <strong>touch the wall with your knee without the heel lifting</strong>. If it comes easily, move the foot back a centimetre and try again. It is the most honest measure of your ankle you have, and it improves with repetitions, not with force." },
+
+    wallAngel: { name: "Wall angels", mode: "bi", tag: "Wall", secs: 60,
+      cue: "Back against the wall, <strong>lower back flat against it</strong>, arms in a W with elbows and the backs of your hands touching. Slide the arms up and down without anything peeling off. <strong>Stop exactly where something lifts</strong> — that is your range today, and forcing past it does not make it bigger.",
+      variants: [{ name: "Stick pass-through (capped)", mode: "bi", tag: "Stick or broomstick",
+        cue: "Very wide grip, arms straight, take the stick from your thighs back behind you and return. <strong>This is not a flexibility contest: stop where your ribs flare, your lower back arches, or your shoulders rise.</strong> If you have to force it, narrow the grip." }] },
+
+    scorpion: { name: "Prone scorpion", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Face down, arms out in a cross. Take one heel across toward the opposite hand letting the hips rotate, <strong>and keep your chest as close to the floor as you can</strong>. Slow going out and slow coming back." },
+
+    neckCars: { name: "Neck CARs", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "Seated, shoulders still. Chin to chest, roll toward one shoulder, take the ear back, and complete the circle — very slowly, hunting for where it catches. <strong>Never forced and never fast</strong>: if you get dizziness or tingling, stop." },
+
+    /* ========================================================== ACTIVATION
+       This is strength and control work, not mobility, which is why the block is
+       named the way it is. See decision 4 above: the copy must never suggest this
+       session comes for free. */
+    clamshell: { name: "Slow clamshell", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "On your side, knees bent and heels together. Open the top knee <strong>without your hips rolling backward</strong> — put your hand on the glute and feel that it is working there. Slow, and hold a second at the top.",
+      variants: [{ name: "Clamshell with a mini-band", mode: "uni", tag: "Mini-band",
+        cue: "Band above the knees. Same movement against resistance, <strong>and the lowering as slow as the lift</strong>." }] },
+
+    bridgeSingle: { name: "Single-leg bridge", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "One foot planted, the other knee to your chest. Lift the hips driving through the heel and <strong>keep the pelvis level — do not let one side drop</strong>. If it drops, reduce the range or do it on both legs." },
+
+    gluteBridgeMarch: { name: "Bridge with a march", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "Bridge up and held, and from there lift one foot a few centimetres, put it down, and change. <strong>The hips do not drop and do not rotate.</strong> Slowly: this is control, not repetitions." },
+
+    birdDog: { name: "Bird dog", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "On all fours, extend opposite arm and leg to horizontal. <strong>Hold three seconds at the top with the lower back still</strong> — if your back arches or your hips rotate, lower the leg. Picture a glass of water on your lower back." },
+
+    deadBug: { name: "Dead bug", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "Lower back flat on the floor, arms and knees up. Extend opposite arm and leg <strong>without your back lifting a millimetre</strong>. Exhale as you extend. Slow: the goal is control." },
+
+    sidePlank: { name: "Dynamic side plank", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "On your forearm, hips up and body in a line. <strong>Lower the hips until they brush the floor and lift again</strong>, slow and controlled. Knees down if the long version breaks your line." },
+
+    bearCrawl: { name: "Bear crawl", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "On all fours with your knees a hand's width off the floor. Go forward and back moving opposite hand and foot, <strong>hips low and without swaying side to side</strong>. Short steps." },
+
+    scapPushup: { name: "Scapular push-up", mode: "bi", tag: "No equipment", secs: 45,
+      cue: "In a high plank with your <strong>elbows locked straight the whole time</strong>: let your chest sink, squeezing the shoulder blades together, then push the floor away, spreading them as far as they go. The movement is three or four centimetres and it is exactly the muscle a swimmer is missing." },
+
+    ytwl: { name: "Prone Y-T-W", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "Face down, forehead resting, thumbs to the ceiling. Lift the arms into a Y, then a T, then a W. <strong>The shoulder blades go down, never toward your ears</strong>: if you shrug, the upper trap takes the work.",
+      variants: [{ name: "Y-T-W with a band", mode: "bi", tag: "Long band",
+        cue: "Standing with the band in front of you, same sequence against low resistance. <strong>Many repetitions and little tension</strong> — that is what the posterior cuff responds to, not load." }] },
+
+    extRotation: { name: "Isometric external rotation", mode: "uni", tag: "Wall", secs: 45,
+      cue: "Elbow tucked to your side at 90°, the back of your hand against a doorframe or a wall. <strong>Press outward at 50% and hold, with nothing moving.</strong> Do not let the shoulder travel forward or the elbow leave your ribs.",
+      variants: [{ name: "External rotation with a mini-band", mode: "uni", tag: "Mini-band",
+        cue: "Band anchored at elbow height, elbow tucked to your side. Rotate outward and <strong>come back slower than you went</strong>. Short range and control." }] },
+
+    latWalk: { name: "Lateral walk in a half squat", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "Half squat, chest tall, and walk sideways with even steps without fully bringing your feet together. <strong>Knees pressing outward the whole time</strong> and the hips at a constant height. Out and back.",
+      variants: [{ name: "Lateral walk with a mini-band", mode: "bi", tag: "Mini-band",
+        cue: "Band at the ankles or above the knees. Same step against resistance, <strong>and without the trailing foot dragging</strong>." }] },
+
+    calfEcc: { name: "Eccentric calf raise", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "Rise on both legs and <strong>lower on one, counting three seconds</strong>. The lowering is the exercise. Alternate which leg lowers.",
+      variants: [{ name: "Eccentrics off a step", mode: "bi", tag: "Step",
+        cue: "Forefoot on the edge of a step. Up on two, down on one <strong>letting the heel drop below the step</strong>, three seconds. If you are on the Achilles protocol, do not add volume here: count these sets as part of that one." }] },
+
+    plantarFlex: { name: "Active plantarflexion", mode: "bi", tag: "No equipment", secs: 45,
+      cue: "Sitting with your legs straight, <strong>point your toes as far away as they go and hold five seconds</strong>, then pull them back toward you. Active, not passive: it is the range that pushes water in your kick." },
+
+    tva: { name: "Transverse abdominis activation", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "On your back, knees bent, hands on your hip bones just inside them. <strong>Breathe into your belly, and as you exhale draw the navel in and up without moving the pelvis.</strong> You should feel a soft tension under your fingers. It is subtle, and it is the base of everything else." },
+
+    reverseLunge: { name: "Reverse lunge, arms overhead", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Long step back lowering the knee, <strong>with both arms straight overhead and your ribs down</strong>. The arms overhead are what turn this into hip and thoracic work at the same time." }
+  };
+
+  /* ------------------------------------------------------------- ROUTINES
+     Three tiers, three named blocks, and the tiers GROW THE BLOCKS rather than
+     appending new ones. That is the difference from /members/en/mobility/, and it
+     is deliberate: there the tiers were the story (unload, then the rest of the
+     chain, then the forgotten spots), here the BLOCKS are the story, because
+     the athlete has to be able to see that a third of this session is
+     activation work and not mobility. Decision 4.
+
+     So: 30 = BASE, 45 = BASE + EXT, 60 = BASE + EXT + DEEP, merged per block.
+     `mov` always opens. Decision 1 lives in the ORDER of these lists — the
+     CARs, flows, PNF and holds come first inside `mov`, and the movements that
+     also exist in /members/core/ or the activation matrix follow them. */
+  const BASE = {
+    run: {
+      mov:  ["carsHip", "carsAnkle", "carsSpine", "nineNinety", "dogFlow", "deepSquatHold", "wgs", "legSwing"],
+      act:  ["calfEcc", "bridgeSingle", "birdDog", "deadBug", "balance"],
+      hold: ["pnfHam", "frog"] },
+    bike: {
+      mov:  ["carsSpine", "carsHip", "deepSquatHold", "threadNeedle", "openBook", "nineNinety", "spiderman", "catcow"],
+      act:  ["clamshell", "birdDog", "tva", "sidePlank"],
+      hold: ["pnfHip", "frog"] },
+    swim: {
+      mov:  ["carsShoulder", "neckCars", "carsSpine", "carsHip", "deepSquatHold", "wallAngel", "threadNeedle", "openBook", "catcow"],
+      act:  ["ytwl", "scapPushup", "extRotation", "deadBug", "plantarFlex"],
+      hold: ["pnfHip", "dragon"] },
+    tri: {
+      mov:  ["carsHip", "carsShoulder", "carsSpine", "dogFlow", "nineNinety", "deepSquatHold", "spiderman", "catcow"],
+      act:  ["clamshell", "birdDog", "deadBug", "balance", "calfEcc"],
+      hold: ["pnfHip", "frog"] },
+    all: {
+      mov:  ["carsHip", "carsShoulder", "carsSpine", "carsAnkle", "dogFlow", "deepSquatHold", "wgs", "catcow"],
+      act:  ["bridgeSingle", "birdDog", "deadBug", "sidePlank", "balance"],
+      hold: ["pnfHam", "frog"] }
+  };
+
+  const EXT = {
+    run:  { mov: ["cossack", "kneeWall", "inchworm", "catcow"], act: ["latWalk", "sidePlank"], hold: ["pnfHip", "rollDown"] },
+    bike: { mov: ["cossack", "kneeWall", "wallAngel", "legSwing"], act: ["latWalk", "bridgeSingle"], hold: ["pnfHam", "rollDown"] },
+    swim: { mov: ["scorpion", "spiderman", "kneeWall", "wgs"], act: ["bearCrawl", "sidePlank"], hold: ["frog", "rollDown"] },
+    tri:  { mov: ["inchworm", "cossack", "kneeWall", "wallAngel"], act: ["gluteBridgeMarch", "sidePlank"], hold: ["pnfHam", "rollDown"] },
+    all:  { mov: ["cossack", "inchworm", "openBook", "legSwing"], act: ["reverseLunge", "bearCrawl"], hold: ["pnfHip", "rollDown"] }
+  };
+
+  const DEEP = {
+    run:  { mov: ["sunFlow", "carsShoulder"], act: ["gluteBridgeMarch", "tva"], hold: ["dragon", "bodyScan"] },
+    bike: { mov: ["sunFlow", "carsAnkle"], act: ["gluteBridgeMarch", "deadBug"], hold: ["dragon", "bodyScan"] },
+    swim: { mov: ["sunFlow", "carsAnkle"], act: ["birdDog", "balance"], hold: ["pnfHam", "bodyScan"] },
+    tri:  { mov: ["warriorFlow", "carsAnkle"], act: ["bearCrawl", "tva"], hold: ["dragon", "bodyScan"] },
+    all:  { mov: ["sunFlow", "threadNeedle"], act: ["scapPushup", "tva"], hold: ["dragon", "bodyScan"] }
+  };
+
+  /* The block names ARE the honesty requirement from decision 4. Do not rename
+     "Activation" to something softer: the athlete is entitled to know that this
+     part of a recovery session is strength and control work. */
+  const PHASE = { mov: "Mobility", act: "Activation", hold: "Long holds" };
+
+  const SPORT = {
+    run:  "Recovery for runners",
+    bike: "Recovery for cyclists",
+    swim: "Recovery for swimmers",
+    tri:  "Recovery for triathletes",
+    all:  "Full-body recovery"
+  };
+
+  const SUBTITLE = {
+    run:  "Hips, ankles and posterior chain, with slow control and long holds. It is an easy session, not a day off.",
+    bike: "Thoracic rotation, hip independence and the glutes the bike switches off. It is an easy session, not a day off.",
+    swim: "Scapular control, thoracic spine and neck — and the ankle, which is what pushes water. It is an easy session, not a day off.",
+    tri:  "All three chains connected, plus balance and proprioception. It is an easy session, not a day off.",
+    all:  "A full pass from top to bottom, no sport assumed. It is an easy session, not a day off."
+  };
+
+  const WHY = {
+    run:  "A day without running is when tissue accepts work it would refuse when tired: controlled range, long passive holds and contract-relax. None of that fits into the ten minutes before a session, and it is exactly what a runner who only runs is missing.",
+    bike: "The bike leaves you three debts that pedalling does not pay off: a thoracic spine that will not rotate, hips that only work in one plane, and glutes that have switched off. A free day is when you can actually go at them, because there is time for the slow and the long.",
+    swim: "A swimmer's shoulder is not fixed by stretching: it is fixed with scapular control and range you can hold. That is slow, repeated work, and it needs a day when you do not have to get in the water afterwards.",
+    tri:  "Three sports leave three patterns and none of them is corrected in a hurry. This is the day for what does not fit into an activation: long CARs, passive holds, contract-relax and balance, which is the first thing volume takes away.",
+    all:  "A recovery day used well does more for your range than three rushed activations. Here there is time for the slow, the long and the boring, which is where almost all of the benefit lives."
+  };
+
+  const DONE = {
+    run:  "Done. That was a session, not a rest — keep it in mind tomorrow.",
+    bike: "Done. That was a session, not a rest — keep it in mind tomorrow.",
+    swim: "Done. That was a session, not a rest — keep it in mind tomorrow.",
+    tri:  "Done. That was a session, not a rest — keep it in mind tomorrow.",
+    all:  "Done. That was a session, not a rest — keep it in mind tomorrow."
+  };
+
+  /* Same sport-aware hand-off as /members/en/mobility/, same reason:
+     methodology.md §11 in the product. Mobility and recovery are not rehab. */
+  const PAIN = {
+    run:  'If something <strong>hurts</strong> rather than feels stiff, this is not the right tool today: go to <a href="/members/en/knees/">Knees</a> or <a href="/members/en/achilles/">Achilles</a>. And if the pain persists, that is a doctor, not a routine.',
+    bike: 'If something <strong>hurts</strong> rather than feels stiff, this is not the right tool today: go to <a href="/members/en/knees/">Knees</a>. And if the pain persists, that is a doctor, not a routine.',
+    swim: 'If the shoulder <strong>hurts</strong> rather than feels stiff, this is not the right tool today: go to <a href="/members/en/shoulder/">Swimmer’s Shoulder</a>. And if the pain persists, that is a doctor, not a routine.',
+    tri:  'If something <strong>hurts</strong> rather than feels stiff, this is not the right tool today: go to <a href="/members/en/knees/">Knees</a>, <a href="/members/en/achilles/">Achilles</a> or <a href="/members/en/shoulder/">Shoulder</a>. And if the pain persists, that is a doctor, not a routine.',
+    all:  'If something <strong>hurts</strong> rather than feels stiff, this is not the right tool today: go to <a href="/members/en/knees/">Knees</a>, <a href="/members/en/achilles/">Achilles</a> or <a href="/members/en/shoulder/">Shoulder</a>. And if the pain persists, that is a doctor, not a routine.'
+  };
+
+  const SPORT_HINT = {
+    run: "", bike: "", swim: "",
+    tri:  "For the athlete doing all three: it prioritises hips and shoulders, and adds balance.",
+    all:  "No sport assumed. Works just as well for a gym day or a desk day."
+  };
+
+  /* Chrome the shared engine would otherwise render as "activación". See
+     ai-infrastructure-documentation.md §39 and §40 — three strings, three
+     different landing places, and `doneTitle` is markup rather than an engine
+     string. *** THESE TRAVEL WITH ANY TRANSLATION OF THIS PAGE. *** */
+  const UI_OVERRIDE = { startRoutine: "Start the session →" };
+  const DONE_TITLE = "Session complete";
+
+  function build(sport, mins) {
+    const m = String(mins);
+    if (!BASE[sport]) throw new Error("Unknown sport: " + sport);
+    if (["30", "45", "60"].indexOf(m) === -1) throw new Error("Unknown duration: " + m);
+
+    const pick = ids => ids.map(id => {
+      const ex = L[id];
+      if (!ex) throw new Error("Unknown exercise id: " + id);
+      return Object.assign({ video: null, variants: [] }, ex);
+    });
+
+    const merge = block => {
+      let ids = BASE[sport][block].slice();
+      if (m === "45" || m === "60") ids = ids.concat(EXT[sport][block]);
+      if (m === "60") ids = ids.concat(DEEP[sport][block]);
+      return ids;
+    };
+
+    return {
+      title: SPORT[sport],
+      crumb: "Recovery",
+      subtitle: SUBTITLE[sport],
+      context: m + " minutes",
+      why: WHY[sport],
+      doneSub: DONE[sport],
+      kicker: "Active recovery",
+      restSeconds: 10,
+      phases: ["mov", "act", "hold"].map(b => ({ name: PHASE[b], exercises: pick(merge(b)) }))
+    };
+  }
+
+  return { build: build, library: L, base: BASE, ext: EXT, deep: DEEP,
+           phase: PHASE, pain: PAIN, sportHint: SPORT_HINT, ui: UI_OVERRIDE,
+           doneTitle: DONE_TITLE };
+})();
+
+/* --------------------------------------------------------------- SETUP UI
+   Same two-question shape as /members/en/mobility/. What is sport-aware here is
+   the pain hand-off; the load warning and the "are you training today?" aside
+   are constant, because they are true for every sport. */
+(function () {
+  const M = window.RECOVERY_MATRIX;
+  const choice = { sport: "run", mins: "30" };
+
+  function renderSportBits() {
+    const hint = document.getElementById("sportHint");
+    hint.innerHTML = M.sportHint[choice.sport] || "";
+    hint.hidden = !M.sportHint[choice.sport];
+    document.getElementById("painAside").innerHTML = M.pain[choice.sport];
+  }
+
+  document.querySelectorAll(".setup-opts[data-axis]").forEach(group => {
+    const axis = group.dataset.axis;
+    group.querySelectorAll(".setup-opt").forEach(btn => {
+      btn.addEventListener("click", () => {
+        choice[axis] = btn.dataset.val;
+        group.querySelectorAll(".setup-opt").forEach(b =>
+          b.setAttribute("aria-pressed", String(b === btn)));
+        if (axis === "sport") renderSportBits();
+      });
+    });
+  });
+
+  renderSportBits();
+
+  document.getElementById("setupGo").addEventListener("click", () => {
+    window.ACTIVATION_DATA = M.build(choice.sport, choice.mins);
+    Object.assign(window.ACTIVATION_UI, M.ui);
+
+    document.getElementById("setup").hidden = true;
+    document.getElementById("toolWrap").hidden = false;
+
+    document.getElementById("doneSub").textContent = window.ACTIVATION_DATA.doneSub;
+    document.getElementById("crumbLabel").textContent = window.ACTIVATION_DATA.crumb;
+    document.getElementById("doneTitle").textContent = M.doneTitle;
+
+    const s = document.createElement("script");
+    s.src = "/assets/js/activation-tool.js";
+    document.body.appendChild(s);
+
+    s.addEventListener("load", () => {
+      const back = document.createElement("button");
+      back.className = "change-link setup-back";
+      back.textContent = "← Change options";
+      back.addEventListener("click", () => location.reload());
+      document.querySelector(".tool").prepend(back);
+    });
+  });
+})();
+</script>
+{% endraw %}

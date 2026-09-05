@@ -275,6 +275,18 @@
       },
       {
         "tag": "Routine",
+        "name": "Active Recovery",
+        "desc": "For the day you do not train: slow mobility, an activation block and long holds. Pick your sport and whether you have 30, 45 or 60 minutes. Mat and wall.",
+        "key": "recovery",
+        "url": "/en/all-access/#biblioteca",
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/en/recovery/",
+        "memberCta": "Build my session →",
+        "memberDesc": "For the day you do not train. Slow mobility, a real activation block and long holds — 30, 45 or 60 minutes. It is an easy session, not a rest."
+      },
+      {
+        "tag": "Routine",
         "name": "Pain-Free Knees",
         "desc": "Strength to bulletproof the knee: glute medius, VMO and posterior chain. Pick home or gym, with a set counter and rest timer.",
         "key": "knees",
@@ -444,7 +456,7 @@
     ],
     "categoryCounts": {
       "numbers": 5,
-      "train": 6,
+      "train": 7,
       "pain": 3
     }
   },
@@ -490,6 +502,18 @@
         "memberUrl": "/members/pt/mobilidade/",
         "memberCta": "Montar minha sessão →",
         "memberDesc": "A outra metade: escolha de onde está vindo e quanto tempo tem, e a volta à calma se monta sozinha. 10, 20 ou 30 minutos. Basta um colchonete e uma parede."
+      },
+      {
+        "tag": "Rotina",
+        "name": "Recuperação Ativa",
+        "desc": "Para o dia em que você não treina: mobilidade lenta, um bloco de ativação e posturas longas. Você escolhe o esporte e se tem 30, 45 ou 60 minutos. Colchonete e parede.",
+        "key": "recovery",
+        "url": "/pt/all-access/#biblioteca",
+        "gated": true,
+        "category": "train",
+        "memberUrl": "/members/pt/recuperacao/",
+        "memberCta": "Montar minha sessão →",
+        "memberDesc": "Para o dia em que você não treina. Mobilidade lenta, um bloco de ativação de verdade e posturas longas — 30, 45 ou 60 minutos. É uma sessão leve, não um descanso."
       },
       {
         "tag": "Rotina",
@@ -662,7 +686,7 @@
     ],
     "categoryCounts": {
       "numbers": 5,
-      "train": 6,
+      "train": 7,
       "pain": 3
     }
   }
