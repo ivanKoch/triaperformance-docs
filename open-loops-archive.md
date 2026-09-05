@@ -8,6 +8,42 @@
 
 ---
 
+## Closed — September 5, 2026, later (three VPS items, and a false alarm on a paid surface)
+
+🚨 ***Read the 502 item below before writing another handover command.*** *A verification chained with `&&` to the command it verifies reports on a state that has not happened yet — here it declared the members area down while gunicorn was still binding.* **Second instance in two days of a guard reading too early, after the `_site` staleness trap on September 4.**
+
+💡 *And the backfill item is the THIRD in two days that turned out to be already executed and still on the live list, after the All-Access token node and the Private checkout URL. The rule is now first in `open-loops.md` §Rules; three instances in two days suggests the list carries a backlog of done work, not only a habit.*
+
+- [x] ~~**`/members/` returned HTTP 502 after the members-auth rebuild.**~~ **NOT A FAULT — a boot race in the verification command itself, September 5, 2026.** *Gunicorn logged `Listening at: http://127.0.0.1:8091` and the gate answered* **302 to the login page**, *which is the correct response for an unauthenticated request. Container healthy, four minutes up, two workers.*
+  🔑 ***The lesson is the command, not the service, and it is worth carrying to every handover this repo writes:*** *the check was* `docker compose up -d --build && curl -sI …`, *and* **`&&` fires the instant compose RETURNS, which is when the container is started — not when the process inside it has bound a socket.** *So the verification raced the thing it was verifying and reported a false outage on a paid surface.* ✅ **The pattern to hand over instead is a retry, never a bare `&&`:** `for i in $(seq 10); do sleep 2; curl -sI <url> | head -1 | grep -qE '30[12]|401' && { echo OK; break; }; done`. ⚠️ *A false alarm costs less than a missed one, so this is a small bug — but it is the same family as the `_site` staleness trap closed on September 4:* **a guard that reads too early does not fail, it answers about a state that has not happened yet.**
+  ✅ *What the rebuild did prove, which was its actual purpose: `members-auth` builds from the clone. The Docker build read the clone's `Dockerfile`, `requirements.txt` and `app.py`, so the file deleted at `/root/.members-auth/auth_service` really was the inert copy §18 said it was.*
+
+- [x] ~~**Two stale copies to delete on the box.**~~ **DELETED September 5, 2026**, both verified unreferenced first (`crontab -l` clean; the only repo hits were this file's own instructions and the audit script's comment) and tarred to `/root/stale-copies-2026-09-05.tar.gz` before removal. ***The rebuild proved the §18 finding correct: `members-auth` builds from the clone*** — the Docker build read the clone's `Dockerfile`/`app.py` and succeeded. ⚠️ **The gate then answered 502 and that is now the item at the top of NOW.** *Do not read the 502 as evidence the deleted file was live: the build source is settled by the build output, which named the clone.* → archive. *(Original item:* *(From the first real run of `audit-runtime-paths.sh`, Sep 2–3, 2026. Full result and the retraction: `ai-infrastructure-documentation.md` §18 addendum.)*
+  **Run as one block — the two `grep`s are the whole safety argument; if either prints anything, stop and say so rather than deleting.**
+  ```bash
+  ssh root@179.197.76.70
+  crontab -l | grep -nE 'members-auth/auth_service|\.analytics/scripts/sync_pixel_data' || echo "OK: no crontab reference"
+  grep -rn "\.analytics/scripts/sync_pixel_data\|members-auth/auth_service" /root/.hermes/ /etc/ 2>/dev/null || echo "OK: no config reference"
+  tar czf /root/stale-copies-2026-09-05.tar.gz /root/.members-auth/auth_service /root/.analytics/scripts/sync_pixel_data.py 2>/dev/null
+  rm -rf /root/.members-auth/auth_service
+  rm -f  /root/.analytics/scripts/sync_pixel_data.py
+  docker compose -f /root/.members-auth/docker-compose.yml up -d --build
+  for i in $(seq 10); do sleep 2; curl -sI https://triaperformance.com/members/ | head -1 | grep -qE '30[12]|401' && { echo "OK: gate answering"; break; }; done   # never a bare && -- compose returns before gunicorn binds
+  ```
+  *The tarball is the cheap insurance: both were declared inert by an audit, and an audit is a reading. Delete it in a week.* **The last line is the actual proof** — the compose file builds the members auth service from the clone, so rebuilding and getting a 401 back from the gate is what confirms the deleted copy really was the one nothing used.
+  1. `rm -rf /root/.members-auth/auth_service` — *the compose file builds from the clone, so this copy is inert.* **A trap rather than a defect: it sits next to the compose file, it is what a person would open, and editing it changes nothing.**
+  2. `rm -f /root/.analytics/scripts/sync_pixel_data.py` — *no cron invokes it; `crontab -l` confirms.* **Three documents named it as the live script and are corrected — the stale path was the hazard, not the stale file.**
+  > ✅ *The third action, installing a dispatcher for `deploy-website.sh`, was **withdrawn**: that script already self-updates from the repo after every successful deploy, which is both safer than a dispatcher and the reason its line count matched. Nothing to do there.*
+
+- [x] ~~**Run the backfill.**~~ 🚨 **RAN September 5, 2026 with `--apply`, and it found NOTHING TO CHANGE: "Every record already splits the way the parsers now do."** *290 records fetched, against 292 on September 4.* ***So the backfill had already been applied — third item in two days that turned out to be done and still on this list*** *(after the All-Access token node and the Private checkout URL), and the first one where the evidence was a script reporting zero work rather than a doc.* **The end state is confirmed either way and that is what matters: no record in Twenty now carries a multi-token `firstName`, which is the thing the item existed to guarantee.** 💡 *The 292 → 290 drop is very likely the two stale zone-calculator test records below being deleted in the same unlogged pass — worth confirming, because if so that item is closed too.* → archive. *(Original item:* `automation/backfill_person_names.py`, from the VPS. Dry run is the default and prints every proposed change; `--apply` writes; `--fix-case` also title-cases ALL-CAPS/lowercase entries and is opt-in because it changes characters rather than only the boundary. **The exact command, dry run confirmed September 4 (61 of 292, zero safety trips):**
+  ```bash
+  ssh root@179.197.76.70
+  cd ~/.hermes/triaperformance-docs && git pull
+  python3 automation/backfill_person_names.py            # re-confirm the dry run first
+  python3 automation/backfill_person_names.py --apply
+  ```
+  *Re-run the dry run before `--apply` — a day of new leads have arrived since the 61 was measured, and the print is free.* **Safety property worth knowing before running it against the whole table:** *it re-partitions a name and never edits one — any change where the lowercased token list would differ before or after is refused and reported under SKIPPED, so it cannot invent, drop or reorder a name.* Verified end-to-end against a mocked Twenty (6 fixtures incl. the safety trip and the empty-firstname case); **not yet run against the live CRM.**
+
 ## Closed — September 5, 2026 (six items, two of which had been done for a day)
 
 🚨 ***The finding of this batch is not any one item: two of the six had already been executed and were still on the live list, and Iván was the one who noticed while reading a report generated from it.*** *The All-Access `Insert Token in Postgres` check was done in n8n; the Private 1:1 checkout URL had been written into `triaperformance-pricing-and-positioning.md` on September 4 and the item left standing beside it.* **September 2's pass concluded that ticking a box is not closing an item. This is the same failure one step earlier — doing the work in the world and never ticking anything at all** — *and the rule that came out of it is now in `open-loops.md` §Rules: the test before reporting an item open is whether its **owning doc** still agrees, not whether the box is empty.*
