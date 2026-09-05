@@ -102,8 +102,10 @@ query People($first: Int!, $after: String, $filter: PersonFilterInput) {
         id
         name { firstName lastName }
         emails { primaryEmail }
-        customerType
+        leadSource
         leadStatus
+        createdAt
+        customerType
         churnDate
         preferredLanguage
       }
@@ -136,6 +138,67 @@ def run_graphql(query, variables=None):
     if "errors" in body:
         sys.exit(f"GraphQL error: {json.dumps(body['errors'])[:600]}")
     return body.get("data") or {}
+
+
+# ---------------------------------------------------------------------------
+# --probe: answer the pagination question by measurement, in one run.
+#
+# September 5, 2026. This endpoint has now returned 87, 120 and 87 across three
+# variants of the same walk while backfill_person_names.py returns all 290, and
+# each round of guessing cost Ivan a run. So: try every variant at once and
+# print what each one actually returns. A check that reports what it saw is
+# diagnostic; a check that reports pass/fail is not.
+#
+# The suspicion being tested is the orderBy key: this script ordered by
+# `createdAt` without SELECTING it, and the working script selects it. If a
+# cursor is built from the ordering field, an unselected key gives a cursor the
+# resolver cannot rebuild -- which looks exactly like a walk that skips ahead
+# and ends early.
+# ---------------------------------------------------------------------------
+FIELDS_WORKING = "id name { firstName lastName } emails { primaryEmail } leadSource leadStatus createdAt"
+FIELDS_NEEDED = "customerType churnDate preferredLanguage"
+
+PROBES = [
+    ("A  backfill fields verbatim, order createdAt", FIELDS_WORKING, "orderBy: { createdAt: AscNullsLast }"),
+    ("B  A + the 3 fields this script needs      ", FIELDS_WORKING + " " + FIELDS_NEEDED, "orderBy: { createdAt: AscNullsLast }"),
+    ("C  needed fields, createdAt NOT selected   ", "id emails { primaryEmail } " + FIELDS_NEEDED, "orderBy: { createdAt: AscNullsLast }"),
+    ("D  C + createdAt selected                  ", "id emails { primaryEmail } createdAt " + FIELDS_NEEDED, "orderBy: { createdAt: AscNullsLast }"),
+    ("E  B with no orderBy at all                ", FIELDS_WORKING + " " + FIELDS_NEEDED, ""),
+    ("F  B ordered by id instead                 ", FIELDS_WORKING + " " + FIELDS_NEEDED, "orderBy: { id: AscNullsLast }"),
+]
+
+
+def probe(page_size):
+    total = fetch_total()
+    print(f"Twenty totalCount = {total}\n")
+    print(f"{'variant':46s} {'fetched':>8s}  {'pages':>5s}  verdict")
+    for label, fields, order in PROBES:
+        q = ("query P($first: Int!, $after: String) {\n"
+             f"  people(first: $first, after: $after{(', ' + order) if order else ''}) {{\n"
+             "    pageInfo { hasNextPage endCursor }\n"
+             f"    edges {{ node {{ {fields} }} }}\n"
+             "  }\n}")
+        n, pages, cursor, seen, err = 0, 0, None, set(), None
+        try:
+            while True:
+                blk = (run_graphql(q, {"first": page_size, "after": cursor})
+                       .get("people") or {})
+                edges = blk.get("edges", [])
+                n += len(edges); pages += 1
+                info = blk.get("pageInfo") or {}
+                if not info.get("hasNextPage"):
+                    break
+                cursor = info.get("endCursor")
+                if not cursor or cursor in seen:
+                    err = "cursor repeated"; break
+                seen.add(cursor)
+                if pages > 40:
+                    err = "runaway"; break
+        except SystemExit as e:
+            err = str(e)[:60]
+        ok = "OK" if (total is not None and n == total) else "SHORT"
+        print(f"{label:46s} {n:>8d}  {pages:>5d}  {ok}{' -- ' + err if err else ''}")
+    print("\nUse the first variant marked OK. If none is OK, raise --page-size and re-run.")
 
 
 def fetch_total():
@@ -226,6 +289,8 @@ def main():
                     help=f"GraphQL page size (default {PAGE_SIZE})")
     ap.add_argument("--expect", type=int, default=None,
                     help="fail unless exactly N people are fetched -- a second, independent gate on top of totalCount")
+    ap.add_argument("--probe", action="store_true",
+                    help="try every query variant and print what each returns, then exit")
     ap.add_argument("--include-test", action="store_true",
                     help="do not filter out coach+/test/prueba records")
     args = ap.parse_args()
@@ -233,6 +298,10 @@ def main():
     API_KEY = load_api_key()
     if not API_KEY:
         sys.exit("No TWENTY_API_KEY (env, /root/.hermes/.env or /opt/data/.env).")
+
+    if args.probe:
+        probe(args.page_size)
+        return
 
     people = fetch_people(args.page_size, args.expect)
     members = fetch_members(args.members_file)
