@@ -390,6 +390,63 @@ def grant(no_access, only, apply_it):
     print("No email is sent by this script. Send the password yourself.")
 
 
+# ---------------------------------------------------------------------------
+# --roster: the token roster with real names on it, joined from Twenty.
+#
+# Added September 5, 2026, replacing a hand-written query that selected `token`
+# alongside email, language and access counts. THE TOKEN COLUMN IS DELIBERATELY
+# ABSENT and is not coming back: a roster carrying names AND working passwords
+# is strictly worse than either alone, and this exact query is the one that has
+# put the whole table into a chat transcript three times in three days
+# (schema.sql's header, OPERATIONS.md section 2). Pull ONE token, at the moment
+# you send it, with OPERATIONS.md section 3.
+#
+# The join is on lowercased email because that is the only key the two systems
+# share -- subscriber_tokens.twenty_person_id exists but is 'QA-FIXTURE' on the
+# three permanent test rows and was never backfilled everywhere else.
+# ---------------------------------------------------------------------------
+ROSTER_SQL = ("SELECT lower(trim(email)), preferred_language, active, "
+              "coalesce(access_count,0), coalesce(to_char(last_accessed_at,'YYYY-MM-DD'),'never'), "
+              "to_char(created_at,'YYYY-MM-DD') "
+              "FROM token_roster WHERE active IS TRUE ORDER BY created_at DESC;")
+
+
+def roster(people):
+    by_email = {}
+    for p in people:
+        e = ((p.get("emails") or {}).get("primaryEmail") or "").strip().lower()
+        if e:
+            by_email[e] = p
+    raw = psql(ROSTER_SQL)
+    rows, unmatched = [], 0
+    for line in raw.splitlines():
+        if not line.strip():
+            continue
+        email, lang, active, cnt, last, created = (line.split("|") + [""] * 6)[:6]
+        p = by_email.get(email)
+        if p:
+            n = p.get("name") or {}
+            first, last_name = (n.get("firstName") or ""), (n.get("lastName") or "")
+            ctype = p.get("customerType") or "-"
+        else:
+            first, last_name, ctype = "", "", "NOT IN TWENTY"
+            unmatched += 1
+        rows.append((email, first, last_name, lang, cnt, last, created, ctype))
+
+    print(f"{'email':40s} {'first':14s} {'surname':18s} {'lang':11s} "
+          f"{'uses':>4s} {'last seen':11s} {'created':11s} type")
+    print("-" * 128)
+    for r in rows:
+        print(f"{r[0]:40s} {r[1]:14s} {r[2]:18s} {r[3]:11s} "
+              f"{r[4]:>4s} {r[5]:11s} {r[6]:11s} {r[7]}")
+    never = sum(1 for r in rows if r[4] == "0")
+    print(f"\n{len(rows)} active tokens. {never} have never logged in.")
+    if unmatched:
+        print(f"{unmatched} hold a token and have NO Person in Twenty -- "
+              f"QA fixtures are expected here; anyone else is worth a look.")
+    print("\nNo token column, on purpose. One at a time, OPERATIONS.md section 3.")
+
+
 def is_test(email):
     e = (email or "").lower()
     return any(m in e for m in TEST_EMAIL_MARKERS)
@@ -405,6 +462,9 @@ def main():
                     help=f"GraphQL page size (default {PAGE_SIZE})")
     ap.add_argument("--expect", type=int, default=None,
                     help="fail unless exactly N people are fetched -- a second, independent gate on top of totalCount")
+    ap.add_argument("--roster", action="store_true",
+                    help="print the active-token roster with names from Twenty "
+                         "(never tokens), then exit")
     ap.add_argument("--only", default=None, metavar="EMAILS",
                     help="grant tokens to these comma-separated addresses "
                          "(must appear in the PAYING-NO-ACCESS list)")
@@ -428,6 +488,10 @@ def main():
         return
 
     people = fetch_people(args.page_size, args.expect)
+
+    if args.roster:
+        roster(people)
+        return
     members = fetch_members(args.members_file)
     member_map = {e: (lang, cnt) for e, lang, cnt in members if e}
     member_emails = set(member_map)
