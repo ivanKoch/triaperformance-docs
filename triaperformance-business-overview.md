@@ -1,6 +1,6 @@
 # Triaperformance — Business & Financial Overview
 
-*Last updated: **August 14, 2026** (status audit — catalogue count corrected in three places; All-Access subscriber count flagged unverified). Previously August 10, 2026.* *Update this file whenever the numbers move — every other document assumes this one is current.*
+*Last updated: **September 5, 2026** (§Revenue history added — `data/revenue_history.csv`, the first all-time revenue series in the repo). Previously August 14, 2026 (status audit — catalogue count corrected in three places; All-Access subscriber count flagged unverified). Previously August 10, 2026.* *Update this file whenever the numbers move — every other document assumes this one is current.*
 
 ## What Triaperformance is
 *Plan-sales figures are owned by `training-plans-analysis.md` (regenerated Aug 6, 2026 from the full TrainingPeaks export): 507 transactions since Jan 2023, $20,897 gross, $14,334 earnings, 2026 tracking to a record ~$6,800 on flat unit volume.*
@@ -34,6 +34,29 @@ A triathlon and running coaching business, founded roughly three years ago, run 
 **Target:** $5,000+/month.
 
 **Trend context:** February 2026 total was $4,862 (CoachMatch $3,311 / Private $799 / Plans $752) — a period of active full-time coaching alongside a demanding job. June's mix shift (Plans growing while CoachMatch and Private declined) reflects several months of deliberate maintenance mode, not a structural problem with those channels. CoachMatch specifically may already be inflecting: recent acquisitions have consistently landed at the higher $149 price point.
+
+## Revenue history — the growth curve
+
+***Owner of every figure below: `data/revenue_history.csv`*** *(44 months × 3 channels, net earnings after TrainingPeaks commission; exported from TrainingPeaks' own payout history by Iván, September 5, 2026).* **This section owns the historical series and nothing else — current-month athlete counts, MRR, margin and churn stay owned by the latest `monthly-close/YYYY-MM.md`.** *The boundary is the point: a growth curve is durable history and does not go stale; a headcount does.*
+
+| Year | Coaching 1:1 | Marketplace plans | All-Access | Total | YoY |
+|---|---|---|---|---|---|
+| 2023 | $504 | $846 | — | **$1,350** | — |
+| 2024 | $6,618 | $3,821 | — | **$10,440** | **+673%** |
+| 2025 | $31,223 | $5,846 | — | **$37,070** | **+255%** |
+| 2026 (Jan–Aug, complete months) | $27,736 | $4,333 | $444 | **$32,542** | 88% of 2025 full year |
+
+**All-time: $84,240.**
+
+⚠️ ***Ownership boundary, stated so this does not become a second copy:*** *the `marketplace_plans` column here is the TrainingPeaks **payout roll-up** by month.* **`training-plans-analysis.md` still owns every plan-sales figure** *(units, per-plan return, language split, repeat purchase) from `data/plan_sales.csv` at transaction level.* *If the two ever disagree, the transaction file wins and this one is the one to re-export — a payout total is a settlement date, a sale is a purchase date, and they do not fall in the same month at the edges.*
+
+**Three things this file settles that nothing else in the repo could:**
+
+1. **The 670% claim is real, and the conservative half of it was wrong.** *`linkedin-positioning.md` removed it on September 4 as unsourceable.* **Year two grew 673%, and year three passed year two's full-year total in FIVE months, not the seven the old copy claimed** *(cumulative 2025 crossed $10,440 in May, at $12,429).*
+2. **The business changed shape, not just size.** *Revenue mix by year — coaching share of total:* **2023 37% → 2024 63% → 2025 84% → 2026 86%.** *It started as a plan storefront with a coaching side-line and inverted completely. Marketplace earnings have never fallen; they have been outgrown.*
+3. 🚨 **The retention drop is visible in the revenue, not only in the roster, and it is the clearest picture of it anywhere in this repo.** *Coaching peaked at* **$4,119 in February 2026** *and has fallen every month since to* **$3,196 in August — −22.4% over six months**, *matching `tenure-analysis.md`'s 53 → 37 athletes / −21% MRR from an entirely independent source.* **Two files, two methods, the same number.** *That is the strongest evidence the "retention or acquisition" decision has, and it is now sitting in the series rather than in an analysis.*
+
+⚠️ *Do not annualise `2026-09` — it is a partial month (exported Sept 5) and the marketplace column reads $0 because nothing had settled yet, not because sales stopped.* ⚠️ *Marketplace earnings dropped to **$302** in July and **$212** in August from a **$847** June peak. That is a two-month move on a noisy line, not a trend — but it is the line `training-plans-analysis.md` owns, and it should be looked at there before the September close reads it as one.*
 
 ## Existing assets (built, under-distributed)
 
