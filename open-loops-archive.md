@@ -8,6 +8,36 @@
 
 ---
 
+## Closed — September 5, 2026 (the members-library email paragraph) — *and the paste file that decayed in the drawer*
+
+**Pasted live by Iván and mirrored into `automation/subscription-lifecycle-automation.json`.** Ten edits across two Code nodes: `Build All-Access Welcome` (7) and `Build Welcome Email` (3). Every find-string was checked as unique against the node source before he touched n8n, so each was a single safe replace.
+
+**What actually shipped:** both emails gained a first step — *"start with the zones calculator, everything else rests on having your zones right"* — because a subscriber previously got a password, a link, and nothing telling them where to begin. *That is the difference between "I have access" and "I used it", and it was the entire point of the item.*
+
+🚨 ***The item could not be executed as written, and the reason is the part worth keeping.*** *`automation/members-library-email-paste.txt`, drafted August 13, printed this in capitals:*
+
+> *** emails name CATEGORIES and ONE durable starting point. They never name the current line-up. ***
+
+***…and then enumerated seven tools directly underneath it.*** **By September 5 that list was missing seven of the fifteen live ES tools in `site/_data/library.json`** — Movilidad, Recuperación, Hombro de Nadador, Core de Ciclista, Core de Corredor, Configurar tu Garmin, Carga de Entrenamiento.
+
+🔑 ***It decayed in the drawer, and that is a different failure from the one this project keeps cataloguing.*** *The three All-Access sales pages decayed **in production**, selling "flexibility, kettlebell, fixing lower back pain" months after none existed — and the fix was to generate them from `library.json`, which worked.* **This one was never sent, never seen by a customer, and rotted anyway — in three weeks, sitting in a file, waiting to be pasted.** *An unexecuted item is not inert: it holds a snapshot of the world on the day it was written, and the longer it waits the more confidently wrong it gets. **The queue is not a safe place to store a fact.*** *And the specific trap is that a paste file reads as finished work — it is formatted as instructions, so the natural move is to execute it, not to re-derive it.*
+
+💡 ***The rule the file stated was right; the copy underneath it was the violation.*** *An email cannot generate from `library.json` the way the sales pages do, so the only safe design is not to enumerate at all. The rewrite is category-only — "las calculadoras, las rutinas y las guías" — plus one durable starting point. **It never needs re-pasting, whatever ships next.*** *The rule now also lives in `ai-infrastructure-documentation.md` §13, beside the nodes it governs, rather than only inside a paste file that was always going to be retired.*
+
+⚠️ ***Scope grew by one bounded thing, and it was the right call rather than scope creep.*** *`Build All-Access Welcome` was voseo; `Build Welcome Email` was already tuteo. They had disagreed with each other since August, and the September 4 decision standardised to tuteo.* **Dropping a new tuteo sentence into a voseo email would have produced exactly the mixed-register line the marketing pass had already paid to fix** — *`vos eliges y ejecutás`, `Suscríbete y accedé`.* *Six markers in one node, converted in the same paste, verified zero remaining in the mirrored copy.*
+
+*One incidental catch, recorded because it is the same class of error:* **the August draft wrote `Empeza`, which is neither register** — *it is ASCII-stripped voseo, produced by applying that node's no-accents convention to `Empezá` without noticing the node was tuteo.* **It is `Empieza`.** *A convention applied mechanically across a register boundary makes a word that exists in no dialect.*
+
+🗑️ *`automation/members-library-email-paste.txt` is retired to `_to_delete/` in the same session it was executed — the second paste file retired today for the same reason. **A paste file is a one-shot instruction, and a one-shot instruction left in `automation/` is indistinguishable from a pending one.*** *That is precisely how this one got pasted-in-spirit three weeks late and nearly shipped a stale tool list.*
+
+**Left open, deliberately, and moved rather than kept here:** *the last voseo line in the transactional emails —* `Build Resend Email`'s `Si no fuiste vos, ignorá este email` *— now sits on the tuteo item in `open-loops.md`, which owns register.* ⚠️ **All three Spanish email bodies live inside n8n Code nodes and are invisible to any `site/` grep** — *a register sweep over the repo will never find them, which is why they are named explicitly on that item.*
+
+*Original item, retained:*
+
+> - [ ] **Iván to paste the two email paragraphs** in `automation/members-library-email-paste.txt` — nodes `Build All-Access Welcome` and `Build Welcome Email` in `subscription-lifecycle-automation.json`, three languages each. *Small change on purpose:* the emails never decayed because they never named a tool, and the point is to keep it that way. The only addition is a first step — a subscriber currently gets a password and a link and nothing telling them where to start. 🚨 ***The paste file was REWRITTEN September 5, 2026 and the August 13 copy must not be pasted.*** *It broke its own stated rule: it printed "emails name CATEGORIES and ONE durable starting point, never the current line-up" in capitals and then enumerated seven tools underneath. By September 5 that list was missing seven of the 15 live ES tools in `library.json` — Movilidad, Recuperación, Hombro, Core Ciclista, Core Corredor, Garmin, Carga.* **It decayed in the drawer in three weeks without ever being sent, which is the same failure that forced the three All-Access sales pages to be rebuilt.** *The rewrite is category-only plus one durable starting point, so it never needs re-pasting.* **Scope grew by one bounded thing, Iván's call:** `Build All-Access Welcome`'s Spanish is voseo while `Build Welcome Email`'s is already tuteo, so the six voseo markers in node 1 are converted in the same paste — a new tuteo sentence dropped into a voseo email is the mixed-register bug the marketing pass already paid for. *That closes the All-Access welcome email's share of the tuteo item above.* **Tell me once pasted and I mirror both into the repo copy.**
+
+---
+
 ## Closed — September 5, 2026 (resend-password email, ES/EN/PT) — *the build had been live for weeks and the item never checked*
 
 **Verified live by Iván**, three real recovery requests through the production webhook using `coach+qa-es`, `coach+qa-en` and `coach+qa-pt`. Portuguese and English both arrived correct, each with its own language's login URL and its own paragraph breaks. *Tokens were redacted out of the transcript — worth recording, because pasting the table into a chat is the failure this project has already had three times.*
