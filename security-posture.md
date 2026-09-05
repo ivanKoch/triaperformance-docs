@@ -166,7 +166,7 @@ Two separate things in `automation/members-area/auth_service/app.py`:
 
 ### Tier 3 — real, low priority
 
-**F8. The tracking pixel is an unauthenticated, publicly discoverable, billable endpoint.**
+**F8. The tracking pixel is an unauthenticated, publicly discoverable, billable endpoint.** 🚨 ***Reclassified September 5, 2026: this is a DATA-INTEGRITY finding, not a cost one, and it has been exploited four times.*** *2025-11-24 (×2), 2026-03-14 and 2026-08-31 — bursts of 324–1,008 requests against the bare root in 16–90 seconds, three of the four running one pinned `okhttp/3.14.9`. The August burst landed **the day before monthly close #1 read the table** and inflated the reported plan-view figure by 83%.* **The Tier 3 rating below is about the GCP bill, and a budget alert would not have caught any of the four — the spend is trivial and the corrupted metric was not.** *Read-side fix live in `automation/analytics/schema_plan_views.sql`; the collection-side fix is folded into the `plan-tracker-bigquery` runtime item in `open-loops.md`.* ⚠️ **The paragraph below called this exactly right in advance — "filters bots by user-agent, which an abuser would not cooperate with" — and it was written into a Tier 3 finding, where nobody acted on it.**
 *[repo-confirmed]*
 
 `automation/pixel-tracker/main.py` is a GCP Cloud Function that writes a row to BigQuery for

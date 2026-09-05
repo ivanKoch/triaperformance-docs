@@ -937,3 +937,43 @@ This file replaces the open-item lists previously scattered across `ai-infrastru
 
 - ✅ **"The writer agent is still inventing internal links"** — *fixed at the source, not by wiring the JS test into the publish path as this note proposed.* **`check_links()` runs inside `writer_agent.validate()`**, so an invented URL is rejected before a human ever reviews the draft — earlier than the build gate, and it covers the translator path too. See the main closing note below.
 - ✅ **The `_site` staleness trap** — *this note was right, and it cost time again the same day: the test reported 4/4 green against a build predating five live dead anchors.* **`internal-links.test.js` now refuses to run when `_site/` is older than `site/`** rather than answering confidently about bytes nobody is serving. ⚠️ ***That is the general shape of the bug and it is worth carrying forward: a guard reading a stale artifact does not fail, it lies.***
+
+
+---
+
+## Closed September 5, 2026 — the pixel `plan_id` gap
+
+- [x] ~~**36% of marketplace plan views (1,055 of 2,930) carry no `plan_id` — a collection gap, not free to fix.**~~
+  **CLOSED September 5, 2026. It was not a collection gap and it was free to fix.** *Of the 1,055 rows, **zero** carried a
+  `price` and **zero** carried a trainingpeaks.com referrer, against 99.0% and ~71% for rows with a real `plan_id`.
+  The query string was not partially lost — it was absent, so the request hit the bare Cloud Run root and was never
+  on a listing. **Nine IPs produced all 1,055; one sent 1,008 of them in 90 seconds on 2026-08-31**, the day before
+  close #1 read the table. Four such floods exist (2025-11-24 ×2, 2026-03-14, 2026-08-31), three running one pinned
+  `okhttp/3.14.9`.*
+
+  🚨 ***The belief worth preserving, because it is what kept this closed for four days: the September 2 note
+  declaring the GA4 pairing "disproved" was itself the error.*** *It read: "the GA4 half closed as a **reading** bug…
+  This half is a **collection** gap… one was free to fix and this one is not." **Both were reading bugs.** The
+  pairing made in close #1 was right, and the note retiring it was wrong — and because the note sounded like a
+  finding rather than a guess, nobody re-tested it. **The classification was reached by elimination and never
+  segmented; one `GROUP BY` would have settled it on day one.**
+
+  **Second lesson, and the more general one:** *`plan_views_clean` tested whether a request would **admit** to being
+  a bot (`user_agent LIKE '%bot%'`) and reported the answer as validity. A spoofed Chrome string defeats that
+  entirely — and `security-posture.md` F8 had predicted it in writing, in a Tier 3 finding nobody acted on. The
+  structural test — a plan view names a plan — was available all along and costs one predicate.*
+
+  **Four further defects surfaced in the same view, and the fifth explains why all four survived: it had never been
+  in the repo.** *Catalogue sweeps counted as demand (14.3% of August); two of three personal IPs never excluded
+  despite `open-loops.md` #2 claiming otherwise; `~~` is case-sensitive so `AhrefsBot` and `SemrushBot` sailed past
+  `%bot%`; and NULL IP/UA rows were silently dropped by three-valued logic. Definition now lives at
+  `automation/analytics/schema_plan_views.sql`.*
+
+  ***Corrected figures:*** **August 2026 marketplace plan views are `1,604`, not `2,930` — 83% high.**
+  *Nov 2025 → 1,164 · Mar 2026 → 1,663 · Jun 2026 → 2,708. `monthly-close/2026-08.md` and its metrics CSV corrected
+  the same day; `triaperformance-growth-roadmap.md`'s median-views and view→purchase figures struck pending
+  re-derivation.*
+
+  ***Still open, in `open-loops.md`:*** *the collection-side fix (folded into the `plan-tracker-bigquery` runtime
+  item, and blocked on whether the deployed source is the repo copy), and `audit-runtime-paths.sh`'s blindness to
+  database objects.*

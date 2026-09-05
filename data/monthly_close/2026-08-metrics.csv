@@ -16,7 +16,7 @@ Plan sales — units,8,count,2026-08,data/plan_sales.csv,M,claude,
 Plan sales — gross ex-tax,302.95,USD,2026-08,data/plan_sales.csv,M,claude,
 Plan sales — earnings,212.05,USD,2026-08,data/plan_sales.csv,M,claude,
 Plan sales — marketplace take,30.00%,pct,2026-08,data/plan_sales.csv,M,claude,flat; the historic 28.6-29.7% band was a tax artifact
-Marketplace plan views,2930,count,2026-08,plan_views_clean,M,claude,36% carry no plan_id
+Marketplace plan views,1604,count,2026-08,plan_views_clean,M,claude,"Corrected 2026-09-05: was 2930. A 1,008-request flood on 08-31 plus 268 catalogue-sweep views; see monthly-close/2026-08.md"
 Marketplace plans viewed,299,count,2026-08,plan_views_clean,M,claude,of 328 in catalogue
 Total operating costs,245.25,USD,2026-08,2026-08-pnl.csv,M,claude,
 Cost of goods sold,22.36,USD,2026-08,2026-08-pnl.csv,M,claude,
