@@ -37,11 +37,18 @@ For an artifact named `<tool>` (e.g. `activacion`):
    - Self-contained: loads on top of `site.css` only. **Do not include `members.css`** in `pageCss` — that file styles the light content pages and will fight the dark theme.
    - Start from `members-activacion.css`: dark `:root` tokens (§7.1), the dark overrides for `.site-nav-sticky`/`.logo`/nav links/mobile slide-out/`footer`, then the tool's own component styles.
    - **Same tool type = same stylesheet.** A variant of an existing tool (e.g. the cycling activation reusing the running activation's exact component set) points its `pageCss` at the existing file instead of duplicating it. Only fork the CSS when the new tool actually has new components.
-3. **Card on the members home** — `site/members/index.njk`, `#card-grid`:
-   - Add a `.card` with `data-category="<category>"`, a `.tag` (Guía / Rutina / Calculadora / Playbook), an `<h3>`, one-sentence description, `card-link` to `/members/<tool>/`.
-   - If it's a new category, add a chip to `#filters` (`data-filter` must match `data-category`). Reuse an existing category when honest.
+3. **`site/_data/library.json`** — the card, the sales copy and the members-home entry, all from one edit.
+   *(Corrected September 5, 2026. This step used to say "add a `.card` to `site/members/index.njk` `#card-grid`" and "add a chip to `#filters`". Both were superseded on September 4, when `partials/members-library.njk` replaced the three hand-written card grids and the six filter chips became three category headings — the three home pages no longer contain a card grid to edit.)*
+   - Add the entry to the `live` array of **every language the page actually exists in**, with `key`, `name`, `tag`, `desc`, `memberUrl`, `memberDesc`, `memberCta`, `category` and `gated`. A language whose page does not exist yet goes in `soon`, never in `live` — that rule is what the mis-selling checks enforce.
+   - `categoryCounts` must be updated for the category you added to, or the group renders empty.
 
-Free — do NOT rebuild per artifact: auth (Caddy `forward_auth` gates `/members/*` by wildcard), GA4 + Clarity + conversion tracker (`base.njk`), `noindex` + sitemap exclusion (`members.json`), hreflang (off while `noindex`).
+4. 🆕 **`site/_data/workoutLinks.json`** — the `/w/` code, so the tool can be linked from a TrainingPeaks workout.
+   - At minimum one bare code: `{ "code": "<tool>", "tool": "<library key>", "slot": "genérico" }`. Add context variants (`-pre`, `-post`, `-run`, `-bike`, `-swim`, `-vo2`, `-umbral`, `-semana`) for the workout types the tool actually belongs in.
+   - **The registry holds a library key, never a URL.** The destination is resolved per athlete from `library.json`, in that athlete's own language — which is why step 3 comes first and why there is no second inventory of paths to keep in sync.
+   - ***This step is not optional and the build enforces it.*** `tests/workout-links.test.js` fails when a live gated tool has no code. **That assertion exists because the inventory-row step has been skipped three times in eleven days** — `cyclistcore` (Aug 24), `strength` (Sep 2), `hombro` (Sep 3) — *always found later by an audit, never at ship time.* **A check that runs on every build is the version of that step nobody has to remember.**
+   - Once built, the copyable link appears on **`/admin/enlaces/`** (single-user basic_auth, same credential as `/admin/*`) as `https://triaperformance.com/w/<code>`, with a per-language coverage badge so a code that only resolves in Spanish is visible *before* it gets pasted into an English athlete's workout.
+
+Free — do NOT rebuild per artifact: auth (Caddy `forward_auth` gates `/members/*` by wildcard), GA4 + Clarity + conversion tracker (`base.njk`), `noindex` + sitemap exclusion (`members.json`), hreflang (off while `noindex`), **per-athlete usage logging** (`/members/check` writes one `member_access_log` row per page load — the tool is measured per athlete from the moment it ships, with nothing to instrument).
 
 ## Phase 3 — Verify (before commit)
 
@@ -53,6 +60,7 @@ grep -c 'gtag/js?id=\|clarity.ms/tag' _site/members/<tool>/index.html   # expect
 grep -n 'noindex' _site/members/<tool>/index.html                        # expect the robots meta
 grep -c '<tool>' _site/sitemap.xml                                       # expect 0
 grep -c '{% raw' _site/members/<tool>/index.html                         # expect 0 (raw tags consumed)
+node tests/workout-links.test.js                                         # every live tool has a /w/ code
 ```
 
 Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card + filter chip on `/members/`, mobile width.
@@ -61,7 +69,8 @@ Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card
 
 1. `git add -A && git commit && git push` — VPS cron pull deploys (or trigger `deploy-website.sh` manually, see `deploy-runbook.md`).
 2. Spot-check live behind a real login: `/members/<tool>/` loads, gate intact (open in a private window → login page).
-3. Claude updates the docs same session: `ai-infrastructure-documentation.md` (dated note), `open-loops.md`, and this file's "Published artifacts" list below.
+3. Spot-check the workout link: open `https://triaperformance.com/w/<code>` in the same session and confirm it lands on the tool, then check the row arrived — `SELECT * FROM workout_link_clicks WHERE link_code = '<code>';` (`automation/members-area/OPERATIONS.md` §5).
+4. Claude updates the docs same session: `ai-infrastructure-documentation.md` (dated note), `open-loops.md`, and this file's "Published artifacts" list below.
 
 ## Design rules recap
 

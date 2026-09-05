@@ -1,0 +1,94 @@
+/* /admin/enlaces/ — the workout-link library. Added September 5, 2026.
+ *
+ * EVERY selector here is scoped to .adm-* on purpose. The open item about
+ * page-scoped stylesheets using bare element selectors (h2, table, code) is a
+ * live, three-instance class in this repo: a bare rule restyles every shared
+ * partial the page includes, and the damage shows up on the partial rather than
+ * near the rule that caused it. Nothing below can leave this page.
+ */
+
+.adm-hero { background: var(--wash); padding: 56px 0 40px; }
+.adm-hero .label {
+  display: inline-block; font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--blue); font-weight: 700; margin-bottom: 8px;
+}
+.adm-hero h1 { font-size: 34px; line-height: 1.2; margin-bottom: 12px; }
+.adm-hero p { max-width: 62ch; color: var(--slate); }
+.adm-hero em { color: var(--ink); font-style: normal; font-weight: 600; }
+
+.adm-wrap { padding: 40px 24px 96px; }
+
+.adm-rules, .adm-warn, .adm-group, .adm-foot { margin-bottom: 40px; }
+
+.adm-rules h2, .adm-warn h2, .adm-group h2, .adm-foot h2 {
+  font-size: 18px; margin-bottom: 12px;
+}
+.adm-rules ol { padding-left: 20px; }
+.adm-rules li { margin-bottom: 10px; max-width: 78ch; color: var(--slate); }
+.adm-rules li strong { color: var(--ink); }
+
+.adm-warn {
+  border: 1px solid #d9534f; border-left-width: 4px;
+  background: #fdf3f3; padding: 16px 20px; border-radius: 4px;
+}
+.adm-warn ul { margin: 8px 0 0 20px; }
+
+.adm-group h2 {
+  padding-bottom: 8px; border-bottom: 2px solid var(--mist);
+}
+
+/* The table scrolls inside its own box rather than pushing the page sideways —
+   this page is read on a laptop next to a TrainingPeaks window, often narrow. */
+.adm-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+  display: block; overflow-x: auto;
+}
+.adm-table thead th {
+  text-align: left; font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--slate); font-weight: 600;
+  padding: 6px 12px 6px 0; border-bottom: 1px solid var(--mist); white-space: nowrap;
+}
+.adm-table tbody td {
+  padding: 10px 12px 10px 0; border-bottom: 1px solid var(--mist);
+  vertical-align: top;
+}
+.adm-table tbody tr:hover { background: var(--wash); }
+
+.adm-url code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px; color: var(--blue-deep); white-space: nowrap;
+}
+.adm-slot { color: var(--slate); white-space: nowrap; }
+.adm-note { display: block; font-size: 12px; color: var(--slate); opacity: .8; white-space: normal; max-width: 34ch; }
+
+.adm-langs { white-space: nowrap; }
+.adm-lang {
+  display: inline-block; min-width: 26px; text-align: center;
+  font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  padding: 2px 5px; margin-right: 3px; border-radius: 3px;
+  background: var(--blue); color: var(--white); cursor: help;
+}
+.adm-lang.is-off { background: var(--mist); color: var(--slate); }
+.adm-table tbody tr.is-partial .adm-url code { color: var(--ink); }
+
+.adm-copy { text-align: right; }
+.adm-copy .btn-copy {
+  font: inherit; font-size: 12px; font-weight: 600;
+  padding: 5px 12px; border: 1px solid var(--blue); border-radius: 3px;
+  background: var(--white); color: var(--blue); cursor: pointer; white-space: nowrap;
+}
+.adm-copy .btn-copy:hover { background: var(--blue); color: var(--white); }
+
+.adm-foot { border-top: 2px solid var(--mist); padding-top: 24px; }
+.adm-foot p { max-width: 78ch; color: var(--slate); margin-bottom: 10px; }
+.adm-muted { font-size: 13px; opacity: .85; }
+
+.adm-rules code, .adm-warn code, .adm-foot code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: .92em; background: var(--wash); padding: 1px 5px; border-radius: 3px;
+}
+
+@media (max-width: 640px) {
+  .adm-hero h1 { font-size: 26px; }
+  .adm-note { display: none; }
+}

@@ -58,3 +58,116 @@ SELECT id,
        created_at,
        revoked_at
 FROM subscriber_tokens;
+
+-- ---------------------------------------------------------------------------
+-- member_access_log — one row per event, replacing the single mutable counter.
+-- Added September 5, 2026.
+--
+-- WHY: `subscriber_tokens.access_count` answers "has this person ever opened
+-- the members area" and nothing else. It cannot distinguish "8 have ever logged
+-- in" from "8 users in August" (monthly-close/2026-08.md §Known gaps), and it
+-- cannot answer the question the members-area announcement is about to raise:
+-- WHICH tool did WHICH athlete open. This table answers both, and it does it
+-- server-side from data Caddy already forwards -- no GA4 User-ID, no client JS,
+-- nothing an ad blocker can drop.
+--
+-- 🚨 THE TOKEN STRING IS DELIBERATELY NOT IN THIS TABLE. It stores
+-- `token_id` (FK) only. Same reasoning as the `token_roster` view above, and
+-- the same failure it was built for: the query people actually type is
+-- `SELECT *`, and a log gets read far more often than a roster does. A token is
+-- a working password into paid content; it belongs in exactly one table.
+--
+-- Grain is PAGE-level, not interaction-level: it records that an athlete opened
+-- /members/rodillas/, not that they ran a routine. That is a deliberate v1
+-- scope (Iván, September 5, 2026) -- against a baseline of 2 of ~35 athletes
+-- ever logging in, "opened it at all" is the whole question.
+-- ---------------------------------------------------------------------------
+
+-- Excludes a person from usage metrics by WHO THEY ARE rather than by network.
+-- Added with this table for the Bogotá tester and Iván's own tokens: no IP rule
+-- reaches a phone on someone else's wifi, and a cookie-bound device list drifts
+-- (see open-loops.md, the internal-traffic item closed September 4, 2026).
+ALTER TABLE subscriber_tokens
+    ADD COLUMN IF NOT EXISTS excluded_from_metrics BOOLEAN NOT NULL DEFAULT FALSE;
+
+CREATE TABLE IF NOT EXISTS member_access_log (
+    id          BIGSERIAL PRIMARY KEY,
+    occurred_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    event_type  TEXT        NOT NULL,          -- 'page' | 'link'
+    token_id    INTEGER     REFERENCES subscriber_tokens (id),  -- NULL = anonymous /w/ click
+    path        TEXT        NOT NULL,          -- the page opened, or the /w/ code path
+    link_code   TEXT,                          -- 'link' events only, e.g. 'activacion-run'
+    link_slot   TEXT,                          -- 'link' events only, the workout context
+    destination TEXT,                          -- 'link' events only, where the 302 sent them
+    CONSTRAINT member_access_log_event_type_chk
+        CHECK (event_type IN ('page', 'link'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_member_access_log_token_time
+    ON member_access_log (token_id, occurred_at DESC);
+CREATE INDEX IF NOT EXISTS idx_member_access_log_time
+    ON member_access_log (occurred_at DESC);
+CREATE INDEX IF NOT EXISTS idx_member_access_log_code
+    ON member_access_log (link_code) WHERE link_code IS NOT NULL;
+
+-- ---------------------------------------------------------------------------
+-- member_activity — the readable join. Tokenless, like token_roster, and for
+-- the same reason. Use this for anything person-shaped; query the base table
+-- only when you need a column this view does not carry.
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE VIEW member_activity AS
+SELECT l.id,
+       l.occurred_at,
+       l.event_type,
+       t.email,
+       t.twenty_person_id,
+       t.preferred_language,
+       t.excluded_from_metrics,
+       l.path,
+       l.link_code,
+       l.link_slot,
+       l.destination
+FROM member_access_log l
+LEFT JOIN subscriber_tokens t ON t.id = l.token_id;
+
+-- ---------------------------------------------------------------------------
+-- member_tool_usage — "which athlete used which tool", which is the whole point.
+-- One row per athlete per page, with first/last touch and a visit count.
+-- Excluded tokens are dropped here rather than in every ad-hoc query.
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE VIEW member_tool_usage AS
+SELECT t.email,
+       t.preferred_language,
+       l.path,
+       count(*)             AS visits,
+       min(l.occurred_at)   AS first_seen,
+       max(l.occurred_at)   AS last_seen
+FROM member_access_log l
+JOIN subscriber_tokens t ON t.id = l.token_id
+WHERE l.event_type = 'page'
+  AND t.excluded_from_metrics = FALSE
+GROUP BY t.email, t.preferred_language, l.path;
+
+-- ---------------------------------------------------------------------------
+-- workout_link_clicks — the TrainingPeaks channel, by code.
+-- `athletes` counts identified clickers; `anonymous_clicks` are clicks with no
+-- members cookie, which is the population the old UTM plan could never see:
+-- an athlete who clicks from a workout, meets the login wall and stops.
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE VIEW workout_link_clicks AS
+SELECT l.link_code,
+       l.link_slot,
+       count(*)                                              AS clicks,
+       count(DISTINCT l.token_id)                            AS athletes,
+       count(*) FILTER (WHERE l.token_id IS NULL)            AS anonymous_clicks,
+       min(l.occurred_at)                                    AS first_click,
+       max(l.occurred_at)                                    AS last_click
+FROM member_access_log l
+LEFT JOIN subscriber_tokens t ON t.id = l.token_id
+WHERE l.event_type = 'link'
+  AND COALESCE(t.excluded_from_metrics, FALSE) = FALSE
+GROUP BY l.link_code, l.link_slot;
+
+-- Retention: none. ~35 athletes at a handful of page views each is a few
+-- thousand rows a year. Revisit if it ever reaches a scale where that is a
+-- sentence anyone has to think about.

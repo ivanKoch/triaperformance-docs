@@ -1,25 +1,37 @@
 """
-Tiny auth-check + login service for the /members/ area.
+Tiny auth-check + login service for the /members/ area, plus the /w/ workout-link
+redirector.
 
 Not public-facing on its own -- only ever called by Caddy on the same VPS
-(forward_auth for /members/check, reverse_proxy for the login/logout POSTs).
-Bind to 127.0.0.1 only, same "own lane, local-only" pattern as everything else
-on this box.
+(forward_auth for /members/check, reverse_proxy for the login/logout POSTs and
+for /w/*). Bind to 127.0.0.1 only, same "own lane, local-only" pattern as
+everything else on this box.
 
 Env vars required:
-  MEMBERS_DB_DSN   e.g. "host=127.0.0.1 port=5432 dbname=members user=... password=..."
-                   Must resolve to the same analytics-postgres container that
-                   already holds the pixel/storefront tables -- test connectivity
-                   from inside this container before assuming it works.
+  MEMBERS_DB_DSN     e.g. "host=127.0.0.1 port=5432 dbname=members user=... password=..."
+                     Must resolve to the same analytics-postgres container that
+                     already holds the pixel/storefront tables -- test connectivity
+                     from inside this container before assuming it works.
+  MEMBERS_DATA_DIR   Directory holding library.json and workoutLinks.json, mounted
+                     read-only from the repo clone on the VPS
+                     ($HOME/.hermes/triaperformance-docs/site/_data). Defaults to
+                     /app/data. Both files are re-read when their mtime changes,
+                     so `git pull` publishes a new link with no restart and no
+                     image rebuild -- the same reason every VPS script runs from
+                     the repo rather than from a copy on the box.
 """
 
+import json
 import os
+import time
+
 from flask import Flask, request, redirect, make_response
 import psycopg2
 
 app = Flask(__name__)
 
 DB_DSN = os.environ["MEMBERS_DB_DSN"]
+DATA_DIR = os.environ.get("MEMBERS_DATA_DIR", "/app/data")
 COOKIE_NAME = "members_token"
 COOKIE_MAX_AGE = 60 * 60 * 24 * 365  # 1 year
 
@@ -45,6 +57,9 @@ LANG_HOME = {
     "PORTUGUESE": "/members/pt/",
 }
 DEFAULT_HOME = "/members/"
+
+# DB enum -> the two-letter key library.json is stored under.
+LANG_CODE = {"SPANISH": "es", "ENGLISH": "en", "PORTUGUESE": "pt"}
 
 # Where to send someone back to when a login FAILS, or after logout. Keyed by
 # the ISO code the login page posts in its hidden `lang` field -- that is a
@@ -83,30 +98,161 @@ def get_conn():
     return psycopg2.connect(DB_DSN)
 
 
+# ---------------------------------------------------------------------------
+# Data files, re-read on mtime change (added September 5, 2026).
+#
+# library.json is the repo's single source for what the members library holds
+# and where each tool lives IN EACH LANGUAGE; workoutLinks.json maps a short /w/
+# code to one of its keys. Resolving the destination here rather than baking it
+# into the link is what lets ONE pasted link send a Spanish athlete to
+# /members/activacion/ and an English athlete to /members/en/activation/ -- and
+# it is why this build added no second inventory of URLs.
+# ---------------------------------------------------------------------------
+_cache = {}
+
+
+def _load_json(name):
+    path = os.path.join(DATA_DIR, name)
+    try:
+        mtime = os.path.getmtime(path)
+    except OSError:
+        return _cache.get(name, {}).get("data", {})
+    entry = _cache.get(name)
+    if entry and entry["mtime"] == mtime:
+        return entry["data"]
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (OSError, ValueError):
+        # A malformed file must not take the redirector down -- keep serving the
+        # last good copy. A link pasted into a published TrainingPeaks plan is
+        # permanent; a bad deploy must not turn it into a dead end.
+        return entry["data"] if entry else {}
+    _cache[name] = {"mtime": mtime, "data": data}
+    return data
+
+
+def link_for(code):
+    """Returns the registry entry for a /w/ code, or None."""
+    for row in _load_json("workoutLinks.json").get("links", []):
+        if row.get("code") == code:
+            return row
+    return None
+
+
+def destination_for(tool_key, lang_code):
+    """The members URL for a library.json key in one language.
+
+    Returns None when that tool is not live in that language -- which is a real
+    state today (recovery is Spanish-only), not a defect. The caller falls back
+    to the athlete's own members home rather than dropping them onto a page in a
+    language they do not read.
+    """
+    lib = _load_json("library.json").get(lang_code) or {}
+    for item in lib.get("live", []):
+        if item.get("key") == tool_key:
+            return item.get("memberUrl")
+    return None
+
+
+def accept_language_code(header):
+    """Best-effort language for an anonymous click. A click from a TrainingPeaks
+    workout by someone with no members cookie still has to land somewhere, and
+    the browser's own preference beats defaulting everyone to Spanish."""
+    for part in (header or "").split(","):
+        tag = part.split(";")[0].strip().lower()
+        if tag.startswith("en"):
+            return "en"
+        if tag.startswith("pt"):
+            return "pt"
+        if tag.startswith("es"):
+            return "es"
+    return "es"
+
+
+# ---------------------------------------------------------------------------
+# Access logging (added September 5, 2026).
+#
+# 🚨 EVERY CALL IS BEST-EFFORT AND SWALLOWS ITS OWN ERRORS. This service is the
+# auth gate for all paid content: an analytics write must never be able to 500 a
+# subscriber out of the members area. If the log table is missing, locked or the
+# disk is full, the page still serves.
+# ---------------------------------------------------------------------------
+SKIP_SUFFIXES = (
+    ".css", ".js", ".map", ".json", ".xml", ".txt", ".ico", ".svg",
+    ".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif",
+    ".woff", ".woff2", ".ttf", ".pdf", ".mp3", ".mp4", ".webmanifest",
+)
+
+
+def is_page_request(path):
+    """Members assets live under /assets/, so in practice forward_auth fires once
+    per page -- but a future asset placed under /members/ should not become a
+    phantom visit."""
+    if not path:
+        return False
+    return not path.lower().endswith(SKIP_SUFFIXES)
+
+
+def log_event(event_type, token_id, path, code=None, slot=None, destination=None):
+    # Opens its OWN connection rather than reusing the auth lookup's. That is a
+    # deliberate ~2ms on a local socket, bought for one property: a failing
+    # INSERT here cannot poison the transaction that decides whether a paying
+    # subscriber gets in. Do not "optimise" this into the auth query without
+    # replacing the isolation with a savepoint.
+    try:
+        conn = get_conn()
+        try:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "INSERT INTO member_access_log "
+                    "(event_type, token_id, path, link_code, link_slot, destination) "
+                    "VALUES (%s, %s, %s, %s, %s, %s)",
+                    (event_type, token_id, path, code, slot, destination),
+                )
+            conn.commit()
+        finally:
+            conn.close()
+    except Exception:
+        pass
+
+
 def lookup_token(token, record_access=False):
-    """Returns preferred_language if the token is a real, active subscriber token.
-    If record_access is True, also bumps access_count/last_accessed_at -- used on
-    /members/check (every page load), not on /members/login (that's a login event,
-    not a page visit, and would double-count the same request)."""
+    """Returns (token_id, preferred_language) for a real, active subscriber token,
+    or (None, None).
+
+    If record_access is True, also bumps access_count/last_accessed_at AND writes
+    one member_access_log row -- used on /members/check (every page load), not on
+    /members/login (that's a login event, not a page visit, and would double-count
+    the same request).
+
+    access_count is kept alongside the log deliberately: close #1 baselined on it
+    (38 tokens / 2 real users / 7 accesses) and `token_roster` reads it, so
+    removing it would break a comparison that has not been made yet.
+    """
     if not token:
-        return None
+        return (None, None)
     conn = get_conn()
     try:
         with conn.cursor() as cur:
             cur.execute(
-                "SELECT preferred_language FROM subscriber_tokens WHERE token = %s AND active = TRUE",
+                "SELECT id, preferred_language FROM subscriber_tokens "
+                "WHERE token = %s AND active = TRUE",
                 (token,),
             )
             row = cur.fetchone()
             if not row:
-                return None
+                return (None, None)
+            token_id, language = row[0], row[1]
             if record_access:
                 cur.execute(
-                    "UPDATE subscriber_tokens SET access_count = access_count + 1, last_accessed_at = now() WHERE token = %s",
-                    (token,),
+                    "UPDATE subscriber_tokens "
+                    "SET access_count = access_count + 1, last_accessed_at = now() "
+                    "WHERE id = %s",
+                    (token_id,),
                 )
                 conn.commit()
-            return row[0]
+            return (token_id, language)
     finally:
         conn.close()
 
@@ -115,16 +261,87 @@ def lookup_token(token, record_access=False):
 def check():
     """Called by Caddy's forward_auth on every /members/* request -- this is what
     actually counts as "a visit" for access_count, since the cookie can live for a
-    year without the person ever hitting /login again."""
+    year without the person ever hitting /login again.
+
+    Since September 5, 2026 it also writes the per-event row. Caddy's forward_auth
+    sets X-Forwarded-Uri automatically, so the path the athlete asked for is
+    already here -- no Caddyfile change was needed to learn which tool they opened.
+    The QUERY STRING IS DROPPED: this table is read far more often than the roster
+    is, and there is no reason for it to accumulate whatever ends up in a URL.
+    """
     token = request.cookies.get(COOKIE_NAME)
-    language = lookup_token(token, record_access=True)
+    raw_uri = request.headers.get("X-Forwarded-Uri", "")
+    path = raw_uri.split("?", 1)[0]
+    token_id, language = lookup_token(token, record_access=True)
     if language:
+        if is_page_request(path):
+            log_event("page", token_id, path)
         resp = make_response("", 200)
         # Forwarded back to the client by Caddy -- lets static pages/JS in
         # /members/ know which language to render without a second DB call.
         resp.headers["X-Member-Language"] = language
         return resp
     return ("", 401)
+
+
+@app.route("/w/<code>")
+def workout_link(code):
+    """The TrainingPeaks workout link. Deliberately OUTSIDE the /members/ gate.
+
+    Three things this does that a UTM-tagged member URL cannot:
+
+    1. It records the click even when the athlete never gets in. A UTM on a gated
+       URL is inert -- Caddy nests the whole query string inside `next=` and GA4
+       does not parse it (ai-infrastructure-documentation.md, Sept 2 addendum) --
+       and the population that matters most right now is the athlete who clicks
+       from a workout, meets the login wall and stops. That click lands here as a
+       row with token_id NULL.
+    2. It knows WHO clicked. The members cookie is path=/, so it reaches this
+       route; identity comes from the token, not from a device-grain analytics id.
+    3. It is permanent and repointable. A TrainingPeaks plan is a static snapshot,
+       so a link pasted into a workout is frozen into every future application of
+       that plan. Owning the path means the members area can be restructured, or
+       retired entirely, by editing a registry -- the workouts are never touched.
+
+    An unknown code NEVER 404s. A typo pasted into a hundred workouts is
+    permanent, so it degrades to the members home and is logged under its own
+    code, where `workout_link_clicks` will show it.
+    """
+    entry = link_for(code)
+    token = request.cookies.get(COOKIE_NAME)
+    token_id, language = lookup_token(token)
+
+    if language:
+        lang_code = LANG_CODE.get(language, "es")
+        home = LANG_HOME.get(language, DEFAULT_HOME)
+    else:
+        lang_code = accept_language_code(request.headers.get("Accept-Language"))
+        home = {"es": "/members/", "en": "/members/en/", "pt": "/members/pt/"}[lang_code]
+
+    destination = None
+    if entry:
+        destination = destination_for(entry.get("tool"), lang_code)
+    # No entry, or the tool is not live in this athlete's language (recovery is
+    # Spanish-only today). Either way, their own members home beats a page they
+    # cannot read and beats a dead end.
+    if not destination:
+        destination = home
+
+    log_event(
+        "link",
+        token_id,
+        "/w/" + code,
+        code=code,
+        slot=(entry or {}).get("slot"),
+        destination=destination,
+    )
+
+    resp = make_response(redirect(destination, code=302))
+    # A cached redirect is an unlogged click. 302 + no-store, so every click from
+    # a workout is a row.
+    resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    resp.headers["Pragma"] = "no-cache"
+    return resp
 
 
 @app.route("/members/login", methods=["POST"])
@@ -135,7 +352,7 @@ def login():
     token = request.form.get("password", "").strip()
     form_lang = request.form.get("lang", "")
     next_url = safe_next(request.form.get("next"))
-    language = lookup_token(token)
+    _token_id, language = lookup_token(token)
     if not language:
         return redirect(login_page_for(form_lang) + "?error=1")
     # No explicit destination means they came to the login page directly rather

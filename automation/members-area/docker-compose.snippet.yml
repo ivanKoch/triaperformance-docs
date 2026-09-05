@@ -10,10 +10,28 @@
 # effective result as the port-publish approach but compatible with how
 # analytics-postgres is locked down.
 
+#
+# The read-only /app/data mount (added September 5, 2026) is the repo's own
+# site/_data directory. The service reads library.json (which tool lives at which
+# URL, per language) and workoutLinks.json (which /w/ code points at which tool)
+# from there, re-reading each file when its mtime changes.
+#
+# Mounted rather than baked into the image on purpose: adding a workout link is
+# then a `git pull` on the box, with no image rebuild and no container restart.
+# Same standing rule as every other VPS script -- the repo is the source, the box
+# runs a clone of it, nothing is hand-edited in place
+# (ai-infrastructure-documentation.md §18).
+#
+# Read-only because this service never writes them, and because a bad write here
+# would break links already frozen into published TrainingPeaks plans.
+
 services:
   members-auth:
     build: ./auth_service
     restart: unless-stopped
     network_mode: host
+    volumes:
+      - /root/.hermes/triaperformance-docs/site/_data:/app/data:ro
     environment:
       MEMBERS_DB_DSN: "host=127.0.0.1 port=5432 dbname=members user=analytics password=CHANGE_ME"
+      MEMBERS_DATA_DIR: "/app/data"

@@ -8,6 +8,32 @@
 
 ---
 
+## Closed — September 5, 2026 (CoachMatch three-day follow-up sequence — the whole branch)
+
+*Opened September 2, closed September 5 on a real lead. Both defects it was built to fix are described below; the closing note distinguishes what the live run proved outright from what it only proved conditionally, which is the part worth reading.*
+
+### Small slot: CoachMatch follow-up — three consecutive days (opened September 2, 2026)
+
+**Iván's call: the three-touch sequence runs on three consecutive calendar days.** Day 0 email 1 + WhatsApp 1 on arrival, day 1 email 2 + WhatsApp 2, day 2 email 3 + WhatsApp 3. Calendar days, not business days — a Friday lead is worked through the weekend. Technical record and the full reasoning: `ai-infrastructure-documentation.md` §8, dated note.
+
+**Code written and verified against fixtures, September 2, 2026 — not yet live.** Two defects had to be fixed, and the second was invisible from inside either script:
+
+1. **Elapsed hours where calendar days were meant.** Email 2 fired at `hoursSinceCreated >= 24` against a 09:00 trigger, so *every lead created after 09:00 slipped a full day* — a 14:00 lead got email 2 on day 2, email 3 on day 3. Systematic, not marginal.
+2. **Both channels were scheduling off one shared field.** The WhatsApp watchdog measured its 2-day window from `lastTouchpoint`, which the email workflow overwrites on every send — so each email pushed the nudge two more days out (**nominal 2 days, 4+ in real runs**), and the watchdog's server-side filter excluded a lead emailed that morning from the query outright. **Standing lesson worth keeping: a field written by one automation must not be the scheduling clock for another.** Both now count from `createdAt`, which is immutable.
+
+**Iván's three steps to make it live — nothing here is doable from a session:**
+
+- [x] ~~**Push the repo.**~~ **DONE September 2, 2026** — the Python side is deployed via the §18 dispatcher.
+- [x] ~~**Re-import `automation/coachmatch-email-nurture-2-3.json` into n8n.**~~ **DONE September 2, 2026.**
+- [x] ~~**Confirm on the first real lead.**~~ ✅ **CONFIRMED LIVE September 5, 2026 — Iván, on a real lead received September 3: three WhatsApps and three emails, on the 3rd, 4th and 5th. Both channels, three consecutive calendar days.**
+  🔑 ***What this proves outright is defect 2, and it is the bigger of the two.*** *Both channels were scheduling off `lastTouchpoint`, which the email workflow overwrites on every send — so under the old code each email pushed the WhatsApp nudge two more days out (nominal 2 days, 4+ in real runs) and the server-side filter excluded a lead emailed that morning from the query altogether.* **Three WhatsApps on three consecutive days is only possible if the two clocks are genuinely decoupled**, which is exactly what re-keying both to the immutable `createdAt` was for.
+  ⚠️ ***What it proves only conditionally is defect 1, and the record should say so.*** *The elapsed-hours bug — `hoursSinceCreated >= 24` against a 09:00 trigger — only ever misfired for a lead created AFTER 09:00, and the arrival time of this lead is not recorded here.* **If it came in before 09:00, the old code would also have produced three consecutive days, so this run does not discriminate.** *That case does have coverage — the fixture suite includes a 23:30 lead due the next morning, among 9 Python and 6 Node cases — so it is tested rather than untested; it is simply not yet observed in production.* ***Not a reason to keep the item open: the sequence is live, correct and verified end to end. Recorded so nobody later reads "confirmed on a real lead" as covering a case it may not have touched.***
+  *(Original item:* **Confirm on the first real lead**, and this is the check that matters: **one lead, three consecutive days, both channels each day.** Watch specifically for a lead arriving *after* 09:00 — that is the case the old code got wrong, and the one a same-morning test lead will not exercise. ⏳ **Ready to test in 3–4 days** *(Iván, September 2, 2026 — needs a real lead to arrive and run its full three days).*
+
+**Verified before deploy against stubbed fixtures in both runtimes** — 9 Python cases (a lead emailed the same morning, the case the old filter dropped; a stalled lead self-healing; BR/AR exclusion; both LOST paths) and 6 Node cases (including a 23:30 lead due the next morning). *Fixtures only — no real cron run yet.*
+
+**`LOST_NO_RESPONSE_DAYS` stays at 7** (Iván's call), so a lead now closes around day 9 instead of day 11.
+
 ## Closed — September 5, 2026 (TrainingPeaks Premium — scope settled)
 
 - [x] ~~🆕 **TrainingPeaks Premium is now included for every 1:1 athlete — the offer changed September 4, 2026 and three things follow.**~~ **CLOSED September 5, 2026 — all three followed through, and Iván settled the confusion underneath them.** *(1) the referral reward was never resting on Premium and nothing changed; (2) A5 now carries it in both blocks; (3) the cost is $18/month, counted from the roster.* 🔑 ***The clarification worth carrying, in his words: WHO PAYS is three different answers.*** **CoachMatch — TrainingPeaks pays, out of the 20%, always has, $0 to Iván. All-Access — TrainingPeaks pays compulsorily, deducting 3.5% + $9 before settling to Mercury, $0 incremental. Private — Iván pays $9, and this is the only line that scales with headcount.** *So a $149 athlete has Premium either way, which is what makes the claim safe on every surface.* ⚠️ **The one real consequence, now recorded where the number lives rather than as an item: the Private-vs-CoachMatch gap fell from $24.59 to $15.59, a 37% narrowing, for every Private athlete rather than just referred ones.** *Every argument in this repo for routing an athlete to Private was sized against $24.59. Still the right call, smaller prize.* → archive. *(Original item:* *(Iván's decision, confirmed the same day when the homepage rewrite collided with the standing rule forbidding exactly this.)* Owner of the decision: `triaperformance-pricing-and-positioning.md` §TrainingPeaks Premium.

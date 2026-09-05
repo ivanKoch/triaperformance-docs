@@ -7,7 +7,7 @@
     "build": "eleventy",
     "serve": "eleventy --serve",
     "clean": "rm -rf _site",
-    "test": "node tests/zones-calc.test.js && node tests/zones-ui.test.js && node tests/internal-links.test.js",
+    "test": "node tests/zones-calc.test.js && node tests/zones-ui.test.js && node tests/internal-links.test.js && node tests/workout-links.test.js",
     "test:ui": "node tests/zones-ui.test.js"
   },
   "devDependencies": {

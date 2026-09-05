@@ -1,0 +1,130 @@
+---
+layout: layouts/base.njk
+pageCss: "admin-enlaces.css"
+title: "Enlaces para workouts — Admin"
+noindex: true
+noClarity: true
+noTracking: true
+eleventyExcludeFromCollections: true
+---
+{#- The workout-link library. Added September 5, 2026.
+
+    Iván's page, not a subscriber's: it sits behind the single-user basic_auth on
+    /admin/* in automation/Caddyfile, declared above the 8092 proxy so this static
+    page is served by file_server rather than sent to the content-engine admin.
+
+    noTracking/noClarity are set because an operator page copying links to itself
+    is not a funnel, and a session recording of it is noise in the same property
+    the members-area announcement will be read from.
+
+    Everything here renders from site/_data/workoutLinkTable.js, which joins
+    workoutLinks.json against library.json. This page owns NO url and NO tool
+    name — add a link to workoutLinks.json and it appears here. -#}
+
+<header class="adm-hero">
+  <div class="wrap">
+    <span class="label">Admin</span>
+    <h1>Enlaces para workouts</h1>
+    <p>
+      {{ workoutLinkTable.count }} enlaces cortos para pegar en TrainingPeaks —
+      en <em>description</em>, <em>pre-workout comments</em> o
+      <em>post-workout comments</em>. Cada uno lleva al atleta a la herramienta
+      <strong>en su propio idioma</strong>, y registra quién hizo clic y desde qué
+      tipo de sesión.
+    </p>
+  </div>
+</header>
+
+<div class="wrap adm-wrap">
+
+  <section class="adm-rules">
+    <h2>Tres cosas antes de pegar</h2>
+    <ol>
+      <li>
+        <strong>Pegá solo en los workouts de la biblioteca.</strong> Un plan
+        publicado es una foto: el workout ya copiado no cambia si después editás
+        el original. Por eso esto es prospectivo — la biblioteca y todo plan que
+        armes de ahora en adelante, no los 328 ya publicados.
+      </li>
+      <li>
+        <strong>Un enlace, tres idiomas.</strong> No hay versión ES/EN/PT de cada
+        link. <code>/w/activacion-run</code> manda al atleta español a
+        <code>/members/activacion/</code> y al inglés a
+        <code>/members/en/activation/</code>. Pegás uno.
+      </li>
+      <li>
+        <strong>El sufijo es el contexto, no el destino.</strong>
+        <code>activacion-run</code> y <code>activacion-bike</code> abren la misma
+        herramienta. Lo que cambia es lo que queda registrado: desde qué tipo de
+        sesión hicieron clic. Eso no se puede agregar después a un plan ya
+        publicado, así que elegí el sufijo correcto ahora.
+      </li>
+    </ol>
+  </section>
+
+  {%- if workoutLinkTable.uncovered.length %}
+  <section class="adm-warn">
+    <h2>⚠️ Herramientas vivas sin enlace</h2>
+    <p>Están en la biblioteca y no se pueden linkear desde un workout. Agregá el código en <code>site/_data/workoutLinks.json</code>.</p>
+    <ul>
+      {%- for t in workoutLinkTable.uncovered %}
+      <li><strong>{{ t.name }}</strong> <code>{{ t.key }}</code></li>
+      {%- endfor %}
+    </ul>
+  </section>
+  {%- endif %}
+
+  {%- for g in workoutLinkTable.groups %}
+  <section class="adm-group">
+    <h2>{{ g.toolName }}</h2>
+    <table class="adm-table">
+      <thead>
+        <tr>
+          <th>Enlace</th>
+          <th>Contexto</th>
+          <th>Idiomas</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for r in g.rows %}
+        <tr{% if r.missing.length %} class="is-partial"{% endif %}>
+          <td class="adm-url"><code>{{ site.domain }}{{ r.path }}</code></td>
+          <td class="adm-slot">
+            {{ r.slot }}
+            {%- if r.note %}<span class="adm-note">{{ r.note }}</span>{% endif %}
+          </td>
+          <td class="adm-langs">
+            {%- for code, url in r.dest %}
+            <span class="adm-lang{% if not url %} is-off{% endif %}" title="{{ url or 'No existe en este idioma — cae en el home de members' }}">{{ code | upper }}</span>
+            {%- endfor %}
+          </td>
+          <td class="adm-copy">
+            <button type="button" class="btn-copy" data-copy="{{ site.domain }}{{ r.path }}" data-label="Copiar" data-done="✓ Copiado">Copiar</button>
+          </td>
+        </tr>
+        {%- endfor %}
+      </tbody>
+    </table>
+  </section>
+  {%- endfor %}
+
+  <section class="adm-foot">
+    <h2>Agregar un enlace nuevo</h2>
+    <p>
+      Una sola edición: <code>site/_data/workoutLinks.json</code>. El
+      <code>tool</code> tiene que ser un <code>key</code> que ya exista vivo en
+      <code>library.json</code> — si no, el build falla
+      (<code>tests/workout-links.test.js</code>). El destino no se escribe acá:
+      sale de <code>library.json</code> en las tres lenguas.
+    </p>
+    <p class="adm-muted">
+      En el VPS los enlaces se publican con un <code>git pull</code>. No hace
+      falta reconstruir la imagen ni reiniciar el contenedor: el servicio relee
+      los dos archivos cuando les cambia el mtime.
+    </p>
+  </section>
+
+</div>
+
+{% include "partials/copy-button.njk" %}

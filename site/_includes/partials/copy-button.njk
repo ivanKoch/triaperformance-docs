@@ -1,33 +1,55 @@
-{#- Copy-to-clipboard button for a blockquote. Used by /referidos/ and /referrals/.
+{#- Copy-to-clipboard button. Used by /referidos/, /referrals/ and /admin/enlaces/.
     Extracted Aug 26, 2026 when the second page needed it — the same reasoning as
     `library-showcase.njk`: two hand-maintained copies of one behaviour is how the
-    three All-Access pages drifted. Expects a `copyTarget` element id and a
-    `copyLabel` / `copyDone` pair of strings, set in the page's front matter. -#}
+    three All-Access pages drifted.
+
+    Two modes, both handled by the one script below:
+      • `data-target="<element id>"` — copies that element's innerText. This is
+        what /referidos/ and /referrals/ use, via the `copyTarget` / `copyLabel` /
+        `copyDone` front-matter trio, and the markup for it is rendered here.
+      • `data-copy="<literal text>"` — copies the string itself. Pages that need
+        MANY buttons (the workout-link library has 34) emit their own markup with
+        that attribute and include this partial once, script only, by not setting
+        `copyTarget`.
+
+    Generalised Sept 5, 2026: the script was `querySelector`, so it bound the
+    FIRST `.btn-copy` on the page and silently ignored every other one. That was
+    invisible while both callers had exactly one button. -#}
+{%- if copyTarget %}
 <button type="button" class="btn-copy" data-target="{{ copyTarget }}" data-label="{{ copyLabel }}" data-done="{{ copyDone }}">{{ copyLabel }}</button>
+{%- endif %}
 <script>
 (function () {
-  var btn = document.querySelector('.btn-copy');
-  if (!btn) return;
-  var label = btn.dataset.label, done = btn.dataset.done;
-  function flash() {
+  var btns = document.querySelectorAll('.btn-copy');
+  if (!btns.length) return;
+  function flash(btn) {
+    var label = btn.dataset.label || btn.textContent;
+    var done = btn.dataset.done || 'OK';
+    btn.dataset.label = label;
     btn.textContent = done;
     setTimeout(function () { btn.textContent = label; }, 2000);
   }
-  function fallback(txt) {
+  function fallback(btn, txt) {
     var ta = document.createElement('textarea');
     ta.value = txt; ta.setAttribute('readonly', '');
     ta.style.position = 'absolute'; ta.style.left = '-9999px';
     document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); flash(); } catch (e) {}
+    try { document.execCommand('copy'); flash(btn); } catch (e) {}
     document.body.removeChild(ta);
   }
-  btn.addEventListener('click', function () {
-    var el = document.getElementById(btn.dataset.target);
-    if (!el) return;
-    var txt = el.innerText.trim();
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(txt).then(flash, function () { fallback(txt); });
-    } else { fallback(txt); }
+  Array.prototype.forEach.call(btns, function (btn) {
+    btn.addEventListener('click', function () {
+      var txt = btn.dataset.copy;
+      if (!txt) {
+        var el = document.getElementById(btn.dataset.target);
+        if (!el) return;
+        txt = el.innerText.trim();
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(function () { flash(btn); },
+                                               function () { fallback(btn, txt); });
+      } else { fallback(btn, txt); }
+    });
   });
 })();
 </script>

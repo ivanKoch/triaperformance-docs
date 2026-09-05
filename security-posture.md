@@ -298,6 +298,37 @@ so a wrong password shows up immediately rather than at 05:15 tomorrow.
 
 ---
 
+### Reviewed at build time — the September 5, 2026 additions (`ai-infrastructure-documentation.md` §43)
+
+*Recorded here rather than raised as findings: each was decided during the build, and the point
+of writing them down is that the next person to touch this surface does not re-derive them.*
+
+- **`/w/<code>` is a new PUBLIC, unauthenticated endpoint** on a service that until now only ever
+  answered Caddy. **That is deliberate** — the whole value is logging the click of someone who is
+  *not* logged in — and it is bounded accordingly: it takes **no user input except a path segment**,
+  it never reflects that segment into a response body, and **it can only ever redirect to a path
+  that came out of `library.json`**. An unknown code falls back to a constant. *There is no input
+  that makes it emit an attacker-chosen `Location`, which is the failure this route's shape would
+  otherwise invite* — the same open-redirect class that `safe_next()` exists for on the login path.
+- **The workout-link registry and `library.json` are mounted READ-ONLY** into the container. The
+  service never writes them, and a write here would corrupt links already frozen into published
+  TrainingPeaks plans, which cannot be edited after the fact.
+- 🚨 **`member_access_log` stores `token_id`, never the token string.** *This is the `token_roster`
+  decision (Aug 12) applied before the failure rather than after it: the whole roster was pasted
+  into a chat transcript three times in three days because* ***the query people actually type is
+  `SELECT *`***, *and a log is read far more often than a roster is.* `member_activity` and
+  `member_tool_usage` are the intended read paths and neither carries a token.
+- **It is a per-athlete behavioural log of paying customers**, and it is worth naming as that
+  rather than as "analytics". Mitigations already in place: it holds **no IP, no user agent, and
+  no query string** (dropped before the insert — there is no reason for it to accumulate whatever
+  ends up in a URL); the DB is `127.0.0.1`-bound; and it records page grain, not interaction grain.
+  *No retention policy, deliberately — a few thousand rows a year. Revisit if that stops being true.*
+- **`/admin/enlaces/` adds no new credential.** *It reuses the existing single-user `basic_auth` on
+  `/admin/*` rather than sitting under `/members/`, which admits every subscriber. One fewer surface,
+  and an operator page is not subscriber-facing.* ⚠️ *It does inherit that block's dependency: the
+  bcrypt hash in `automation/Caddyfile` is the only thing in front of it, so it is covered by the
+  same rotation procedure as the content-engine admin.*
+
 ## What is already right, and should not be re-litigated
 
 Listed because a security review that only produces a defect list gives a false picture of the

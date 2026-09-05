@@ -94,6 +94,119 @@ Note: if someone has more than one row (e.g. re-subscribed, or backfilled
 twice), this reactivates *all* their rows. To target one specific token
 instead, swap the `WHERE` clause for `WHERE token = '<exact-token>'`.
 
+## 6. Usage — which athlete used which tool
+
+*(Added September 5, 2026, with `member_access_log`. Before this, `access_count`
+was a single mutable counter per token: it could say "eight people have ever
+opened the members area" and nothing else — not who, not which tool, not
+whether it was this month. `access_count` is still written alongside, because
+close #1 baselined on it and `token_roster` reads it.)*
+
+**Everything one athlete has opened:**
+```bash
+docker exec -i analytics-postgres psql -U analytics -d members <<'SQL'
+SELECT path, visits, first_seen, last_seen
+FROM member_tool_usage
+WHERE email = 'athlete@example.com'
+ORDER BY last_seen DESC;
+SQL
+```
+
+**Which tools are being used at all, and by how many different athletes:**
+```bash
+docker exec -i analytics-postgres psql -U analytics -d members <<'SQL'
+SELECT path,
+       count(DISTINCT email) AS athletes,
+       sum(visits)           AS visits,
+       max(last_seen)        AS last_seen
+FROM member_tool_usage
+GROUP BY path
+ORDER BY athletes DESC, visits DESC;
+SQL
+```
+
+**Who has opened the members area since the announcement, and who still has not:**
+```bash
+docker exec -i analytics-postgres psql -U analytics -d members <<'SQL'
+SELECT r.email,
+       r.preferred_language,
+       count(l.id) FILTER (WHERE l.occurred_at >= DATE '2026-09-08') AS visits_since,
+       max(l.occurred_at)                                            AS last_seen
+FROM token_roster r
+LEFT JOIN member_access_log l
+       ON l.token_id = r.id AND l.event_type = 'page'
+WHERE r.active
+GROUP BY r.email, r.preferred_language
+ORDER BY visits_since DESC, r.email;
+SQL
+```
+*Change the date to the send date. This is the read on the announcement: the
+baseline is close #1's 38 tokens / 2 real users / 7 accesses.*
+
+**Raw recent activity (tokenless — `member_activity` never carries the token):**
+```bash
+docker exec -i analytics-postgres psql -U analytics -d members <<'SQL'
+SELECT occurred_at, email, event_type, path, link_code
+FROM member_activity
+ORDER BY occurred_at DESC
+LIMIT 50;
+SQL
+```
+
+**Exclude yourself or a tester from every usage view:**
+```bash
+docker exec -i analytics-postgres psql -U analytics -d members <<'SQL'
+UPDATE subscriber_tokens
+SET excluded_from_metrics = TRUE
+WHERE email IN ('coach@triaperformance.com', 'tester@example.com');
+SQL
+```
+*This excludes by **who they are**, so it holds on any device and any network —
+which is the whole reason it exists. The GA4 internal-traffic rule is IP-based
+and cannot reach a tester's phone on someone else's wifi.*
+
+## 7. The TrainingPeaks workout links (`/w/`)
+
+**How each link is performing:**
+```bash
+docker exec -i analytics-postgres psql -U analytics -d members <<'SQL'
+SELECT link_code, link_slot, clicks, athletes, anonymous_clicks, last_click
+FROM workout_link_clicks
+ORDER BY clicks DESC;
+SQL
+```
+
+🔑 ***`anonymous_clicks` is the column to read first.*** *It counts clicks that
+arrived with no members cookie — an athlete who clicked from a workout, met the
+login wall and stopped. **That population is invisible to any UTM scheme**,
+because Caddy nests the query string inside `next=` and GA4 does not parse it.
+A code with clicks and no athletes is not a dead link; it is a login problem.*
+
+**Which athletes clicked a given code:**
+```bash
+docker exec -i analytics-postgres psql -U analytics -d members <<'SQL'
+SELECT occurred_at, COALESCE(email, '(anónimo)') AS athlete, destination
+FROM member_activity
+WHERE event_type = 'link' AND link_code = 'activacion-vo2'
+ORDER BY occurred_at DESC;
+SQL
+```
+
+**Codes being clicked that are not in the registry** (a typo pasted into a
+workout — permanent, since a published plan is a static snapshot, so it has to
+be fixed by adding the code rather than by editing the workout):
+```bash
+docker exec -i analytics-postgres psql -U analytics -d members <<'SQL'
+SELECT link_code, count(*) AS clicks, max(occurred_at) AS last_click
+FROM member_access_log
+WHERE event_type = 'link' AND link_slot IS NULL
+GROUP BY link_code
+ORDER BY clicks DESC;
+SQL
+```
+*An unknown code never 404s — it logs itself and falls back to the athlete's
+members home. This query is how you find out it happened.*
+
 ## Others worth having
 
 **Count active subscribers:**

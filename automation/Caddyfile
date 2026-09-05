@@ -98,9 +98,26 @@ triaperformance.com {
 	# extension-less paths (/planes/p/<slug>/), so there is no *.html to match.
 	# /api/* is excluded and left alone: those are proxied POSTs to n8n.
 	@documents {
-		not path /assets/* /members/* /admin/* /api/*
+		not path /assets/* /members/* /admin/* /api/* /w/*
 	}
 	header @documents Cache-Control "no-cache"
+
+	# The workout-link library (added September 5, 2026): the page Iván copies /w/
+	# links from while editing TrainingPeaks workouts. It is a STATIC built page,
+	# not a service, so it takes file_server rather than the 8092 proxy -- and it
+	# MUST be declared before `handle /admin/*` below, which would otherwise send
+	# it to the content-engine admin and 404.
+	#
+	# It sits behind the same single-user basic_auth rather than under /members/:
+	# the members gate admits every subscriber, and a page whose whole content is
+	# "here is the operator's link scheme" is not subscriber-facing. Same
+	# credential, one fewer surface to reason about.
+	handle /admin/enlaces* {
+		basic_auth {
+			ivan $2a$14$adW9sEQJhHnRK3E5XB4UGOmbZ0cD5GgPhP3N8SpU0SsuZF9QhJpFS
+		}
+		file_server
+	}
 
 	# Content-engine admin (idea review). Single user, so a basic_auth line is the
 	# whole requirement — the members area needs per-subscriber tokens because
@@ -112,6 +129,26 @@ triaperformance.com {
 			ivan $2a$14$adW9sEQJhHnRK3E5XB4UGOmbZ0cD5GgPhP3N8SpU0SsuZF9QhJpFS
 		}
 		reverse_proxy 127.0.0.1:8092
+	}
+
+	# Workout-link redirector (added September 5, 2026). /w/<code> -> 302 to the
+	# member page for that tool IN THE ATHLETE'S OWN LANGUAGE, resolved by the
+	# auth service from site/_data/library.json.
+	#
+	# DELIBERATELY OUTSIDE THE MEMBERS GATE, and that is the entire design:
+	#   - the click is logged BEFORE auth, so an athlete who clicks from a
+	#     TrainingPeaks workout, meets the login wall and stops is still a row.
+	#     That is the population a UTM could never see, because `redir ... ?next=`
+	#     nests the query string and GA4 does not parse it.
+	#   - the members cookie is path=/, so identity still travels here.
+	#   - the URL is owned and short, which matters because a TrainingPeaks plan
+	#     is a static snapshot: whatever is pasted into a workout is permanent
+	#     across every future application of that plan. Repointing a redirect is
+	#     the only way to change those links without touching the workouts.
+	#
+	# Same reasoning that made /hubfs permanent for the ~300 published plans.
+	handle /w/* {
+		reverse_proxy 127.0.0.1:8091
 	}
 
 	# Members area, three languages (extended August 10, 2026).

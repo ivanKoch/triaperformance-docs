@@ -9,7 +9,52 @@ Standing concept (locked): pages are **evergreen**. A page carries the race's ye
 
 ---
 
+> ### 🚨 STANDING DECISION, September 5, 2026 — what a race page is for
+>
+> **"The SEO should come from the content and not from the plans we are selling there."** *(Iván.)* **This section's whole premise — qualify a (distance, language) pair by plan depth, then build pages there — is retired.** The ladder is complete at both distances in all three languages, so **inventory is not a gate and it never needs checking again before opening a race page.**
+>
+> **What replaces it:** a race earns a page when there is enough *distinctive, sourced, training-relevant* material about it to write something a runner would read — course shape and where people blow up, conditions with real numbers, cut-offs, what actually happens to the field, and the questions people genuinely ask. **Field size is a demand proxy, not the gate.** A 4,000-finisher race with a signature climb and a documented cut-off problem beats a 40,000-finisher race with nothing specific to say.
+>
+> **The plan join is now fixed and trivial** — 42 km: 3 difficulties × 12/18 weeks. 21 km: Beginner 16w, Intermediate 16w, Advanced 12w. *Research never touches it; the page sells against it once someone is already reading.* **`race-page-data-schema.md`'s `plan_duration_weeks_available` and `plan_matching_rule` columns are constants, not per-race research.**
+>
+> *Consequence for the research briefs: the discovery pass is done (Grok's 166 marathon rows). The live job is* **content dossiers per race** *— `Claude outputs/grok-trial-research-briefs.md` §1A for 42 km, §1B for 21 km.*
+
 ## 1. Inventory reality check — what actually qualifies
+
+> 🚨 **CORRECTED September 5, 2026 — the table below is the July 30 state and is superseded. Re-derive from `data/training_plans_inventory.csv`; do not maintain a copy here.**
+>
+> **Marathon (42 km) is 46 rows today: ES 19 / EN 18 / PT 9** — not the 66 this section's table implies. **The July numbers were not wrong, they were stale**, and the drift is the instructive part: this table's own note said the race-year-stamped plans (Tokyo/Boston/London/Barcelona/Lima "2026") were "already being retired." **The retirement happened.** ES marathon went 34 → 19. Zero race- or year-stamped names remain in any 42 km row. Every row in the file is now `is_published=TRUE`, so the published/total distinction this section draws no longer has a second side.
+>
+> **STANDING DECISION, September 5, 2026 (Iván): the facet ladder is 3 difficulties × 2 durations on ONE intensity type. Not 24 variations.** *His words: "most coaches only have three difficulty levels and that's all — pretending to have twenty-four variations to cover every single use case is the wrong approach."* The 24-cell grid was an analytical frame, never a build target, and treating it as one made a complete catalogue look two-thirds empty.
+>
+> **The baseline is the ladder that exists in all three languages, and for the marathon it is already complete:**
+>
+> | 42 km ladder | ES | EN | PT |
+> |---|---|---|---|
+> | **HR / no gym — THE BASELINE** | **6/6** | **6/6** | **6/6** |
+> | Pace / no gym | 6/6 *(3 cells doubled at 18w)* | 6/6 | 1/6 |
+> | Pace / + gym | 3/6 | 6/6 | 0/6 |
+> | HR / + gym | 0/6 | 0/6 | 2/6 |
+>
+> ***Nothing needs to be built for the marathon race pages to ship.*** *18 plans, six cells per language, 100% populated. The branch is gated on the page template, not on inventory — the opposite of what was assumed on September 5 before the file was read.* **The only real marathon gap is PT pace (5 plans), and it is an enhancement, not a blocker.**
+>
+> **The half marathon baseline — DECIDED September 5, 2026, by taking Portuguese as the floor and checking it upward.** *Race-prep halves after excluding the weight-loss plans filed at 21 km:* **ES 8 / EN 3 / PT 3.**
+>
+> | difficulty | duration | ES | EN | PT |
+> |---|---|---|---|---|
+> | Beginner | **16w** | 415231 | 437638 | 437632 |
+> | Intermediate | **16w** | 439917 | 439920 | 439919 |
+> | Advanced | **12w** | 415245 | 437635 | 437630 |
+>
+> *All pace-based, all no-gym.* **PT and EN are structurally identical — the same three cells, nothing more in either.** ES matches the floor exactly and adds a separate **14-week tier** (Beginner+gym, Intermediate ±gym, Advanced ±gym), which is a different product concept rather than a deeper ladder.
+>
+> ***The uneven durations are the design, not a gap.*** *Duration scales inversely with ability, and all three languages name it the same way: Base/Prep → Build → Peak; "Concluir a Prova" → "Foco em Resistência" → "Foco em Performance."* **A beginner gets 16 weeks and an advanced runner gets 12 because that is the coaching call, so the template must not treat the missing 12w-Beginner cell as a hole to fill.**
+>
+> **⚠️ The two distances have different baselines, and the template has to carry both:** *42 km is* **HR, 3 difficulties × both durations (6 cells)**; *21 km is* **pace, 3 difficulties × one duration each (3 cells)**. *This falls out of what happens to exist in Portuguese, which is arbitrary rather than principled.*
+> 🔭 **The unifying move, if it is ever worth 5 plans: PT marathon pace (currently 1/6). That would make PACE the single baseline at both distances in all three languages** — and pace is the more accessible basis anyway, since it needs no strap.
+>
+> **Also flagged:** two Spanish and one English row at `21 km` are `[Objetivo 2026] Plan para bajar de peso` weight-loss plans. They inflate every half-marathon count taken from this file. *Open question for Iván: give weight-loss plans their own `distance` value rather than letting them sit at `21 km`.*
+
 
 **Corrected July 30, 2026 (Iván's review).** The rule is: at least 3 matching plans in a (distance, language) pair to build pages there. It's a floor, not a target — once a pair clears it, every real race in that pair gets a page ("if there are 3 full Ironman plans in English, we move forward — we promote whatever Ironman we have; if that's 10 Ironman races, we build the 10 landing pages"). No additional per-race curation once the floor is cleared.
 

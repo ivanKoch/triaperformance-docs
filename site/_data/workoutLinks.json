@@ -1,0 +1,53 @@
+{
+  "_comment": "THE WORKOUT LINK REGISTRY — every short /w/ link that gets pasted into a TrainingPeaks workout. Added September 5, 2026. READ THIS BEFORE ADDING A CODE. (1) A code maps to a library.json `key`, NOT to a URL. The destination is resolved per athlete at request time from library.json's `memberUrl` for THAT ATHLETE'S OWN LANGUAGE — so one link pasted once into a library workout sends a Spanish athlete to /members/activacion/ and an English athlete to /members/en/activation/. This is why the registry holds a key and not a path, and why adding a fourth inventory of URLs would have been the wrong build: library.json already owns every destination in three languages. (2) `slot` is the WORKOUT CONTEXT the link was pasted into, not a second destination — activacion-run and activacion-bike both 302 to the same artifact and differ only in what the log records. That is the point of tool+slot: the destination is the tool, the code is where the click came from, and a code cannot be added retroactively to a workout already frozen into a published plan. (3) A TrainingPeaks plan is a STATIC SNAPSHOT — whatever is pasted is permanent across every future application of that plan — which is why these are short owned paths and not UTM-tagged member URLs. A UTM on a gated URL is inert anyway: Caddy's `redir * /members/<lang>/login?next={http.request.orig_uri}` nests the whole query string inside `next=`, and GA4 does not parse it (ai-infrastructure-documentation.md, Sept 2 addendum). (4) tests/workout-links.test.js fails the build if a code names a key that is not live in library.json, or if a gated live tool has no code at all — that second assertion exists because a tool shipping without its inventory row has now failed three times (cyclistcore Aug 24, strength Sep 2, hombro Sep 3).",
+
+  "_slotVocabulary": "Keep slots short and reusable. Established: pre, post, vo2, umbral, largo, test, semana (descarga), carrera, hotel/viaje, run, bike, swim, fuerza. A new slot is fine; a synonym for an existing one is not.",
+
+  "links": [
+    { "code": "activacion",          "tool": "activation",  "slot": "genérico",             "note": "Cualquier sesión, sin contexto particular." },
+    { "code": "activacion-run",      "tool": "activation",  "slot": "pre · run" },
+    { "code": "activacion-bike",     "tool": "activation",  "slot": "pre · bike" },
+    { "code": "activacion-swim",     "tool": "activation",  "slot": "pre · swim" },
+    { "code": "activacion-vo2",      "tool": "activation",  "slot": "pre · VO2max",         "note": "El candidato que Iván nombró primero (open-loops, 3 sep 2026)." },
+    { "code": "activacion-umbral",   "tool": "activation",  "slot": "pre · umbral" },
+    { "code": "activacion-fuerza",   "tool": "activation",  "slot": "pre · fuerza" },
+
+    { "code": "movilidad",           "tool": "mobility",    "slot": "genérico" },
+    { "code": "movilidad-post",      "tool": "mobility",    "slot": "post" },
+    { "code": "movilidad-largo",     "tool": "mobility",    "slot": "post · largo" },
+
+    { "code": "recuperacion",        "tool": "recovery",    "slot": "genérico" },
+    { "code": "recuperacion-post",   "tool": "recovery",    "slot": "post" },
+    { "code": "recuperacion-semana", "tool": "recovery",    "slot": "semana de descarga" },
+
+    { "code": "respiracion",         "tool": "breathing",   "slot": "genérico" },
+    { "code": "respiracion-post",    "tool": "breathing",   "slot": "post",                 "note": "El segundo candidato que Iván nombró." },
+    { "code": "respiracion-carrera", "tool": "breathing",   "slot": "semana de carrera" },
+
+    { "code": "rodillas",            "tool": "knees",       "slot": "genérico" },
+    { "code": "rodillas-post",       "tool": "knees",       "slot": "post · run" },
+
+    { "code": "aquiles",             "tool": "achilles",    "slot": "genérico" },
+    { "code": "aquiles-post",        "tool": "achilles",    "slot": "post · run" },
+
+    { "code": "hombro",              "tool": "shoulder",    "slot": "genérico" },
+    { "code": "hombro-post",         "tool": "shoulder",    "slot": "post · swim" },
+
+    { "code": "core",                "tool": "core",        "slot": "genérico" },
+    { "code": "core-hotel",          "tool": "core",        "slot": "viaje" },
+    { "code": "core-bike",           "tool": "cyclistcore", "slot": "post · bike" },
+    { "code": "core-run",            "tool": "runnercore",  "slot": "post · run" },
+
+    { "code": "fuerza",              "tool": "strength",    "slot": "genérico" },
+
+    { "code": "carga",               "tool": "load",        "slot": "genérico" },
+    { "code": "carga-semana",        "tool": "load",        "slot": "semana de descarga" },
+
+    { "code": "zonas",               "tool": "zones",       "slot": "genérico" },
+    { "code": "zonas-test",          "tool": "zones",       "slot": "test" },
+    { "code": "zonas-umbral",        "tool": "zones",       "slot": "umbral" },
+
+    { "code": "garmin",              "tool": "garmin",      "slot": "genérico" },
+    { "code": "guias",               "tool": "downloads",   "slot": "genérico" }
+  ]
+}
