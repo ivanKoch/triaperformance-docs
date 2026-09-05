@@ -1,8 +1,12 @@
 # Weekly KB Hygiene — the prompt
 
-*Written August 8, 2026, distilled from the consolidation session that produced `open-loops-archive.md` and the "one home per initiative" rule. Paste the block below into a fresh conversation once a week. Everything above and below it is context for why it's shaped this way — the prompt itself is the fenced block.*
+*Written August 8, 2026, distilled from the consolidation session that produced `open-loops-archive.md` and the "one home per initiative" rule. Everything outside the fenced block is context for why the pass is shaped this way — the prompt itself is the fenced block.*
 
-**Cadence:** weekly, ~30–45 min. Best on a day with no build work queued, because the output is a decision list and it competes with itself if a branch is mid-flight.
+**This runs on a schedule now — Tuesdays, 08:00 America/Cordoba, from September 8, 2026.** *A scheduled task opens a fresh session bound to Iván's computer, reads this file, and follows the fenced block. It does not need pasting. Editing the block below changes what the next run does; that is the point of keeping the instructions in the repo rather than in the task.*
+
+⚠️ **Two things a scheduled run cannot do, and the prompt is written to handle both rather than stall on them:** *it cannot reach the VPS, TrainingPeaks, n8n or Twenty — those come back as an explicit command block for Iván — and it must never commit or push.* *If a run reports nothing worth changing, that is a real result. A pass that always finds something is a pass that is inventing findings.*
+
+**Cadence:** weekly, ~30–45 min, Tuesday morning. *Deliberately not a build day — the output is a decision list and it competes with itself if a branch is mid-flight.*
 
 ---
 
@@ -83,11 +87,62 @@ recurring failure in this repo is a status written down that outlived reality.
 - Scan published plan names for city/race tokens. There should be zero
   race-stamped plans; that model is permanently retired. (This one stays: it is
   a strategy violation, not a count.)
-- Tell me anything that needs checking on a system you can't reach (TrainingPeaks,
-  n8n, Twenty, the VPS) as an explicit question, with the exact command or the
-  exact screen to look at. Do not assume, and do not treat my silence as a yes.
+- ASK IVAN TO RUN THE MEMBERS-ACCESS RECONCILIATION, and wait for the output:
+
+      ssh root@179.197.76.70
+      cd ~/.hermes/triaperformance-docs && git pull
+      python3 automation/members_access_gap.py --expect 290
+
+  (Added Sept 5, 2026. Update --expect to the people count Twenty reports; it is
+  a second gate on top of the script's own totalCount check, and passing a stale
+  number is harmless -- it fails loudly rather than lying.)
+
+  Twenty and subscriber_tokens live in two containers with no link between them,
+  by the design decision in ai-infrastructure-documentation.md §21, so NOTHING
+  reconciles them except this script. It prints two lists:
+
+    1. PAYING, NO MEMBERS ACCESS -- an athlete who is owed a password. Report
+       these; granting one is OPERATIONS.md §1 and takes a minute.
+    2. HAS ACCESS, NOT AN ENTITLED ACTIVE ATHLETE -- this is the one that
+       ACCUMULATES. §21 records that All-Access churn auto-revokes the token
+       while a 1:1 coaching relationship ending has NO SIGNAL AT ALL and is
+       revoked by hand. So this list only grows, and it grows silently.
+
+  🛑 DO NOT SWEEP LIST 2. A comp athlete, a barter arrangement or a tester
+  legitimately appears in it. Report it; Iván decides per row.
+
+  🚨 IF THE SCRIPT REFUSES WITH "SHORT READ", THAT IS THE SCRIPT WORKING.
+  Report the refusal and stop -- never work around it, and never fall back to
+  reading either side alone. Its first live run silently returned 87 of 290
+  people and named three documented active athletes as holding stale access;
+  the guard exists so that a partial read can never again be printed as a
+  finding. A diagnostic that under-reports converts "unknown" into
+  "confirmed clean", which is worse than no diagnostic.
+
+- Tell me anything else that needs checking on a system you can't reach
+  (TrainingPeaks, n8n, Twenty, the VPS) as an explicit question, with the exact
+  command or the exact screen to look at. Do not assume, and do not treat my
+  silence as a yes.
 
 === STEP 2: THE COMPLETE OPEN-ITEMS LIST ===
+
+🚨 BEFORE LISTING ANYTHING AS OPEN, CHECK WHETHER IT IS ALREADY DONE.
+(Added Sept 5, 2026, after THREE items in two days turned out to have been
+executed days earlier and were still being reported back to Iván as open: the
+All-Access `Insert Token in Postgres` check, the Private 1:1 checkout URL --
+which triaperformance-pricing-and-positioning.md had carried since the previous
+day -- and the name backfill, which ran and found nothing to change.)
+
+The test is NOT whether the checkbox is empty. It is whether the doc or the
+system that OWNS the thing still agrees it is open. For every item whose action
+is Iván's -- a paste into n8n, a field in Twenty, a URL into a doc, a script on
+the VPS -- grep the owning doc for the thing it asks for before you report it.
+One grep each. An item with no owning doc gets asked about, not assumed.
+
+Sept 2's pass concluded that ticking a box is not closing an item. This is the
+same failure one step earlier: work done in the world and never ticked at all.
+Reporting done work back as open is how a list stops being read.
+
 
 - Read open-loops.md. That's the live list.
 - Then find every open item that is NOT in it. Grep the whole repo for unchecked
