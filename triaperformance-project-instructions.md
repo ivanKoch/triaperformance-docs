@@ -69,6 +69,7 @@ Full detail lives in `growth-roadmap.md`, but the short version:
 - `brand-guidelines.md` — color, type, layout, components, the members-area dark theme (§7.1), voice (§8), page inventory (§9).
 - `build-log.md` — narrative incident log (the numbered "problems solved").
 - `infrastructure.html` — the visual infra/SEO status board.
+- `site/admin/secuencias/` — **the email-sequence board** (campaigns, sent, clicks, unsubscribes). Static, behind basic_auth, rendered from `site/_data/sequences.json` which `automation/build-sequences-data.py` writes at deploy time from the `sequence_stats` view. Owns no figure. *Design and the divide-by-`sent` rule: `unsubscribe-runbook.md`.*
 - `brand-board.html` — the rendered brand board (colour, type and component swatches). *Added to this index September 2, 2026 — it was the only file in the repo the index had never named.* Owns nothing; `brand-guidelines.md` is the source and this is its rendering.
 - `security-posture.md` *(added Aug 30, 2026)* — **home doc for security.** Owns every finding (numbered F1–F11), its status, what was verified against the repo versus what still needs a live check, the standing decisions, and the list of what is already right and should not be re-litigated. Read it before touching auth, credentials, public endpoints, or the deploy chain. Open security items live in `open-loops.md` like everything else and point back here by F-number.
 

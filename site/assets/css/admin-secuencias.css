@@ -1,0 +1,52 @@
+/* /admin/secuencias/ — the email-sequence board. September 6, 2026.
+   Deliberately its own stylesheet rather than an extension of
+   admin-enlaces.css: the two pages share a header shape and nothing else, and
+   a shared operator stylesheet is how one page's tweak silently reflows the
+   other. Tokens come from site.css. */
+
+.adm-hero { background: var(--ink, #14202e); color: #fff; padding: 2.5rem 0 2rem; }
+.adm-hero .label { display:inline-block; font-size:.72rem; letter-spacing:.14em;
+  text-transform:uppercase; opacity:.6; margin-bottom:.4rem; }
+.adm-hero h1 { margin:0 0 .6rem; font-size:1.7rem; letter-spacing:-.02em; }
+.adm-hero p { margin:0; max-width:60ch; opacity:.82; font-size:.95rem; line-height:1.55; }
+.adm-hero code { background:rgba(255,255,255,.12); padding:.05em .35em; border-radius:4px; }
+.adm-stamp { margin-top:.9rem !important; font-size:.8rem !important; opacity:.55 !important; }
+.adm-warn { color:#ffd27d !important; opacity:.9 !important; }
+
+.adm-wrap { padding: 2rem 0 4rem; }
+.adm-empty { color:#5a6a7d; font-style:italic; }
+
+/* Wide tables scroll inside their own box; the page body never scrolls
+   sideways, which on a phone is the difference between usable and not. */
+.adm-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch;
+  border:1px solid #e6e9ee; border-radius:10px; background:#fff; }
+
+.adm-table { width:100%; border-collapse:collapse; font-size:.9rem; min-width:52rem; }
+.adm-table th, .adm-table td { padding:.6rem .75rem; text-align:left;
+  border-bottom:1px solid #eef1f5; white-space:nowrap; }
+.adm-table thead th { position:sticky; top:0; background:#f6f7f9; z-index:1;
+  font-size:.74rem; letter-spacing:.06em; text-transform:uppercase; color:#5a6a7d; }
+.adm-table .num { text-align:right; font-variant-numeric:tabular-nums; }
+.adm-table .campaign code { font-size:.85rem; }
+.adm-table .date { color:#5a6a7d; font-size:.82rem; }
+.adm-table tbody tr:last-child td { border-bottom:none; }
+
+/* sent < minted: not an error, but the number that explains the gap. */
+.adm-flag { color:#0f6f5c; font-weight:600; }
+.adm-bad  { color:#b4342a; font-weight:600; }
+
+.adm-sub td { padding-top:.15rem; padding-bottom:.75rem; border-bottom:1px solid #eef1f5;
+  white-space:normal; }
+.chip { display:inline-block; margin:.15rem .35rem .15rem 0; padding:.15rem .5rem;
+  background:#f0f3f7; border-radius:999px; font-size:.78rem; color:#41505f; }
+.chip code { font-size:.76rem; }
+
+.adm-rules { margin-top:2rem; }
+.adm-rules h2 { font-size:1rem; margin:0 0 .6rem; }
+.adm-rules ul { margin:0; padding-left:1.1rem; color:#41505f; font-size:.9rem; line-height:1.65; }
+.adm-rules li { margin-bottom:.4rem; }
+
+@media (max-width: 640px) {
+  .adm-hero { padding:2rem 0 1.5rem; }
+  .adm-hero h1 { font-size:1.35rem; }
+}

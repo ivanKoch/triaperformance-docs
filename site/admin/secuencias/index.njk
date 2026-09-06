@@ -1,0 +1,115 @@
+---
+layout: layouts/base.njk
+pageCss: "admin-secuencias.css"
+title: "Secuencias de email — Admin"
+noindex: true
+noClarity: true
+noTracking: true
+eleventyExcludeFromCollections: true
+---
+{#- The email-sequence board. Added September 6, 2026.
+
+    Same construction as /admin/enlaces/: a STATIC page behind the single-user
+    basic_auth on /admin/*, declared in automation/Caddyfile ABOVE the 8092
+    content-engine proxy so file_server serves it.
+
+    Everything renders from site/_data/sequences.json, written by
+    automation/build-sequences-data.py during deploy-website.sh. If the
+    database is unreachable at deploy time the previous file is kept and
+    `generated_at` below is what says so -- read the timestamp before
+    reading the numbers.
+
+    This page owns NO figure. Every number comes from the sequence_stats
+    view; correcting one means correcting the view, never this file. -#}
+
+<header class="adm-hero">
+  <div class="wrap">
+    <span class="label">Admin</span>
+    <h1>Secuencias de email</h1>
+    <p>
+      Cada envío con su propio <code>source</code>. Las tasas se calculan sobre
+      <strong>enviados</strong>, nunca sobre la lista minteada — un envío puede
+      saltear a alguien que ya está en la lista de bajas, y dividir por la lista
+      completa haría que la tasa de bajas se vea mejor de lo que es.
+    </p>
+    {% if sequences.generated_at %}
+      <p class="adm-stamp">Datos al {{ sequences.generated_at }} (UTC) · se actualiza en cada deploy.</p>
+    {% else %}
+      <p class="adm-stamp adm-warn">Sin datos todavía — <code>build-sequences-data.py</code> no ha corrido.</p>
+    {% endif %}
+  </div>
+</header>
+
+<div class="wrap adm-wrap">
+
+  {% if not sequences.campaigns or sequences.campaigns.length == 0 %}
+    <p class="adm-empty">
+      No hay secuencias registradas. Un envío aparece acá en cuanto sus tokens
+      se mintean con <code>--source</code> y el deploy vuelve a correr.
+    </p>
+  {% else %}
+
+  <div class="adm-scroll">
+    <table class="adm-table">
+      <thead>
+        <tr>
+          <th>Secuencia</th>
+          <th class="num">Minteados</th>
+          <th class="num">Enviados</th>
+          <th class="num">Clics</th>
+          <th class="num">Personas</th>
+          <th class="num">% clic</th>
+          <th class="num">Bajas</th>
+          <th class="num">% baja</th>
+          <th>Último envío</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for c in sequences.campaigns %}
+        <tr>
+          <td class="campaign"><code>{{ c.campaign }}</code></td>
+          <td class="num">{{ c.minted }}</td>
+          <td class="num{% if c.sent < c.minted %} adm-flag{% endif %}">{{ c.sent }}</td>
+          <td class="num">{{ c.clicks }}</td>
+          <td class="num">{{ c.clickers }}</td>
+          <td class="num">{% if c.click_pct != null %}{{ c.click_pct }}%{% else %}—{% endif %}</td>
+          <td class="num">{{ c.unsubscribed }}</td>
+          <td class="num{% if c.unsub_pct and c.unsub_pct >= 2 %} adm-bad{% endif %}">{% if c.unsub_pct != null %}{{ c.unsub_pct }}%{% else %}—{% endif %}</td>
+          <td class="date">{{ c.last_sent | default('—') }}</td>
+        </tr>
+        {% set codes = sequences.links_by_campaign[c.campaign] %}
+        {% if codes %}
+        <tr class="adm-sub">
+          <td colspan="9">
+            {% for l in codes %}
+              <span class="chip"><code>{{ l.code }}</code> {{ l.clicks }} clic{% if l.clicks != 1 %}s{% endif %} · {{ l.clickers }} pers.</span>
+            {% endfor %}
+          </td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <section class="adm-rules">
+    <h2>Cómo leer esto</h2>
+    <ul>
+      <li><strong>Minteados vs enviados.</strong> Si difieren, el envío salteó a
+      alguien — casi siempre porque ya estaba en <code>email_suppression</code>.
+      Eso es el sistema funcionando, no un error.</li>
+      <li><strong>Clics son server-side</strong>, vía <code>/c/&lt;code&gt;</code>.
+      No dependen de imágenes ni de GA4, y cuentan el clic al checkout de
+      TrainingPeaks, que es el único que importa y el único que un UTM nunca vio.</li>
+      <li><strong>Personas ≠ clics.</strong> Alguien que abre el mismo link tres
+      veces es un clicker y tres clics.</li>
+      <li><strong>% baja en rojo a partir de 2%.</strong> No es una regla de la
+      industria, es un umbral para mirar la copy antes del próximo envío.</li>
+      <li><strong>No hay aperturas.</strong> No se trackean, a propósito: desde
+      Apple Mail Privacy Protection una tasa de apertura mide el proxy de Apple,
+      no a la persona.</li>
+    </ul>
+  </section>
+
+  {% endif %}
+</div>

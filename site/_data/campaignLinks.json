@@ -1,0 +1,51 @@
+{
+  "_comment": "Registry for /c/<code> campaign redirects, read by the members auth service (automation/members-area/auth_service/app.py). Same shape and same reasoning as workoutLinks.json: the operator owns the path, so a destination can be repointed after the email has been sent and cannot be un-sent. UNLIKE workoutLinks.json these destinations are ABSOLUTE and may be off-site -- that is the whole point: a TrainingPeaks checkout runs no GA4 of ours, so a server-side redirect is the only way a click on it is ever counted. An unknown code NEVER 404s; it falls back to `fallback` below and is still logged under its own code. Add a code here and it is live on the next git pull -- the service re-reads on mtime, no restart.",
+  "fallback": "https://triaperformance.com/",
+  "links": [
+    {
+      "code": "aa-pt-checkout",
+      "destination": "https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a",
+      "label": "All-Access PT — checkout ($29.99)"
+    },
+    {
+      "code": "aa-es-checkout",
+      "destination": "https://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd4edb446f3",
+      "label": "All-Access ES — checkout ($39.99)"
+    },
+    {
+      "code": "aa-en-checkout",
+      "destination": "https://checkout.trainingpeaks.com/product/7127a1e4-f736-45b7-b98d-1bbe468d950a",
+      "label": "All-Access EN — checkout ($39.99)"
+    },
+    {
+      "code": "coaching-checkout",
+      "destination": "https://checkout.trainingpeaks.com/product/89fd8761-0301-4cca-bded-394238ae1b8a",
+      "label": "Private 1:1 coaching — checkout ($149)"
+    },
+    {
+      "code": "aa-pt",
+      "destination": "https://triaperformance.com/pt/all-access/",
+      "label": "All-Access PT — landing page"
+    },
+    {
+      "code": "aa-es",
+      "destination": "https://triaperformance.com/all-access/",
+      "label": "All-Access ES — landing page"
+    },
+    {
+      "code": "aa-en",
+      "destination": "https://triaperformance.com/en/all-access/",
+      "label": "All-Access EN — landing page"
+    },
+    {
+      "code": "wa",
+      "destination": "https://wa.me/573105437088",
+      "label": "WhatsApp — Iván"
+    },
+    {
+      "code": "reviews",
+      "destination": "https://maps.app.goo.gl/Dfw4166sxw3WGwA3A",
+      "label": "Google reviews"
+    }
+  ]
+}

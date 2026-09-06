@@ -98,7 +98,7 @@ triaperformance.com {
 	# extension-less paths (/planes/p/<slug>/), so there is no *.html to match.
 	# /api/* is excluded and left alone: those are proxied POSTs to n8n.
 	@documents {
-		not path /assets/* /members/* /admin/* /api/* /w/*
+		not path /assets/* /members/* /admin/* /api/* /w/* /c/*
 	}
 	header @documents Cache-Control "no-cache"
 
@@ -113,6 +113,22 @@ triaperformance.com {
 	# "here is the operator's link scheme" is not subscriber-facing. Same
 	# credential, one fewer surface to reason about.
 	handle /admin/enlaces* {
+		basic_auth {
+			ivan $2a$14$adW9sEQJhHnRK3E5XB4UGOmbZ0cD5GgPhP3N8SpU0SsuZF9QhJpFS
+		}
+		file_server
+	}
+
+	# Content-engine admin (idea review). Single user, so a basic_auth line is the
+	# whole requirement — the members area needs per-subscriber tokens because
+	# revoking one must not affect the others, which does not apply here.
+	# Must sit above the general file_server or /admin/* is served from the static
+	# webroot, where it does not exist, and returns 404.
+	# The email-sequence board (added September 6, 2026). Same construction and
+	# same reasoning as /admin/enlaces above — a STATIC built page, so it MUST
+	# be declared before `handle /admin/*` or the content-engine admin 404s it.
+	# Data comes from site/_data/sequences.json, written at deploy time.
+	handle /admin/secuencias* {
 		basic_auth {
 			ivan $2a$14$adW9sEQJhHnRK3E5XB4UGOmbZ0cD5GgPhP3N8SpU0SsuZF9QhJpFS
 		}
@@ -147,6 +163,16 @@ triaperformance.com {
 	#     the only way to change those links without touching the workouts.
 	#
 	# Same reasoning that made /hubfs permanent for the ~300 published plans.
+	# Campaign redirects for email sends (added September 6, 2026). Same service
+	# as /w/, same reasoning, different identity: /w/ knows the clicker from the
+	# members cookie, and a cold email recipient has no cookie, so /c/ carries a
+	# per-recipient `k` minted with the send. Outside every gate — the whole
+	# point is counting the click of someone who is not a member yet.
+	# See unsubscribe-runbook.md §Click tracking.
+	handle /c/* {
+		reverse_proxy 127.0.0.1:8091
+	}
+
 	handle /w/* {
 		reverse_proxy 127.0.0.1:8091
 	}

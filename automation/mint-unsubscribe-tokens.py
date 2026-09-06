@@ -7,6 +7,10 @@ asks, and whatever comes after. The list is somebody else's problem; this
 script only mints, suppresses and formats.
 
   IN   a CSV with columns: email, lang, firstname   (lang: SPANISH|ENGLISH|PORTUGUESE)
+
+Each recipient gets TWO ids: an unsubscribe token and a click_id. Build a
+tracked link in the email as  https://triaperformance.com/c/<code>?k=<click_id>
+where <code> is a key in site/_data/campaignLinks.json.
   OUT  <prefix>-merge.csv    one row per recipient, unsubscribe_url included
        <prefix>-tokens.sql   INSERTs to run against the members DB
 
@@ -22,6 +26,7 @@ Then, on the VPS:
 import argparse, csv, os, secrets, sys
 
 BASE = "https://triaperformance.com/api/unsubscribe"
+CLICK_BASE = "https://triaperformance.com/c"   # /c/<code>?k=<click_id>
 VALID_LANGS = {"SPANISH", "ENGLISH", "PORTUGUESE"}
 
 
@@ -58,17 +63,23 @@ def main():
             lang = "SPANISH"
         seen.add(email)
         token = secrets.token_hex(16)          # 32 hex chars
+        # A SECOND, separate id for click tracking. Never the unsubscribe token:
+        # checkout links get forwarded, and a forwarded unsubscribe token would
+        # let the recipient of the forward unsubscribe the sender.
+        click_id = secrets.token_hex(8)        # 16 hex chars, short enough for a URL
         out.append({
             "firstname": (r.get("firstname") or "").strip(),
             "email": email,
             "lang": lang,
             "token": token,
+            "click_id": click_id,
             "unsubscribe_url": f"{BASE}?t={token}",
         })
 
     merge_path = f"{prefix}-merge.csv"
     with open(merge_path, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["firstname", "email", "lang", "token", "unsubscribe_url"])
+        w = csv.DictWriter(f, fieldnames=["firstname", "email", "lang", "token",
+                                          "click_id", "unsubscribe_url"])
         w.writeheader()
         w.writerows(out)
 
@@ -77,9 +88,10 @@ def main():
         f.write("BEGIN;\n")
         for r in out:
             f.write(
-                "INSERT INTO unsubscribe_tokens (token, email, lang, source) VALUES ("
+                "INSERT INTO unsubscribe_tokens (token, email, lang, source, click_id) VALUES ("
                 f"{sql_quote(r['token'])}, {sql_quote(r['email'])}, "
-                f"{sql_quote(r['lang'])}, {sql_quote(args.source)});\n")
+                f"{sql_quote(r['lang'])}, {sql_quote(args.source)}, "
+                f"{sql_quote(r['click_id'])});\n")
         f.write("COMMIT;\n\n")
         f.write("-- Run this BEFORE sending, then re-check the list against\n")
         f.write("-- email_suppression: minting a token is not permission to send.\n")

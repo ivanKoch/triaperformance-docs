@@ -67,6 +67,13 @@ if [ -f "$HOME/.hermes/plan_link_status.json" ]; then
   export PLAN_LINK_STATUS="$HOME/.hermes/plan_link_status.json"
   echo "[$(date -Is)] using link status from $PLAN_LINK_STATUS"
 fi
+# Sequence board data (added September 6, 2026). Written BEFORE the build,
+# because /admin/secuencias/ is a static page and this is its only source.
+# The script never fails the deploy: if Postgres is unreachable it leaves the
+# previous sequences.json in place and exits 0 -- a stale table beats no site,
+# and the page prints `generated_at` so a stale one says so out loud.
+python3 automation/build-sequences-data.py || true
+
 npx @11ty/eleventy --output="$BUILD_DIR"
 
 # ---- Guards. Publish only if the build produced a real site. ----------------

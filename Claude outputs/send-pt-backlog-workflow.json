@@ -1,0 +1,249 @@
+{
+  "name": "Send — CoachMatch PT Backlog 2026-09",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4cbcce76-98f8-435d-a63b-8d7be8b922f0",
+      "name": "When clicking Execute"
+    },
+    {
+      "parameters": {
+        "jsCode": "// PASTE THE MERGE ROWS HERE.\n//\n// Produced by: python3 automation/mint-unsubscribe-tokens.py pt-backlog.csv \\\n//                --source coachmatch-pt-backlog-2026-09\n// then convert that CSV to JSON:\n//   python3 -c \"import csv,json;print(json.dumps(list(csv.DictReader(open('coachmatch-pt-backlog-2026-09-merge.csv'))),ensure_ascii=False,indent=1))\"\n//\n// Each row needs: firstname, email, lang, token, unsubscribe_url\n// Keep this list in the workflow rather than reading a file: this is a ONE-OFF\n// send, the list is 30 rows, and having the exact recipients frozen inside the\n// execution record is worth more here than the elegance of a file read.\n\nconst RECIPIENTS = [\n  // { \"firstname\": \"...\", \"email\": \"...\", \"lang\": \"PORTUGUESE\", \"token\": \"...\", \"unsubscribe_url\": \"https://...\" },\n];\n\nif (!RECIPIENTS.length) {\n  throw new Error('RECIPIENTS is empty -- paste the merge rows before running.');\n}\nfor (const r of RECIPIENTS) {\n  if (!r.email || !r.unsubscribe_url) {\n    throw new Error(`recipient missing email or unsubscribe_url: ${JSON.stringify(r)}`);\n  }\n}\n\nreturn RECIPIENTS.map((json) => ({ json }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "6ac63f26-b598-4b14-ac6d-7f2353d5b553",
+      "name": "Recipients"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        440,
+        0
+      ],
+      "id": "28b7f819-de3e-4505-a484-feac3a2b9015",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT 1 AS suppressed\nFROM email_suppression\nWHERE lower(email) = lower($1);",
+        "options": {
+          "queryReplacement": "={{ $json.email }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        700,
+        120
+      ],
+      "id": "85377820-6d6b-43a3-a042-ec7f122c5ef2",
+      "name": "Suppression Check",
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "bc95856e-8f4b-4f43-8a02-421c2d5cffbc",
+              "leftValue": "={{ $json.suppressed }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "looseTypeValidation": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        920,
+        120
+      ],
+      "id": "2e3d1746-8da0-47dc-a441-e3a837216f3e",
+      "name": "Not Suppressed?"
+    },
+    {
+      "parameters": {
+        "fromEmail": "Iván Koch - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $('Loop Over Items').item.json.email }}",
+        "subject": "={{ $('Loop Over Items').item.json.firstname }}, algo novo em português — 29,99 USD/mês",
+        "html": "=<p>Olá {{ $('Loop Over Items').item.json.firstname }}, tudo bem?</p>\n\n<p>Você pediu informação sobre coaching na TrainingPeaks há um tempo e a gente nunca chegou a conversar de verdade. Sem problema — mas mudou uma coisa que vale um email.</p>\n\n<p>Na época, o que eu tinha para te oferecer era acompanhamento 1:1, e eu faço isso em espanhol ou inglês. Hoje existe uma segunda opção, e ela é inteiramente em português: <strong>Triaperformance All-Access, 29,99 USD por mês</strong>.</p>\n\n<p>O que entra por esses <strong>29,99 USD</strong>:</p>\n\n<ul>\n  <li>Os <strong>53 planos de treino em português</strong> — corrida, ciclismo, triatlo, natação e duatlo — com troca livre de plano sempre que o seu objetivo mudar.</li>\n  <li><strong>TrainingPeaks Premium incluído</strong> (19,95 USD/mês por fora).</li>\n  <li><strong>13 ferramentas na Área de Membros</strong>: a calculadora das suas sete zonas, ativação e mobilidade que se montam sozinhas, rotinas para joelho, aquiles e ombro, core para quarto de hotel, configuração do Garmin, e o guia de carga de treino explicado direito.</li>\n  <li><strong>Suporte meu por escrito, em português</strong>, para dúvidas sobre as ferramentas, as suas zonas ou qual plano escolher.</li>\n</ul>\n\n<p><strong>29,99 USD por mês</strong>, cobrado em dólares pela TrainingPeaks. Cancela quando quiser.</p>\n\n<p><a href=\"https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a\"><strong>Assinar o All-Access — 29,99 USD/mês</strong></a><br>\n<em>No checkout o produto aparece como \"Acesso Total: Planos de Treino\" — é este mesmo.</em></p>\n\n<p>Se não for para você, tudo certo — não te escrevo de novo sobre isso.</p>\n\n<p>Abraço,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>\n\n<hr style=\"border:none;border-top:1px solid #e6e9ee;margin:2rem 0 1rem\">\n<p style=\"color:#8a94a0;font-size:12px;line-height:1.5\">\nVocê recebe este email porque pediu informação sobre coaching na TrainingPeaks.<br>\nSe preferir não receber mais, <a href=\"{{ $('Loop Over Items').item.json.unsubscribe_url }}\" style=\"color:#8a94a0\">descadastre-se aqui</a>.\n</p>",
+        "options": {
+          "replyTo": "coach@triaperformance.com",
+          "emailHeaders": {
+            "entries": [
+              {
+                "name": "List-Unsubscribe",
+                "value": "=<mailto:coach@triaperformance.com?subject=unsubscribe>, <{{ $('Loop Over Items').item.json.unsubscribe_url }}>"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1140,
+        20
+      ],
+      "id": "c000f77c-6900-4343-a083-418b43799a1e",
+      "name": "Send",
+      "webhookId": "145a2818-1ad4-4d14-aa43-9adcd34218f7",
+      "credentials": {
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1360,
+        20
+      ],
+      "id": "cbba9581-a259-41a9-bc70-f857f5b9a03c",
+      "name": "Throttle 20s",
+      "webhookId": "56351716-3355-4d9f-acf7-0bd7df729954"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking Execute": {
+      "main": [
+        [
+          {
+            "node": "Recipients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recipients": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Suppression Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Suppression Check": {
+      "main": [
+        [
+          {
+            "node": "Not Suppressed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Not Suppressed?": {
+      "main": [
+        [
+          {
+            "node": "Send",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send": {
+      "main": [
+        [
+          {
+            "node": "Throttle 20s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Throttle 20s": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": "GWBWznYoPiHdbmVt"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

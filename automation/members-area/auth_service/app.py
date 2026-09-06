@@ -344,6 +344,72 @@ def workout_link(code):
     return resp
 
 
+def campaign_link_for(code):
+    """Look up a /c/ code in campaignLinks.json. Same mtime-cached read as
+    link_for(); a malformed file keeps serving the last good copy, because a
+    link already sitting in somebody's inbox cannot be recalled."""
+    for row in _load_json("campaignLinks.json").get("links", []):
+        if row.get("code") == code:
+            return row
+    return None
+
+
+def log_campaign_click(code, click_id, destination, user_agent):
+    """One row per /c/ click. Swallows every error for the same reason
+    log_event() does -- an analytics write must never cost a real click."""
+    try:
+        conn = get_conn()
+        with conn, conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO campaign_link_clicks "
+                "(code, click_id, destination, user_agent) VALUES (%s, %s, %s, %s)",
+                (code, click_id or None, destination, (user_agent or "")[:500]),
+            )
+        conn.close()
+    except Exception:
+        pass
+
+@app.route("/c/<code>")
+def campaign_link(code):
+    """Campaign redirect for email sends. Outside every gate, like /w/.
+
+    Why this exists when the emails already carry UTMs: a UTM only reports on a
+    page that runs OUR GA4. The single most important click in an All-Access
+    email goes to checkout.trainingpeaks.com, which does not -- so before this
+    route the highest-intent click in the funnel was structurally invisible.
+    A redirect we own is counted before the browser ever leaves.
+
+    Identity is `k`, the per-recipient click_id minted with the send. It is NOT
+    the unsubscribe token, deliberately: checkout links get forwarded, and a
+    forwarded unsubscribe token would let the recipient of the forward
+    unsubscribe the sender.
+
+    An unknown code never 404s -- same rule as /w/, for the same reason: the
+    link is already in somebody's inbox and cannot be recalled. It degrades to
+    the registry fallback and is still logged under its own code, so a typo
+    shows up as clicks rather than as silence.
+    """
+    entry = campaign_link_for(code)
+    registry = _load_json("campaignLinks.json")
+    destination = (entry or {}).get("destination") or \
+        registry.get("fallback") or DEFAULT_HOME
+
+    log_campaign_click(
+        code,
+        request.args.get("k"),
+        destination,
+        request.headers.get("User-Agent"),
+    )
+
+    resp = make_response(redirect(destination, code=302))
+    # A cached redirect is an unlogged click.
+    resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    resp.headers["Pragma"] = "no-cache"
+    # This link is in an email; it must not leak the recipient's id onward.
+    resp.headers["Referrer-Policy"] = "no-referrer"
+    return resp
+
+
 @app.route("/members/login", methods=["POST"])
 def login():
     """One endpoint for all three languages -- the ES, EN and PT login pages all
