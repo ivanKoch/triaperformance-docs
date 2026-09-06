@@ -1,23 +1,8 @@
 /* index — extra rules on top of site.css. */
 
-:root {
-    /* Same dark system introduced on the kettlebell artifact — brand blue as a solid
-       fill for interactive elements, --blue-bright (a lighter tint of #004aad) for
-       anywhere blue shows up as text directly on the near-black background. */
-    --bg: #0d1117;
-    --surface: #171b21;
-    --surface2: #1f242c;
-    --border: #2a313b;
-    --blue: #004aad;
-    --blue-deep: #003a89;
-    --blue-bright: #4f8fdb;
-    --blue-dim: rgba(0, 74, 173, 0.22);
-    --white: #ffffff;
-    --text: #f2f3f1;
-    --text-dim: #8b9089;
-    --font: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
-  }
-
+/* Tokens come from tokens.css, loaded site-wide by layouts/base.njk
+   (September 6, 2026). This block used to be a hand-copied duplicate of the
+   same twelve declarations in six stylesheets — see brand-guidelines.md §0. */
 body {
     font-family: var(--font);
     color: var(--text); background: var(--bg); line-height: 1.6;

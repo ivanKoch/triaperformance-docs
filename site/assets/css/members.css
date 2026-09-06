@@ -21,10 +21,10 @@ a { color: var(--blue); }
 
 .section--wash { background: var(--wash); }
 
-.video-slot {
-    border: 1px dashed var(--mist); border-radius: 8px; background: var(--wash); color: var(--slate);
-    padding: 48px 24px; text-align: center; font-size: 14px; margin: 24px 0;
-  }
+/* `.video-slot` removed September 6, 2026. It rendered a dashed empty box
+   reading "Video explicativo - proximamente" on six pages inside the paid
+   area, which is what a prototype looks like. brand-guidelines.md §11.4:
+   either record the video or delete the slot. */
 
 /* The mobile drawer used to be redeclared here — a 260px-wide copy at a 640px
    breakpoint, overriding site.css's 320px-at-860px version on members pages

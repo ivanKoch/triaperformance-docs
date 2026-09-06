@@ -1,0 +1,75 @@
+/* Triaperformance — design tokens. The ONE home for every colour, the type
+   stack and the motion duration. Per brand-guidelines.md §0 and §3.
+
+   Loaded by layouts/base.njk before site.css, so every page on the site —
+   public and members, light and carbon — gets the same values.
+
+   ⚠️ A stylesheet that declares its own `:root` block is a bug. That is how
+   `--blue-bright` came to be defined in six separate files, and why any token
+   change used to cost six edits and drift on the seventh.
+
+   Both systems are declared here unconditionally. The carbon tokens are inert
+   on a light page — nothing reads them — so there is no cost to having them
+   always available, and a members stylesheet becomes rules only. */
+
+:root {
+  /* --- type ------------------------------------------------------------ */
+  --font: "Archivo", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+  /* --- motion ---------------------------------------------------------- */
+  /* One duration. Colour, border, background, opacity, transform.
+     200ms only for something crossing more than ~200px. Nothing else moves —
+     see brand-guidelines.md §8 for what never animates. */
+  --t: 150ms cubic-bezier(.2, 0, 0, 1);
+
+  /* --- light system ---------------------------------------------------- */
+  --blue: #004aad;        /* identity: links, buttons, logo, eyebrows       */
+  --blue-deep: #003a89;   /* hover/active of any blue element              */
+  --ink: #1e2019;
+  --white: #ffffff;
+  --wash: #edf3fb;
+  --slate: #565a52;
+  --mist: #e4e6e1;
+
+  /* Heat — the signal colour. NOT a second brand colour: it is the hard end
+     of the zone model in data/zones.csv, and it is allowed in exactly three
+     places (zone/effort scales, the featured card's rule, result chips).
+     Never a button, never a link, never nav. brand-guidelines.md §3.3.
+       --heat          5.19:1 on white — text-safe, clears AA
+       --heat-graphic  4.30:1 on white — graphic objects only (3:1 gate)   */
+  --heat: #c2410c;
+  --heat-graphic: #d9480f;
+  --heat-dim: rgba(217, 72, 15, .10);
+
+  /* --- carbon system --------------------------------------------------- */
+  /* Default for /members/*. Permitted on exactly three public surfaces:
+     the hero, the final CTA, and the featured offer card. */
+  --bg: #0d1117;
+  --surface: #171b21;
+  --surface2: #1f242c;
+  --border: #2a313b;
+  --blue-bright: #4f8fdb;   /* blue as TEXT on carbon; --blue fails there   */
+  --blue-dim: rgba(0, 74, 173, .22);
+  --heat-bright: #ff8a4c;   /* heat, any use, on carbon — 8.13:1 on --bg    */
+  --heat-dim-dark: rgba(255, 138, 76, .14);
+  --text: #f2f3f1;
+  --text-dim: #8b9089;
+
+  /* Semantic states. Form validation and the members-area safety callouts —
+     these are not brand colours and appear nowhere else. */
+  --green: #4caf7d;
+  --warn: #d97a68;
+  --warn-dim: rgba(217, 122, 104, 0.12);
+}
+
+/* Motion is opt-out at the token level, so a single media query disables
+   every transition on the site rather than each stylesheet remembering to. */
+@media (prefers-reduced-motion: reduce) {
+  :root { --t: 1ms; }
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}

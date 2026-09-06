@@ -1,146 +1,303 @@
 # Triaperformance — Brand Guidelines
 
-v1.0 — July 2026. Lives in the site repo. Claude and Hermes build every page against this document; if a design decision isn't covered here, extend this file first, then build.
+**v1.1 — September 6, 2026.** Lives in the site repo. Claude and Hermes build every page against this document; if a design decision isn't covered here, extend this file first, then build.
+
+## 0. How to read this file
+
+**Everything here is current and stated once.** There is no history in this document — no dated amendments, no struck-through lines, no "as of" notes. That is deliberate, and it is the main change from v1.0: a brand file that is also a changelog gets followed as a changelog, and a builder skimming for "what does the brand look like?" ends up parsing three months of decisions to find the colour table. **The historical record — every dated call, every superseded rule and the reasoning behind it — is preserved in `ai-infrastructure-documentation.md` §37.** Nothing was thrown away; it was moved somewhere that reading it is a choice.
+
+**The rule that keeps it that way:** when a decision changes, **edit the rule in place** and add one line to §37. Do not strike text through here. Do not append a dated note here. If a rule can no longer be stated in one present-tense sentence, the decision underneath it is not finished.
+
+**Ownership, so nothing is defined twice:**
+
+| This file owns | Owned elsewhere |
+|---|---|
+| Colour tokens, type, spacing, components, motion, photography, voice, the reject list | Prices — `triaperformance-pricing-and-positioning.md` |
+| The rules a page is built against | Zone percentages — `data/zones.csv` |
+| | Systems, URLs, build record — `ai-infrastructure-documentation.md` |
+| | Open work — `open-loops.md` |
+| | Review quotes and counts — `social-proof-and-reviews.md` |
+| | Members library wording — `site/_data/library.json` |
+
+A number in this file is a copy and is wrong the moment its owner moves. There are none, on purpose.
+
+---
 
 ## 1. Brand essence
 
-Data-driven coaching with personal attention. The site should feel like the coaching does: precise, calm, no noise. Reference aesthetic: [highnorth.co.uk](https://www.highnorth.co.uk) — minimal, white-dominant, sparse pages where typography and whitespace do the work.
+Data-driven coaching with personal attention. The site should feel like the coaching does: **precise, calm, chosen.**
+
+> Premium endurance studio. Few elements, but every one of them decided. Type is specified, not inherited. Photography is cropped and owned. Colour is scarce because the scarce colour is memorable — not because the palette was never finished.
 
 Tagline: **Eleva tu performance** (ES) / **Elevate your performance** (EN) / **Eleve sua performance** (PT).
 
-One rule above all: **when in doubt, remove.** Fewer sections, fewer words, fewer colors.
+**The rule above all: when in doubt, make one element work harder.** Do not add a fifth section. Do not remove the thing that signals price. *v1.0 said "when in doubt, remove," and it produced deleted identity rather than edited identity — the mark, the webfont, the second colour and the coach's own face all went, each defensibly, and what was left was a page with no wrong decisions and no chosen ones.*
 
-## 2. Logo
+**Altitude.** The work must not look like a generic TrainingPeaks coach site or an Elementor triathlon template. It should sit comfortably beside brands priced above this one — calm, material, confident. **The internal benchmark is the members-area dark tools**: that is the most designed surface the business has, and the public site rises to meet it rather than the other way around.
 
-Wordmark: "Triaperformance" set in Helvetica Bold.
+---
 
-- On white backgrounds: wordmark in Blue `#004aad`.
-- On Blue backgrounds: wordmark in White.
-- Never on photography without a solid color block behind it.
-- Clearspace: minimum padding around the logo equal to the height of the capital "T" on all sides.
+## 2. Logo and mark
+
+**Wordmark**: "Triaperformance", set in **Archivo, weight 700, width 112%**, letter-spacing −0.025em. Same setting as a Display heading, because the wordmark and the headline come from the same voice.
+
+- On light backgrounds: Blue `#004aad`.
+- On carbon backgrounds: White `#ffffff`.
+- On photography: White, and it may sit directly on the image — no solid block behind it — provided the area under it is at 40% ink or darker. *A logo that cannot sit on a race photo is a logo that is not ready.*
+- Clearspace: padding equal to the cap-height of the "T" on all sides.
 - Minimum width: 140px digital.
-- Don't: add effects, outlines, gradients, or recolor outside the two approved combinations.
+- Never: effects, outlines, gradients, or a colourway outside the two above.
 
-Source file: `tp_logo_horizontal.png` — held locally by Iván. Still worth recreating as an SVG for the site.
+**Mark**: a capital **T** cut from the same setting (Archivo 700 / width 125%), knocked out of a Blue field. It is a monogram, not an illustration — that is what lets it survive 16px and a watch face.
 
-## 3. Color
+Files, in the repo:
+
+| Asset | Path | Use |
+|---|---|---|
+| Favicon | `site/assets/icons/favicon.svg` | Browser tab. 6px corner radius. |
+| Favicon fallback | `site/assets/icons/favicon-32.png` | Browsers without SVG icon support. |
+| Touch icon | `site/assets/icons/apple-touch-icon.png` | 180px, full-bleed, square — iOS applies its own mask. |
+
+The horizontal wordmark still needs an SVG export in this setting. Until it exists the wordmark renders as live text, which is correct anyway for the nav.
+
+---
+
+## 3. Colour
+
+Two complete systems, **peers, not a system and an appendix.** Light is the default for public pages; carbon is the default for the members area and is permitted on three named public surfaces (§3.3).
+
+### 3.1 Light system
 
 | Role | Name | Hex | Usage |
 |---|---|---|---|
-| Primary | TP Blue | `#004aad` | Links, primary buttons, logo, accents. The only saturated color on the site. |
-| Ink | Ink | `#1e2019` | All body and headline text on light backgrounds. |
-| Base | White | `#ffffff` | Default page background. The site is white-first. |
-| Tint | Blue Wash | `#edf3fb` | Alternate section backgrounds, card fills. Use sparingly — max one washed section per page. |
-| Neutral | Slate | `#565a52` | Secondary text, captions, meta info. |
+| Primary | TP Blue | `#004aad` | Links, primary buttons, logo, eyebrows. |
+| Interaction | Blue Deep | `#003a89` | Hover/active of any Blue element. |
+| Signal (text) | Heat | `#c2410c` | Result chips, intensity labels. Text-safe. |
+| Signal (graphic) | Heat Graphic | `#d9480f` | Zone bars, the featured card's rule. Never body text. |
+| Ink | Ink | `#1e2019` | Body and headline text. |
+| Base | White | `#ffffff` | Default page background. |
+| Tint | Blue Wash | `#edf3fb` | Alternate section backgrounds, card fills. Max one washed section per page. |
+| Neutral | Slate | `#565a52` | Secondary text, captions, meta. |
 | Line | Mist | `#e4e6e1` | Borders, dividers, card outlines. |
-| Interaction | Blue Deep | `#003a89` | Hover/active state of TP Blue elements. |
 
-Rules:
-
-- Blue is an accent, not a background theme. A typical viewport should be ~90% white/ink, ~10% blue.
-- One exception: a single full-blue section per page is allowed (hero or final CTA, not both).
-- No gradients, no shadows heavier than `0 1px 3px rgba(30,32,25,.08)`, no additional colors. Success/error states in forms may use standard green/red but nowhere else.
-
-Contrast (WCAG, verified): every approved text/background pair passes AAA — Blue on White 8.1:1, Ink on White 16.5:1, Slate on White 7.1:1, Blue on Wash 7.3:1, White on Blue Deep 10.7:1. Any new color must clear 4.5:1 against its background before entering this table.
-
-## 4. Typography
-
-Font: **Helvetica** — served as system stack, no webfont to load:
-
-```css
-font-family: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
-```
-
-Scale (desktop / mobile):
-
-| Level | Size | Weight | Notes |
-|---|---|---|---|
-| Display (H1) | 56px / 36px | 700 | Letter-spacing −0.02em, line-height 1.05. One per page. |
-| H2 | 36px / 28px | 700 | Section titles. Letter-spacing −0.01em. |
-| H3 | 22px / 20px | 700 | Card titles, plan names. |
-| Body | 17px / 16px | 400 | Line-height 1.6, max width 65ch. |
-| Small | 14px | 400 | Captions, meta. Slate color. |
-| Label | 13px | 700 | Uppercase, letter-spacing +0.08em, TP Blue. Section eyebrows. |
-
-Rules: no italics, no light weights, no more than two weights (400/700) anywhere. Headlines in sentence case, not all-caps (labels are the only uppercase element).
-
-## 5. Layout & spacing
-
-- Content max-width: 1080px, centered. Text columns max 65ch.
-- Spacing on an 8px grid. Section vertical padding: 96–128px desktop, 64px mobile. Generous whitespace is the brand's main visual asset — do not compress sections to fit more content.
-- One idea per section. A page is 4–6 sections maximum (see High North: hero → what we do → plans → proof → CTA).
-- Grid: cards in 2–3 columns desktop, single column mobile.
-
-## 6. Photography
-
-- Real athletes, real races — the existing race photography (finish lines, open-water swims) is on-brand. ~~No stock, no AI-generated athletes.~~ **Amended August 24, 2026 — licensed stock is now allowed on blog listing cards only.** *Iván's call, made explicitly against this rule while rebuilding the blog index. The reasoning is worth keeping: the no-stock rule was written for pages where the photo carries the brand — the homepage, coaching pages, All-Access. A blog card is a 16:10 thumbnail whose job is scannability, and the only alternatives were one sourced photo per article (his time, forever, which is what the whole content engine exists to avoid) or no images at all. **AI-generated athletes remain prohibited, without exception** — that half of the rule was never in question and covers a different risk. Scope: `/blog/` listing cards only. Article heroes, product pages and marketing pages still take real photography or nothing.*
-  **Practical rule, so the exception doesn't spread:** stock lives at `site/assets/images/blog/topics/<topic>.jpg` (one per topic, reused) or `site/assets/images/blog/articles/<slug>.jpg` (a specific article). Anywhere else and it's outside the exception. Cards render a topic-coloured panel when no file exists, so the grid is complete with zero images and photos are an upgrade, never a dependency.
-- Treatment: natural color, no filters. When text sits on a photo, use an Ink overlay at 35–50% opacity.
-- Use photography sparingly — one strong image per page beats five average ones.
-
-## 7. Components
-
-**Primary button**: TP Blue fill, white text, 4px radius, 16px/28px padding, weight 700. Hover: Blue Deep. One primary CTA per section.
-
-**Secondary button**: transparent, 1.5px Ink border, Ink text. Same geometry.
-
-**Cards** (plans, tools): white fill, 1px Mist border, 8px radius, 32px padding. Price in Display weight. No shadows at rest; `0 1px 3px` shadow on hover only.
-
-**Testimonials**: plain text, no card chrome. Quote in Body size, name + country in Small/Slate. Source quotes from `social-proof-and-reviews.md` — per-page, per-language.
-
-**Forms**: single column, Mist borders, 4px radius. Labels above fields, never placeholder-only.
-
-**Nav is two-tier** *(Aug 10, 2026)*: a thin utility strip (`.nav-utility`, Wash background, Mist bottom border) carries the language switcher and the members link; the main row carries content only. It went two-tier because the single row ran out of width the moment the members button was added — the language switcher wrapped to a second line — and the underlying cause was that content items and utility items were competing for the same 1080px. Each row now has one job. **The utility strip is desktop-only**; below 860px both its items move into the hamburger drawer. A dropdown parent with no page of its own (`Recursos`) renders as `.nav-dropdown-label`, a plain span styled identically to its sibling links — it opens the menu and does not navigate, because a parent link pointing nowhere real is worse than one that doesn't pretend to.
-
-**Members Access nav button** (`.nav-member`, added Aug 10, 2026): 1.5px TP Blue border, TP Blue text, transparent fill, 4px radius, 8px/16px padding, weight 700, with a small outline padlock to its left. Hover inverts to a Blue fill with white text. *(In the utility strip it renders borderless at 13px — the outline treatment is for the mobile drawer and any future in-row use.)* It is a Secondary button in geometry but Blue rather than Ink, because it is a brand-owned destination rather than a generic alternative action. **It must stay the outline variant.** It sits in the same nav row as the solid Contacto CTA, and the "one primary CTA per section" rule above is what's at stake: two filled buttons side by side read as two equally-weighted asks, and the one that should win is the one aimed at people who haven't paid yet. This button is for people who already have.
-
-## 7.1 Members-area dark theme (interactive tools / artifacts)
-
-*Added August 1, 2026.* The members home and interactive tools (starting with the kettlebell routine, formalized with the running-activation tool) use a dark variant of the brand. **Dark is the default for members-area interactive artifacts**; static guide pages built earlier remain light until unified — as of Aug 13, 2026 that is only `carga` and its EN/PT siblings. (`nutricion` was retired outright.) (`zonas` and `tests` were retired into the calculator; `carrera` and `kettlebell` were retired outright; `guias` went dark with `members-downloads.css`, which also covers the new `/members/en/downloads/` and `/members/pt/downloads/`.) The public site stays white-first — this system never appears on public pages.
-
-Token set (matches `assets/css/members-home.css`):
+### 3.2 Carbon system
 
 | Role | Var | Hex |
 |---|---|---|
 | Background | `--bg` | `#0d1117` |
 | Surface (cards, dialogs, active rows) | `--surface` | `#171b21` |
-| Surface 2 (nested elements) | `--surface2` | `#1f242c` |
+| Surface 2 (nested) | `--surface2` | `#1f242c` |
 | Border | `--border` | `#2a313b` |
-| Blue fill (buttons, filled accents) | `--blue` | `#004aad` |
+| Blue as fill | `--blue` | `#004aad` |
 | Blue hover | `--blue-deep` | `#003a89` |
-| Blue as text on dark | `--blue-bright` | `#4f8fdb` |
+| Blue as text | `--blue-bright` | `#4f8fdb` |
 | Blue tint | `--blue-dim` | `rgba(0,74,173,.22)` |
+| Heat, any use | `--heat-bright` | `#ff8a4c` |
+| Heat tint | `--heat-dim` | `rgba(217,72,15,.22)` |
 | Text | `--text` | `#f2f3f1` |
 | Secondary text | `--text-dim` | `#8b9089` |
 | Headings | `--white` | `#ffffff` |
 
-Rules: TP Blue `#004aad` stays a fill-only color on dark (fails contrast as text on `--bg`); any blue text uses `--blue-bright`. Secondary buttons: 1.5px `--border` border, `--text`, hover to `--blue-bright`. Everything else (type scale, spacing, radius, no-shadow rule, voice) unchanged from the light system.
+Both token sets live once, in `assets/css/tokens.css`, imported by every stylesheet. **A stylesheet that declares its own `:root` block is a bug** — that is how `--blue-bright` came to be defined in six files.
 
-## 8. Voice
+### 3.3 Rules
 
-- Direct and data-grounded, like the coaching. Short sentences. Numbers over adjectives ("42k under 3 hours" beats "amazing results").
+- **Blue is the brand. Heat is a signal.** Blue carries identity, navigation and every interactive element. Heat carries *intensity* and appears in exactly three places: the top of any zone or effort scale, the featured offer's accent rule, and result chips. **Never a button, a link, or nav.**
+- **Heat is not decorative, and that is what licenses it.** It is the top of the zone model in `data/zones.csv`. On a running scale the colour turns inside zone Y (100–102% of LTHR), which is where the physiology turns. If a proposed use of Heat cannot be justified by "this is the hard end of something", it is the wrong colour for that job.
+- **TP Blue is fill-only on carbon** — it fails as text on `--bg`. Blue text on carbon is always `--blue-bright`. Same rule, same reason, for `--heat-bright`.
+- **Full-blue sections are retired.** The dark moment on a page is carbon, not a flooded blue panel — a full-bleed brand-blue band is the single strongest "theme template" signal available. `/referidos/` and `/en/referrals/` still carry one and migrate to carbon when next touched.
+- **Carbon on public pages is allowed on exactly three surfaces**: the **hero**, the **final CTA**, and the **featured offer card**. A page may use the hero and the final CTA together — they bookend it. Everything between them stays white-first.
+- No gradients as decoration. A gradient is allowed only where it encodes something: a photographic scrim (§7) or a transition between two zone colours.
+- Shadows: nothing heavier than `0 1px 3px rgba(30,32,25,.08)`. Form success/error may use standard green/red and appear nowhere else.
+
+### 3.4 Contrast gate
+
+Every text/background pair must clear **4.5:1**; graphic objects (bars, rules, icon strokes) must clear **3:1**. Any new colour clears its gate before it enters a table above.
+
+| Pair | Ratio | Verdict |
+|---|---|---|
+| Ink on White | 16.5:1 | AAA |
+| Blue on White | 8.1:1 | AAA |
+| Slate on White | 7.1:1 | AAA |
+| Blue on Wash | 7.3:1 | AAA |
+| White on Blue Deep | 10.7:1 | AAA |
+| Heat on White | 5.19:1 | AA — text permitted |
+| Heat Graphic on White | 4.30:1 | Graphic only — fails AA text |
+| `--blue-bright` on `--bg` | 7.4:1 | AAA |
+| `--heat-bright` on `--bg` | 8.13:1 | AAA |
+
+---
+
+## 4. Typography
+
+**Archivo**, self-hosted, one variable file: `site/assets/fonts/archivo-var-latin.woff2` (59.6 KB, weights 400–700, widths 100–125, Latin subset — which covers á é í ó ú ñ ü ã õ ç, so ES, EN and PT all ship from one file).
+
+```css
+@font-face {
+  font-family: "Archivo";
+  src: url("/assets/fonts/archivo-var-latin.woff2") format("woff2-variations");
+  font-weight: 400 700;
+  font-stretch: 100% 125%;
+  font-display: swap;
+}
+--font: "Archivo", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+```
+
+Preload it in `<head>`, ahead of the stylesheet. There is exactly one font file on this site; a second one needs an argument, not a preference.
+
+**Three weights are permitted — 400, 600, 700.** *v1.0 capped it at two because each weight was a separate download on a system stack. With one variable file the cap has no cost behind it, and 600 is what a label or a nav item wants when 700 is shouting.*
+
+**Width is hierarchy.** Display headings widen; body text does not. This is where the family earns its place — it gives a display voice without a second file.
+
+| Level | Size (desktop / mobile) | Weight | Width | Tracking | Notes |
+|---|---|---|---|---|---|
+| Display (H1) | 56 / 36 | 700 | 112% | −0.025em | line-height 1.03. One per page. |
+| H2 | 36 / 28 | 700 | 106% | −0.02em | Section titles. |
+| H3 | 22 / 20 | 700 | 100% | −0.01em | Card titles, plan names. |
+| Body | 17 / 16 | 400 | 100% | 0 | line-height 1.6, max 65ch. |
+| Small | 14 | 400 | 100% | 0 | Captions, meta. Slate. |
+| Label | 13 | 700 | 100% | +0.08em | Uppercase. Eyebrows. Blue, or Heat where it labels intensity. |
+| UI | 15 | 600 | 100% | +0.005em | Nav, buttons, chips. |
+
+**Figures.** `font-variant-numeric: tabular-nums` is **mandatory** anywhere numerals are display type or sit in a column: prices, the record strip, zone tables, calculator output, times, percentages. *This site publishes `$149`, `10h06` and seven zone ranges on almost every page; proportional figures are why they currently look typed rather than set.*
+
+Rules: no italics. Headlines in sentence case — labels are the only uppercase element. `text-wrap: balance` on every heading.
+
+---
+
+## 5. Layout and spacing
+
+- Content max-width 1080px, centred. Text columns max 65ch.
+- 8px spacing grid. Section padding 96–128px desktop, 64px mobile. Whitespace is a material, not a filler — do not compress sections to fit more content, and do not add a section to fill space.
+- **One idea per section. Four to six sections per page.** If an idea appears twice on one page, the second appearance is deleted, not reworded.
+- Cards: 2–3 columns desktop, one column mobile.
+- **Equal weight is a claim.** Three cards in a row asserts three equivalent things. Where the offers are not equivalent, the layout must say so — see §6 Featured card.
+
+---
+
+## 6. Components
+
+**Primary button** — Blue fill, white text, 4px radius, 16px/28px padding, weight 700. Hover: Blue Deep. One per section.
+
+**Secondary button** — transparent, 1.5px Ink border, Ink text, same geometry. On carbon: 1.5px `--border`, `--text`, hover to `--blue-bright`.
+
+**Card** — white fill, 1px Mist border, 8px radius, 32px padding. `0 1px 3px` shadow on hover only. On carbon: `--surface` fill, 1px `--border`.
+
+**Featured card** — the variant that carries the expensive offer. **A 3px Heat Graphic rule along the top edge** (`--heat-bright` on carbon), a Heat eyebrow, and more space than its siblings — wider, taller, or both. Nothing else changes. *One accent on one edge reads as "this is the chosen one"; a full orange outline reads as a warning.* Coaching 1:1 and a $19.99 plan must never share a card skin.
+
+**Price** — Display weight and width, tabular figures, the period (`/mes`) at 20px weight 400 in Slate. Directly beneath it, **one line of five to seven words naming what you get** — not a feature, the shape of the thing. Then the list.
+
+**Testimonial** — quote in Body, then name (600), country (Small/Slate), and a **result chip**: the event and the time, in tabular figures, 3px radius, Heat text on a Heat tint. The chip is the proof; the quote is the colour around it. Quotes come from `social-proof-and-reviews.md`.
+
+**Credential band** — logo band grouped by issuing body, placed after athlete proof and before the final ask. Institutional proof follows human proof. Content from `site/_data/credentials.json`; never hand-written into a page.
+
+**Zone scale** — a proportional bar: each zone's width is its actual span in % of threshold, read from `data/zones.csv`. Real zones take a hue; transition zones (X, Y) render as a gradient between their neighbours, because that is what a transition is. Never a row of equal tabs.
+
+**Forms** — single column, Mist borders, 4px radius, labels above fields, never placeholder-only.
+
+**Nav** — two rows. A quiet utility strip carries the language switcher and the members link; the main row carries content. *It is two rows because content items and utility items competed for the same 1080px and the language switcher wrapped — one row, one job.* The strip is **transparent, no bottom border, 12px**; it is a strip, not a bar. Below 860px both its items move into the drawer. A dropdown parent with no page of its own (`Recursos`) renders as `.nav-dropdown-label` — a span styled like its sibling links that opens the menu and does not navigate.
+
+**Members Access button** (`.nav-member`) — 1.5px Blue border, Blue text, transparent fill, 4px radius, 8px/16px padding, weight 700, outline padlock to its left. Hover inverts to Blue fill, white text. **It stays the outline variant.** It shares a row with the solid Contacto CTA, and two filled buttons read as two equally weighted asks; the one that should win is aimed at people who have not paid yet. This one is for people who already have.
+
+---
+
+## 7. Photography
+
+**Photography is a system, not a permission list.** The face is the product on a coaching site; a page that obeys every rule here and shows no human has failed.
+
+**Subjects.** Real athletes, real races, real work. The vocabulary is: the coach, the athlete, the Monday feedback, the test protocol, the race, the watch, the whiteboard. **No AI-generated athletes, ever, without exception.**
+
+**Required shots.** Until this pack exists, "one strong image per page" resolves to the same cyclist forever.
+
+| Shot | For |
+|---|---|
+| Iván portrait, 4:5 tight | Sobre Iván, offer cards |
+| Iván portrait, 3:2 environmental | Home, About hero |
+| Iván racing | Home, About |
+| 4 athlete/result stills, named | Testimonials, All-Access |
+| 1 test/lab | Methodology, Coaching |
+| 1 TrainingPeaks UI (permissioned) | Coaching, All-Access |
+| 1 members-tool UI | All-Access |
+
+**Treatment.** Natural colour, no filters. Crop tight and off-centre — a magazine crop, not a full frame shrunk to fit.
+
+**Text on photography** uses a **gradient scrim shaped to where the text sits**, never a flat veil. Centred text takes a radial scrim (`radial-gradient(ellipse 78% 62% at 50% 47%, rgba(13,17,23,.66), rgba(13,17,23,.46) 55%, rgba(13,17,23,.16))`); text anchored low takes a bottom-weighted linear one. Either way the words clear contrast and the edges of the frame keep their colour. *A flat 45% ink veil greys an entire photograph to protect words that occupy a third of it, which is how the homepage hero came to have no colour in it — and a scrim aimed at the wrong third is the same mistake with extra steps.*
+
+**Stock is permitted on blog listing cards only.** A blog card is a 16:10 thumbnail whose job is scannability, and the alternatives were one sourced photo per article — Iván's time, forever — or no images. Files live at `site/assets/images/blog/topics/<topic>.jpg` or `.../articles/<slug>.jpg`; anywhere else is outside the exception. Cards render a topic-coloured panel when no file exists, so the grid is complete with zero images and a photo is always an upgrade, never a dependency. Article heroes, product pages and marketing pages take real photography or nothing.
+
+**Never ship a hero that flashes.** A photographic hero declares a base colour sampled from the image itself and an inline low-quality placeholder beneath the real file. A hero that paints flat black before the JPEG lands is a quality tell before a word has been read.
+
+---
+
+## 8. Motion
+
+Motion is specified so that stillness is a choice rather than an omission.
+
+- One duration token: `--t: 150ms cubic-bezier(.2, 0, 0, 1)`. Colour, border, background, opacity, transform.
+- 200ms for anything crossing more than 200px.
+- **Never animates:** page load, text, section entrances, numbers counting up. Content is present at first paint. No parallax, no bounce, no scroll-triggered reveals.
+- Timers, progress rings and the zone bar in members may animate their own value; that is data moving, not decoration.
+- Every transition sits behind `@media (prefers-reduced-motion: reduce)`, which disables all of them.
+
+---
+
+## 9. Data as a graphic language
+
+The promise is *todo se mide*. Measurement needs a visual vocabulary, or the method is always a paragraph.
+
+- **Numbers are display type.** A figure that matters is set at Display or H2 size in tabular figures, with its label small and beneath it — never inline in a sentence, never as a coloured number on a wash panel.
+- **Scales are proportional.** Zone bars, effort ranges and progress render to the real spans in `data/zones.csv`. Blue at the aerobic end, Heat at the hard end, blends across transitions.
+- **A chart takes the same care as type**: labelled axes, values the chart actually reaches, theme-appropriate text colour, and no legend where a direct label fits.
+- Tables get tabular figures, a header in Wash (or `--surface2`), and horizontal scroll inside their own container — the page never scrolls sideways.
+
+---
+
+## 10. Voice
+
+- Direct and data-grounded, like the coaching. Short sentences. Numbers over adjectives — "42k under 3 hours" beats "amazing results".
 - Second person, informal-professional: "tú" in Spanish, "you" in English, "você" in Portuguese.
-- **Spanish is neutral Latin American, not Rioplatense** *(Iván, September 5, 2026, when the register sweep reached the last two surfaces)*. Two separate axes, and both apply: **tuteo** for verbs and pronouns (`tienes`, not `tenés`; `apoya`, not `apoyá`; `tú`/`ti`, not `vos`), and **neutral vocabulary** for the words that are regional without being voseo — `aquí` not `acá`, `piscina` not `pileta`/`natatorio`, `espinilla` not `canilla`, `glúteos` not `cola`, `poco a poco` not `de a poco`, `una pausa` not `un parate`. *The second axis is the one that survives a verb-only find-and-replace, which is why it is written down.*
-  - ⚠️ **One deliberate exception: the 1:1 WhatsApp message library in `sales-playbook.md` is exempt** *(carve-out taken September 4, 2026 and re-confirmed by Iván on September 5 during the full sweep)*. Those are messages he sends as himself in a conversation; this section is a rule for published surfaces, and applying it to his own voice would be applying a website rule to a chat.
-- No hype vocabulary: avoid "unlock", "crush", "beast mode", exclamation marks.
-- Every page written natively per language (ES/EN/PT), not machine-translated verbatim — ES is the primary market and is written first.
+- **Spanish is neutral Latin American, not Rioplatense.** Two axes, both apply. **Tuteo** for verbs and pronouns (`tienes` not `tenés`; `apoya` not `apoyá`; `tú`/`ti` not `vos`). **Neutral vocabulary** for words that are regional without being voseo — `aquí` not `acá`, `piscina` not `pileta`, `espinilla` not `canilla`, `glúteos` not `cola`, `poco a poco` not `de a poco`, `una pausa` not `un parate`. *The second axis is the one that survives a verb-only find-and-replace, which is why it is written down.*
+- **One exception: the 1:1 WhatsApp message library in `sales-playbook.md`.** Those are messages Iván sends as himself in a conversation. This section is a rule for published surfaces; applying it there would be applying a website rule to a chat.
+- No hype vocabulary: no "unlock", "crush", "beast mode", no exclamation marks.
+- Every page written natively per language, not machine-translated. ES is primary and is written first.
 
-## 9. Page inventory (v1 site)
+---
 
-Deliberately small, per the High North model:
+## 11. Reject list
 
-1. **Home** — hero, services in one pass, plans/pricing, testimonials, lead magnet CTA.
-2. **Coaching 1:1** — the Private-channel page. Pricing per `pricing-and-positioning.md`.
-3. **Plans** — the storefront: per-language catalog pages with facet filters and an individual page per plan, each redirecting to its TrainingPeaks checkout with UTM + plan_id. *(Updated Aug 2, 2026 — this used to read "links out to the 300 TrainingPeaks plans," which describes a link list, not what was built.)* *(Updated Aug 6, 2026 — now **18 plan pages**, not 3 catalogs plus 4 categories. Intent hubs added: ES `/planes/ciclismo/`, `/natacion/`, `/ironman/` alongside the existing `/running/`, `/triatlon/`, `/hyrox/`, `/bajar-de-peso/` · EN `/en/plans/running/`, `/cycling/`, `/swimming/`, `/ironman/`, `/weight-loss/` · PT `/pt/planos/maratona/`, `/ciclismo/`, `/ironman/`. Every hub is the same catalog component with a facet preset plus its own intro copy and a closing coaching CTA — the pattern for any future hub, so a new one is a template and copy, never a new page type. Individual plan pages also gained four generated content sections (who it's for / how the training works / what you need / how TrainingPeaks works). Shared styles live in `planes-hub.css`; the four legacy per-category stylesheets are ~95% duplicates awaiting consolidation.)*
-4. **Tools** — the calculators and routines library, behind the `/members/` token gate for All-Access subscribers. Live, not "later." *(Updated Aug 10, 2026 — the members area now has **three language trees**: `/members/` (ES), `/members/en/`, `/members/pt/`. Note the shape: language is a path segment here, not a `/en/` prefix like the public site, so one Caddy gate keeps covering all three — see `ai-infrastructure-documentation.md` §22 for why. ~~The EN and PT trees are **shell only** — home, login, forgot-password — and their library sections render a designed empty state. Ten tool pages exist in Spanish and none in EN/PT; do not read "three languages" as "translated."~~ *Corrected August 21, 2026 — no longer true. Every tool artifact originally published in Spanish has since been translated into English and Portuguese; Iván confirmed all three language trees working correctly in real use. The EN/PT trees are no longer shell-only. The zone calculator is the first tool going into all three at once.)*
-5. **Contact** — a real contact form (name, email, WhatsApp, sport, goal) posting through Caddy → n8n → Twenty, plus WhatsApp and email. *(Updated Aug 2, 2026 — this used to say "no contact-form theater." The form has been the front door of the live lead pipeline since July 22, 2026; the original note was about avoiding a form that goes nowhere, which is the opposite of what shipped.)*
+If a page has any of these, it is not ready. This list exists because "minimal" with no floor under it defaults to "unset".
 
-6. **Programa de referidos** — `/referidos/`, added Aug 26, 2026. **Unlisted by design:** `noindex: true`, absent from `sitemap.xml`, and linked from no nav, footer or page — it is reachable only from the WhatsApp/email disclosure message that carries the link. *That is a product decision, not an SEO one: a referral program anyone can find is one Iván can no longer decline gracefully, and "discretionary and earned" is the constraint the whole design rests on (`referral-program-brief.md` §2).* Six sections, one washed and one full-blue, per §3. Styles: `assets/css/referidos.css`.
-   **English sibling at `/en/referrals/`** *(added Aug 26, 2026)*. ~~*Originally shipped the same day at a bare `/referrals/`, on the argument that a `noindex` link-only page carries no navigation meaning and a shorter URL pastes better into a message.*~~ **Moved to `/en/referrals/` within the hour, on Iván's call — keep the convention.** ***The reasoning is worth keeping because the original argument was not wrong, it was just outweighed:*** a one-off URL shape costs nothing today and costs an explanation every time someone later asks why this page is not where every other English page is. **Consistency is cheaper than a good reason.** Both siblings share `referidos.css` (one stylesheet, named for the language that shipped first) and `transKey: referrals` — the key emits no hreflang while `noindex` is set, and is there so the pair wires up correctly if that ever changes.
-   **The copy-to-clipboard button lives in `_includes/partials/copy-button.njk`**, extracted the moment the second page needed it rather than pasted. *Same reasoning as `library-showcase.njk`: two hand-maintained copies of one behaviour is exactly how the three All-Access pages drifted.* Its strings come from the page's front matter (`copyTarget`, `copyLabel`, `copyDone`), so the partial holds no language.
+1. System fonts. If Archivo did not load, that is a bug, not a fallback.
+2. A flat grey or ink veil over a hero photograph.
+3. A hero that paints a solid rectangle before its image arrives.
+4. A washed, bordered utility bar across the top of the page.
+5. An empty dashed placeholder — a video slot, an image well — on any shipped page, paid or public.
+6. A page selling 1:1 coaching with no photograph of the coach.
+7. Offers of different prices sharing one card skin.
+8. Prices or times in proportional figures.
+9. Two blues of similar weight in one header.
+10. A light page inside `/members/`.
+11. A testimonial with no name, no country and no result.
+12. Credentials as a bullet list where the credential band exists.
+13. A full-bleed brand-blue section.
+14. A number stated in two documents.
 
-7. **Sobre Iván** — `/sobre-ivan/`, `/en/about/`, `/pt/sobre-ivan/`, added Aug 27, 2026. **Indexable and in the nav**, under `Coaching` — the opposite of `/referidos/` above, and for the opposite reason: this page exists to be found by strangers, search engines and language models. Hero, a four-figure record strip, three prose sections, the credential list, and a contact CTA. **One washed section (`.about-record`) and no full-blue section**, per §3. Content comes from `site/_data/credentials.json` — the marks and the record are never hand-written into the page. Styles: `assets/css/about.css`; the credential strip that also appears on the homepages lives in `site.css`. Technical record: `ai-infrastructure-documentation.md` §36.
+---
 
-   > **Voice note, §8.** These three pages are written natively per language, not translated from the Spanish — and they use **tú/você**, not voseo. *`site/all-access/index.njk` remains the one ES page in breach of the §8 rule, which is logged in `open-loops.md` as a copy decision rather than a lint fix.*
+## 12. Page inventory
 
-Lead magnet (training zones guide) is a CTA block reused across pages, not its own page.
+Deliberately small. **The build record for each — URLs, language trees, technical detail — lives in `ai-infrastructure-documentation.md`, not here.**
+
+| Page | Note |
+|---|---|
+| **Home** | Hero, the three offers in one pass, price, testimonials, credential band, CTA. |
+| **Coaching 1:1** | The private-channel page. |
+| **Plans** | The storefront: per-language catalogue with facet filters, an individual page per plan, intent hubs. Every hub is the same catalogue component with a facet preset plus its own copy — a new hub is a template and copy, never a new page type. |
+| **Tools** | The calculators and routines library, behind the `/members/` token gate. Three language trees, all translated. |
+| **Contact** | A real form posting through Caddy → n8n → Twenty, plus WhatsApp and email. |
+| **Sobre Iván** | Indexable and in the nav. Hero, record strip, prose, credential band, CTA. Content from `site/_data/credentials.json`. |
+| **Referidos** | Unlisted by design — `noindex`, absent from the sitemap, linked from nowhere. Reachable only from the disclosure message that carries the link. *That is a product decision: a referral program anyone can find is one Iván can no longer decline gracefully.* |
+
+Language convention: the public site prefixes `/en/` and `/pt/`; the members area uses a path segment (`/members/en/`) so one Caddy gate covers all three. **Keep both conventions** — consistency is cheaper than a good reason for an exception.
+
+The lead-magnet CTA is a block reused across pages, not a page.

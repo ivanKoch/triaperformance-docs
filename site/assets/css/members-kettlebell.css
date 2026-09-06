@@ -1,29 +1,13 @@
 /* kettlebell — extra rules on top of site.css. */
 
+/* Tokens come from tokens.css, loaded site-wide by layouts/base.njk
+   (September 6, 2026). This block used to be a hand-copied duplicate of the
+   same twelve declarations in six stylesheets — see brand-guidelines.md §0. */
 :root {
-    /* Dark theme, built from brand-guidelines.md's palette rather than a generic dark UI kit.
-       --blue is the exact brand blue (#004aad) — used as a solid FILL (buttons, progress bar,
-       phase markers, checkmarks) so a light glyph sits on top and contrast holds.
-       --blue-bright is a NEW addition: a lighter tint of brand blue, used only where blue appears
-       as TEXT directly on the near-black background — #004aad on its own fails 4.5:1 contrast
-       there (per the guideline's own contrast rule), so this is flagged for approval rather than
-       silently added to the brand system. */
-    --bg: #0d1117;
-    --surface: #171b21;
-    --surface2: #1f242c;
-    --border: #2a313b;
-    --blue: #004aad;
-    --blue-deep: #003a89;
-    --blue-bright: #4f8fdb;      /* NEW — dark-mode-only text accent, derived from --blue */
-    --blue-dim: rgba(0, 74, 173, 0.22);
-    --text: #f2f3f1;
-    --text-dim: #8b9089;
-    --green: #4caf7d;
-    --warn: #d97a68;
-    --warn-dim: rgba(217, 122, 104, 0.12);
-    --font: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
-  }
-
+  --green: #4caf7d;
+  --warn: #d97a68;
+  --warn-dim: rgba(217, 122, 104, 0.12);
+}
 body {
     background: var(--bg);
     color: var(--text);

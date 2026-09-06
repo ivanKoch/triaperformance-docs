@@ -6,20 +6,9 @@
  * session is running the page strips back to just the box.
  */
 
-:root {
-  --bg: #0d1117;
-  --surface: #171b21;
-  --surface2: #1f242c;
-  --border: #2a313b;
-  --blue: #004aad;
-  --blue-deep: #003a89;
-  --blue-bright: #4f8fdb;
-  --blue-dim: rgba(0, 74, 173, 0.22);
-  --white: #ffffff;
-  --text: #f2f3f1;
-  --text-dim: #8b9089;
-}
-
+/* Tokens come from tokens.css, loaded site-wide by layouts/base.njk
+   (September 6, 2026). This block used to be a hand-copied duplicate of the
+   same twelve declarations in six stylesheets — see brand-guidelines.md §0. */
 body { color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
 
 /* --- nav & footer, matching the other dark members tools --- */

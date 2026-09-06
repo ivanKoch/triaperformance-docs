@@ -29,6 +29,12 @@
 
 ## NOW
 
+- [ ] 🆕 **Design refresh — L1 shipped, L2 is the next tranche.** *(Opened September 6, 2026.)* Home doc: **`design-refresh-brief.md`**, which owns the argument, the findings and the tiered work list. **Both design decisions are closed** — Archivo as the single variable typeface, and a heat signal token taken from the zone model — *and `brand-guidelines.md` is now v1.1 with its three months of inline changelog moved to `ai-infrastructure-documentation.md` §45.*
+  **Needs Iván:** *(a)* **look at the homepage on a real screen** — the hero scrim, the wordmark and the type scale all changed, and the last three fixes were made against a headless render; *(b)* **grant delete permission on the repo folder or run the build himself** — `npx @11ty/eleventy` cannot unlink `_site/robots.txt` from the session sandbox, so `npm test` correctly refuses to run against a stale `_site/`; *(c)* commit and deploy.
+  ⚠️ **The one thing that is not verified:** the tests pass (12) but were last run against the previous build. *A clean build to a scratch directory succeeds — 547 files, 156 copied — so the failure is the delete permission and not the change.*
+  **L2 next, in this order:** dark login and forgot-password (6 pages), the dark shell for Garmin/Carga/Fuerza (9 pages), then unequal offer cards on the homepage — *which is the largest single "the $149 is serious" signal on the public site and the one thing above that a visitor actually sees.*
+
+
 - [ ] 🆕 **Read the EN and PT members FAQ before the announcement goes out — the only thing from the Sept 4 link fix that needs Iván's eye.** *(Opened September 4, 2026.)* **The members nav has carried an FAQ item pointing at `#faq` on `/members/en/` and `/members/pt/` since Aug 10, and the anchor did not exist** — *the link did nothing, on the two pages the un-told-cohort announcement (`members-area-announcement-2026-08.md`) is about to send subscribers to.* **Both sections now exist**, adapted from the Spanish one: five answers on TrainingPeaks access, the downloads page, password recovery, billing and what the subscription includes.
   ⚠️ ***It is customer-facing copy that has not had his eye on it.*** *Nothing in it is new policy — every answer describes how the product already works, and the PT scope answer renders `plans.counts.byLang.pt` rather than restating a number.* **Ten minutes of reading, and it is the last gate on two pages a paying subscriber lands on.**
 
@@ -385,6 +391,13 @@
    **Home:** the `/recursos/` hub in NOW, which currently has no page and no content — this is its first real content. Also reusable in the members area, in pre-sale (`sales-playbook.md` B4/B8), and in onboarding week 1.
    **The language trade-off, stated because it will otherwise be discovered late: a video is the one asset that does not translate cheaply.** That argues for the written definitions carrying the ES/EN/PT load and the video being Spanish-only to start, rather than delaying the whole thing until it can ship in three languages.
    Trigger: any time — it is writing and recording, not build work, so it does not queue behind the branch.
+
+
+### Opened September 6, 2026 — members-token granting
+
+- [ ] **`quick_grant.py` exists only on the VPS at `~/.hermes/`, with no repo copy.** *Found while rewriting `automation/members-area/OPERATIONS.md` §1: Iván's own token playbook ends with `python3 quick_grant.py <email> --name "..."`, and there is no file by that name anywhere in this repo.* **This is precisely the condition the July 31, 2026 standing practice was written to end** — three scripts and the live Caddy config existing only on the box with no version history (`ai-infrastructure-documentation.md` §18). *Either move it into `automation/members-area/` and point the invocation at the repo copy, or delete it: §1 now documents three granting paths, and a fourth undocumented one on the box is worse than none.* ⚠️ **Read it before deciding** — if it prints a token to stdout it is also a leak surface, and §1c already covers the on-the-spot case it was presumably written for.
+
+- [ ] **Rotate the three QA fixture tokens.** *The values for `coach+qa-es@`, `coach+qa-en@` and `coach+qa-pt@` are sitting in plaintext in an Apple Note (Iván, September 6, 2026).* **This is the fourth instance of the pattern `schema.sql` and OPERATIONS.md §2 already document three times** — and it is the instructive variant: the previous three were chat transcripts, i.e. accidents of a `SELECT *`. *This one was deliberate, written down on purpose because the fixtures are needed often and pulling them requires a VPS session.* ⚠️ ***That makes the note a symptom, not the failure.*** *Rotation without addressing the underlying friction just reproduces it — the fixtures are convenience credentials that get copied precisely because getting them is inconvenient.* **Decide which:** Bitwarden (already the stated answer in OPERATIONS.md's QA-fixtures section, and unused), or accept that the three fixture rows are low-value enough to be written down and say so explicitly in the doc instead of forbidding it. *A rule broken four times is a rule that lost.*
 
 ---
 

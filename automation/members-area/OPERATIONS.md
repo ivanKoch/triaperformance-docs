@@ -5,49 +5,201 @@ database on the `analytics-postgres` container. None of this touches Twenty
 directly -- Twenty access and the `subscriber_tokens` table are deliberately
 decoupled (see `ai-infrastructure-documentation.md` §13).
 
-## 1. New athlete — create their access token
+## 1. Granting a members token
 
-> ✅ **Read this before doing it by hand. September 5, 2026.**
->
-> **If the athlete is already in Twenty and correct there — which is every 1:1 coaching athlete — do not look up their person ID in the UI. `automation/members_access_gap.py` already holds it.**
->
-> ```bash
-> python3 automation/members_access_gap.py --expect <count>                    # who is owed one
-> python3 automation/members_access_gap.py --expect <count> --only a@b.com     # dry run
-> python3 automation/members_access_gap.py --expect <count> --only a@b.com --apply
-> ```
->
-> *Comma-separate for several; `--grant-all` takes the whole list.* ⚠️ **Read the list before using `--grant-all` — Iván's own address is usually in it.**
->
-> **It never prints a token**, by design: a token is a working password into paid content, and the reason the `token_roster` view exists is three transcript leaks in three days. Pull each one from §3 at the moment you message that athlete. **It also refuses rather than inserting when a row already exists for that email, active or revoked** — a returning athlete needs §5 (reactivate), not a second row. *That is the one gap `backfill_existing_customers.py` documents in its own docstring and asks you to check by hand.*
->
-> **Which of the two tools:** *that script owns **bulk onboarding from a CSV** — it creates or updates the Twenty record and then makes a token, for people who may not be in Twenty at all. This one owns **granting a token to somebody already in Twenty and already correct**. Using the CSV script on those people means accepting an unwanted `leadStatus` PATCH to get the token half.*
->
-> *The steps below remain correct and are the fallback when the person is not in Twenty, or when the VPS is all you have.*
+*(Rewritten September 6, 2026. The previous version documented one path — look
+up the person ID in the Twenty UI, generate, INSERT — and then bolted a note on
+top saying not to do that. Two real cases were left undocumented: the person who
+is not in Twenty at all, and the field-by-field reason `members_access_gap.py`
+refuses. Both are below.)*
 
+**Two questions decide the whole thing.**
 
-You've already created/updated the Person in Twenty manually. Now:
-
-**Step 1 — get their Twenty person ID.** Open their record in Twenty, copy
-the UUID from the URL (`https://.../object/person/<this-part>`).
-
-**Step 2 — generate a token:**
-```bash
-python3 -c "import secrets; print(''.join(secrets.choice('ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789') for _ in range(20)))"
+```
+Is the person in Twenty?
+│
+├── NO ──→ §1a  backfill_existing_customers.py
+│                (creates the Person AND emits the token INSERT)
+│
+└── YES ─→ Is their record correct? — the six checks in §1b
+           │
+           ├── YES ──→ §1b  members_access_gap.py --only <email> --apply
+           │
+           └── NO ───→ fix Twenty, then §1b
+                       …unless it is a test/QA address, which will never
+                       be in Twenty and is refused on purpose → §1c
 ```
 
-**Step 3 — insert it:**
+Nothing here sends an email. You send the password yourself, and you pull it
+from §3 **at the moment you send it** — never earlier, never in bulk.
+
+---
+
+### 1a. The person is not in Twenty yet
+
+`members_access_gap.py` cannot do this, and that is not a gap to work around:
+it *reconciles* Twenty against the token table, so somebody Twenty has never
+heard of appears in neither list it builds. `--only` on them returns
+`not in the PAYING-NO-ACCESS list`, which is true and unhelpful.
+
+Use the bulk script with a one-row CSV. It owns this case.
+
 ```bash
-docker exec -it analytics-postgres psql -U analytics -d members -c \
-  "INSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active) VALUES ('<person-id>', '<email>', '<token-from-step-2>', 'SPANISH', TRUE);"
+cd ~/.hermes/triaperformance-docs && git pull
+set -a; source ~/.hermes/.env; set +a          # TWENTY_API_KEY
+
+cat > /tmp/one.csv <<'CSV'
+email,first_name,last_name,customer_type,preferred_language
+athlete@example.com,Nombre,Apellido,OPT1_1_COACHING,SPANISH
+CSV
+
+python3 automation/members-area/backfill_existing_customers.py /tmp/one.csv /tmp/insert.sql
 ```
-(`preferred_language` is `SPANISH`, `ENGLISH`, or `PORTUGUESE`.)
 
-That's it — no email is sent automatically. Send them the password yourself,
-however you prefer.
+**Required columns: `email`, `customer_type`, `preferred_language`.** Everything
+else is optional and only used when it has to CREATE the Person:
+`first_name`, `last_name`, `sign_up_date` (plain `YYYY-MM-DD`), `lead_source`
+(default `OTHER`), `lead_status` (default `WON_CUSTOMER`), `sport`,
+`plan_purchased`. It accepts either camelCase or snake_case headers, so a raw
+export works unrenamed.
 
-*Alternative for multiple new athletes at once*: use `backfill_existing_customers.py`
-with a CSV instead of doing this one-by-one (see its docstring).
+If the person *is* found in Twenty it PATCHes rather than creates — and that
+PATCH is the reason this script is not the default: it will set `leadStatus`
+to `WON_CUSTOMER` on someone whose status you had deliberately set to something
+else. **On a person already in Twenty and already correct, use §1b instead.**
+
+**It never touches Postgres.** Read the SQL, then run it:
+
+```bash
+cat /tmp/insert.sql
+docker exec -i analytics-postgres psql -U analytics -d members < /tmp/insert.sql
+```
+
+⚠️ **It does not check for an existing token** — its own docstring flags this as
+the one thing you must check by hand, or the person ends up with two active
+rows:
+
+```bash
+docker exec -i analytics-postgres psql -U analytics -d members <<'SQL'
+SELECT email, active, created_at FROM token_roster WHERE email = 'athlete@example.com';
+SQL
+```
+
+---
+
+### 1b. The person is already in Twenty and correct
+
+This is the everyday case, and the one worth having reflexes for.
+
+```bash
+cd ~/.hermes/triaperformance-docs && git pull
+set -a; source ~/.hermes/.env; set +a
+
+python3 automation/members_access_gap.py                                  # both lists
+python3 automation/members_access_gap.py --only athlete@example.com       # dry run
+python3 automation/members_access_gap.py --only athlete@example.com --apply
+```
+
+Comma-separate for several. `--grant-all` takes the whole list — **read it
+first, your own address is usually in it.**
+
+Run it **on the VPS**: it shells out to `docker exec` for Postgres and needs
+Tailscale to reach Twenty at `100.70.89.17:3000`.
+
+#### The six checks, in the order the script applies them
+
+A dry run tells you which one failed. This table tells you why, and — more
+usefully — which are **silent**.
+
+| # | What | Must be | If not |
+|---|---|---|---|
+| 1 | `emails.primaryEmail` | present | **silently skipped** — no row, no message |
+| 2 | the email string | must NOT contain `coach+`, `curl`, `prueba`, `test@` | **silently skipped** (`TEST_EMAIL_MARKERS`) → §1c |
+| 3 | `customerType` | `OPT1_1_COACHING` or `ALL_ACCESS` | not entitled. `PLAN_BUYER` is excluded on purpose — a marketplace plan buys a plan, not the members area |
+| 4 | `churnDate` / `leadStatus` | `churnDate` empty **and** status ≠ `CHURNED_CUSTOMER` | treated as churned, not entitled |
+| 5 | `preferredLanguage` | `SPANISH`, `ENGLISH`, `PORTUGUESE`, **or blank** | any *other* value is a refusal. Blank defaults to SPANISH and prints `<-- no preferredLanguage in Twenty, defaulting` |
+| 6 | `subscriber_tokens` | **no** row for that email, active or revoked | refusal — reactivate with §5, never insert a second row |
+
+Checks 1–4 decide whether the person reaches the `PAYING, NO MEMBERS ACCESS`
+list at all. **Only 5 and 6 produce a `REFUSED` line.** That asymmetry is the
+thing to internalise: a person failing 1–4 does not get an error, they get
+absence, and `--only` then reports the generic message below.
+
+#### The two messages you will actually see
+
+**`REFUSED  <email>  not in the PAYING-NO-ACCESS list -- re-run without --grant and check`**
+One of checks 1–4, and the message cannot tell you which. Run the script bare
+and read list 1. In practice it is almost always check 2 (a `coach+` alias) or
+check 3 (`customerType` still `PLAN_BUYER` or empty on a freshly created
+Person).
+
+**`SHORT READ: --expect 290, fetched 293`**
+`--expect` is an optional second guard on top of the `totalCount` check that
+always runs. It is a hardcoded number and it goes stale **the next time you add
+anyone to Twenty**. Either drop the flag or update it to the count the script
+prints on its first line. Do not lower it to make the error go away — a short
+read here once named three active athletes as holding stale access.
+
+#### After it applies
+
+It prints `GRANTED` and **not the token**, deliberately. Pull it with §3 when
+you message the athlete.
+
+---
+
+### 1c. A test or QA row, or anything that will never exist in Twenty
+
+Both scripts refuse `coach+` addresses by design — the same filter that keeps
+your own aliases out of the reconciliation counts, which is what makes those
+counts mean what they look like. So this case is manual, and it should stay
+manual.
+
+```bash
+TOKEN=$(python3 -c "import secrets;print(''.join(secrets.choice('ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789') for _ in range(20)))")
+docker exec -i analytics-postgres psql -U analytics -d members <<SQL
+INSERT INTO subscriber_tokens
+  (twenty_person_id, email, token, preferred_language, active, excluded_from_metrics)
+VALUES
+  ('QA-FIXTURE', 'coach+whatever@triaperformance.com', '$TOKEN', 'SPANISH', TRUE, TRUE);
+SQL
+echo "TOKEN: $TOKEN"
+```
+
+Two fields carry the weight:
+
+- **`twenty_person_id = 'QA-FIXTURE'`** — the sentinel is a readable string
+  rather than a UUID precisely so it can be excluded by eye. It is also what
+  keeps the "no stray test rows" assertion at the bottom of this file clean,
+  since that check tolerates `%+%` addresses *only* under this sentinel.
+- **`excluded_from_metrics = TRUE`** — excludes by *who they are*, so it holds
+  on any device and any network. Without it the row inflates every usage query
+  in §6, and those are read against close #1's baseline.
+
+`twenty_person_id` is `NOT NULL`, so it needs *something*; `QA-FIXTURE` is the
+right something for anything that is not a real Twenty Person.
+
+---
+
+### 1d. Manual fallback — a real athlete, no scripts available
+
+Only when the VPS is all you have, or Twenty is unreachable.
+
+**Step 1** — open their record in Twenty, copy the UUID from the URL
+(`https://.../object/person/<this-part>`).
+
+**Step 2 and 3** — generate and insert in one go:
+
+```bash
+TOKEN=$(python3 -c "import secrets;print(''.join(secrets.choice('ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789') for _ in range(20)))")
+docker exec -i analytics-postgres psql -U analytics -d members <<SQL
+INSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)
+VALUES ('<person-id>', '<email>', '$TOKEN', 'SPANISH', TRUE);
+SQL
+echo "TOKEN: $TOKEN"
+```
+
+`preferred_language` is `SPANISH`, `ENGLISH` or `PORTUGUESE` and must match what
+Twenty holds, or the login routes them to the wrong language.
 
 > ~~**The query below has no `token` column, on purpose.**~~ *(Note added Aug 10, 2026, after the whole table — 36 live tokens — was pasted into a chat transcript twice in one session.)* **That warning failed. It happened again on Aug 12, which makes three times in three days, and the reason is not carelessness: the query anyone actually types is `SELECT *`, and the useful diagnostic is the same keystrokes as the dangerous one.**
 >

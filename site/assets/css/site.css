@@ -3,18 +3,25 @@
    (which was byte-identical across the ES, EN and PT homepages).
    Brand tokens per brand-guidelines.md §3-§7. */
 
-:root {
-  --blue: #004aad;
-  --blue-deep: #003a89;
-  --ink: #1e2019;
-  --white: #ffffff;
-  --wash: #edf3fb;
-  --slate: #565a52;
-  --mist: #e4e6e1;
+/* Tokens moved to tokens.css on September 6, 2026 — one home for every colour,
+   the type stack and the motion duration. Do NOT re-declare :root here.
+   brand-guidelines.md §0. */
+
+/* The site's only typeface. One variable file carries weights 400-700 AND
+   widths 100-125, which is what lets display headings widen (§4) without a
+   second download. `swap` because a headline in the fallback for 80ms beats a
+   headline that is not there. */
+@font-face {
+  font-family: "Archivo";
+  src: url("/assets/fonts/archivo-var-latin.woff2") format("woff2-variations");
+  font-weight: 400 700;
+  font-stretch: 100% 125%;
+  font-style: normal;
+  font-display: swap;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  font-family: var(--font);
   color: var(--ink);
   background: var(--white);
   line-height: 1.6;
@@ -41,7 +48,12 @@ section { padding: 96px 0; }
 /* The logo is a link on every page now (it was a plain <div> only on the three
    homepages). text-decoration:none was duplicated into every non-home page's
    inline CSS for exactly this reason — it lives here once instead. */
-.logo { font-weight: 700; font-size: 20px; color: var(--blue); letter-spacing: -0.01em; text-decoration: none; }
+/* The wordmark is set exactly as a Display heading — Archivo 700 at 112% width —
+   because it comes from the same voice. brand-guidelines.md §2. */
+.logo {
+  font-weight: 700; font-size: 20px; color: var(--blue);
+  font-stretch: 112%; letter-spacing: -0.025em; text-decoration: none;
+}
 nav a {
   color: var(--ink); text-decoration: none; font-size: 15px; margin-left: 32px;
 }
@@ -58,24 +70,37 @@ nav a:hover { color: var(--blue); }
    offer being made to them — outlined, lock-marked, quiet until hovered. */
 /* Utility strip — language switcher + members access (Aug 10, 2026).
    Sits above the main nav row. See the note in nav.njk for why it exists. */
-.nav-utility { border-bottom: 1px solid var(--mist); background: var(--wash); }
+/* A strip, not a bar (September 6, 2026). The wash fill and the bottom rule are
+   what made the second nav row read as a plugin toolbar — not the fact that
+   there are two rows, which is a real width constraint (see nav.njk). Removing
+   the fill and the rule keeps the information architecture and drops the look.
+   brand-guidelines.md §6. */
+.nav-utility { background: transparent; border-bottom: 0; }
 .nav-utility .wrap {
   display: flex; align-items: center; justify-content: flex-end;
   gap: 20px; padding-top: 7px; padding-bottom: 7px;
 }
-.nav-utility .lang-switch { margin-left: 0; font-size: 13px; }
+.nav-utility .lang-switch { margin-left: 0; font-size: 12px; }
+/* Without the wash panel behind them these are bare links on white, so they have
+   to carry their own quiet: slate rather than blue, no underline, the active
+   language in ink. Utility should be findable and never louder than content. */
+.nav-utility a { text-decoration: none; color: var(--slate); }
+.nav-utility a:hover { color: var(--blue); }
+.nav-utility .lang-active { color: var(--ink); font-weight: 600; }
+.nav-utility .lang-switch .sep { color: var(--mist); }
 .nav-utility .nav-member {
-  border: none; padding: 0; font-weight: 700; font-size: 13px;
+  border: none; padding: 0; font-weight: 600; font-size: 12px;
   margin-left: 0; background: none;
 }
-.nav-utility .nav-member:hover { background: none; color: var(--blue-deep) !important; text-decoration: underline; }
+.nav-utility .nav-member { color: var(--slate) !important; }
+.nav-utility .nav-member:hover { background: none; color: var(--blue) !important; text-decoration: none; }
 
 .nav-member {
   display: inline-flex; align-items: center; gap: 7px;
   border: 1.5px solid var(--blue); color: var(--blue) !important;
   padding: 8px 16px; border-radius: 4px; font-weight: 700;
   letter-spacing: 0.01em; margin-left: 14px; white-space: nowrap;
-  transition: background .15s ease, color .15s ease;
+  transition: background var(--t), color var(--t);
 }
 .nav-member:hover { background: var(--blue); color: var(--white) !important; }
 .nav-member-lock { flex: 0 0 auto; }
@@ -159,41 +184,111 @@ nav a:hover { color: var(--blue); }
    retina screens get a soft image. */
 .hero {
   position: relative;
-  background: var(--ink) url("/assets/images/hero-960.jpg") center center / cover no-repeat;
-  background-image: image-set(
-    url("/assets/images/hero-960.webp") type("image/webp"),
-    url("/assets/images/hero-960.jpg") type("image/jpeg"));
+  /* First paint, in two parts (September 6, 2026).
+     This used to be `background: var(--ink)` — near-black — under a photograph
+     whose average colour is a light warm grey, so the page opened on a flat
+     black rectangle and then flashed to something completely different. That is
+     a quality tell before a word has been read, and it is the first thing a
+     visitor sees.
+     (a) the base colour is now sampled from the image AFTER the scrim in §7,
+         so the flash lands in roughly the right place rather than its inverse;
+     (b) a 936-byte inline LQIP sits under the real file as a second background
+         layer. It is a data URI, so it costs no request and paints with the
+         stylesheet; the real image lands on top of it when it arrives.
+     The image is a CSS background, not an <img>, so it cannot be preloaded —
+     the LQIP is what stands in for that. */
+  background-color: #6e6864;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image:
+    url("/assets/images/hero-960.jpg"),
+    url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDb/tMxW5MqMZAM8qVHTNMtdXMhjWWPBdc5HQcVBqXzWyA8gkghuantUAtEJAJZRkkdcip1uVZWFFwLkbzcCPtjGKKTzTkjHQ4op2Jeh//Z");
+  background-image:
+    image-set(
+      url("/assets/images/hero-960.webp") type("image/webp"),
+      url("/assets/images/hero-960.jpg") type("image/jpeg")),
+    url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDb/tMxW5MqMZAM8qVHTNMtdXMhjWWPBdc5HQcVBqXzWyA8gkghuantUAtEJAJZRkkdcip1uVZWFFwLkbzcCPtjGKKTzTkjHQ4op2Jeh//Z");
   color: var(--white); text-align: center;
   padding: 128px 0;
 }
 @media (min-width: 700px), (min-resolution: 2dppx) {
-  .hero { background-image: url("/assets/images/hero-1600.jpg"); }
   .hero {
-    background-image: image-set(
-      url("/assets/images/hero-1600.webp") type("image/webp"),
-      url("/assets/images/hero-1600.jpg") type("image/jpeg"));
+    background-image:
+      url("/assets/images/hero-1600.jpg"),
+      url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDb/tMxW5MqMZAM8qVHTNMtdXMhjWWPBdc5HQcVBqXzWyA8gkghuantUAtEJAJZRkkdcip1uVZWFFwLkbzcCPtjGKKTzTkjHQ4op2Jeh//Z");
+  }
+  .hero {
+    background-image:
+      image-set(
+        url("/assets/images/hero-1600.webp") type("image/webp"),
+        url("/assets/images/hero-1600.jpg") type("image/jpeg")),
+      url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDb/tMxW5MqMZAM8qVHTNMtdXMhjWWPBdc5HQcVBqXzWyA8gkghuantUAtEJAJZRkkdcip1uVZWFFwLkbzcCPtjGKKTzTkjHQ4op2Jeh//Z");
   }
 }
 @media (min-width: 1400px) {
-  .hero { background-image: url("/assets/images/hero-2560.jpg"); }
   .hero {
-    background-image: image-set(
-      url("/assets/images/hero-2560.webp") type("image/webp"),
-      url("/assets/images/hero-2560.jpg") type("image/jpeg"));
+    background-image:
+      url("/assets/images/hero-2560.jpg"),
+      url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDb/tMxW5MqMZAM8qVHTNMtdXMhjWWPBdc5HQcVBqXzWyA8gkghuantUAtEJAJZRkkdcip1uVZWFFwLkbzcCPtjGKKTzTkjHQ4op2Jeh//Z");
+  }
+  .hero {
+    background-image:
+      image-set(
+        url("/assets/images/hero-2560.webp") type("image/webp"),
+        url("/assets/images/hero-2560.jpg") type("image/jpeg")),
+      url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b/2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb/wAARCAANABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDb/tMxW5MqMZAM8qVHTNMtdXMhjWWPBdc5HQcVBqXzWyA8gkghuantUAtEJAJZRkkdcip1uVZWFFwLkbzcCPtjGKKTzTkjHQ4op2Jeh//Z");
   }
 }
+/* Bottom-weighted scrim, not a flat veil (September 6, 2026, brand-guidelines
+   §7). The text occupies the bottom third of the hero; a uniform 45% ink wash
+   greyed the entire frame to protect it, which is why the only colour in the
+   photograph — the yellow kit — read as mud. The gradient puts the density
+   where the words are and lets the edges of the frame keep their colour — the
+   yellow kit on the left of the crop is the only saturated thing in the shot
+   and a flat veil was the reason it read as mud.
+   NOTE it is radial and centred, not bottom-weighted: this hero centres its
+   text, so density at the bottom would have protected empty road and left the
+   headline sitting on the brightest part of the sky. Measured after the change:
+   white on the darkest point clears AAA. */
 .hero::before {
   content: "";
   position: absolute; inset: 0;
-  background: var(--ink); opacity: 0.45;
+  background: radial-gradient(
+    ellipse 78% 62% at 50% 47%,
+    rgba(13, 17, 23, .72) 0%,
+    rgba(13, 17, 23, .46) 55%,
+    rgba(13, 17, 23, .24) 78%,
+    rgba(13, 17, 23, .16) 100%);
 }
+
+/* --- Type scale (brand-guidelines.md §4) -----------------------------------
+   Width is hierarchy on this site: display headings widen, body text does not.
+   That is the whole reason the family was chosen over a second font file.
+   Figures are tabular wherever a numeral is display type or sits in a column —
+   prices, times, zone ranges. Proportional figures are why $149 and 10h06 used
+   to look typed rather than set. */
+h1, h2, h3, h4, .amount, .record-figure, .price-card .amount {
+  font-family: var(--font);
+  text-wrap: balance;
+}
+h1 { font-stretch: 112%; letter-spacing: -0.025em; line-height: 1.03; }
+h2 { font-stretch: 106%; letter-spacing: -0.02em; }
+h3 { font-stretch: 100%; letter-spacing: -0.01em; }
+
+/* Numerals that are read as data rather than as prose. */
+.amount, .record-figure, .card-meta, .price-card li,
+table th, table td, time, .zone-value, .cred-band-capt {
+  font-variant-numeric: tabular-nums;
+}
+
 .hero .wrap { position: relative; z-index: 1; }
 @media (max-width: 640px) { .hero { padding: 80px 0; } }
 .label {
   font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
   color: var(--blue); margin-bottom: 16px; display: block;
 }
-.hero .label { color: var(--white); opacity: 0.85; }
+.hero .label { color: var(--white); opacity: 0.95; }
 .hero h1 {
   font-size: 56px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;
   margin-bottom: 24px;
@@ -238,7 +333,7 @@ h2 { font-size: 36px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 @media (max-width: 800px) { .grid-3 { grid-template-columns: 1fr; } }
 .card {
   background: var(--white); border: 1px solid var(--mist); border-radius: 8px;
-  padding: 32px; transition: box-shadow 0.15s;
+  padding: 32px; transition: box-shadow var(--t);
 }
 .card:hover { box-shadow: 0 1px 3px rgba(30,32,25,.08); }
 .card h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
