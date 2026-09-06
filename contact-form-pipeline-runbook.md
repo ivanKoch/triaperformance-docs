@@ -113,7 +113,7 @@ Set the n8n workflow to Inactive, or remove the `/api/contact-form` route from t
 
 ---
 
-## Language branch on the confirmation email — SPEC, not yet built (September 5, 2026)
+## Language branch on the confirmation email ✅ LIVE · verified 2026-09-05
 
 **The bug, stated plainly: an English or Portuguese prospect fills in an English or Portuguese form and receives a Spanish email with a Spanish PDF.** Found while shipping the zones guide in three languages (`lead-magnet-zonas-de-entrenamiento.md`).
 
@@ -290,7 +290,9 @@ Create Person   ✘ error → Is phone error? ✘ → Telegram alert - Twenty er
 
 ---
 
-## The rewire — email no longer depends on Twenty (Iván, September 5, 2026: approved)
+## The rewire — email no longer depends on Twenty ✅ LIVE · verified 2026-09-05
+
+**Built, tested and green** (Iván, September 5, 2026). Everything below is a build record, not a to-do list.
 
 **Before.** `Send confirmation email` hangs off `Person Created`, so it only fires when Twenty accepts the write. Two silent dead ends, both leaving the visitor with nothing.
 
@@ -357,11 +359,16 @@ Everything in Step 3 again, plus the two cases that were silent before:
 
 **Cause.** That node's URL was `={{ $json.TWENTY_BASE_URL }}/rest/people` — a **positional** reference, reading whatever item feeds it. It worked only because `Config` used to be its immediate upstream. The rewire puts `Send confirmation email` there instead, and that item has no `TWENTY_BASE_URL`, so the expression resolves to an empty string.
 
-**Fix — one field, and it makes the node consistent rather than special.** On `Check Twenty for existing Person`, change `URL` to:
+**Fix — one field, and it makes the node consistent rather than special.** On `Check Twenty for existing Person`, with the field in **Expression** mode, the content must be exactly:
 
 ```
-={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people
+{{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people
 ```
+
+> 🚨 ***NO leading `=`. This tripped the first attempt and produced a second, more confusing failure:*** `Invalid URL: =http://100.70.89.17:3000/rest/people`.
+> **The `=` you see at the start of every expression in an exported workflow JSON is n8n's *mode marker*, not part of the value.** *A field already in Expression mode that receives a pasted `={{ … }}` ends up storing* `=={{ … }}` *— n8n strips one `=`, evaluates the `{{ }}`, and the surviving `=` is prepended to the result.*
+> ***The tell is diagnostic and worth memorising: the expression resolved correctly** — the real IP and port are right there in the error — **and the only defect is a stray `=` prefix.** That combination means a doubled mode marker every time, never a wrong expression.*
+> **Standing rule for anything written in this repo: quote expressions for the UI WITHOUT the `=`, and say "Expression mode" instead.** *Exported JSON keeps the `=`; a human typing into n8n must not.*
 
 *That is exactly what `Create Person in Twenty` and `Create Person in Twenty (no phone)` already do. This node was the odd one out.*
 

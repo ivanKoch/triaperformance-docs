@@ -104,7 +104,21 @@ python3 -c "import re,io,unicodedata as u; t=u.normalize('NFC',io.open('automati
 
 **2 · CoachMatch nurture — both sequences link the Spanish file.** `automation/coachmatch-email-nurture-2-3.json` **and** the Portuguese variant in `Claude outputs/CoachMatch-Email-Nurture-2-3-PT.json` both point at `/guias/zonas-de-entrenamiento.pdf`. The PT sequence was written in Portuguese and attaches a Spanish guide. **Now that `zonas-de-treino.pdf` exists this is a one-URL swap per sequence** — the cheapest of the three fixes and the one with a real audience already flowing through it.
 
-**3 · `site/members/guias/index.njk` exists only in Spanish.** No `site/en/members/guias/` or `site/pt/members/guias/`. Separate and smaller; it is a gated page, not a funnel step.
+**3 · The members downloads pages — DONE September 6, 2026, and my "Spanish-only" claim was wrong.** *I looked for `site/en/members/guias/`; the members area namespaces the other way, `site/members/en/downloads/`, and **all three languages have existed since August 13**. Corrected by Iván, who knew his own site better than my `ls` did.*
+
+**The card was restored, not added — and the condition for restoring it was set in advance.** `open-loops-archive.md`: *"it becomes live again only when the replacement guide exists, at which point the blog sentence and the redirects should point at that instead."* It does, and because the ES filename was kept, the blog link and the Caddy redirects already point at the new file.
+
+| page | before | after |
+|---|---|---|
+| `site/members/guias/` (ES) | 5 cards | **6** |
+| `site/members/en/downloads/` | 1 card | **2** |
+| `site/members/pt/downloads/` | 1 card | **2** |
+
+*The EN and PT pages carried a comment explaining their single card: the other PDFs are Spanish-only, and "putting Spanish files behind an English card would be worse than an honest short list." **That reasoning still holds — the list is just twice as long now**, with a guide written in the language rather than translated in name only.*
+
+**Two counts removed, one bug fixed.** *"Cinco guías" was hardcoded in the ES page header **and** in `library.json`'s `memberDesc` — a number that goes stale the moment a guide ships, which is exactly what happened here. Both now say "the guides" with no count.* 🚨 ***And the EN and PT sales copy was promising downloads that do not exist in those languages*** *— "Training zone sessions, plus nutrition and mental prep" / "mais nutrição e preparação mental", when only the sessions guide was available in EN or PT. **That is the same failure `library.json` was created to fix in August** (sales pages describing "flexibility, kettlebell, fixing lower back pain" — one deleted, two that never existed). Now factual in all three.*
+
+**Sales copy no longer leads with the free guides (Iván, September 6, 2026: "don't sell them… just have them there inside the downloads").** *Of the six ES guides, **four are free lead magnets** — `pre-entreno`, `intervalos`, `sesiones-por-zona` and now `zonas-de-entrenamiento`. Only the two full guides are exclusive to subscribers, so the ES sales line names those and nothing else. **In EN and PT nothing in downloads is exclusive at all**, so that copy is now plainly factual rather than a benefit claim. The members-area copy still lists everything — completeness inside the product, no selling outside it.*
 
 **The pattern to copy already exists and is proven.** `zone-magnet-runbook.md` — the sessions-guide delivery via `/api/zone-workouts` — has been live in all three languages since August 14, 2026, keyed on the same `language` field. *Do not design a new mechanism; clone that one.*
 

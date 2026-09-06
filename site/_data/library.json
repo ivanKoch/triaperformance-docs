@@ -178,14 +178,14 @@
       {
         "tag": "Descargas",
         "name": "Guías en PDF",
-        "desc": "Sesiones por zona, nutrición y preparación mental — para descargar cuando quieras.",
+        "desc": "Las guías completas de nutrición y de preparación mental, en PDF, para descargar cuando quieras.",
         "key": "downloads",
         "url": "/all-access/#biblioteca",
         "gated": true,
         "category": "numbers",
         "memberUrl": "/members/guias/",
         "memberCta": "Ver descargas →",
-        "memberDesc": "Sesiones por zona, nutrición y preparación mental — cinco guías en PDF, disponibles cuando quieras."
+        "memberDesc": "Todas las guías en PDF: zonas, sesiones por zona, nutrición y preparación mental."
       }
     ],
     "soon": [
@@ -408,14 +408,14 @@
       {
         "tag": "Downloads",
         "name": "PDF guides",
-        "desc": "Training zone sessions, plus nutrition and mental prep — downloadable whenever you want them.",
+        "desc": "Training guides in PDF, downloadable whenever you want them.",
         "key": "downloads",
         "url": "/en/all-access/#biblioteca",
         "gated": true,
         "category": "numbers",
         "memberUrl": "/members/en/downloads/",
         "memberCta": "See downloads →",
-        "memberDesc": "Your PDF guides, available whenever you want them. Starting with training zone sessions — more are being added."
+        "memberDesc": "Your PDF guides: the two thresholds, and the sessions that grow each zone."
       }
     ],
     "soon": [
@@ -638,14 +638,14 @@
       {
         "tag": "Downloads",
         "name": "Guias em PDF",
-        "desc": "Sessões por zona, mais nutrição e preparação mental — para baixar quando quiser.",
+        "desc": "Guias de treino em PDF, para baixar quando quiser.",
         "key": "downloads",
         "url": "/pt/all-access/#biblioteca",
         "gated": true,
         "category": "numbers",
         "memberUrl": "/members/pt/downloads/",
         "memberCta": "Ver downloads →",
-        "memberDesc": "Seus guias em PDF, disponíveis quando quiser. Começando pelas sessões por zona — mais estão sendo adicionados."
+        "memberDesc": "Seus guias em PDF: os dois limiares, e as sessões que fazem cada zona crescer."
       }
     ],
     "soon": [
