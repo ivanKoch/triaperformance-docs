@@ -1,90 +1,110 @@
 #!/usr/bin/env python3
-"""Write site/_data/sequences.json from the sequence_stats view.
+"""Write site/_data/sequences.json for /admin/secuencias/.
 
-Runs on the VPS inside deploy-website.sh, BEFORE the Eleventy build, because
-the admin page is a static build artefact and not a service -- same shape as
-/admin/enlaces. That means the page is as fresh as the last deploy, which for
-a daily deploy is the right trade: no DB connection from the web tier, no new
-port, no auth surface beyond the basic_auth already on /admin/*.
+Runs inside deploy-website.sh, BEFORE the Eleventy build, because the admin
+page is a static build artefact and not a service -- same shape as
+/admin/enlaces/. The page is therefore as fresh as the last deploy, which for
+a daily deploy is the right trade: no database connection from the web tier,
+no new port, no auth surface beyond the basic_auth already on /admin/*.
 
-It must NEVER break the deploy. If Postgres is unreachable the previous
-sequences.json is left exactly as it was and the script exits 0 -- a stale
-table is better than no website, and `generated_at` on the page is what tells
-the reader the data did not move.
+It talks to Postgres through `docker exec ... psql`, NOT psycopg2.
+    - no Python driver to install (the system python3 on this box has none;
+      psycopg2 lives in Hermes's venv, which is not the interpreter here);
+    - no DSN and no password anywhere -- inside the container psql connects
+      over the local socket, exactly like every other db command in this repo.
+The first version of this script imported psycopg2 and invented a DSN from
+PG_* environment variables. It failed on both counts on the first deploy.
+
+It must NEVER break the deploy. Any failure leaves the previous
+sequences.json untouched and exits 0 -- a stale table beats no website, and
+`generated_at` on the page is what tells the reader the data did not move.
 """
-import json, os, sys, datetime
+import json, os, subprocess, sys, datetime
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                   "..", "site", "_data", "sequences.json")
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.join(HERE, "..", "site", "_data", "sequences.json")
+
+CONTAINER = os.environ.get("MEMBERS_PG_CONTAINER", "analytics-postgres")
+DB_USER   = os.environ.get("MEMBERS_PG_USER", "analytics")
+DB_NAME   = os.environ.get("MEMBERS_PG_DB", "members")
+
+# One round trip, one JSON document. COALESCE on both aggregates because
+# json_agg over zero rows returns NULL, not an empty array -- and a literal
+# "null" reaching the template would render as a broken page rather than as
+# an empty one.
+QUERY = """
+SELECT json_build_object(
+  'campaigns', COALESCE((SELECT json_agg(s ORDER BY s.last_sent DESC NULLS LAST, s.campaign)
+                         FROM sequence_stats s), '[]'::json),
+  'links',     COALESCE((SELECT json_agg(x)
+                         FROM (SELECT t.source AS campaign,
+                                      c.code,
+                                      count(*)                   AS clicks,
+                                      count(DISTINCT c.click_id) AS clickers
+                               FROM campaign_link_clicks c
+                               JOIN unsubscribe_tokens t ON t.click_id = c.click_id
+                               GROUP BY t.source, c.code
+                               ORDER BY count(*) DESC) x), '[]'::json)
+);
+"""
+
+
+def fail(msg):
+    print(f"[sequences] {msg} -- leaving existing data", file=sys.stderr)
+    return 0
+
 
 def main():
     try:
-        import psycopg2
-        from psycopg2.extras import RealDictCursor
-    except ImportError:
-        print("[sequences] psycopg2 missing -- leaving existing data", file=sys.stderr)
-        return 0
+        proc = subprocess.run(
+            ["docker", "exec", "-i", CONTAINER,
+             "psql", "-U", DB_USER, "-d", DB_NAME, "-At", "-c", QUERY],
+            capture_output=True, text=True, timeout=30,
+        )
+    except FileNotFoundError:
+        return fail("docker not on PATH")
+    except subprocess.TimeoutExpired:
+        return fail("psql timed out")
 
-    dsn = os.environ.get("MEMBERS_DSN")
-    if not dsn:
-        host = os.environ.get("PG_HOST", "127.0.0.1")
-        port = os.environ.get("PG_PORT", "5432")
-        user = os.environ.get("PG_USER", "analytics")
-        pw   = os.environ.get("PG_PASSWORD", "")
-        db   = os.environ.get("PG_DATABASE", "members")
-        dsn = f"host={host} port={port} user={user} password={pw} dbname={db}"
+    if proc.returncode != 0:
+        return fail(f"psql exited {proc.returncode}: {proc.stderr.strip()[:200]}")
 
-    try:
-        conn = psycopg2.connect(dsn, connect_timeout=5)
-    except Exception as e:
-        print(f"[sequences] no database ({e.__class__.__name__}) -- leaving existing data",
-              file=sys.stderr)
-        return 0
+    raw = proc.stdout.strip()
+    if not raw:
+        return fail("psql returned nothing")
 
     try:
-        with conn, conn.cursor(cursor_factory=RealDictCursor) as cur:
-            cur.execute("SELECT * FROM sequence_stats;")
-            rows = [dict(r) for r in cur.fetchall()]
-            cur.execute("""
-                SELECT t.source AS campaign, c.code, count(*) AS clicks,
-                       count(DISTINCT c.click_id) AS clickers
-                FROM campaign_link_clicks c
-                JOIN unsubscribe_tokens t ON t.click_id = c.click_id
-                GROUP BY t.source, c.code
-                ORDER BY count(*) DESC;""")
-            by_link = [dict(r) for r in cur.fetchall()]
-    except Exception as e:
-        print(f"[sequences] query failed ({e}) -- leaving existing data", file=sys.stderr)
-        return 0
-    finally:
-        conn.close()
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        return fail(f"unparseable psql output: {raw[:120]!r}")
 
-    def iso(v):
-        return v.isoformat() if hasattr(v, "isoformat") else v
-
-    for r in rows:
-        for k, v in list(r.items()):
-            r[k] = iso(v) if not isinstance(v, (int, str, type(None))) else v
-            if hasattr(v, "quantize"):          # Decimal from round()
-                r[k] = float(v)
-    for r in by_link:
-        r["clicks"] = int(r["clicks"]); r["clickers"] = int(r["clickers"])
-
-    links = {}
-    for r in by_link:
-        links.setdefault(r["campaign"], []).append(
-            {"code": r["code"], "clicks": r["clicks"], "clickers": r["clickers"]})
+    campaigns = data.get("campaigns") or []
+    links_by_campaign = {}
+    for row in (data.get("links") or []):
+        links_by_campaign.setdefault(row["campaign"], []).append(
+            {"code": row["code"], "clicks": row["clicks"], "clickers": row["clickers"]}
+        )
 
     payload = {
-        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
-        "campaigns": rows,
-        "links_by_campaign": links,
+        "generated_at": datetime.datetime.now(datetime.timezone.utc)
+                                 .isoformat(timespec="seconds"),
+        "campaigns": campaigns,
+        "links_by_campaign": links_by_campaign,
     }
+
+    # Write via a temp file in the same directory, then replace. A deploy that
+    # dies mid-write must not leave the build reading half a JSON document.
+    tmp = OUT + ".tmp"
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w", encoding="utf-8") as f:
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=1)
-    print(f"[sequences] {len(rows)} campaign(s) -> site/_data/sequences.json")
+    os.replace(tmp, OUT)
+
+    sent = sum((c.get("sent") or 0) for c in campaigns)
+    print(f"[sequences] {len(campaigns)} campaign(s), {sent} sent "
+          f"-> site/_data/sequences.json")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
