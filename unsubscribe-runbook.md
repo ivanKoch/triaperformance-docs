@@ -215,6 +215,13 @@ The `mailto:` is listed first on purpose: it works even if the endpoint is down.
 
 ## Click tracking — `/c/<code>` (added September 6, 2026)
 
+✅ **LIVE and verified September 6, 2026.** `/c/aa-pt?k=test123` → `302 https://triaperformance.com/pt/all-access/`; `/c/nonsense?k=test123` → `302 https://triaperformance.com/` — **the unknown code redirected and logged rather than 404ing**, which is the property that makes a typo in an already-sent email recoverable. Two rows in `campaign_link_clicks`, both carrying the `click_id`.
+
+⚠️ **Deploy gotchas, all three hit on the first install and all three recur:**
+1. `deploy-website.sh` has no execute bit in git — run it as `bash automation/deploy-website.sh` (or fix it once with `git update-index --chmod=+x`). **Two separate installs died here.**
+2. **`app.py` lives in the image, so a restart is not enough — `docker compose up -d --build members-auth` from `/root/.members-auth`.** *The `build:` there points at this repo, so `git pull` does deliver the code; nothing is hand-edited on the box.* **The fast check is `docker exec members-auth-members-auth-1 grep -c "def campaign_link" /app/app.py` — `0` means stale, `1` means current.** *Run that BEFORE debugging anything else; it separates a stale container from a Caddy problem in one command.*
+3. `campaignLinks.json` needs **no** rebuild — `site/_data` is mounted read-only into the container and re-read on mtime. Add a code, `git pull`, done.
+
 **Built on the service that already existed, not beside it.** `/w/` (workout links) is served by the members auth service on `127.0.0.1:8091`: JSON registry → 302 → one logged row. `/c/` is the same route shape in the same Flask app, and differs in exactly one respect.
 
 ⚠️ **Identity.** `/w/` knows the clicker from the `members_token` cookie. **A cold email recipient has no cookie**, so `/c/` carries `?k=<click_id>`, minted per recipient by `mint-unsubscribe-tokens.py`.
