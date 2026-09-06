@@ -1,0 +1,252 @@
+{
+  "name": "Email Unsubscribe",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "unsubscribe",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5387feba-4121-4041-9209-7b6b81fc9925",
+      "name": "Webhook",
+      "webhookId": "2cfc9e65-da13-41bc-bb16-3112986a5fe4"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT email, lang\nFROM unsubscribe_tokens\nWHERE token = $1;",
+        "options": {
+          "queryReplacement": "={{ $json.query.t }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        220,
+        0
+      ],
+      "id": "3ec31d86-78e1-43ae-99cf-de697bb7aab5",
+      "name": "Lookup Token",
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "42e29530-07d4-4788-84fe-8175fcdbb096",
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "looseTypeValidation": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        440,
+        0
+      ],
+      "id": "282ab24f-0c09-4d52-93d8-67ea117fd03c",
+      "name": "Token Valid?"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO email_suppression (email, reason, source)\nVALUES ($1, 'user_unsubscribe',\n        (SELECT source FROM unsubscribe_tokens WHERE token = $2))\nON CONFLICT (email) DO NOTHING;\nUPDATE unsubscribe_tokens SET used_at = now()\nWHERE token = $2 AND used_at IS NULL;",
+        "options": {
+          "queryReplacement": "={{ $json.email }},{{ $('Webhook').item.json.query.t }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        660,
+        -100
+      ],
+      "id": "2dc09fcc-6086-4af4-ac50-1cc11c36c639",
+      "name": "Record Suppression",
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Builds the confirmation page in the recipient's own language.\n// The Postgres node above returns `email` and `lang`; if the token was already\n// used the row is still returned, so a second click shows the same \"you're\n// unsubscribed\" page rather than an error. That is deliberate -- a person who\n// clicks twice should not be told something went wrong.\n\nconst row = $json;\nconst lang = (row.lang || 'SPANISH').toUpperCase();\n\nconst COPY = {\n  SPANISH: {\n    title: 'Listo, te diste de baja',\n    body: 'No vas a recibir más correos de Triaperformance en esta dirección.',\n    note: 'Si fue un error o querés volver a recibirlos, escribime a coach@triaperformance.com y lo revierto.',\n    sign: 'Iván Koch — Triaperformance',\n  },\n  ENGLISH: {\n    title: \"You're unsubscribed\",\n    body: 'You will not receive any more emails from Triaperformance at this address.',\n    note: 'If this was a mistake, or you want them back, write to coach@triaperformance.com and I will undo it.',\n    sign: 'Iván Koch — Triaperformance',\n  },\n  PORTUGUESE: {\n    title: 'Pronto, você foi descadastrado',\n    body: 'Você não vai receber mais emails da Triaperformance neste endereço.',\n    note: 'Se foi um engano, ou se quiser voltar a receber, escreva para coach@triaperformance.com que eu reverto.',\n    sign: 'Iván Koch — Triaperformance',\n  },\n};\n\nconst t = COPY[lang] || COPY.SPANISH;\nconst esc = (s) => String(s).replace(/[&<>\"]/g, (c) =>\n  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;' }[c]));\n\nconst html = `<!doctype html>\n<html lang=\"${lang === 'PORTUGUESE' ? 'pt' : lang === 'ENGLISH' ? 'en' : 'es'}\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<meta name=\"robots\" content=\"noindex,nofollow\">\n<title>${esc(t.title)}</title>\n<style>\n  :root { color-scheme: light; }\n  body { margin:0; min-height:100vh; display:grid; place-items:center;\n         background:#f6f7f9; color:#14202e;\n         font:16px/1.6 -apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,sans-serif; }\n  .card { max-width:32rem; margin:1.5rem; padding:2.5rem 2rem; background:#fff;\n          border-radius:14px; box-shadow:0 1px 3px rgba(20,32,46,.10); }\n  h1 { margin:0 0 .75rem; font-size:1.35rem; letter-spacing:-.01em; }\n  p { margin:0 0 1rem; }\n  .email { font-weight:600; }\n  .note { color:#5a6a7d; font-size:.9rem; }\n  .sign { margin:1.5rem 0 0; padding-top:1rem; border-top:1px solid #e6e9ee;\n          color:#5a6a7d; font-size:.85rem; }\n  a { color:#0f6f5c; }\n</style>\n</head>\n<body>\n  <main class=\"card\">\n    <h1>${esc(t.title)}</h1>\n    <p>${esc(t.body)}<br><span class=\"email\">${esc(row.email || '')}</span></p>\n    <p class=\"note\">${esc(t.note)}</p>\n    <p class=\"sign\">${esc(t.sign)}</p>\n  </main>\n</body>\n</html>`;\n\nreturn [{ json: { html } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        -100
+      ],
+      "id": "75729223-3426-45a5-a6e0-760febfb921c",
+      "name": "Build Page"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html; charset=utf-8"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1100,
+        -100
+      ],
+      "id": "7686d794-d209-4b71-8b60-1354568a2107",
+      "name": "Respond Unsubscribed"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<meta name=\"robots\" content=\"noindex,nofollow\">\n<title>Enlace no válido</title>\n<style>\n  :root { color-scheme: light; }\n  body { margin:0; min-height:100vh; display:grid; place-items:center;\n         background:#f6f7f9; color:#14202e;\n         font:16px/1.6 -apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,sans-serif; }\n  .card { max-width:32rem; margin:1.5rem; padding:2.5rem 2rem; background:#fff;\n          border-radius:14px; box-shadow:0 1px 3px rgba(20,32,46,.10); }\n  h1 { margin:0 0 .75rem; font-size:1.35rem; }\n  p { margin:0 0 .75rem; color:#5a6a7d; }\n  a { color:#0f6f5c; }\n</style>\n</head>\n<body>\n  <main class=\"card\">\n    <h1>Enlace no válido</h1>\n    <p>Este enlace de baja no es válido o ya expiró. Escribime a\n       <a href=\"mailto:coach@triaperformance.com\">coach@triaperformance.com</a>\n       y te doy de baja a mano.</p>\n    <p>This unsubscribe link is not valid. Write to\n       <a href=\"mailto:coach@triaperformance.com\">coach@triaperformance.com</a>\n       and I will remove you by hand.</p>\n    <p>Este link de descadastro não é válido. Escreva para\n       <a href=\"mailto:coach@triaperformance.com\">coach@triaperformance.com</a>\n       que eu removo manualmente.</p>\n  </main>\n</body>\n</html>",
+        "options": {
+          "responseCode": 404,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html; charset=utf-8"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        120
+      ],
+      "id": "f38e9321-fdc6-41b5-b7d4-215b7f42b0e2",
+      "name": "Respond Invalid Link"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Lookup Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lookup Token": {
+      "main": [
+        [
+          {
+            "node": "Token Valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Valid?": {
+      "main": [
+        [
+          {
+            "node": "Record Suppression",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Invalid Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Record Suppression": {
+      "main": [
+        [
+          {
+            "node": "Build Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Page": {
+      "main": [
+        [
+          {
+            "node": "Respond Unsubscribed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": "GWBWznYoPiHdbmVt"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

@@ -266,6 +266,18 @@ triaperformance.com {
 	# an internal `webhook/` prefix, so proxying the raw path 404s at the Express
 	# layer even though the proxy itself is working. Cost real debugging time on
 	# /api/contact-form in July 2026 -- see contact-form-pipeline-runbook.md.
+	# Email unsubscribe (added September 6, 2026). Same shape as the routes
+	# above, but this one is a GET opened by a human from an email footer, not
+	# a POST from a form -- so it must stay reachable without any auth header,
+	# and the n8n workflow answers it with an HTML page rather than JSON.
+	# See unsubscribe-runbook.md.
+	route /api/unsubscribe {
+		rewrite * /webhook/unsubscribe
+		reverse_proxy 100.70.89.17:5678 {
+			header_up Host {upstream_hport}
+		}
+	}
+
 	route /api/athlete-intake {
 		rewrite * /webhook/athlete-intake
 		reverse_proxy 100.70.89.17:5678

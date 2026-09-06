@@ -201,8 +201,25 @@ inglês. Se você preferir tudo em português, tenho o All-Access por US$ 29,99
 
 ⚠️ **Sequence-straddling:** Portuguese email 2 opens with *"seguindo o meu email de ontem"*, which is only true if email 1 was also Portuguese. **Activate the lead workflow first**, or make sure no lead is mid-sequence when the nurture workflow flips.
 
-## Measurement
+## Measurement — the baseline, September 6, 2026
 
-**The question is whether Brazilian CoachMatch leads convert to anything at all.** Before or alongside the first send, get the baseline out of Twenty: how many Brazilian CoachMatch leads all-time, and how many reached `WON_CUSTOMER`. If it is zero, there is no cannibalisation risk to reason about — a sale that does not happen cannot be displaced. If it is not zero, the trade matters: **All-Access PT nets $19.94/month against ~$119.20 for a $149 CoachMatch athlete, six to one**, and the language framing is the only thing keeping the cheaper offer from taking sales the expensive one would have made.
+**Every Portuguese-language person in Twenty, all time: 34.** *(Iván, from a live GraphQL query on `preferredLanguage: PORTUGUESE`, after he reviewed and corrected the statuses by hand.)*
 
-Read it at the monthly closes, not by watching for the first signup. Record the outcome in `monthly-close/YYYY-MM.md`.
+| leadStatus | n | Treatment |
+|---|---|---|
+| `LOST_NO_RESPONSE` | 30 | **the backlog send** |
+| `MESSAGE_SENT` | 2 | exclude — inside the live sequence, now Portuguese |
+| `WON_CUSTOMER` | 1 | exclude — **this is the All-Access subscriber** |
+| *(none)* | 1 | exclude — Iván's test record |
+
+🚨 ***The headline, and it is now confirmed rather than inferred: Portuguese CoachMatch leads have converted ZERO times, ever.*** *The single `WON_CUSTOMER` is the All-Access subscriber, who arrived through `WEBSITE_FORM` — not CoachMatch (`data/monthly_close/2026-08-roster.csv`). Iván confirmed it directly.* **So across ~31 Portuguese CoachMatch leads the channel has produced no customer of any kind.**
+
+***What that settles.*** *The cannibalisation question is closed: there is no $149 conversion rate to protect in Portuguese, so the 6:1 net-revenue ratio ($19.94 vs ~$119.20) never comes into play. The language fork is still the right framing — it is what keeps the $29.99 from reading as a discount when this is extended to Spanish — but in Portuguese it is protecting a zero.* **Do not carry the 6:1 caution into the ES rollout as if it had been tested here. It has not been. Portuguese proves the offer converts or does not; it cannot prove the offer is safe next to a working coaching funnel.**
+
+***And the history is uniform, which simplifies the send.*** *Iván, September 6: no Portuguese lead has ever replied to the email sequence, and WhatsApp outreach to Brazil only began September 5.* **So all 30 are silent — none ever said "not interested", none opted out, and the `LOST_NOT_INTERESTED` bucket is now empty by his own reclassification.** *One uniform segment, no objection to work around, and the earlier plan's `LOST_PRICE` variant is retired unsent: that segment has no members.*
+
+⚠️ **Every one of the 30 has already received three Spanish emails.** *Two more makes five touches from the same sender to someone who has never once replied.* **That is why both emails promise not to write again about this, and why the follow-up is a different argument rather than a resend — and the promise has to be kept.**
+
+***The number that reframes the whole item:*** *34 records across Twenty's ~2-month life is roughly* **15–17 Portuguese leads a month**. **The sequence shipped September 5 will touch more Portuguese leads by early November than this entire backlog holds.** *Do the backlog — it is an afternoon at near-zero marginal cost — but the automation is the asset, and the backlog's result is not the verdict on the idea.*
+
+**Read the send at the monthly closes.** Record in `monthly-close/2026-09.md`: how many of the 30 subscribed, against a channel whose all-time Portuguese conversion count is zero.
