@@ -8,6 +8,30 @@
 
 ---
 
+## Closed — September 7, 2026 (Members token rotation — run, measured, and accepted where it did not reach)
+
+**The original item, preserved:**
+
+- [ ] **Rotate the three QA fixture tokens.** *The values for `coach+qa-es@`, `coach+qa-en@` and `coach+qa-pt@` are sitting in plaintext in an Apple Note (Iván, September 6, 2026).* **This is the fourth instance of the pattern `schema.sql` and OPERATIONS.md §2 already document three times** — and it is the instructive variant: the previous three were chat transcripts, i.e. accidents of a `SELECT *`. *This one was deliberate, written down on purpose because the fixtures are needed often and pulling them requires a VPS session.* ⚠️ ***That makes the note a symptom, not the failure.*** *Rotation without addressing the underlying friction just reproduces it — the fixtures are convenience credentials that get copied precisely because getting them is inconvenient.* **Decide which:** Bitwarden (already the stated answer in OPERATIONS.md's QA-fixtures section, and unused), or accept that the three fixture rows are low-value enough to be written down and say so explicitly in the doc instead of forbidding it. *A rule broken four times is a rule that lost.*
+
+### Opened September 7, 2026 — podcast sources on the research agent
+
+- [ ] **First real run: check whether podcast blurbs poison `theme_clusters()`.** *Megaphone descriptions carry sponsor reads and guest bios, and `parse_feed()` keeps the first 600 characters of them. `theme_clusters()` indexes bigrams from title **and** summary, so a recurring ad phrase appearing across many episodes of one show is a candidate theme.* **The `max_doc_freq=0.25` cutoff is the existing defence and may be enough** — a phrase in every Fast Talk episode is ~13% of a 120-post corpus, under the cutoff, so *it would survive*. ⚠️ **The check is one `--crawl-only` run and one look at the printed theme list**: if sponsor phrases appear as themes, the fix is to stop indexing `summary` for `kind: podcast` sources, not to raise the cutoff. *While you are in that run, confirm the second half of the §46 addendum too.* **`--crawl-only` now prints `balanced_sample()` with a per-source `picked of seen` table** — *it used to print `recent[:40]` in file order, which is why the first attempt at this confirmation proved nothing.* **Pass condition: no source carries the `<<< NONE REACH THE MODEL` marker**, and the three podcasts sit near 13 / 8 / 8.
+
+- [ ] **Two different crontab lines for the research agent are documented, and only `crontab -l` says which is installed.** *`run-agent.sh`'s header block says `30 6 * * 1 … run-agent.sh research`; `SETUP.md` Step 7 says `0 7 * * 1 … /usr/bin/python3 research_agent.py` — direct, no wrapper.* ⚠️ ***The difference is not the half hour.*** *The wrapper is what provides the `flock`, the run log and `content-research.status`. Invoked directly, the research agent is the one job in this engine whose failure is silent — which is precisely the condition `ai-infrastructure-documentation.md` §20 built the status file to end.* **If both lines are installed it also runs twice, and the second run bypasses the lock rather than waiting on it.** *Check `crontab -l` on the VPS, keep the wrapper line, and correct whichever doc is wrong in the same session.*
+
+- [ ] **Perform's topics fall outside the writer's nine-slug vocabulary.** *Sleep, longevity and general fitness have no `topic` slug — `writer_agent.py` enforces a closed list of `running, cycling, swimming, triathlon, nutrition, recovery, physiology, strength, weight-loss`.* **This is not a new problem, it is the parked LATER item "a wider topic vocabulary" acquiring its first concrete trigger:** *until now the argument for widening it was theoretical, and the counter-argument — "the blog has never been clicked, so this is a distribution question first" — still stands.* ***Do not widen the vocabulary on the strength of this.*** *Note it, and let a real Perform-driven idea that cannot be filed under any of the nine be the thing that decides it.*
+
+✅ ***CLOSED September 7, 2026 — Iván's call, taken on a measurement rather than an argument.*** *The one-statement rotation ran against `active = TRUE AND access_count = 0`. He then diffed the pre- and post-rotation lists and found* **only 5 active athletes still holding a previous token** *— small enough to live with, and the item closes on that number.*
+
+⚠️ ***What the rotation did NOT cover, stated so it is not rediscovered as a surprise:*** *the filter was `access_count = 0`, and the three `QA-FIXTURE` rows carry the highest access counts in the table (94 accesses between them, per close #1). **They were never in scope, so the three values written down in Iván's Apple Note are still live** — now by decision rather than by oversight.*
+
+***The judgement that closed this is worth keeping, because it is the opposite of the one the item argued for.*** *The item said a rule broken four times is a rule that lost, and proposed either Bitwarden or an explicit exception. The resolution is the second of those, arrived at by weighing what is actually protected — training content, on a plain-text storage model already accepted and documented (`ai-infrastructure-documentation.md` §13) — against the friction of pulling three convenience credentials from a VPS session every time they are needed.* **Do not re-raise the QA fixtures as a leak.** *If they are ever to be treated as secrets again, that is a new decision with a new reason, not a reinstatement of this one.*
+
+*The rotation section was removed from `members-area-announcement-2026-08.md` in the same pass — an executed plan, not a falsified belief, so it was deleted rather than struck through. The announcement no longer rotates anything; it sends each athlete the token they already hold.*
+
+---
+
 ## Closed — September 7, 2026 (Three podcast sources verified live, and the slice that would have hidden them)
 
 **The original item, preserved:**
