@@ -42,6 +42,7 @@ ENVIRONMENT (read from ~/.hermes/.env and ~/.analytics/.env automatically)
 import argparse
 import collections
 import glob
+import itertools
 import html.entities
 import json
 import math
@@ -626,6 +627,40 @@ esto esta este esos esas aquel aquella todo toda todos todas
 mais menos muito pouco quando onde porque isso essa esse
 """.split())
 STOPWORDS |= DOMAIN_NOISE | FUNCTION_WORDS
+
+
+def balanced_sample(posts, limit):
+    """Take `limit` posts spread ACROSS sources, not the first `limit` in list order.
+
+    WHY THIS EXISTS (September 7, 2026)
+    The prompt's RECENT SOURCE POSTS block was `recent[:120]`, and `recent` is
+    built by walking sources.json in order. That was survivable while every
+    source was a blog of similar size. It stopped being survivable the moment
+    three podcasts were appended to the END of the file:
+
+      - Six html-mode sources contribute 112 posts that carry NO date, and
+        `if d is None or d >= cutoff` keeps every one of them regardless of age.
+      - Those six sit above the podcasts in sources.json.
+      - 112 undated + the dated blog survivors already exceeds 120.
+
+    So the three sources just added would have been sliced off entirely and the
+    model would never have seen a single episode — while `--check-sources`
+    reported `n=25` for all three and every log line said the sources worked.
+    Same family as the <link>-less feed in §46: the number that would have told
+    you was reported correctly somewhere else.
+
+    Round-robin instead: every source gives up its newest post before any source
+    gives up its second. With 12 sources and a 120 cap that is ten each, and a
+    thin source (High North Running, n=2) simply stops contributing rather than
+    costing anyone a slot.
+    """
+    by_source = collections.OrderedDict()
+    for p in posts:
+        by_source.setdefault(p["source_name"], []).append(p)
+    out = []
+    for tier in itertools.zip_longest(*by_source.values()):
+        out.extend(p for p in tier if p is not None)
+    return out[:limit]
 
 
 def theme_clusters(posts, min_sources=2, max_doc_freq=0.25):
@@ -1467,7 +1502,23 @@ def main():
     print(f"\n[crawl] {len(all_posts)} posts seen, {len(recent)} within lookback window")
 
     if args.crawl_only:
-        for p in recent[:40]:
+        # Print what the MODEL is handed, not what the crawl collected. Those were
+        # different lists until Sept 7, 2026 and the difference was the whole bug:
+        # this flag showed `recent[:40]` in sources.json order, so it opened with
+        # TrainingPeaks every time and could never reveal that the tail of the file
+        # was being sliced off before the prompt was built. A diagnostic that shows
+        # a different list from the one under test cannot confirm or deny anything.
+        sample = balanced_sample(recent, 120)
+        picked = collections.Counter(p["source_name"] for p in sample)
+        seen = collections.Counter(p["source_name"] for p in recent)
+        print(f"\n[prompt] {len(sample)} of {len(recent)} post(s) reach the model, "
+              f"balanced across sources:")
+        for name in dict.fromkeys(p["source_name"] for p in recent):
+            n_pick, n_seen = picked.get(name, 0), seen[name]
+            flag = "   <<< NONE REACH THE MODEL" if n_pick == 0 else ""
+            print(f"    {name:42s} {n_pick:3d} of {n_seen:3d}{flag}")
+        print()
+        for p in sample[:40]:
             print(f"  - [{p['source_name']}] {p['title'][:90]}")
         return
 
@@ -1534,7 +1585,8 @@ def main():
                              "publisher": p.get("source_publisher", p["source_name"]),
                              "title": p["title"],
                              "summary": p.get("summary", "")[:300], "url": p["url"]}
-                            for p in recent[:120]], ensure_ascii=False, indent=1),
+                            for p in balanced_sample(recent, 120)],
+                           ensure_ascii=False, indent=1),
         assets=json.dumps(assets, ensure_ascii=False, indent=1)[:6000],
         published=json.dumps(
             [{"lang": a["lang"], "topic": a["topic"], "title": a["headline"], "slug": a["slug"]}

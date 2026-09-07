@@ -8,6 +8,22 @@
 
 ---
 
+## Closed — September 7, 2026 (Three podcast sources verified live, and the slice that would have hidden them)
+
+**The original item, preserved:**
+
+- [x] **Verify the three new podcast feeds against the live sources.** *Fast Talk, Endurance Unlimited and Perform with Dr. Andy Galpin were added to `automation/content-engine/sources.json` on Sept 7 with a parser change behind them (`ai-infrastructure-documentation.md` §46). **Nothing has fetched them.*** Run on the VPS: `python3 research_agent.py --check-sources`. **Pass condition is `mode=feed` and `n` well above zero for all three.** ⚠️ ***`n=0` is the outcome to watch for and the reason this item exists:*** *a `<link>`-less Megaphone feed used to produce exactly that with no error, and §46's fallback is the fix — an `n=0` here means the fallback did not take, not that the podcast is quiet.*
+
+✅ ***CLOSED September 7, 2026 — run on the VPS, all three OK.*** *`Fast Talk mode=feed n=25`, `Endurance Unlimited mode=feed n=25`, `Perform with Dr. Andy Galpin mode=feed n=25`.* **The §46 `<link>` fallback is what produced those numbers; without it all three would have read `n=0` with no error.** *Twelve sources active, every one returning posts. `Dr Will O'Connor` also reported its configured feed 404ing and falling back to html, as its own note predicted.*
+
+🚨 ***But the run exposed a second defect that `n=25` could not show, and it is the more instructive one.*** *The prompt's source block was `recent[:120]`, and `recent` is assembled by walking `sources.json` in order. Six html-mode sources contribute* **112 posts carrying no date at all** *— `parse_html_index()` returns no date, `parse_date()` returns `None`, and `if d is None or d >= cutoff` keeps every one of them regardless of age. So the undated blogs alone nearly fill the slice, and the three podcasts, appended at the END of the file, got* **zero slots**. ***All three would have reported `n=25`, logged clean, fed `theme_clusters()`, and never had a single episode title reach the model.***
+
+⚠️ ***And it was not new.*** *Higher Running — described in its own source note as "closest business analogue — solo-ish coaching + plans + newsletter" — sits last among the blogs and was already being truncated out of the prompt before any podcast existed.* **Nobody noticed, because a source that is silently sliced off and a source with nothing to say produce the same output.** *That is the same shape as the `<link>`-less feed one day earlier: the log line that would have told you was reported correctly, somewhere the reader was not looking.*
+
+**Fixed with `balanced_sample()` in `research_agent.py`:** *round-robin across sources, so every source gives up its newest post before any source gives up its second. Simulated against the real per-source counts from this run — podcast posts reaching the model* **0 → 30**, *Higher Running* **0 → 5**, *no source starved, thin sources (High North Running, n=2) simply stop contributing rather than costing anyone a slot.* *Full reasoning in `ai-infrastructure-documentation.md` §46 addendum.* ⚠️ **Verified by simulation, not by a live run — the confirmation rides on the remaining `--crawl-only` item in `open-loops.md` NEXT.**
+
+---
+
 ## Closed — September 5, 2026, evening (Recuperación activa in three languages, plus two ghosts that had outlived their pages by 23 days)
 
 ### 1. Recuperación activa — EN + PT shipped
