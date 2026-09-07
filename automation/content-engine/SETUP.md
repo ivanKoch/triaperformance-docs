@@ -131,11 +131,24 @@ docker build -t tp-admin ~/.hermes/triaperformance-docs/automation/content-engin
 
 ```bash
 docker run -d --name tp-admin --restart unless-stopped --network host \
+  -v /root/.hermes/triaperformance-docs/automation/content-engine/admin_service/app.py:/app/app.py:ro \
   -e PG_HOST=127.0.0.1 -e PG_PORT=5432 -e PG_USER=analytics -e PG_DB_CONTENT=content \
   -e PG_PASSWORD="$PGPW" \
   -e PUBLISH_WEBHOOK=http://100.70.89.17:5678/webhook/publish-article \
   tp-admin
 ```
+
+*The `-v` line was added September 7, 2026, and it changes how this service is deployed.* **`app.py` is now read from the repo checkout at run time, not from the image.** *The Dockerfile still `COPY`s it, so the image alone remains runnable and nothing about the build changes — the mount simply wins at run time.*
+
+**Why: the image was a silent second copy of a repo file.** *A nav-bar change to `app.py` was committed, pushed, pulled to the VPS by `deploy` and sat there doing nothing, because `deploy` builds the Eleventy site and knows nothing about Docker — the container went on serving the code baked in at its last build. From the outside this is indistinguishable from the change not having been made: the file on the box is correct, the git history is correct, and the page is wrong. That is the same class of failure as the three scripts found living only on the VPS in July (`ai-infrastructure-documentation.md` §18) — one artifact, two copies, no signal when they diverge — and the fix is the same one: point the runtime at the repo.*
+
+**Consequence for every future change to `app.py`:**
+
+```bash
+docker restart tp-admin
+```
+
+*after the repo is up to date (any `deploy` run, or `git -C ~/.hermes/triaperformance-docs pull`). No build, no `docker rm -f`, no re-typing the env — which is the other half of the value here, since re-typing the env is exactly how `PUBLISH_WEBHOOK` was lost in August.* **A change to `requirements.txt` still needs a real rebuild** *— that layer is in the image and the mount does not touch it.*
 
 *`PUBLISH_WEBHOOK` added August 12, 2026 — **it was missing from this command while being set on the live container**, which is the worst combination: the runbook worked well enough to produce a healthy container, and the thing it silently dropped was the entire publishing step. Approving a piece would have flipped it to `APPROVED`, POSTed nowhere, and removed it from `/admin/drafts/`, with no error anywhere. Found while rebuilding for the `approved_unpublished` view — by inspecting the live container's env before destroying it, which is now the standing habit below.*
 
