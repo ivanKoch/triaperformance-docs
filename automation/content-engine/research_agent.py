@@ -374,6 +374,21 @@ def parse_feed(body):
             link = (link_el.text or "").strip() or link_el.attrib.get("href", "")
         else:
             link = ""
+        if not link:
+            # Podcast feeds routinely omit <link> on items — Megaphone (Fast Talk,
+            # Endurance Unlimited) emits none at all, so the old `if title and link`
+            # guard below silently dropped EVERY episode and the source reported
+            # zero posts with no error. Fall back to the guid when it is a real
+            # permalink, then to the audio enclosure, which is at least a stable
+            # per-episode URL the evidence check can key on.
+            guid_el = get("guid")
+            if (guid_el is not None and (guid_el.text or "").strip().startswith("http")
+                    and guid_el.attrib.get("isPermaLink") != "false"):
+                link = guid_el.text.strip()
+        if not link:
+            enc = item.find("enclosure")
+            if enc is not None and enc.attrib.get("url", "").startswith("http"):
+                link = enc.attrib["url"]
         desc = ""
         for cand in ("description", "summary", "content"):
             el = get(cand)
@@ -653,7 +668,7 @@ def theme_clusters(posts, min_sources=2, max_doc_freq=0.25):
     for phrase, group in index.items():
         if len(group) / n_posts > max_doc_freq:
             continue
-        sources = {g["source_name"] for g in group}
+        sources = {g.get("source_publisher") or g["source_name"] for g in group}
         if len(sources) >= min_sources and len(group) >= 2:
             clusters.append({
                 "theme": phrase,
@@ -867,9 +882,12 @@ in the window, with counts. These are the real timing signals. Prefer them.
 Every idea must declare `signal_type`:
   convergence — built on a theme in the THEMES list. You MUST list, in `evidence`,
                 the URLs of the actual posts that support it, from at least two
-                DIFFERENT sources. The count is verified against those URLs in
-                code — claiming a theme's headline number without citing posts
-                that are genuinely about your angle gets the idea discarded.
+                different PUBLISHERS — not two source names. TrainingPeaks owns
+                three of the sources below (its two blogs and the Endurance
+                Unlimited podcast); citing two of those is citing one company.
+                The count is verified against those URLs in code — claiming a
+                theme's headline number without citing posts that are genuinely
+                about your angle gets the idea discarded.
   gap         — the sources collectively are NOT covering something Triaperformance
                 is well placed to answer. Say in the rationale what is missing.
   evergreen   — no source signal at all; it stands on Triaperformance's own assets
@@ -877,6 +895,26 @@ Every idea must declare `signal_type`:
 Do NOT claim `convergence` for a theme touched by only one source. That is just
 reacting to one blog post, and it produces articles competing with that blog on
 its own ground.
+
+BLOGS AND PODCASTS ARE DIFFERENT SIGNALS
+Every source post carries `kind`. Read it before you weigh it.
+  blog    — a competitor in search results. If they rank for a topic you probably
+            will not, so their strong topics are the ones to route AROUND. The
+            "do not propose it just because a source covered it" rule below is
+            about these.
+  podcast — not a search competitor at all. An episode is proof that practitioners
+            in this field think a question is worth an hour of audio RIGHT NOW,
+            published in a format that will never occupy the search result we
+            want. So a podcast theme points the other way from a blog theme: the
+            demand is demonstrated and the written answer does not exist yet.
+            Two hard constraints:
+            (1) You have the episode TITLE and BLURB. You have not heard it, and
+                you never will. Never attribute a claim, a number, a study or a
+                protocol to an episode, and never write "as discussed on <show>".
+                It is evidence that the QUESTION is live. Nothing more.
+            (2) A question raised on a podcast still has to be answered from
+                methodology.md and our own assets, not from the blurb. If we
+                cannot answer it from what we actually know, it is not our idea.
 
 WHAT THE SOURCE POSTS ARE FOR
 Below is what competitor/industry blogs published recently. Use them for TIMING
@@ -1235,6 +1273,11 @@ def verified_source_count(idea, url_to_source):
     an idea about altitude in Mexico City claimed 5 sources because 5 sources had
     written about "marathon". A broad theme launders a weak signal into a strong
     number. The claim is now measured from the evidence URLs instead of believed.
+
+    Counted by PUBLISHER, not by source name (Sept 7, 2026). TrainingPeaks owns
+    three of the sources — its two blogs and the Endurance Unlimited podcast — so
+    name-counting would have scored one company's editorial calendar as a
+    three-source convergence.
     """
     ev = idea.get("evidence") or []
     if isinstance(ev, str):
@@ -1368,6 +1411,12 @@ def main():
               + (f" ERROR={err}" if err else ""))
         for p in posts:
             p["source_name"] = src["name"]
+            # Convergence must mean "several INDEPENDENT outlets", not "several
+            # properties of one publisher". TrainingPeaks alone owns three of the
+            # sources below (blog, coach blog, Endurance Unlimited); counting them
+            # as three would let one editorial calendar manufacture a theme.
+            p["source_publisher"] = src.get("publisher") or src["name"]
+            p["source_kind"] = src.get("kind", "blog")
         all_posts.extend(posts)
         time.sleep(delay)
 
@@ -1481,7 +1530,9 @@ def main():
     prompt = PROMPT.format(
         n=settings.get("ideas_per_run", 12),
         themes=json.dumps(clusters, ensure_ascii=False, indent=1)[:5000],
-        sources=json.dumps([{"source": p["source_name"], "title": p["title"],
+        sources=json.dumps([{"source": p["source_name"], "kind": p.get("source_kind", "blog"),
+                             "publisher": p.get("source_publisher", p["source_name"]),
+                             "title": p["title"],
                              "summary": p.get("summary", "")[:300], "url": p["url"]}
                             for p in recent[:120]], ensure_ascii=False, indent=1),
         assets=json.dumps(assets, ensure_ascii=False, indent=1)[:6000],
@@ -1520,7 +1571,7 @@ def main():
             if allowed and i.get("cta_type") not in allowed:
                 ok.append("CTA MISMATCH")
             if i.get("signal_type") == "convergence":
-                v = verified_source_count(i, {p["url"]: p["source_name"]
+                v = verified_source_count(i, {p["url"]: p["source_publisher"]
                                               for p in recent if p.get("url")})
                 if v < 2:
                     ok.append(f"UNVERIFIED CONVERGENCE (claims "
@@ -1538,7 +1589,7 @@ def main():
             print(f"  {label:10s} {dict(Counter(i.get(key) for i in ideas))}")
         return
 
-    url_to_source = {p["url"]: p["source_name"] for p in recent if p.get("url")}
+    url_to_source = {p["url"]: p["source_publisher"] for p in recent if p.get("url")}
     kept, dropped = save_ideas(conn, ideas, url_to_source)
     print(f"[db] saved {kept} ideas, dropped {len(dropped)}")
     for title, why in dropped:

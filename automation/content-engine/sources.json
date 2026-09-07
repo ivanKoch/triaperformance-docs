@@ -1,19 +1,21 @@
 {
-  "_comment": "Blogs the research agent watches. SIGNAL sources — timing and gaps — not topic lists to copy. Notes below include Iván's own read on each plus what a manual crawl (July 27, 2026) actually found. Run `python3 research_agent.py --check-sources` on the VPS to verify the feed guesses before the first real run.",
+  "_comment": "Sources the research agent watches. SIGNAL sources — timing and gaps — not topic lists to copy. Two kinds, and they are NOT interchangeable: kind=blog is a search competitor (their strong topics are the ones you cannot win); kind=podcast is not a search competitor at all, so an episode is closer to an opening than a warning. `publisher` is what convergence counts — TrainingPeaks owns three entries here and counting them as three would let one editorial calendar manufacture a theme. Notes below include Iván's own read on each plus what a manual crawl (July 27, 2026) actually found. Run `python3 research_agent.py --check-sources` on the VPS to verify the feed guesses before the first real run.",
   "sources": [
     {
       "name": "TrainingPeaks — Training Articles",
       "site_url": "https://www.trainingpeaks.com/blog/",
       "feed_url": null,
       "fetch_mode": "html",
-      "note": "WordPress, but /blog/feed/ redirects to an article instead of serving XML — verified manually, hence html mode. Your own marketplace's audience, so highest relevance AND the one competitor you must not attack head-on: you will not outrank them on their strong topics."
+      "note": "WordPress, but /blog/feed/ redirects to an article instead of serving XML — verified manually, hence html mode. Your own marketplace's audience, so highest relevance AND the one competitor you must not attack head-on: you will not outrank them on their strong topics.",
+      "publisher": "TrainingPeaks"
     },
     {
       "name": "TrainingPeaks — Coach Blog",
       "site_url": "https://www.trainingpeaks.com/coach-blog/",
       "feed_url": null,
       "fetch_mode": "html",
-      "note": "Coach-facing. Doubles as source material for the LinkedIn solo-operator track."
+      "note": "Coach-facing. Doubles as source material for the LinkedIn solo-operator track.",
+      "publisher": "TrainingPeaks"
     },
     {
       "name": "TrainRight (CTS)",
@@ -71,6 +73,33 @@
       "feed_url": "https://higherrunning.com/feed/",
       "fetch_mode": "auto",
       "note": "Closest business analogue — solo-ish coaching + plans + newsletter, started ~10 years ago. Crawled manually: their 'blog' is a NEWSLETTER ARCHIVE, not SEO content. Titles are subject lines ('You're within 5 minutes of a sub-3 hour marathon'), not search queries, and roughly half are athlete transformation stories. They monetize through relationship and story, not search. Publishing ~1-2/month, irregular. This is the strongest argument for adding case_study as an article type."
+    },
+    {
+      "name": "Fast Talk (podcast)",
+      "site_url": "https://www.fasttalklabs.com/category/fast-talk/",
+      "feed_url": "https://feeds.megaphone.fm/FL6957223658",
+      "fetch_mode": "feed",
+      "kind": "podcast",
+      "publisher": "Fast Talk Labs",
+      "note": "Added Sept 7, 2026, Iván's request. Weekly, ~439 episodes, physiology-led and the deepest endurance-science signal available in any format. Megaphone feed: items carry NO <link>, so the stored url is the podtrac audio URL — evidence links for this source play an mp3 rather than opening a page. That is a known cost of the source, not a bug; the episode page at fasttalklabs.com is not derivable from the feed. Titles and blurbs are the signal. Their 'Potluck' Q&A episodes are the single best gap-finder in this list: each one is a real listener question nobody has written the article for."
+    },
+    {
+      "name": "Endurance Unlimited (podcast)",
+      "site_url": "https://www.trainingpeaks.com/podcasts/",
+      "feed_url": "https://feeds.megaphone.fm/TRPK4456972027",
+      "fetch_mode": "feed",
+      "kind": "podcast",
+      "publisher": "TrainingPeaks",
+      "note": "Added Sept 7, 2026, Iván's request. Dirk Friel's show — TRAININGPEAKS-OWNED, which is why `publisher` exists: this is the same editorial calendar as the two TrainingPeaks blogs above, and before Sept 7 the agent would have scored the three as a three-source convergence. Also the same Megaphone no-<link> shape as Fast Talk. Publishes irregularly (~2/month) and drifts into race-season cycling coverage ('Peak Access', Tour de France) that is brand content, not education — expect a lower usable ratio than Fast Talk."
+    },
+    {
+      "name": "Perform with Dr. Andy Galpin (podcast)",
+      "site_url": "https://www.performpodcast.com/episodes/",
+      "feed_url": "https://feeds.megaphone.fm/perform",
+      "fetch_mode": "feed",
+      "kind": "podcast",
+      "publisher": "Perform / Andy Galpin",
+      "note": "Added Sept 7, 2026, Iván's request. Biweekly and NOT an endurance show — strength, muscle, fuelling, sleep, longevity, aimed at a general performance audience. That is the reason to have it, not a reason to doubt it: it is the only source here that overlaps strength-guide-brief.md, knee-strength-brief.md and methodology.md §7, and those are the topics where this business has artifacts and the endurance blogs have nothing. Unlike the other two, item <link> is a real page (performpodcast.com/episodes/...), so its evidence URLs are clickable. Galpin is already a cited source in strength-guide-brief.md — the corrections made to him there are documented; do not silently re-adopt the original claims because an episode restates them."
     }
   ],
   "settings": {
@@ -85,6 +114,7 @@
       "pt"
     ],
     "_languages_note": "PT ideas must stay inside the distances that actually have PT inventory — marathon, 5k, 10k, 21k, FTP. Everything else points at plans that don't exist.",
-    "_dormant_sources_note": "High North last published April 2024. The agent must not treat an old post as a current signal — that's what lookback_days is for. Its archive is still useful as a topic map, so it stays in the list, but expect zero recent posts from it."
+    "_dormant_sources_note": "High North last published April 2024. The agent must not treat an old post as a current signal — that's what lookback_days is for. Its archive is still useful as a topic map, so it stays in the list, but expect zero recent posts from it.",
+    "_podcast_note": "Podcast feeds carry titles and blurbs only — the agent never hears the episode. An episode is evidence that a QUESTION is live, never a source for a claim, a number or a protocol. max_posts_per_source=25 is roughly six months of Fast Talk and a year of Perform, so lookback_days does the real trimming."
   }
 }

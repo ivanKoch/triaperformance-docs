@@ -399,6 +399,18 @@
 
 - [ ] **Rotate the three QA fixture tokens.** *The values for `coach+qa-es@`, `coach+qa-en@` and `coach+qa-pt@` are sitting in plaintext in an Apple Note (Iván, September 6, 2026).* **This is the fourth instance of the pattern `schema.sql` and OPERATIONS.md §2 already document three times** — and it is the instructive variant: the previous three were chat transcripts, i.e. accidents of a `SELECT *`. *This one was deliberate, written down on purpose because the fixtures are needed often and pulling them requires a VPS session.* ⚠️ ***That makes the note a symptom, not the failure.*** *Rotation without addressing the underlying friction just reproduces it — the fixtures are convenience credentials that get copied precisely because getting them is inconvenient.* **Decide which:** Bitwarden (already the stated answer in OPERATIONS.md's QA-fixtures section, and unused), or accept that the three fixture rows are low-value enough to be written down and say so explicitly in the doc instead of forbidding it. *A rule broken four times is a rule that lost.*
 
+### Opened September 7, 2026 — podcast sources on the research agent
+
+- [ ] **Verify the three new podcast feeds against the live sources.** *Fast Talk, Endurance Unlimited and Perform with Dr. Andy Galpin were added to `automation/content-engine/sources.json` on Sept 7 with a parser change behind them (`ai-infrastructure-documentation.md` §46). **Nothing has fetched them.*** Run on the VPS:
+  ```
+  python3 research_agent.py --check-sources
+  ```
+  **Pass condition is `mode=feed` and `n` well above zero for all three.** ⚠️ ***`n=0` is the outcome to watch for and the reason this item exists:*** *a `<link>`-less Megaphone feed used to produce exactly that with no error, and §46's fallback is the fix — an `n=0` here means the fallback did not take, not that the podcast is quiet.* Then `--crawl-only` to read the titles the agent actually sees, and `--save` **on the Mac, committed** — the VPS checkout is reset on every deploy.
+
+- [ ] **First real run: check whether podcast blurbs poison `theme_clusters()`.** *Megaphone descriptions carry sponsor reads and guest bios, and `parse_feed()` keeps the first 600 characters of them. `theme_clusters()` indexes bigrams from title **and** summary, so a recurring ad phrase appearing across many episodes of one show is a candidate theme.* **The `max_doc_freq=0.25` cutoff is the existing defence and may be enough** — a phrase in every Fast Talk episode is ~13% of a 120-post corpus, under the cutoff, so *it would survive*. ⚠️ **The check is one `--crawl-only` run and one look at the printed theme list**: if sponsor phrases appear as themes, the fix is to stop indexing `summary` for `kind: podcast` sources, not to raise the cutoff.
+
+- [ ] **Perform's topics fall outside the writer's nine-slug vocabulary.** *Sleep, longevity and general fitness have no `topic` slug — `writer_agent.py` enforces a closed list of `running, cycling, swimming, triathlon, nutrition, recovery, physiology, strength, weight-loss`.* **This is not a new problem, it is the parked LATER item "a wider topic vocabulary" acquiring its first concrete trigger:** *until now the argument for widening it was theoretical, and the counter-argument — "the blog has never been clicked, so this is a distribution question first" — still stands.* ***Do not widen the vocabulary on the strength of this.*** *Note it, and let a real Perform-driven idea that cannot be filed under any of the nine be the thing that decides it.*
+
 ---
 
 ## LATER (parked deliberately)
