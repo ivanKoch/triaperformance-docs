@@ -1,6 +1,23 @@
 {
  "_note": "Anchor targets are absolute (/#coaching, not #coaching) because the sections they point at live on the language homepage. That makes one nav definition correct on every page of that language — the hand-written site needed two variants, one for the homepage and one for everything else. From the homepage itself, /#coaching is still an in-page jump, not a reload.",
  "_memberButtonNote": "Added Aug 10, 2026. `member: true` renders the ghost 'Acceso Miembros' button, deliberately styled secondary so the blue Contacto CTA stays the primary action — two solid buttons side by side would compete. It points at the language's members HOME, not its login page: a subscriber with a live cookie walks straight in, and everyone else is bounced to the right-language login by Caddy's forward_auth. Linking straight to /login would show the login form to someone already logged in.",
+ "_adminNote": "Added September 7, 2026. The /admin/* pages are operator pages behind the single-user basic_auth in automation/Caddyfile: one language, no language switcher, no marketing menu. Until now they rendered the PUBLIC nav shell with an empty menu -- neither page sets `lang`, so nav[lang] resolved to nothing and the bar came out blank above the hero. `Ideas` is the content-engine admin on :8092; the other two are static Eleventy pages served by file_server. Keep this list in sync with the `adminnav` in automation/content-engine/admin_service/app.py -- same three destinations, two different renderers, and that duplication is unavoidable while half the admin is Flask and half is Eleventy.",
+ "admin": {
+  "items": [
+   {
+    "label": "Ideas",
+    "url": "/admin/ideas/"
+   },
+   {
+    "label": "Enlaces",
+    "url": "/admin/enlaces/"
+   },
+   {
+    "label": "Secuencias",
+    "url": "/admin/secuencias/"
+   }
+  ]
+ },
  "es": {
   "menuLabel": "Abrir menú",
   "closeLabel": "Cerrar menú",

@@ -6,6 +6,10 @@
      "members-page"           — members content pages: back to the members area.
                                 Set `noPrint: true` to add the no-print classes
                                 (the testing-protocols page is meant to be printed).
+     "admin"                  — the /admin/* operator pages. No language
+                                switcher, no marketing menu, no hamburger: one
+                                row of tool links matching the content-engine
+                                admin's own nav. Added September 7, 2026.
      "none"                   — login, forgot-password, and kettlebell, which
                                 either have no nav or carry their own inline.
 
@@ -68,6 +72,29 @@
 </div>
 <div class="nav-overlay{% if noPrint %} no-print{% endif %}" id="navOverlay" onclick="closeNav()"></div>
 </div>
+
+{% elif navVariant == "admin" %}
+{#- Operator nav. Deliberately NOT the public shell: these pages sit behind the
+    single-user basic_auth on /admin/*, they exist in one language, and there is
+    nothing on them to sell. Rendering the public variant here produced an empty
+    menu — neither admin page sets `lang`, so `nav[lang]` resolved to nothing and
+    the bar was a logo over a blank row.
+
+    Styled to match the `.adminnav` in the content-engine admin (app.py) rather
+    than the site nav, so /admin/ideas/ and these two read as one tool. Links
+    come from nav.admin in site/_data/nav.json; the Flask copy must be edited in
+    the same session, and that is the whole reason nav.json carries a note
+    saying so. -#}
+<nav class="admin-nav">
+  <div class="wrap">
+    <a href="/admin/ideas/" class="admin-nav-logo">{{ site.name }} <span>Admin</span></a>
+    <div class="admin-nav-links">
+      {%- for item in nav.admin.items %}
+      <a href="{{ item.url }}"{% if item.url == page.url %} class="on"{% endif %}>{{ item.label }}</a>
+      {%- endfor %}
+    </div>
+  </div>
+</nav>
 
 {% elif navVariant != "none" %}
 {%- set menu = nav[lang] -%}
@@ -169,7 +196,10 @@
 </div>
 {% endif %}
 
-{% if navVariant != "none" %}
+{#- The script drives the hamburger drawer and the dropdowns. The admin variant
+    renders neither, and its resize listener would call closeNav() against a
+    #siteNav that does not exist. -#}
+{% if navVariant != "none" and navVariant != "admin" %}
 <script>
   var MOBILE_NAV = 860;
 

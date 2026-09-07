@@ -162,6 +162,43 @@ nav a:hover { color: var(--blue); }
   padding-left: 32px; font-size: 13px; color: var(--slate);
 }
 .nav-dropdown-menu a.nav-sub:hover { color: var(--blue); }
+/* Admin nav (September 7, 2026) — the /admin/* operator pages.
+   Values copied from the `.adminnav` block in the content-engine admin's own
+   app.py on purpose: /admin/ideas/ is rendered by Flask and cannot share a
+   stylesheet with the Eleventy pages, so the only way the three read as one
+   tool is for the two rules to say the same thing. Change one, change both.
+   Everything here is scoped to .admin-nav — the bare `nav a` rule above sets a
+   32px left margin that would push the first link off the row. */
+.admin-nav {
+  border-bottom: 1px solid var(--mist);
+  background: var(--white);
+  position: sticky; top: 0; z-index: 50;
+}
+.admin-nav .wrap {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap; padding-top: 14px; padding-bottom: 14px;
+}
+.admin-nav-logo {
+  font-weight: 700; font-size: 18px; color: var(--blue);
+  font-stretch: 112%; letter-spacing: -0.025em; text-decoration: none;
+}
+/* The word "Admin" is the one piece of state this bar carries: it says the page
+   you are on is not the public site. Quiet, uppercase, never blue. */
+.admin-nav-logo span {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--slate); margin-left: 6px;
+  font-stretch: 100%; vertical-align: 2px;
+}
+.admin-nav-links { display: flex; gap: 22px; flex-wrap: wrap; }
+.admin-nav-links a {
+  margin-left: 0; font-size: 14px; font-weight: 700;
+  color: var(--slate); text-decoration: none;
+}
+.admin-nav-links a:hover, .admin-nav-links a.on { color: var(--blue); }
+@media (max-width: 560px) {
+  .admin-nav .wrap { justify-content: flex-start; }
+}
+
 .card-links { list-style: none; margin-top: 16px; }
 .card-links li { margin-bottom: 8px; }
 .card-links a { color: var(--blue); font-size: 14px; font-weight: 700; text-decoration: none; }

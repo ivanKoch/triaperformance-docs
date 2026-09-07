@@ -89,6 +89,13 @@ h1 { font-size:30px; font-weight:700; letter-spacing:-0.02em; }
 .adminnav a { font-size:14px; font-weight:700; color:var(--slate);
               text-decoration:none; margin-right:22px; }
 .adminnav a:hover, .adminnav a.on { color:var(--blue); }
+/* Separator (Sept 7, 2026). Left of it: the four views of THIS service. Right:
+   the two static Eleventy pages at /admin/enlaces/ and /admin/secuencias/,
+   served by Caddy's file_server from routes declared above this app's proxy.
+   They can never be `.on` here -- a different renderer draws them, and its copy
+   of this nav lives in site/_data/nav.json. Edit the two together. */
+.adminnav .navsep { display:inline-block; width:1px; height:12px;
+                    background:var(--mist); margin-right:22px; }
 .bar { position:sticky; top:0; z-index:5; background:var(--white);
        border-bottom:1px solid var(--mist); padding:14px 0; margin-bottom:24px;
        display:flex; gap:10px; flex-wrap:wrap; }
@@ -176,6 +183,9 @@ def page(title, sub, body, active=""):
     <a href="/admin/ideas/new"{cls('new')}>Nueva idea</a>
     <a href="/admin/drafts/"{cls('drafts')}>Borradores</a>
     <a href="/admin/all/"{cls('all')}>Todo</a>
+    <span class="navsep"></span>
+    <a href="/admin/enlaces/">Enlaces</a>
+    <a href="/admin/secuencias/">Secuencias</a>
   </nav>
   {body}
 </div>

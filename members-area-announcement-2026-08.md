@@ -19,6 +19,25 @@ docker exec -i analytics-postgres psql -U analytics -d members -c \
   "UPDATE subscriber_tokens SET token = '$NEW' WHERE email = '<athlete>' AND active = TRUE;"
 ```
 
+⚠️ **If you reach for a single-statement SQL rotation instead of the per-athlete loop, it will fail — and the reason is worth knowing.** *(Verified against a throwaway Postgres 16 replica of this table, September 7, 2026, after it bit a live run.)* **An uncorrelated subquery is hoisted into an InitPlan and evaluated ONCE for the whole statement, even when it contains `random()`.** *Volatility does not prevent the hoist; it only prevents caching across executions.* So every row receives the *same* generated string and the second one violates `subscriber_tokens_token_key`. **Wrapping it in a derived table does not help either** — the subquery is still uncorrelated in there. *The statement is atomic, so a failed attempt changes nothing.*
+
+**The fix is to correlate the subquery to the outer row**, which forces per-row evaluation:
+
+```bash
+docker exec -i analytics-postgres psql -U analytics -d members <<'SQL'
+UPDATE subscriber_tokens s
+SET token = (
+  SELECT string_agg(
+    substr('ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789',
+           floor(random() * 54)::int + 1, 1), '')
+  FROM generate_series(1, 20)
+  WHERE s.id IS NOT NULL)
+WHERE s.active = TRUE AND s.access_count = 0;
+SQL
+```
+
+*`WHERE s.id IS NOT NULL` is never false and exists solely to make the subquery correlated.* **Confirmed 32/32 distinct 20-character tokens across five consecutive runs, with `access_count > 0` rows untouched.** *Still prefer the per-athlete loop above for the actual send — it is the one that interleaves correctly with the email, and this statement rotates a whole cohort with no send attached to it.*
+
 Two athletes are currently *using* their access — `jonah.warner` (16 visits) and `andreaghisays` (3). Their cookies hold the old token and they will be logged out at next page load. They are on the send list, so the new password arrives at the same moment; no separate warning needed, but do not rotate them days ahead of the send.
 
 **Do not rotate the three `QA-FIXTURE` rows** — they're yours, documented in `automation/members-area/OPERATIONS.md`, and not part of this audience.
