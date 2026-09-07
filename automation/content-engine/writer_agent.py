@@ -488,6 +488,13 @@ RULES
   Never take a source URL and translate its words — that is how
   `/pt/calculadora-de-zonas/running/` was written for a page that is
   `/pt/calculadora-de-zonas/corrida/`.
+- SHORTCODE ARGUMENTS ARE IDENTIFIERS, NOT PROSE. Anything inside {{% ... %}}
+  is a key into a data file, in English, in every language. Copy it character
+  for character. {{% zoneTable "running" %}} stays "running" in a Portuguese
+  article even though the sport is corrida and the URL above really is
+  /pt/calculadora-de-zonas/corrida/ — the URL is a page, the argument is a
+  column in data/zones.csv. Translating one breaks the whole site build, not
+  just this article.
 - Same planCard rule: {{% planCard "PLAN_ID", "..." %}}, only ids from the list.
   If a plan referenced in the source has no equivalent here, drop that card
   rather than substituting something that isn't the same plan. The list above is
@@ -623,6 +630,25 @@ def build_draft(idea, plans, model, api_key):
     return parse_draft(call_model(prompt, api_key, model, expect="text"))
 
 
+def zone_sports():
+    """The sport keys data/zones.csv actually defines.
+
+    Read rather than hardcoded: the list is three today, and a hardcoded copy
+    would be a fourth home for something zones.csv already owns.
+    Returns an empty set if the file is unreadable, which makes the check above
+    a no-op -- a validator that cannot read its reference data must not start
+    rejecting every draft.
+    """
+    import csv as _csv
+    try:
+        with open(os.path.join(REPO, "data", "zones.csv"),
+                  encoding="utf-8-sig", newline="") as fh:
+            return {r["sport"].strip() for r in _csv.DictReader(fh) if r.get("sport")}
+    except Exception as e:
+        print(f"[validate] could not read data/zones.csv ({e}) — zoneTable check skipped")
+        return set()
+
+
 def validate(draft, plans, lang):
     """Reject anything the writer got structurally wrong before it reaches review."""
     problems = []
@@ -652,6 +678,20 @@ def validate(draft, plans, lang):
         elif p["language"] != want_lang:
             problems.append(
                 f"planCard {pid} is a {p['language']} plan in a {want_lang} article")
+    # zoneTable takes a sport KEY from data/zones.csv, not the sport's name in
+    # the article's language. A translated key throws inside the shortcode at
+    # build time, and that shortcode fails the build on purpose -- so one
+    # article published with `corrida` took the entire site's deploy down until
+    # someone read the stack trace (Sept 6-7, 2026, the PT threshold guide).
+    # Nothing upstream of the build could catch it, which is why it is caught
+    # here: the same class of error as a planCard in the wrong language.
+    known_sports = zone_sports()
+    for sport in re.findall(r'zoneTable\s+"([^"]+)"', body):
+        if known_sports and sport not in known_sports:
+            problems.append(
+                f'zoneTable "{sport}" is not a sport in data/zones.csv '
+                f'({", ".join(sorted(known_sports))}) -- the argument is a data '
+                f'key and is never translated')
     problems += check_links(body, lang)
     words = len(re.sub(r"<[^>]+>", " ", body).split())
     if words < 700:
