@@ -177,7 +177,11 @@ ok(!/\brana\b|drag[oó]n alado|yin/.test(allText), "5.6 no Yin work — that is 
 
 /* The cross-body stretch must carry the cue that makes it safe, not just exist. */
 const cb = M.library.crossBody.cue.toLowerCase();
-ok(/om[oó]plato|esc[aá]pula/.test(cb) && /se vaya adelante/.test(cb),
+/* Phrasing-tolerant on purpose. This pinned "se vaya adelante" and fired on
+ * September 8, 2026 when the harmonised cue said "viaje adelante" — the same
+ * instruction in different words. The assertion guards the INSTRUCTION (depress
+ * the scapula, do not let the shoulder travel forward), never one author's verb. */
+ok(/om[oó]plato|esc[aá]pula/.test(cb) && /(se vaya|viaje|viajar|se corra|se vaya a ir)\s+adelante/.test(cb),
    "5.7 the cross-body cue carries the scapula-depression instruction");
 
 /* The IT band correction has to say WHY, or the next pass restores the roller. */

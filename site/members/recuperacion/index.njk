@@ -182,7 +182,7 @@ window.RECOVERY_MATRIX = (function () {
       cue: "Acostado, pierna al techo agarrada por detrás del muslo. <strong>Empuja el talón contra tus manos al 20% durante 5 segundos, suelta, y sube la pierna un poco más.</strong> Tres o cuatro ciclos. La pierna de abajo se queda apoyada todo el tiempo." },
 
     balance: { name: "Apoyo en una pierna", mode: "uni", tag: "Sin equipo", secs: 40,
-      cue: "Parado en una pierna, cierra los ojos. <strong>Con una pared o una silla al alcance de la mano</strong> — se pierde el equilibrio, esa es la idea. Busca que el pie trabaje: dedos activos, tobillo corrigiendo. Cuarenta segundos por lado alcanzan y sobran." },
+      cue: "Parado en una pierna, rodilla apenas flexionada. <strong>Que la cadera no se caiga del lado que está en el aire.</strong> Busca que el pie trabaje: dedos activos, tobillo corrigiendo. Si te resulta fácil, cierra los ojos. Ten una pared o una silla al alcance." },
 
     rollDown: { name: "Enrollado vertebral boca arriba", mode: "bi", tag: "Sin equipo", secs: 90,
       cue: "Acostado, rodillas dobladas. Despega la pelvis y sube <strong>vértebra por vértebra</strong> hasta apoyar en los omóplatos, y baja igual de lento, apoyando de arriba hacia abajo. Lo que buscas es que la columna se articule por segmentos, no que suba alto. Cinco o seis ciclos lentos." },
@@ -195,18 +195,18 @@ window.RECOVERY_MATRIX = (function () {
        activación. Están aquí porque son los correctos, pero son MINORÍA y van
        después de los de arriba — ver la decisión 1 en el bloque de notas. */
     catcow: { name: "Gato-camello", mode: "bi", tag: "Sin equipo", secs: 60,
-      cue: "En cuadrupedia, alterna redondear y arquear al ritmo de la respiración, <strong>vértebra por vértebra</strong>. Aquí tienes tiempo: hazlo el doble de lento de lo que harías antes de entrenar, y busca los segmentos que no se mueven." },
+      cue: "En cuadrupedia, alterna redondear y arquear al ritmo de la respiración. <strong>Hazlo el doble de lento de lo que harías antes de entrenar</strong> y busca los segmentos que no se mueven. Vértebra por vértebra, no en bloque. Post-entreno esto es para soltar, no para movilizar fuerte." },
 
     threadNeedle: { name: "Rotación torácica en cuadrupedia", mode: "uni", tag: "Sin equipo", secs: 60,
-      cue: "En cuatro puntos, una mano detrás de la cabeza. Lleva el codo hacia la rodilla contraria y después abre rotando el torso, siguiendo el codo con la mirada. <strong>La cadera se queda cuadrada</strong> — si se va contigo, estás rotando desde la lumbar." },
+      cue: "En cuatro puntos, una mano detrás de la cabeza. Lleva el codo hacia la rodilla contraria y después abre rotando el torso, siguiendo el codo con la mirada. <strong>La cadera se queda cuadrada</strong>: si se va contigo, estás rotando desde la lumbar y no desde la espalda alta." },
 
     openBook: { name: "Libro abierto", mode: "uni", tag: "Sin equipo", secs: 60,
-      cue: "De costado, rodillas flexionadas y apiladas, brazos juntos adelante. <strong>Abre el brazo de arriba siguiendo la mano con la mirada y deja las rodillas quietas.</strong> Quédate cinco respiraciones donde llegues antes de volver.",
-      variants: [{ name: "Extensión torácica sobre rodillo", mode: "bi", tag: "Rodillo",
-        cue: "Rodillo cruzado bajo la espalda alta, manos detrás de la cabeza. Extiende hacia atrás sobre él y <strong>muévelo dos dedos hacia arriba y repite</strong>, segmento por segmento. La lumbar no se arquea: los glúteos quedan apoyados." }] },
+      cue: "De costado, rodillas flexionadas y apiladas, brazos juntos adelante. Abre el brazo de arriba siguiéndolo con la mirada y <strong>deja las rodillas quietas</strong>. Si las rodillas se separan, la rotación se te fue a la lumbar.",
+      variants: [{ name: "Extensión torácica en el rodillo", mode: "bi", tag: "Rodillo",
+        cue: "Rodillo cruzado bajo la espalda alta, manos detrás de la nuca. Extiende hacia atrás soltando el aire y muévelo dos dedos hacia arriba, segmento por segmento. Los glúteos quedan apoyados: <strong>nunca debajo de las últimas costillas</strong>, ahí se extiende la lumbar." }] },
 
     wgs: { name: "El mejor estiramiento del mundo", mode: "uni", tag: "Sin equipo", secs: 60,
-      cue: "Estocada larga, mano de adentro al piso junto al pie, y <strong>abre el pecho rotando el brazo de arriba hacia el techo</strong>. Sostén arriba tres respiraciones antes de volver. Cadera, aductor y torácica en un solo movimiento." },
+      cue: "Zancada profunda, pie adelantado por fuera de la mano. Baja el codo de adentro hacia el piso, aguanta un segundo, y después <strong>rota ese brazo abriendo hacia el techo siguiendo la mano con la mirada</strong>. Cadera, aductor y torácica en un solo gesto." },
 
     nineNinety: { name: "Cadera 90/90", mode: "uni", tag: "Sin equipo", secs: 60,
       cue: "Sentado, una pierna a 90° adelante y la otra a 90° al costado. Inclínate sobre la de adelante, vuelve, y <strong>pasa al otro lado levantando las rodillas y girando sin usar las manos</strong>. Esa transición activa es el ejercicio; la inclinación es solo la mitad." },
@@ -221,15 +221,15 @@ window.RECOVERY_MATRIX = (function () {
       cue: "Pies bien abiertos, baja el peso sobre una pierna dejando la otra estirada con la punta del pie arriba. <strong>Pecho alto y talón de la pierna que baja pegado al piso.</strong> Pasa de lado a lado despacio; no llegues hasta abajo si la espalda se redondea." },
 
     legSwing: { name: "Balanceo de pierna (frontal)", mode: "uni", tag: "Pared", secs: 45,
-      cue: "Apoyado en la pared, balancea la pierna adelante y atrás, y después cruzada de lado a lado. <strong>Aumenta el rango poco a poco</strong> — arrancar en el máximo es cómo se tira un isquio, incluso en un día suave." },
+      cue: "Apóyate en una pared y balancea la pierna adelante y atrás. <strong>Aumenta el rango poco a poco</strong>: arrancar en el máximo es cómo se tira un isquio." },
 
     kneeWall: { name: "Rodilla a la pared", mode: "uni", tag: "Pared", secs: 45,
       cue: "Pie a un palmo de la pared, <strong>toca la pared con la rodilla sin que el talón se despegue</strong>. Si llegas fácil, aleja el pie un centímetro y vuelve a probar. Es la medida más honesta de tu tobillo, y mejora con repeticiones, no con fuerza." },
 
     wallAngel: { name: "Ángeles en la pared", mode: "bi", tag: "Pared", secs: 60,
-      cue: "Espalda contra la pared, <strong>lumbar pegada</strong>, brazos en W con los codos y el dorso de las manos tocando. Sube y baja los brazos sin despegar nada. <strong>Frena exactamente donde algo se despegue</strong> — hasta ahí llega tu rango de hoy, y forzar más no lo agranda.",
+      cue: "Espalda contra la pared, lumbar pegada, brazos en W con codos y dorso de las manos tocando. Sube y baja sin despegar nada. <strong>Frena exactamente donde algo se despegue</strong>: hasta ahí llega tu rango de hoy, y forzar más no lo agranda.",
       variants: [{ name: "Pasada de bastón (con tope)", mode: "bi", tag: "Bastón o palo",
-        cue: "Agarre muy ancho, brazos estirados, pasa el bastón de los muslos hacia atrás y vuelve. <strong>Esto no es un concurso de flexibilidad: detente donde se te abran las costillas, se te arquee la lumbar o se te suban los hombros.</strong> Si tienes que forzar, achica el agarre." }] },
+        cue: "Agarre muy ancho, brazos estirados, pasa el bastón de los muslos hacia atrás y vuelve. Esto no es un concurso de flexibilidad: <strong>detente donde se te abran las costillas, se te arquee la lumbar o se te suban los hombros</strong>. Si tienes que forzar, achica el agarre." }] },
 
     scorpion: { name: "Escorpión boca abajo", mode: "uni", tag: "Sin equipo", secs: 45,
       cue: "Boca abajo, brazos en cruz. Lleva un talón cruzado hacia la mano contraria dejando que la cadera rote, <strong>y el pecho lo más pegado al piso que puedas</strong>. Lento a la ida y lento a la vuelta." },
@@ -246,17 +246,17 @@ window.RECOVERY_MATRIX = (function () {
       variants: [{ name: "Almeja con minibanda", mode: "uni", tag: "Minibanda",
         cue: "Banda por encima de las rodillas. Mismo movimiento contra resistencia, <strong>y la bajada tan lenta como la subida</strong>." }] },
 
-    bridgeSingle: { name: "Puente a una pierna", mode: "uni", tag: "Sin equipo", secs: 45,
-      cue: "Un pie apoyado, la otra rodilla al pecho. Sube la cadera empujando con el talón y <strong>mantén la pelvis pareja — sin que un lado se caiga</strong>. Si se cae, baja el rango o hazlo con las dos piernas." },
+    bridgeSingle: { name: "Puente de glúteos a una pierna", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Un talón apoyado cerca de los glúteos, la otra rodilla abrazada al pecho. Empuja con el talón y aprieta el glúteo arriba. <strong>Si lo sientes en la lumbar, mete la pelvis y baja la altura</strong>: la idea es aislar el glúteo, no que el psoas haga el trabajo." },
 
     gluteBridgeMarch: { name: "Puente con marcha", mode: "bi", tag: "Sin equipo", secs: 60,
-      cue: "Puente arriba y sostenido, y desde ahí despega un pie unos centímetros, apoya, y cambia. <strong>La cadera no baja y no rota.</strong> Despacio: esto es control, no repeticiones." },
+      cue: "Puente arriba y sostenido. Desde ahí despega un pie unos centímetros, apoya, y cambia. <strong>La cadera no baja y no rota.</strong> Despacio: esto es control, no repeticiones." },
 
     birdDog: { name: "Bird dog", mode: "uni", tag: "Sin equipo", secs: 45,
-      cue: "En cuadrupedia, extiende brazo y pierna contrarios hasta la horizontal. <strong>Sostén tres segundos arriba con la lumbar quieta</strong> — si la espalda se arquea o la cadera rota, baja la pierna. Imagínate un vaso de agua sobre la zona lumbar." },
+      cue: "En cuadrupedia, extiende brazo y pierna contrarios hasta la línea del tronco y sostén dos o tres segundos. <strong>La cadera queda cuadrada al piso y la lumbar quieta</strong>: si se abre hacia un costado o la espalda se arquea, baja la pierna. Imagina un vaso de agua sobre la lumbar que no se puede volcar. Aprieta el glúteo al estirar la pierna." },
 
     deadBug: { name: "Dead bug", mode: "bi", tag: "Sin equipo", secs: 60,
-      cue: "Lumbar pegada al piso, brazos y rodillas arriba. Extiende brazo y pierna contrarios <strong>sin que la espalda se despegue ni un milímetro</strong>. Exhala al extender. Lento: el objetivo es control." },
+      cue: "Boca arriba, brazos al techo y rodillas a 90°. Extiende brazo y pierna contrarios, lentos, sin que la lumbar se despegue del piso. <strong>Exhala al extender: es la exhalación la que aplana la espalda, no la fuerza abdominal.</strong> Si la lumbar se levanta, baja menos la pierna. El objetivo es control, no velocidad." },
 
     sidePlank: { name: "Plancha lateral dinámica", mode: "uni", tag: "Sin equipo", secs: 45,
       cue: "Sobre el antebrazo, cadera arriba y cuerpo en línea. <strong>Baja la cadera hasta rozar el piso y vuelve a subir</strong>, lento y controlado. Con las rodillas apoyadas si la versión larga te rompe la línea." },
@@ -268,12 +268,12 @@ window.RECOVERY_MATRIX = (function () {
       cue: "En plancha alta con los <strong>codos estirados todo el tiempo</strong>: deja caer el pecho juntando los omóplatos, y después empuja el piso separándolos al máximo. El movimiento es de tres o cuatro centímetros y es exactamente el músculo que le falta a un nadador." },
 
     ytwl: { name: "Y-T-W boca abajo", mode: "bi", tag: "Sin equipo", secs: 60,
-      cue: "Boca abajo, frente apoyada, pulgares al techo. Despega los brazos en Y, después en T, después en W. <strong>Las escápulas van hacia abajo, nunca hacia las orejas</strong>: si te encoges, el trabajo se lo lleva el trapecio superior.",
+      cue: "Boca abajo, frente apoyada, pulgares al techo. Despega los brazos en Y, después en T, después en W (codos a 90° junto a las costillas). <strong>Las escápulas van hacia abajo, nunca hacia las orejas</strong>: si te encoges, el trabajo se lo lleva el trapecio superior.",
       variants: [{ name: "Y-T-W con banda", mode: "bi", tag: "Banda larga",
         cue: "De pie con la banda al frente, misma secuencia contra resistencia baja. <strong>Muchas repeticiones y poca tensión</strong> — el manguito posterior responde a eso, no a la carga." }] },
 
     extRotation: { name: "Rotación externa isométrica", mode: "uni", tag: "Pared", secs: 45,
-      cue: "Codo pegado al cuerpo a 90°, dorso de la mano contra el marco de una puerta o una pared. <strong>Empuja hacia afuera al 50% y sostén, sin que nada se mueva.</strong> Que el hombro no se vaya adelante y el codo no se separe de las costillas.",
+      cue: "Codo pegado a las costillas a 90°, dorso de la muñeca contra el marco de una puerta o una pared. <strong>Empuja hacia afuera al 50% y sostén, sin que nada se mueva.</strong> Que el hombro no se vaya adelante y el codo no se separe del cuerpo.",
       variants: [{ name: "Rotación externa con minibanda", mode: "uni", tag: "Minibanda",
         cue: "Banda anclada a la altura del codo, codo pegado al cuerpo. Rota hacia afuera y <strong>vuelve más lento de lo que fuiste</strong>. Rango corto y control." }] },
 
@@ -288,7 +288,7 @@ window.RECOVERY_MATRIX = (function () {
         cue: "Media planta en el borde de un escalón. Sube con dos, baja con una <strong>dejando caer el talón por debajo del escalón</strong>, tres segundos. Si estás con el protocolo de aquiles, no sumes volumen aquí: cuenta estas series como parte de aquel." }] },
 
     plantarFlex: { name: "Tobillos para la patada", mode: "bi", tag: "Sin equipo", secs: 45,
-      cue: "Sentado con las piernas estiradas, <strong>apunta las puntas de los pies lo más lejos que puedas y sostén cinco segundos</strong>, después tráelas hacia ti. Activa, no pasiva: es el rango que empuja el agua en la patada." },
+      cue: "Sentado con las piernas estiradas, apunta las puntas de los pies lo más lejos que puedas y sostén, después tráelas hacia ti. <strong>Activa, no pasiva</strong>: es el rango que empuja el agua en la patada." },
 
     tva: { name: "Activación de transverso", mode: "bi", tag: "Sin equipo", secs: 60,
       cue: "Boca arriba, rodillas dobladas, manos sobre los huesos de la cadera por dentro. <strong>Inhala al abdomen, y al exhalar lleva el ombligo hacia adentro y hacia arriba sin mover la pelvis.</strong> Deberías sentir una tensión suave debajo de los dedos. Es sutil, y es la base de todo lo demás." },

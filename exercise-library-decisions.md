@@ -131,8 +131,10 @@ it is not: the test is the movement, never the wording, the dose or the audience
 
 ## ✅ SHIPPED September 8, 2026 — names, ahead of the branch
 
-**The name half of D2/D3 is applied to the live pages.** 54 renames, 21 files,
-three languages; every cluster now reads one name everywhere. Record and the
+**The name half of D2/D3 is applied to the live pages.** 69 renames in three
+rounds, three languages; all 33 clusters now read one name everywhere. ⚠️ *Round 1
+shipped incomplete and its checker reported a false PASS — see the harmonisation
+doc; the audit now derives its clusters from the decisions rather than a list.* Record and the
 three calls Iván made: `exercise-name-harmonisation.md`.
 
 *Why this could ship while the rest is parked: names are display strings that
@@ -142,6 +144,43 @@ be written in Spanish and then translated twice, which is the branch.*
 
 ⚠️ **The branch must NOT re-decide names.** *They are done and live. NEXT #15
 inherits them.*
+
+## ✅ SHIPPED September 8, 2026 — the Spanish cues
+
+**Iván wrote all 33 harmonised cues himself** (handed back as a CSV against
+`data/cue_harmonisation.csv`); applied to **86 placements across the nine Spanish
+pages**. Signed text: `data/cue_harmonisation_signed.json`. Applier:
+`automation/apply-harmonised-cues.js`.
+
+### D6a — Gato-camello keeps TWO cues, not one plus a note.
+*Iván's call, and a deliberate departure from D1.* The activation/core/mobility/
+core group and the recovery version have **different standards, not different
+context** — recovery asks for double-slow and for hunting stiff segments. **Two
+entries, one video.** *Same shape as D2a: the movement is shared, the
+prescription is not.*
+
+### D6b — The bridge merge.
+*His harmonised cue for `Puente a una pierna` unified it to knee-to-chest, which
+made it **identical** to `Puente de glúteos a una pierna` — same setup, same
+movement, two names across five placements.* **Merged into `Puente de glúteos a
+una pierna`; the extended-leg version is not retained.**
+⚠️ ***Worth keeping: the dedup pass was RIGHT to leave these apart in the morning
+and the harmonisation is what made them converge.*** *Merging cues can create
+duplicates that did not exist when the clusters were drawn — so the dedup check
+has to run **after** a cue pass, not only before it.*
+
+### D6c — Emphasis.
+Iván's cues arrived as plain text; **77 of the 87 placements being rewritten
+carried `<strong>` on their key clause.** Claude added the markup on the single
+clause each cue hinges on — *his words untouched, only marked up* — because
+otherwise the most-used exercises in the library would have gone flat next to the
+~160 that were not rewritten. **One cue, `Balanceo lateral de pierna`, is left
+unbolded**: it is two short sentences with no clause that outranks the other, and
+inventing emphasis there would have been worse than leaving it plain.
+
+⚠️ **SPANISH ONLY. EN and PT still carry the old, unharmonised cues.** *Accepted
+state, not an oversight: no athlete reads two languages, so each language stays
+internally coherent and the cost is maintenance, paid when NEXT #15 runs.*
 
 ## D4 — Canonical id + name per exercise
 *Not started, and correctly so — it is generated output, not a decision. It falls

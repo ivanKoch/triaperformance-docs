@@ -1,0 +1,1623 @@
+[
+ [
+  {
+   "artifact": "activacion",
+   "name": "Deslizamiento neural",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Figura 4 boca arriba",
+   "type": "main"
+  },
+  {
+   "artifact": "core",
+   "name": "Figura 4 boca arriba",
+   "type": "variant"
+  },
+  {
+   "artifact": "movilidad",
+   "name": "Figura 4 boca arriba",
+   "type": "main"
+  },
+  {
+   "artifact": "core-corredor",
+   "name": "Figura 4 boca arriba",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Puente de glúteos",
+   "type": "main"
+  },
+  {
+   "artifact": "core",
+   "name": "Puente de glúteos",
+   "type": "main"
+  },
+  {
+   "artifact": "rodillas",
+   "name": "Puente de glúteos",
+   "type": "main"
+  },
+  {
+   "artifact": "core-ciclista",
+   "name": "Puente de glúteos",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Puente de glúteos con banda",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Dead bug",
+   "type": "main"
+  },
+  {
+   "artifact": "core",
+   "name": "Dead bug",
+   "type": "main"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "Dead bug",
+   "type": "main"
+  },
+  {
+   "artifact": "core-ciclista",
+   "name": "Dead bug",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Dead bug con banda",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Gato-camello",
+   "type": "main"
+  },
+  {
+   "artifact": "core",
+   "name": "Gato-camello",
+   "type": "main"
+  },
+  {
+   "artifact": "movilidad",
+   "name": "Gato-camello",
+   "type": "main"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "Gato-camello",
+   "type": "main"
+  },
+  {
+   "artifact": "core-ciclista",
+   "name": "Gato-camello",
+   "type": "main"
+  },
+  {
+   "artifact": "core-corredor",
+   "name": "Gato-camello",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Rodilla al pecho",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Torsión espinal",
+   "type": "main"
+  },
+  {
+   "artifact": "movilidad",
+   "name": "Torsión espinal",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Isquios acostado",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Isquios con toalla",
+   "type": "variant"
+  },
+  {
+   "artifact": "movilidad",
+   "name": "Isquios con toalla",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Postura del niño con alcance lateral",
+   "type": "main"
+  },
+  {
+   "artifact": "movilidad",
+   "name": "Postura del niño con alcance lateral",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Psoas de rodillas",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Psoas con apriete de glúteo",
+   "type": "main"
+  },
+  {
+   "artifact": "movilidad",
+   "name": "Psoas con apriete de glúteo",
+   "type": "main"
+  },
+  {
+   "artifact": "core-ciclista",
+   "name": "Psoas con apriete de glúteo",
+   "type": "main"
+  },
+  {
+   "artifact": "core-corredor",
+   "name": "Psoas con apriete de glúteo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "El mejor estiramiento del mundo",
+   "type": "main"
+  },
+  {
+   "artifact": "core",
+   "name": "El mejor estiramiento del mundo",
+   "type": "main"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "El mejor estiramiento del mundo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Círculos de cadera",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Balanceo de pierna (frontal)",
+   "type": "main"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "Balanceo de pierna (frontal)",
+   "type": "main"
+  },
+  {
+   "artifact": "rodillas",
+   "name": "Balanceo de pierna (frontal)",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Balanceo lateral de pierna",
+   "type": "main"
+  },
+  {
+   "artifact": "rodillas",
+   "name": "Balanceo lateral de pierna",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Elevación lateral de pierna",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Elevación lateral con banda",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Elevación de talones",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Sentadilla a de pie",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Sentadilla a de pie con banda",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Skip A lento",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Marcha con rodilla alta",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Marcha con rodilla alta y banda",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Círculos de tobillo + elevación",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Círculos de tobillo + elevación con banda",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Círculos de brazos completos",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Sentadilla con alcance al techo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Rotación de cuello para respirar",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Rotación torácica en cuadrupedia",
+   "type": "main"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "Rotación torácica en cuadrupedia",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Y-T-W boca abajo",
+   "type": "main"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "Y-T-W boca abajo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Plancha en tensión de streamline",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Tobillos para la patada",
+   "type": "main"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "Tobillos para la patada",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Aperturas con banda",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Simulación de agarre con banda",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Pasada de banda por encima",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Pasada de bastón (con tope)",
+   "type": "main"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "Pasada de bastón (con tope)",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "activacion",
+   "name": "Brazada en seco",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Dead bug isométrico",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Descenso de piernas",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Toques de talón (pingüinos)",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Crunch corto",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Bicicleta lenta",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Puente de glúteos a una pierna",
+   "type": "variant"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "Puente de glúteos a una pierna",
+   "type": "main"
+  },
+  {
+   "artifact": "aquiles",
+   "name": "Puente de glúteos a una pierna",
+   "type": "main"
+  },
+  {
+   "artifact": "rodillas",
+   "name": "Puente de glúteos a una pierna",
+   "type": "main"
+  },
+  {
+   "artifact": "core-ciclista",
+   "name": "Puente de glúteos a una pierna",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Puente con marcha",
+   "type": "variant"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "Puente con marcha",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Gato-camello sentado",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Thread the needle",
+   "type": "variant"
+  },
+  {
+   "artifact": "core-ciclista",
+   "name": "Thread the needle",
+   "type": "main"
+  },
+  {
+   "artifact": "core-corredor",
+   "name": "Thread the needle",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Bird dog",
+   "type": "main"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "Bird dog",
+   "type": "main"
+  },
+  {
+   "artifact": "core-ciclista",
+   "name": "Bird dog",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Bird dog isométrico",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Bird dog codo-rodilla",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Plancha alta con toque de hombro",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Plancha alta isométrica",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Plancha con rodillas apoyadas",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Plancha lateral",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Plancha lateral con rodillas apoyadas",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Plancha lateral con elevación de pierna",
+   "type": "variant"
+  },
+  {
+   "artifact": "core-ciclista",
+   "name": "Plancha lateral con elevación de pierna",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Plancha alta a perro boca abajo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Perro boca abajo sostenido",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Plancha alta a rodillas",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Zancada baja con rotación",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Zancada con manos en el piso",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Barridos 90-90 de cadera",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "90-90 sostenido",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Mariposa sentado",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Paloma (pigeon)",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Figura 4 sentado",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Couch stretch",
+   "type": "main"
+  },
+  {
+   "artifact": "movilidad",
+   "name": "Couch stretch",
+   "type": "variant"
+  },
+  {
+   "artifact": "rodillas",
+   "name": "Couch stretch",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Zancada baja con glúteo activo",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Cuádriceps de pie",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Postura del niño a cobra",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Postura del niño sostenida",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "core",
+   "name": "Cobra sostenida",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Sóleo en pared",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Rodillo: vientre del gemelo",
+   "type": "variant"
+  },
+  {
+   "artifact": "aquiles",
+   "name": "Rodillo: vientre del gemelo",
+   "type": "main"
+  },
+  {
+   "artifact": "rodillas",
+   "name": "Rodillo: vientre del gemelo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Gemelo en pared",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Isquios boca arriba",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Glúteo con pelota",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Cuádriceps de costado",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Rodillo: cuádriceps",
+   "type": "variant"
+  },
+  {
+   "artifact": "rodillas",
+   "name": "Rodillo: cuádriceps",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Cruce de cadera externa",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Tensor y vasto externo con rodillo",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Estocada lateral en media rodilla",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Mariposa",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Arco y dedos del pie",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Fascia plantar con pelota",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Tobillos y empeine",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Empeine y tibial con rodillo",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Postura del niño",
+   "type": "main"
+  },
+  {
+   "artifact": "core-ciclista",
+   "name": "Postura del niño",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Esfinge suave",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Libro abierto",
+   "type": "main"
+  },
+  {
+   "artifact": "recuperacion",
+   "name": "Libro abierto",
+   "type": "main"
+  },
+  {
+   "artifact": "hombro",
+   "name": "Libro abierto",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Extensión torácica en cuadrupedia",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Estiramiento cruzado de hombro",
+   "type": "main"
+  },
+  {
+   "artifact": "hombro",
+   "name": "Estiramiento cruzado de hombro",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Apertura de pecho boca abajo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Pelota: pectoral menor",
+   "type": "variant"
+  },
+  {
+   "artifact": "hombro",
+   "name": "Pelota: pectoral menor",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Tríceps y dorsal por encima de la cabeza",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Cuello y trapecio",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Antebrazos y muñecas",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Piernas en la pared",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "movilidad",
+   "name": "Respiración de cierre",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "CARs de cadera",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "CARs de hombro",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "CARs de columna",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "CARs de tobillo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Perro abajo a perro arriba",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Saludo al sol lento",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Guerrero I a II y Triángulo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Sentadilla profunda sostenida",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Postura de la rana",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Dragón alado",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Psoas con contracción y suelta",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Isquios con contracción y suelta",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Apoyo en una pierna",
+   "type": "main"
+  },
+  {
+   "artifact": "rodillas",
+   "name": "Apoyo en una pierna",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Enrollado vertebral boca arriba",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Escaneo corporal",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Extensión torácica en el rodillo",
+   "type": "variant"
+  },
+  {
+   "artifact": "hombro",
+   "name": "Extensión torácica en el rodillo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Cadera 90/90",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Zancada spiderman con rotación",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Caminata de oruga",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Sentadilla cosaca",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Rodilla a la pared",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Ángeles en la pared",
+   "type": "main"
+  },
+  {
+   "artifact": "hombro",
+   "name": "Ángeles en la pared",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Escorpión boca abajo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "CARs de cuello",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Almeja lenta",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Almeja con minibanda",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Plancha lateral dinámica",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Caminata de oso",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Flexión escapular",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Y-T-W con banda",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Rotación externa isométrica",
+   "type": "main"
+  },
+  {
+   "artifact": "hombro",
+   "name": "Rotación externa isométrica",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Rotación externa con minibanda",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Caminata lateral en media sentadilla",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Caminata lateral con minibanda",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Elevación de talones excéntrica",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Excéntricas en escalón",
+   "type": "variant"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Activación de transverso",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "recuperacion",
+   "name": "Estocada inversa con brazos arriba",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Isométrico en puntas (escalón)",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Isométrico en puntas (piso)",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Pogos (saltitos de tobillo)",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Skipping bajo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Saltos a una pierna",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Bajada excéntrica, pierna recta",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Bajada excéntrica, rodilla flexionada",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Elevación de talón sentado",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Elevación de talón en prensa",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Caminata en puntas con peso",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Arrugar la toalla",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Pie corto",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Elevación de punta (tibial anterior)",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Elevación lateral acostado",
+   "type": "main"
+  },
+  {
+   "artifact": "rodillas",
+   "name": "Elevación lateral acostado",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Estiramiento en pared, pierna recta",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Estiramiento en pared, rodilla flexionada",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "aquiles",
+   "name": "Movilidad de tobillo sin forzar",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Sentadilla isométrica en pared",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Sentadilla búlgara",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Zancada atrás con rodilla arriba",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Plancha copenhague (modificada)",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Step-down excéntrico",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Búlgara con mancuernas",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Peso muerto rumano",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Prensa a una pierna",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Abducción de cadera en polea",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Aducción en polea o máquina",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Extensión de rodilla (rango terminal)",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Rodillo: TFL",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "rodillas",
+   "name": "Postura de la paloma",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Rodillo: dorsal",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Deslizamiento de antebrazos en pared",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Flexión \"plus\" (protracción)",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Rotación externa acostado de costado",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Remo en el marco de la puerta",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "I-Y-T boca abajo",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Rotación externa con banda",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Face pull con banda",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Dominada escapular",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Rotación externa en polea",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Remo con mancuernas en banco inclinado",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Press de kettlebell invertida",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "hombro",
+   "name": "Postura del niño con sesgo dorsal",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core-ciclista",
+   "name": "Plancha de oso con toques de hombro",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core-ciclista",
+   "name": "Plancha con alcance cruzado",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core-ciclista",
+   "name": "Plancha larga",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core-corredor",
+   "name": "Bird dog dinámico",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core-corredor",
+   "name": "Puente de glúteos con marcha",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core-corredor",
+   "name": "Dead bug con presión isométrica",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core-corredor",
+   "name": "Plancha lateral con rodilla al pecho",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core-corredor",
+   "name": "Plancha alta con alcance al frente",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core-corredor",
+   "name": "Puente a una pierna isométrico",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core-corredor",
+   "name": "Zancada inversa con rotación",
+   "type": "main"
+  }
+ ],
+ [
+  {
+   "artifact": "core-corredor",
+   "name": "Peso muerto a una pierna",
+   "type": "main"
+  }
+ ]
+]

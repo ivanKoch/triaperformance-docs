@@ -1,64 +1,373 @@
 {
-  "_comment": "Name harmonisation map, signed off September 8, 2026. Keyed artifact -> language -> [old, new]. Display names ONLY; cues, ids and engines are untouched (that is open-loops.md NEXT #15). Applied by automation/apply-exercise-renames.js, which matches the full quoted string in `name: \"...\"` so that a shorter name is never matched inside a longer one.",
+  "_comment": "Name harmonisation map, signed off September 8, 2026. Keyed artifact -> language -> [old, new]. Display names ONLY; cues, ids and engines are untouched (that is open-loops.md NEXT #15). Applied by automation/apply-exercise-renames.js, which matches the full quoted string in `name: \"...\"` so that a shorter name is never matched inside a longer one. | ROUND 2, same day: the first round's cluster list was hand-written from SPANISH divergences and was therefore blind to clusters where Spanish agreed and EN/PT did not. Rebuilt audit found 8, not 3. Round 2 adds the three ES fixes (already decided in exercise-library-canonical-cues.md) plus the EN/PT set below. | ROUND 3, same day: EN/PT only, 8 clusters where Spanish agreed and a translation did not. Rule chosen by Iván — the EN/PT name mirrors the Spanish canonical. | ROUND 4, September 8, 2026: the bridge merge. Iván's harmonised cue for `Puente a una pierna` unified it to knee-to-chest, which made it identical to `Puente de glúteos a una pierna` — same setup, same movement, two names across five placements. Merged on his call; the extended-leg version is NOT retained.",
   "activacion": {
-    "es": [["Figura 4", "Figura 4 boca arriba"]],
-    "en": [["Figure 4", "Supine figure 4"]],
-    "pt": [["Gato-camelo", "Gato-vaca"], ["Figura 4", "Figura 4 deitado"]]
+    "es": [
+      [
+        "Figura 4",
+        "Figura 4 boca arriba"
+      ]
+    ],
+    "en": [
+      [
+        "Figure 4",
+        "Supine figure 4"
+      ],
+      [
+        "Pole pass-through (capped)",
+        "Stick pass-through (capped)"
+      ]
+    ],
+    "pt": [
+      [
+        "Gato-camelo",
+        "Gato-vaca"
+      ],
+      [
+        "Figura 4",
+        "Figura 4 deitado"
+      ],
+      [
+        "Passada de cabo (com limite)",
+        "Passada de bastão (com limite)"
+      ],
+      [
+        "Posteriores com toalha",
+        "Isquiotibiais com toalha"
+      ]
+    ]
   },
   "core": {
-    "es": [["Gato-vaca", "Gato-camello"], ["Gato-vaca sentado", "Gato-camello sentado"],
-           ["World's greatest stretch", "El mejor estiramiento del mundo"],
-           ["Figura 4 acostado", "Figura 4 boca arriba"],
-           ["Plancha lateral + elevación de pierna", "Plancha lateral con elevación de pierna"],
-           ["Couch stretch (con la cama)", "Couch stretch"]],
-    "en": [["Side plank + leg lift", "Side plank with leg raise"],
-           ["Couch stretch (using the bed)", "Couch stretch"]],
-    "pt": [["World's greatest stretch", "O melhor alongamento do mundo"],
-           ["Prancha lateral + elevação de perna", "Prancha lateral com elevação de perna"],
-           ["Couch stretch (usando a cama)", "Couch stretch"]]
+    "es": [
+      [
+        "Gato-vaca",
+        "Gato-camello"
+      ],
+      [
+        "Gato-vaca sentado",
+        "Gato-camello sentado"
+      ],
+      [
+        "World's greatest stretch",
+        "El mejor estiramiento del mundo"
+      ],
+      [
+        "Figura 4 acostado",
+        "Figura 4 boca arriba"
+      ],
+      [
+        "Plancha lateral + elevación de pierna",
+        "Plancha lateral con elevación de pierna"
+      ],
+      [
+        "Couch stretch (con la cama)",
+        "Couch stretch"
+      ],
+      [
+        "Puente a una pierna",
+        "Puente de glúteos a una pierna"
+      ]
+    ],
+    "en": [
+      [
+        "Side plank + leg lift",
+        "Side plank with leg raise"
+      ],
+      [
+        "Couch stretch (using the bed)",
+        "Couch stretch"
+      ],
+      [
+        "Bridge march",
+        "Bridge with a march"
+      ],
+      [
+        "Single-leg bridge",
+        "Single-leg glute bridge"
+      ]
+    ],
+    "pt": [
+      [
+        "World's greatest stretch",
+        "O melhor alongamento do mundo"
+      ],
+      [
+        "Prancha lateral + elevação de perna",
+        "Prancha lateral com elevação de perna"
+      ],
+      [
+        "Couch stretch (usando a cama)",
+        "Couch stretch"
+      ],
+      [
+        "Ponte unilateral",
+        "Ponte numa perna"
+      ],
+      [
+        "Ponte numa perna",
+        "Ponte de glúteos unilateral"
+      ]
+    ]
   },
   "movilidad": {
-    "es": [["Cruce de hombro", "Estiramiento cruzado de hombro"],
-           ["Cuádriceps con rodillo", "Rodillo: cuádriceps"],
-           ["Pectoral menor con pelota", "Pelota: pectoral menor"],
-           ["Gemelos con rodillo", "Rodillo: vientre del gemelo"],
-           ["Psoas de rodillas con apriete", "Psoas con apriete de glúteo"],
-           ["Couch stretch en pared", "Couch stretch"]],
-    "en": [["Quads on the roller", "Roll: quads"], ["Pec minor on a ball", "Ball: pec minor"],
-           ["Calves on the roller", "Roll: calf belly"],
-           ["Half-kneeling hip flexor with a squeeze", "Hip flexor stretch with glute squeeze"],
-           ["Couch stretch at the wall", "Couch stretch"]],
-    "pt": [["Gato-vaca", "Gato-vaca"], ["Quadríceps no rolo", "Rolo: quadríceps"],
-           ["Peitoral menor na bolinha", "Bolinha: peitoral menor"],
-           ["Panturrilhas no rolo", "Rolo: barriga da panturrilha"],
-           ["Psoas ajoelhado com contração", "Psoas com aperto de glúteo"],
-           ["Couch stretch na parede", "Couch stretch"]]
+    "es": [
+      [
+        "Cruce de hombro",
+        "Estiramiento cruzado de hombro"
+      ],
+      [
+        "Cuádriceps con rodillo",
+        "Rodillo: cuádriceps"
+      ],
+      [
+        "Pectoral menor con pelota",
+        "Pelota: pectoral menor"
+      ],
+      [
+        "Gemelos con rodillo",
+        "Rodillo: vientre del gemelo"
+      ],
+      [
+        "Psoas de rodillas con apriete",
+        "Psoas con apriete de glúteo"
+      ],
+      [
+        "Couch stretch en pared",
+        "Couch stretch"
+      ],
+      [
+        "Torsión boca arriba",
+        "Torsión espinal"
+      ],
+      [
+        "Niño con alcance lateral",
+        "Postura del niño con alcance lateral"
+      ]
+    ],
+    "en": [
+      [
+        "Quads on the roller",
+        "Roll: quads"
+      ],
+      [
+        "Pec minor on a ball",
+        "Ball: pec minor"
+      ],
+      [
+        "Calves on the roller",
+        "Roll: calf belly"
+      ],
+      [
+        "Half-kneeling hip flexor with a squeeze",
+        "Hip flexor stretch with glute squeeze"
+      ],
+      [
+        "Couch stretch at the wall",
+        "Couch stretch"
+      ],
+      [
+        "Supine twist",
+        "Supine spinal twist"
+      ],
+      [
+        "Hamstring with a towel",
+        "Hamstring stretch with towel"
+      ],
+      [
+        "Child's pose with a side reach",
+        "Child's pose with lateral reach"
+      ]
+    ],
+    "pt": [
+      [
+        "Gato-vaca",
+        "Gato-vaca"
+      ],
+      [
+        "Quadríceps no rolo",
+        "Rolo: quadríceps"
+      ],
+      [
+        "Peitoral menor na bolinha",
+        "Bolinha: peitoral menor"
+      ],
+      [
+        "Panturrilhas no rolo",
+        "Rolo: barriga da panturrilha"
+      ],
+      [
+        "Psoas ajoelhado com contração",
+        "Psoas com aperto de glúteo"
+      ],
+      [
+        "Couch stretch na parede",
+        "Couch stretch"
+      ],
+      [
+        "Torção deitado",
+        "Torção da coluna"
+      ],
+      [
+        "Criança com alcance lateral",
+        "Postura da criança com alcance lateral"
+      ]
+    ]
   },
   "recuperacion": {
-    "es": [["Balanceo de piernas", "Balanceo de pierna (frontal)"],
-           ["Flexión plantar activa", "Tobillos para la patada"],
-           ["Equilibrio en una pierna, ojos cerrados", "Apoyo en una pierna"]],
-    "en": [["Leg swings", "Leg swings (front to back)"],
-           ["Active plantarflexion", "Ankles for the kick"],
-           ["Single-leg balance, eyes closed", "Single-leg stance"]],
-    "pt": [["Balanço de pernas", "Balanço de perna (frente e trás)"],
-           ["Flexão plantar ativa", "Tornozelos para a pernada"],
-           ["Equilíbrio numa perna, olhos fechados", "Apoio em uma perna"]]
+    "es": [
+      [
+        "Balanceo de piernas",
+        "Balanceo de pierna (frontal)"
+      ],
+      [
+        "Flexión plantar activa",
+        "Tobillos para la patada"
+      ],
+      [
+        "Equilibrio en una pierna, ojos cerrados",
+        "Apoyo en una pierna"
+      ],
+      [
+        "Extensión torácica sobre rodillo",
+        "Extensión torácica en el rodillo"
+      ],
+      [
+        "Puente a una pierna",
+        "Puente de glúteos a una pierna"
+      ]
+    ],
+    "en": [
+      [
+        "Leg swings",
+        "Leg swings (front to back)"
+      ],
+      [
+        "Active plantarflexion",
+        "Ankles for the kick"
+      ],
+      [
+        "Single-leg balance, eyes closed",
+        "Single-leg stance"
+      ],
+      [
+        "Single-leg bridge",
+        "Single-leg glute bridge"
+      ]
+    ],
+    "pt": [
+      [
+        "Balanço de pernas",
+        "Balanço de perna (frente e trás)"
+      ],
+      [
+        "Flexão plantar ativa",
+        "Tornozelos para a pernada"
+      ],
+      [
+        "Equilíbrio numa perna, olhos fechados",
+        "Apoio em uma perna"
+      ],
+      [
+        "Ponte numa perna",
+        "Ponte de glúteos unilateral"
+      ]
+    ]
   },
   "rodillas": {
-    "es": [["Rodillo: gemelos", "Rodillo: vientre del gemelo"]],
-    "en": [["Roll: calves", "Roll: calf belly"]],
-    "pt": [["Rolo: panturrilhas", "Rolo: barriga da panturrilha"]]
+    "es": [
+      [
+        "Rodillo: gemelos",
+        "Rodillo: vientre del gemelo"
+      ]
+    ],
+    "en": [
+      [
+        "Roll: calves",
+        "Roll: calf belly"
+      ],
+      [
+        "Glute bridges",
+        "Glute bridge"
+      ]
+    ],
+    "pt": [
+      [
+        "Rolo: panturrilhas",
+        "Rolo: barriga da panturrilha"
+      ]
+    ]
   },
   "hombro": {
-    "es": [["Apertura torácica (libro abierto)", "Libro abierto"], ["Ángeles de pared", "Ángeles en la pared"]],
-    "en": [["Open book (thoracic rotation)", "Open book"], ["Ball: pec minor release", "Ball: pec minor"]],
-    "pt": [["Abertura torácica (livro aberto)", "Livro aberto"]]
+    "es": [
+      [
+        "Apertura torácica (libro abierto)",
+        "Libro abierto"
+      ],
+      [
+        "Ángeles de pared",
+        "Ángeles en la pared"
+      ]
+    ],
+    "en": [
+      [
+        "Open book (thoracic rotation)",
+        "Open book"
+      ],
+      [
+        "Ball: pec minor release",
+        "Ball: pec minor"
+      ]
+    ],
+    "pt": [
+      [
+        "Abertura torácica (livro aberto)",
+        "Livro aberto"
+      ],
+      [
+        "Extensão torácica no rolo",
+        "Extensão torácica sobre o rolo"
+      ]
+    ]
   },
-  "core-ciclista": { "es": [], "en": [], "pt": [["Gato-camelo", "Gato-vaca"]] },
+  "core-ciclista": {
+    "es": [],
+    "en": [],
+    "pt": [
+      [
+        "Gato-camelo",
+        "Gato-vaca"
+      ]
+    ]
+  },
   "core-corredor": {
-    "es": [["Gato-camello", "Gato-camello"], ["Figura de 4", "Figura 4 boca arriba"]],
-    "en": [["Figure four", "Supine figure 4"], ["Hip flexor with glute squeeze", "Hip flexor stretch with glute squeeze"]],
-    "pt": [["Gato-camelo", "Gato-vaca"], ["Figura de 4", "Figura 4 deitado"]]
+    "es": [
+      [
+        "Gato-camello",
+        "Gato-camello"
+      ],
+      [
+        "Figura de 4",
+        "Figura 4 boca arriba"
+      ]
+    ],
+    "en": [
+      [
+        "Figure four",
+        "Supine figure 4"
+      ],
+      [
+        "Hip flexor with glute squeeze",
+        "Hip flexor stretch with glute squeeze"
+      ]
+    ],
+    "pt": [
+      [
+        "Gato-camelo",
+        "Gato-vaca"
+      ],
+      [
+        "Figura de 4",
+        "Figura 4 deitado"
+      ]
+    ]
   }
 }

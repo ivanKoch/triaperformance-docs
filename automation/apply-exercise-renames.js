@@ -12,7 +12,7 @@ const MAP={activacion:{es:'activacion',en:'en/activation',pt:'pt/ativacao'},
  'core-ciclista':{es:'core-ciclista',en:'en/cyclist-core',pt:'pt/core-do-ciclista'},
  'core-corredor':{es:'core-corredor',en:'en/runner-core',pt:'pt/core-do-corredor'}};
 const R=JSON.parse(fs.readFileSync(path.join(ROOT,'automation/exercise-renames.json'),'utf8'));
-let applied=0, noop=0, missing=[];
+let applied=0, noop=0, done=0, missing=[];
 for(const [slug,langs] of Object.entries(R)){
   if(slug.startsWith('_'))continue;
   for(const [lg,pairs] of Object.entries(langs)){
@@ -21,7 +21,12 @@ for(const [slug,langs] of Object.entries(R)){
     for(const [oldN,newN] of pairs){
       if(oldN===newN){noop++;continue}
       const needle='name: "'+oldN+'"';
-      if(!src.includes(needle)){missing.push(slug+'/'+lg+': '+oldN);continue}
+      if(!src.includes(needle)){
+        // Already applied is the normal state: this file is a permanent record and
+        // re-running it must be a no-op. Only a name that is neither old nor new is
+        // a real error.
+        if(src.includes('name: "'+newN+'"')){done++;continue}
+        missing.push(slug+'/'+lg+': '+oldN);continue}
       const n=src.split(needle).length-1;
       src=src.split(needle).join('name: "'+newN+'"');
       applied+=n;
@@ -29,5 +34,5 @@ for(const [slug,langs] of Object.entries(R)){
     if(src!==before&&!DRY)fs.writeFileSync(file,src);
   }
 }
-console.log((DRY?'[dry] ':'')+'renames applied: '+applied+'   already-canonical entries skipped: '+noop);
+console.log((DRY?'[dry] ':'')+'renames applied: '+applied+'   already applied: '+done+'   no-op entries: '+noop);
 if(missing.length){console.error('\n✗ NOT FOUND (map is wrong, nothing written for these):');missing.forEach(m=>console.error('   '+m));process.exit(1);}

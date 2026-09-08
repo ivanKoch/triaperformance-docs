@@ -1,30 +1,27 @@
-/* Per-language name audit — now a REGRESSION CHECK, not a discovery tool.
- * Since the September 8, 2026 harmonisation every cluster must report exactly 1
- * name per language. Anything above 1 means a page has drifted again: fix the
- * page, do not relax this file.
- * Extracts every exercise name from all 27 artifact
- * pages (9 artifacts × ES/EN/PT) and reports, for each merged cluster, the
- * distinct names each language uses.
+/* Name audit — a REGRESSION CHECK over EVERY signed-off cluster.
  *
- * Position alignment is safe: the three language copies of an artifact hold the
- * same library in the same order (parity verified September 7, 2026 — 253 rows
- * in each language, no gaps).
+ * Clusters are read from data/exercise_clusters.json, written by
+ * apply-exercise-merge-map.js from the decisions themselves. They are NOT listed
+ * here: the first version of this file carried a hand-written list of 15, missed
+ * three, and reported zero divergence while `Torsión espinal`/`Torsión boca
+ * arriba`, `Postura del niño con alcance lateral`/`Niño con alcance lateral` and
+ * `Extensión torácica sobre rodillo`/`Extensión torácica en el rodillo` were
+ * still live. A checker handed its own list can only confirm what its author
+ * remembered.
  *
- * Usage: node automation/exercise-name-audit.js <repo-root>
+ * Every cluster must report exactly 1 name per language. Above 1 = a page
+ * drifted, or a rename was never applied. Fix the page; never relax this file.
+ *
+ * Usage: node automation/exercise-name-audit.js <repo-root> [--detail]
  */
 const fs=require('fs'),path=require('path'),vm=require('vm');
-const ROOT=process.argv[2]||'.';
-const MAP={
- activacion:{es:'activacion',en:'en/activation',pt:'pt/ativacao'},
- core:{es:'core',en:'en/core',pt:'pt/core'},
- movilidad:{es:'movilidad',en:'en/mobility',pt:'pt/mobilidade'},
- recuperacion:{es:'recuperacion',en:'en/recovery',pt:'pt/recuperacao'},
- aquiles:{es:'aquiles',en:'en/achilles',pt:'pt/aquiles'},
- rodillas:{es:'rodillas',en:'en/knees',pt:'pt/joelhos'},
- hombro:{es:'hombro',en:'en/shoulder',pt:'pt/ombro'},
+const ROOT=process.argv[2]||'.', DETAIL=process.argv.includes('--detail');
+const MAP={activacion:{es:'activacion',en:'en/activation',pt:'pt/ativacao'},
+ core:{es:'core',en:'en/core',pt:'pt/core'},movilidad:{es:'movilidad',en:'en/mobility',pt:'pt/mobilidade'},
+ recuperacion:{es:'recuperacion',en:'en/recovery',pt:'pt/recuperacao'},aquiles:{es:'aquiles',en:'en/achilles',pt:'pt/aquiles'},
+ rodillas:{es:'rodillas',en:'en/knees',pt:'pt/joelhos'},hombro:{es:'hombro',en:'en/shoulder',pt:'pt/ombro'},
  'core-ciclista':{es:'core-ciclista',en:'en/cyclist-core',pt:'pt/core-do-ciclista'},
- 'core-corredor':{es:'core-corredor',en:'en/runner-core',pt:'pt/core-do-corredor'},
-};
+ 'core-corredor':{es:'core-corredor',en:'en/runner-core',pt:'pt/core-do-corredor'}};
 const mkEl=()=>({dataset:{},style:{},children:[],textContent:'',innerHTML:'',hidden:false,value:'',
  classList:{add(){},remove(){},toggle(){},contains(){return false}},addEventListener(){},removeEventListener(){},
  appendChild(){},remove(){},setAttribute(){},removeAttribute(){},getAttribute(){return null},
@@ -47,55 +44,24 @@ const N={};
 for(const [slug,langs] of Object.entries(MAP)){N[slug]={};
   for(const [lg,rel] of Object.entries(langs)) N[slug][lg]=names(path.join(ROOT,'site/members',rel,'index.njk'));}
 
-// Clusters expressed as [artifact, ES name] members.
-const CLUSTERS=[
- ['cat-cow',[['activacion','Gato-camello'],['core','Gato-camello'],['movilidad','Gato-camello'],['recuperacion','Gato-camello'],['core-ciclista','Gato-camello'],['core-corredor','Gato-camello']]],
- ['worlds-greatest',[['activacion','El mejor estiramiento del mundo'],['core','El mejor estiramiento del mundo'],['recuperacion','El mejor estiramiento del mundo']]],
- ['leg-swing-front',[['activacion','Balanceo de pierna (frontal)'],['recuperacion','Balanceo de pierna (frontal)'],['rodillas','Balanceo de pierna (frontal)']]],
- ['figure-4',[['activacion','Figura 4 boca arriba'],['movilidad','Figura 4 boca arriba'],['core-corredor','Figura 4 boca arriba'],['core','Figura 4 boca arriba']]],
- ['open-book',[['movilidad','Libro abierto'],['recuperacion','Libro abierto'],['hombro','Libro abierto']]],
- ['wall-angel',[['recuperacion','Ángeles en la pared'],['hombro','Ángeles en la pared']]],
- ['cross-body',[['movilidad','Estiramiento cruzado de hombro'],['hombro','Estiramiento cruzado de hombro']]],
- ['roll-quad',[['movilidad','Rodillo: cuádriceps'],['rodillas','Rodillo: cuádriceps']]],
- ['ball-pec',[['movilidad','Pelota: pectoral menor'],['hombro','Pelota: pectoral menor']]],
- ['side-plank-raise',[['core','Plancha lateral con elevación de pierna'],['core-ciclista','Plancha lateral con elevación de pierna']]],
- ['ankle-kick',[['activacion','Tobillos para la patada'],['recuperacion','Tobillos para la patada']]],
- ['roll-calf',[['aquiles','Rodillo: vientre del gemelo'],['rodillas','Rodillo: vientre del gemelo'],['movilidad','Rodillo: vientre del gemelo']]],
- ['balance',[['recuperacion','Apoyo en una pierna'],['rodillas','Apoyo en una pierna']]],
- ['psoas-squeeze',[['activacion','Psoas con apriete de glúteo'],['core-ciclista','Psoas con apriete de glúteo'],['core-corredor','Psoas con apriete de glúteo'],['movilidad','Psoas con apriete de glúteo']]],
- ['couch-stretch',[['core','Couch stretch'],['rodillas','Couch stretch'],['movilidad','Couch stretch']]],
-];
-const DETAIL=process.argv.includes('--detail');
-let tot={es:0,en:0,pt:0}, edits={es:0,en:0,pt:0};
-const report=[];
-for(const [id,members] of CLUSTERS){
+const clusters=JSON.parse(fs.readFileSync(path.join(ROOT,'data/exercise_clusters.json'),'utf8')).filter(g=>g.length>1);
+let bad=0, checked=0;
+for(const g of clusters){
   const per={es:new Map(),en:new Map(),pt:new Map()};
-  for(const [slug,esName] of members){
-    const i=N[slug].es.indexOf(esName);
-    if(i<0){console.error('  ✗ not found: '+slug+' / '+esName);continue}
-    ['es','en','pt'].forEach(l=>{const nm=N[slug][l][i];
-      if(!per[l].has(nm))per[l].set(nm,[]);per[l].get(nm).push(slug);});
+  for(const m of g){
+    const i=N[m.artifact].es.indexOf(m.name);
+    if(i<0){console.error('  ✗ cluster member not found on the page: '+m.artifact+' / '+m.name+'  (stale data/members_exercises.json? re-run the extractor)');bad++;continue}
+    for(const l of ['es','en','pt']){const nm=N[m.artifact][l][i];
+      if(!per[l].has(nm))per[l].set(nm,[]);per[l].get(nm).push(m.artifact);}
   }
-  ['es','en','pt'].forEach(l=>{
-    if(per[l].size>1){tot[l]++;
-      // edits = placements not carrying the most-used spelling
-      const sorted=[...per[l].entries()].sort((a,b)=>b[1].length-a[1].length);
-      edits[l]+=sorted.slice(1).reduce((n,[,arts])=>n+arts.length,0);}});
-  report.push([id,per]);
+  checked++;
+  const split=['es','en','pt'].filter(l=>per[l].size>1);
+  if(split.length){bad++;
+    console.log('⚠ '+((g.find(x=>x.type==='main')||g[0]).name));
+    for(const l of split)
+      console.log('   '+l.toUpperCase()+'  '+[...per[l].entries()].map(([n,a])=>'"'+n+'" ['+a.join(',')+']').join('   |   '));
+  } else if(DETAIL) console.log('✓ '+g[0].name);
 }
-if(DETAIL){
-  for(const [id,per] of report){
-    console.log('\n### '+id);
-    for(const l of ['es','en','pt']){
-      const rows=[...per[l].entries()].sort((a,b)=>b[1].length-a[1].length);
-      const flag=rows.length>1?'⚠ ':'✓ ';
-      console.log('  '+flag+l.toUpperCase()+'  '+rows.map(([n,a])=>'"'+n+'" ['+a.join(',')+']').join('   |   '));
-    }
-  }
-} else {
-  console.log('cluster'.padEnd(20)+'ES'.padEnd(6)+'EN'.padEnd(6)+'PT');
-  for(const [id,per] of report)
-    console.log(id.padEnd(20)+['es','en','pt'].map(l=>String(per[l].size)+(per[l].size>1?'⚠':' ')).map(x=>x.padEnd(6)).join(''));
-}
-console.log('\nclusters showing more than one name — ES: '+tot.es+'   EN: '+tot.en+'   PT: '+tot.pt);
-console.log('name edits if the most-used spelling wins — ES: '+edits.es+'   EN: '+edits.en+'   PT: '+edits.pt+'   TOTAL: '+(edits.es+edits.en+edits.pt));
+console.log('\nclusters checked: '+checked+'   clusters with more than one name: '+bad);
+if(bad){console.error('\nFAIL — see above. Fix the pages, not this file.');process.exit(1)}
+console.log('PASS — every signed-off cluster reads one name per language.');

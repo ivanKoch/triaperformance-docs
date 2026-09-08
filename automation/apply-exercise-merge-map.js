@@ -8,6 +8,8 @@
  * Every override key below is asserted to exist. A typo fails loudly rather than
  * silently under-merging and reporting a number that is quietly too high.
  */
+const fs=require('fs'),path=require('path');
+const ROOT=process.argv[2]||'.';
 const rows=require(require('path').join(process.argv[2]||'.','data/members_exercises.json'));
 const norm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
 const STOP=new Set(['de','del','la','el','en','con','y','a','al','los','las','un','una','sin','por','para','the','of']);
@@ -39,8 +41,14 @@ for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++){
 const SUPPRESS=[
   // D2a — bird dog: nothing may merge into the dynamic version
   ['core-corredor::bird dog dinamico::main','*'],
-  // D2d — movilidad's squeeze belongs with the squeeze cluster, not the plain one
-  ['movilidad::psoas de rodillas con apriete::main','activacion::psoas de rodillas::main'],
+  /* D2d — activación's plain "Psoas de rodillas" is the regression half of a
+   * deliberate base/progression pair and must stay alone. Widened to '*' on
+   * September 8, 2026: once Iván's harmonised squeeze cue landed, the plain
+   * version's cue became similar enough to be pulled in by the automatic pass
+   * through a THIRD member rather than the pair originally suppressed.
+   * Suppressing one edge is not enough when the cluster it must stay out of has
+   * grown. */
+  ['activacion::psoas de rodillas::main','*'],
 ];
 const suppressed=(a,b)=>SUPPRESS.some(([x,y])=>{
   const ka=items[a].key,kb=items[b].key;
@@ -50,30 +58,35 @@ SUPPRESS.forEach(([x,y])=>{K(x);if(y!=='*')K(y);});   // fail loudly on a typo
 AUTO.filter(([i,j])=>!suppressed(i,j)).forEach(([i,j])=>uni(i,j));
 
 // ---- signed-off merges -------------------------------------------------------
+/* ⚠ These keys are (artifact, normalised NAME, type). Names are not stable — the
+ * September 8, 2026 harmonisation moved 19 of them and every key here had to be
+ * rewritten through automation/exercise-renames.json to match. That fragility is
+ * an argument for the branch, whose whole point is a stable global id per
+ * exercise; until then, rename and merge map must be updated together. */
 const EXTRA=[
   // manual, batch 1 — same movement, unrelated names
-  ['core::gato vaca::main','activacion::gato camello::main'],
-  ['core::world s greatest stretch::main','activacion::el mejor estiramiento del mundo::main'],
-  ['core::couch stretch con la cama::main','rodillas::couch stretch::main'],
+  ['core::gato camello::main','activacion::gato camello::main'],
+  ['core::el mejor estiramiento del mundo::main','activacion::el mejor estiramiento del mundo::main'],
+  ['core::couch stretch::main','rodillas::couch stretch::main'],
   // D2d — movilidad joins the squeeze cluster
-  ['movilidad::psoas de rodillas con apriete::main','activacion::psoas con apriete de gluteo::main'],
+  ['movilidad::psoas con apriete de gluteo::main','activacion::psoas con apriete de gluteo::main'],
   // D2e — one couch stretch
-  ['movilidad::couch stretch en pared::variant','rodillas::couch stretch::main'],
+  ['movilidad::couch stretch::variant','rodillas::couch stretch::main'],
   // D3, naming drift only
-  ['hombro::apertura toracica libro abierto::main','movilidad::libro abierto::main'],
-  ['hombro::estiramiento cruzado de hombro::main','movilidad::cruce de hombro::main'],
-  ['hombro::angeles de pared::main','recuperacion::angeles en la pared::main'],
-  ['movilidad::cuadriceps con rodillo::variant','rodillas::rodillo cuadriceps::main'],
-  ['movilidad::pectoral menor con pelota::variant','hombro::pelota pectoral menor::main'],
-  ['core::plancha lateral elevacion de pierna::variant','core-ciclista::plancha lateral con elevacion de pierna::main'],
-  ['activacion::tobillos para la patada::main','recuperacion::flexion plantar activa::main'],
-  ['core-corredor::figura de 4::main','activacion::figura 4::main'],
-  ['core::figura 4 acostado::variant','activacion::figura 4::main'],
+  ['hombro::libro abierto::main','movilidad::libro abierto::main'],
+  ['hombro::estiramiento cruzado de hombro::main','movilidad::estiramiento cruzado de hombro::main'],
+  ['hombro::angeles en la pared::main','recuperacion::angeles en la pared::main'],
+  ['movilidad::rodillo cuadriceps::variant','rodillas::rodillo cuadriceps::main'],
+  ['movilidad::pelota pectoral menor::variant','hombro::pelota pectoral menor::main'],
+  ['core::plancha lateral con elevacion de pierna::variant','core-ciclista::plancha lateral con elevacion de pierna::main'],
+  ['activacion::tobillos para la patada::main','recuperacion::tobillos para la patada::main'],
+  ['core-corredor::figura 4 boca arriba::main','activacion::figura 4 boca arriba::main'],
+  ['core::figura 4 boca arriba::variant','activacion::figura 4 boca arriba::main'],
   // D3a — one calf roller, Achilles restriction becomes the cue
-  ['aquiles::rodillo vientre del gemelo::main','rodillas::rodillo gemelos::main'],
-  ['movilidad::gemelos con rodillo::variant','rodillas::rodillo gemelos::main'],
+  ['aquiles::rodillo vientre del gemelo::main','rodillas::rodillo vientre del gemelo::main'],
+  ['movilidad::rodillo vientre del gemelo::variant','rodillas::rodillo vientre del gemelo::main'],
   // D3b — one balance
-  ['recuperacion::equilibrio en una pierna ojos cerrados::main','rodillas::apoyo en una pierna::main'],
+  ['recuperacion::apoyo en una pierna::main','rodillas::apoyo en una pierna::main'],
 ];
 EXTRA.forEach(([a,b])=>uni(K(a),K(b)));
 
@@ -82,11 +95,11 @@ EXTRA.forEach(([a,b])=>uni(K(a),K(b)));
  * D2d separates, and nothing complained. A count nobody can check is not evidence. */
 const same=(a,b)=>find(K(a))===find(K(b));
 const ASSERT=[
-  [!same('movilidad::psoas de rodillas con apriete::main','activacion::psoas de rodillas::main'),'D2d: movilidad psoas must NOT sit with the plain version'],
-  [ same('movilidad::psoas de rodillas con apriete::main','activacion::psoas con apriete de gluteo::main'),'D2d: movilidad psoas must sit with the squeeze cluster'],
+  [!same('movilidad::psoas con apriete de gluteo::main','activacion::psoas de rodillas::main'),'D2d: movilidad psoas must NOT sit with the plain version'],
+  [ same('movilidad::psoas con apriete de gluteo::main','activacion::psoas con apriete de gluteo::main'),'D2d: movilidad psoas must sit with the squeeze cluster'],
   [!same('core-corredor::bird dog dinamico::main','core::bird dog::main'),'D2a: bird dog must stay split'],
-  [ same('aquiles::rodillo vientre del gemelo::main','rodillas::rodillo gemelos::main'),'D3a: one calf roller'],
-  [ same('recuperacion::equilibrio en una pierna ojos cerrados::main','rodillas::apoyo en una pierna::main'),'D3b: one balance'],
+  [ same('aquiles::rodillo vientre del gemelo::main','rodillas::rodillo vientre del gemelo::main'),'D3a: one calf roller'],
+  [ same('recuperacion::apoyo en una pierna::main','rodillas::apoyo en una pierna::main'),'D3b: one balance'],
 ];
 let failed=0;
 ASSERT.forEach(([ok,msg])=>{if(!ok){console.error('✗ '+msg);failed++}});
@@ -102,6 +115,14 @@ const vpar=canon.map((_,i)=>i);const vfind=x=>vpar[x]===x?x:(vpar[x]=vfind(vpar[
 const groupOf=k=>canon.findIndex(g=>g.some(x=>x.key===k));
 SHARED_VIDEO.forEach(([a,b])=>{const ga=groupOf(a),gb=groupOf(b);if(ga<0||gb<0)throw new Error('shared-video key missing');vpar[vfind(ga)]=vfind(gb)});
 const clips=new Set(canon.map((_,i)=>vfind(i))).size;
+
+/* Export cluster membership so the name audit derives its clusters from the
+ * signed-off decisions instead of a hand-written list. The first version of that
+ * audit carried its own copy of the clusters and MISSED THREE — it reported zero
+ * divergence while three exercises still had two names each. A checker fed its
+ * own list can only ever confirm what its author remembered. */
+fs.writeFileSync(path.join(ROOT,'data/exercise_clusters.json'),
+  JSON.stringify(canon.map(g=>g.map(x=>({artifact:x.artifact_slug,name:x.name,type:x.type}))),null,1));
 
 const reach=g=>g.some(x=>ACTIVATION.has(x.artifact_slug));
 const canFilmNow=canon.filter(reach).length;

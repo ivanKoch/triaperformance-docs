@@ -1,10 +1,19 @@
 # Name harmonisation — the 15 clusters, three languages
 
-> ✅ **APPLIED September 8, 2026. 54 renames across 21 page files, all three
-> languages.** Verified by `automation/exercise-name-audit.js` (0 clusters showing
-> more than one name, down from ES 15 / EN 11 / PT 13), by the rendered HTML in
-> `_site/`, and by `tests/mobility-matrix.js` (534 checks) and
-> `tests/recovery-matrix.js` (824 checks), all green.
+> ✅ **APPLIED September 8, 2026, in THREE rounds — 69 renames across all three
+> languages.** Final state verified by `automation/exercise-name-audit.js`:
+> **33 clusters checked, 0 divergent, PASS.** Tests green.
+>
+> 🚨 **Round 1 shipped incomplete and its check reported a false PASS.** *The
+> audit's cluster list was hand-written from **Spanish** divergences, so it was
+> structurally blind to clusters where Spanish agreed and a translation did not —
+> `Glute bridge`/`Glute bridges`, `Bridge march`/`Bridge with a march`,
+> `Ponte unilateral`/`Ponte numa perna`. It reported 15 clusters clean while
+> **8 were still split**.* **The fix was not more careful listing: the audit now
+> derives its clusters from `data/exercise_clusters.json`, written by
+> `apply-exercise-merge-map.js` from the decisions themselves.** *A checker handed
+> its own list can only ever confirm what its author remembered — the same defect
+> as `check-plan-links.py` filtering on the flag it was meant to verify.*
 > ⚠️ **Iván still has to commit, push and deploy** — nothing here is live until he does.
 
 **Scope: display names only.** No cue text, no ids, no engine change — that is the
@@ -99,3 +108,32 @@ athlete reading them.*
   page drifted again: fix the page, do not relax the file.*
 - `automation/exercise-renames.json` + `apply-exercise-renames.js` — the map and
   its applier, kept as the record of exactly what changed.
+
+
+---
+
+## The three rounds
+
+| round | scope | renames |
+|---|---|---|
+| 1 | the 15 clusters with a **Spanish** divergence, all languages | 54 |
+| 2 | three clusters missed entirely by round 1's hand-written list (`twist`, `childReach`, `thoracicRoller`) | 3 |
+| 3 | eight clusters where **Spanish agreed and EN or PT did not** | 12 |
+| | | **69** |
+
+**Round 3's rule, Iván's call: the EN/PT name mirrors the Spanish canonical.**
+*Chosen over "the activation matrix wins" and "best in each language" because it
+is mechanical and matches how the content is actually produced — authored in
+Spanish, translated after.* Gives `Glute bridge` (ES is singular), `Stick
+pass-through` and `Passada de bastão` (ES says *bastón*), `Isquiotibiais com
+toalha` (ES says *Isquios*), `Ponte numa perna`, `Bridge with a march`.
+
+⚠️ **A second fragility surfaced and is not fixed, only documented:** renaming
+broke `apply-exercise-merge-map.js`, whose keys are `(artifact, normalised name,
+type)`. Every key had to be rewritten through the rename map. **Names are not a
+stable key**, and that is precisely the argument for the branch, whose point is a
+global id per exercise. *Until then, a rename and the merge map must be updated in
+the same pass.*
+
+✅ `apply-exercise-renames.js` is now **idempotent** — re-running it reports
+"already applied" instead of failing, because this map is a permanent record.

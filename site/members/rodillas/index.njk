@@ -69,15 +69,15 @@ window.KNEE_ROUTINE = (function () {
   const L = {
     /* --- entrada en calor (las cuatro rutinas) --- */
     swingFB: { name: "Balanceo de pierna (frontal)", sets: 1, reps: "15 por lado", tag: "Pared de apoyo",
-      cue: "Apóyate en una pared y balancea la pierna adelante y atrás. <strong>Aumenta el rango poco a poco</strong>, no arranques en el máximo." },
+      cue: "Apóyate en una pared y balancea la pierna adelante y atrás. <strong>Aumenta el rango poco a poco</strong>: arrancar en el máximo es cómo se tira un isquio." },
     swingLat: { name: "Balanceo lateral de pierna", sets: 1, reps: "15 por lado", tag: "Pared de apoyo",
-      cue: "De frente a la pared, cruza la pierna de lado a lado por delante del cuerpo. Abre aductores y despierta la cadera externa." },
+      cue: "De frente a la pared, cruza la pierna de lado a lado por delante del cuerpo. Abre aductores y despierta el glúteo medio." },
     sideRaise: { name: "Elevación lateral acostado", sets: 1, reps: "20 por lado", tag: "Sin equipo",
-      cue: "De costado, pierna de arriba recta y <strong>la punta del pie apuntando levemente hacia el piso</strong>. Sube lento. Tiene que arder en el lateral del glúteo — si lo sientes en la ingle, estás rotando la pierna." },
+      cue: "De costado, pierna de arriba recta y la punta del pie apuntando levemente hacia el piso. Sube lento. <strong>Tiene que arder en el lateral del glúteo</strong>: si lo sientes en la ingle, estás rotando la pierna." },
     bridge: { name: "Puente de glúteos", sets: 2, reps: "15", rest: 30, tag: "Sin equipo",
-      cue: "Empuja con los talones y <strong>sostén 2 segundos arriba apretando el glúteo</strong>. La pausa es el ejercicio; sin ella son solo repeticiones." },
+      cue: "Pies cerca de los glúteos. Sube la cadera empujando con los talones y <strong>sostén dos segundos arriba apretando los glúteos</strong>. La pausa es el ejercicio; sin ella son solo repeticiones. Baja controlado, sin arquear la lumbar. Si lo sientes en los isquios, acerca los pies." },
     balance: { name: "Apoyo en una pierna", sets: 1, reps: "30s por lado", hold: 30, holdSides: 2, tag: "Sin equipo",
-      cue: "Parado en una pierna, rodilla apenas flexionada, mirando un punto fijo. <strong>Que la cadera no se caiga del lado que está en el aire</strong> — ese descenso es exactamente lo que le pasa a tu pelvis en cada zancada. Si te resulta fácil, cierra los ojos." },
+      cue: "Parado en una pierna, rodilla apenas flexionada. <strong>Que la cadera no se caiga del lado que está en el aire.</strong> Busca que el pie trabaje: dedos activos, tobillo corrigiendo. Si te resulta fácil, cierra los ojos. Ten una pared o una silla al alcance." },
 
     /* --- fuerza en casa --- */
     wallSit: { name: "Sentadilla isométrica en pared", sets: 3, reps: "45s", hold: 45, rest: 60, tag: "Pared",
@@ -85,7 +85,7 @@ window.KNEE_ROUTINE = (function () {
     bulgarian: { name: "Sentadilla búlgara", sets: 3, reps: "8-12 por pierna", rest: 90, tag: "Silla o sillón",
       cue: "Pie de atrás sobre la silla, pecho arriba. <strong>La rodilla de adelante viaja sobre el dedo del medio, nunca hacia adentro</strong>. Si se mete, acorta el rango antes de acortar la técnica." },
     slBridge: { name: "Puente de glúteos a una pierna", sets: 3, reps: "10 por pierna", rest: 60, tag: "Sin equipo",
-      cue: "Empuja con el talón. <strong>Si lo sientes en la lumbar, la cadera se te fue en anteversión</strong> — mete la pelvis y baja la altura." },
+      cue: "Un talón apoyado cerca de los glúteos, la otra rodilla abrazada al pecho. Empuja con el talón y aprieta el glúteo arriba. <strong>Si lo sientes en la lumbar, mete la pelvis y baja la altura</strong>: la idea es aislar el glúteo, no que el psoas haga el trabajo." },
     revLunge: { name: "Zancada atrás con rodilla arriba", sets: 3, reps: "12 por pierna", rest: 60, tag: "Sin equipo",
       cue: "Paso atrás a la zancada y, sin pausa, <strong>sube esa rodilla al pecho en un solo movimiento</strong>. Es estabilidad dinámica: la mitad del ejercicio es no tambalearte al subir." },
     copenhagen: { name: "Plancha copenhague (modificada)", sets: 3, reps: "20-30s por lado", hold: 20, holdMax: 30, holdSides: 2, rest: 45, tag: "Silla o sillón",
@@ -111,15 +111,15 @@ window.KNEE_ROUTINE = (function () {
 
     /* --- rodillo --- */
     rollQuad: { name: "Rodillo: cuádriceps", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
-      cue: "De la cadera hasta justo arriba de la rótula. <strong>Cuando encuentres un punto sensible, párate ahí y flexiona y estira la rodilla</strong> — eso despega el tejido mucho más que seguir rodando." },
+      cue: "Boca abajo, el muslo sobre el rodillo, del pliegue de la cadera hasta justo arriba de la rótula. Presión media: si tienes que aguantar la respiración, es demasiada. <strong>Cuando encuentres un punto sensible, párate ahí y flexiona y estira la rodilla.</strong>" },
     rollTFL: { name: "Rodillo: TFL", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "El musculito arriba y adelante de la cadera, donde nace la banda iliotibial. <strong>No pases el rodillo por la banda iliotibial en el costado del muslo</strong>: es tendón, no músculo, y rodarla inflama más. Rueda aquí arriba, que es lo que la tensa." },
     rollCalf: { name: "Rodillo: vientre del gemelo", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
-      cue: "<strong>Solo la parte carnosa: nunca pases el rodillo por el tendón</strong> — es tejido muy inervado y la fricción ahí solo lo empeora. Gemelos duros restan movilidad de tobillo, y lo que el tobillo no absorbe lo absorbe la rodilla." },
+      cue: "<strong>Solo la parte carnosa del gemelo: nunca pases el rodillo por el tendón</strong> — es tejido muy inervado y la fricción ahí solo lo empeora. Sentado, el gemelo sobre el rodillo y la otra pierna cruzada encima para cargar. Cuando encuentres el punto que más se queja, párate ahí en vez de ir y venir rápido." },
 
     /* --- movilidad (las cuatro rutinas) --- */
     couch: { name: "Couch stretch", sets: 1, reps: "2 min por lado", hold: 120, holdSides: 2, tag: "Pared",
-      cue: "De rodillas de espaldas a la pared, la rodilla de atrás en el rincón, el otro pie adelante en zancada. <strong>Mete la pelvis antes de buscar más rango</strong> — si no, estiras la lumbar y no el cuádriceps." },
+      cue: "De rodillas de espaldas a una pared o a la base de la cama, empeine de atrás apoyado y el otro pie adelante en zancada. <strong>Mete la pelvis y aprieta el glúteo de la pierna de atrás antes de subir el tronco.</strong> Sin eso, la pelvis rota y el estiramiento se lo lleva la lumbar en vez del psoas y el cuádriceps. Casi nadie necesita subir tanto como cree." },
     pigeon: { name: "Postura de la paloma", sets: 1, reps: "2 min por lado", hold: 120, holdSides: 2, tag: "Sin equipo",
       cue: "Para glúteo mayor y piramidal, que se agarrotan con las horas de sillín y de asfalto. <strong>Respira y suelta</strong>; dos minutos no son dos minutos de forcejeo." }
   };
