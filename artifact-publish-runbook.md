@@ -23,6 +23,8 @@ Three shared pieces, one data file per tool:
 
 A new routine tool is then just: `site/members/<tool>/index.njk` = front matter + inline `window.ACTIVATION_DATA = {...}` (inside `{% raw %}`) + `{% include "partials/activation-tool.njk" %}`. The data model (documented at the top of the engine file) includes per-exercise `cue` (long coaching description), `tag` (equipment), `variants` (each with own mode/cue), and `video: null` — set a YouTube ID there and the Ejercicios tab renders the embed automatically, nothing else to build.
 
+🚨 ***NEVER write an asset path into page JavaScript.*** *(September 8, 2026, and it cost a whole shipped change.)* A setup-first tool injects its engine itself, from inside a `{% raw %}` block the `v` filter cannot reach — so **use `window.TP_ENGINE_SRC`, which both partials publish fingerprinted**, and never a literal `/assets/js/…` string. Caddy serves `/assets/js/*` and `/assets/css/*` with `Cache-Control: immutable, max-age=31536000`: **a bare URL is pinned in every visitor's browser for a year and cannot be busted short of renaming the file.** *This shipped on 24 pages and surfaced as new markup running old JavaScript on a live paid page. `tests/asset-fingerprints.test.js` now fails the build on it.*
+
 **The second engine: `strength-tool.js` + `partials/strength-tool.njk` + `members-fuerza.css`** *(which imports `members-activacion.css` rather than copying it)*. Reads `window.STRENGTH_DATA`: sets × a `reps` **display string rendered verbatim and never parsed**, with a rest timer between sets and the athlete tapping "Serie hecha ✓". **Use it when the prescription is repetitions; use the activation engine when the prescription is a fixed duration per exercise.**
 *Since September 8, 2026 it also takes `hold` / `holdMax` / `holdSides` for the exercises inside a strength routine whose prescription IS a duration — a countdown the athlete starts, which never completes the set. Ranges keep both numbers. `reps` is still never parsed at runtime; the fields are derived from it once at edit time.*
 
@@ -66,6 +68,7 @@ grep -c '<tool>' _site/sitemap.xml                                       # expec
 grep -c '{% raw' _site/members/<tool>/index.html                         # expect 0 (raw tags consumed)
 node tests/workout-links.test.js                                         # every live tool has a /w/ code
 node tests/routine-engines.test.js                                       # both routine engines, faked clock
+node tests/asset-fingerprints.test.js                                    # no bare /assets/ URL can reach a visitor
 ```
 *(`npm test` runs all of them, including the two above.)*
 

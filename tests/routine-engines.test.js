@@ -277,6 +277,79 @@ test("activation: the rest screen carries the next exercise's cue", () => {
   assert.ok(txt(w, "restCue").length > 0, "the rest screen still shows a name and no instruction");
 });
 
+/* ------------------------------------------------ the matrix path itself ---
+   /members/activacion/ is `matrixMode`: the routine does not exist until the
+   athlete answers three questions, and the page injects the engine ITSELF from
+   `window.TP_ENGINE_SRC`. Everything above drives /members/core/, which reaches
+   the engine through the partial — a different code path, and the one that was
+   NOT broken on September 8, 2026. This is the page Iván opened. */
+function matrix(opts) {
+  const w = load("members/activacion", opts);
+  const tick = installClock(w);
+  $(w, "setupGo").click();
+  assert.ok(w.ACTIVATION_DATA, "the setup did not build a routine");
+  injectEngine(w, "activation-tool");
+  return { w: w, tick: tick };
+}
+
+test("matrix: the page publishes a fingerprinted engine URL and uses it", () => {
+  const w = load("members/activacion");
+  assert.ok(/^\/assets\/js\/activation-tool\.js\?v=[a-f0-9]+$/.test(w.TP_ENGINE_SRC || ""),
+    "TP_ENGINE_SRC is missing or unfingerprinted: " + w.TP_ENGINE_SRC);
+  const html = fs.readFileSync(path.join(SITE, "members/activacion", "index.html"), "utf8");
+  assert.ok(/s\.src = window\.TP_ENGINE_SRC/.test(html),
+    "the page still hardcodes an engine path instead of using the published one");
+});
+
+test("matrix: the built routine opens paused, and the Auto toggle responds", () => {
+  const { w, tick } = matrix({ autoChain: false });
+  $(w, "startBtn").click();
+  assert.strictEqual(txt(w, "mainBtn"), "Empezar");
+  tick(8);
+  assert.strictEqual(txt(w, "mainBtn"), "Empezar", "the countdown started on its own");
+  $(w, "autoToggle").click();
+  assert.strictEqual($(w, "autoToggle").getAttribute("aria-pressed"), "true");
+  assert.ok($(w, "autoToggle").classList.contains("on"));
+});
+
+test("matrix: no routine it can build asks for equipment the setup never offered", () => {
+  /* The towel finding, generalised into a standing check. Every combination of
+     the three setup axes is built and every exercise's tag is read back against
+     what THAT combination's equipment question actually promised.
+     🔑 The original defect was not a typo — it was a routine whose contents were
+     unanswerable from the questions asked to reach it, and only a check that
+     walks every combination can say that never happens again. */
+  const w = load("members/activacion");
+  const M = w.ACTIVATION_MATRIX;
+  assert.ok(M && M.build && M.equip, "the matrix did not expose build/equip");
+
+  // What each answer entitles a routine to ask for. "Sin equipo" and a wall are
+  // free everywhere; anything else must have been offered by the answer given.
+  const PROMISED = {
+    none:  /^$/,
+    band:  /minibanda|banda larga/,      // run/bike: mini-band · swim: long band
+    stick: /minibanda|banda larga|bastón|palo/,
+  };
+  const FREE = /sin equipo|pared/;
+
+  const offending = [];
+  for (const sport of ["run", "bike", "swim"]) {
+    for (const moment of ["wake", "sit"]) {
+      for (const opt of M.equip[sport].opts.map((o) => o.v)) {
+        M.build(sport, moment, opt).phases.forEach((ph) =>
+          ph.exercises.forEach((ex) => {
+            const tag = (ex.tag || "").toLowerCase();
+            if (FREE.test(tag)) return;
+            if (PROMISED[opt] && PROMISED[opt].test(tag)) return;
+            offending.push(`${sport}|${moment}|${opt}: ${ex.name} — "${ex.tag}"`);
+          }));
+      }
+    }
+  }
+  assert.strictEqual(offending.length, 0,
+    "equipment not promised by the setup questions:\n       " + offending.join("\n       "));
+});
+
 test("activation: a routine can be walked to the end and shows the done screen", () => {
   const { w, tick } = core({ autoChain: true });
   $(w, "startBtn").click();

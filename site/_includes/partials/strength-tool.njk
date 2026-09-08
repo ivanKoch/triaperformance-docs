@@ -8,6 +8,19 @@
    at parse time). UI chrome comes from site/_data/strengthUi.json off `lang`. #}
 {%- set sui = strengthUi[lang] or strengthUi.es -%}
 <script>window.STRENGTH_UI = {{ sui | dump | safe }};</script>
+{#- 🚨 THE FINGERPRINTED ENGINE URL, published for the setup-first pages
+    (September 8, 2026). Caddy serves /assets/js/* with
+    `Cache-Control: public, max-age=31536000, immutable`, and the 24 tool pages
+    that ask setup questions inject the engine themselves from inside a raw
+    block — where the `v` filter cannot reach — so every one of them shipped a
+    BARE url and pinned that engine in every visitor's browser for a year.
+    ⚠️ The `v` filter was made fail-loud in August precisely so an asset could
+    not slip through unfingerprinted. It guards what passes THROUGH it; a
+    <script> element built in page JavaScript never does. A guard is only a
+    guard for the path it sits on.
+    Found the only way it could be: Iván opened the deployed page and saw the
+    new markup with the old behaviour. -#}
+<script>window.TP_ENGINE_SRC = {{ ("/assets/js/strength-tool.js" | v) | dump | safe }};</script>
 <div class="tool">
 
   <div class="crumb-bar">
