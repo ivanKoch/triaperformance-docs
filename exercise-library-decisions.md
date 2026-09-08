@@ -182,6 +182,39 @@ inventing emphasis there would have been worse than leaving it plain.
 state, not an oversight: no athlete reads two languages, so each language stays
 internally coherent and the cost is maintenance, paid when NEXT #15 runs.*
 
+## ✅ SHIPPED September 8, 2026 — the English and Portuguese cues
+
+**Iván wrote all 33 EN and PT names and cues** (`data/cue_harmonisation_en_pt.json`);
+applied to **86 placements per language, 172 cues, 89 name changes**, by
+`automation/apply-en-pt-harmonisation.js`. **All three languages are now
+harmonised.** *The debt opened this morning was closed the same day.*
+
+### D7a — English adopts Title Case for exercise names.
+*Iván's convention, applied across all 33.* `Cat-Cow`, `Dead Bug`, `Glute Bridge`.
+**Casing is a per-language convention, so this does not conflict with the
+mirror-the-Spanish rule (D-round 3), which governs word choice, not capitals.**
+
+### D7b — Five Portuguese names in the CSV reversed decisions taken earlier the same day, and were NOT applied.
+*His CSV was generated before those calls.* **Kept live:** `Gato-vaca` (not
+Gato-camelo), `O melhor alongamento do mundo` (not the English title on a
+Portuguese page), `Rolo:` / `sobre o rolo` (not "Foam roller:"), `Isquiotibiais
+com toalha`, `Apoio em uma perna` (not the clinical *unipodal*). *Also kept
+`Psoas com aperto de glúteo` over "com ativação" — the cue itself says* "o aperto
+é o exercício", *so the name would have contradicted its own cue.*
+⚠️ ***The general lesson: a CSV exported before a decision session will quietly
+undo it.*** *Diff a returned file against what is live before applying it, never
+against the file that was sent out.*
+
+### D7c — Three corrections to the submitted text.
+- **EN, calf roller:** "highly **nerved** tissue" → "highly **innervated** tissue".
+- **PT, bird dog:** "não pode **tombear**" → "**tombar**" (not a word).
+- **PT register:** three cues (Psoas, Couch stretch, Balanceo lateral) used *tu*
+  imperatives where the other thirty use *você*. Normalised.
+  🚩 ***Portuguese has no register check.*** *Spanish has `automation/register-sweep.py`
+  and it exists because exactly this drifted. **A PT arm for that script is worth
+  building before the next Portuguese content pass** — this was caught by reading,
+  which does not scale.*
+
 ## D4 — Canonical id + name per exercise
 *Not started, and correctly so — it is generated output, not a decision. It falls
 out of applying the merge map, and Iván skims the result rather than authoring it.

@@ -68,23 +68,23 @@ window.CYCLIST_CORE = (function () {
   const L = {
     /* --- entrada en calor --- */
     catcow: { name: "Gato-vaca", sets: 1, reps: "10 repetições", tag: "Sem equipamento",
-      cue: "De quatro apoios, alterne arredondar e arquear a coluna no ritmo da respiração. <strong>Mova vértebra por vértebra</strong>, não em bloco: isto é controle pélvico e articular, não alongamento." },
-    thread: { name: "Thread the needle", sets: 1, reps: "8 por lado", tag: "Sem equipamento",
-      cue: "De quatro apoios, passe um braço por baixo do corpo e gire apoiando o ombro; depois abra esse mesmo braço para o teto, acompanhando com o olhar. <strong>O quadril fica parado e alinhado</strong> — a rotação sai da coluna torácica, que é exatamente o que trava depois de horas no guidão." },
+      cue: "Em quatro apoios, alterne arredondar e arquear a coluna no ritmo da respiração. <strong>O movimento começa na pelve e a coluna acompanha vértebra por vértebra</strong> — não em bloco, e não só no pescoço e nos ombros. Isso é controle pélvico e articular, não um alongamento. Amplitude confortável, não máxima." },
+    thread: { name: "Passar a agulha", sets: 1, reps: "8 por lado", tag: "Sem equipamento",
+      cue: "Em quatro apoios, passe um braço por baixo do corpo até apoiar o ombro; depois abra o mesmo braço em direção ao teto acompanhando com o olhar. <strong>O quadril fica quieto e alinhado</strong>: a rotação sai da coluna torácica, não da lombar." },
     birddog: { name: "Bird dog", sets: 1, reps: "10 por lado", tag: "Sem equipamento",
-      cue: "Estenda braço e perna opostos até a linha do tronco. <strong>Costas planas como se houvesse um copo d'água na lombar</strong>, e aperte o glúteo ao esticar a perna." },
+      cue: "Em quatro apoios, estenda o braço e a perna opostos até a linha do tronco e segure dois ou três segundos. <strong>O quadril fica quadrado com o chão e a lombar quieta</strong>: se abrir para o lado ou as costas arquearem, desça a perna. Imagine um copo d'água na lombar que não pode tombar. Aperte o glúteo ao estender a perna." },
     bridge: { name: "Ponte de glúteos", sets: 1, reps: "15 repetições", tag: "Sem equipamento",
-      cue: "Empurre com os calcanhares e <strong>segure 2 segundos em cima apertando forte os glúteos</strong>. A pausa é o que acorda o glúteo; sem ela são quinze repetições de nada." },
+      cue: "Pés perto dos glúteos. Suba o quadril empurrando pelos calcanhares e <strong>segure dois segundos no alto apertando os glúteos</strong>. A pausa é o exercício; sem ela são só repetições. Desça controlado, sem arquear a lombar. Se sentir nos posteriores, aproxime os pés." },
 
     /* --- circuito --- */
     deadbug: { name: "Dead bug", sets: 1, reps: "12-15 por lado", rest: 15, tag: "Anti-extensão",
-      cue: "Braços para o teto, pernas a 90°. Estenda braço e perna opostos em direção ao chão sem tocá-lo. <strong>A lombar pressiona o chão o tempo todo</strong> — é a capacidade de manter o tronco rígido enquanto as pernas se movem em amplitude grande, que é literalmente pedalar." },
+      cue: "Deitado de barriga para cima, braços para o teto e joelhos a 90°. Estenda o braço e a perna opostos, devagar, sem deixar a lombar sair do chão. <strong>Expire ao estender: é a expiração que cola as costas no chão, não a força do abdômen.</strong> Se a lombar levantar, desça menos a perna. O objetivo é controle, não velocidade." },
     bearTaps: { name: "Prancha de urso com toques no ombro", sets: 1, reps: "16-20 toques", rest: 15, tag: "Anti-rotação",
       cue: "De quatro apoios com os joelhos alguns centímetros fora do chão, toque o ombro oposto com uma mão. <strong>O quadril não balança um grau.</strong> Com o joelho embaixo do quadril, o ângulo fica bem mais parecido com o da bike do que uma prancha longa — e é mais difícil do que parece." },
     sidePlank: { name: "Prancha lateral com elevação de perna", sets: 1, reps: "30-40s por lado", hold: 30, holdMax: 40, holdSides: 2, rest: 15, tag: "Anti-flexão lateral",
-      cue: "Antebraço embaixo do ombro, corpo alinhado, quadril para cima. Estabilizado, suba e desça a perna de cima com controle. <strong>Oblíquos e glúteo médio</strong> — os que evitam que o joelho caia para dentro na fase de empurrar." },
+      cue: "Antebraço sob o ombro, corpo em linha, quadril alto. <strong>Quando estiver estável</strong>, suba e desça a perna de cima com controle. Oblíquos e glúteo médio." },
     slBridge: { name: "Ponte de glúteos unilateral", sets: 1, reps: "12-15 por perna", rest: 15, tag: "Cadeia posterior",
-      cue: "Um calcanhar apoiado perto do bumbum, o outro joelho abraçado no peito. Empurre com o calcanhar. <strong>Se você sente na lombar, encaixe a pelve e baixe a altura</strong>: a ideia é isolar o glúteo, não deixar o psoas dominante fazer todo o trabalho de novo." },
+      cue: "Um calcanhar perto dos glúteos, o outro joelho abraçado no peito. Empurre pelo calcanhar e aperte o glúteo no alto. <strong>Se sentir na lombar, encaixe a pelve e baixe a altura</strong>: a ideia é isolar o glúteo, não deixar o psoas fazer o trabalho de novo." },
     crossReach: { name: "Prancha com alcance cruzado", sets: 1, reps: "10-12 alcances", rest: 15, tag: "Anti-rotação",
       cue: "Em prancha alta, estenda uma mão longe e cruzada, passando da linha da outra mão, devagar. <strong>O quadril não roda nem afunda.</strong> É a versão sem peso do arrasto: pede a mesma tensão cruzada entre o dorsal de um lado e o glúteo do outro — a conexão de puxar o guidão enquanto empurra o pedal oposto." },
     longPlank: { name: "Prancha longa", sets: 1, reps: "20-30s", hold: 20, holdMax: 30, rest: 75, tag: "Anti-extensão",
@@ -92,9 +92,9 @@ window.CYCLIST_CORE = (function () {
 
     /* --- enfriamiento --- */
     hipflex: { name: "Psoas com aperto de glúteo", sets: 1, reps: "60s por perna", hold: 60, holdSides: 2, tag: "Meio ajoelhado",
-      cue: "Meio ajoelhado, e <strong>aperte forte o glúteo da perna de trás antes de avançar</strong>. Esse aperto é o que desliga o psoas e deixa ele alongar de verdade. Depois de horas de selim, é o alongamento que mais devolve." },
+      cue: "Meio ajoelhado, pé da frente apoiado. <strong>Encaixe a pelve e aperte forte o glúteo de trás antes de avançar o quadril.</strong> Sem esse aperto você alonga a lombar, não o psoas: o aperto é o exercício." },
     child: { name: "Postura da criança", sets: 1, reps: "1-2 min", hold: 60, holdMax: 120, tag: "Sem equipamento",
-      cue: "Sentado sobre os calcanhares, braços longos à frente. <strong>Respire fundo e devagar</strong> para soltar lombar e dorsais. Não é enchimento: é onde o sistema baixa a rotação depois de 20 minutos de tensão." }
+      cue: "Sentado sobre os calcanhares, braços longos à frente, testa no chão. Respire fundo na direção da lombar e deixe o quadril descer um pouco mais a cada expiração. <strong>O objetivo é baixar as rotações, não alongar mais.</strong>" }
   };
 
   const WARMUP  = ["catcow", "thread", "birddog", "bridge"];
