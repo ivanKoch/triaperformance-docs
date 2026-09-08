@@ -148,6 +148,10 @@ function csv(headers, data){
 const H1=['artifact_slug','artifact','engine','exercise_id','type','parent_exercise','phase',
           'name','mode','tag','sets','reps','rest_s','hold_s','routine_refs','variant_count','video','cue'];
 fs.writeFileSync(path.join(ROOT,'data/members_exercises.csv'), csv(H1, rows));
+/* The intermediate the merge-map script reads. It lives in the repo on purpose:
+ * an earlier version wrote it to a session scratch directory, which meant the
+ * pipeline worked only inside the session that created it. */
+fs.writeFileSync(path.join(ROOT,'data/members_exercises.json'), JSON.stringify(rows, null, 1));
 
 // ---- uniques, keyed on normalised name ----
 const norm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')

@@ -1,5 +1,12 @@
 # Duplicate review — members-area exercise library
 
+> 🛑 **SUPERSEDED September 8, 2026. Evidence only — do not read this as open work.**
+> Every cluster and every tier-C pair below has been adjudicated. The decisions and
+> their reasoning live in `exercise-library-decisions.md`; the resulting cues live in
+> `exercise-library-canonical-cues.md`. This file is a generated artifact
+> (`automation/cluster-exercise-duplicates.js`) kept as the raw evidence behind those
+> calls, and it is regenerable in one command.
+
 Generated 2026-09-07 by `automation/extract-members-exercises.js` + the clustering pass.
 
 **246 distinct (artifact, exercise) records → 205 candidate canonical exercises.**

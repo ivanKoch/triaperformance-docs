@@ -1,5 +1,5 @@
 const fs=require('fs'),path=require('path');
-const rows=require(process.env.HOME+'/work/exercises.json');
+const rows=require(require('path').join(process.argv[2]||'.','data/members_exercises.json'));
 const ROOT=process.argv[2];
 const norm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
 const STOP=new Set(['de','del','la','el','en','con','y','a','al','los','las','un','una','sin','por','para','the','of']);

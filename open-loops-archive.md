@@ -8,6 +8,41 @@
 
 ---
 
+## Closed — September 8, 2026 (Routine engines — athlete feedback, both engines, 25 paid pages) — *and the stale-JavaScript defect that shipped with it*
+
+**Confirmed working live by Iván**, on the deployed page, after the second deploy.
+
+**The original item, preserved:**
+
+- [ ] 🆕 **Look at the routine tools on a real screen, and decide whether the knee routine is the session you mean to prescribe.** *(Opened September 8, 2026, from the athlete-feedback session. Home docs: `ai-infrastructure-documentation.md` §48, `knee-strength-brief.md`, `activation-matrix.md` §v1.2.)*
+  **Needs Iván, and both halves are judgement, not work:**
+  ~~*(a)* **The auto-chain toggle is new CSS on nine paid pages and no automated check can judge it.**~~ ✅ ***DONE — rendered and probed in a real headless browser at 390px and 1440px:*** *the toggle flips, the click lands inside the button with nothing overlapping, no page errors, no horizontal overflow.* **What that check did NOT cover is what actually broke — see (a2).**
+  *(a2)* 🚨 ***The first deploy shipped new markup running August's JavaScript, on the live page.*** **24 tool pages injected their engine with a bare `/assets/js/` URL, under Caddy's one-year `immutable` header** — invisible to a clean build, a green suite and the 15 engine assertions written the same day, because those inject the engine directly and test the code rather than the page's route to it. **Fixed** *(one fingerprinted `TP_ENGINE_SRC` published by the partials; no page names an engine path any more)*, **and guarded** *(`tests/asset-fingerprints.test.js`)*. 🔑 ***The lesson: `| v` was made fail-loud in August for exactly this class and did not help, because a guard only guards the path it sits on.*** ***Nothing for Iván to do about the poisoned caches — the URL now carries a hash no browser has, so the next deploy is current for everyone.***
+  *(b)* 🚨 **`/members/rodillas/` home + roller now states ≈52 minutes**, against a dosing line that says twice a week on easy endurance days. *(Achilles ≈45, shoulder ≈38, cyclist core ≈26.)* **Nothing is wrong with the number — the routines really are that long, and the estimate just made it visible for the first time.** *Whether that is the session he intends is a coaching call and is deliberately not made here.*
+  *(c)* Commit, push, deploy.
+  ✅ *Everything else on this branch is done and verified: clean build, `npm test` green including the 15 new engine assertions, and the Spanish register sweep clean on every file touched.*
+  ⚠️ ***Two fixes made in passing that belong to other branches, both because they kept `npm test` red — and a red suite stops at its first failing file, so every test after it was never running at all.*** *(1)* **`tests/internal-links.test.js` failed on `/admin/ideas/`**, which is *correct* — it is served by the content-engine Flask admin, not built by Eleventy — so the test now carries a two-entry `SERVED_ELSEWHERE` allow-list with the reason attached. *(2)* **The pace converter shipped this morning without its `/w/` code**, which is the fourth instance of the missed-inventory-row pattern the registry's own comment already names three times; `ritmo` added, generic slot only.
+
+✅ ***CLOSED September 8, 2026 — tested and confirmed by Iván on the live page.*** *Four pieces of athlete feedback, all real, all shipped: every routine block opens paused with its cue on screen behind a remembered auto-chain toggle; duration prescriptions get a countdown the athlete starts, which never completes the set; the running activation stopped asking for a towel its equipment question never offered; and every routine artifact states an estimated time to completion.* **Full record: `ai-infrastructure-documentation.md` §48. Content decisions: `knee-strength-brief.md`, `activation-matrix.md` §v1.2.**
+
+🚨 ***The finding worth carrying forward is not any of the four — it is the defect that shipped alongside them and made all four invisible on the live site.*** **24 tool pages injected their engine from page JavaScript with a bare `/assets/js/` URL**, inside a `{% raw %}` block the `v` filter cannot reach, under Caddy's `Cache-Control: immutable, max-age=31536000`. *So the first deploy served new markup running August's engine: the new toggle rendered and did nothing, and the old timer behaviour persisted.* **Those pages had been pinning their engine in every visitor's browser for a year.**
+
+🔑 ***The lesson, and it generalises well past this repo:*** *`| v` was changed from fail-open to fail-loud in August specifically so an asset could not ship unfingerprinted, and its docstring spells out this exact consequence. It did not help.* **A guard only guards the path it sits on — and the more filters a codebase adds, the more confidently it stops looking at what bypasses them.**
+
+⚠️ ***And the defect was invisible from inside the build.*** *Clean build. Green suite. `tests/routine-engines.test.js` — written that same session, specifically to check these two engines — passed 15 assertions, because it injects the engine source directly and therefore tests the code rather than the page's route to it.* **The only instrument that saw it was Iván opening the deployed page**, which is §47 and §23's discriminator for the third time in a month and the first time it was not a visual defect. *His report is why it took one step: he named the thing that DID respond (hover) alongside the thing that did not (click), which separated "CSS is live, JS is not" from every other hypothesis.*
+
+**What was built, beyond the four fixes:**
+- **One fingerprinted `TP_ENGINE_SRC`, published by both partials. No page names an engine path any more** — one place to get this right instead of 24.
+- **`tests/asset-fingerprints.test.js`** — reads the *served HTML* and fails on any quoted `/assets/js` or `/assets/css` URL without `?v=`. *Built output rather than templates, deliberately: the served HTML is the only place where what the template asked for and what the page actually requests are both visible at once.*
+- **`tests/routine-engines.test.js`, 18 assertions** — including the matrix page end to end *(the earlier 15 drove `/members/core/`, the partial's path, which is the one that was **not** broken)*, and a standing check that **builds every combination of the three setup axes and reads each exercise's tag back against what that combination's equipment question promised**. *The towel finding turned into a rule. Verified against the pre-fix data, where it correctly fails on both `run|wake` routines.*
+- **The toggle rendered and probed in a real headless browser** at 390px and 1440px before handing back: flips, click lands inside the button, nothing overlapping, no page errors, no horizontal overflow.
+
+**Two fixes made in passing that belonged to other branches, both because they kept `npm test` red — and a red suite stops at its first failing file, so everything after it was never running:** `tests/internal-links.test.js` failed on `/admin/ideas/`, which is correct and is served by the Flask content-engine admin *(now a documented `SERVED_ELSEWHERE` allow-list)*; and the pace converter shipped that morning without its `/w/` code, the fourth instance of the missed-inventory-row pattern its own registry comment already names three times *(`ritmo`, generic slot)*.
+
+***Left open and moved back to NOW as its own item, because it is a coaching decision and not a build one:*** *the knee routine now states ≈52 minutes against a twice-a-week dosing line.*
+
+---
+
 ## Closed — September 8, 2026 (HubSpot decommission — portal deleted, zone cleaned, nothing HubSpot-shaped remains)
 
 **The original item, preserved:**
