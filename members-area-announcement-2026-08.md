@@ -1,6 +1,8 @@
 # Members-area announcement — the un-told cohort (August 2026)
 
-**Status:** draft, not sent **· verified: 2026-08-14**. Owner: Iván.
+🗄️ **RETIRED September 8, 2026 — this doc's job is done.** *Its own header said "retire once sent."* **SENT September 7, 2026** by Iván to every 1:1 athlete, each with their own link, riding the weekly feedback. *Kept rather than deleted because the three pre-send checks below are the reusable part — the next per-person send to this cohort should run them again.* **The measurement lives in `open-loops.md` (Backlog → "Read the members-area announcement") and the result goes in `monthly-close/2026-09.md`.** *Closing record: `open-loops-archive.md`, September 7, 2026.*
+
+~~**Status:** draft, not sent **· verified: 2026-08-14**.~~ Owner: Iván.
 **Why this exists:** `open-loops.md` NOW → "33 athletes have a members-area password nobody ever told them about." Of ~35 real athletes with active tokens, two have ever opened the members area. The July 25, 2026 backfill granted access to 35 1:1 coaching athletes and deliberately sent zero emails (`ai-infrastructure-documentation.md` §13). This is the email that closes that gap.
 
 ---
@@ -16,7 +18,7 @@
 
 2. **Reconcile against Twenty first.** An active token is not proof of an active coaching relationship. Check `customerType` and `churnDate` for every address on the list and drop anyone churned. Emailing a former athlete about "your members area" is worse than not emailing at all.
 
-3. **Spanish only this round.** One never-logged-in athlete is English (`tischhausern`). ~~`/members/en/` exists as of Aug 10, 2026 but its library is empty — sending her there today delivers on the promise with an empty room. She gets a personal note once the zone calculator ships, not this blast.~~ ⚠️ ***Corrected September 8, 2026 (hygiene pass): the empty-room reason is no longer true, and its own stated trigger fired 26 days ago.*** *`/members/en/` carries* **all 16 live tools** *— verified this session by diffing every `site/_data/library.json` key against the filesystem — and the English zone calculator, the exact condition this line named, shipped August 13, 2026.* **The English athlete is now a decision, not an exclusion**, *and it is Iván's: include her in this send, or send the personal note the original line promised.* **Whichever he picks, "her library is empty" is not the reason.** Portuguese: none in this cohort.
+3. **Spanish only this round.** One never-logged-in athlete is English (`tischhausern`). ~~`/members/en/` exists as of Aug 10, 2026 but its library is empty — sending her there today delivers on the promise with an empty room. She gets a personal note once the zone calculator ships, not this blast.~~ ⚠️ ***Corrected September 8, 2026 (hygiene pass): the empty-room reason is no longer true, and its own stated trigger fired 26 days ago.*** *`/members/en/` carries* **all 16 live tools** *— verified this session by diffing every `site/_data/library.json` key against the filesystem — and the English zone calculator, the exact condition this line named, shipped August 13, 2026.* ✅ ***Answered the same day, and it had already been answered before the question was written:*** **Nadine was included** — *Iván sent her the members area and her English token as part of the September 7 send.* **So the correction above stands as to the reason and was overtaken as to the decision.** Portuguese: none in this cohort.
 
 ---
 

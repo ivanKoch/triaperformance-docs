@@ -862,6 +862,40 @@
 ---
 
 
+
+
+## Closed — the LinkedIn rewrite and `/ai-systems/` (done week of Sept 1; recorded September 8, 2026)
+
+- [x] ✅ ~~**#12 · Publish the LinkedIn rewrite and the `/ai-systems/` link.**~~ **DONE the week of September 1, 2026 — Iván, confirmed September 8.** *Page live at `/ai-systems/`, copy blocks pasted, Featured section set.* 📈 ***And it is already returning something: profile views up, plus one inbound AI-related connection approach.*** *n=1 on a page that has been live a week, so it is a signal and not a result — but it is the first evidence the positioning rewrite reaches an audience the coaching business never had.*
+
+  🚨 ***This item was reported to Iván as OPEN on September 8, and it had been done for a week.*** *It was recovered from `_to_delete/.next_items_tmp.md`, whose text said "What is Iván's: deploy, then paste" — written September 4 and never updated.* **So that temp file was 0-for-3, not 1-for-3 as the pass first recorded:** *all three items in it were already closed, and every one of them was verified against something before being reported except this one — which was verified against the live page (deployed ✅) and not against the LinkedIn profile, the half that was actually the open question.* 🔑 ***Checking the easy half of a two-part item and reporting the whole thing as open is the Step 2 failure wearing a verification badge.*** **The part that could not be checked from here was the part that mattered, and the correct move was to ask, not to infer from the half that could.**
+
+  ***#13 and #14, for the record, both closed — do not re-raise:***
+  - **#13 · Source the 670% growth figure** — **DONE September 5, 2026.** `data/revenue_history.csv` exists and reproduces it: **+673%**, and year three passed year two's full-year total in five months rather than seven. Recorded in this file's own header the same day.
+  - **#14 · Seven broken internal links in agent-written articles** — **DONE September 4, 2026, both halves.** *Verified this session against the source rather than against the note: all seven invented URLs return zero hits across `site/`, and `writer_agent.py` now carries `allowed_urls(lang)`, a hard-stop validator that rejects non-existent internal links, and the prompt rule "NEVER WRITE AN INTERNAL URL FROM MEMORY."* **That is fix (b), the structural one the item said was the only one that stops it recurring.** Closing record: `open-loops-archive.md` §"Agent-invented internal links (NOW item + NEXT #14) — closed September 4, 2026."
+
+---
+
+## Closed — September 7, 2026 · the members-area announcement (recorded September 8)
+
+*Iván sent it the day before the weekly hygiene pass ran, and told the pass afterwards. **Both halves of it closed at once** — the NOW item that had carried the finding since August 10, and the NEXT item close #1 opened with a September 12 trigger.*
+
+- [x] ✅ ~~**33 athletes have a members-area password nobody ever told them about.**~~ **SENT September 7, 2026 — Iván told every 1:1 athlete, each with their own link, riding the weekly feedback.** *The July 25 backfill's deliberate silence (`ai-infrastructure-documentation.md` §13) is over after six weeks.* ***The English athlete was included, not excluded: Nadine has her English token and the members area.*** *(The Aug 10 "she gets nothing, deliberately" decision and the hygiene pass's Sept 8 note unparking it are both superseded by the send — Iván did it before either was read. Original item and its scope checks: `open-loops-archive.md`, September 8.)*
+  ⚠️ ***The measurement is the open half and it is now its own item below*** — *`access_count` was the only reason this item ever had a number in it, and a send with no read is the same room with better intentions.*
+
+- [x] ✅ ~~🚨 **Ship the members-area announcement. Trigger: sent by September 12, 2026.**~~ **SENT September 7, 2026, five days inside its own trigger.** *Every 1:1 athlete, each with their own link, riding the weekly feedback rather than as a standalone blast — the timing principle from `referral-program-brief.md` §2, applied without being asked.* **This was close #1's headline finding — All-Access sold and undelivered, NRR 27.3%, a room with two lifetime users — and it is the first deliberate attempt to move it.** *The read is now its own item in the Backlog; do not re-raise the send.*
+
+---
+
+### What the send settles, and the one thing it does not
+
+**Settled: the English athlete.** *Nadine has her English token and the members area. The August 10 decision — "she gets nothing, deliberately, revisit when the zone calculator is live in English" — was correct on its date and was overtaken by events twice: the calculator shipped **August 13**, and Iván included her in the send on **September 7**.* ⚠️ ***Worth recording that the September 8 hygiene pass found the stale trigger and wrote it up as a live decision Iván still owed — hours after he had already made it.*** **The pass was right about the staleness and wrong about the state**, *which is the standing hazard in a weekly pass reading a repo that a person edits daily, and the reason its own Step 2 rule says to grep the owning doc before reporting anything as open. Here there was no owning doc to grep: the send happened in WhatsApp.* 🔑 **A repo cannot be checked against work that never touches it. That is an argument for telling it, not for checking harder.**
+
+**Not settled: whether anyone opened the room.** *The whole item existed because of a number — two lifetime users out of 33 — and the send does not move that number, it only creates the conditions for it to move. Tracked as its own Backlog item, read after seven days, recorded in `monthly-close/2026-09.md`.*
+
+
+---
+
 ## Closed — September 8, 2026 (weekly hygiene pass)
 
 *Nine items moved out of `open-loops.md`, closing notes intact. **Eight were already ticked `[x]` and had simply never been moved** — six days after the September 2 split whose entire finding was that 41 items had been ticked and never moved. ⚠️ **That split fixed the file and, again, not the behaviour: the rule "an item is closed when it is in this file" survived six days.*** *The ninth was the reverse failure and is the more interesting one — see the activation-engine item below.*
