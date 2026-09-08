@@ -1,0 +1,193 @@
+/* Pace converter — component styles.
+ *
+ * Theme-agnostic, same arrangement as zones-calculator.css and for the same
+ * reason: brand-guidelines.md §7.1 puts the public site on white and the
+ * members-area interactive tools on carbon, and this one component ships in
+ * both. Every colour reads from a variable defined on `.pc`; the members copy
+ * adds `.pc--dark` and reassigns them. One component, two skins, one bug fix.
+ */
+
+.pc {
+  --pc-surface: #ffffff;
+  --pc-surface-2: #edf3fb;
+  --pc-border: #e4e6e1;
+  --pc-text: #1e2019;
+  --pc-dim: #565a52;
+  --pc-accent: #004aad;
+  --pc-accent-soft: rgba(0, 74, 173, 0.08);
+  --pc-on-accent: #ffffff;
+
+  /* Left-aligned, not centred — the mistake documented at the top of
+     zones-calculator.css. A max-width says how wide a block is, never where it
+     starts; `margin: 0 auto` here would put the tool's left edge 126px right of
+     the hero and the nav on a wide screen. */
+  margin: 0;
+  max-width: 780px;
+}
+
+.pc--dark {
+  --pc-surface: #171b21;
+  --pc-surface-2: #1f242c;
+  --pc-border: #2a313b;
+  --pc-text: #f2f3f1;
+  --pc-dim: #8b9089;
+  --pc-accent: #4f8fdb;
+  --pc-accent-soft: rgba(0, 74, 173, 0.22);
+  --pc-on-accent: #ffffff;
+}
+
+.pc, .pc * { box-sizing: border-box; }
+.pc p { color: var(--pc-dim); }
+
+/* `:not(.pc-btn)` for the same reason zones-calculator.css needs it: a button
+   that happens to be an <a> matches both rules, and repainting its label in the
+   accent colour on top of an accent-coloured button makes it unreadable. */
+.pc a:not(.pc-btn) { color: var(--pc-accent); }
+.pc a:not(.pc-btn):hover { text-decoration: underline; }
+
+.pc-help { font-size: 15px; margin: 0 0 20px; max-width: 62ch; line-height: 1.55; }
+.pc-sync { margin-bottom: 24px; }
+
+/* --- the four fields --------------------------------------------------- */
+
+/* Two columns, and the pairing is the point: pace sits above pace, speed sits
+   above speed, so the two conversions a runner actually makes read across a row
+   rather than diagonally. On a phone it collapses to one column in that same
+   order — km, mile, km/h, mph. */
+.pc-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 24px;
+}
+@media (max-width: 640px) { .pc-grid { grid-template-columns: 1fr; gap: 18px; } }
+
+.pc-field label {
+  display: block; font-size: 14px; font-weight: 700;
+  color: var(--pc-text); margin-bottom: 6px;
+}
+.pc-field .pc-note {
+  font-size: 13px; color: var(--pc-dim); margin: 6px 0 0; line-height: 1.4;
+}
+
+.pc-time { display: flex; align-items: center; gap: 8px; }
+.pc-time > span { color: var(--pc-dim); font-size: 18px; font-weight: 700; }
+
+.pc input[type="number"],
+.pc input[type="text"] {
+  width: 100%;
+  background: var(--pc-surface); color: var(--pc-text);
+  border: 1px solid var(--pc-border); border-radius: 4px;
+  padding: 11px 12px;
+  font-size: 20px; font-weight: 700; font-family: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.pc-time input[type="number"] { width: 88px; text-align: center; }
+/* A speed is four characters. Left full-width it rendered as a 500px box holding
+   "12", which reads as an unfinished field and made the two speed rows look like
+   a different kind of input from the two pace rows above them. Matches the width
+   of a min:sec pair, so the four fields form a block. */
+.pc-speed { max-width: 190px; }
+.pc input:focus { outline: none; border-color: var(--pc-accent); box-shadow: 0 0 0 3px var(--pc-accent-soft); }
+
+/* The spinner arrows are noise on a field someone types two digits into, and on
+   a 88px box they eat a third of the width. Removed in both engines. */
+.pc input[type="number"] { -moz-appearance: textfield; }
+.pc input[type="number"]::-webkit-outer-spin-button,
+.pc input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.pc-error {
+  background: #fdecea; color: #b3261e; font-size: 14px;
+  border-radius: 4px; padding: 10px 14px; margin-top: 18px;
+}
+.pc--dark .pc-error { background: rgba(179, 38, 30, .18); color: #f7b4b0; }
+.pc-error[hidden] { display: none; }
+
+.pc-actions { margin-top: 20px; }
+.pc-reset {
+  background: none; border: none; padding: 0;
+  font: inherit; font-size: 14px; color: var(--pc-accent);
+  cursor: pointer; text-decoration: underline;
+}
+
+/* --- treadmill + table blocks ------------------------------------------ */
+
+/* `padding: 0` is load-bearing. These blocks are <section> elements — the right
+   tag for a headed region — and site.css puts `section { padding: 96px 0 }` on
+   every one of them site-wide, which is correct for a page's top-level bands and
+   absurd inside a component: it opened ~200px of empty white between the tool
+   and the treadmill readout, and again before the table. Caught on a screenshot,
+   not by any check — the same class of defect as the Aug 13, 2026 zones bugs. */
+.pc-block { margin-top: 44px; padding: 0; }
+.pc-block > h2 {
+  font-size: 20px; font-weight: 700; color: var(--pc-text);
+  margin: 0 0 6px; letter-spacing: -0.01em;
+}
+
+/* Two rows of chips, km/h then mph. Each chip is one treadmill setting and the
+   pace it really gives — the speed is the thing to find on the console, so it
+   leads and carries the weight. */
+.pc-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.pc-chip {
+  display: flex; flex-direction: column; gap: 2px;
+  background: var(--pc-accent-soft); border-radius: 8px;
+  padding: 12px 16px; min-width: 148px;
+}
+.pc-chip strong {
+  font-size: 20px; font-weight: 700; color: var(--pc-text);
+  font-variant-numeric: tabular-nums;
+}
+.pc-chip em {
+  font-style: normal; font-size: 13px; color: var(--pc-dim);
+  font-variant-numeric: tabular-nums;
+}
+.pc-chip--exact { border: 1.5px solid var(--pc-accent); }
+
+/* 21 rows × 4 columns fits every phone, but the horizontal scroller stays: it
+   costs nothing when it is not needed and it is the difference between a wide
+   table scrolling inside its own box and the whole page scrolling sideways. */
+.pc-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* Capped, not full-width. Four short numeric columns stretched across 780px put
+   ~200px of nothing between "4:30" and "7:15", which is exactly the distance the
+   eye has to travel to read one row — the lookup this table exists for. It fills
+   the width it needs on a phone and stops there on a desktop. */
+.pc-table {
+  width: 100%; max-width: 520px; border-collapse: collapse; font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+.pc-table thead th {
+  text-align: right; font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--pc-dim); font-weight: 700; padding: 0 0 8px 16px;
+  border-bottom: 1px solid var(--pc-border); white-space: nowrap;
+}
+.pc-table tbody th, .pc-table td {
+  text-align: right; padding: 10px 0 10px 16px;
+  border-bottom: 1px solid var(--pc-border); color: var(--pc-text);
+  white-space: nowrap;
+}
+/* The min/km column is the one people look up FROM, so it is the row's label —
+   a <th scope="row">, left-aligned and bold, not a cell that happens to be
+   first. Screen readers announce it with every value in the row. */
+.pc-table thead th:first-child,
+.pc-table tbody th { text-align: left; padding-left: 0; font-weight: 700; }
+.pc-table tbody tr:hover td, .pc-table tbody tr:hover th { background: var(--pc-accent-soft); }
+
+/* --- cross-link out ----------------------------------------------------- */
+
+.pc-cross {
+  background: var(--pc-surface-2); border: 1px solid var(--pc-border);
+  border-radius: 8px; padding: 26px 28px; margin-top: 48px;
+}
+.pc-cross h2 { font-size: 18px; font-weight: 700; color: var(--pc-text); margin: 0 0 8px; }
+.pc-cross p { font-size: 15px; margin: 0 0 14px; max-width: 60ch; }
+.pc-cross a { font-size: 15px; font-weight: 700; }
+
+/* --- page furniture for the three public pages -------------------------- */
+/* Same shape as .zc-hero, deliberately: these two tools sit next to each other
+   under Recursos and a reader moving between them should not notice a change of
+   page design. Kept as its own class rather than reusing .zc-hero, because
+   loading the zones stylesheet on this page to borrow one rule would drag 240
+   lines of unrelated component CSS with it. */
+.pc-hero { padding: 72px 0 48px; border-bottom: 1px solid var(--mist); }
+.pc-hero h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.02em; margin: 8px 0 14px; max-width: 20ch; }
+.pc-hero .pc-lede { font-size: 18px; color: var(--slate); max-width: 62ch; margin: 0; }
+@media (max-width: 640px) { .pc-hero { padding: 48px 0 32px; } .pc-hero h1 { font-size: 28px; } }

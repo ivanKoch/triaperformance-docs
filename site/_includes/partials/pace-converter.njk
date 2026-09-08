@@ -1,0 +1,137 @@
+{#- Pace converter — the whole tool, in one includable partial.
+
+    Used by three public pages (/conversor-de-ritmo/ + the EN and PT siblings)
+    and by the three members copies. One component, so a fix lands everywhere.
+
+    Page front matter controls it:
+      pcDark  — true on the members copies (brand-guidelines.md §7.1: public is
+                white-first, members interactive tools are dark). Same one-
+                component-two-skins arrangement as the zones calculator; the
+                colours are variables on `.pc` and `.pc--dark` reassigns them.
+      pcCross — false on the members copies. The cross-link at the foot sends a
+                public reader to the zones calculator; a subscriber already has
+                the whole library one click away and does not need to be sold it.
+
+    Copy comes from _data/paceUi.json, the reference table from _data/paceTable.js.
+    Neither is typed into this file — the table in particular is generated at
+    BUILD time and sits in the HTML, because it is this page's indexable content
+    and the thing someone searching "5:00 min/km en millas" actually wants. -#}
+
+{%- set ui = paceUi[lang] or paceUi.es -%}
+
+<div class="pc{% if pcDark %} pc--dark{% endif %}" id="pc" data-dec="{{ ui.dec }}">
+
+  {#- ------------------------------------------------------ the four fields -#}
+  {#- All four are live and bidirectional: whichever one you touch is the input
+      and the other three are output, for that keystroke. There is no Convert
+      button on purpose — the RaceID page this was modelled on makes you press
+      one, and a button between a runner and a number they already know is pure
+      friction. -#}
+  <p class="pc-help pc-sync">{{ ui.syncHelp }}</p>
+
+  <div class="pc-grid">
+    {#- Split minute/second entry, same reasoning as the zones calculator: a
+        single free-text "4:32" box is the most common data-entry failure in
+        tools like this, and two number inputs cannot be mis-parsed. -#}
+    <div class="pc-field pc-field--time">
+      <label for="pc-km-min">{{ ui.kmPaceLabel }}</label>
+      <div class="pc-time">
+        <input type="number" id="pc-km-min" class="pc-in" data-unit="kmpace" inputmode="numeric"
+               min="0" max="59" step="1" aria-label="{{ ui.kmPaceLabel }} — {{ ui.minAria }}">
+        <span aria-hidden="true">:</span>
+        <input type="number" id="pc-km-sec" class="pc-in" data-unit="kmpace" inputmode="numeric"
+               min="0" max="59" step="1" aria-label="{{ ui.kmPaceLabel }} — {{ ui.secAria }}">
+      </div>
+      <p class="pc-note">{{ ui.kmPaceNote }}</p>
+    </div>
+
+    <div class="pc-field pc-field--time">
+      <label for="pc-mi-min">{{ ui.miPaceLabel }}</label>
+      <div class="pc-time">
+        <input type="number" id="pc-mi-min" class="pc-in" data-unit="mipace" inputmode="numeric"
+               min="0" max="59" step="1" aria-label="{{ ui.miPaceLabel }} — {{ ui.minAria }}">
+        <span aria-hidden="true">:</span>
+        <input type="number" id="pc-mi-sec" class="pc-in" data-unit="mipace" inputmode="numeric"
+               min="0" max="59" step="1" aria-label="{{ ui.miPaceLabel }} — {{ ui.secAria }}">
+      </div>
+      <p class="pc-note">{{ ui.miPaceNote }}</p>
+    </div>
+
+    {#- type="text" + inputmode="decimal", NOT type="number": these two fields
+        must accept a comma as the decimal mark, and a number input silently
+        rejects "13,3" in an es-* locale — the field simply reads as empty. -#}
+    <div class="pc-field">
+      <label for="pc-kmh">{{ ui.kmhLabel }}</label>
+      <input type="text" id="pc-kmh" class="pc-in pc-speed" data-unit="kmh"
+             inputmode="decimal" autocomplete="off" spellcheck="false">
+      <p class="pc-note">{{ ui.kmhNote }}</p>
+    </div>
+
+    <div class="pc-field">
+      <label for="pc-mph">{{ ui.mphLabel }}</label>
+      <input type="text" id="pc-mph" class="pc-in pc-speed" data-unit="mph"
+             inputmode="decimal" autocomplete="off" spellcheck="false">
+      <p class="pc-note">{{ ui.mphNote }}</p>
+    </div>
+  </div>
+
+  <div class="pc-error" id="pc-error" hidden>{{ ui.error }}</div>
+
+  <div class="pc-actions">
+    <button type="button" class="pc-reset" id="pc-reset">{{ ui.resetLabel }}</button>
+  </div>
+
+  {#- ---------------------------------------------------------- treadmill -#}
+  {#- Iván's addition, September 8, 2026, and the reason this page is worth
+      building rather than linking to someone else's converter: an athlete with
+      "4:30/km" written in the session has to translate it into a speed dial that
+      moves in 0.1 steps, and the exact speed for 4:30 (13.33 km/h) is not a
+      setting any treadmill has. So the answer is not one number — it is the two
+      settings either side and what each one really gives you. -#}
+  <section class="pc-block">
+    <h2>{{ ui.treadmillTitle }}</h2>
+    <p class="pc-help">{{ ui.treadmillHelp }}</p>
+    <div class="pc-chips" id="pc-tread-kmh"></div>
+    <div class="pc-chips" id="pc-tread-mph"></div>
+  </section>
+
+  {#- ------------------------------------------------------------- table -#}
+  <section class="pc-block">
+    <h2>{{ ui.tableTitle }}</h2>
+    <p class="pc-help">{{ ui.tableIntro }}</p>
+    <div class="pc-scroll">
+      <table class="pc-table">
+        <thead>
+          <tr>
+            <th scope="col">{{ ui.thKm }}</th>
+            <th scope="col">{{ ui.thMi }}</th>
+            <th scope="col">{{ ui.thKmh }}</th>
+            <th scope="col">{{ ui.thMph }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for r in paceTable %}
+          <tr>
+            <th scope="row">{{ r.km }}</th>
+            <td>{{ r.mi }}</td>
+            <td>{{ r.kmh | replace(".", ui.dec) }}</td>
+            <td>{{ r.mph | replace(".", ui.dec) }}</td>
+          </tr>
+          {%- endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {#- ------------------------------------------------------- cross-link -#}
+  {%- if pcCross !== false %}
+  <aside class="pc-cross">
+    <h2>{{ ui.crossTitle }}</h2>
+    <p>{{ ui.crossBody }}</p>
+    <a href="{{ ui.crossUrl }}">{{ ui.crossLink }}</a>
+  </aside>
+  {%- endif %}
+</div>
+
+<script id="pc-ui" type="application/json">{{ ui | dump | safe }}</script>
+<script src="{{ '/assets/js/pace-converter.js' | v }}"></script>

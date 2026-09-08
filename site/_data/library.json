@@ -20,6 +20,18 @@
         "memberDesc": "Convierte tu test en tus siete zonas — ritmo, potencia y pulso, en los tres deportes. Incluye cómo testear bien, tu registro de tests, y la guía de sesiones en PDF."
       },
       {
+        "tag": "Calculadora",
+        "name": "Conversor de Ritmo",
+        "desc": "Tu ritmo en min/km, en min/milla y en velocidad — con los dos ajustes de cinta más cercanos y el ritmo real que te da cada uno. Más la tabla de equivalencias de 3:00 a 8:00 el kilómetro.",
+        "key": "pace",
+        "url": "/conversor-de-ritmo/",
+        "gated": false,
+        "category": "numbers",
+        "memberUrl": "/members/conversor-de-ritmo/",
+        "memberCta": "Abrir el conversor →",
+        "memberDesc": "Tu ritmo en min/km, en min/milla y en velocidad, con los dos ajustes de cinta más cercanos y el ritmo real de cada uno."
+      },
+      {
         "tag": "Rutina",
         "name": "Activación",
         "desc": "Respondes tres preguntas — correr, bici o nadar, cómo llegas y qué equipo tienes — y el circuito se arma solo, con timer por ejercicio. La versión de natación es en seco, para hacer en el borde antes de entrar.",
@@ -204,10 +216,6 @@
       {
         "name": "Más herramientas de preparación mental",
         "desc": "Rutinas para la semana previa y para los momentos malos de la carrera."
-      },
-      {
-        "name": "Conversor de ritmos",
-        "desc": "Equivalencias entre distancias y objetivos."
       }
     ],
     "ctaLabel": "Herramienta",
@@ -225,7 +233,7 @@
       "numbers"
     ],
     "categoryCounts": {
-      "numbers": 5,
+      "numbers": 6,
       "train": 7,
       "pain": 3
     }
@@ -248,6 +256,18 @@
         "memberUrl": "/members/en/training-zones-calculator/",
         "memberCta": "Open the calculator →",
         "memberDesc": "Turn your test into your seven zones — pace, power and heart rate, across all three sports. Includes the sessions guide as a free PDF."
+      },
+      {
+        "tag": "Calculator",
+        "name": "Pace Converter",
+        "desc": "Your pace in min/km, in min/mile and as a speed — with the two nearest treadmill settings and the pace each one actually gives you. Plus the conversion table from 3:00 to 8:00 per km.",
+        "key": "pace",
+        "url": "/en/pace-converter/",
+        "gated": false,
+        "category": "numbers",
+        "memberUrl": "/members/en/pace-converter/",
+        "memberCta": "Open the converter →",
+        "memberDesc": "Your pace in min/km, in min/mile and as a speed, with the two nearest treadmill settings and the pace each one really gives you."
       },
       {
         "tag": "Routine",
@@ -434,10 +454,6 @@
       {
         "name": "More mental prep tools",
         "desc": "Routines for the week before, and for the bad patches mid-race."
-      },
-      {
-        "name": "Pace converter",
-        "desc": "Equivalents across distances and goals."
       }
     ],
     "ctaLabel": "Tool",
@@ -455,7 +471,7 @@
       "numbers"
     ],
     "categoryCounts": {
-      "numbers": 5,
+      "numbers": 6,
       "train": 7,
       "pain": 3
     }
@@ -478,6 +494,18 @@
         "memberUrl": "/members/pt/calculadora-de-zonas/",
         "memberCta": "Abrir a calculadora →",
         "memberDesc": "Transforme o seu teste nas suas sete zonas — ritmo, potência e frequência cardíaca, nos três esportes. Inclui o guia de sessões em PDF."
+      },
+      {
+        "tag": "Calculadora",
+        "name": "Conversor de Ritmo",
+        "desc": "Seu ritmo em min/km, em min/milha e em velocidade — com os dois ajustes de esteira mais próximos e o ritmo real que cada um entrega. Mais a tabela de equivalências de 3:00 a 8:00 por quilômetro.",
+        "key": "pace",
+        "url": "/pt/conversor-de-ritmo/",
+        "gated": false,
+        "category": "numbers",
+        "memberUrl": "/members/pt/conversor-de-ritmo/",
+        "memberCta": "Abrir o conversor →",
+        "memberDesc": "Seu ritmo em min/km, em min/milha e em velocidade, com os dois ajustes de esteira mais próximos e o ritmo real de cada um."
       },
       {
         "tag": "Rotina",
@@ -664,10 +692,6 @@
       {
         "name": "Mais ferramentas de preparação mental",
         "desc": "Rotinas para a semana anterior e para os momentos ruins da prova."
-      },
-      {
-        "name": "Conversor de ritmos",
-        "desc": "Equivalências entre distâncias e objetivos."
       }
     ],
     "ctaLabel": "Ferramenta",
@@ -685,9 +709,10 @@
       "numbers"
     ],
     "categoryCounts": {
-      "numbers": 5,
+      "numbers": 6,
       "train": 7,
       "pain": 3
     }
-  }
+  },
+  "_paceNote": "September 8, 2026 — `Conversor de ritmos` moved out of `soon` and into `live` in all three languages. It had been listed as a coming-soon ALL-ACCESS tool; it shipped as a PUBLIC page under Recursos instead (Iván's call, same day), with a members copy on the zones-calculator pattern. Keeping it in `soon` would have had the three sales pages promising subscribers a tool anyone can already use for free. `categoryCounts.numbers` went 5 → 6 with it. That figure is hand-maintained and nothing checks it — it is a count of a list sitting three keys below the list it counts, in three languages. Re-derive it whenever a tool ships or retires."
 }

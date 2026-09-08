@@ -1,6 +1,6 @@
 # Garmin setup — public article + members guide
 
-**Status: v1 SHIPPED in all three languages, September 3, 2026.**
+**Status: v1 SHIPPED in all three languages, September 3, 2026.** **· verified: 2026-09-08**.
 
 | | Public article | Members guide |
 |---|---|---|

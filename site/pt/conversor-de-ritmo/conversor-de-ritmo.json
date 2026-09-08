@@ -1,0 +1,7 @@
+{
+  "_comment": "Directory data for the Portuguese pace converter — mirror of site/conversor-de-ritmo/conversor-de-ritmo.json. transKey matches the Spanish and English siblings exactly, which is what wires hreflang.",
+
+  "layout": "layouts/base.njk",
+  "lang": "pt",
+  "pageCss": "pace-converter.css"
+}

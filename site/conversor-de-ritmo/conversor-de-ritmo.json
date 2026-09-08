@@ -1,0 +1,7 @@
+{
+  "_comment": "Directory data for the public pace converter. One page per language on a localised slug, exactly like the zones calculator — 'conversor de ritmo min km a millas' and 'pace converter min/km to min/mile' are different searches and an English page on a Spanish URL competes badly for both. transKey values match across the three siblings, which is what wires hreflang. Public and indexable, unlike everything under /members/.",
+
+  "layout": "layouts/base.njk",
+  "lang": "es",
+  "pageCss": "pace-converter.css"
+}

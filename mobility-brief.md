@@ -2,7 +2,7 @@
 
 **Home doc for `/members/movilidad/`.** Owns the design, the dosing, the five decisions taken before building and the three clinical reversals. Owns no prices, no figures and no open items — open items live in `open-loops.md` and point back here.
 
-**Status: v1 SHIPPED in all three languages.** Spanish September 3, 2026; **English and Portuguese September 4, 2026** — `/members/movilidad/`, `/members/en/mobility/`, `/members/pt/mobilidade/`. All three `library.json` blocks, all three members homes and all three All-Access pages carry it.
+**Status: v1 SHIPPED in all three languages **· verified: 2026-09-08**.** Spanish September 3, 2026; **English and Portuguese September 4, 2026** — `/members/movilidad/`, `/members/en/mobility/`, `/members/pt/mobilidade/`. All three `library.json` blocks, all three members homes and all three All-Access pages carry it.
 
 ⚠️ ***Iván has still not run this on a phone.*** *The Spanish page shipped with that as its gate and the gate was skipped, on his call, to translate the same day. It is the one open item that is not work.*
 

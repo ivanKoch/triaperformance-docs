@@ -1,4 +1,12 @@
-/* Members zones calculator — dark page chrome.
+/* Members-area dark page chrome for the interactive tools.
+ *
+ * ⚠️ The FILENAME is stale, not the file. Since September 8, 2026 this is also
+ * loaded by the three /members/ pace-converter pages: it contains no rule that
+ * belongs to the zones calculator — every selector here is nav, footer, hero or
+ * breadcrumb — and forking it into a `members-pace-converter.css` would have
+ * created the second copy that drifts. `members-tool-chrome.css` is the honest
+ * name; renaming it means touching six working pages and was not worth doing in
+ * the same session that added three of them.
  *
  * The tool itself already themes via `.zc--dark` (zones-calculator.css sets every
  * colour from a variable). What was missing was the PAGE around it: this route

@@ -2,7 +2,7 @@
 
 **Home doc for `/members/recuperacion/`.** Owns the design, the dosing, the six decisions taken before building and the clinical reversals. Owns no figures.
 
-**Status: v1 SHIPPED in all three languages.** Spanish September 4, 2026; **English and Portuguese September 5, 2026** — `/members/recuperacion/`, `/members/en/recovery/`, `/members/pt/recuperacao/`. All three `library.json` blocks, all three members homes and all three All-Access pages carry it.
+**Status: v1 SHIPPED in all three languages **· verified: 2026-09-08**.** Spanish September 4, 2026; **English and Portuguese September 5, 2026** — `/members/recuperacion/`, `/members/en/recovery/`, `/members/pt/recuperacao/`. All three `library.json` blocks, all three members homes and all three All-Access pages carry it.
 
 ✅ ***Iván ran all three tools on a phone on September 5 and confirmed them.*** *That gate, open since the mobility tool shipped, is closed.*
 

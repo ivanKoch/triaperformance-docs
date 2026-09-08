@@ -1,0 +1,7 @@
+{
+  "_comment": "Directory data for the English pace converter — mirror of site/conversor-de-ritmo/conversor-de-ritmo.json. Localised slug for the same reason the zones calculator has one: 'pace converter' is an English search and an English page on a Spanish URL competes badly for it. transKey matches the Spanish and Portuguese siblings exactly, which is what wires hreflang.",
+
+  "layout": "layouts/base.njk",
+  "lang": "en",
+  "pageCss": "pace-converter.css"
+}

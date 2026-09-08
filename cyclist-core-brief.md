@@ -1,6 +1,6 @@
 # Core de Ciclista — cyclist core artifact
 
-**Status: v1 SHIPPED in all three languages, August 18, 2026** — `/members/core-ciclista/`, `/members/en/cyclist-core/`, `/members/pt/core-do-ciclista/`. Third artifact on the strength engine (`strength-tool.js`; engine home doc: `knee-strength-brief.md`).
+**Status: v1 SHIPPED in all three languages, August 18, 2026** **· verified: 2026-09-08** — `/members/core-ciclista/`, `/members/en/cyclist-core/`, `/members/pt/core-do-ciclista/`. Third artifact on the strength engine (`strength-tool.js`; engine home doc: `knee-strength-brief.md`).
 
 ## What it is
 

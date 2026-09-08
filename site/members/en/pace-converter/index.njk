@@ -1,0 +1,27 @@
+---
+layout: layouts/base.njk
+pageCss:
+  - pace-converter.css
+  - members-zones-calculator.css
+pcDark: true
+pcCross: false
+title: "Pace Converter — Triaperformance All-Access"
+---
+{#- Members copy of the public converter, English edition. Mirrors
+    /members/conversor-de-ritmo/ exactly — see that file for why pcDark and
+    pcCross are set the way they are, and why all three stylesheets are load-
+    bearing. -#}
+<header class="artifact-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/members/en/#biblioteca">Library</a> / Pace Converter</div>
+    <span class="label">Calculator</span>
+    <h1>Pace Converter</h1>
+    <p>Your pace in min/km, in min/mile and as a speed — including the one to set on the treadmill when the session says 4:30.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    {% include "partials/pace-converter.njk" %}
+  </div>
+</section>

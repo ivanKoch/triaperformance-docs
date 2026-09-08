@@ -16,7 +16,7 @@
 
 2. **Reconcile against Twenty first.** An active token is not proof of an active coaching relationship. Check `customerType` and `churnDate` for every address on the list and drop anyone churned. Emailing a former athlete about "your members area" is worse than not emailing at all.
 
-3. **Spanish only this round.** One never-logged-in athlete is English (`tischhausern`). `/members/en/` exists as of Aug 10, 2026 but its library is empty — sending her there today delivers on the promise with an empty room. She gets a personal note once the zone calculator ships, not this blast. Portuguese: none in this cohort.
+3. **Spanish only this round.** One never-logged-in athlete is English (`tischhausern`). ~~`/members/en/` exists as of Aug 10, 2026 but its library is empty — sending her there today delivers on the promise with an empty room. She gets a personal note once the zone calculator ships, not this blast.~~ ⚠️ ***Corrected September 8, 2026 (hygiene pass): the empty-room reason is no longer true, and its own stated trigger fired 26 days ago.*** *`/members/en/` carries* **all 16 live tools** *— verified this session by diffing every `site/_data/library.json` key against the filesystem — and the English zone calculator, the exact condition this line named, shipped August 13, 2026.* **The English athlete is now a decision, not an exclusion**, *and it is Iván's: include her in this send, or send the personal note the original line promised.* **Whichever he picks, "her library is empty" is not the reason.** Portuguese: none in this cohort.
 
 ---
 

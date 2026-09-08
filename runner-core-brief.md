@@ -1,6 +1,6 @@
 # Core de Corredor — runner core artifact
 
-**Status: v1 SHIPPED in all three languages, September 4, 2026** — `/members/core-corredor/`, `/members/en/runner-core/`, `/members/pt/core-do-corredor/`. *ES first, EN and PT the same day, at Iván's request.* Fifth artifact on the strength engine (`strength-tool.js`; engine home doc: `knee-strength-brief.md`).
+**Status: v1 SHIPPED in all three languages, September 4, 2026** **· verified: 2026-09-08** — `/members/core-corredor/`, `/members/en/runner-core/`, `/members/pt/core-do-corredor/`. *ES first, EN and PT the same day, at Iván's request.* Fifth artifact on the strength engine (`strength-tool.js`; engine home doc: `knee-strength-brief.md`).
 
 ## What it is
 

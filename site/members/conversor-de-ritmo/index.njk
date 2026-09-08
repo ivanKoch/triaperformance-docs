@@ -1,0 +1,37 @@
+---
+layout: layouts/base.njk
+pageCss:
+  - pace-converter.css
+  - members-zones-calculator.css
+pcDark: true
+pcCross: false
+title: "Conversor de Ritmo — Triaperformance All-Access"
+---
+{#- Members copy of the public converter at /conversor-de-ritmo/.
+
+    Two differences from the public version, both deliberate:
+      pcDark   — brand-guidelines.md §7.1: members-area interactive tools are
+                 dark. The page chrome is dark too, via the second stylesheet.
+      pcCross  — false. The public page ends by sending the reader to the zones
+                 calculator; a subscriber already has the whole library one click
+                 away in the breadcrumb and does not need to be sold it.
+
+    Load order matters and all three stylesheets are required: site.css, then
+    pace-converter.css (the tool), then members-zones-calculator.css (the page
+    around it). Dropping the middle one leaves the tool completely unstyled while
+    every structural check still passes — that is how the zones page shipped
+    broken for one build on August 13, 2026. -#}
+<header class="artifact-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/members/#biblioteca">Biblioteca</a> / Conversor de Ritmo</div>
+    <span class="label">Calculadora</span>
+    <h1>Conversor de Ritmo</h1>
+    <p>Tu ritmo en min/km, en min/milla y en velocidad — incluida la que hay que marcar en la cinta cuando la sesión dice 4:30.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    {% include "partials/pace-converter.njk" %}
+  </div>
+</section>
