@@ -2064,6 +2064,20 @@ So `tests/recovery-matrix.js` §7 **evaluates the activation matrix's own librar
 4. Deploy the site and the Caddyfile (`deploy-website.sh` validates the repo copy before reload).
 5. Click one `/w/` link and confirm the row lands. **Not done until a real row is read back** — the standing rule for this repo.
 
+### §43 addendum, September 8, 2026 — the first real read, and the one docstring claim that is conditional
+
+**All five steps ran, and the scheme's first live use was the members-area announcement of September 7:** *one `/w/` link per athlete, sent by hand in the weekly feedback, no TrainingPeaks workout touched.* **30 clicks across 9 codes; 13 of 38 real token holders in the members area within 48 hours, against a lifetime baseline of 2.**
+
+🚨 ***The `workout_link` docstring's claim 2 — "It knows WHO clicked" — is true conditionally, and the condition is exactly the case that dominates a first send.*** *Identity comes from the members cookie, so a click carries `token_id` only if that athlete had already logged in at some point.* **27 of the 30 clicks came back `token_id NULL`**, *because the population the announcement was aimed at was, by construction, the athletes who had never logged in.* ⚠️ **So the per-athlete link attribution the scheme was built for did not exist on the send it was built for.**
+
+***What makes this a cold-start artifact rather than a design defect, and the reason no code change is proposed:*** *`COOKIE_MAX_AGE` is one year and the cookie is `path=/`, so all 13 athletes who logged in now hold one. **Their next `/w/` click will carry `token_id` without anything being built.*** *Attribution improves on its own as the cookie base grows — which is the same curve as the membership itself.*
+
+**The clicks were not lost either, and this was verified rather than assumed** — an anonymous click is followed by that athlete's first identified page view seconds later: `recuperacion` 12:28:26 → `dfmartinezenriquez` 12:28:41 (**15s**); `activacion-bike` 20:08:13 → `smarizmendi` 20:08:17 (**4s**); `activacion-swim` 00:10:28 → `lopezmarino.mariae` 00:10:51 (**23s**). 🔑 ***That join is forensic, not queryable: it works by eye at n=30 and becomes ambiguous the moment two athletes click within the same few seconds.*** *If true first-touch attribution is ever wanted, the fix is to carry `link_code` through the login redirect and stamp it on the first authenticated page event — **deliberately not built**, because the population it would attribute is the never-logged-in cohort, which shrinks toward zero after the first send. At ~2 new athletes a month, reading timestamps by hand is cheaper than the code.*
+
+⚠️ ***Two residual limits, both permanent, and the second is the one to check before the workout-pasting pass:***
+1. **The cookie is per device.** *An athlete who logged in on a laptop and clicks a workout link on their phone is anonymous again on the phone. TrainingPeaks workouts are read mostly on phones, so a real anonymous tail survives no matter how mature the cookie base gets.*
+2. 🚨 **`samesite="Lax"` sends the cookie on a top-level navigation, so a click from TrainingPeaks in a normal browser is attributed — but an in-app webview with its own cookie jar is not.** ***Nothing in this repo has tested what the TrainingPeaks mobile app actually does with an outbound link, and that is the single assumption the entire pasting pass rests on.*** **Test it with one workout and one athlete before editing a library of them** — *a link pasted into a TrainingPeaks plan is frozen into every future application of that plan, which is §43's own reason for owning the path, and it cuts both ways: a scheme that silently loses identity in the app would be discovered after it is permanent.*
+
 ---
 
 ## 44. The recovery tool in EN and PT, and how the translation script failed usefully (September 5, 2026)
