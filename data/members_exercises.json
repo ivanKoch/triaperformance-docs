@@ -14,7 +14,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 30,
-  "cue": "Acostado, rodilla al pecho y extiende la pierna hacia el techo mientras llevas la punta del pie hacia ti; suelta y repite, lento. No es un estiramiento: no busques tensión, buscas que el nervio deslice. Si tira fuerte, achica el rango.",
+  "cue": "Boca arriba, rodilla al pecho. Extiende la pierna hacia el techo mientras llevas la punta del pie hacia ti; suelta y repite, lento. No es un estiramiento: buscas que el nervio deslice. Si tira fuerte, achica el rango.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -74,7 +74,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Banda por encima de las rodillas. Mismo movimiento, pero empuja las rodillas hacia afuera contra la banda todo el tiempo — ahí es donde entra el glúteo medio.",
+  "cue": "Pies cerca de los glúteos, banda por encima de las rodillas. Sube empujando con los talones y abre las rodillas contra la banda todo el tiempo. Sostén un segundo arriba. Si las rodillas se juntan, el glúteo medio se apagó.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -114,7 +114,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Banda por encima de las rodillas, presión hacia afuera constante. Extiende brazo y pierna contrarios sin dejar que la banda gane y sin despegar la lumbar.",
+  "cue": "Boca arriba, banda por encima de las rodillas, presión hacia afuera constante. Extiende brazo y pierna contrarios sin que la banda gane y sin despegar la lumbar. Exhala al extender.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 3
@@ -154,7 +154,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 30,
-  "cue": "Acostado, trae una rodilla al pecho con la otra pierna extendida en el piso. Si la pierna de abajo se despega, la cadera está corta — bájala y afloja el rango.",
+  "cue": "Boca arriba, trae una rodilla al pecho con la otra pierna extendida en el piso. Si la pierna de abajo se despega, afloja el rango. No tires del cuello.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -187,14 +187,14 @@
   "type": "main",
   "parent_exercise": "",
   "phase": "",
-  "name": "Isquios acostado",
+  "name": "Isquios boca arriba",
   "mode": "uni",
   "tag": "Sin equipo",
   "sets": "",
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Acostado, sujeta el muslo por detrás de la rodilla con las dos manos. Desde ahí estira la rodilla hacia el techo hasta sentir el isquio, y no más. La otra pierna queda apoyada en el piso.",
+  "cue": "Boca arriba, sujeta el muslo por detrás de la rodilla. Desde ahí estira la rodilla hacia el techo hasta sentir el isquio, y no más. La otra pierna queda apoyada en el piso.",
   "video": "",
   "variant_count": 1,
   "routine_refs": 2
@@ -205,7 +205,7 @@
   "engine": "activation",
   "exercise_id": "hamSupine_v1",
   "type": "variant",
-  "parent_exercise": "Isquios acostado",
+  "parent_exercise": "Isquios boca arriba",
   "phase": "",
   "name": "Isquios con toalla",
   "mode": "uni",
@@ -254,7 +254,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Media rodilla, pie de adelante plano. Mete la pelvis (glúteos por debajo) antes de avanzar — sin eso estás estirando la lumbar, no el psoas.",
+  "cue": "Media rodilla, pie de adelante plano. Mete la pelvis antes de avanzar la cadera. Sin eso estás estirando la lumbar, no el psoas.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -314,7 +314,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Parado en una pierna, rodilla levantada, dibuja círculos amplios hacia adelante y hacia atrás. El tronco no se mueve — solo la cadera.",
+  "cue": "De pie en una pierna, rodilla levantada. Dibuja círculos amplios hacia adelante y hacia atrás. El tronco no se mueve: solo la cadera. Si te balanceas, acércate a una pared.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -374,7 +374,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "De pie o de costado, sube la pierna al lateral con el pie apuntando levemente hacia abajo. Rango medio, sin impulso — si el tronco se inclina, bajaste el rango.",
+  "cue": "De pie o de costado, sube la pierna al lateral con el pie apuntando levemente hacia abajo. Rango medio, sin impulso. Si el tronco se inclina, bajaste el rango.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -394,7 +394,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Banda en los tobillos. Mismo movimiento contra resistencia. El tronco se queda vertical — el glúteo medio trabaja, no la lumbar.",
+  "cue": "De pie, banda en los tobillos. Sube la pierna al lateral con el pie apuntando levemente hacia abajo. El tronco se queda vertical: si se inclina, baja el rango.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -414,7 +414,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sube lento hasta la punta del pie y baja más lento todavía. La bajada es el ejercicio.",
+  "cue": "De pie, sube lento hasta la punta del pie y baja más lento todavía. La bajada es el ejercicio. No rebotes arriba ni abajo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 6
@@ -434,7 +434,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Agárrate las puntas de los pies, hunde la cadera hasta abajo y sube el pecho sin soltar los pies. Después estira las piernas para estirar isquios. Un ciclo por repetición, lento.",
+  "cue": "Agárrate las puntas de los pies, hunde la cadera y sube el pecho sin soltar. Después estira las piernas para abrir los isquios. Un ciclo por repetición, lento.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 2
@@ -454,7 +454,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Banda por encima de las rodillas. Mismo movimiento, rodillas empujando hacia afuera todo el descenso — no dejes que se junten al subir.",
+  "cue": "Banda por encima de las rodillas. Agárrate las puntas de los pies, hunde la cadera y sube el pecho sin soltar. Después estira las piernas. Rodillas empujando hacia afuera todo el tiempo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 2
@@ -474,7 +474,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Rodilla a la altura de la cadera, pie de apoyo firme, brazos de carrera. Postura alta y contacto corto — es técnica, no cardio.",
+  "cue": "Rodilla a la altura de la cadera, pie de apoyo firme, brazos de carrera. Postura alta y contacto corto. Es técnica, no cardio: si te desarmas, achica el ritmo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -494,7 +494,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Rodilla arriba, pie del suelo activo, tronco erguido. Sin balancearte hacia atrás para levantar más — esa es la trampa.",
+  "cue": "Marcha en el lugar, rodilla arriba, pie de apoyo activo, tronco erguido. No te balancees hacia atrás para levantar más: esa es la trampa.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 3
@@ -514,7 +514,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Banda en los tobillos. Misma marcha contra resistencia, despacio en la bajada: la banda quiere devolverte el pie al piso y ahí es donde se pierde el control.",
+  "cue": "Banda en los tobillos. Marcha con rodilla alta, tronco erguido. Despacio en la bajada: la banda quiere devolverte el pie al piso y ahí es donde se pierde el control.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -534,7 +534,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Diez círculos en cada dirección con cada pie, y después elevaciones de talón lentas. El tobillo es la primera articulación que toca el piso — si está dormido, todo lo de arriba compensa.",
+  "cue": "Diez círculos en cada dirección con cada pie, después elevaciones de talón lentas. El tobillo es la primera articulación que toca el piso: si está dormido, todo lo de arriba compensa.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -554,7 +554,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Círculos primero, después elevaciones con la banda en los tobillos para resistir la subida. Bajada lenta y completa.",
+  "cue": "Círculos de tobillo primero, en las dos direcciones. Después, banda en los tobillos: sube a puntas contra la banda y baja lento y completo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -574,7 +574,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "De pie, abdomen firme para no arquear la lumbar. Círculos amplios hacia atrás pasando el bíceps cerca de la oreja, y después hacia adelante. Lentos y controlados: esto lubrica el hombro en los mismos planos en los que va a trabajar, no es cardio.",
+  "cue": "De pie, abdomen firme para no arquear la lumbar. Círculos amplios hacia atrás pasando el bíceps cerca de la oreja, después hacia adelante. Lentos: esto lubrica el hombro, no es cardio.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 6
@@ -594,7 +594,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Baja a sentadilla profunda y al subir estira los brazos al techo, terminando en puntas de pie. Conecta la extensión del tobillo con la apertura del hombro — y es lo que más rápido te sube la temperatura si la piscina está fría.",
+  "cue": "Baja a sentadilla y al subir estira los brazos al techo, terminando en puntas. Conecta la extensión del tobillo con la apertura del hombro.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 3
@@ -614,7 +614,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 30,
-  "cue": "Gira la cabeza como si respiraras al costado, despacio, y sostén mirando atrás. El mentón se queda bajo, cerca del hombro. Un cuello rígido después de un día de escritorio es por qué la cabeza se levanta en vez de rotar — y levantar la cabeza hunde la cadera.",
+  "cue": "Gira la cabeza como si respiraras al costado, despacio, y sostén mirando atrás. Mentón bajo, cerca del hombro. Un cuello rígido levanta la cabeza en vez de rotar.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 3
@@ -674,7 +674,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 40,
-  "cue": "Plancha alta. Mete la pelvis, aprieta el abdomen al máximo y alinéate como una flecha, con la cabeza neutra mirando al piso y no al frente. Es el tono que evita que la cadera se hunda en crol y mariposa. Una sola vez, bien hecha.",
+  "cue": "Plancha alta. Mete la pelvis, aprieta el abdomen y alinéate como una flecha, cabeza neutra mirando al piso. Una vez, bien hecha.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 6
@@ -734,7 +734,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Banda al frente, brazos estirados a la altura de los hombros, separa las manos juntando las escápulas. Resistencia baja y muchas repeticiones — activa el manguito posterior, que es el que protege el hombro en la fase de recobro.",
+  "cue": "Banda al frente, brazos estirados a la altura de los hombros. Separa las manos juntando las escápulas. Resistencia baja y muchas repeticiones.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -754,7 +754,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Banda anclada a media altura o pisada. Inclínate un poco adelante y empuja hacia los muslos con el brazo largo y el codo alto. Buscas recordar la presión, no corregir la técnica: es para llegar al agua con el gesto despierto, y la técnica se trabaja en el agua con tu entrenador de natación.",
+  "cue": "Banda anclada a media altura o pisada. Inclínate un poco adelante y empuja hacia los muslos con el brazo largo y el codo alto. Buscas recordar la presión, no corregir la técnica.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -774,7 +774,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Agarre bien ancho, brazos estirados, pasa la banda de adelante hacia atrás por encima de la cabeza. La banda cede donde el bastón no. Frena apenas se te abran las costillas o se te suban los hombros — hasta ahí llega tu rango de hoy.",
+  "cue": "Agarre bien ancho, brazos estirados. Pasa la banda de adelante hacia atrás por encima de la cabeza. Frena apenas se te abran las costillas o se te suban los hombros.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 2
@@ -814,7 +814,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Inclínate un poco adelante y haz el gesto de la brazada despacio, con el codo alto y el brazo largo. Es para llegar al agua con el gesto despierto, no para corregir nada: la técnica se trabaja en el agua.",
+  "cue": "Inclínate un poco adelante y haz el gesto de la brazada despacio, codo alto y brazo largo. Es para llegar al agua con el gesto despierto, no para corregir técnica.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 2
@@ -854,7 +854,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Brazos y rodillas a 90°, empuja las manos contra las rodillas y sostén la tensión respirando normal. La regresión correcta si la lumbar no se queda quieta.",
+  "cue": "Boca arriba, brazos y rodillas a 90°. Empuja las manos contra las rodillas y sostén la tensión respirando normal. La lumbar no se despega.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -874,7 +874,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sin brazos: piernas a 90°, baja una por vez hasta rozar el piso con el talón, siempre con la lumbar apoyada.",
+  "cue": "Boca arriba, piernas a 90°, brazos quietos. Baja una pierna por vez hasta rozar el piso con el talón y vuelve. La lumbar no se despega: si se levanta, no bajes tanto.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -894,7 +894,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Rodillas flexionadas, pies apoyados, omóplatos apenas despegados del piso y ahí se quedan todo el bloque. Inclínate a un lado hasta tocar el talón con la mano, después al otro. Rango corto y rápido: son oblicuos, no abdominales de revista. Si la cabeza se apoya entre repetición y repetición, el estímulo se corta.",
+  "cue": "Rodillas flexionadas, pies apoyados, omóplatos apenas despegados y ahí se quedan. Inclínate a un lado hasta tocar el talón, después al otro. Rango corto y rápido. Si la cabeza se apoya entre reps, el estímulo se corta.",
   "video": "",
   "variant_count": 2,
   "routine_refs": ""
@@ -914,7 +914,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Manos detrás de la cabeza sin tirar del cuello, despega solo los omóplatos. Rango corto, tensión constante.",
+  "cue": "Boca arriba, manos detrás de la cabeza sin tirar del cuello. Despega solo los omóplatos y quédate en ese rango corto, con tensión constante. No subas hasta sentarte.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -934,7 +934,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Codo hacia la rodilla contraria mientras la otra pierna se extiende sin tocar el piso. Lento, con rotación real del tronco.",
+  "cue": "Boca arriba, omóplatos despegados. Codo hacia la rodilla contraria mientras la otra pierna se extiende sin tocar el piso. Lento, con rotación real del tronco, no un vaivén de codo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1034,7 +1034,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sentado al borde de la cama, manos en las rodillas, misma secuencia. Si el piso no es opción.",
+  "cue": "Sentado al borde de una silla o de la cama, manos en las rodillas. Exhala redondeando la espalda, inhala arqueándola. Muévete desde la pelvis, vértebra por vértebra.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1094,7 +1094,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Misma posición extendida, sostenida todo el bloque. Menos coordinación, más tensión.",
+  "cue": "En cuadrupedia, extiende brazo y pierna contrarios hasta la línea del tronco y quédate ahí todo el bloque. Cadera cuadrada, lumbar quieta. Imagina un vaso de agua sobre la lumbar.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1114,7 +1114,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Entre repeticiones, junta codo y rodilla debajo del cuerpo antes de volver a extender.",
+  "cue": "En cuadrupedia, extiende brazo y pierna contrarios. Entre repeticiones, junta codo y rodilla debajo del cuerpo antes de volver a extender. La lumbar no se mueve en el cierre ni en la apertura.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1134,7 +1134,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Plancha alta con los pies bien separados — cuanto más juntos, más difícil de estabilizar. Toca el hombro contrario con una mano y vuelve. El objetivo no es tocar rápido: es que la cadera no se mueva ni un centímetro, ni de lado ni rotando. Si la cadera baila, separa más los pies o apoya las rodillas.",
+  "cue": "Plancha alta, pies bien separados. Toca el hombro contrario y vuelve. El objetivo no es tocar rápido: es que la cadera no se mueva ni un centímetro. Si baila, separa más los pies o apoya las rodillas.",
   "video": "",
   "variant_count": 2,
   "routine_refs": ""
@@ -1154,7 +1154,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sostén la plancha alta empujando el piso con las manos y la espalda ancha. Sin movimiento.",
+  "cue": "Plancha alta, manos bajo los hombros. Empuja el piso, espalda ancha, pelvis metida. Sostén sin movimiento. Si la lumbar se hunde, apoya las rodillas.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1174,7 +1174,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Mismo toque de hombro, con las rodillas en el piso. La regresión correcta, no una versión menor.",
+  "cue": "Plancha con las rodillas en el piso, pies despegados. Toca el hombro contrario con una mano y vuelve. La cadera no se mueve. Es la regresión correcta, no una versión menor.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1194,7 +1194,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Codo debajo del hombro, cuerpo en línea de cabeza a pies. Empuja la cadera de abajo hacia el techo en lugar de solo aguantar la posición — es la diferencia entre sostener y trabajar. Si tiembla, está bien; si la cadera se cae, corta el bloque antes.",
+  "cue": "Codo debajo del hombro, cuerpo en línea de cabeza a pies. Empuja la cadera de abajo hacia el techo en vez de solo aguantar. Si tiembla, está bien; si la cadera se cae, corta el bloque.",
   "video": "",
   "variant_count": 2,
   "routine_refs": ""
@@ -1214,7 +1214,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Rodillas flexionadas y apoyadas. Misma línea de tronco, menos palanca.",
+  "cue": "De costado, antebrazo bajo el hombro, rodillas flexionadas y apoyadas. Cuerpo en línea de hombros a rodillas. Empuja la cadera de abajo hacia el techo. Misma línea de tronco, menos palanca.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1254,7 +1254,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Desde la plancha alta, empuja la cadera arriba y atrás hasta el perro boca abajo, buscando talones al piso, y vuelve. Es el puente entre el core y la movilidad: estira gemelos e isquios sin dejar de pedirle tensión al tronco. Rodillas apenas flexionadas si los isquios están duros — la espalda recta manda sobre las piernas estiradas.",
+  "cue": "Desde la plancha alta, empuja la cadera arriba y atrás hasta el perro boca abajo, talones al piso, y vuelve. Si los isquios están duros, flexiona un poco las rodillas: la espalda recta manda.",
   "video": "",
   "variant_count": 2,
   "routine_refs": ""
@@ -1274,7 +1274,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Quédate en el perro boca abajo todo el bloque, pedaleando suave con los talones.",
+  "cue": "Manos y pies en el piso, cadera alta, talones buscando el suelo. Quédate ahí todo el bloque pedaleando suave con los talones. Espalda larga; si los isquios tiran, flexiona un poco las rodillas.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1294,7 +1294,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Desde la plancha alta, baja a rodillas y vuelve. Si el hombro molesta en el perro boca abajo.",
+  "cue": "Desde la plancha alta, baja las rodillas al piso y vuelve a extender. Pelvis metida en ambos puntos. Úsala si el hombro molesta en el perro boca abajo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1334,7 +1334,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Rodilla de atrás apoyada, misma rotación de tronco. Menos exigente para el equilibrio.",
+  "cue": "Zancada con la rodilla de atrás apoyada, mano de adentro al piso junto al pie. Rota el tronco y abre el brazo de arriba hacia el techo, siguiendo la mano con la mirada.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1354,7 +1354,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sin rotación: quédate en la zancada profunda con las dos manos apoyadas, dejando caer la cadera.",
+  "cue": "Zancada profunda, las dos manos al piso por dentro del pie de adelante. Sin rotación: deja caer la cadera y respira. Pecho alto, rodilla de atrás suave.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1374,7 +1374,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sentado, una pierna a 90° adelante y la otra a 90° al costado. Lleva las rodillas de un lado al otro como un limpiaparabrisas, lento. El pecho se mantiene alto: en cuanto te encorvas, el movimiento sale de la lumbar en vez de la cadera y deja de servir. Ayúdate con las manos atrás si hace falta.",
+  "cue": "Sentado, una pierna a 90° adelante y la otra a 90° al costado. Lleva las rodillas de un lado al otro como un limpiaparabrisas, lento. Pecho alto: si te encorvas, el movimiento sale de la lumbar. Ayúdate con las manos atrás si hace falta.",
   "video": "",
   "variant_count": 2,
   "routine_refs": ""
@@ -1394,7 +1394,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Quédate en la posición 90-90 de un lado, pecho alto, inclinándote suave hacia adelante.",
+  "cue": "Sentado, una pierna a 90° adelante y la otra a 90° al costado. Quédate de un lado, pecho alto, inclinándote suave hacia adelante desde la cadera. No redondees la lumbar para llegar más lejos.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1414,7 +1414,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Plantas de los pies juntas, rodillas hacia afuera, inclinación suave hacia adelante desde la cadera.",
+  "cue": "Plantas de los pies juntas, rodillas hacia afuera. Inclínate suave hacia adelante desde la cadera, espalda larga. No redondees para llegar más abajo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1427,14 +1427,14 @@
   "type": "main",
   "parent_exercise": "",
   "phase": "Movilidad",
-  "name": "Paloma (pigeon)",
+  "name": "Postura de la paloma",
   "mode": "uni",
   "tag": "Piso",
   "sets": "",
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Pierna de adelante flexionada cruzada bajo el cuerpo, pierna de atrás estirada y alineada, no abierta al costado. Presiona activamente la espinilla de adelante contra el piso en vez de derrumbarte encima. Sesenta segundos: el glúteo y el piriforme necesitan tiempo, no fuerza. Si la rodilla molesta, pon una almohada bajo la cadera.",
+  "cue": "Pierna de adelante flexionada cruzada, la de atrás estirada y alineada, no abierta al costado. Presiona la espinilla de adelante contra el piso en vez de derrumbarte. Si la rodilla molesta, pon una almohada bajo la cadera.",
   "video": "",
   "variant_count": 2,
   "routine_refs": ""
@@ -1445,7 +1445,7 @@
   "engine": "activation",
   "exercise_id": "",
   "type": "variant",
-  "parent_exercise": "Paloma (pigeon)",
+  "parent_exercise": "Postura de la paloma",
   "phase": "Movilidad",
   "name": "Figura 4 boca arriba",
   "mode": "uni",
@@ -1465,7 +1465,7 @@
   "engine": "activation",
   "exercise_id": "",
   "type": "variant",
-  "parent_exercise": "Paloma (pigeon)",
+  "parent_exercise": "Postura de la paloma",
   "phase": "Movilidad",
   "name": "Figura 4 sentado",
   "mode": "uni",
@@ -1474,7 +1474,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sentado al borde de la cama, tobillo sobre la rodilla contraria, inclinación suave hacia adelante.",
+  "cue": "Sentado al borde de una silla o de la cama, tobillo sobre la rodilla contraria. Inclínate suave hacia adelante desde la cadera, espalda larga. Empieza por el lado más rígido.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1507,14 +1507,14 @@
   "type": "variant",
   "parent_exercise": "Couch stretch",
   "phase": "Movilidad",
-  "name": "Zancada baja con glúteo activo",
+  "name": "Psoas con apriete de glúteo",
   "mode": "uni",
   "tag": "",
   "sets": "",
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sin apoyar el pie en la cama: zancada baja, rodilla atrás en el piso, glúteo apretado, cadera adelante.",
+  "cue": "Media rodilla, pie de adelante plano. Mete la pelvis y aprieta fuerte el glúteo de la pierna de atrás antes de avanzar la cadera. Sin ese apriete estás estirando la lumbar y no el psoas: ese apriete es el ejercicio.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1534,7 +1534,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Parado, talón al glúteo, rodillas juntas y pelvis metida. Si el piso no es opción.",
+  "cue": "De pie, talón al glúteo, rodillas juntas y pelvis metida. Sujeta el tobillo, no el pie. Si la lumbar se arquea, afloja el rango. Es la versión de pie cuando el piso no es opción.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1554,7 +1554,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Flujo lento: siéntate sobre los talones con los brazos estirados adelante, después deslízate hacia adelante dejando caer la cadera al piso y abriendo el pecho. Ida y vuelta, respirando. Cierra la rutina moviendo toda la columna en los dos sentidos — termina quedándote en la postura del niño hasta que suene el timer.",
+  "cue": "Siéntate sobre los talones con los brazos adelante; deslízate hacia adelante dejando caer la cadera y abriendo el pecho. Ida y vuelta, respirando. Cierra quedándote en la postura del niño.",
   "video": "",
   "variant_count": 2,
   "routine_refs": ""
@@ -1567,14 +1567,14 @@
   "type": "variant",
   "parent_exercise": "Postura del niño a cobra",
   "phase": "Movilidad",
-  "name": "Postura del niño sostenida",
+  "name": "Postura del niño",
   "mode": "bi",
   "tag": "",
   "sets": "",
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sentado sobre los talones, brazos estirados adelante, frente apoyada. Sin flujo, solo respirar.",
+  "cue": "Sentado sobre los talones, brazos largos adelante, frente al piso. Sin flujo: solo respira hacia la espalda baja y deja que la cadera baje un poco más con cada exhalación.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1594,7 +1594,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Boca abajo, manos bajo los hombros, pecho arriba y cadera en el piso. Si lo que necesitas es extensión.",
+  "cue": "Boca abajo, manos bajo los hombros, pecho arriba y cadera en el piso. Hombros lejos de las orejas. Si la lumbar aprieta, baja un poco el pecho o adelanta las manos.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1614,7 +1614,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Punta del pie contra la pared, talón en el piso, y lleva la rodilla hacia la pared manteniéndola flexionada. Rodilla doblada es sóleo, y el sóleo es el que se come la carga cuando corres. Si lo sientes en la vientre del gemelo, dobla más la rodilla.",
+  "cue": "Punta del pie contra la pared, talón en el piso. Lleva la rodilla hacia la pared manteniéndola flexionada. Rodilla doblada es sóleo. Si lo sientes en el vientre del gemelo, dobla más la rodilla.",
   "video": "",
   "variant_count": 1,
   "routine_refs": 5
@@ -1654,7 +1654,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Misma posición, pero ahora con la rodilla estirada y el talón clavado en el piso. Rodilla derecha es gemelo. Cadera adelante y tronco erguido — si te vas de espaldas, perdiste el estiramiento.",
+  "cue": "Manos en la pared, pierna de atrás recta, talón clavado. Rodilla estirada es gemelo. Cadera adelante y tronco erguido: si te vas de espaldas, perdiste el estiramiento.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -1674,7 +1674,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Agárrate por detrás del muslo y estira la rodilla hasta donde llegue sin que la cadera se despegue del piso. La otra pierna queda apoyada. La punta del pie hacia ti solo al final, no desde el principio.",
+  "cue": "Agárrate por detrás del muslo y estira la rodilla hasta donde llegue sin que la cadera se despegue. La otra pierna apoyada. La punta del pie hacia ti solo al final, no desde el principio.",
   "video": "",
   "variant_count": 1,
   "routine_refs": 4
@@ -1734,7 +1734,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sentado sobre la pelota, busca el punto del glúteo que se queja y quédate quieto ahí respirando en vez de rodar. Cruza el tobillo sobre la rodilla para llegar más profundo.",
+  "cue": "Sentado sobre la pelota, busca el punto del glúteo que se queja y quédate quieto ahí respirando, no ruedes. Cruza el tobillo sobre la rodilla para llegar más profundo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1774,7 +1774,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "De costado, agarra el tobillo de arriba y lleva el talón al glúteo con la pelvis metida y la rodilla apuntando al piso, no abierta hacia afuera. Si la lumbar se arquea, afloja el rango.",
+  "cue": "De costado, agarra el tobillo de arriba y lleva el talón al glúteo. Pelvis metida, rodilla apuntando al piso, no abierta hacia afuera. Si la lumbar se arquea, afloja el rango.",
   "video": "",
   "variant_count": 2,
   "routine_refs": 4
@@ -1834,7 +1834,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Boca arriba, lleva una rodilla cruzada al lado opuesto dejando que la pelvis rote con ella, brazos abiertos. Buscas el tensor y el glúteo, por fuera de la cadera. La cintilla iliotibial no se estira ni se ablanda a golpes: lo que se afloja es lo que tira de ella.",
+  "cue": "Boca arriba, lleva una rodilla cruzada al lado opuesto dejando que la pelvis rote, brazos abiertos. Buscas tensor y glúteo, por fuera de la cadera. La cintilla no se estira a golpes. No se ablanda a golpes: lo que se afloja es lo que tira de ella.",
   "video": "",
   "variant_count": 1,
   "routine_refs": 3
@@ -1854,7 +1854,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "El rodillo justo debajo del hueso de la cadera por fuera, y después en el lateral del muslo. Presión moderada y lenta. No busques la cintilla: busca el músculo de arriba y el de adelante-afuera.",
+  "cue": "Rodillo justo debajo del hueso de la cadera por fuera, después en el lateral del muslo, arriba y adelante. Presión moderada y lenta. No ruedes la cintilla: es tendón, y se inflama.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1874,7 +1874,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "De rodillas, una pierna estirada al costado con el pie apoyado, y lleva la cadera hacia atrás y hacia el lado contrario. Espalda larga. Es el aductor largo, que en carrera y en bici trabaja mucho más de lo que nadie cree.",
+  "cue": "De rodillas, una pierna estirada al costado con el pie apoyado. Lleva la cadera atrás y hacia el lado contrario. Espalda larga. Es el aductor largo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -1894,7 +1894,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Plantas de los pies juntas, y inclínate desde la cadera con la espalda larga — no redondees para llegar más abajo, que es puro engaño. Los codos pueden empujar suave las rodillas.",
+  "cue": "Plantas juntas. Inclínate desde la cadera con la espalda larga: redondear para llegar más abajo es puro engaño. Los codos pueden empujar suave las rodillas.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -1914,7 +1914,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Sentado sobre los talones con los dedos de los pies flexionados hacia adelante — si es mucho, apoya las manos y saca peso. Después abre y cierra los dedos. La fascia plantar se endurece después de correr y nadie la toca hasta que duele.",
+  "cue": "Sentado sobre los talones con los dedos flexionados hacia adelante. Si es mucho, apóyate con las manos. Después abre y cierra los dedos.",
   "video": "",
   "variant_count": 1,
   "routine_refs": 3
@@ -1934,7 +1934,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Rueda la planta del pie sobre la pelota, del talón a los dedos, lento, frenando en los puntos que se quejan. Presión que puedas sostener respirando normal.",
+  "cue": "De pie o sentado, rueda la planta sobre la pelota del talón a los dedos, lento. Cuando un punto se queje, párate ahí. Presión que puedas sostener respirando normal.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -1954,7 +1954,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Sentado sobre los talones con los empeines planos en el piso, y sube apenas las rodillas para cargar el empeine. Después, círculos amplios de tobillo. Si vienes de nadar, un tobillo que no apunta frena la patada; si vienes de correr, es el que se te puso duro.",
+  "cue": "Sentado sobre los talones con los empeines planos en el piso. Sube apenas las rodillas para cargar el empeine. Después, círculos amplios de tobillo.",
   "video": "",
   "variant_count": 1,
   "routine_refs": 3
@@ -1974,7 +1974,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "En cuadrupedia, el rodillo sobre la parte de adelante de la tibia, y rueda despacio de la rodilla al tobillo. Zona sensible: menos presión de la que crees.",
+  "cue": "En cuadrupedia, el rodillo sobre la parte de adelante de la tibia. Rueda despacio de la rodilla al tobillo. Zona sensible: menos presión de la que crees.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -2054,7 +2054,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Boca abajo, codos debajo de los hombros, pelvis pesada en el piso. Es una extensión suave y sostenida, no una cobra. Si te aprieta la lumbar, lleva los codos más adelante hasta que deje de apretar.",
+  "cue": "Boca abajo, codos debajo de los hombros, pelvis pesada en el piso. Extensión suave y sostenida, no una cobra. Si aprieta la lumbar, adelanta los codos.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -2114,7 +2114,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "De rodillas, antebrazos apoyados adelante y los glúteos hacia los talones. Hunde el pecho hacia el piso dejando que se abran las axilas. El movimiento es de la espalda alta: si se arquea la lumbar, acerca más los glúteos a los talones.",
+  "cue": "De rodillas, antebrazos adelante y glúteos hacia los talones. Hunde el pecho hacia el piso dejando que se abran las axilas. Si se arquea la lumbar, acerca más los glúteos a los talones.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 2
@@ -2154,7 +2154,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Boca abajo, un brazo extendido en cruz a la altura del hombro, y rueda el cuerpo hacia ese lado apoyando el pie contrario. Busca el pecho, no el frente del hombro — si lo sientes dentro de la articulación, baja el brazo unos centímetros y vuelve a probar.",
+  "cue": "Boca abajo, un brazo en cruz a la altura del hombro. Rueda el cuerpo hacia ese lado apoyando el pie contrario. Busca el pecho, no el frente del hombro: si pinza adentro, baja el brazo unos centímetros.",
   "video": "",
   "variant_count": 1,
   "routine_refs": 3
@@ -2194,7 +2194,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 30,
-  "cue": "Codo arriba junto a la oreja, mano entre los omóplatos, y empuja suave el codo con la otra mano. Costillas abajo — si la lumbar se arquea, ganaste rango con la espalda y no con el hombro.",
+  "cue": "Codo arriba junto a la oreja, mano entre los omóplatos. Empuja suave el codo con la otra mano. Costillas abajo: si la lumbar se arquea, ganaste rango con la espalda y no con el hombro.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -2214,7 +2214,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 30,
-  "cue": "Sentado, la mano del lado que estiras sujeta el borde de la colchoneta, y lleva la oreja al hombro contrario sin encoger el hombro. No tires con la otra mano: el peso de la cabeza alcanza y sobra.",
+  "cue": "Sentado, la mano del lado que estiras sujeta el asiento. Lleva la oreja al hombro contrario sin encoger el hombro. No tires con la otra mano: el peso de la cabeza alcanza.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -2234,7 +2234,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 30,
-  "cue": "En cuadrupedia, gira la mano hasta que los dedos apunten a las rodillas y siéntate lento hacia atrás. Después gira la mano y apoya el dorso para el otro lado. Horas agarrado al manillar se pagan aquí.",
+  "cue": "En cuadrupedia, gira la mano hasta que los dedos apunten a las rodillas y siéntate lento hacia atrás. Después apoya el dorso de la mano para el otro lado. No fuerces si pinza.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -2254,7 +2254,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 120,
-  "cue": "Glúteos cerca de la pared, piernas verticales apoyadas en ella, brazos al costado. Dos minutos enteros, y no estás estirando nada: estás bajando pulsaciones y sacándote el peso de las piernas. Si tira mucho de los isquios, aleja los glúteos de la pared.",
+  "cue": "Glúteos cerca de la pared, piernas verticales apoyadas, brazos al costado. No estás estirando: estás bajando pulsaciones. Si tira mucho de los isquios, aléjate un poco.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 2
@@ -2274,7 +2274,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 180,
-  "cue": "Boca arriba, rodillas dobladas, una mano en el pecho y otra en el abdomen. Inhala 4 segundos por la nariz llevando el aire al abdomen, exhala 6 por la boca. La exhalación larga es la que baja el sistema nervioso, y es lo que convierte esto en recuperación y no en una entrada en calor tardía. Si quieres un protocolo con timer, tienes Respiración en caja.",
+  "cue": "Boca arriba, rodillas dobladas, una mano en el pecho y otra en el abdomen. Inhala 4 segundos por la nariz al abdomen, exhala 6 por la boca. La exhalación larga es la que baja el sistema. Si quieres un protocolo con timer, tienes Respiración en caja.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -2294,7 +2294,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "De pie o en cuadrupedia, lleva la rodilla al pecho, ábrela al costado, rótala hacia atrás y baja — el círculo más grande que puedas hacer sin que se mueva nada más que la cadera. Lentísimo: dos o tres círculos en el minuto. Si el tronco compensa, achica el círculo; el rango que controlas es el rango que tienes.",
+  "cue": "De pie o en cuadrupedia: rodilla al pecho, ábrela al costado, rótala atrás y baja. El círculo más grande que puedas sin que se mueva nada más que la cadera. Si el tronco compensa, achica el círculo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -2314,7 +2314,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Brazo estirado, súbelo por adelante hasta arriba, rótalo y baja por atrás, dibujando el círculo más amplio posible. Costillas abajo y la otra mano en el esternón para sentir si el tronco se mueve. Dos o tres vueltas en el minuto, con tensión en todo el brazo.",
+  "cue": "Brazo estirado: súbelo por adelante, rótalo y baja por atrás, el círculo más amplio posible. Costillas abajo, la otra mano en el esternón para sentir si el tronco se mueve.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -2334,7 +2334,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 90,
-  "cue": "Sentado sobre los talones o en una silla. Segmento por segmento: flexión y extensión torácica, después inclinación a cada lado, después rotación. La cadera no se mueve — si se mueve, ya no estás moviendo la columna. Es lento y es aburrido, y es de las cosas que más rango devuelven.",
+  "cue": "Sentado sobre los talones o en una silla. Segmento por segmento: flexión y extensión torácica, inclinación a cada lado, rotación. La cadera no se mueve: si se mueve, ya no estás moviendo la columna.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -2354,7 +2354,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Sentado con la pierna estirada, dibuja el círculo más grande que puedas con la punta del pie, en las dos direcciones. La rodilla y la pierna quedan quietas. Busca el borde del rango y quédate ahí un segundo en cada punto.",
+  "cue": "Sentado, pierna estirada. Dibuja el círculo más grande que puedas con la punta del pie, en las dos direcciones. Rodilla y pierna quietas. Busca el borde del rango y párate un segundo en cada punto.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -2374,7 +2374,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 120,
-  "cue": "Fluye entre las dos posturas al ritmo de la respiración: exhalas hacia perro boca abajo empujando los talones al piso, inhalas pasando a perro boca arriba abriendo el pecho. Sin apurar el tránsito: la mitad del beneficio está en el camino, no en las dos fotos.",
+  "cue": "Fluye al ritmo de la respiración: exhalas hacia perro boca abajo empujando los talones, inhalas a perro boca arriba abriendo el pecho. Sin apurar el tránsito.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 3
@@ -2394,7 +2394,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 240,
-  "cue": "Secuencia completa y lenta, un movimiento por respiración: de pie, manos arriba, pliégate hacia adelante, media elevación, plancha, perro boca abajo, paso adelante, y vuelve. Repítela las veces que entren en el bloque, alternando qué pierna adelanta. Es la única parte de la sesión que te va a subir un poco las pulsaciones, y está bien que sea así.",
+  "cue": "Secuencia lenta, un movimiento por respiración: de pie, manos arriba, pliégate, media elevación, plancha, perro boca abajo, paso adelante, y vuelve. Alterna la pierna que adelanta.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -2414,7 +2414,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 120,
-  "cue": "Guerrero I con la cadera al frente, abre a Guerrero II girando el torso, y desde ahí baja al triángulo estirando el brazo largo. Sostén cada una unas cinco respiraciones antes de pasar a la siguiente. La rodilla de adelante siempre encima del tobillo, nunca por delante del pie.",
+  "cue": "Guerrero I con la cadera al frente, abre a Guerrero II girando el torso, y desde ahí baja al triángulo con el brazo largo. Unas cinco respiraciones en cada una. Rodilla de adelante encima del tobillo, nunca por delante del pie.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -2434,7 +2434,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 120,
-  "cue": "Abajo del todo, talones en el piso, codos por dentro de las rodillas empujando suave hacia afuera. Muévete adentro de la postura: de lado a lado, un poco adelante y atrás. Si los talones se levantan, apóyalos sobre algo — la posición correcta con ayuda vale más que la incorrecta sin ella.",
+  "cue": "Abajo del todo, talones en el piso, codos por dentro de las rodillas empujando suave hacia afuera. Muévete adentro de la postura. Si los talones se levantan, apóyalos sobre algo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -2454,7 +2454,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 180,
-  "cue": "Rodillas abiertas y en línea con la cadera, tobillos detrás de las rodillas, antebrazos en el piso. Baja la cadera hasta el primer punto de tensión y quédate ahí tres minutos respirando, sin buscar más. Esta es una postura pasiva: el tiempo hace el trabajo, tú no. Solo en un día sin sesión — sobre tejido recién entrenado no va.",
+  "cue": "Rodillas abiertas en línea con la cadera, tobillos detrás de las rodillas, antebrazos en el piso. Baja hasta el primer punto de tensión y quédate respirando, sin buscar más. El tiempo hace el trabajo. Solo en un día sin sesión — sobre tejido recién entrenado no va.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -2474,7 +2474,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 90,
-  "cue": "Estocada muy larga, manos por dentro del pie de adelante, rodilla de atrás en el piso. Deja que la rodilla de adelante caiga hacia afuera y baja el peso sobre los antebrazos si llegas. Es intensa: quédate en un 6 o 7 sobre 10, nunca más. Respira largo y no la fuerces con rebotes.",
+  "cue": "Estocada muy larga, manos por dentro del pie de adelante, rodilla de atrás en el piso. Deja que la rodilla de adelante caiga hacia afuera y baja a los antebrazos si llegas. Quédate en un 6 o 7 sobre 10. Sin rebotes.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -2494,7 +2494,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 90,
-  "cue": "Media rodilla con la pelvis metida. Empuja la rodilla de atrás contra el piso al 20% durante 5 segundos, suelta, y avanza un poco. Repite tres o cuatro veces en el bloque. Ese contraer-y-soltar es lo que gana rango de verdad; sin él es un estiramiento más.",
+  "cue": "Media rodilla, pelvis metida. Empuja la rodilla de atrás contra el piso al 20% durante 5 segundos, suelta, y avanza un poco. Tres o cuatro ciclos. Ese contraer-y-soltar es lo que gana rango.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -2514,7 +2514,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 90,
-  "cue": "Acostado, pierna al techo agarrada por detrás del muslo. Empuja el talón contra tus manos al 20% durante 5 segundos, suelta, y sube la pierna un poco más. Tres o cuatro ciclos. La pierna de abajo se queda apoyada todo el tiempo.",
+  "cue": "Boca arriba, pierna al techo agarrada por detrás del muslo. Empuja el talón contra tus manos al 20% durante 5 segundos, suelta, y sube un poco más. Tres o cuatro ciclos. La pierna de abajo se queda apoyada.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -2554,7 +2554,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 90,
-  "cue": "Acostado, rodillas dobladas. Despega la pelvis y sube vértebra por vértebra hasta apoyar en los omóplatos, y baja igual de lento, apoyando de arriba hacia abajo. Lo que buscas es que la columna se articule por segmentos, no que suba alto. Cinco o seis ciclos lentos.",
+  "cue": "Boca arriba, rodillas dobladas. Sube vértebra por vértebra hasta los omóplatos y baja igual de lento, de arriba hacia abajo. Lo que buscas es que la columna se articule por segmentos, no que suba alto.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -2574,7 +2574,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 180,
-  "cue": "Boca arriba, piernas largas, palmas arriba. Recorre el cuerpo de los pies a la cabeza, parando en cada zona el tiempo de una respiración y soltando lo que encuentres apretado. Mandíbula y trapecios al final: casi siempre queda algo ahí.",
+  "cue": "Boca arriba, piernas largas, palmas arriba. Recorre el cuerpo de los pies a la cabeza, una respiración por zona, soltando lo que encuentres apretado. Mandíbula y trapecios al final.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -2694,7 +2694,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Sentado, una pierna a 90° adelante y la otra a 90° al costado. Inclínate sobre la de adelante, vuelve, y pasa al otro lado levantando las rodillas y girando sin usar las manos. Esa transición activa es el ejercicio; la inclinación es solo la mitad.",
+  "cue": "Sentado, una pierna a 90° adelante y la otra a 90° al costado. Inclínate sobre la de adelante, vuelve, y pasa al otro lado levantando las rodillas sin usar las manos. Esa transición activa es el ejercicio.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 3
@@ -2714,7 +2714,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Desde plancha, lleva el pie por fuera de la mano del mismo lado. Baja el codo hacia el piso, y desde ahí rota abriendo el brazo al techo. Dos o tres repeticiones lentas por lado dentro del bloque, no una sola sostenida.",
+  "cue": "Desde plancha, lleva el pie por fuera de la mano del mismo lado. Baja el codo hacia el piso y desde ahí abre el brazo al techo. Varias repeticiones lentas por lado, no una sola sostenida.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 3
@@ -2734,7 +2734,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "De pie, pliégate hacia adelante y camina con las manos hasta plancha, sin mover los pies. Vuelve caminando las manos hacia atrás. Las piernas lo más estiradas que aguanten — ahí está el trabajo de isquios.",
+  "cue": "De pie, pliégate hacia adelante y camina con las manos hasta plancha, sin mover los pies. Vuelve caminando las manos hacia atrás. Piernas lo más estiradas que aguanten.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 3
@@ -2754,7 +2754,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Pies bien abiertos, baja el peso sobre una pierna dejando la otra estirada con la punta del pie arriba. Pecho alto y talón de la pierna que baja pegado al piso. Pasa de lado a lado despacio; no llegues hasta abajo si la espalda se redondea.",
+  "cue": "Pies bien abiertos. Baja el peso sobre una pierna dejando la otra estirada con la punta arriba. Pecho alto, talón de la pierna que baja pegado al piso. No llegues hasta abajo si la espalda se redondea.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -2794,7 +2794,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Pie a un palmo de la pared, toca la pared con la rodilla sin que el talón se despegue. Si llegas fácil, aleja el pie un centímetro y vuelve a probar. Es la medida más honesta de tu tobillo, y mejora con repeticiones, no con fuerza.",
+  "cue": "Pie a un palmo de la pared. Toca la pared con la rodilla sin que el talón se despegue. Si llegas fácil, aleja el pie un centímetro y vuelve a probar. Mejora con repeticiones, no con fuerza.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -2854,7 +2854,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Boca abajo, brazos en cruz. Lleva un talón cruzado hacia la mano contraria dejando que la cadera rote, y el pecho lo más pegado al piso que puedas. Lento a la ida y lento a la vuelta.",
+  "cue": "Boca abajo, brazos en cruz. Lleva un talón cruzado hacia la mano contraria dejando que la cadera rote, pecho lo más pegado al piso que puedas. Lento a la ida y a la vuelta.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -2874,7 +2874,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Sentado, hombros quietos. Mentón al pecho, rueda hacia un hombro, lleva la oreja atrás, y completa el círculo — despacísimo, buscando dónde se traba. Nunca a la fuerza y nunca rápido: si aparece mareo o hormigueo, detente.",
+  "cue": "Sentado, hombros quietos. Mentón al pecho, rueda hacia un hombro, oreja atrás, y completa el círculo. Despacísimo. Si aparece mareo o hormigueo, detente.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -2894,7 +2894,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "De costado, rodillas dobladas y talones juntos. Abre la rodilla de arriba sin que la cadera se caiga hacia atrás — pon la mano en el glúteo y siente que trabaja ahí. Lento, y sostén un segundo arriba.",
+  "cue": "De costado, rodillas dobladas, talones juntos. Abre la rodilla de arriba sin que la cadera se caiga hacia atrás. Pon la mano en el glúteo y siente que trabaja ahí. Lento, un segundo arriba.",
   "video": "",
   "variant_count": 1,
   "routine_refs": 2
@@ -2914,7 +2914,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Banda por encima de las rodillas. Mismo movimiento contra resistencia, y la bajada tan lenta como la subida.",
+  "cue": "De costado, banda por encima de las rodillas, talones juntos. Abre la rodilla de arriba sin que la cadera se caiga hacia atrás. La bajada tan lenta como la subida.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -3014,7 +3014,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Sobre el antebrazo, cadera arriba y cuerpo en línea. Baja la cadera hasta rozar el piso y vuelve a subir, lento y controlado. Con las rodillas apoyadas si la versión larga te rompe la línea.",
+  "cue": "Antebrazo bajo el hombro, cadera arriba, cuerpo en línea. Baja la cadera hasta rozar el piso y vuelve a subir, lento. Rodillas apoyadas si la versión larga te rompe la línea.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 5
@@ -3034,7 +3034,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Cuadrupedia con las rodillas a un palmo del piso. Avanza y retrocede moviendo mano y pie contrarios, con la cadera baja y sin que se balancee de lado a lado. Pasos cortos.",
+  "cue": "Cuadrupedia con las rodillas a un palmo del piso. Avanza y retrocede moviendo mano y pie contrarios, cadera baja, sin balancearte de lado a lado. Pasos cortos.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 3
@@ -3054,7 +3054,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "En plancha alta con los codos estirados todo el tiempo: deja caer el pecho juntando los omóplatos, y después empuja el piso separándolos al máximo. El movimiento es de tres o cuatro centímetros y es exactamente el músculo que le falta a un nadador.",
+  "cue": "Plancha alta, codos estirados todo el tiempo. Deja caer el pecho juntando los omóplatos y después empuja el piso separándolos al máximo. El movimiento es de tres o cuatro centímetros.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 2
@@ -3094,7 +3094,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "De pie con la banda al frente, misma secuencia contra resistencia baja. Muchas repeticiones y poca tensión — el manguito posterior responde a eso, no a la carga.",
+  "cue": "De pie, banda al frente. Misma secuencia Y, T y W contra resistencia baja. Muchas repeticiones, poca tensión. Escápulas abajo, nunca hacia las orejas.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -3134,7 +3134,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Banda anclada a la altura del codo, codo pegado al cuerpo. Rota hacia afuera y vuelve más lento de lo que fuiste. Rango corto y control.",
+  "cue": "Banda anclada a la altura del codo, codo pegado a las costillas. Rota el antebrazo hacia afuera y vuelve más lento de lo que fuiste. Rango corto y controlado.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -3154,7 +3154,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Media sentadilla, pecho alto, y camina de lado dando pasos parejos sin juntar los pies del todo. Las rodillas empujando hacia afuera todo el tiempo y la cadera a la misma altura. Ida y vuelta.",
+  "cue": "Media sentadilla, pecho alto. Camina de lado con pasos parejos, sin juntar los pies del todo. Rodillas hacia afuera y cadera a la misma altura. Ida y vuelta.",
   "video": "",
   "variant_count": 1,
   "routine_refs": 2
@@ -3174,7 +3174,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Banda en los tobillos o por encima de las rodillas. Mismo paso contra resistencia, y sin que el pie de atrás se arrastre.",
+  "cue": "Media sentadilla, banda en los tobillos o por encima de las rodillas. Camina de lado con pasos parejos, sin que el pie de atrás se arrastre. Rodillas hacia afuera y cadera a la misma altura.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -3194,7 +3194,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Sube con las dos piernas y baja con una sola, contando tres segundos. La bajada es el ejercicio. Alterna la pierna que baja.",
+  "cue": "Sube a puntas con las dos piernas y baja con una sola en tres segundos. La bajada es el ejercicio. Alterna la pierna que baja. No rebotes abajo.",
   "video": "",
   "variant_count": 1,
   "routine_refs": 2
@@ -3214,7 +3214,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Media planta en el borde de un escalón. Sube con dos, baja con una dejando caer el talón por debajo del escalón, tres segundos. Si estás con el protocolo de aquiles, no sumes volumen aquí: cuenta estas series como parte de aquel.",
+  "cue": "Media planta en el borde del escalón. Sube con dos, baja con una dejando caer el talón por debajo, tres segundos. Si ya estás en un protocolo de aquiles, cuenta estas series como parte de aquel.",
   "video": "",
   "variant_count": 0,
   "routine_refs": ""
@@ -3254,7 +3254,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 60,
-  "cue": "Boca arriba, rodillas dobladas, manos sobre los huesos de la cadera por dentro. Inhala al abdomen, y al exhalar lleva el ombligo hacia adentro y hacia arriba sin mover la pelvis. Deberías sentir una tensión suave debajo de los dedos. Es sutil, y es la base de todo lo demás.",
+  "cue": "Boca arriba, rodillas dobladas, manos por dentro de los huesos de la cadera. Inhala al abdomen; al exhalar lleva el ombligo adentro y arriba sin mover la pelvis. Deberías sentir una tensión suave bajo los dedos.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 4
@@ -3274,7 +3274,7 @@
   "reps": "",
   "rest_s": "",
   "hold_s": 45,
-  "cue": "Paso largo hacia atrás bajando la rodilla, con los dos brazos estirados por encima de la cabeza y las costillas abajo. Los brazos arriba son lo que convierte esto en trabajo de cadera y torácica a la vez.",
+  "cue": "Paso largo hacia atrás bajando la rodilla, brazos estirados por encima de la cabeza y costillas abajo. Los brazos arriba convierten esto en trabajo de cadera y torácica a la vez.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3314,7 +3314,7 @@
   "reps": "30-45s",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Con los dos pies en el borde del escalón, sube a puntas y sostén arriba, quieto. Los isométricos pesados son analgésicos naturales para el tendón: si arrancas con esto, el resto de la rutina duele menos.",
+  "cue": "Dos pies en el borde del escalón, sube a puntas y sostén quieto arriba. Si arrancas por aquí, el resto de la sesión suele doler menos.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3334,7 +3334,7 @@
   "reps": "30-45s",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Igual, pero en piso plano, no en el escalón: con dolor en la inserción no queremos el talón por debajo del nivel del pie. Sube a puntas y sostén quieto arriba. Es el analgésico natural del tendón.",
+  "cue": "En piso plano, sube a puntas y sostén quieto arriba. Con dolor en la inserción no queremos el talón por debajo del nivel del pie.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3354,7 +3354,7 @@
   "reps": "20",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Saltitos chicos en el lugar, solo desde el tobillo, con la rodilla casi fija. El contacto tiene que ser corto y sonar poco. No buscas altura: buscas rigidez elástica, que es lo que el tendón hace cuando corres.",
+  "cue": "Saltitos chicos en el lugar, solo desde el tobillo, rodilla casi fija. Contacto corto y que suene poco. No buscas altura: buscas rigidez elástica.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3374,7 +3374,7 @@
   "reps": "30s",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Skipping suave en el lugar o avanzando. Rebote rápido, apoyo de metatarso, sin machacar el talón. Si el tendón habla, se corta el bloque — no se negocia.",
+  "cue": "Skipping suave en el lugar o avanzando. Rebote rápido, apoyo de metatarso, sin machacar el talón. Si el tendón habla, se corta el bloque.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3394,7 +3394,7 @@
   "reps": "10 por lado",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Saltitos en el lugar sobre una pierna, aterrizando en el metatarso con la rodilla suave. Es el último escalón antes de volver a correr fuerte. Si mañana amaneces más rígido que hoy, era demasiado pronto.",
+  "cue": "Saltitos en el lugar sobre una pierna, aterrizando en el metatarso con la rodilla suave. Si mañana amaneces más rígido que hoy, era demasiado pronto.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3414,7 +3414,7 @@
   "reps": "15 por lado",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "En el escalón, sube con las dos piernas, saca la pierna sana y baja solo con la lesionada en 4-5 segundos, dejando el talón caer por debajo del escalón. Vuelve a apoyar la sana para subir. La bajada es todo el ejercicio; nunca subas con la pierna lesionada.",
+  "cue": "En el escalón, sube con las dos, saca la pierna sana y baja solo con la de trabajo en 4-5 segundos, dejando el talón caer por debajo. Vuelve a apoyar la sana para subir. Nunca subas con la pierna irritada.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3434,7 +3434,7 @@
   "reps": "15 por lado",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Exactamente lo mismo, pero con la rodilla de trabajo flexionada unos 30 grados todo el movimiento. Eso baja la carga del gemelo al sóleo, que es el músculo que más trabaja corriendo en llano.",
+  "cue": "Media planta en el borde del escalón, rodilla flexionada unos 30° todo el movimiento. Sube con las dos, baja con una en tres segundos dejando caer el talón. La rodilla doblada pasa la carga del gemelo al sóleo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3454,7 +3454,7 @@
   "reps": "15 por lado",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "En el piso, no en el escalón. Sube a puntas con las dos, saca la pierna sana y baja con la lesionada en 4-5 segundos hasta que el talón toque el piso, y ahí paras. Nunca más abajo: con dolor en la inserción, ese rango de más aplasta el tendón contra el hueso.",
+  "cue": "En el piso, no en el escalón. Sube a puntas con las dos, saca la pierna sana y baja con la de trabajo en 4-5 segundos hasta que el talón toque el piso, y ahí paras. Nunca más abajo: con dolor en la inserción ese rango aplasta el tendón contra el hueso.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3474,7 +3474,7 @@
   "reps": "15 por lado",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Igual que el anterior, en piso y frenando en el talón, pero con la rodilla flexionada unos 30 grados para llevar la carga al sóleo.",
+  "cue": "En piso plano, rodilla flexionada unos 30°. Sube a puntas con las dos y baja con una en tres segundos hasta que el talón toque el piso, no más abajo. La rodilla doblada lleva la carga al sóleo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3494,7 +3494,7 @@
   "reps": "6-8",
   "rest_s": 120,
   "hold_s": "",
-  "cue": "Pesado, y 3 segundos para subir, 3 para bajar. El tempo no es un detalle estético: la tensión sostenida es lo que remodela el colágeno. Sentado y con rodilla flexionada, el que trabaja es el sóleo — el caballo de batalla del fondista.",
+  "cue": "Máquina sentado, pesado. 3 segundos para subir, 3 para bajar. Rodilla flexionada: trabaja el sóleo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3514,7 +3514,7 @@
   "reps": "6-8",
   "rest_s": 120,
   "hold_s": "",
-  "cue": "Pesado, 3 segundos arriba y 3 abajo, pero frena cuando el talón llega a la altura del apoyo — no lo dejes caer por debajo. Ese último tramo es el que comprime la inserción, y es el que no te está dejando mejorar.",
+  "cue": "Máquina sentado, pesado, 3 segundos arriba y 3 abajo. Frena cuando el talón llega a la altura del apoyo: no lo dejes caer por debajo. Ese último tramo comprime la inserción.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3534,7 +3534,7 @@
   "reps": "8-10",
   "rest_s": 120,
   "hold_s": "",
-  "cue": "Piernas casi estiradas, sin bloquear la rodilla hacia atrás, empujando con el metatarso. Mismo tempo lento. Con la rodilla extendida el protagonista pasa a ser el gemelo.",
+  "cue": "Piernas casi estiradas, sin bloquear la rodilla hacia atrás, empujando con el metatarso. Tempo lento. Con la rodilla extendida el protagonista es el gemelo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3554,7 +3554,7 @@
   "reps": "8-10",
   "rest_s": 120,
   "hold_s": "",
-  "cue": "Igual, tempo lento, pero sin dejar que el talón baje más allá de la línea del apoyo. Mismo motivo: en la inserción, el rango de más no es más estímulo, es compresión.",
+  "cue": "En la prensa, tempo lento, sin dejar que el talón baje más allá de la línea del apoyo. En la inserción, el rango de más no es más estímulo: es compresión.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3574,7 +3574,7 @@
   "reps": "30s",
   "rest_s": 90,
   "hold_s": "",
-  "cue": "Mancuernas pesadas, camina lento manteniéndote alto sobre el metatarso todo el recorrido, sin que el talón baje. Entrena rigidez del tobillo bajo carga — que es justo lo que le falta al ciclista que hunde el talón cuando aprieta.",
+  "cue": "Mancuernas pesadas. Camina lento manteniéndote alto sobre el metatarso, sin que el talón baje. Entrena rigidez de tobillo bajo carga.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 2
@@ -3594,7 +3594,7 @@
   "reps": "20 por lado",
   "rest_s": 30,
   "hold_s": "",
-  "cue": "Sentado y descalzo, toalla en el piso, arrúgala hacia ti solo con los dedos. Un pie fuerte se queda con parte del trabajo del despegue en vez de mandárselo entero al tendón.",
+  "cue": "Sentado y descalzo, toalla en el piso. Arrúgala hacia ti solo con los dedos. Un pie fuerte se queda con parte del despegue en vez de mandárselo entero al tendón.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3614,7 +3614,7 @@
   "reps": "30s por lado",
   "rest_s": 30,
   "hold_s": "",
-  "cue": "Descalzo, pie apoyado, acerca la base de los dedos al talón levantando el arco, sin arrugar los dedos y sin girar el tobillo. Es diminuto y cuesta encontrarlo; cuando aparece, sientes el arco activo. El pie y el aquiles se reparten el resorte: si el arco se cae, el tendón paga la diferencia.",
+  "cue": "Descalzo, pie apoyado. Acerca la base de los dedos al talón levantando el arco, sin arrugar los dedos y sin girar el tobillo. Es diminuto: cuando aparece, sientes el arco activo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3634,7 +3634,7 @@
   "reps": "20",
   "rest_s": 30,
   "hold_s": "",
-  "cue": "De espaldas a la pared, talones un paso adelante, sube las puntas hacia las espinillas lo más alto que puedas y baja lento. Es el antagonista del gemelo: te da control de la caída del pie al aterrizar, en vez de solo frenarla.",
+  "cue": "De espaldas a la pared, talones un paso adelante. Sube las puntas hacia las espinillas lo más alto que puedas y baja lento. Es el antagonista del gemelo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3694,7 +3694,7 @@
   "reps": "2 min por lado",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Manos en la pared, pierna de atrás recta y el talón clavado en el piso. Estira el gemelo. Solo después de entrenar, con el tejido caliente — estirar un aquiles frío e irritado es la forma más rápida de encender el cuadro.",
+  "cue": "Manos en la pared, pierna de atrás recta, talón clavado. Estira el gemelo. Mejor con el tejido caliente: estirar un aquiles frío e irritado enciende el cuadro.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3714,7 +3714,7 @@
   "reps": "2 min por lado",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Misma posición, pero flexionando levemente la rodilla de atrás sin despegar el talón. El estiramiento baja y se acerca al tendón: ahí está el sóleo.",
+  "cue": "Manos en la pared, pierna de atrás atrás, talón clavado. Flexiona levemente esa rodilla sin despegar el talón. El estiramiento baja hacia el sóleo, cerca del tendón. Tronco erguido.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3734,7 +3734,7 @@
   "reps": "90s por lado",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sentado, círculos amplios y lentos con el tobillo, y después puntas hacia adelante sostenidas. Aquí no hay estiramiento de gemelo a propósito: con dolor en la inserción, llevar el pie a dorsiflexión máxima comprime el tendón contra el hueso, que es exactamente lo que estamos evitando toda la rutina. Movilidad sí, tironeo no.",
+  "cue": "Sentado, círculos amplios y lentos, después puntas hacia adelante sostenidas. Aquí no hay estiramiento de gemelo a propósito: con dolor en la inserción, la dorsiflexión máxima comprime el tendón. Movilidad sí, tironeo no.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3854,7 +3854,7 @@
   "reps": "45s",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Espalda contra la pared, rodillas a ~90°, y empuja los talones contra el piso como si quisieras arrastrarlos hacia atrás. Sostén. Es el ejercicio que más rápido baja el dolor de rodilla — si hoy te molesta, empieza por aquí y vas a notar que el resto de la rutina duele menos.",
+  "cue": "Espalda contra la pared, rodillas a ~90°. Empuja los talones como si quisieras arrastrarlos hacia atrás y sostén. Si hoy la rodilla molesta, empieza por aquí.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3874,7 +3874,7 @@
   "reps": "8-12 por pierna",
   "rest_s": 90,
   "hold_s": "",
-  "cue": "Pie de atrás sobre la silla, pecho arriba. La rodilla de adelante viaja sobre el dedo del medio, nunca hacia adentro. Si se mete, acorta el rango antes de acortar la técnica.",
+  "cue": "Pie de atrás sobre una silla, pecho arriba. La rodilla de adelante viaja sobre el segundo dedo, nunca hacia adentro. Si se mete, acorta el rango antes que la técnica.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3914,7 +3914,7 @@
   "reps": "12 por pierna",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Paso atrás a la zancada y, sin pausa, sube esa rodilla al pecho en un solo movimiento. Es estabilidad dinámica: la mitad del ejercicio es no tambalearte al subir.",
+  "cue": "Paso atrás a la zancada y, sin pausa, sube esa rodilla al pecho en un solo movimiento. La mitad del ejercicio es no tambalearte al subir. Rodilla de adelante en la línea del segundo dedo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3934,7 +3934,7 @@
   "reps": "20-30s por lado",
   "rest_s": 45,
   "hold_s": "",
-  "cue": "Plancha lateral con la rodilla de arriba apoyada en la silla y la pierna de abajo despegada del piso. Trabaja los aductores, que son el contrapeso de la banda iliotibial del lado de afuera.",
+  "cue": "Plancha lateral con la rodilla de arriba apoyada en una silla y la pierna de abajo despegada. Cuerpo en línea. Trabaja los aductores.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3954,7 +3954,7 @@
   "reps": "10 por pierna",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "De costado en un escalón, baja el otro pie hacia el piso en 3-4 segundos y sube rápido. La lentitud de la bajada es todo el ejercicio — apunta al vasto interno, el que endereza la rótula.",
+  "cue": "De pie en un escalón, baja el otro pie hacia el piso en 3-4 segundos y sube rápido. La lentitud de la bajada es todo el ejercicio. Rodilla sobre el segundo dedo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3974,7 +3974,7 @@
   "reps": "45s",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Igual que en casa, con un disco sobre los muslos si quieres más. Si hoy la rodilla molesta, haz esto primero: la isometría baja el dolor y te deja entrenar el resto con buena técnica en vez de compensando.",
+  "cue": "Espalda contra la pared, rodillas a ~90°. Empuja los talones como si quisieras arrastrarlos hacia atrás. Puedes poner un disco sobre los muslos. Si hoy la rodilla molesta, empieza por aquí.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -3994,7 +3994,7 @@
   "reps": "8-10 por pierna",
   "rest_s": 90,
   "hold_s": "",
-  "cue": "El mejor ejercicio que hay para blindar rodillas. Suma peso solo cuando las 10 repeticiones salgan sin que la rodilla se meta — la carga amplifica la técnica que ya tienes, buena o mala.",
+  "cue": "Pie de atrás elevado, mancuernas a los lados, pecho arriba. Rodilla de adelante sobre el segundo dedo. Suma peso solo cuando las repeticiones salgan sin que la rodilla se meta.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4014,7 +4014,7 @@
   "reps": "10-12",
   "rest_s": 90,
   "hold_s": "",
-  "cue": "Bisagra de cadera, no sentadilla: los glúteos van hacia atrás y las rodillas casi no se mueven. Una cadena posterior fuerte le saca a la rodilla el trabajo de frenar.",
+  "cue": "Barra o mancuernas. Bisagra de cadera, no sentadilla: los glúteos van hacia atrás y las rodillas casi no se mueven. Espalda larga.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4034,7 +4034,7 @@
   "reps": "10 por pierna",
   "rest_s": 90,
   "hold_s": "",
-  "cue": "Pie alto y levemente hacia afuera en la plataforma, para cargar glúteo y vasto interno. Controla la bajada; no rebotes abajo.",
+  "cue": "Un pie en la plataforma, alto y levemente hacia afuera, para cargar glúteo y vasto interno. Controla la bajada; no rebotes abajo. La rodilla viaja en la línea del segundo dedo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4054,7 +4054,7 @@
   "reps": "12-15 por lado",
   "rest_s": 45,
   "hold_s": "",
-  "cue": "Tobillera en la polea baja, de costado a la máquina, barre la pierna hacia afuera. El tronco se queda quieto — si te inclinas para el otro lado, baja el peso.",
+  "cue": "Tobillera en la polea baja, de costado a la máquina. Barre la pierna hacia afuera. El tronco se queda quieto: si te inclinas al otro lado, baja el peso.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4074,7 +4074,7 @@
   "reps": "12-15 por lado",
   "rest_s": 45,
   "hold_s": "",
-  "cue": "El par de la abducción, y el que casi nadie hace. Aductores fuertes equilibran la tracción de la banda iliotibial y estabilizan la pelvis desde adentro. Rango completo, sin rebote.",
+  "cue": "De costado a la polea o en la máquina de aductores. Cierra la pierna en rango completo, sin rebote. El tronco no se inclina para ayudar.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4094,7 +4094,7 @@
   "reps": "15",
   "rest_s": 45,
   "hold_s": "",
-  "cue": "Solo los últimos 30 grados, de rodilla apenas flexionada a estirada, con peso moderado y apretando arriba. El rango completo cizalla la rodilla; este pedacito aísla el vasto interno sin cobrarte nada.",
+  "cue": "En la máquina, solo los últimos 30°: de rodilla apenas flexionada a estirada, peso moderado, aprieta arriba. El rango completo cizalla; este pedazo aísla el vasto interno.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4134,7 +4134,7 @@
   "reps": "60-90s por lado",
   "rest_s": "",
   "hold_s": "",
-  "cue": "El musculito arriba y adelante de la cadera, donde nace la banda iliotibial. No pases el rodillo por la banda iliotibial en el costado del muslo: es tendón, no músculo, y rodarla inflama más. Rueda aquí arriba, que es lo que la tensa.",
+  "cue": "El músculo arriba y adelante de la cadera, donde nace la banda iliotibial. No ruedes la cintilla en el costado del muslo: es tendón, no músculo. Rueda aquí arriba.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4194,7 +4194,7 @@
   "reps": "2 min por lado",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Para glúteo mayor y piramidal, que se agarrotan con las horas de sillín y de asfalto. Respira y suelta; dos minutos no son dos minutos de forcejeo.",
+  "cue": "Pierna de adelante flexionada cruzada bajo el cuerpo, la de atrás estirada y alineada, no abierta al costado. Inclínate desde la cadera y respira. No forcejees. Si la rodilla molesta, eleva la cadera con una almohada.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4214,7 +4214,7 @@
   "reps": "60-90s por lado",
   "rest_s": "",
   "hold_s": "",
-  "cue": "De costado, el rodillo justo debajo de la axila, sobre el costado de las costillas. Cuando encuentres un punto sensible, frena ahí y sube y baja el brazo despacio — ese barrido despega el tejido mucho más que seguir rodando. El dorsal es el que te enrolla el hombro hacia adelante.",
+  "cue": "De costado, rodillo justo debajo de la axila, sobre el costado de las costillas. Cuando un punto se queje, frena y sube y baja el brazo despacio. Ese barrido despega más que seguir rodando.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4314,7 +4314,7 @@
   "reps": "10",
   "rest_s": 30,
   "hold_s": "",
-  "cue": "De frente a la pared, antebrazos apoyados. Deslízalos hacia arriba y arriba del todo empuja la pared como si quisieras alejarte de ella, dejando que los omóplatos se abracen a las costillas. Ese último empujón es el serrato, y es el músculo que le hace lugar al tendón cuando levantas el brazo.",
+  "cue": "De frente a la pared, antebrazos apoyados. Deslízalos hacia arriba y, arriba del todo, empuja la pared como si quisieras alejarte, dejando que los omóplatos se abracen a las costillas. Ese último empujón es el serrato.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4354,7 +4354,7 @@
   "reps": "10-12",
   "rest_s": 45,
   "hold_s": "",
-  "cue": "Plancha alta —o de rodillas, o contra la pared si el hombro está sensible. Baja y sube normal, y arriba, con los codos ya estirados, empuja el piso un poco más hasta que la espalda alta se redondee. Ese centímetro extra es todo el ejercicio.",
+  "cue": "Plancha alta — o de rodillas, o contra la pared si el hombro está sensible. Flexión normal y, arriba, con los codos ya estirados, empuja el piso un poco más hasta que la espalda alta se redondee. Ese centímetro extra es el ejercicio.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 3
@@ -4374,7 +4374,7 @@
   "reps": "15-20 por brazo",
   "rest_s": 45,
   "hold_s": "",
-  "cue": "De costado sobre el lado sano, el brazo de arriba con el codo pegado a las costillas (una toalla enrollada abajo ayuda) y flexionado a 90°. Gira el antebrazo hacia el techo. Poco o nada de peso y muchas repeticiones: el manguito es un grupo de resistencia, no de fuerza máxima. Una botella chica de agua alcanza y sobra.",
+  "cue": "De costado, brazo de arriba con el codo pegado a las costillas (una toalla abajo ayuda) y flexionado a 90°. Gira el antebrazo hacia el techo. Poco o nada de peso, muchas repeticiones.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4394,7 +4394,7 @@
   "reps": "12 por brazo",
   "rest_s": 45,
   "hold_s": "",
-  "cue": "Agarra el marco con una mano, pies cerca, y déjate caer hacia atrás con el cuerpo derecho. Tracciona. El codo va hacia atrás pegado al cuerpo y el omóplato baja, no sube — si sientes el cuello, el trapecio superior te ganó de mano.",
+  "cue": "Agarra el marco con una mano, pies cerca, y déjate caer hacia atrás con el cuerpo derecho. Tracciona. Codo atrás pegado al cuerpo, omóplato abajo. Si sientes el cuello, el trapecio superior te ganó.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4414,7 +4414,7 @@
   "reps": "8 en cada posición",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Boca abajo, frente apoyada, pulgares al techo. Despega los brazos: adelante (I), en diagonal (Y) y en cruz (T). Junto los omóplatos hacia abajo, nunca hacia las orejas. Sin peso las tres veces primero; el peso viene después de que las 24 repeticiones salgan sin encoger el hombro.",
+  "cue": "Boca abajo, frente apoyada, pulgares al techo. Despega los brazos adelante (I), en diagonal (Y) y en cruz (T). Omóplatos hacia abajo, nunca hacia las orejas. Sin peso hasta que salgan las repeticiones sin encoger el hombro.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 2
@@ -4434,7 +4434,7 @@
   "reps": "15-20 por brazo",
   "rest_s": 45,
   "hold_s": "",
-  "cue": "Banda atada al picaporte, de costado, codo pegado a las costillas con una toalla enrollada abajo. Gira el antebrazo hacia afuera. Poca resistencia y muchas repeticiones — si tienes que tirar con el cuerpo, la banda es demasiado dura.",
+  "cue": "Banda atada a un picaporte, de costado. Codo pegado a las costillas con una toalla enrollada abajo. Gira el antebrazo hacia afuera. Si tiras con el cuerpo, la banda es demasiado dura.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4454,7 +4454,7 @@
   "reps": "15",
   "rest_s": 45,
   "hold_s": "",
-  "cue": "Banda anclada a la altura de la cara. Trae las manos hacia la frente llevando los codos hacia atrás y girando las manos hacia arriba, hasta terminar como haciendo bíceps. Es el ejercicio que más directo pega en rotadores externos y trapecio medio a la vez.",
+  "cue": "Banda a la altura de la cara. Trae las manos hacia la frente, codos atrás, y gira las manos hacia arriba hasta terminar como haciendo bíceps.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4474,7 +4474,7 @@
   "reps": "8-12",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Colgado con los brazos estirados. Sin flexionar los codos, baja y junta los omóplatos hasta subir dos o tres centímetros. Sostén 2 segundos y baja. Es exactamente el control que necesitas en el agarre de la brazada, cuando el hombro está más expuesto.",
+  "cue": "Colgado, brazos estirados. Sin flexionar los codos, junta los omóplatos hasta subir dos o tres centímetros. Sostén 2 segundos y baja.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4494,7 +4494,7 @@
   "reps": "15 por brazo",
   "rest_s": 45,
   "hold_s": "",
-  "cue": "Igual que con banda, pero la polea mantiene la tensión pareja en todo el recorrido. Codo pegado, toalla abajo. Peso bajo y sin tirones: aquí no se busca carga, se busca fondo.",
+  "cue": "Polea a la altura del codo, codo pegado, toalla entre codo y costillas. Rota hacia afuera. Peso bajo y sin tirones: aquí no se busca carga, se busca calidad.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4514,7 +4514,7 @@
   "reps": "12",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Boca abajo sobre el banco a 30-45°. Rema apretando el medio de la espalda. El banco es el punto: te saca la lumbar de la ecuación, así que el peso lo levanta lo que tiene que levantarlo.",
+  "cue": "Boca abajo sobre el banco a 30-45°. Rema apretando el medio de la espalda, omóplatos abajo. El banco saca la lumbar de la ecuación.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4534,7 +4534,7 @@
   "reps": "8 por brazo",
   "rest_s": 60,
   "hold_s": "",
-  "cue": "Kettlebell al revés, agarrada del mango con la pesa apuntando al techo, y presionas por arriba. Empieza con una ridículamente liviana: mantenerla derecha exige del manguito todo lo que este bloque viene entrenando, y ahí es donde se nota si el hombro ya está estable.",
+  "cue": "Kettlebell al revés, pesa apuntando al techo, y presiona por arriba. Empieza ridículamente liviana: mantenerla derecha exige del manguito. Ahí se nota si el hombro ya está estable.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4574,7 +4574,7 @@
   "reps": "2 min",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Sentado sobre los talones, brazos estirados adelante. Camina las dos manos bien hacia la izquierda para estirar el dorsal derecho, respira ahí, y después hacia la derecha. El dorsal es lo que tira el hombro a rotación interna; si no lo sueltas, todo lo de arriba trabaja en contra.",
+  "cue": "Sentado sobre los talones, brazos adelante. Camina las dos manos bien hacia la izquierda para estirar el dorsal derecho, respira, y después hacia la derecha.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4694,7 +4694,7 @@
   "reps": "16-20 toques",
   "rest_s": 15,
   "hold_s": "",
-  "cue": "En cuadrupedia con las rodillas despegadas unos centímetros del piso, toca el hombro contrario con una mano. La cadera no bascula ni un grado. Con la rodilla debajo de la cadera el ángulo se parece mucho más al de la bici que una plancha larga — y es más difícil de lo que parece.",
+  "cue": "Cuadrupedia con las rodillas despegadas unos centímetros. Toca el hombro contrario. La cadera no bascula ni un grado.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4754,7 +4754,7 @@
   "reps": "10-12 alcances",
   "rest_s": 15,
   "hold_s": "",
-  "cue": "En plancha alta, estira una mano lejos y cruzada, pasando la línea de la otra mano, lento. La cadera no rota ni se hunde. Es la versión sin peso del arrastre: pide la misma tensión cruzada entre el dorsal de un lado y el glúteo del otro — la conexión de tirar del manillar mientras empujas el pedal contrario.",
+  "cue": "Plancha alta. Estira una mano lejos y cruzada, pasando la línea de la otra mano, lento. La cadera no rota ni se hunde.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4774,7 +4774,7 @@
   "reps": "20-30s",
   "rest_s": 75,
   "hold_s": "",
-  "cue": "Plancha de antebrazos, pero con los codos bastante más adelante que los hombros. Pelvis metida, costillas hacia abajo. Cuanto más adelante los codos, más brutal — busca la distancia donde puedes aguantar 20 segundos sin que la lumbar se hunda, ni un centímetro más.",
+  "cue": "Plancha de antebrazos con los codos bastante más adelante que los hombros. Pelvis metida, costillas abajo. Busca la distancia donde aguantas el bloque sin que la lumbar se hunda.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4874,7 +4874,7 @@
   "reps": "10 por lado",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Extiende brazo y pierna contrarios hasta la línea del tronco y alterna sin pausas largas. Espalda plana, como si tuvieras un vaso de agua en la lumbar. Es el patrón cruzado de la marcha: hombro contra glúteo opuesto, que es el que sostiene la zancada.",
+  "cue": "En cuadrupedia, extiende brazo y pierna contrarios hasta la línea del tronco y alterna sin pausas largas. Espalda plana, como un vaso de agua en la lumbar.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4887,14 +4887,14 @@
   "type": "main",
   "parent_exercise": "",
   "phase": "",
-  "name": "Puente de glúteos con marcha",
+  "name": "Puente con marcha",
   "mode": "",
   "tag": "Sin equipo",
   "sets": 1,
   "reps": "20 repeticiones",
   "rest_s": "",
   "hold_s": "",
-  "cue": "Cadera arriba y fija; despega un pie por vez llevando la rodilla al pecho y alterna. La pelvis no cae para ningún lado. Si se hunde, el glúteo todavía no está despierto — baja el ritmo antes que el rango.",
+  "cue": "Puente arriba y sostenido. Desde ahí despega un pie unos centímetros, apoya, y cambia. La cadera no baja y no rota. Despacio: esto es control, no repeticiones.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4914,7 +4914,7 @@
   "reps": "10-12 por lado",
   "rest_s": 15,
   "hold_s": "",
-  "cue": "Boca arriba, rodillas a 90°, palmas contra los muslos. Empuja las piernas hacia ti y resiste con las manos sin ceder; sin soltar esa tensión, extiende brazo y pierna contrarios hacia el suelo sin tocarlo. La lumbar empuja contra el piso todo el tiempo — es lo primero que se pierde en el último tercio, cuando la pelvis se va a anteversión y la zancada se acorta sola.",
+  "cue": "Boca arriba, rodillas a 90°, palmas contra los muslos. Empuja las piernas hacia ti y resiste con las manos; sin soltar esa tensión, extiende brazo y pierna contrarios hacia el suelo sin tocarlo. La lumbar empuja el piso todo el tiempo.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4934,7 +4934,7 @@
   "reps": "10-12 por lado",
   "rest_s": 15,
   "hold_s": "",
-  "cue": "Antebrazo debajo del hombro, cadera arriba y en línea. Ya estable, lleva la rodilla de la pierna de arriba al pecho como en la fase de vuelo y vuelve a extenderla. La cadera de abajo no baja ni un centímetro. El glúteo medio del lado de apoyo es el que evita que la pelvis colapse en cada aterrizaje, y de ese colapso salen la cintilla iliotibial y buena parte de las rodillas.",
+  "cue": "Antebrazo bajo el hombro, cadera arriba y en línea. Ya estable, lleva la rodilla de arriba al pecho y vuelve a extender. La cadera de abajo no baja ni un centímetro.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4954,7 +4954,7 @@
   "reps": "16-20 alcances",
   "rest_s": 15,
   "hold_s": "",
-  "cue": "Plancha alta, pies a la anchura de los hombros. Estira un brazo hacia adelante como si quisieras tocar la pared, sostén 2 segundos y baja. Alterna. Costillas abajo y cadera quieta — al sacar un apoyo el tronco tiene que resistir la rotación, que es exactamente lo que le pide el braceo. Cada grado que rota el tronco es energía que no fue hacia adelante.",
+  "cue": "Plancha alta, pies a la anchura de los hombros. Estira un brazo hacia adelante, sostén 2 segundos y baja. Costillas abajo y cadera quieta.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4974,7 +4974,7 @@
   "reps": "30-40s por pierna",
   "rest_s": 15,
   "hold_s": "",
-  "cue": "Un talón apoyado cerca de los glúteos, la otra rodilla abrazada al pecho. Sube la cadera hasta alinear rodilla, cadera y hombro y quédate ahí. Si lo sientes en la lumbar o en los isquios, mete la pelvis y baja un poco la altura: buscamos glúteo mayor, que es lo que sostiene y propulsa mientras estás apoyado en un solo pie.",
+  "cue": "Un talón cerca de los glúteos, la otra rodilla al pecho. Sube hasta alinear rodilla, cadera y hombro y quédate. Si lo sientes en la lumbar o en los isquios, mete la pelvis y baja la altura.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -4994,7 +4994,7 @@
   "reps": "10-12 por pierna",
   "rest_s": 15,
   "hold_s": "",
-  "cue": "Paso atrás a zancada. En la posición baja, con los brazos extendidos al frente, rota el tronco hacia el lado de la pierna que quedó adelante, vuelve al centro y sube. La rodilla de adelante no se mete hacia adentro. Aquí el trabajo del piso pasa a la posición del corredor: cadera y rodilla estables mientras el tren superior rota controlado.",
+  "cue": "Paso atrás a zancada. Abajo, brazos al frente, rota el tronco hacia la pierna de adelante, vuelve al centro y sube. La rodilla de adelante no se mete.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1
@@ -5014,7 +5014,7 @@
   "reps": "8-10 por pierna",
   "rest_s": 75,
   "hold_s": "",
-  "cue": "De pie sobre una pierna, rodilla apenas flexionada. Lleva el tronco adelante y la pierna libre atrás hasta que queden en una sola línea, y vuelve sin apoyar. La cadera libre no se abre: las dos crestas ilíacas miran al piso. Es el ejercicio que más se parece a correr de toda la lista — cadena posterior, equilibrio y anti-rotación, sobre un solo pie. Si te tambaleas, acorta el rango antes que tocar el piso con la otra punta.",
+  "cue": "De pie en una pierna, rodilla apenas flexionada. Lleva el tronco adelante y la pierna libre atrás hasta quedar en una sola línea, y vuelve sin apoyar. La cadera libre no se abre: las dos crestas ilíacas miran al piso. Si te tambaleas, acorta el rango antes que tocar el piso.",
   "video": "",
   "variant_count": 0,
   "routine_refs": 1

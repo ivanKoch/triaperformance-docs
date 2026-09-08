@@ -94,54 +94,54 @@ window.MOBILITY_MATRIX = (function () {
   const L = {
 
     /* ------------------------------------------------------- LEG / HIP */
-    calfWall: { name: "Soleus at the wall", mode: "uni", tag: "Wall", secs: 45,
-      cue: "Toes against the wall, heel on the floor, and <strong>drive the knee toward the wall keeping it bent</strong>. A bent knee is soleus, and the soleus is what takes the load when you run. If you feel it in the belly of the calf, bend the knee more.",
+    calfWall: { name: "Wall Soleus Stretch", mode: "uni", tag: "Wall", secs: 45,
+      cue: "Toes against the wall, heel down. Drive the knee toward the wall and keep it bent. Bent knee is soleus. If you feel it in the calf belly, bend the knee more.",
       variants: [{ name: "Foam Roll: Calf Belly", mode: "uni", tag: "Roller",
         cue: "<strong>Stay on the meaty part of the calf. Never roll the tendon</strong> — it is highly innervated tissue and friction there only makes it worse. Sit with the calf on the roller and the other leg crossed on top for load. When you find the spot that complains most, park there instead of sawing back and forth." }] },
 
-    calfGastro: { name: "Calf at the wall", mode: "uni", tag: "Wall", secs: 45,
-      cue: "Same position, but now <strong>with the knee straight and the heel pinned to the floor</strong>. A straight knee is gastroc. Hips forward and torso tall — if you lean back, you have lost the stretch." },
+    calfGastro: { name: "Wall Calf Stretch (Straight Knee)", mode: "uni", tag: "Wall", secs: 45,
+      cue: "Hands on the wall, back leg straight, heel pinned. Straight knee is calf. Hip forward, torso upright: if you lean back, you lost the stretch." },
 
-    hamSupine: { name: "Supine hamstring stretch", mode: "uni", tag: "No equipment", secs: 45,
-      cue: "Hold behind the thigh and <strong>straighten the knee as far as it goes without the hip lifting off the floor</strong>. The other leg stays down. Pull the toes toward you at the end, not from the start.",
+    hamSupine: { name: "Supine Hamstring Stretch", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Hold behind the thigh and straighten the knee as far as it goes without the hip leaving the floor. Other leg down. Toes toward you only at the end, not from the start.",
       variants: [{ name: "Towel Hamstring Stretch", mode: "uni", tag: "Towel",
         cue: "Loop a towel around the sole of the foot and send that leg toward the ceiling. <strong>Pull on the towel, not from your neck.</strong> The other leg stays on the floor." }] },
 
     fig4: { name: "Figure-4 Stretch", mode: "uni", tag: "No equipment", secs: 45,
       cue: "Lie on your back, cross one ankle over the opposite knee and draw the bottom thigh toward your chest. Gently press the crossed knee out with your elbow. <strong>Start on the side that feels tighter.</strong> Breathe long and don't force the range.",
-      variants: [{ name: "Glute on a ball", mode: "uni", tag: "Ball",
-        cue: "Sitting on the ball, find the spot in the glute that complains and <strong>stay still there and breathe</strong> instead of rolling. Cross the ankle over the knee to get deeper." }] },
+      variants: [{ name: "Glute Ball Release", mode: "uni", tag: "Ball",
+        cue: "Sit on the ball, find the glute spot that complains and stay there breathing — don't roll around. Cross the ankle over the knee to go deeper." }] },
 
     psoas: { name: "Half-Kneeling Hip Flexor with Glute Squeeze", mode: "uni", tag: "No equipment", secs: 45,
       cue: "Half-kneeling, front foot flat. <strong>Tuck the pelvis and squeeze the back glute hard before you shift the hip forward.</strong> Without that squeeze you're stretching the low back, not the psoas — the squeeze is the exercise." },
 
-    quadSide: { name: "Side-lying quad stretch", mode: "uni", tag: "No equipment", secs: 45,
-      cue: "On your side, take the top ankle and bring the heel toward your glute <strong>with the pelvis tucked and the knee pointing at the floor</strong>, not flared out. If your lower back arches, back off the range.",
+    quadSide: { name: "Side-Lying Quad Stretch", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "On your side, grab the top ankle and bring the heel to the glute. Pelvis tucked, knee pointing at the floor, not flared out. If the low back arches, ease off.",
       variants: [{ name: "Foam Roll: Quads", mode: "uni", tag: "Roller",
         cue: "Lie face down with the thigh on the roller, from the hip crease to just above the kneecap. Medium pressure: if you're holding your breath, it's too much. <strong>When you find a tender spot, stay there and bend and straighten the knee.</strong>" },
         { name: "Couch Stretch", mode: "uni", tag: "Wall",
         cue: "Kneel with your back to a wall or the foot of a bed, back instep resting up, other foot forward in a lunge. <strong>Tuck the pelvis and squeeze the rear glute before you lift the torso.</strong> Skip that and the pelvis dumps, so the low back takes the stretch instead of the psoas and quad. Almost nobody needs to sit up as tall as they think." }] },
 
-    itCross: { name: "Supine outer-hip crossover", mode: "uni", tag: "No equipment", secs: 45,
-      cue: "On your back, take one knee across to the opposite side <strong>letting the pelvis rotate with it</strong>, arms wide. You are after the TFL and the glute, on the outside of the hip. <strong>The IT band does not stretch and does not soften under punishment: what loosens is whatever is pulling on it.</strong>",
-      variants: [{ name: "TFL and outer quad on the roller", mode: "uni", tag: "Roller",
-        cue: "The roller just below the hip bone on the outside, then along the side of the thigh. <strong>Moderate pressure, slow.</strong> Do not hunt for the band itself: work the muscle above it and the one in front of it." }] },
+    itCross: { name: "Supine Outer-Hip Cross", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "On your back, take one knee across and let the pelvis roll with it, arms open. You're after TFL and glute, on the outside of the hip. The IT band doesn't stretch by force. <strong>It does not soften under punishment either: what loosens is whatever is pulling on it.</strong>",
+      variants: [{ name: "Foam Roll: TFL and Vastus Lateralis", mode: "uni", tag: "Roller",
+        cue: "Roller just under the outside of the hip bone, then on the outer thigh, high and forward. Moderate, slow pressure. Don't roll the IT band: that's tendon, and it inflames." }] },
 
-    adductor: { name: "Half-kneeling side lunge", mode: "uni", tag: "No equipment", secs: 45,
-      cue: "Kneeling with one leg straight out to the side, foot flat, and <strong>take your hips back and toward the opposite side</strong>. Long spine. This is adductor longus, which works far harder in running and riding than anyone credits." },
+    adductor: { name: "Half-Kneeling Lateral Lunge", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Kneeling, one leg straight out to the side, foot down. Sit the hip back and toward the opposite side. Long spine. You're after the long adductor." },
 
-    butterfly: { name: "Butterfly", mode: "bi", tag: "No equipment", secs: 60,
-      cue: "Soles of the feet together, and <strong>hinge from the hips with a long spine</strong> — do not round to get lower, that is just cheating. Your elbows can press gently on the knees." },
+    butterfly: { name: "Butterfly Stretch", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "Soles together. Hinge from the hips with a long spine: rounding to get lower is just cheating the shape. Elbows can gently press the knees." },
 
-    footArch: { name: "Foot arch and toes", mode: "uni", tag: "No equipment", secs: 45,
-      cue: "Sit back on your heels with your toes tucked under — if it is too much, put your hands down and take weight off. Then spread and close the toes. <strong>The plantar fascia stiffens after a run and nobody touches it until it hurts.</strong>",
-      variants: [{ name: "Plantar fascia on a ball", mode: "uni", tag: "Ball",
-        cue: "Roll the sole of the foot over the ball, heel to toes, slowly, <strong>pausing on the spots that complain</strong>. Pressure you can hold while breathing normally." }] },
+    footArch: { name: "Toe-Sit and Toe Spreads", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Sit on the heels with the toes tucked under. If that's too much, take weight into the hands. Then spread and close the toes.",
+      variants: [{ name: "Plantar Fascia Ball Roll", mode: "uni", tag: "Ball",
+        cue: "Standing or sitting, roll the sole over a ball from heel to toes, slowly. When a spot complains, park there. Pressure you can hold while breathing normally." }] },
 
-    ankleKick: { name: "Ankles and insteps", mode: "bi", tag: "No equipment", secs: 45,
-      cue: "Sit back on your heels with the tops of the feet flat on the floor, <strong>then lift the knees slightly to load the insteps</strong>. Then wide ankle circles. Coming off a swim, an ankle that will not point brakes your kick; coming off a run, this is the one that stiffened up.",
-      variants: [{ name: "Shin and instep on the roller", mode: "bi", tag: "Roller",
-        cue: "On all fours, roller on the front of the shin, rolling slowly from knee to ankle. Tender area: <strong>less pressure than you think.</strong>" }] },
+    ankleKick: { name: "Ankle and Instep Sit", mode: "bi", tag: "No equipment", secs: 45,
+      cue: "Sit on the heels with the insteps flat on the floor. Lift the knees slightly to load the top of the foot. Then big ankle circles.",
+      variants: [{ name: "Shin and Instep Foam Roll", mode: "bi", tag: "Roller",
+        cue: "On all fours, roller on the front of the shin. Roll slowly from knee to ankle. Sensitive area: less pressure than you think." }] },
 
     /* ------------------------------------------------------- TRUNK / BACK */
     childPose: { name: "Child's Pose", mode: "bi", tag: "No equipment", secs: 60,
@@ -153,8 +153,8 @@ window.MOBILITY_MATRIX = (function () {
     twist: { name: "Supine Spinal Twist", mode: "uni", tag: "No equipment", secs: 45,
       cue: "Lie on your back, take one knee across the body, arms open, eyes to the opposite side. <strong>The shoulder stays on the floor</strong>: if it lifts, lower the knee. Soften a little further on each exhale." },
 
-    sphinx: { name: "Gentle sphinx", mode: "bi", tag: "No equipment", secs: 60,
-      cue: "Face down, elbows under the shoulders, pelvis heavy on the floor. <strong>This is a gentle sustained extension, not a cobra.</strong> If your lower back pinches, walk the elbows further forward until it stops." },
+    sphinx: { name: "Gentle Sphinx", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "Face down, elbows under the shoulders, pelvis heavy on the floor. A gentle held extension, not a cobra. If the low back pinches, walk the elbows forward." },
 
     openBook: { name: "Open Book", mode: "uni", tag: "No equipment", secs: 45,
       cue: "Lie on your side, knees bent and stacked, arms reaching forward together. Open the top arm and follow the hand with your eyes. <strong>Keep the knees still.</strong> If they drift apart, the rotation leaked into the low back." },
@@ -162,8 +162,8 @@ window.MOBILITY_MATRIX = (function () {
     catcow: { name: "Cat-Cow", mode: "bi", tag: "No equipment", secs: 45,
       cue: "On all fours, round and arch your spine with your breath. <strong>Start from the pelvis and let the spine follow one vertebra at a time</strong> — not as a block, and not just from the neck and shoulders. This is pelvic and joint control, not a stretch. Stay in a comfortable range, not end range." },
 
-    thoracicExt: { name: "Quadruped thoracic extension", mode: "bi", tag: "No equipment", secs: 60,
-      cue: "Kneeling, forearms down in front and hips back toward your heels. <strong>Let the chest sink toward the floor and the armpits open.</strong> The movement is upper back: if your lower back arches, bring your hips closer to your heels." },
+    thoracicExt: { name: "Quadruped Thoracic Extension", mode: "bi", tag: "No equipment", secs: 60,
+      cue: "Kneeling, forearms forward, hips toward the heels. Drop the chest toward the floor and let the armpits open. If the low back arches, sit the hips closer to the heels." },
 
     /* --------------------------------------------------------- SHOULDER / NECK
        The cross-body stretch replaces the source doc's sleeper stretch, and the
@@ -172,26 +172,26 @@ window.MOBILITY_MATRIX = (function () {
     crossBody: { name: "Cross-Body Shoulder Stretch", mode: "uni", tag: "No equipment", secs: 45,
       cue: "Bring one arm across the chest and hold it above the elbow, never at the wrist. <strong>Before you pull, set the shoulder blade down and don't let the shoulder drift forward</strong>: if the blade slides, you're stretching the upper back instead of the back of the shoulder. You should feel it behind the shoulder, never a pinch in the front." },
 
-    pecFloor: { name: "Prone chest opener", mode: "uni", tag: "No equipment", secs: 45,
-      cue: "Face down, one arm out to the side at shoulder height, and roll your body toward that side, planting the opposite foot. <strong>Look for the chest, not the front of the shoulder</strong> — if you feel it inside the joint, lower the arm a few centimetres and try again.",
+    pecFloor: { name: "Prone Chest Opener", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Face down, one arm out in a T at shoulder height. Roll onto that side and plant the opposite foot. You're after the chest, not the front of the shoulder: if it pinches inside the joint, drop the arm a few centimeters.",
       variants: [{ name: "Ball: Pec Minor", mode: "uni", tag: "Ball",
         cue: "Place the ball under the collarbone, on the front of the shoulder toward the midline. <strong>Light, still pressure: this spot doesn't get rolled, it gets held.</strong> Don't crush it — there are nerves and tendons under here, and this is not a place to pick a fight." }] },
 
-    tricep: { name: "Overhead triceps and lat", mode: "uni", tag: "No equipment", secs: 30,
-      cue: "Elbow up beside your ear, hand between the shoulder blades, press the elbow gently with the other hand. <strong>Ribs down</strong> — if your lower back arches, you bought that range with your spine and not with your shoulder." },
+    tricep: { name: "Overhead Triceps and Lat Stretch", mode: "uni", tag: "No equipment", secs: 30,
+      cue: "Elbow up by the ear, hand between the shoulder blades. Gently press the elbow with the other hand. Ribs down: if the low back arches, you stole range from the spine, not the shoulder." },
 
-    neckTrap: { name: "Neck and upper trap", mode: "uni", tag: "No equipment", secs: 30,
-      cue: "Seated, the hand on the side you are stretching holds the edge of the mat, and take your ear toward the opposite shoulder <strong>without shrugging</strong>. Do not pull with the other hand: the weight of your head is more than enough." },
+    neckTrap: { name: "Upper Trap Stretch", mode: "uni", tag: "No equipment", secs: 30,
+      cue: "Sit, hold the seat with the hand on the side you're stretching. Ear toward the opposite shoulder without shrugging. Don't pull with the other hand: the weight of the head is enough." },
 
-    forearm: { name: "Forearms and wrists", mode: "uni", tag: "No equipment", secs: 30,
-      cue: "On all fours, turn the hand until the fingers point at your knees and <strong>sit slowly back</strong>. Then flip the hand and rest the back of it down for the other direction. Hours gripping the bars get paid for here." },
+    forearm: { name: "Forearm and Wrist Stretch", mode: "uni", tag: "No equipment", secs: 30,
+      cue: "On all fours, turn the hand so the fingers point at the knees and sit back slowly. Then flip to the back of the hand for the other side. Don't force a pinch." },
 
     /* --------------------------------------------------------------- CLOSE */
-    wallLegs: { name: "Legs up the wall", mode: "bi", tag: "Wall", secs: 120,
-      cue: "Hips close to the wall, legs resting vertically against it, arms by your sides. <strong>Two full minutes, and you are not stretching anything: you are bringing your heart rate down and taking the weight out of your legs.</strong> If it pulls too hard on the hamstrings, move your hips further from the wall." },
+    wallLegs: { name: "Legs Up the Wall", mode: "bi", tag: "Wall", secs: 120,
+      cue: "Hips near the wall, legs vertical against it, arms at your sides. You're not stretching: you're dropping the heart rate. If the hamstrings yank, scoot back." },
 
-    breathClose: { name: "Closing breath", mode: "bi", tag: "No equipment", secs: 180,
-      cue: "On your back, knees bent, one hand on your chest and one on your belly. <strong>Inhale 4 seconds through the nose, sending the air into your belly; exhale 6 through the mouth.</strong> The long exhale is what settles the nervous system, and it is what makes this recovery rather than a late warm-up. If you want a protocol with a timer, there is <a href=\"/members/en/breathing/\">Box Breathing</a>." }
+    breathClose: { name: "Closing Breath", mode: "bi", tag: "No equipment", secs: 180,
+      cue: "On your back, knees bent, one hand on the chest and one on the belly. Inhale 4 seconds through the nose into the belly, exhale 6 through the mouth. The long exhale is what brings the system down. If you want a protocol with a timer, there is <a href=\"/members/en/breathing/\">Box Breathing</a>." }
   };
 
   /* ------------------------------------------------------------- ROUTINES

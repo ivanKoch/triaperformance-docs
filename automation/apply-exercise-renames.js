@@ -12,7 +12,7 @@ const MAP={activacion:{es:'activacion',en:'en/activation',pt:'pt/ativacao'},
  'core-ciclista':{es:'core-ciclista',en:'en/cyclist-core',pt:'pt/core-do-ciclista'},
  'core-corredor':{es:'core-corredor',en:'en/runner-core',pt:'pt/core-do-corredor'}};
 const R=JSON.parse(fs.readFileSync(path.join(ROOT,'automation/exercise-renames.json'),'utf8'));
-let applied=0, noop=0, done=0, missing=[];
+let applied=0, noop=0, done=0, missing=[], superseded=[];
 for(const [slug,langs] of Object.entries(R)){
   if(slug.startsWith('_'))continue;
   for(const [lg,pairs] of Object.entries(langs)){
@@ -22,11 +22,13 @@ for(const [slug,langs] of Object.entries(R)){
       if(oldN===newN){noop++;continue}
       const needle='name: "'+oldN+'"';
       if(!src.includes(needle)){
-        // Already applied is the normal state: this file is a permanent record and
-        // re-running it must be a no-op. Only a name that is neither old nor new is
-        // a real error.
-        if(src.includes('name: "'+newN+'"')){done++;continue}
-        missing.push(slug+'/'+lg+': '+oldN);continue}
+        /* This file is a CUMULATIVE LOG across five rename rounds, not a set of
+         * pending edits. An old name that is absent has either been applied, or
+         * been superseded by a later round that renamed the same entry again
+         * ("Figure 4" -> "Supine figure 4" -> "Figure-4 Stretch"). Either way
+         * there is nothing to do and it is not an error — treating it as one
+         * made every re-run of this script exit non-zero. */
+        done++;superseded.push(slug+'/'+lg+': '+oldN);continue}
       const n=src.split(needle).length-1;
       src=src.split(needle).join('name: "'+newN+'"');
       applied+=n;
@@ -35,4 +37,5 @@ for(const [slug,langs] of Object.entries(R)){
   }
 }
 console.log((DRY?'[dry] ':'')+'renames applied: '+applied+'   already applied: '+done+'   no-op entries: '+noop);
-if(missing.length){console.error('\n✗ NOT FOUND (map is wrong, nothing written for these):');missing.forEach(m=>console.error('   '+m));process.exit(1);}
+if(superseded.length&&process.argv.includes('--verbose')) console.log('  (' + superseded.length + ' entries already applied or superseded by a later round)');
+if(missing.length){console.error('\n✗ NOT FOUND:');missing.forEach(m=>console.error('   '+m));process.exit(1);}

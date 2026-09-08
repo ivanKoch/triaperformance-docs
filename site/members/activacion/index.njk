@@ -126,61 +126,61 @@ window.ACTIVATION_MATRIX = (function () {
      default where a hold needs longer to be a stretch rather than a gesture. */
   const L = {
     floss: { name: "Deslizamiento neural", mode: "uni", tag: "Sin equipo", secs: 30,
-      cue: "Acostado, rodilla al pecho y extiende la pierna hacia el techo mientras llevas la punta del pie hacia ti; suelta y repite, lento. <strong>No es un estiramiento: no busques tensión, buscas que el nervio deslice.</strong> Si tira fuerte, achica el rango." },
+      cue: "Boca arriba, rodilla al pecho. Extiende la pierna hacia el techo mientras llevas la punta del pie hacia ti; suelta y repite, lento. No es un estiramiento: buscas que el nervio deslice. Si tira fuerte, achica el rango." },
     fig4: { name: "Figura 4 boca arriba", mode: "uni", tag: "Sin equipo", secs: 45,
       cue: "Boca arriba, cruza un tobillo sobre la rodilla contraria y trae el muslo de abajo hacia el pecho. Empuja suave la rodilla cruzada hacia afuera con el codo. <strong>Empieza por el lado que sientes más rígido.</strong> Respira largo y no fuerces el rango." },
     bridge: { name: "Puente de glúteos", mode: "bi", tag: "Sin equipo",
       cue: "Pies cerca de los glúteos. Sube la cadera empujando con los talones y <strong>sostén dos segundos arriba apretando los glúteos</strong>. La pausa es el ejercicio; sin ella son solo repeticiones. Baja controlado, sin arquear la lumbar. Si lo sientes en los isquios, acerca los pies." },
     bridgeBand: { name: "Puente de glúteos con banda", mode: "bi", tag: "Minibanda",
-      cue: "Banda por encima de las rodillas. Mismo movimiento, pero <strong>empuja las rodillas hacia afuera contra la banda todo el tiempo</strong> — ahí es donde entra el glúteo medio." },
+      cue: "Pies cerca de los glúteos, banda por encima de las rodillas. Sube empujando con los talones y abre las rodillas contra la banda todo el tiempo. Sostén un segundo arriba. Si las rodillas se juntan, el glúteo medio se apagó." },
     deadbug: { name: "Dead bug", mode: "alt", tag: "Sin equipo",
       cue: "Boca arriba, brazos al techo y rodillas a 90°. Extiende brazo y pierna contrarios, lentos, sin que la lumbar se despegue del piso. <strong>Exhala al extender: es la exhalación la que aplana la espalda, no la fuerza abdominal.</strong> Si la lumbar se levanta, baja menos la pierna. El objetivo es control, no velocidad." },
     deadbugBand: { name: "Dead bug con banda", mode: "alt", tag: "Minibanda",
-      cue: "Banda por encima de las rodillas, presión hacia afuera constante. Extiende brazo y pierna contrarios <strong>sin dejar que la banda gane</strong> y sin despegar la lumbar." },
+      cue: "Boca arriba, banda por encima de las rodillas, presión hacia afuera constante. Extiende brazo y pierna contrarios sin que la banda gane y sin despegar la lumbar. Exhala al extender." },
     catcow: { name: "Gato-camello", mode: "bi", tag: "Sin equipo",
       cue: "En cuadrupedia, alterna redondear y arquear la columna al ritmo de la respiración. <strong>Muévete desde la pelvis y deja que la columna la siga vértebra por vértebra</strong> — no en bloque, y no solo cuello y hombros. Esto es control pélvico y articular, no un estiramiento. Rango cómodo, no máximo." },
     kneeChest: { name: "Rodilla al pecho", mode: "uni", tag: "Sin equipo", secs: 30,
-      cue: "Acostado, trae una rodilla al pecho con la otra pierna extendida en el piso. <strong>Si la pierna de abajo se despega, la cadera está corta</strong> — bájala y afloja el rango." },
+      cue: "Boca arriba, trae una rodilla al pecho con la otra pierna extendida en el piso. Si la pierna de abajo se despega, afloja el rango. No tires del cuello." },
     twist: { name: "Torsión espinal", mode: "uni", tag: "Sin equipo", secs: 45,
       cue: "Acostado, rodilla cruzada al lado opuesto, brazos abiertos, mirada al lado contrario. <strong>El hombro no se despega del piso</strong>: si se despega, baja la rodilla. Suelta un poco más en cada exhalación." },
-    hamSupine: { name: "Isquios acostado", mode: "uni", tag: "Sin equipo", secs: 45,
-      cue: "Acostado, sujeta el muslo por detrás de la rodilla con las dos manos. Desde ahí <strong>estira la rodilla hacia el techo hasta sentir el isquio, y no más</strong>. La otra pierna queda apoyada en el piso.",
+    hamSupine: { name: "Isquios boca arriba", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Boca arriba, sujeta el muslo por detrás de la rodilla. Desde ahí estira la rodilla hacia el techo hasta sentir el isquio, y no más. La otra pierna queda apoyada en el piso.",
       variants: [{ name: "Isquios con toalla", mode: "uni", tag: "Toalla o cinta", secs: 45,
         cue: "Toalla en la planta del pie, pierna extendida hacia el techo. <strong>Tira desde la toalla, no desde el cuello.</strong> La otra pierna queda apoyada en el piso." }] },
     child: { name: "Postura del niño con alcance lateral", mode: "uni", tag: "Sin equipo", secs: 45,
       cue: "Desde la postura del niño, camina las manos hacia un costado hasta sentir el dorsal por el lateral del tronco. <strong>La cadera se queda atrás</strong>, no la sigas con el tronco." },
     hipflex: { name: "Psoas de rodillas", mode: "uni", tag: "Sin equipo", secs: 45,
-      cue: "Media rodilla, pie de adelante plano. <strong>Mete la pelvis (glúteos por debajo) antes de avanzar</strong> — sin eso estás estirando la lumbar, no el psoas." },
+      cue: "Media rodilla, pie de adelante plano. Mete la pelvis antes de avanzar la cadera. Sin eso estás estirando la lumbar, no el psoas." },
     hipflexSqueeze: { name: "Psoas con apriete de glúteo", mode: "uni", tag: "Sin equipo", secs: 45,
       cue: "Media rodilla, pie de adelante plano. <strong>Mete la pelvis y aprieta fuerte el glúteo de la pierna de atrás antes de avanzar la cadera.</strong> Sin ese apriete estás estirando la lumbar y no el psoas: ese apriete es el ejercicio." },
     wgs: { name: "El mejor estiramiento del mundo", mode: "uni", tag: "Sin equipo", secs: 45,
       cue: "Zancada profunda, pie adelantado por fuera de la mano. Baja el codo de adentro hacia el piso, aguanta un segundo, y después <strong>rota ese brazo abriendo hacia el techo siguiendo la mano con la mirada</strong>. Cadera, aductor y torácica en un solo gesto." },
     hipCircles: { name: "Círculos de cadera", mode: "uni", tag: "Sin equipo",
-      cue: "Parado en una pierna, rodilla levantada, dibuja círculos amplios hacia adelante y hacia atrás. <strong>El tronco no se mueve</strong> — solo la cadera." },
+      cue: "De pie en una pierna, rodilla levantada. Dibuja círculos amplios hacia adelante y hacia atrás. El tronco no se mueve: solo la cadera. Si te balanceas, acércate a una pared." },
     swingFB: { name: "Balanceo de pierna (frontal)", mode: "uni", tag: "Pared de apoyo",
       cue: "Apóyate en una pared y balancea la pierna adelante y atrás. <strong>Aumenta el rango poco a poco</strong>: arrancar en el máximo es cómo se tira un isquio." },
     swingLat: { name: "Balanceo lateral de pierna", mode: "uni", tag: "Pared de apoyo",
       cue: "De frente a la pared, cruza la pierna de lado a lado por delante del cuerpo. Abre aductores y despierta el glúteo medio." },
     latRaise: { name: "Elevación lateral de pierna", mode: "uni", tag: "Sin equipo",
-      cue: "De pie o de costado, sube la pierna al lateral con <strong>el pie apuntando levemente hacia abajo</strong>. Rango medio, sin impulso — si el tronco se inclina, bajaste el rango." },
+      cue: "De pie o de costado, sube la pierna al lateral con el pie apuntando levemente hacia abajo. Rango medio, sin impulso. Si el tronco se inclina, bajaste el rango." },
     latRaiseBand: { name: "Elevación lateral con banda", mode: "uni", tag: "Minibanda",
-      cue: "Banda en los tobillos. Mismo movimiento contra resistencia. <strong>El tronco se queda vertical</strong> — el glúteo medio trabaja, no la lumbar." },
+      cue: "De pie, banda en los tobillos. Sube la pierna al lateral con el pie apuntando levemente hacia abajo. El tronco se queda vertical: si se inclina, baja el rango." },
     calf: { name: "Elevación de talones", mode: "bi", tag: "Sin equipo",
-      cue: "Sube lento hasta la punta del pie y baja más lento todavía. <strong>La bajada es el ejercicio.</strong>" },
+      cue: "De pie, sube lento hasta la punta del pie y baja más lento todavía. La bajada es el ejercicio. No rebotes arriba ni abajo." },
     squat2stand: { name: "Sentadilla a de pie", mode: "bi", tag: "Sin equipo",
-      cue: "Agárrate las puntas de los pies, hunde la cadera hasta abajo y <strong>sube el pecho sin soltar los pies</strong>. Después estira las piernas para estirar isquios. Un ciclo por repetición, lento." },
+      cue: "Agárrate las puntas de los pies, hunde la cadera y sube el pecho sin soltar. Después estira las piernas para abrir los isquios. Un ciclo por repetición, lento." },
     squat2standBand: { name: "Sentadilla a de pie con banda", mode: "bi", tag: "Minibanda",
-      cue: "Banda por encima de las rodillas. Mismo movimiento, <strong>rodillas empujando hacia afuera todo el descenso</strong> — no dejes que se junten al subir." },
+      cue: "Banda por encima de las rodillas. Agárrate las puntas de los pies, hunde la cadera y sube el pecho sin soltar. Después estira las piernas. Rodillas empujando hacia afuera todo el tiempo." },
     aSkip: { name: "Skip A lento", mode: "alt", tag: "Sin equipo",
-      cue: "Rodilla a la altura de la cadera, pie de apoyo firme, brazos de carrera. <strong>Postura alta y contacto corto — es técnica, no cardio.</strong>" },
+      cue: "Rodilla a la altura de la cadera, pie de apoyo firme, brazos de carrera. Postura alta y contacto corto. Es técnica, no cardio: si te desarmas, achica el ritmo." },
     march: { name: "Marcha con rodilla alta", mode: "alt", tag: "Sin equipo",
-      cue: "Rodilla arriba, pie del suelo activo, tronco erguido. <strong>Sin balancearte hacia atrás</strong> para levantar más — esa es la trampa." },
+      cue: "Marcha en el lugar, rodilla arriba, pie de apoyo activo, tronco erguido. No te balancees hacia atrás para levantar más: esa es la trampa." },
     marchBand: { name: "Marcha con rodilla alta y banda", mode: "alt", tag: "Minibanda",
-      cue: "Banda en los tobillos. Misma marcha contra resistencia, <strong>despacio en la bajada</strong>: la banda quiere devolverte el pie al piso y ahí es donde se pierde el control." },
+      cue: "Banda en los tobillos. Marcha con rodilla alta, tronco erguido. Despacio en la bajada: la banda quiere devolverte el pie al piso y ahí es donde se pierde el control." },
     ankle: { name: "Círculos de tobillo + elevación", mode: "bi", tag: "Sin equipo",
-      cue: "Diez círculos en cada dirección con cada pie, y después elevaciones de talón lentas. <strong>El tobillo es la primera articulación que toca el piso</strong> — si está dormido, todo lo de arriba compensa." },
+      cue: "Diez círculos en cada dirección con cada pie, después elevaciones de talón lentas. El tobillo es la primera articulación que toca el piso: si está dormido, todo lo de arriba compensa." },
     ankleBand: { name: "Círculos de tobillo + elevación con banda", mode: "bi", tag: "Minibanda",
-      cue: "Círculos primero, después elevaciones con la banda en los tobillos para resistir la subida. Bajada lenta y completa." },
+      cue: "Círculos de tobillo primero, en las dos direcciones. Después, banda en los tobillos: sube a puntas contra la banda y baja lento y completo." },
 
     /* ---------------------------------------------------------- NATACIÓN
        Added Sept 3, 2026. Shares only catcow and child with run/bike — the
@@ -191,11 +191,11 @@ window.ACTIVATION_MATRIX = (function () {
 
     /* -- entrada en calor: va PRIMERO, a diferencia del documento original -- */
     armCircles: { name: "Círculos de brazos completos", mode: "bi", tag: "Sin equipo",
-      cue: "De pie, abdomen firme para no arquear la lumbar. Círculos amplios hacia atrás pasando el bíceps cerca de la oreja, y después hacia adelante. <strong>Lentos y controlados: esto lubrica el hombro en los mismos planos en los que va a trabajar</strong>, no es cardio." },
+      cue: "De pie, abdomen firme para no arquear la lumbar. Círculos amplios hacia atrás pasando el bíceps cerca de la oreja, después hacia adelante. Lentos: esto lubrica el hombro, no es cardio." },
     swimSquat: { name: "Sentadilla con alcance al techo", mode: "bi", tag: "Sin equipo",
-      cue: "Baja a sentadilla profunda y al subir estira los brazos al techo, terminando en puntas de pie. <strong>Conecta la extensión del tobillo con la apertura del hombro</strong> — y es lo que más rápido te sube la temperatura si la piscina está fría." },
+      cue: "Baja a sentadilla y al subir estira los brazos al techo, terminando en puntas. Conecta la extensión del tobillo con la apertura del hombro." },
     neckRot: { name: "Rotación de cuello para respirar", mode: "uni", tag: "Sin equipo", secs: 30,
-      cue: "Gira la cabeza como si respiraras al costado, despacio, y sostén mirando atrás. <strong>El mentón se queda bajo, cerca del hombro</strong>. Un cuello rígido después de un día de escritorio es por qué la cabeza se levanta en vez de rotar — y levantar la cabeza hunde la cadera." },
+      cue: "Gira la cabeza como si respiraras al costado, despacio, y sostén mirando atrás. Mentón bajo, cerca del hombro. Un cuello rígido levanta la cabeza en vez de rotar." },
 
     /* -- torácica y escápula -- */
     threadNeedle: { name: "Rotación torácica en cuadrupedia", mode: "uni", tag: "Sin equipo", secs: 30,
@@ -203,7 +203,7 @@ window.ACTIVATION_MATRIX = (function () {
     ytw: { name: "Y-T-W boca abajo", mode: "bi", tag: "Sin equipo", secs: 45,
       cue: "Boca abajo, frente apoyada, pulgares al techo. Despega los brazos en Y, después en T, después en W (codos a 90° junto a las costillas). <strong>Las escápulas van hacia abajo, nunca hacia las orejas</strong>: si te encoges, el trabajo se lo lleva el trapecio superior." },
     swimStreamline: { name: "Plancha en tensión de streamline", mode: "bi", tag: "Sin equipo", secs: 40,
-      cue: "Plancha alta. Mete la pelvis, aprieta el abdomen al máximo y <strong>alinéate como una flecha, con la cabeza neutra mirando al piso y no al frente</strong>. Es el tono que evita que la cadera se hunda en crol y mariposa. Una sola vez, bien hecha." },
+      cue: "Plancha alta. Mete la pelvis, aprieta el abdomen y alinéate como una flecha, cabeza neutra mirando al piso. Una vez, bien hecha." },
     ankleSwim: { name: "Tobillos para la patada", mode: "bi", tag: "Sin equipo", secs: 40,
       cue: "Sentado con las piernas estiradas, apunta las puntas de los pies lo más lejos que puedas y sostén, después tráelas hacia ti. <strong>Activa, no pasiva</strong>: es el rango que empuja el agua en la patada." },
     childSwim: { name: "Postura del niño con alcance lateral", mode: "uni", tag: "Sin equipo", secs: 30,
@@ -211,11 +211,11 @@ window.ACTIVATION_MATRIX = (function () {
 
     /* -- con banda larga -- */
     pullApart: { name: "Aperturas con banda", mode: "bi", tag: "Banda larga",
-      cue: "Banda al frente, brazos estirados a la altura de los hombros, separa las manos juntando las escápulas. <strong>Resistencia baja y muchas repeticiones</strong> — activa el manguito posterior, que es el que protege el hombro en la fase de recobro." },
+      cue: "Banda al frente, brazos estirados a la altura de los hombros. Separa las manos juntando las escápulas. Resistencia baja y muchas repeticiones." },
     catchSim: { name: "Simulación de agarre con banda", mode: "bi", tag: "Banda larga",
-      cue: "Banda anclada a media altura o pisada. Inclínate un poco adelante y empuja hacia los muslos con el brazo largo y el codo alto. <strong>Buscas recordar la presión, no corregir la técnica</strong>: es para llegar al agua con el gesto despierto, y la técnica se trabaja en el agua con tu entrenador de natación." },
+      cue: "Banda anclada a media altura o pisada. Inclínate un poco adelante y empuja hacia los muslos con el brazo largo y el codo alto. Buscas recordar la presión, no corregir la técnica." },
     bandOverhead: { name: "Pasada de banda por encima", mode: "bi", tag: "Banda larga",
-      cue: "Agarre bien ancho, brazos estirados, pasa la banda de adelante hacia atrás por encima de la cabeza. La banda cede donde el bastón no. <strong>Frena apenas se te abran las costillas o se te suban los hombros</strong> — hasta ahí llega tu rango de hoy." },
+      cue: "Agarre bien ancho, brazos estirados. Pasa la banda de adelante hacia atrás por encima de la cabeza. Frena apenas se te abran las costillas o se te suban los hombros." },
 
     /* -- con bastón --
        Deliberately a CAPPED pass-through and not a dislocate: see the clinical
@@ -226,7 +226,7 @@ window.ACTIVATION_MATRIX = (function () {
 
     /* -- sin equipo: el cierre de pie, para no terminar en el piso -- */
     dryStroke: { name: "Brazada en seco", mode: "bi", tag: "Sin equipo",
-      cue: "Inclínate un poco adelante y haz el gesto de la brazada despacio, con el codo alto y el brazo largo. <strong>Es para llegar al agua con el gesto despierto</strong>, no para corregir nada: la técnica se trabaja en el agua." }
+      cue: "Inclínate un poco adelante y haz el gesto de la brazada despacio, codo alto y brazo largo. Es para llegar al agua con el gesto despierto, no para corregir técnica." }
   };
 
   /* ------------------------------------------------------------- ROUTINES

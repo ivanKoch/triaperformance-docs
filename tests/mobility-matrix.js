@@ -185,7 +185,8 @@ ok(/om[oó]plato|esc[aá]pula/.test(cb) && /(se vaya|viaje|viajar|se corra|se va
    "5.7 the cross-body cue carries the scapula-depression instruction");
 
 /* The IT band correction has to say WHY, or the next pass restores the roller. */
-ok(/cintilla iliotibial no se estira/.test(M.library.itCross.cue.toLowerCase()),
+// widened Sept 8 2026 — guards the claim, not the exact noun phrase
+ok(/cintilla( iliotibial)? no se estira/.test(M.library.itCross.cue.toLowerCase()),
    "5.8 the IT band cue states that the band itself does not lengthen");
 
 /* Box breathing is linked, not rebuilt. */
@@ -299,13 +300,16 @@ eq(fp, "ff885cd0cb4c", "9.3 the Spanish routine structure is unchanged (update d
 const CLINICAL = {
   en: { sleeper: /sleeper/i, doorway: /doorway|door ?frame/i, camel: /camel/i,
         yin: /\byin\b|frog pose|winged dragon/i, aggressive: /aggressiv/i,
-        scapula: /shoulder blade|scapula/i, itband: /it band does not stretch/i,
+        scapula: /shoulder blade|scapula/i,
+        // widened Sept 8 2026: guards the CLAIM (the band does not lengthen), not one wording
+        itband: /it band (does not|doesn't) stretch/i,
         breathing: /\/members\/en\/breathing\//, doctor: /doctor/i,
         painTools: /\/members\/en\/(knees|achilles|shoulder)\//,
         legs: /ankle|instep/i },
   pt: { sleeper: /sleeper/i, doorway: /batente|porta/i, camel: /camelo/i,
         yin: /\byin\b|postura do sapo|drag[aã]o alado/i, aggressive: /agressiv/i,
-        scapula: /escápula|omoplata/i, itband: /banda iliotibial não alonga/i,
+        scapula: /escápula|omoplata/i,
+        itband: /(banda iliotibial|cintilha) não alonga/i,
         breathing: /\/members\/pt\/respiracao\//, doctor: /médic/i,
         painTools: /\/members\/pt\/(joelhos|aquiles|ombro)\//,
         legs: /tornozelo|peito do pé/i }

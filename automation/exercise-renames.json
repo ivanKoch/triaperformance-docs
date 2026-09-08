@@ -1,5 +1,5 @@
 {
-  "_comment": "Name harmonisation map, signed off September 8, 2026. Keyed artifact -> language -> [old, new]. Display names ONLY; cues, ids and engines are untouched (that is open-loops.md NEXT #15). Applied by automation/apply-exercise-renames.js, which matches the full quoted string in `name: \"...\"` so that a shorter name is never matched inside a longer one. | ROUND 2, same day: the first round's cluster list was hand-written from SPANISH divergences and was therefore blind to clusters where Spanish agreed and EN/PT did not. Rebuilt audit found 8, not 3. Round 2 adds the three ES fixes (already decided in exercise-library-canonical-cues.md) plus the EN/PT set below. | ROUND 3, same day: EN/PT only, 8 clusters where Spanish agreed and a translation did not. Rule chosen by Iván — the EN/PT name mirrors the Spanish canonical. | ROUND 4, September 8, 2026: the bridge merge. Iván's harmonised cue for `Puente a una pierna` unified it to knee-to-chest, which made it identical to `Puente de glúteos a una pierna` — same setup, same movement, two names across five placements. Merged on his call; the extended-leg version is NOT retained.",
+  "_comment": "Name harmonisation map, signed off September 8, 2026. Keyed artifact -> language -> [old, new]. Display names ONLY; cues, ids and engines are untouched (that is open-loops.md NEXT #15). Applied by automation/apply-exercise-renames.js, which matches the full quoted string in `name: \"...\"` so that a shorter name is never matched inside a longer one. | ROUND 2, same day: the first round's cluster list was hand-written from SPANISH divergences and was therefore blind to clusters where Spanish agreed and EN/PT did not. Rebuilt audit found 8, not 3. Round 2 adds the three ES fixes (already decided in exercise-library-canonical-cues.md) plus the EN/PT set below. | ROUND 3, same day: EN/PT only, 8 clusters where Spanish agreed and a translation did not. Rule chosen by Iván — the EN/PT name mirrors the Spanish canonical. | ROUND 4, September 8, 2026: the bridge merge. Iván's harmonised cue for `Puente a una pierna` unified it to knee-to-chest, which made it identical to `Puente de glúteos a una pierna` — same setup, same movement, two names across five placements. Merged on his call; the extended-leg version is NOT retained. | ROUND 5, September 8 evening, after the remaining 166 cues landed: `Postura del niño sostenida` merged into `Postura del niño` (identical static hold; 'sostenida' only named what the parent flow is not), and the PT half of the `Isquios boca arriba` merge finished.",
   "activacion": {
     "es": [
       [
@@ -33,6 +33,10 @@
       [
         "Posteriores com toalha",
         "Isquiotibiais com toalha"
+      ],
+      [
+        "Posteriores deitado",
+        "Posteriores de barriga para cima"
       ]
     ]
   },
@@ -65,6 +69,10 @@
       [
         "Puente a una pierna",
         "Puente de glúteos a una pierna"
+      ],
+      [
+        "Postura del niño sostenida",
+        "Postura del niño"
       ]
     ],
     "en": [
@@ -83,6 +91,10 @@
       [
         "Single-leg bridge",
         "Single-leg glute bridge"
+      ],
+      [
+        "Held Child's Pose",
+        "Child's Pose"
       ]
     ],
     "pt": [
@@ -105,6 +117,10 @@
       [
         "Ponte numa perna",
         "Ponte de glúteos unilateral"
+      ],
+      [
+        "Postura da criança sustentada",
+        "Postura da criança"
       ]
     ]
   },

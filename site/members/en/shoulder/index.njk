@@ -82,8 +82,8 @@ window.SHOULDER_ROUTINE = (function () {
   /* ---------------------------------------------------------------- LIBRARY */
   const L = {
     /* --- release (only with roller and ball) --- */
-    rollLat: { name: "Roller: lat smash", sets: 1, reps: "60-90s per side", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
-      cue: "On your side, roller just below the armpit, on the side of your ribs. <strong>When you find a tender spot, stop there and sweep the arm slowly up and down</strong> — that floss unglues the tissue far more than carrying on rolling. The lat is what rolls your shoulder forward." },
+    rollLat: { name: "Foam Roll: Lat", sets: 1, reps: "60-90s per side", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
+      cue: "On your side, roller just under the armpit on the side of the ribcage. When a spot complains, stop and slowly raise and lower the arm. That sweep peels tissue better than rolling on." },
     ballPec: { name: "Ball: Pec Minor", sets: 1, reps: "60s per side", hold: 60, holdSides: 2, tag: "Tennis ball",
       cue: "Place the ball under the collarbone, on the front of the shoulder toward the midline. <strong>Light, still pressure: this spot doesn't get rolled, it gets held.</strong> Don't crush it — there are nerves and tendons under here, and this is not a place to pick a fight." },
 
@@ -94,44 +94,44 @@ window.SHOULDER_ROUTINE = (function () {
       cue: "Roller across the upper back, hands behind the head. Ease backward as you exhale, then nudge the roller two fingers higher and repeat, segment by segment. Glutes stay on the floor: <strong>never drop it under the lower ribs</strong> — that's lumbar extension, and that isn't the stiff part." },
     wallAngel: { name: "Wall Angels", sets: 2, reps: "12", rest: 30, tag: "Wall",
       cue: "Back against the wall, low back flat, arms in a W with elbows and the backs of the hands touching. Slide up and down without anything leaving the wall. <strong>Stop exactly where something peels off</strong> — that's today's range, and forcing past it doesn't make it bigger." },
-    serratusSlide: { name: "Forearm wall slide", sets: 2, reps: "10", rest: 30, tag: "Wall",
-      cue: "Facing the wall, forearms on it. Slide them up and <strong>at the very top push the wall away as if you wanted to move back from it</strong>, letting the shoulder blades wrap around your ribs. That last push is the serratus, and it's the muscle that makes room for the tendon when you lift the arm." },
+    serratusSlide: { name: "Wall Forearm Slides", sets: 2, reps: "10", rest: 30, tag: "Wall",
+      cue: "Face the wall, forearms on it. Slide them up and at the top push the wall as if to move away from it, letting the blades wrap the ribcage. That last push is serratus." },
 
     /* --- strength: shared by all three versions --- */
     isoER: { name: "Isometric External Rotation", sets: 3, reps: "30s per side", hold: 30, holdSides: 2, rest: 30, tag: "Doorframe",
       cue: "Elbow pinned to the ribs at 90°, back of the wrist against a doorframe or wall. <strong>Press outward at about 50% and hold. Nothing should move.</strong> Don't let the shoulder drift forward or the elbow leave the side." },
-    pushPlus: { name: "Push-up plus (protraction)", sets: 3, reps: "10-12", rest: 45, tag: "No equipment",
-      cue: "High plank — or from your knees, or against a wall if the shoulder is sensitive. Lower and press as normal, and <strong>at the top, with elbows already locked, push the floor a little further until your upper back rounds</strong>. That extra inch is the whole exercise." },
+    pushPlus: { name: "Push-Up Plus", sets: 3, reps: "10-12", rest: 45, tag: "No equipment",
+      cue: "High plank — or knees, or the wall if the shoulder is sensitive. Regular push-up, then at the top with elbows already straight, push the floor a little further until the upper back rounds. That extra centimeter is the exercise." },
 
     /* --- strength: at home, no band --- */
-    sideLyingER: { name: "Side-lying external rotation", sets: 3, reps: "15-20 per arm", rest: 45, tag: "No equipment",
-      cue: "On your good side, top arm with the elbow tucked to the ribs (a rolled towel underneath helps) and bent to 90°. Rotate the forearm toward the ceiling. <strong>Little or no weight and lots of reps</strong>: the cuff is an endurance group, not a max-strength one. A small water bottle is more than enough." },
-    doorRow: { name: "Doorframe row", sets: 3, reps: "12 per arm", rest: 45, tag: "Doorframe",
-      cue: "Grip the frame with one hand, feet close in, and lean back with your body straight. Pull. <strong>The elbow travels back close to the body and the shoulder blade goes down, not up</strong> — if you feel your neck, the upper trap beat you to it." },
-    proneIYT: { name: "Prone I-Y-T raises", sets: 3, reps: "8 in each position", rest: 60, tag: "No equipment",
-      cue: "Face down, forehead resting, thumbs to the ceiling. Lift the arms: straight ahead (I), at 45° (Y), out to the side (T). <strong>Squeeze the blades together and down, never up toward your ears.</strong> All three unweighted first; weight comes once all 24 reps happen without a shrug." },
+    sideLyingER: { name: "Side-Lying External Rotation", sets: 3, reps: "15-20 per arm", rest: 45, tag: "No equipment",
+      cue: "On your side, top elbow pinned to the ribs (a towel helps) at 90°. Rotate the forearm toward the ceiling. Little or no weight, high reps." },
+    doorRow: { name: "Doorframe Row", sets: 3, reps: "12 per arm", rest: 45, tag: "Doorframe",
+      cue: "Hold the frame with one hand, feet close, lean back with a straight body and row. Elbow back by the side, shoulder blade down. If you feel the neck, the upper trap won." },
+    proneIYT: { name: "Prone I-Y-T", sets: 3, reps: "8 in each position", rest: 60, tag: "No equipment",
+      cue: "Face down, forehead down, thumbs up. Lift the arms forward (I), on a diagonal (Y) and out to a T. Blades down, never toward the ears. No load until the reps happen without shrugging." },
 
     /* --- strength: at home, with a band --- */
-    bandER: { name: "Banded external rotation", sets: 3, reps: "15-20 per arm", rest: 45, tag: "Resistance band",
-      cue: "Band tied to a door handle, stand side-on, elbow tucked to the ribs with a rolled towel underneath. Rotate the forearm outward. <strong>Light resistance, high reps</strong> — if you have to pull with your body, the band is too heavy." },
-    bandFacePull: { name: "Banded face pull", sets: 3, reps: "15", rest: 45, tag: "Resistance band",
-      cue: "Band anchored at head height. Bring your hands toward your forehead <strong>driving the elbows back and rotating your hands up</strong>, finishing in a double-bicep pose. It's the exercise that hits external rotators and mid-trap most directly at the same time." },
+    bandER: { name: "Band External Rotation", sets: 3, reps: "15-20 per arm", rest: 45, tag: "Resistance band",
+      cue: "Band on a doorknob, side-on. Elbow pinned to the ribs with a rolled towel in the gap. Rotate the forearm out. If you have to lean, the band is too heavy." },
+    bandFacePull: { name: "Band Face Pull", sets: 3, reps: "15", rest: 45, tag: "Resistance band",
+      cue: "Band at face height. Pull the hands to the forehead, elbows back, and turn the hands up until you finish in a biceps-curl shape." },
 
     /* --- strength: gym --- */
-    scapPullUp: { name: "Scapular pull-up", sets: 3, reps: "8-12", rest: 60, tag: "Pull-up bar",
-      cue: "Hang with straight arms. <strong>Without bending your elbows, pull the shoulder blades down and together until you rise an inch or two.</strong> Hold 2 seconds, lower. It's exactly the control you need during the catch, when the shoulder is most exposed." },
-    cableER: { name: "Cable external rotation", sets: 3, reps: "15 per arm", rest: 45, tag: "Low cable",
-      cue: "Same as the banded version, but the cable holds tension evenly through the whole range. Elbow tucked, towel underneath. <strong>Light weight, no jerking</strong>: this isn't about load, it's about endurance." },
-    inclineRow: { name: "Incline dumbbell row", sets: 3, reps: "12", rest: 60, tag: "Incline bench",
-      cue: "Face down on the bench at 30-45°. Row, squeezing the middle of your back. <strong>The bench is the point: it takes your lower back out of the equation</strong>, so the weight gets lifted by what's supposed to lift it." },
-    bottomsUp: { name: "Bottoms-up kettlebell press", sets: 3, reps: "8 per arm", rest: 60, tag: "Light kettlebell",
-      cue: "Kettlebell upside down, held by the handle with the bell pointing at the ceiling, and press overhead. <strong>Start with one that feels ridiculously light</strong>: keeping it upright demands everything from the cuff that this block has been training, and that's where you find out whether the shoulder is actually stable." },
+    scapPullUp: { name: "Scapular Pull-Up", sets: 3, reps: "8-12", rest: 60, tag: "Pull-up bar",
+      cue: "Hang, arms straight. Without bending the elbows, pull the shoulder blades down and together until you rise two or three centimeters. Hold 2 seconds and lower." },
+    cableER: { name: "Cable External Rotation", sets: 3, reps: "15 per arm", rest: 45, tag: "Low cable",
+      cue: "Cable at elbow height, elbow pinned, towel between elbow and ribs. Rotate out. Light weight, no yanking: you're chasing quality, not load." },
+    inclineRow: { name: "Chest-Supported Dumbbell Row", sets: 3, reps: "12", rest: 60, tag: "Incline bench",
+      cue: "Face down on a 30–45° bench. Row by squeezing mid-back, blades down. The bench takes the low back out of it." },
+    bottomsUp: { name: "Bottoms-Up Kettlebell Press", sets: 3, reps: "8 per arm", rest: 60, tag: "Light kettlebell",
+      cue: "Kettlebell upside down, bell toward the ceiling, press overhead. Start ridiculously light: keeping it vertical asks everything of the cuff. That's where you find out if the shoulder is actually stable." },
 
     /* --- final mobility (all six routines) --- */
     crossBody: { name: "Cross-Body Shoulder Stretch", sets: 1, reps: "90s per side", hold: 90, holdSides: 2, tag: "No equipment",
       cue: "Bring one arm across the chest and hold it above the elbow, never at the wrist. <strong>Before you pull, set the shoulder blade down and don't let the shoulder drift forward</strong>: if the blade slides, you're stretching the upper back instead of the back of the shoulder. You should feel it behind the shoulder, never a pinch in the front." },
-    childLat: { name: "Child's pose with lat bias", sets: 1, reps: "2 min", hold: 120, tag: "No equipment",
-      cue: "Sitting back on your heels, arms stretched out in front. <strong>Walk both hands well over to the left to stretch the right lat</strong>, breathe there, then over to the right. The lat is what pulls the shoulder into internal rotation; if you don't release it, everything above works against you." }
+    childLat: { name: "Child's Pose with Lat Bias", sets: 1, reps: "2 min", hold: 120, tag: "No equipment",
+      cue: "Sit on the heels, arms forward. Walk both hands well to the left to stretch the right lat, breathe, then to the right." }
   };
 
   /* ------------------------------------------------------------- ROUTINES */

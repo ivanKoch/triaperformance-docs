@@ -215,6 +215,51 @@ against the file that was sent out.*
   building before the next Portuguese content pass** — this was caught by reading,
   which does not scale.*
 
+## ✅ SHIPPED September 8, 2026 — the remaining 166 cues, all three languages
+
+**Iván wrote every one** (`data/cue_remaining_signed.csv`, applied by
+`automation/apply-remaining-cues.js`). **The whole library — 253 placements ×
+3 languages — now carries harmonised names and cues.** Final counts:
+**188 canonical exercises, 187 clips** (136 showable today, 52 waiting on the
+strength engine's video field).
+
+### D8a — Four duplicates his ENGLISH naming exposed, all merged.
+*`Paloma (pigeon)` = `Postura de la paloma`; `Isquios acostado` = `Isquios boca
+arriba`; `Zancada baja con glúteo activo` = the harmonised `Psoas con apriete de
+glúteo`; `Puente de glúteos con marcha` = the harmonised `Puente con marcha`.*
+🔑 ***The Spanish names had hidden all four. Giving one exercise one English name
+is what made them visible*** — an argument for the canonical library that no
+amount of Spanish-side auditing would have produced.
+*The last two took the already-harmonised text, not the newly written cue,
+or the merge would have re-diverged on arrival.*
+
+### D8b — Two more merged themselves, and one had to be blocked.
+Once the cues were harmonised the automatic pass pulled in
+**`Postura del niño sostenida` → `Postura del niño`** (correct: both are a static
+hold, and "sostenida" only named what the parent *flow* is not) and
+**`Bird dog isométrico` → `Bird dog`** (wrong, and suppressed: a whole-block hold
+against a two-second reach is a different execution — the D2a ruling).
+⚠️ ***A cue pass changes what the duplicate detector can see. Run the dedup check
+AFTER writing cues, not only before.***
+
+### D8c — Three content losses, caught by the test suite, restored from git.
+**The returned cues had quietly dropped:** the link from the mobility close to the
+breathing tool; the frog's *"solo en un día sin sesión"* rule that
+`recovery-brief.md` owns; and **half the IT-band correction** — the surviving
+sentence said the band "no se estira **a golpes**", losing *"lo que se afloja es
+lo que tira de ella"*, which is the actual instruction to roll the TFL instead.
+*All three restored verbatim from `git show HEAD:`, none rewritten.*
+🚩 ***This is the strongest argument in the whole session for the test suite:***
+*`tests/mobility-matrix.js` carries the comment "the IT band correction has to say
+WHY, or the next pass restores the roller." The next pass came, and it did.*
+
+### D8d — Seven test assertions widened, none deleted.
+*Pinned to a superseded name or one author's verb: "winged dragon" → "Flying
+Dragon", "postura do sapo" → "postura da rã"* (**a sapo is a toad; his word is
+better**), *"stick" → "Dowel", "vertebra by vertebra" → "one vertebra at a time",
+"does not" → "doesn't".* **Every one still guards its content; the alternation was
+widened and the reason written next to it.**
+
 ## D4 — Canonical id + name per exercise
 *Not started, and correctly so — it is generated output, not a decision. It falls
 out of applying the merge map, and Iván skims the result rather than authoring it.

@@ -140,7 +140,12 @@
  [
   {
    "artifact": "activacion",
-   "name": "Isquios acostado",
+   "name": "Isquios boca arriba",
+   "type": "main"
+  },
+  {
+   "artifact": "movilidad",
+   "name": "Isquios boca arriba",
    "type": "main"
   }
  ],
@@ -180,6 +185,11 @@
    "artifact": "activacion",
    "name": "Psoas con apriete de glúteo",
    "type": "main"
+  },
+  {
+   "artifact": "core",
+   "name": "Psoas con apriete de glúteo",
+   "type": "variant"
   },
   {
    "artifact": "movilidad",
@@ -496,6 +506,11 @@
    "artifact": "recuperacion",
    "name": "Puente con marcha",
    "type": "main"
+  },
+  {
+   "artifact": "core-corredor",
+   "name": "Puente con marcha",
+   "type": "main"
   }
  ],
  [
@@ -659,7 +674,12 @@
  [
   {
    "artifact": "core",
-   "name": "Paloma (pigeon)",
+   "name": "Postura de la paloma",
+   "type": "main"
+  },
+  {
+   "artifact": "rodillas",
+   "name": "Postura de la paloma",
    "type": "main"
   }
  ],
@@ -690,13 +710,6 @@
  [
   {
    "artifact": "core",
-   "name": "Zancada baja con glúteo activo",
-   "type": "variant"
-  }
- ],
- [
-  {
-   "artifact": "core",
    "name": "Cuádriceps de pie",
    "type": "variant"
   }
@@ -711,8 +724,18 @@
  [
   {
    "artifact": "core",
-   "name": "Postura del niño sostenida",
+   "name": "Postura del niño",
    "type": "variant"
+  },
+  {
+   "artifact": "movilidad",
+   "name": "Postura del niño",
+   "type": "main"
+  },
+  {
+   "artifact": "core-ciclista",
+   "name": "Postura del niño",
+   "type": "main"
   }
  ],
  [
@@ -750,13 +773,6 @@
   {
    "artifact": "movilidad",
    "name": "Gemelo en pared",
-   "type": "main"
-  }
- ],
- [
-  {
-   "artifact": "movilidad",
-   "name": "Isquios boca arriba",
    "type": "main"
   }
  ],
@@ -840,18 +856,6 @@
    "artifact": "movilidad",
    "name": "Empeine y tibial con rodillo",
    "type": "variant"
-  }
- ],
- [
-  {
-   "artifact": "movilidad",
-   "name": "Postura del niño",
-   "type": "main"
-  },
-  {
-   "artifact": "core-ciclista",
-   "name": "Postura del niño",
-   "type": "main"
   }
  ],
  [
@@ -1447,13 +1451,6 @@
  ],
  [
   {
-   "artifact": "rodillas",
-   "name": "Postura de la paloma",
-   "type": "main"
-  }
- ],
- [
-  {
    "artifact": "hombro",
    "name": "Rodillo: dorsal",
    "type": "main"
@@ -1568,13 +1565,6 @@
   {
    "artifact": "core-corredor",
    "name": "Bird dog dinámico",
-   "type": "main"
-  }
- ],
- [
-  {
-   "artifact": "core-corredor",
-   "name": "Puente de glúteos con marcha",
    "type": "main"
   }
  ],

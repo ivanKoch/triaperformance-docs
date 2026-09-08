@@ -82,8 +82,8 @@ window.SHOULDER_ROUTINE = (function () {
   /* ---------------------------------------------------------------- LIBRARY */
   const L = {
     /* --- liberação (só com rolo e bolinha) --- */
-    rollLat: { name: "Rolo: dorsal", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Rolo",
-      cue: "De lado, o rolo logo abaixo da axila, sobre a lateral das costelas. <strong>Quando encontrar um ponto sensível, pare ali e suba e desça o braço devagar</strong> — esse movimento solta o tecido muito mais do que continuar rolando. O dorsal é o que enrola o seu ombro para a frente." },
+    rollLat: { name: "Foam roller: dorsal", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Rolo",
+      cue: "De lado, rolo logo abaixo da axila, no lado das costelas. Quando um ponto reclamar, pare e suba e desça o braço devagar. Esse vaivém descola mais do que continuar rolando." },
     ballPec: { name: "Bolinha: peitoral menor", sets: 1, reps: "60s por lado", hold: 60, holdSides: 2, tag: "Bolinha de tênis",
       cue: "Coloque a bolinha sob a clavícula, por dentro da frente do ombro. <strong>Pressão leve e parada: essa região não se rola, se sustenta.</strong> Não esmague — aqui embaixo tem nervo e tendão, e isso não é ponto para brigar." },
 
@@ -95,43 +95,43 @@ window.SHOULDER_ROUTINE = (function () {
     wallAngel: { name: "Anjos na parede", sets: 2, reps: "12", rest: 30, tag: "Parede",
       cue: "Costas na parede, lombar colada, braços em W com cotovelos e dorso das mãos tocando. Suba e desça sem descolar nada. <strong>Pare exatamente onde alguma coisa sair da parede</strong>: até ali vai a sua amplitude de hoje, e forçar além disso não aumenta." },
     serratusSlide: { name: "Deslizamento de antebraços na parede", sets: 2, reps: "10", rest: 30, tag: "Parede",
-      cue: "De frente para a parede, antebraços apoiados. Deslize-os para cima e <strong>lá em cima empurre a parede como se quisesse se afastar dela</strong>, deixando as escápulas abraçarem as costelas. Esse empurrão final é o serrátil, e é o músculo que abre espaço para o tendão quando você levanta o braço." },
+      cue: "De frente para a parede, antebraços apoiados. Deslize-os para cima e, no alto, empurre a parede como se quisesse se afastar, deixando as omoplatas abraçarem as costelas. Esse último empurrão é o serrátil." },
 
     /* --- força: comum às três versões --- */
     isoER: { name: "Rotação externa isométrica", sets: 3, reps: "30s por lado", hold: 30, holdSides: 2, rest: 30, tag: "Batente da porta",
       cue: "Cotovelo colado nas costelas a 90°, dorso do pulso contra o batente de uma porta ou uma parede. <strong>Empurre para fora a 50% e sustente, sem nada se mover.</strong> O ombro não vai para frente e o cotovelo não se afasta do corpo." },
-    pushPlus: { name: "Flexão \"plus\" (protração)", sets: 3, reps: "10-12", rest: 45, tag: "Sem equipamento",
-      cue: "Prancha alta — ou de joelhos, ou contra a parede se o ombro estiver sensível. Desça e suba normal, e <strong>lá em cima, com os cotovelos já esticados, empurre o chão um pouco mais até as costas altas arredondarem</strong>. Esse centímetro a mais é o exercício inteiro." },
+    pushPlus: { name: "Flexão plus (protração)", sets: 3, reps: "10-12", rest: 45, tag: "Sem equipamento",
+      cue: "Prancha alta — ou de joelhos, ou na parede se o ombro estiver sensível. Flexão normal e, no alto, com os cotovelos já esticados, empurre o chão um pouco mais até as costas altas arredondarem. Esse centímetro a mais é o exercício." },
 
     /* --- força: em casa sem elástico --- */
     sideLyingER: { name: "Rotação externa deitado de lado", sets: 3, reps: "15-20 por braço", rest: 45, tag: "Sem equipamento",
-      cue: "Deitado sobre o lado bom, o braço de cima com o cotovelo colado nas costelas (uma toalha enrolada embaixo ajuda) e dobrado a 90°. Gire o antebraço em direção ao teto. <strong>Pouco ou nenhum peso e muitas repetições</strong>: o manguito é um grupo de resistência, não de força máxima. Uma garrafinha de água basta e sobra." },
+      cue: "De lado, braço de cima com o cotovelo colado nas costelas (uma toalha embaixo ajuda) e flexionado a 90°. Gire o antebraço para o teto. Pouco ou nenhum peso, muitas repetições." },
     doorRow: { name: "Remada no batente da porta", sets: 3, reps: "12 por braço", rest: 45, tag: "Batente da porta",
-      cue: "Segure o batente com uma mão, pés próximos, e incline-se para trás com o corpo reto. Puxe. <strong>O cotovelo vai para trás colado ao corpo e a escápula desce, não sobe</strong> — se você sentir o pescoço, o trapézio superior chegou primeiro." },
+      cue: "Segure o batente com uma mão, pés perto, e deixe-se cair para trás com o corpo direito. Puxe. Cotovelo atrás colado ao corpo, omoplata para baixo. Se sentir o pescoço, o trapézio superior ganhou." },
     proneIYT: { name: "I-Y-T de bruços", sets: 3, reps: "8 em cada posição", rest: 60, tag: "Sem equipamento",
-      cue: "De bruços, testa apoiada, polegares para o teto. Descole os braços: à frente (I), na diagonal (Y) e em cruz (T). <strong>Junte as escápulas para baixo, nunca em direção às orelhas.</strong> As três sem peso primeiro; o peso vem depois que as 24 repetições saírem sem encolher o ombro." },
+      cue: "De bruços, testa apoiada, polegares para o teto. Descole os braços à frente (I), na diagonal (Y) e em cruz (T). Omoplatas para baixo, nunca em direção às orelhas. Sem peso até as repetições saírem sem encolher o ombro." },
 
     /* --- força: em casa com elástico --- */
-    bandER: { name: "Rotação externa com elástico", sets: 3, reps: "15-20 por braço", rest: 45, tag: "Elástico",
-      cue: "Elástico amarrado na maçaneta, de lado, cotovelo colado nas costelas com uma toalha enrolada embaixo. Gire o antebraço para fora. <strong>Pouca resistência e muitas repetições</strong> — se você precisa puxar com o corpo, o elástico está duro demais." },
-    bandFacePull: { name: "Face pull com elástico", sets: 3, reps: "15", rest: 45, tag: "Elástico",
-      cue: "Elástico ancorado na altura do rosto. Traga as mãos até a testa <strong>levando os cotovelos para trás e girando as mãos para cima</strong>, até terminar como quem faz bíceps. É o exercício que pega mais direto rotadores externos e trapézio médio ao mesmo tempo." },
+    bandER: { name: "Rotação externa com faixa", sets: 3, reps: "15-20 por braço", rest: 45, tag: "Elástico",
+      cue: "Faixa amarrada numa maçaneta, de lado. Cotovelo colado nas costelas com uma toalha enrolada embaixo. Gire o antebraço para fora. Se puxar com o corpo, a faixa está dura demais." },
+    bandFacePull: { name: "Face pull com faixa", sets: 3, reps: "15", rest: 45, tag: "Elástico",
+      cue: "Faixa na altura do rosto. Traga as mãos à testa, cotovelos atrás, e gire as mãos para cima até terminar como num rosca." },
 
     /* --- força: academia --- */
     scapPullUp: { name: "Barra escapular", sets: 3, reps: "8-12", rest: 60, tag: "Barra fixa",
-      cue: "Pendurado com os braços esticados. <strong>Sem dobrar os cotovelos, desça e junte as escápulas até subir dois ou três centímetros.</strong> Segure 2 segundos e desça. É exatamente o controle que você precisa na pegada da braçada, quando o ombro está mais exposto." },
+      cue: "Pendurado, braços esticados. Sem flexionar os cotovelos, junte as omoplatas até subir dois ou três centímetros. Segure 2 segundos e desça." },
     cableER: { name: "Rotação externa na polia", sets: 3, reps: "15 por braço", rest: 45, tag: "Polia baixa",
-      cue: "Igual à versão com elástico, mas a polia mantém a tensão constante em todo o percurso. Cotovelo colado, toalha embaixo. <strong>Peso baixo e sem trancos</strong>: aqui não se busca carga, se busca resistência." },
+      cue: "Polia na altura do cotovelo, cotovelo colado, toalha entre cotovelo e costelas. Gire para fora. Peso baixo e sem puxões: aqui não se busca carga, se busca qualidade." },
     inclineRow: { name: "Remada com halteres no banco inclinado", sets: 3, reps: "12", rest: 60, tag: "Banco inclinado",
-      cue: "De bruços sobre o banco a 30-45°. Reme apertando o meio das costas. <strong>O banco é o ponto: ele tira a lombar da equação</strong>, então o peso é levantado por quem tem que levantar." },
-    bottomsUp: { name: "Desenvolvimento com kettlebell invertido", sets: 3, reps: "8 por braço", rest: 60, tag: "Kettlebell leve",
-      cue: "Kettlebell de cabeça para baixo, segura pela alça com o peso apontando para o teto, e você empurra por cima. <strong>Comece com uma ridiculamente leve</strong>: mantê-la em pé exige do manguito tudo o que este bloco vem treinando, e é aí que se vê se o ombro já está estável." },
+      cue: "De bruços no banco a 30–45°. Reme apertando o meio das costas, omoplatas para baixo. O banco tira a lombar da conta." },
+    bottomsUp: { name: "Desenvolvimento com kettlebell invertida", sets: 3, reps: "8 por braço", rest: 60, tag: "Kettlebell leve",
+      cue: "Kettlebell ao contrário, o peso apontando para o teto, e pressione acima da cabeça. Comece ridiculamente leve: mantê-la direita exige do manguito. É aí que se vê se o ombro já está estável." },
 
     /* --- mobilidade final (as seis rotinas) --- */
     crossBody: { name: "Alongamento cruzado de ombro", sets: 1, reps: "90s por lado", hold: 90, holdSides: 2, tag: "Sem equipamento",
       cue: "Leve o braço cruzado na frente do peito e segure acima do cotovelo, nunca pelo pulso. <strong>Antes de puxar, desça a omoplata e não deixe o ombro ir para frente</strong>: se a omoplata escapar, você alonga as costas e não a parte de trás do ombro. Tem que sentir atrás, nunca uma fisgada na frente." },
-    childLat: { name: "Postura da criança com viés dorsal", sets: 1, reps: "2 min", hold: 120, tag: "Sem equipamento",
-      cue: "Sentado sobre os calcanhares, braços esticados à frente. <strong>Caminhe as duas mãos bem para a esquerda para alongar o dorsal direito</strong>, respire ali, e depois para a direita. O dorsal é o que puxa o ombro para rotação interna; se você não o soltar, tudo o que vem acima trabalha contra." }
+    childLat: { name: "Postura da criança com ênfase no dorsal", sets: 1, reps: "2 min", hold: 120, tag: "Sem equipamento",
+      cue: "Sentado sobre os calcanhares, braços à frente. Caminhe as duas mãos bem para a esquerda para alongar o dorsal direito, respire, e depois para a direita." }
   };
 
   /* ------------------------------------------------------------- ROUTINES */

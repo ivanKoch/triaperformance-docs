@@ -155,7 +155,8 @@ const allText = JSON.stringify(M.library).toLowerCase();
 
 ok(!/dislocaci[oó]n|dislocate/.test(allText), "5.1 NO shoulder dislocates, in any wording (third attempt — see the header block)");
 ok(/pasada de bast[oó]n/.test(allText), "5.2 the capped stick pass-through is what ships instead");
-const stick = Object.values(M.library).flatMap(e => e.variants || []).find(v => /bast[oó]n/i.test(v.name));
+/* EN calls it a dowel, PT a bastão — match the movement, not one language's word. */
+const stick = Object.values(M.library).flatMap(e => e.variants || []).find(v => /bast[oó]n|bast[ãa]o|dowel|stick/i.test(v.name));
 ok(!!stick, "5.3 the stick exercise exists as a variant, not a base exercise");
 // The stop-word was `pará` until the September 5, 2026 tuteo pass, which rendered it
 // `detente` rather than `para` — a bare "para donde..." reads as the preposition on a
@@ -300,12 +301,20 @@ eq(fp, "d30ef88e06a3", "10.3 the Spanish routine structure is unchanged (update 
 
 /* 10.4 — the clinical reversals and the two deliberate disagreements, per
    language, in that language's own wording. */
+/* Phrasing- and name-tolerant where a rename was signed off on September 8, 2026.
+   These assertions guard the CONTENT — the exercise is present, the cap is stated,
+   the roll-down is segmental — never one author's chosen name. Pinning them to a
+   single wording made five of them fire on a rename that was correct: "postura do
+   sapo" became "postura da rã" (a sapo is a toad), and "winged dragon" became
+   "Flying Dragon". Widen the alternation when a name legitimately changes; never
+   delete the check. */
+
 const CL = {
   en: { dislocate: /dislocat/i, jefferson: /jefferson/i, sleeper: /sleeper/i,
         kettlebell: /kettlebell|halo/i, aggressive: /aggressiv/i,
         capped: /stop where/i, ribs: /ribs|lower back|shoulders/i,
-        segmental: /vertebra by vertebra/i,
-        frog: /frog pose/i, dragon: /winged dragon/i, freshOnly: /recovery days only/i,
+        segmental: /vertebra by vertebra|one vertebra at a time/i,
+        frog: /frog pose/i, dragon: /winged dragon|flying dragon/i, freshOnly: /recovery days only/i,
         balanceGrab: /wall|chair/i, achilles: /achilles/i,
         doctor: /doctor/i, tools: /\/members\/en\/(knees|achilles|shoulder)\//,
         notRest: /not a day off/i, notRestDone: /not a rest/i,
@@ -314,7 +323,7 @@ const CL = {
         kettlebell: /kettlebell|halo/i, aggressive: /agressiv/i,
         capped: /pare onde/i, ribs: /costelas|lombar|ombros/i,
         segmental: /vértebra por vértebra/i,
-        frog: /postura do sapo/i, dragon: /dragão alado/i, freshOnly: /dia sem sessão/i,
+        frog: /postura do sapo|postura da r[ãa]/i, dragon: /drag[ãa]o alado/i, freshOnly: /dia sem sess[ãa]o/i,
         balanceGrab: /parede|cadeira/i, achilles: /aquiles/i,
         doctor: /médic/i, tools: /\/members\/pt\/(joelhos|aquiles|ombro)\//,
         notRest: /não um dia de folga/i, notRestDone: /não um descanso/i,
@@ -336,7 +345,7 @@ LANGS.forEach(lang => {
 
   /* The capped stick is a VARIANT and its cue still carries the cap. */
   const stick = Object.values(m.library).flatMap(e => e.variants || [])
-    .find(v => /bast|stick/i.test(v.name));
+    .find(v => /bast|stick|dowel/i.test(v.name));   // EN renamed it to "Dowel Pass-Through", Sept 8 2026
   ok(!!stick, "10.4 " + lang + ": the stick exercise exists as a variant");
   ok(stick && C.capped.test(stick.cue) && C.ribs.test(stick.cue),
      "10.4 " + lang + ": the stick cue still carries the cap");

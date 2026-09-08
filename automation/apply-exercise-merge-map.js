@@ -49,6 +49,12 @@ const SUPPRESS=[
    * Suppressing one edge is not enough when the cluster it must stay out of has
    * grown. */
   ['activacion::psoas de rodillas::main','*'],
+  /* D2a again, September 8 evening: once the remaining cues were harmonised,
+   * core's "Bird dog isométrico" became similar enough to be pulled into the
+   * Bird dog cluster. It holds for the WHOLE block; Bird dog reaches and switches
+   * every two or three seconds. Different execution, so it stays its own entry —
+   * and it shares the Bird dog video. */
+  ['core::bird dog isometrico::variant','*'],
 ];
 const suppressed=(a,b)=>SUPPRESS.some(([x,y])=>{
   const ka=items[a].key,kb=items[b].key;
