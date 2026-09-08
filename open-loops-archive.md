@@ -864,6 +864,18 @@
 
 
 
+
+## Closed — September 8, 2026 · the `/w/` webview test
+
+*Opened and closed the same day, which is the point: it was the one assumption the workout-library pasting pass rested on, and it took one phone and two clicks to settle.*
+
+- [x] ✅ ~~**Test one `/w/` click from the TrainingPeaks MOBILE APP, with a non-QA account.**~~ **PASSED September 8, 2026 — the webview carries the cookie.** *New phone, personal TrainingPeaks, `ivankoch87@gmail.com`'s token, both clicks from inside the app: 15:11:56 `core` anonymous (no cookie yet) → 15:14:26 `core-run` attributed to `ivankoch87@gmail.com`.* 🔑 **This was the single assumption the whole workout-library pasting pass rested on, and it is now measured.** *`ai-infrastructure-documentation.md` §43.* **The pasting pass is unblocked.**
+
+***Worth keeping: the first attempt did not answer the question and looked like it had.*** *A click from an already-logged-in session, in an unrecorded browser, on an `excluded_from_metrics` QA account, returned a perfectly attributed row — **confirming only the thing nobody doubted.*** 🔑 **A test that exercises the easy path returns a green result and answers nothing.** *The real test needed three conditions at once — a device with no cookie, a click originating inside the TrainingPeaks app, and an account that is not filtered out of the views — and none of them was the cookie question itself.*
+
+
+---
+
 ## Closed — the LinkedIn rewrite and `/ai-systems/` (done week of Sept 1; recorded September 8, 2026)
 
 - [x] ✅ ~~**#12 · Publish the LinkedIn rewrite and the `/ai-systems/` link.**~~ **DONE the week of September 1, 2026 — Iván, confirmed September 8.** *Page live at `/ai-systems/`, copy blocks pasted, Featured section set.* 📈 ***And it is already returning something: profile views up, plus one inbound AI-related connection approach.*** *n=1 on a page that has been live a week, so it is a signal and not a result — but it is the first evidence the positioning rewrite reaches an audience the coaching business never had.*

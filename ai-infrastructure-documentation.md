@@ -2078,6 +2078,55 @@ So `tests/recovery-matrix.js` §7 **evaluates the activation matrix's own librar
 1. **The cookie is per device.** *An athlete who logged in on a laptop and clicks a workout link on their phone is anonymous again on the phone. TrainingPeaks workouts are read mostly on phones, so a real anonymous tail survives no matter how mature the cookie base gets.*
 2. 🚨 **`samesite="Lax"` sends the cookie on a top-level navigation, so a click from TrainingPeaks in a normal browser is attributed — but an in-app webview with its own cookie jar is not.** ***Nothing in this repo has tested what the TrainingPeaks mobile app actually does with an outbound link, and that is the single assumption the entire pasting pass rests on.*** **Test it with one workout and one athlete before editing a library of them** — *a link pasted into a TrainingPeaks plan is frozen into every future application of that plan, which is §43's own reason for owning the path, and it cuts both ways: a scheme that silently loses identity in the app would be discovered after it is permanent.*
 
+### §43 addendum, September 8, 2026 (same day, second entry) — 🚨 the post-login redirect ignores the athlete's own language
+
+***Found while reading the first `/w/` rows, not looked for.*** *Three anonymous clicks in the log resolved to the* **English** *members area — `activacion-swim` → `/members/en/activation/`, `recuperacion-semana` → `/members/en/recovery/`, `core-hotel` → `/members/en/core/` — against a book that is almost entirely Spanish.*
+
+**The redirect itself is correct and `accept_language_code()` is not the bug.** *An anonymous click has no token, so the browser's `Accept-Language` is genuinely the best signal available, and the function reads it correctly: first `en`/`pt`/`es` tag in header order wins, defaulting to `es`. **An English-locale phone belonging to a Spanish athlete is therefore sent to the English page, correctly, on the information available.***
+
+🚨 ***The defect is one step later, in `login()`.*** *`next_url` is validated by `safe_next()` for same-site safety and then honoured verbatim:*
+
+```
+if not next_url:
+    next_url = LANG_HOME.get(language, DEFAULT_HOME)
+resp = make_response(redirect(next_url))
+```
+
+***`language` is right there — `lookup_token(token)` fetched it two lines earlier — and it is used only when `next_url` is absent.*** **So the one moment the system stops guessing and actually learns who the athlete is, is the moment it discards the answer.** *The Spanish athlete clicks a workout link from an English phone, meets the login wall, authenticates, and lands on the English page — after their language became known.*
+
+**The fix is a language remap on `next_url` at login**: if the path sits in a `/members/<lang>/` tree that contradicts the token's `preferred_language`, rewrite it to that athlete's sibling before redirecting. *`library.json` already resolves any tool key to a `memberUrl` per language, which is the same lookup `/w/` performs — so this needs no new data, only the mapping applied one step further down the chain.* ⚠️ ***Deliberately not built in this session*** *(hygiene pass, no feature work) — logged in `open-loops.md`.* **It should land before the workout-library pasting pass, which is exactly what will make anonymous first-clicks the common case rather than the rare one.**
+
+*Sample is three rows and the locale distribution of the book is unmeasured, so **how often** this fires is unknown; **that** it fires is settled by reading `login()`.*
+
+### §43 addendum — ✅ the in-app webview question is CLOSED, and it passed
+
+***Tested properly September 8, 2026: a new phone, Iván's personal TrainingPeaks account, `ivankoch87@gmail.com`'s token, both clicks from inside the TrainingPeaks app.*** *(An earlier attempt the same day did not answer it — already logged in, in an unrecorded browser, on an `excluded_from_metrics` QA account.)*
+
+| | click | code | `email` logged | destination |
+|---|---|---|---|---|
+| **First click, no cookie yet** | 15:11:56 | `core` | *(none)* | `/members/core/` |
+| **Second click, after login** | 15:14:26 | `core-run` | `ivankoch87@gmail.com` | `/members/core-corredor/` |
+
+🔑 ***The TrainingPeaks in-app webview carries the members cookie.*** *Two clicks, two and a half minutes apart, same device, same app: the first anonymous because no cookie existed yet, the second attributed because login set one and the webview sent it back.* **`samesite="Lax"` survives the app, so the pasting pass is safe to run** — *this was the single assumption the whole workout-library build rested on, and it is now measured rather than assumed.*
+
+**The full first-visit sequence, for the record** — *one click produces two rows and only the first is anonymous:*
+1. `/w/<code>` with no cookie → identity unknown → language from `Accept-Language` → **`link` row, `token_id NULL`** → 302 to the tool.
+2. Caddy sees a gated path with no cookie → login with `next=<that tool>`.
+3. Token accepted → **one-year cookie set** → redirect to `next`.
+4. The page loads → `forward_auth` fires → **`page` row WITH `token_id`.**
+
+***So the person is never actually lost — only the first click of a device is unattributed, and the page view seconds later carries the identity.*** **It is once per athlete per device, for the life of the cookie, and `workout_link_clicks` reports `athletes` and `anonymous_clicks` as separate columns rather than blending them.** *That is why no click→login stitching is being built.*
+
+### §43 addendum — ⚠️ the language finding is REAL but MUCH RARER than the sample suggested
+
+*The second addendum above reported three anonymous clicks all resolving to `/members/en/…` against a Spanish book.* ***A fourth anonymous row, from this test, resolved to `/members/core/` — Spanish — because the phone's `Accept-Language` is Spanish.***
+
+**So the redirect tracks device locale correctly and the 3-of-3 was a small-sample artifact, not a systematic fault.** 🚨 ***The code defect in `login()` is unchanged and still real*** — `next_url` is honoured while the token's `preferred_language` sits unused two lines above — **but it fires only when an athlete's device locale disagrees with their token language, and nothing has measured how often that is.** *Downgraded from "happening now" to "will happen to somebody"; the fix is unchanged and cheap.*
+
+⚠️ ***And this is the repo's own rule catching its own pass:*** `kb-hygiene-prompt.md` *failure mode 10 —* **"when a live check disagrees with the repo, suspect the check before filing the finding."** *Here the finding's* ***frequency claim*** *came from three rows and the fourth row contradicted it. The code reading was right; the rate attached to it was invented from a sample too small to carry one.*
+
+---
+
 ---
 
 ## 44. The recovery tool in EN and PT, and how the translation script failed usefully (September 5, 2026)

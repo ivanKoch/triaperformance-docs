@@ -132,8 +132,43 @@ LEFT JOIN subscriber_tokens t ON t.id = l.token_id;
 
 -- ---------------------------------------------------------------------------
 -- member_tool_usage — "which athlete used which tool", which is the whole point.
--- One row per athlete per page, with first/last touch and a visit count.
+-- One row per athlete per TOOL, with first/last touch and a visit count.
 -- Excluded tokens are dropped here rather than in every ad-hoc query.
+--
+-- 🚨 THE THREE LANGUAGE HOMES AND THE LOGIN PAGES ARE NOT TOOLS AND ARE NOT
+-- HERE. Added September 8, 2026, after a real 10-minute session ranked
+-- `/members/` FIRST at 2 visits, ahead of every tool the athlete actually
+-- opened.
+--
+-- The distortion is not noise, it is systematic and it grows with engagement:
+-- an athlete who browses four tools passes through the home three times, so
+-- the more someone explores the library the more the home outranks whatever
+-- they explored. A ranking that puts navigation above usage answers the
+-- opposite of the question it is asked -- and the question it is asked is
+-- "what should I build next", which is the only decision this view feeds.
+--
+-- Filtered in the VIEW rather than documented as a caveat, for the same reason
+-- `token_roster` exists a few lines above: the query people actually type is
+-- the short one, and a warning asks someone to remember. Same rule, second
+-- application -- make the wrong thing impossible rather than write the warning
+-- down again.
+--
+-- The home is not discarded, it moved to `member_home_visits` below, because
+-- "reached the library and opened nothing" is a real question and was
+-- unanswerable while browse and use were summed into one number.
+--
+-- The regex covers both slash forms (`/members` and `/members/`) because the
+-- path arrives from Caddy's X-Forwarded-Uri and nothing normalises it. Login
+-- pages are excluded defensively: they are ungated today, so forward_auth
+-- never fires on them and they cannot appear -- but that is a property of the
+-- Caddy config, not of this view, and it should not be this view's assumption.
+--
+-- ⚠️ COLUMN LIST DELIBERATELY UNCHANGED, so `CREATE OR REPLACE` succeeds.
+-- `CREATE OR REPLACE VIEW` REFUSES a changed column list rather than warning
+-- (recorded at automation/analytics/schema_analytics.sql, ga4_selftraffic_month).
+-- Adding an `is_tool` column here was the first design and would have forced a
+-- DROP; splitting the rows into two views is better anyway -- a flag still
+-- returns the wrong ranking to anyone who forgets to filter on it.
 -- ---------------------------------------------------------------------------
 CREATE OR REPLACE VIEW member_tool_usage AS
 SELECT t.email,
@@ -146,6 +181,32 @@ FROM member_access_log l
 JOIN subscriber_tokens t ON t.id = l.token_id
 WHERE l.event_type = 'page'
   AND t.excluded_from_metrics = FALSE
+  AND l.path !~ '^/members(/(en|pt))?/?$'
+  AND l.path !~ '^/members(/(en|pt))?/login/?$'
+GROUP BY t.email, t.preferred_language, l.path;
+
+-- ---------------------------------------------------------------------------
+-- member_home_visits — the browse signal, split out of the view above on
+-- September 8, 2026. Landing on the library and opening nothing is a distinct
+-- outcome from never arriving at all, and until now the two were summed with
+-- tool usage into a single number where neither could be read.
+--
+-- Anti-join this against `member_tool_usage` for the question worth asking:
+-- who reached the library and opened no tool. That is the population the
+-- "sixteen cards and no first step" item is about.
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE VIEW member_home_visits AS
+SELECT t.email,
+       t.preferred_language,
+       l.path,
+       count(*)             AS visits,
+       min(l.occurred_at)   AS first_seen,
+       max(l.occurred_at)   AS last_seen
+FROM member_access_log l
+JOIN subscriber_tokens t ON t.id = l.token_id
+WHERE l.event_type = 'page'
+  AND t.excluded_from_metrics = FALSE
+  AND l.path ~ '^/members(/(en|pt))?/?$'
 GROUP BY t.email, t.preferred_language, l.path;
 
 -- ---------------------------------------------------------------------------
