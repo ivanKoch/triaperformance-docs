@@ -32,7 +32,9 @@
     "statEx": "Ejercicios",
     "statMin": "Minutos",
     "statSkip": "Salteados",
-    "repeat": "Repetir"
+    "repeat": "Repetir",
+    "autoLabel": "Encadenar automático",
+    "autoHint": "Cada ejercicio arranca solo, sin tocar la pantalla."
   },
   "en": {
     "kicker": "Activation",
@@ -66,7 +68,9 @@
     "statEx": "Exercises",
     "statMin": "Minutes",
     "statSkip": "Skipped",
-    "repeat": "Repeat"
+    "repeat": "Repeat",
+    "autoLabel": "Auto-chain",
+    "autoHint": "Each exercise starts on its own, hands free."
   },
   "pt": {
     "kicker": "Ativação",
@@ -100,6 +104,8 @@
     "statEx": "Exercícios",
     "statMin": "Minutos",
     "statSkip": "Pulados",
-    "repeat": "Repetir"
+    "repeat": "Repetir",
+    "autoLabel": "Encadear automático",
+    "autoHint": "Cada exercício começa sozinho, sem tocar na tela."
   }
 }

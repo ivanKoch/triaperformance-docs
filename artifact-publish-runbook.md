@@ -17,10 +17,14 @@ Timer-based routine tools don't start from scratch — there's a shared template
 Three shared pieces, one data file per tool:
 
 - `site/_includes/partials/activation-tool.njk` — the markup skeleton.
-- `site/assets/js/activation-tool.js` — the engine. Reads `window.ACTIVATION_DATA`. Handles tabs, work/rest cycle, unilateral = full duration per side, prev/skip/pause, variant swap ("Cambiar ejercicio"), position-change callouts between phases, beeps + vibration, done stats, repeat.
+- `site/assets/js/activation-tool.js` — the engine. Reads `window.ACTIVATION_DATA`. Handles tabs, work/rest cycle, unilateral = full duration per side, prev/skip/pause, variant swap ("Cambiar ejercicio"), position-change callouts between phases, beeps + vibration, done stats, repeat, and the estimated time to completion on the home screen.
+  ***Since September 8, 2026 every block opens PAUSED with its cue on screen*** *(`ai-infrastructure-documentation.md` §48.1)*. **A remembered auto-chain toggle** (`localStorage`, `tp.routine.autoChain`, default off) restores hands-free chaining; **manual mode has no rest phase at all**, by design. ⚠️ *Do not "fix" the paused start — it is the prerequisite for putting video on an exercise screen.*
 - `site/assets/css/members-activacion.css` — all styling, including the dark nav/footer overrides.
 
 A new routine tool is then just: `site/members/<tool>/index.njk` = front matter + inline `window.ACTIVATION_DATA = {...}` (inside `{% raw %}`) + `{% include "partials/activation-tool.njk" %}`. The data model (documented at the top of the engine file) includes per-exercise `cue` (long coaching description), `tag` (equipment), `variants` (each with own mode/cue), and `video: null` — set a YouTube ID there and the Ejercicios tab renders the embed automatically, nothing else to build.
+
+**The second engine: `strength-tool.js` + `partials/strength-tool.njk` + `members-fuerza.css`** *(which imports `members-activacion.css` rather than copying it)*. Reads `window.STRENGTH_DATA`: sets × a `reps` **display string rendered verbatim and never parsed**, with a rest timer between sets and the athlete tapping "Serie hecha ✓". **Use it when the prescription is repetitions; use the activation engine when the prescription is a fixed duration per exercise.**
+*Since September 8, 2026 it also takes `hold` / `holdMax` / `holdSides` for the exercises inside a strength routine whose prescription IS a duration — a countdown the athlete starts, which never completes the set. Ranges keep both numbers. `reps` is still never parsed at runtime; the fields are derived from it once at edit time.*
 
 For non-routine tools (calculators etc.), fall through to the generic process below.
 
@@ -61,7 +65,9 @@ grep -n 'noindex' _site/members/<tool>/index.html                        # expec
 grep -c '<tool>' _site/sitemap.xml                                       # expect 0
 grep -c '{% raw' _site/members/<tool>/index.html                         # expect 0 (raw tags consumed)
 node tests/workout-links.test.js                                         # every live tool has a /w/ code
+node tests/routine-engines.test.js                                       # both routine engines, faked clock
 ```
+*(`npm test` runs all of them, including the two above.)*
 
 Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card + filter chip on `/members/`, mobile width.
 
@@ -76,8 +82,9 @@ Then `npx eleventy --serve` and click through: tool works, nav/footer dark, card
 
 - Dark theme by default for interactive artifacts (`brand-guidelines.md` §7.1). TP Blue is fill-only on dark; blue text uses `--blue-bright`.
 - Standard members nav + footer, restyled dark in page CSS.
-- Voseo Spanish, no hype vocabulary, sentence case.
+- ~~Voseo Spanish~~, no hype vocabulary, sentence case. 🚨 ***Corrected September 8, 2026 — this line was wrong and was the kind of wrong that propagates: it instructs a future session to write copy that `automation/register-sweep.py` then flags.*** **Spanish is neutral LatAm tuteo** (`brand-guidelines.md` §8, enforced on both axes by the sweep). *Run `python3 automation/register-sweep.py` before shipping any Spanish copy.*
 - Timer/exercise conventions (from Activación): unilateral = full duration per side; alternating = full duration total; circuits order floor → standing without going back down.
+- **No clock ever starts without a tap, and no clock ever advances the athlete's own decision.** *(September 8, 2026, from athlete feedback — §48.)* A block starts when the athlete starts it; a hold timer counts a duration prescription but never marks the set done. **Every routine artifact states an estimated time to completion on its home screen.**
 
 ## Published artifacts
 

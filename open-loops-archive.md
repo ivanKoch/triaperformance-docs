@@ -8,6 +8,32 @@
 
 ---
 
+## Closed — September 8, 2026 (HubSpot decommission — portal deleted, zone cleaned, nothing HubSpot-shaped remains)
+
+**The original item, preserved:**
+
+- [ ] **#4 · Pull HubSpot's SPF/DKIM DNS records** — the last genuinely HubSpot-shaped item, and the only one. The zone still carries the SPF include (`7203776.spf02.hubspotemail.net`) and two DKIM CNAMEs (`hs1-`/`hs2-7203776._domainkey`), which still authorize that portal to send as `@triaperformance.com` even though it sends nothing. ~~Pull them once the blast above is sent (or once it's decided against) and the portal is closed — not before, in case the blast goes out from HubSpot.~~ ***Condition gone, September 8, 2026 — the portal is deleted, so the blast cannot come from HubSpot.*** *Exact three-row edit table, checked against the real zone export, in* `deploy-runbook.md` *§1. **Two records in that zone look like generated junk and are load-bearing — the `dc-aa8e722993._spfm` TXT (it is what reaches Google Workspace; the apex SPF does not include Google directly) and the `google-site-verification` TXT (it is what verifies the GSC Domain property).** Neither is HubSpot's.*
+
+  🚨 ***This cleanup opens one non-HubSpot item, logged here because it is a consequence of closing this one:*** *the two `hs*-_domainkey` CNAMEs are the zone's only DKIM records, and Workspace DKIM was never configured, so after this pull the domain signs nothing.* **`_dmarc` is `p=none`, which is why that has been invisible.** *Harmless for today's transactional volume, decisive for #3 — configure `google._domainkey` in Workspace Admin before the blast. Detail in* `deploy-runbook.md` *§1.*
+
+✅ ***CLOSED September 8, 2026, and it closed the whole HubSpot chapter, not just this item.*** *Triggered by a HubSpot SSL-renewal warning email for `www.triaperformance.com` — which was itself a non-event: the site has served from the VPS since July, `www` 301s to the apex on Caddy's own certificate, and HubSpot was failing to renew a certificate for a hostname that no longer resolved to it.* **The email was worth nothing and the question behind it was worth everything** — *it surfaced that the portal was still open, still authorized to send as the domain, and still holding the only copy of three years of opt-out state.*
+
+**Order it was done in, and the order matters:**
+
+1. **Export the opt-out and bounce state FIRST.** *A HubSpot contact export does not carry it unless the properties are ticked explicitly, and the portal is unrecoverable once deleted.* **131 addresses** *— 68 unsubscribed-from-all, 36 hard bounces, 22 marketing opt-outs, 2 one-to-one, 2 customer-service, 1 invalid — seeded into* `email_suppression` *with* `source = 'hubspot-legacy-2026-09-08'` *and a reason per signal.* ✅ **`INSERT 0 131` confirmed on the box.**
+2. **Delete the portal.**
+3. **Clean the zone** — SPF include edited out, two `hs*-_domainkey` CNAMEs deleted.
+
+🚨 ***The finding worth keeping: `email_suppression` had never been seeded from anything.*** *Its only writer was the `/api/unsubscribe` endpoint, live since September 6 — so before this the suppression list held two days of history and nothing before it, while `open-loops.md` NEXT #3 sat queued as a blast to a three-year-old list.* **A send run in that state would have emailed 131 people who had already said no, with no record that they ever had, and every check would have reported success.** *Same family as this repo's other favourite defect: the broken version prints a plausible number.*
+
+🚨 ***A wrong belief this session produced and corrected within a day, kept because the correction is the lesson:*** *a note was written into* `deploy-runbook.md` *§1 saying "the Google include lives in the same record" as HubSpot's, warning against deleting the apex TXT wholesale.* **False.** *The apex SPF does not include Google at all — it includes GoDaddy's SPF-merge indirection `dc-aa8e722993._spfm.triaperformance.com`, and* ***that*** *record holds `include:_spf.google.com`.* **The guidance happened to point the right way for the wrong reason, which is the dangerous kind:** *someone following it would have searched the apex record for `include:_spf.google.com`, not found it, and concluded the whole TXT was HubSpot's.* ⚠️ **Two records in that zone look like generated debris and are load-bearing — `dc-aa8e722993._spfm` (Workspace mail) and `google-site-verification` (the GSC Domain property, and therefore the 16-month Search Console backfill).** *It was caught by reading the real zone export instead of the runbook — the same discriminator as every other entry in this file.*
+
+**Verified against the 2026-09-08 10:35 zone export:** *apex SPF is `v=spf1 include:dc-aa8e722993._spfm.triaperformance.com ~all`, both `hs*-_domainkey` CNAMEs are gone, `dc-aa8e722993._spfm` and `google-site-verification` intact, MX and DMARC untouched.* **Zero HubSpot records remain in DNS, zero HubSpot references remain in live repo docs** *(the one in* `ai-infrastructure-documentation.md` *§1556 is narrative history and was deliberately left).*
+
+⚠️ ***What it left open, promoted to its own item rather than leaving with this one:*** *the deleted CNAMEs were the zone's only DKIM records and Workspace DKIM had never been configured, so the cleanup briefly left the domain signing nothing.* **`google._domainkey` was added the same day; whether Google is actually signing with it is unverified and is now `open-loops.md` NEXT #4.** *This is the failure mode the archive rule exists to prevent — a live consequence riding out of the list inside a closed item.*
+
+---
+
 ## Closed — September 8, 2026 (Pace converter — shipped public in three languages, plus three members copies)
 
 **The original item, preserved:**

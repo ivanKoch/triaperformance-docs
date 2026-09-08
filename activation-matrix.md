@@ -2,6 +2,20 @@
 
 ---
 
+## v1.2 — the towel is gone from the running routines (September 8, 2026)
+
+**Athlete feedback, relayed by Iván: *"I got asked if I had a mini band, and then mid routine a towel was needed."*** She was right, and the defect was structural rather than a typo.
+
+**What happened.** `hamTowel` ("Isquios con toalla", tag *Toalla o cinta*) sat at position 5 of the floor block in `run|wake|none` **and** `run|wake|band` — the two routines an athlete reaches through an equipment question that asks about **a mini-band and nothing else**. Answering *"no band"* still produced a routine that needed kit, four exercises in, with no way to know beforehand.
+
+🔑 ***The transferable rule: the setup questions are a promise about equipment, and every exercise in a routine must be answerable from the answers given.*** *An audit of all 40 library entries found `hamTowel` was the only violation — `Pared de apoyo` on the leg swings is not equipment, and every band-tagged exercise is only reachable from a `band` routine. So the matrix's design was sound and one entry escaped it; the fix is the entry, not the design.*
+
+**The fix, and why the towel was not simply deleted.** `hamSupine` ("Isquios acostado" / "Lying hamstring stretch" / "Posteriores deitado") — hands behind the thigh, knee extended toward the ceiling, tagged *Sin equipo* — is now the default, **with the towel version demoted to a variant** reachable through the engine's existing "Cambiar ejercicio". *The strap version is the better stretch when you have one; it just cannot be the one an athlete is ambushed by.* ⚠️ **This is the matrix's first use of `variants` — v1 shipped with none anywhere, which is why the change link had been dead code on every routine this tool builds.**
+
+***A latent engine bug surfaced by adding that variant, and fixed in `activation-tool.js` the same day:*** **the variant swap never carried `secs`.** *It copied `name`, `mode`, `cue` and `tag` in both directions and left the duration behind — so a 60-second hold offered as a variant of a 40-second block would have displayed "60s" and run for 40, with `MODE_LABEL` reading the variant and the timer reading the exercise it replaced.* **Nothing had ever hit it because nothing had ever offered a variant.**
+
+---
+
 ## v1.1 — SWIMMING added as a third sport (September 3, 2026)
 
 **Live in all three languages** — `/members/activacion/`, `/members/en/activation/`, `/members/pt/ativacao/`. Each builds **14 routines**, not 8: run and bike keep two equipment options each, swimming has three, so the grid is 4 + 4 + 6. `library.json` and all three members-home cards name the three sports.

@@ -26,6 +26,27 @@
   line-height: 1.15; letter-spacing: -0.01em; text-align: center; max-width: 14ch;
 }
 
+/* --- hold timer (Sept 8, 2026) ---
+   Only ever rendered where the prescription is a duration. Deliberately a
+   SECONDARY button under a large readout: the primary action on this screen is
+   still "Serie hecha", because the engine's contract is that the athlete
+   decides when a set is finished and the clock only ever informs that decision. */
+.hold-block {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  margin: 4px 0 14px;
+}
+.hold-block[hidden] { display: none; }
+.hold-time {
+  font-size: 34px; font-weight: 700; line-height: 1;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+  color: var(--text); min-width: 3.2ch; text-align: right;
+}
+.hold-time.hold-live { color: var(--blue-bright); }
+/* minimum dose of a ranged hold reached — the remaining seconds are now optional */
+.hold-time.hold-min-met { color: var(--green, #4ade80); }
+.hold-time.hold-complete { color: var(--blue-bright); font-size: 30px; }
+.hold-btn { padding: 12px 18px; font-size: 14px; min-width: 11ch; }
+
 .set-done {
   width: 100%; max-width: 320px; margin-top: 12px; font-size: 17px; padding: 16px 24px;
 }

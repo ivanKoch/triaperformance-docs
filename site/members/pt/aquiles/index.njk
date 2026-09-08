@@ -94,19 +94,19 @@ window.ACHILLES_ROUTINE = (function () {
   /* ---------------------------------------------------------------- LIBRARY */
   const L = {
     /* --- rodillo --- */
-    rollCalf: { name: "Rolo: barriga da panturrilha", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+    rollCalf: { name: "Rolo: barriga da panturrilha", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "Só a parte carnuda de cima e as laterais da perna. <strong>Nunca passe o rolo no tendão</strong> — é tecido muito inervado e já irritado; o atrito ali só piora. Do joelho para baixo até onde o músculo vira tendão, e pare." },
 
     /* --- isométricos (analgésico + activación) --- */
-    isoStep: { name: "Isométrico na ponta (degrau)", sets: 3, reps: "30-45s", rest: 60, tag: "Degrau",
+    isoStep: { name: "Isométrico na ponta (degrau)", sets: 3, reps: "30-45s", hold: 30, holdMax: 45, rest: 60, tag: "Degrau",
       cue: "Com os dois pés na borda do degrau, suba na ponta e <strong>segure lá em cima, parado</strong>. Isométricos pesados são analgésicos naturais para o tendão: se você começa por aqui, o resto da rotina dói menos." },
-    isoFlat: { name: "Isométrico na ponta (chão)", sets: 3, reps: "30-45s", rest: 60, tag: "Sem equipamento",
+    isoFlat: { name: "Isométrico na ponta (chão)", sets: 3, reps: "30-45s", hold: 30, holdMax: 45, rest: 60, tag: "Sem equipamento",
       cue: "Igual, mas <strong>no chão plano, não no degrau</strong>: com dor na inserção não queremos o calcanhar abaixo do nível do pé. Suba na ponta e segure parado em cima. É o analgésico natural do tendão." },
 
     /* --- energía elástica (bloque final, solo si ya no duele) --- */
     pogo: { name: "Pogos (saltinhos de tornozelo)", sets: 3, reps: "20", rest: 60, tag: "Sem equipamento",
       cue: "Saltinhos pequenos no lugar, <strong>só do tornozelo, com o joelho quase fixo</strong>. O contato tem que ser curto e fazer pouco barulho. Você não busca altura: busca rigidez elástica, que é o que o tendão faz quando você corre." },
-    skip: { name: "Skipping baixo", sets: 3, reps: "30s", rest: 60, tag: "Sem equipamento",
+    skip: { name: "Skipping baixo", sets: 3, reps: "30s", hold: 30, rest: 60, tag: "Sem equipamento",
       cue: "Skipping leve no lugar ou avançando. <strong>Rebote rápido, apoio de metatarso, sem martelar o calcanhar.</strong> Se o tendão falar, o bloco acaba — isso não se negocia." },
     slHop: { name: "Saltos em uma perna", sets: 3, reps: "10 por lado", rest: 60, tag: "Sem equipamento",
       cue: "Saltinhos no lugar sobre uma perna, aterrissando no metatarso com o joelho macio. <strong>É o último degrau antes de voltar a correr forte.</strong> Se amanhã você acordar mais rígido do que hoje, era cedo demais." },
@@ -130,13 +130,13 @@ window.ACHILLES_ROUTINE = (function () {
       cue: "Pernas quase estendidas, sem travar o joelho para trás, empurrando com o metatarso. Mesmo tempo lento. Com o joelho estendido quem assume é a panturrilha (gastrocnêmio)." },
     legPressCalfNeutral: { name: "Elevação de panturrilha no leg press", sets: 4, reps: "8-10", rest: 120, tag: "Leg press · amplitude limitada",
       cue: "Igual, tempo lento, mas <strong>sem deixar o calcanhar descer além da linha do apoio</strong>. Mesmo motivo: na inserção, amplitude a mais não é mais estímulo, é compressão." },
-    farmerToes: { name: "Caminhada na ponta com peso", sets: 3, reps: "30s", rest: 90, tag: "Halteres",
+    farmerToes: { name: "Caminhada na ponta com peso", sets: 3, reps: "30s", hold: 30, rest: 90, tag: "Halteres",
       cue: "Halteres pesados, caminhe devagar <strong>mantendo-se alto sobre o metatarso o percurso todo</strong>, sem deixar o calcanhar descer. Treina rigidez de tornozelo sob carga — que é justamente o que falta ao ciclista que afunda o calcanhar quando força." },
 
     /* --- pie y tobillo --- */
     towel: { name: "Amassar a toalha", sets: 3, reps: "20 por lado", rest: 30, tag: "Toalha",
       cue: "Sentado e descalço, toalha no chão, <strong>amasse na sua direção só com os dedos</strong>. Um pé forte fica com parte do trabalho da impulsão em vez de mandar tudo para o tendão." },
-    shortFoot: { name: "Pé curto", sets: 3, reps: "30s por lado", rest: 30, tag: "Sem equipamento",
+    shortFoot: { name: "Pé curto", sets: 3, reps: "30s por lado", hold: 30, holdSides: 2, rest: 30, tag: "Sem equipamento",
       cue: "Descalço, pé apoiado, <strong>aproxime a base dos dedos do calcanhar levantando o arco, sem enrolar os dedos e sem girar o tornozelo</strong>. É minúsculo e custa achar; quando aparece, você sente o arco ativo. O pé e o aquiles dividem a mola: se o arco cai, o tendão paga a diferença." },
     tibRaise: { name: "Elevação de ponta (tibial anterior)", sets: 3, reps: "20", rest: 30, tag: "Parede de apoio",
       cue: "De costas para a parede, calcanhares um passo à frente, <strong>suba as pontas em direção às canelas o mais alto que conseguir e desça devagar</strong>. É o antagonista da panturrilha: te dá controle da queda do pé ao aterrissar, em vez de só freá-la." },
@@ -148,11 +148,11 @@ window.ACHILLES_ROUTINE = (function () {
       cue: "Empurre com o calcanhar e aperte o glúteo em cima. <strong>Se você sente na lombar, encaixe a pelve e baixe a altura.</strong> Cadeia posterior forte, menos trabalho de frenagem lá embaixo." },
 
     /* --- movilidad (post, en caliente) --- */
-    wallStraight: { name: "Alongamento na parede, perna reta", sets: 1, reps: "2 min por lado", tag: "Parede",
+    wallStraight: { name: "Alongamento na parede, perna reta", sets: 1, reps: "2 min por lado", hold: 120, holdSides: 2, tag: "Parede",
       cue: "Mãos na parede, perna de trás reta e <strong>o calcanhar cravado no chão</strong>. Alonga a panturrilha. Só depois de treinar, com o tecido aquecido — alongar um aquiles frio e irritado é o jeito mais rápido de inflamar o quadro." },
-    wallBent: { name: "Alongamento na parede, joelho flexionado", sets: 1, reps: "2 min por lado", tag: "Parede",
+    wallBent: { name: "Alongamento na parede, joelho flexionado", sets: 1, reps: "2 min por lado", hold: 120, holdSides: 2, tag: "Parede",
       cue: "Mesma posição, mas <strong>flexionando levemente o joelho de trás sem descolar o calcanhar</strong>. O alongamento desce e se aproxima do tendão: ali está o sóleo." },
-    ankleMob: { name: "Mobilidade de tornozelo sem forçar", sets: 1, reps: "90s por lado", tag: "Sem equipamento",
+    ankleMob: { name: "Mobilidade de tornozelo sem forçar", sets: 1, reps: "90s por lado", hold: 90, holdSides: 2, tag: "Sem equipamento",
       cue: "Sentado, círculos amplos e lentos com o tornozelo, e depois pontas para frente sustentadas. <strong>Aqui não há alongamento de panturrilha, de propósito</strong>: com dor na inserção, levar o pé à dorsiflexão máxima comprime o tendão contra o osso, que é exatamente o que estamos evitando a rotina inteira. Mobilidade sim, puxão não." }
   };
 

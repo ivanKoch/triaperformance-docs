@@ -143,8 +143,10 @@ window.ACTIVATION_MATRIX = (function () {
       cue: "Acostado, trae una rodilla al pecho con la otra pierna extendida en el piso. <strong>Si la pierna de abajo se despega, la cadera está corta</strong> — bájala y afloja el rango." },
     twist: { name: "Torsión espinal", mode: "uni", tag: "Sin equipo", secs: 45,
       cue: "Acostado, lleva una rodilla cruzada al otro lado con los brazos abiertos y la mirada al lado opuesto. <strong>El hombro no se despega del piso</strong> — suelta con cada exhalación." },
-    hamTowel: { name: "Isquios con toalla", mode: "uni", tag: "Toalla o cinta", secs: 45,
-      cue: "Toalla en la planta del pie, pierna extendida hacia el techo. <strong>Tira desde la toalla, no desde el cuello</strong>. La otra pierna queda apoyada en el piso." },
+    hamSupine: { name: "Isquios acostado", mode: "uni", tag: "Sin equipo", secs: 45,
+      cue: "Acostado, sujeta el muslo por detrás de la rodilla con las dos manos. Desde ahí <strong>estira la rodilla hacia el techo hasta sentir el isquio, y no más</strong>. La otra pierna queda apoyada en el piso.",
+      variants: [{ name: "Isquios con toalla", mode: "uni", tag: "Toalla o cinta", secs: 45,
+        cue: "Toalla en la planta del pie, pierna extendida hacia el techo. <strong>Tira desde la toalla, no desde el cuello</strong>. La otra pierna queda apoyada en el piso." }] },
     child: { name: "Postura del niño con alcance lateral", mode: "uni", tag: "Sin equipo", secs: 45,
       cue: "Sentado sobre los talones, camina las manos hacia un costado hasta sentir el dorsal. <strong>La cadera se queda atrás</strong>, no la sigas con el tronco." },
     hipflex: { name: "Psoas de rodillas", mode: "uni", tag: "Sin equipo", secs: 45,
@@ -254,11 +256,11 @@ window.ACTIVATION_MATRIX = (function () {
       { name: "De rodillas", ids: ["catcow","child","hipflexSqueeze"] },
       { name: "De pie",      ids: ["hipCircles","swingFB","squat2standBand","calf"] }] },
     "run|wake|none": { phases: [
-      { name: "Suelo",       ids: ["floss","fig4","bridge","deadbug","hamTowel"] },
+      { name: "Suelo",       ids: ["floss","fig4","bridge","deadbug","hamSupine"] },
       { name: "De rodillas", ids: ["catcow","hipflex","wgs"] },
       { name: "De pie",      ids: ["swingFB","swingLat","aSkip","march","ankle"] }] },
     "run|wake|band": { phases: [
-      { name: "Suelo",       ids: ["floss","fig4","bridgeBand","deadbugBand","hamTowel"] },
+      { name: "Suelo",       ids: ["floss","fig4","bridgeBand","deadbugBand","hamSupine"] },
       { name: "De rodillas", ids: ["catcow","hipflex","wgs"] },
       { name: "De pie",      ids: ["swingFB","swingLat","aSkip","march","ankleBand"] }] },
     "run|sit|none": { phases: [

@@ -127,8 +127,10 @@ window.ACTIVATION_MATRIX = (function () {
       cue: "Deitado, traga um joelho ao peito com a outra perna estendida no chão. <strong>Se a perna de baixo descola, esse quadril está curto</strong> — abaixe e alivie a amplitude." },
     twist: { name: "Torção da coluna", mode: "uni", tag: "Sem equipamento", secs: 45,
       cue: "Deitado, leve um joelho cruzado para o outro lado com os braços abertos e o olhar para o lado oposto. <strong>O ombro não descola do chão</strong> — solte um pouco a cada expiração." },
-    hamTowel: { name: "Posteriores com toalha", mode: "uni", tag: "Toalha ou faixa", secs: 45,
-      cue: "Toalha na planta do pé, perna estendida para o teto. <strong>Puxe pela toalha, não pelo pescoço</strong>. A outra perna fica apoiada no chão." },
+    hamSupine: { name: "Posteriores deitado", mode: "uni", tag: "Sem equipamento", secs: 45,
+      cue: "Deitado, segure a coxa por trás do joelho com as duas mãos. Daí <strong>estenda o joelho em direção ao teto até sentir o posterior, e não mais</strong>. A outra perna fica apoiada no chão.",
+      variants: [{ name: "Posteriores com toalha", mode: "uni", tag: "Toalha ou faixa", secs: 45,
+        cue: "Toalha na planta do pé, perna estendida para o teto. <strong>Puxe pela toalha, não pelo pescoço</strong>. A outra perna fica apoiada no chão." }] },
     child: { name: "Postura da criança com alcance lateral", mode: "uni", tag: "Sem equipamento", secs: 45,
       cue: "Sentado sobre os calcanhares, caminhe as mãos para um lado até sentir o dorsal. <strong>O quadril fica para trás</strong> — não deixe o tronco acompanhar." },
     hipflex: { name: "Alongamento de psoas ajoelhado", mode: "uni", tag: "Sem equipamento", secs: 45,
@@ -234,11 +236,11 @@ window.ACTIVATION_MATRIX = (function () {
       { name: "Ajoelhado", ids: ["catcow","child","hipflexSqueeze"] },
       { name: "Em pé", ids: ["hipCircles","swingFB","squat2standBand","calf"] }] },
     "run|wake|none": { phases: [
-      { name: "Chão", ids: ["floss","fig4","bridge","deadbug","hamTowel"] },
+      { name: "Chão", ids: ["floss","fig4","bridge","deadbug","hamSupine"] },
       { name: "Ajoelhado", ids: ["catcow","hipflex","wgs"] },
       { name: "Em pé", ids: ["swingFB","swingLat","aSkip","march","ankle"] }] },
     "run|wake|band": { phases: [
-      { name: "Chão", ids: ["floss","fig4","bridgeBand","deadbugBand","hamTowel"] },
+      { name: "Chão", ids: ["floss","fig4","bridgeBand","deadbugBand","hamSupine"] },
       { name: "Ajoelhado", ids: ["catcow","hipflex","wgs"] },
       { name: "Em pé", ids: ["swingFB","swingLat","aSkip","march","ankleBand"] }] },
     "run|sit|none": { phases: [

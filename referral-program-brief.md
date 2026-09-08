@@ -173,7 +173,7 @@ COALESCE(coachingStartDate, signUpDate) >= 2026-09-01     <- program floor
 
 **It will not replace CoachMatch, and it has a lag CoachMatch does not** — the referrer needs someone in mind, and that person needs to be in a training decision. *Iván's stated intent (Aug 26, 2026) is to make this the main channel for two months while CoachMatch is soft and the SEO build matures. Treat it as the thing that closes the one-signup-a-month gap, not as the channel carrying acquisition.* **Planning for 10 reads as failure at 4, and 4 is a good outcome.**
 
-*For raw volume inside the same window, the honest comparison is the 2,073 legacy contacts in `open-loops.md` NEXT #3 — ungated since Aug 6, audience already exported.*
+*For raw volume inside the same window, the honest comparison is the 2,250 legacy contacts in `open-loops.md` NEXT #3 — ungated since Aug 6, audience already exported.*
 
 ---
 

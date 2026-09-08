@@ -82,9 +82,9 @@ window.SHOULDER_ROUTINE = (function () {
   /* ---------------------------------------------------------------- LIBRARY */
   const L = {
     /* --- release (only with roller and ball) --- */
-    rollLat: { name: "Roller: lat smash", sets: 1, reps: "60-90s per side", tag: "Foam roller",
+    rollLat: { name: "Roller: lat smash", sets: 1, reps: "60-90s per side", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "On your side, roller just below the armpit, on the side of your ribs. <strong>When you find a tender spot, stop there and sweep the arm slowly up and down</strong> — that floss unglues the tissue far more than carrying on rolling. The lat is what rolls your shoulder forward." },
-    ballPec: { name: "Ball: pec minor release", sets: 1, reps: "60s per side", tag: "Tennis ball",
+    ballPec: { name: "Ball: pec minor release", sets: 1, reps: "60s per side", hold: 60, holdSides: 2, tag: "Tennis ball",
       cue: "Ball high on the chest, near the front of the shoulder, and lean into a wall. <strong>Moderate pressure, don't crush it</strong>: there are nerves and tendons under there, and this isn't a spot to fight with." },
 
     /* --- mobility and activation (all six routines) --- */
@@ -98,7 +98,7 @@ window.SHOULDER_ROUTINE = (function () {
       cue: "Facing the wall, forearms on it. Slide them up and <strong>at the very top push the wall away as if you wanted to move back from it</strong>, letting the shoulder blades wrap around your ribs. That last push is the serratus, and it's the muscle that makes room for the tendon when you lift the arm." },
 
     /* --- strength: shared by all three versions --- */
-    isoER: { name: "Isometric external rotation", sets: 3, reps: "30s per side", rest: 30, tag: "Doorframe",
+    isoER: { name: "Isometric external rotation", sets: 3, reps: "30s per side", hold: 30, holdSides: 2, rest: 30, tag: "Doorframe",
       cue: "Stand side-on to the frame, elbow tucked to your ribs and bent to 90°, back of the wrist against the frame. <strong>Push outward at 50% and hold. Nothing moves.</strong> Always start here: if it's sore today, this brings the pain down and lets you do the rest with good form instead of dodging it." },
     pushPlus: { name: "Push-up plus (protraction)", sets: 3, reps: "10-12", rest: 45, tag: "No equipment",
       cue: "High plank — or from your knees, or against a wall if the shoulder is sensitive. Lower and press as normal, and <strong>at the top, with elbows already locked, push the floor a little further until your upper back rounds</strong>. That extra inch is the whole exercise." },
@@ -128,9 +128,9 @@ window.SHOULDER_ROUTINE = (function () {
       cue: "Kettlebell upside down, held by the handle with the bell pointing at the ceiling, and press overhead. <strong>Start with one that feels ridiculously light</strong>: keeping it upright demands everything from the cuff that this block has been training, and that's where you find out whether the shoulder is actually stable." },
 
     /* --- final mobility (all six routines) --- */
-    crossBody: { name: "Cross-body shoulder stretch", sets: 1, reps: "90s per side", tag: "No equipment",
+    crossBody: { name: "Cross-body shoulder stretch", sets: 1, reps: "90s per side", hold: 90, holdSides: 2, tag: "No equipment",
       cue: "Bring the arm across your chest and hold it with the other hand above the elbow. <strong>Before you pull, draw the shoulder blade down and don't let it travel forward</strong> — if the blade slides, you're stretching your back instead of the back of the shoulder, which is the part that shortens from swimming. It should be felt behind the shoulder, never as a pinch at the front." },
-    childLat: { name: "Child's pose with lat bias", sets: 1, reps: "2 min", tag: "No equipment",
+    childLat: { name: "Child's pose with lat bias", sets: 1, reps: "2 min", hold: 120, tag: "No equipment",
       cue: "Sitting back on your heels, arms stretched out in front. <strong>Walk both hands well over to the left to stretch the right lat</strong>, breathe there, then over to the right. The lat is what pulls the shoulder into internal rotation; if you don't release it, everything above works against you." }
   };
 

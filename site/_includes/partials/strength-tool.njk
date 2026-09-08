@@ -47,6 +47,18 @@
           <div class="rep-target" id="repTarget"></div>
         </div>
 
+        {# Hold timer — rendered only for exercises whose prescription is a
+           duration (`hold` in the data). The athlete starts it; it never starts
+           itself and never completes the set. Two-sided holds re-arm as
+           "Lado 2" rather than making the athlete double 30s in their head. #}
+        <div class="hold-block" id="holdBlock" hidden>
+          <div class="hold-time" id="holdTime">0:45</div>
+          {# No label in the markup: `sui.holdStart` is a template ("Iniciar {t}")
+             and shipping the raw placeholder into served HTML is sloppy even
+             behind `hidden`. The engine writes it before the block is shown. #}
+          <button type="button" class="btn-secondary hold-btn" id="holdBtn"></button>
+        </div>
+
         <div class="ex-cue" id="exCue"></div>
         <button class="btn-primary set-done" id="setDoneBtn">{{ sui.setDone }}</button>
         <div class="next-preview" id="nextPreview"></div>

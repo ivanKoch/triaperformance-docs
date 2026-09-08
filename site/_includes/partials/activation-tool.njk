@@ -64,6 +64,10 @@
         <div class="rest-lbl" id="restLbl">{{ aui.rest }}</div>
         <div class="rest-time" id="restTime">0:15</div>
         <div class="rest-next" id="restNext"></div>
+        {# The cue, on the rest screen. In auto mode this is the only moment the
+           athlete can read the next instruction before the block is already
+           running — which is exactly the complaint that opened this change. #}
+        <div class="rest-cue" id="restCue" style="display:none"></div>
         <button class="btn-secondary" id="skipRestBtn">{{ aui.skipRest }}</button>
       </div>
 
@@ -89,6 +93,19 @@
         <button class="btn-secondary ctrl-side" id="prevBtn" disabled>{{ aui.prev }}</button>
         <button class="btn-primary ctrl-main" id="mainBtn">{{ aui.start }}</button>
         <button class="btn-secondary ctrl-side" id="skipBtn" disabled>{{ aui.skip }}</button>
+      </div>
+
+      {# Auto-chain preference, remembered in localStorage by the engine.
+         OFF (the default) means every exercise opens paused with its cue on
+         screen; ON restores the uninterrupted countdown, which is the right
+         mode once the routine is familiar. Deliberately a switch here and not
+         a setup question: the answer never changes for a given athlete. #}
+      <div class="auto-row">
+        <button type="button" class="auto-toggle" id="autoToggle" aria-pressed="false">
+          <span class="auto-track" aria-hidden="true"><span class="auto-knob"></span></span>
+          <span class="auto-lbl">{{ aui.autoLabel }}</span>
+        </button>
+        <span class="auto-hint">{{ aui.autoHint }}</span>
       </div>
 
     </div>

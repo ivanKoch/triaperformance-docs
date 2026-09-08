@@ -82,9 +82,9 @@ window.SHOULDER_ROUTINE = (function () {
   /* ---------------------------------------------------------------- LIBRARY */
   const L = {
     /* --- liberação (só com rolo e bolinha) --- */
-    rollLat: { name: "Rolo: dorsal", sets: 1, reps: "60-90s por lado", tag: "Rolo",
+    rollLat: { name: "Rolo: dorsal", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Rolo",
       cue: "De lado, o rolo logo abaixo da axila, sobre a lateral das costelas. <strong>Quando encontrar um ponto sensível, pare ali e suba e desça o braço devagar</strong> — esse movimento solta o tecido muito mais do que continuar rolando. O dorsal é o que enrola o seu ombro para a frente." },
-    ballPec: { name: "Bolinha: peitoral menor", sets: 1, reps: "60s por lado", tag: "Bolinha de tênis",
+    ballPec: { name: "Bolinha: peitoral menor", sets: 1, reps: "60s por lado", hold: 60, holdSides: 2, tag: "Bolinha de tênis",
       cue: "A bolinha na parte alta do peito, perto da frente do ombro, e se apoie contra uma parede. <strong>Pressão moderada, não esmague</strong>: ali embaixo tem nervos e tendões, e este não é um ponto para brigar." },
 
     /* --- mobilidade e ativação (as seis rotinas) --- */
@@ -98,7 +98,7 @@ window.SHOULDER_ROUTINE = (function () {
       cue: "De frente para a parede, antebraços apoiados. Deslize-os para cima e <strong>lá em cima empurre a parede como se quisesse se afastar dela</strong>, deixando as escápulas abraçarem as costelas. Esse empurrão final é o serrátil, e é o músculo que abre espaço para o tendão quando você levanta o braço." },
 
     /* --- força: comum às três versões --- */
-    isoER: { name: "Rotação externa isométrica", sets: 3, reps: "30s por lado", rest: 30, tag: "Batente da porta",
+    isoER: { name: "Rotação externa isométrica", sets: 3, reps: "30s por lado", hold: 30, holdSides: 2, rest: 30, tag: "Batente da porta",
       cue: "Em pé, de lado para o batente, cotovelo colado nas costelas e dobrado a 90°, o dorso do punho contra o batente. <strong>Empurre para fora a 50% e sustente. Nada se move.</strong> Comece sempre por aqui: se hoje está doendo, isto baixa a dor e te deixa fazer o resto com boa técnica em vez de fugindo dela." },
     pushPlus: { name: "Flexão \"plus\" (protração)", sets: 3, reps: "10-12", rest: 45, tag: "Sem equipamento",
       cue: "Prancha alta — ou de joelhos, ou contra a parede se o ombro estiver sensível. Desça e suba normal, e <strong>lá em cima, com os cotovelos já esticados, empurre o chão um pouco mais até as costas altas arredondarem</strong>. Esse centímetro a mais é o exercício inteiro." },
@@ -128,9 +128,9 @@ window.SHOULDER_ROUTINE = (function () {
       cue: "Kettlebell de cabeça para baixo, segura pela alça com o peso apontando para o teto, e você empurra por cima. <strong>Comece com uma ridiculamente leve</strong>: mantê-la em pé exige do manguito tudo o que este bloco vem treinando, e é aí que se vê se o ombro já está estável." },
 
     /* --- mobilidade final (as seis rotinas) --- */
-    crossBody: { name: "Alongamento cruzado de ombro", sets: 1, reps: "90s por lado", tag: "Sem equipamento",
+    crossBody: { name: "Alongamento cruzado de ombro", sets: 1, reps: "90s por lado", hold: 90, holdSides: 2, tag: "Sem equipamento",
       cue: "Leve o braço cruzado sobre o peito e segure com a outra mão acima do cotovelo. <strong>Antes de puxar, abaixe a escápula e não deixe ela viajar para a frente</strong> — se a escápula escorrega, você alonga as costas e não a parte de trás do ombro, que é a que encurta nadando. Tem que ser sentido atrás do ombro, nunca como uma fisgada na frente." },
-    childLat: { name: "Postura da criança com viés dorsal", sets: 1, reps: "2 min", tag: "Sem equipamento",
+    childLat: { name: "Postura da criança com viés dorsal", sets: 1, reps: "2 min", hold: 120, tag: "Sem equipamento",
       cue: "Sentado sobre os calcanhares, braços esticados à frente. <strong>Caminhe as duas mãos bem para a esquerda para alongar o dorsal direito</strong>, respire ali, e depois para a direita. O dorsal é o que puxa o ombro para rotação interna; se você não o soltar, tudo o que vem acima trabalha contra." }
   };
 

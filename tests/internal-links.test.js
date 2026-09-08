@@ -66,8 +66,25 @@ function pages(dir = SITE, out = []) {
   return out;
 }
 
+/* Paths this site serves that Eleventy does not build, so `_site/` can never
+   contain them and their absence is not a broken link. Caddy reverse-proxies
+   these to the content-engine Flask admin (app.py). Keep the list short and
+   keep the reason with each entry — an allow-list is how this check stops
+   being a check.
+
+   September 8, 2026: /admin/ideas/ is linked from `partials/nav.njk`'s admin
+   bar, which is on both built admin pages, so this test had been failing on
+   four occurrences of one correct link. ⚠️ A permanently-red suite is worse
+   than no suite: `npm test` stops at the first failing file, so every test
+   after this one — including the routine-engine assertions added the same day
+   — was never reaching a run. */
+const SERVED_ELSEWHERE = [
+  "/admin/ideas/",   // content-engine admin, Flask (app.py), behind basic_auth
+];
+
 /** Does this root-relative path resolve to something the site actually serves? */
 function resolves(p) {
+  if (SERVED_ELSEWHERE.includes(p)) return true;
   const fsPath = path.join(SITE, decodeURIComponent(p).replace(/^\/+/, ""));
   if (fs.existsSync(fsPath)) {
     return fs.statSync(fsPath).isDirectory()

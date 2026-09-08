@@ -26,7 +26,7 @@
 - `plan_sales.csv` — one row per transaction (507 rows). Columns: `plan_id`, `plan_name_at_sale`, `date`, `payment_type`, `amount`, `tax`, `fee`, `earnings`.
 - `plan_performance.csv` — one row per plan (396), joining the above to `training_plans_inventory.csv`: language, sport, distance, difficulty, weeks, price, published flag, all-time units/gross/earnings, first and last sale date.
 
-**What was deliberately stripped before committing:** `SoldToName` (507 values), `SoldToEmail` (251 values), `OwnerPersonId`, `SoldToAllowMarketingEmails`. Same rule as the 2,073-contact HubSpot export — customer PII does not go into a git repo, and nothing in the analysis below needs it. The raw export stays outside the repo, wherever Iván keeps it.
+**What was deliberately stripped before committing:** `SoldToName` (507 values), `SoldToEmail` (251 values), `OwnerPersonId`, `SoldToAllowMarketingEmails`. Same rule as the 2,250-contact HubSpot export — customer PII does not go into a git repo, and nothing in the analysis below needs it. The raw export stays outside the repo, wherever Iván keeps it.
 
 ---
 

@@ -1,6 +1,5 @@
 {
   "_comment": "UI chrome for the strength-tool engine (sets x reps, rest timer between sets), keyed by language. Built multilingual on day one — deliberately, because the activation engine was written Spanish-only and shipped two English/Portuguese pages with Spanish buttons around translated content before anyone noticed. Cheaper to write three objects now than to retrofit an engine later. Keep the three structurally identical: a missing key renders 'undefined' on a paid page.",
-
   "es": {
     "kicker": "Fuerza",
     "tabHome": "Inicio",
@@ -27,9 +26,13 @@
     "statSkip": "Salteados",
     "repeat": "Empezar de nuevo",
     "sets": "series",
-    "noRest": "Sin descanso — sigue"
+    "noRest": "Sin descanso — sigue",
+    "holdStart": "Iniciar {t}",
+    "holdSide": "Lado {n} · {t}",
+    "holdStop": "Detener",
+    "holdAgain": "Repetir",
+    "holdOk": "Listo ✓"
   },
-
   "en": {
     "kicker": "Strength",
     "tabHome": "Start",
@@ -56,9 +59,13 @@
     "statSkip": "Skipped",
     "repeat": "Start again",
     "sets": "sets",
-    "noRest": "No rest — carry on"
+    "noRest": "No rest — carry on",
+    "holdStart": "Start {t}",
+    "holdSide": "Side {n} · {t}",
+    "holdStop": "Stop",
+    "holdAgain": "Again",
+    "holdOk": "Done ✓"
   },
-
   "pt": {
     "kicker": "Força",
     "tabHome": "Início",
@@ -85,6 +92,11 @@
     "statSkip": "Pulados",
     "repeat": "Começar de novo",
     "sets": "séries",
-    "noRest": "Sem descanso — siga"
+    "noRest": "Sem descanso — siga",
+    "holdStart": "Iniciar {t}",
+    "holdSide": "Lado {n} · {t}",
+    "holdStop": "Parar",
+    "holdAgain": "Repetir",
+    "holdOk": "Pronto ✓"
   }
 }

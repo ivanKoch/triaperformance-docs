@@ -89,19 +89,19 @@ window.ACHILLES_ROUTINE = (function () {
   /* ---------------------------------------------------------------- LIBRARY */
   const L = {
     /* --- rodillo --- */
-    rollCalf: { name: "Rodillo: vientre del gemelo", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+    rollCalf: { name: "Rodillo: vientre del gemelo", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "Solo la parte carnosa de arriba y los costados de la pierna. <strong>Nunca pases el rodillo por el tendón</strong> — es tejido muy inervado y ya irritado; la fricción ahí solo lo empeora. De la rodilla para abajo hasta donde el músculo se vuelve tendón, y ahí paras." },
 
     /* --- isométricos (analgésico + activación) --- */
-    isoStep: { name: "Isométrico en puntas (escalón)", sets: 3, reps: "30-45s", rest: 60, tag: "Escalón",
+    isoStep: { name: "Isométrico en puntas (escalón)", sets: 3, reps: "30-45s", hold: 30, holdMax: 45, rest: 60, tag: "Escalón",
       cue: "Con los dos pies en el borde del escalón, sube a puntas y <strong>sostén arriba, quieto</strong>. Los isométricos pesados son analgésicos naturales para el tendón: si arrancas con esto, el resto de la rutina duele menos." },
-    isoFlat: { name: "Isométrico en puntas (piso)", sets: 3, reps: "30-45s", rest: 60, tag: "Sin equipo",
+    isoFlat: { name: "Isométrico en puntas (piso)", sets: 3, reps: "30-45s", hold: 30, holdMax: 45, rest: 60, tag: "Sin equipo",
       cue: "Igual, pero <strong>en piso plano, no en el escalón</strong>: con dolor en la inserción no queremos el talón por debajo del nivel del pie. Sube a puntas y sostén quieto arriba. Es el analgésico natural del tendón." },
 
     /* --- energía elástica (bloque final, solo si ya no duele) --- */
     pogo: { name: "Pogos (saltitos de tobillo)", sets: 3, reps: "20", rest: 60, tag: "Sin equipo",
       cue: "Saltitos chicos en el lugar, <strong>solo desde el tobillo, con la rodilla casi fija</strong>. El contacto tiene que ser corto y sonar poco. No buscas altura: buscas rigidez elástica, que es lo que el tendón hace cuando corres." },
-    skip: { name: "Skipping bajo", sets: 3, reps: "30s", rest: 60, tag: "Sin equipo",
+    skip: { name: "Skipping bajo", sets: 3, reps: "30s", hold: 30, rest: 60, tag: "Sin equipo",
       cue: "Skipping suave en el lugar o avanzando. <strong>Rebote rápido, apoyo de metatarso, sin machacar el talón.</strong> Si el tendón habla, se corta el bloque — no se negocia." },
     slHop: { name: "Saltos a una pierna", sets: 3, reps: "10 por lado", rest: 60, tag: "Sin equipo",
       cue: "Saltitos en el lugar sobre una pierna, aterrizando en el metatarso con la rodilla suave. <strong>Es el último escalón antes de volver a correr fuerte</strong>. Si mañana amaneces más rígido que hoy, era demasiado pronto." },
@@ -125,13 +125,13 @@ window.ACHILLES_ROUTINE = (function () {
       cue: "Piernas casi estiradas, sin bloquear la rodilla hacia atrás, empujando con el metatarso. Mismo tempo lento. Con la rodilla extendida el protagonista pasa a ser el gemelo." },
     legPressCalfNeutral: { name: "Elevación de talón en prensa", sets: 4, reps: "8-10", rest: 120, tag: "Prensa · rango limitado",
       cue: "Igual, tempo lento, pero <strong>sin dejar que el talón baje más allá de la línea del apoyo</strong>. Mismo motivo: en la inserción, el rango de más no es más estímulo, es compresión." },
-    farmerToes: { name: "Caminata en puntas con peso", sets: 3, reps: "30s", rest: 90, tag: "Mancuernas",
+    farmerToes: { name: "Caminata en puntas con peso", sets: 3, reps: "30s", hold: 30, rest: 90, tag: "Mancuernas",
       cue: "Mancuernas pesadas, camina lento <strong>manteniéndote alto sobre el metatarso todo el recorrido</strong>, sin que el talón baje. Entrena rigidez del tobillo bajo carga — que es justo lo que le falta al ciclista que hunde el talón cuando aprieta." },
 
     /* --- pie y tobillo --- */
     towel: { name: "Arrugar la toalla", sets: 3, reps: "20 por lado", rest: 30, tag: "Toalla",
       cue: "Sentado y descalzo, toalla en el piso, <strong>arrúgala hacia ti solo con los dedos</strong>. Un pie fuerte se queda con parte del trabajo del despegue en vez de mandárselo entero al tendón." },
-    shortFoot: { name: "Pie corto", sets: 3, reps: "30s por lado", rest: 30, tag: "Sin equipo",
+    shortFoot: { name: "Pie corto", sets: 3, reps: "30s por lado", hold: 30, holdSides: 2, rest: 30, tag: "Sin equipo",
       cue: "Descalzo, pie apoyado, <strong>acerca la base de los dedos al talón levantando el arco, sin arrugar los dedos y sin girar el tobillo</strong>. Es diminuto y cuesta encontrarlo; cuando aparece, sientes el arco activo. El pie y el aquiles se reparten el resorte: si el arco se cae, el tendón paga la diferencia." },
     tibRaise: { name: "Elevación de punta (tibial anterior)", sets: 3, reps: "20", rest: 30, tag: "Pared de apoyo",
       cue: "De espaldas a la pared, talones un paso adelante, <strong>sube las puntas hacia las espinillas lo más alto que puedas y baja lento</strong>. Es el antagonista del gemelo: te da control de la caída del pie al aterrizar, en vez de solo frenarla." },
@@ -143,11 +143,11 @@ window.ACHILLES_ROUTINE = (function () {
       cue: "Empuja con el talón y aprieta el glúteo arriba. <strong>Si lo sientes en la lumbar, mete la pelvis y baja la altura.</strong> Cadena posterior fuerte, menos trabajo de frenado para abajo." },
 
     /* --- movilidad (post, en caliente) --- */
-    wallStraight: { name: "Estiramiento en pared, pierna recta", sets: 1, reps: "2 min por lado", tag: "Pared",
+    wallStraight: { name: "Estiramiento en pared, pierna recta", sets: 1, reps: "2 min por lado", hold: 120, holdSides: 2, tag: "Pared",
       cue: "Manos en la pared, pierna de atrás recta y <strong>el talón clavado en el piso</strong>. Estira el gemelo. Solo después de entrenar, con el tejido caliente — estirar un aquiles frío e irritado es la forma más rápida de encender el cuadro." },
-    wallBent: { name: "Estiramiento en pared, rodilla flexionada", sets: 1, reps: "2 min por lado", tag: "Pared",
+    wallBent: { name: "Estiramiento en pared, rodilla flexionada", sets: 1, reps: "2 min por lado", hold: 120, holdSides: 2, tag: "Pared",
       cue: "Misma posición, pero <strong>flexionando levemente la rodilla de atrás sin despegar el talón</strong>. El estiramiento baja y se acerca al tendón: ahí está el sóleo." },
-    ankleMob: { name: "Movilidad de tobillo sin forzar", sets: 1, reps: "90s por lado", tag: "Sin equipo",
+    ankleMob: { name: "Movilidad de tobillo sin forzar", sets: 1, reps: "90s por lado", hold: 90, holdSides: 2, tag: "Sin equipo",
       cue: "Sentado, círculos amplios y lentos con el tobillo, y después puntas hacia adelante sostenidas. <strong>Aquí no hay estiramiento de gemelo a propósito</strong>: con dolor en la inserción, llevar el pie a dorsiflexión máxima comprime el tendón contra el hueso, que es exactamente lo que estamos evitando toda la rutina. Movilidad sí, tironeo no." }
   };
 

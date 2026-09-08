@@ -38,6 +38,8 @@
     { "code": "core-bike",           "tool": "cyclistcore", "slot": "post · bike" },
     { "code": "core-run",            "tool": "runnercore",  "slot": "post · run" },
 
+    { "code": "ritmo",               "tool": "pace",        "slot": "genérico",             "note": "Añadido el 8 sep 2026 por la sesión de los motores de rutina, no por la del conversor: la herramienta se publicó esa misma mañana sin su fila de inventario y dejó `npm test` en rojo, que es el cuarto caso de ese mismo olvido. Un solo código genérico — es una consulta de quince segundos, no una sesión, así que no tiene contexto de entrenamiento que valga la pena distinguir." },
+
     { "code": "fuerza",              "tool": "strength",    "slot": "genérico" },
 
     { "code": "carga",               "tool": "load",        "slot": "genérico" },

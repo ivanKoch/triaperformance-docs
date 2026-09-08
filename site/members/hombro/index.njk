@@ -88,9 +88,9 @@ window.SHOULDER_ROUTINE = (function () {
   /* ---------------------------------------------------------------- LIBRARY */
   const L = {
     /* --- liberación (solo con rodillo y pelota) --- */
-    rollLat: { name: "Rodillo: dorsal", sets: 1, reps: "60-90s por lado", tag: "Rodillo",
+    rollLat: { name: "Rodillo: dorsal", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Rodillo",
       cue: "De costado, el rodillo justo debajo de la axila, sobre el costado de las costillas. <strong>Cuando encuentres un punto sensible, frena ahí y sube y baja el brazo despacio</strong> — ese barrido despega el tejido mucho más que seguir rodando. El dorsal es el que te enrolla el hombro hacia adelante." },
-    ballPec: { name: "Pelota: pectoral menor", sets: 1, reps: "60s por lado", tag: "Pelota de tenis",
+    ballPec: { name: "Pelota: pectoral menor", sets: 1, reps: "60s por lado", hold: 60, holdSides: 2, tag: "Pelota de tenis",
       cue: "La pelota arriba del pecho, cerca del frente del hombro, y apóyate contra una pared. <strong>Presión moderada, no aplastes</strong>: aquí abajo hay nervios y tendones, y esto no es un punto para pelear." },
 
     /* --- movilidad y activación (las seis rutinas) --- */
@@ -104,7 +104,7 @@ window.SHOULDER_ROUTINE = (function () {
       cue: "De frente a la pared, antebrazos apoyados. Deslízalos hacia arriba y <strong>arriba del todo empuja la pared como si quisieras alejarte de ella</strong>, dejando que los omóplatos se abracen a las costillas. Ese último empujón es el serrato, y es el músculo que le hace lugar al tendón cuando levantas el brazo." },
 
     /* --- fuerza: común a las tres versiones --- */
-    isoER: { name: "Rotación externa isométrica", sets: 3, reps: "30s por lado", rest: 30, tag: "Marco de puerta",
+    isoER: { name: "Rotación externa isométrica", sets: 3, reps: "30s por lado", hold: 30, holdSides: 2, rest: 30, tag: "Marco de puerta",
       cue: "Parado de costado al marco, codo pegado a las costillas y flexionado a 90°, el dorso de la muñeca contra el marco. <strong>Empuja hacia afuera al 50% y sostén. Nada se mueve.</strong> Arranca siempre por aquí: si hoy te molesta, esto baja el dolor y te deja hacer el resto con buena técnica en vez de esquivándolo." },
     pushPlus: { name: "Flexión \"plus\" (protracción)", sets: 3, reps: "10-12", rest: 45, tag: "Sin equipo",
       cue: "Plancha alta —o de rodillas, o contra la pared si el hombro está sensible. Baja y sube normal, y <strong>arriba, con los codos ya estirados, empuja el piso un poco más hasta que la espalda alta se redondee</strong>. Ese centímetro extra es todo el ejercicio." },
@@ -134,9 +134,9 @@ window.SHOULDER_ROUTINE = (function () {
       cue: "Kettlebell al revés, agarrada del mango con la pesa apuntando al techo, y presionas por arriba. <strong>Empieza con una ridículamente liviana</strong>: mantenerla derecha exige del manguito todo lo que este bloque viene entrenando, y ahí es donde se nota si el hombro ya está estable." },
 
     /* --- movilidad final (las seis rutinas) --- */
-    crossBody: { name: "Estiramiento cruzado de hombro", sets: 1, reps: "90s por lado", tag: "Sin equipo",
+    crossBody: { name: "Estiramiento cruzado de hombro", sets: 1, reps: "90s por lado", hold: 90, holdSides: 2, tag: "Sin equipo",
       cue: "Lleva el brazo cruzado sobre el pecho y sostenlo con el otro por arriba del codo. <strong>Antes de tirar, baja el omóplato y no lo dejes viajar hacia adelante</strong> — si el omóplato se corre, estiras la espalda y no la parte de atrás del hombro, que es la que se acorta nadando. Tiene que sentirse atrás del hombro, nunca un pinchazo adelante." },
-    childLat: { name: "Postura del niño con sesgo dorsal", sets: 1, reps: "2 min", tag: "Sin equipo",
+    childLat: { name: "Postura del niño con sesgo dorsal", sets: 1, reps: "2 min", hold: 120, tag: "Sin equipo",
       cue: "Sentado sobre los talones, brazos estirados adelante. <strong>Camina las dos manos bien hacia la izquierda para estirar el dorsal derecho</strong>, respira ahí, y después hacia la derecha. El dorsal es lo que tira el hombro a rotación interna; si no lo sueltas, todo lo de arriba trabaja en contra." }
   };
 

@@ -127,8 +127,10 @@ window.ACTIVATION_MATRIX = (function () {
       cue: "On your back, draw one knee to your chest with the other leg flat on the floor. <strong>If the bottom leg lifts, that hip is tight</strong> — put it down and ease the range." },
     twist: { name: "Supine spinal twist", mode: "uni", tag: "No equipment", secs: 45,
       cue: "On your back, take one knee across the body with arms wide and eyes to the opposite side. <strong>The shoulder stays on the floor</strong> — let go a little on every exhale." },
-    hamTowel: { name: "Hamstring stretch with towel", mode: "uni", tag: "Towel or strap", secs: 45,
-      cue: "Towel around the sole of your foot, leg straight toward the ceiling. <strong>Pull from the towel, not from your neck</strong>. The other leg stays flat on the floor." },
+    hamSupine: { name: "Lying hamstring stretch", mode: "uni", tag: "No equipment", secs: 45,
+      cue: "Lying down, hold the back of your thigh with both hands. From there, <strong>straighten the knee toward the ceiling until you feel the hamstring, and no further</strong>. The other leg stays flat on the floor.",
+      variants: [{ name: "Hamstring stretch with towel", mode: "uni", tag: "Towel or strap", secs: 45,
+        cue: "Towel around the sole of your foot, leg straight toward the ceiling. <strong>Pull from the towel, not from your neck</strong>. The other leg stays flat on the floor." }] },
     child: { name: "Child's pose with lateral reach", mode: "uni", tag: "No equipment", secs: 45,
       cue: "Sitting back on your heels, walk your hands to one side until you feel the lat. <strong>The hips stay back</strong> — don't let the torso chase the hands." },
     hipflex: { name: "Kneeling hip flexor stretch", mode: "uni", tag: "No equipment", secs: 45,
@@ -236,11 +238,11 @@ window.ACTIVATION_MATRIX = (function () {
       { name: "Kneeling", ids: ["catcow","child","hipflexSqueeze"] },
       { name: "Standing", ids: ["hipCircles","swingFB","squat2standBand","calf"] }] },
     "run|wake|none": { phases: [
-      { name: "Floor", ids: ["floss","fig4","bridge","deadbug","hamTowel"] },
+      { name: "Floor", ids: ["floss","fig4","bridge","deadbug","hamSupine"] },
       { name: "Kneeling", ids: ["catcow","hipflex","wgs"] },
       { name: "Standing", ids: ["swingFB","swingLat","aSkip","march","ankle"] }] },
     "run|wake|band": { phases: [
-      { name: "Floor", ids: ["floss","fig4","bridgeBand","deadbugBand","hamTowel"] },
+      { name: "Floor", ids: ["floss","fig4","bridgeBand","deadbugBand","hamSupine"] },
       { name: "Kneeling", ids: ["catcow","hipflex","wgs"] },
       { name: "Standing", ids: ["swingFB","swingLat","aSkip","march","ankleBand"] }] },
     "run|sit|none": { phases: [

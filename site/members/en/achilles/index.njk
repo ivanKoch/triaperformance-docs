@@ -94,19 +94,19 @@ window.ACHILLES_ROUTINE = (function () {
   /* ---------------------------------------------------------------- LIBRARY */
   const L = {
     /* --- rodillo --- */
-    rollCalf: { name: "Roll: calf belly", sets: 1, reps: "60-90s per side", tag: "Foam roller",
+    rollCalf: { name: "Roll: calf belly", sets: 1, reps: "60-90s per side", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "Only the meaty upper portion and the sides of the lower leg. <strong>Never roll the tendon itself</strong> — it is highly innervated tissue and already irritated; friction there only aggravates it. From the knee down to where muscle becomes tendon, and stop." },
 
     /* --- isométricos (analgésico + activación) --- */
-    isoStep: { name: "Isometric calf hold (step)", sets: 3, reps: "30-45s", rest: 60, tag: "Step",
+    isoStep: { name: "Isometric calf hold (step)", sets: 3, reps: "30-45s", hold: 30, holdMax: 45, rest: 60, tag: "Step",
       cue: "Both feet on the edge of the step, rise onto your toes and <strong>hold the top position, still</strong>. Heavy isometrics are a natural painkiller for tendons: start here and the rest of the routine hurts less." },
-    isoFlat: { name: "Isometric calf hold (floor)", sets: 3, reps: "30-45s", rest: 60, tag: "No equipment",
+    isoFlat: { name: "Isometric calf hold (floor)", sets: 3, reps: "30-45s", hold: 30, holdMax: 45, rest: 60, tag: "No equipment",
       cue: "Same thing, but <strong>on flat ground, not the step</strong>: with insertional pain we do not want the heel below foot level. Rise onto your toes and hold still at the top. This is the tendon's natural painkiller." },
 
     /* --- energía elástica (bloque final, solo si ya no duele) --- */
     pogo: { name: "Pogo hops", sets: 3, reps: "20", rest: 60, tag: "No equipment",
       cue: "Small hops on the spot, <strong>from the ankle only, knee almost locked</strong>. Ground contact should be short and quiet. You are not after height: you are after elastic stiffness, which is what the tendon does when you run." },
-    skip: { name: "Low skipping", sets: 3, reps: "30s", rest: 60, tag: "No equipment",
+    skip: { name: "Low skipping", sets: 3, reps: "30s", hold: 30, rest: 60, tag: "No equipment",
       cue: "Easy skipping on the spot or moving forward. <strong>Quick rebound, forefoot contact, no heel slamming.</strong> If the tendon speaks up, the block ends — that one is not negotiable." },
     slHop: { name: "Single-leg hops", sets: 3, reps: "10 per side", rest: 60, tag: "No equipment",
       cue: "Hops on the spot on one leg, landing on the forefoot with a soft knee. <strong>This is the last step before running hard again.</strong> If you wake up stiffer tomorrow than you are today, it was too soon." },
@@ -130,13 +130,13 @@ window.ACHILLES_ROUTINE = (function () {
       cue: "Legs almost straight without locking the knee backward, pressing through the ball of the foot. Same slow tempo. With the knee extended the gastrocnemius takes over." },
     legPressCalfNeutral: { name: "Leg press calf raise", sets: 4, reps: "8-10", rest: 120, tag: "Leg press · limited range",
       cue: "Same, slow tempo, but <strong>without letting the heel drop past the line of the platform</strong>. Same reason: at the insertion, extra range is not extra stimulus, it is compression." },
-    farmerToes: { name: "Farmer's walk on toes", sets: 3, reps: "30s", rest: 90, tag: "Dumbbells",
+    farmerToes: { name: "Farmer's walk on toes", sets: 3, reps: "30s", hold: 30, rest: 90, tag: "Dumbbells",
       cue: "Heavy dumbbells, walk slowly <strong>staying high on the balls of your feet the whole way</strong>, never letting the heel drop. Trains ankle stiffness under load — exactly what the cyclist who drops their heel under high torque is missing." },
 
     /* --- pie y tobillo --- */
     towel: { name: "Towel scrunches", sets: 3, reps: "20 per side", rest: 30, tag: "Towel",
       cue: "Seated and barefoot, towel flat on the floor, <strong>scrunch it toward you using only your toes</strong>. A strong foot keeps some of the push-off work instead of handing all of it to the tendon." },
-    shortFoot: { name: "Short foot", sets: 3, reps: "30s per side", rest: 30, tag: "No equipment",
+    shortFoot: { name: "Short foot", sets: 3, reps: "30s per side", hold: 30, holdSides: 2, rest: 30, tag: "No equipment",
       cue: "Barefoot, foot flat, <strong>draw the base of your toes toward the heel by lifting the arch, without curling the toes and without rolling the ankle</strong>. It is a tiny movement and hard to find; when it appears, you feel the arch switch on. The foot and the Achilles share the spring: if the arch collapses, the tendon pays the difference." },
     tibRaise: { name: "Tibialis anterior raises", sets: 3, reps: "20", rest: 30, tag: "Wall for support",
       cue: "Back against the wall, heels a step forward, <strong>lift your toes toward your shins as high as you can and lower slowly</strong>. It is the calf's antagonist: it gives you control of the foot as it lands, rather than just braking it." },
@@ -148,11 +148,11 @@ window.ACHILLES_ROUTINE = (function () {
       cue: "Drive through the heel and squeeze the glute at the top. <strong>If you feel it in your lower back, tuck the pelvis and lower the height.</strong> A strong posterior chain means less braking work further down." },
 
     /* --- movilidad (post, en caliente) --- */
-    wallStraight: { name: "Wall stretch, straight leg", sets: 1, reps: "2 min per side", tag: "Wall",
+    wallStraight: { name: "Wall stretch, straight leg", sets: 1, reps: "2 min per side", hold: 120, holdSides: 2, tag: "Wall",
       cue: "Hands on the wall, back leg straight and <strong>the heel pinned to the floor</strong>. Stretches the gastrocnemius. Only after training, with the tissue warm — stretching a cold, irritated Achilles is the fastest way to flare it up." },
-    wallBent: { name: "Wall stretch, bent knee", sets: 1, reps: "2 min per side", tag: "Wall",
+    wallBent: { name: "Wall stretch, bent knee", sets: 1, reps: "2 min per side", hold: 120, holdSides: 2, tag: "Wall",
       cue: "Same position, but <strong>bending the back knee slightly without lifting the heel</strong>. The stretch drops lower and closer to the tendon: that is the soleus." },
-    ankleMob: { name: "Ankle mobility, no forcing", sets: 1, reps: "90s per side", tag: "No equipment",
+    ankleMob: { name: "Ankle mobility, no forcing", sets: 1, reps: "90s per side", hold: 90, holdSides: 2, tag: "No equipment",
       cue: "Seated, wide slow ankle circles, then held toes-pointed holds. <strong>There is deliberately no calf stretch here</strong>: with insertional pain, taking the foot to end-range dorsiflexion compresses the tendon against the bone, which is exactly what the whole routine has been avoiding. Mobility yes, pulling no." }
   };
 

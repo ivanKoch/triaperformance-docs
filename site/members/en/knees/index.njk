@@ -81,11 +81,11 @@ window.KNEE_ROUTINE = (function () {
       cue: "On your side, top leg straight and <strong>toes pointing slightly toward the floor</strong>. Raise slowly. It should burn on the side of the glute — if you feel it in the groin, you are rotating the leg." },
     bridge: { name: "Glute bridges", sets: 2, reps: "15", rest: 30, tag: "No equipment",
       cue: "Drive through your heels and <strong>hold 2 seconds at the top squeezing the glutes</strong>. The pause is the exercise; without it these are just reps." },
-    balance: { name: "Single-leg stance", sets: 1, reps: "30s per side", tag: "No equipment",
+    balance: { name: "Single-leg stance", sets: 1, reps: "30s per side", hold: 30, holdSides: 2, tag: "No equipment",
       cue: "Standing on one leg, knee softly bent, eyes on a fixed point. <strong>Don't let the hip drop on the free side</strong> — that drop is exactly what happens to your pelvis at every footfall. If it feels easy, close your eyes." },
 
     /* --- fuerza en casa --- */
-    wallSit: { name: "Wall sit (isometric)", sets: 3, reps: "45s", rest: 60, tag: "Wall",
+    wallSit: { name: "Wall sit (isometric)", sets: 3, reps: "45s", hold: 45, rest: 60, tag: "Wall",
       cue: "Back against the wall, knees at ~90°, and <strong>press your heels into the floor as if trying to drag them backward</strong>. Hold. This is the fastest thing here for bringing knee pain down — if it is sore today, start here and you will find the rest of the routine hurts less." },
     bulgarian: { name: "Bulgarian split squat", sets: 3, reps: "8-12 per leg", rest: 90, tag: "Chair or couch",
       cue: "Back foot on the chair, chest tall. <strong>The front knee tracks over the middle toe, never inward</strong>. If it caves, shorten the range before you shorten the technique." },
@@ -93,13 +93,13 @@ window.KNEE_ROUTINE = (function () {
       cue: "Drive through the heel. <strong>If you feel it in your lower back, the pelvis has tipped forward</strong> — tuck it under and lower the height." },
     revLunge: { name: "Reverse lunge to knee drive", sets: 3, reps: "12 per leg", rest: 60, tag: "No equipment",
       cue: "Step back into the lunge and, without pausing, <strong>drive that knee to your chest in one motion</strong>. This is dynamic stability: half the exercise is not wobbling on the way up." },
-    copenhagen: { name: "Copenhagen plank (modified)", sets: 3, reps: "20-30s per side", rest: 45, tag: "Chair or couch",
+    copenhagen: { name: "Copenhagen plank (modified)", sets: 3, reps: "20-30s per side", hold: 20, holdMax: 30, holdSides: 2, rest: 45, tag: "Chair or couch",
       cue: "Side plank with the top knee resting on the chair and <strong>the bottom leg lifted off the floor</strong>. Works the adductors, which are the counterweight to the IT band on the outside of the leg." },
     stepDown: { name: "Eccentric step-down", sets: 3, reps: "10 per leg", rest: 60, tag: "Step",
       cue: "Standing sideways on a step, lower the other foot toward the floor <strong>over 3-4 seconds</strong> and push back up quickly. The slow descent is the whole exercise — it targets the VMO, the muscle that keeps the kneecap tracking straight." },
 
     /* --- fuerza en gimnasio --- */
-    wallSitLoaded: { name: "Wall sit (isometric)", sets: 3, reps: "45s", rest: 60, tag: "Wall · plate optional",
+    wallSitLoaded: { name: "Wall sit (isometric)", sets: 3, reps: "45s", hold: 45, rest: 60, tag: "Wall · plate optional",
       cue: "Same as at home, with a plate across your thighs if you want more. <strong>If the knee is sore today, do this first</strong>: the isometric brings the pain down and lets you train the rest with good technique instead of compensating." },
     bulgarianW: { name: "Weighted Bulgarian split squat", sets: 3, reps: "8-10 per leg", rest: 90, tag: "Dumbbells",
       cue: "The single best exercise for bulletproofing knees. <strong>Add weight only once all 10 reps happen without the knee caving</strong> — load amplifies the technique you already have, good or bad." },
@@ -115,17 +115,17 @@ window.KNEE_ROUTINE = (function () {
       cue: "<strong>Only the top 30 degrees</strong>, from slightly bent to fully straight, moderate weight, squeezing hard at the top. Full range shears the knee joint; this slice isolates the VMO without charging you for it." },
 
     /* --- rodillo --- */
-    rollQuad: { name: "Roll: quads", sets: 1, reps: "60-90s per side", tag: "Foam roller",
+    rollQuad: { name: "Roll: quads", sets: 1, reps: "60-90s per side", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "From the hip down to just above the kneecap. <strong>When you find a tender spot, stop there and bend and straighten the knee</strong> — that unglues the tissue far better than continuing to roll." },
-    rollTFL: { name: "Roll: TFL", sets: 1, reps: "60-90s per side", tag: "Foam roller",
+    rollTFL: { name: "Roll: TFL", sets: 1, reps: "60-90s per side", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "The small muscle at the top and front of the hip, where the IT band originates. <strong>Do not roll the IT band down the side of your thigh</strong>: it is tendon, not muscle, and rolling it inflames it further. Roll up here — this is what tightens it." },
-    rollCalf: { name: "Roll: calves", sets: 1, reps: "60-90s per side", tag: "Foam roller",
+    rollCalf: { name: "Roll: calves", sets: 1, reps: "60-90s per side", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "Tight calves cost you ankle mobility, and whatever the ankle doesn't absorb, the knee does." },
 
     /* --- movilidad (las cuatro rutinas) --- */
-    couch: { name: "Couch stretch", sets: 1, reps: "2 min per side", tag: "Wall",
+    couch: { name: "Couch stretch", sets: 1, reps: "2 min per side", hold: 120, holdSides: 2, tag: "Wall",
       cue: "Kneeling with your back to the wall, back knee in the corner, other foot forward in a lunge. <strong>Tuck the pelvis before you chase more range</strong> — otherwise you stretch your lower back, not the quad." },
-    pigeon: { name: "Pigeon pose", sets: 1, reps: "2 min per side", tag: "No equipment",
+    pigeon: { name: "Pigeon pose", sets: 1, reps: "2 min per side", hold: 120, holdSides: 2, tag: "No equipment",
       cue: "For glute max and piriformis, which lock up over hours in the saddle and on the road. <strong>Breathe and let go</strong>; two minutes is not two minutes of fighting it." }
   };
 

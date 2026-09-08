@@ -81,11 +81,11 @@ window.KNEE_ROUTINE = (function () {
       cue: "Deitado de lado, perna de cima reta e <strong>a ponta do pé apontando levemente para o chão</strong>. Suba devagar. Tem que arder na lateral do glúteo — se você sente na virilha, está rodando a perna." },
     bridge: { name: "Ponte de glúteos", sets: 2, reps: "15", rest: 30, tag: "Sem equipamento",
       cue: "Empurre com os calcanhares e <strong>segure 2 segundos lá em cima apertando o glúteo</strong>. A pausa é o exercício; sem ela são só repetições." },
-    balance: { name: "Apoio em uma perna", sets: 1, reps: "30s por lado", tag: "Sem equipamento",
+    balance: { name: "Apoio em uma perna", sets: 1, reps: "30s por lado", hold: 30, holdSides: 2, tag: "Sem equipamento",
       cue: "Em pé sobre uma perna, joelho levemente flexionado, olhando um ponto fixo. <strong>Não deixe o quadril cair do lado que está no ar</strong> — essa queda é exatamente o que acontece com a sua pelve a cada passada. Se ficar fácil, feche os olhos." },
 
     /* --- fuerza en casa --- */
-    wallSit: { name: "Agachamento isométrico na parede", sets: 3, reps: "45s", rest: 60, tag: "Parede",
+    wallSit: { name: "Agachamento isométrico na parede", sets: 3, reps: "45s", hold: 45, rest: 60, tag: "Parede",
       cue: "Costas na parede, joelhos a ~90°, e <strong>empurre os calcanhares contra o chão como se quisesse arrastá-los para trás</strong>. Segure. É o que mais rápido baixa a dor no joelho — se hoje ele incomoda, comece por aqui e você vai notar que o resto da rotina dói menos." },
     bulgarian: { name: "Agachamento búlgaro", sets: 3, reps: "8-12 por perna", rest: 90, tag: "Cadeira ou sofá",
       cue: "Pé de trás sobre a cadeira, peito erguido. <strong>O joelho da frente viaja sobre o dedo do meio, nunca para dentro</strong>. Se cair para dentro, encurte a amplitude antes de encurtar a técnica." },
@@ -93,13 +93,13 @@ window.KNEE_ROUTINE = (function () {
       cue: "Empurre com o calcanhar. <strong>Se você sente na lombar, a pelve foi para anteversão</strong> — encaixe a pelve e baixe a altura." },
     revLunge: { name: "Afundo para trás com joelho alto", sets: 3, reps: "12 por perna", rest: 60, tag: "Sem equipamento",
       cue: "Passo atrás para o afundo e, sem pausa, <strong>suba esse joelho até o peito em um só movimento</strong>. É estabilidade dinâmica: metade do exercício é não cambalear na subida." },
-    copenhagen: { name: "Prancha copenhague (modificada)", sets: 3, reps: "20-30s por lado", rest: 45, tag: "Cadeira ou sofá",
+    copenhagen: { name: "Prancha copenhague (modificada)", sets: 3, reps: "20-30s por lado", hold: 20, holdMax: 30, holdSides: 2, rest: 45, tag: "Cadeira ou sofá",
       cue: "Prancha lateral com o joelho de cima apoiado na cadeira e <strong>a perna de baixo descolada do chão</strong>. Trabalha os adutores, que são o contrapeso da banda iliotibial do lado de fora." },
     stepDown: { name: "Step-down excêntrico", sets: 3, reps: "10 por perna", rest: 60, tag: "Degrau",
       cue: "De lado num degrau, desça o outro pé em direção ao chão <strong>em 3-4 segundos</strong> e suba rápido. A lentidão da descida é todo o exercício — mira o vasto medial, o que mantém a patela alinhada." },
 
     /* --- fuerza en gimnasio --- */
-    wallSitLoaded: { name: "Agachamento isométrico na parede", sets: 3, reps: "45s", rest: 60, tag: "Parede · anilha opcional",
+    wallSitLoaded: { name: "Agachamento isométrico na parede", sets: 3, reps: "45s", hold: 45, rest: 60, tag: "Parede · anilha opcional",
       cue: "Igual ao de casa, com uma anilha sobre as coxas se quiser mais. <strong>Se hoje o joelho incomoda, faça isto primeiro</strong>: a isometria baixa a dor e te deixa treinar o resto com boa técnica em vez de compensando." },
     bulgarianW: { name: "Búlgaro com halteres", sets: 3, reps: "8-10 por perna", rest: 90, tag: "Halteres",
       cue: "O melhor exercício que existe para blindar joelhos. <strong>Só adicione peso quando as 10 repetições saírem sem o joelho cair para dentro</strong> — a carga amplifica a técnica que você já tem, boa ou ruim." },
@@ -115,17 +115,17 @@ window.KNEE_ROUTINE = (function () {
       cue: "<strong>Só os últimos 30 graus</strong>, do joelho levemente flexionado até estendido, com peso moderado e apertando lá em cima. A amplitude completa cisalha o joelho; esse pedacinho isola o vasto medial sem te cobrar nada." },
 
     /* --- rodillo --- */
-    rollQuad: { name: "Rolo: quadríceps", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+    rollQuad: { name: "Rolo: quadríceps", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "Do quadril até logo acima da patela. <strong>Quando encontrar um ponto sensível, pare ali e flexione e estenda o joelho</strong> — isso descola o tecido muito mais do que continuar rolando." },
-    rollTFL: { name: "Rolo: TFL", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+    rollTFL: { name: "Rolo: TFL", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "O musculozinho em cima e à frente do quadril, onde nasce a banda iliotibial. <strong>Não passe o rolo na banda iliotibial na lateral da coxa</strong>: é tendão, não músculo, e rolá-la inflama mais. Role aqui em cima, que é o que a tensiona." },
-    rollCalf: { name: "Rolo: panturrilhas", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+    rollCalf: { name: "Rolo: panturrilhas", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "Panturrilhas duras tiram mobilidade do tornozelo, e o que o tornozelo não absorve, o joelho absorve." },
 
     /* --- movilidad (las cuatro rutinas) --- */
-    couch: { name: "Couch stretch", sets: 1, reps: "2 min por lado", tag: "Parede",
+    couch: { name: "Couch stretch", sets: 1, reps: "2 min por lado", hold: 120, holdSides: 2, tag: "Parede",
       cue: "Ajoelhado de costas para a parede, o joelho de trás no canto, o outro pé à frente em afundo. <strong>Encaixe a pelve antes de buscar mais amplitude</strong> — senão você alonga a lombar e não o quadríceps." },
-    pigeon: { name: "Postura do pombo", sets: 1, reps: "2 min por lado", tag: "Sem equipamento",
+    pigeon: { name: "Postura do pombo", sets: 1, reps: "2 min por lado", hold: 120, holdSides: 2, tag: "Sem equipamento",
       cue: "Para glúteo máximo e piriforme, que travam com as horas de selim e de asfalto. <strong>Respire e solte</strong>; dois minutos não são dois minutos de força." }
   };
 

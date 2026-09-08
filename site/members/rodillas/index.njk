@@ -76,11 +76,11 @@ window.KNEE_ROUTINE = (function () {
       cue: "De costado, pierna de arriba recta y <strong>la punta del pie apuntando levemente hacia el piso</strong>. Sube lento. Tiene que arder en el lateral del glúteo — si lo sientes en la ingle, estás rotando la pierna." },
     bridge: { name: "Puente de glúteos", sets: 2, reps: "15", rest: 30, tag: "Sin equipo",
       cue: "Empuja con los talones y <strong>sostén 2 segundos arriba apretando el glúteo</strong>. La pausa es el ejercicio; sin ella son solo repeticiones." },
-    balance: { name: "Apoyo en una pierna", sets: 1, reps: "30s por lado", tag: "Sin equipo",
+    balance: { name: "Apoyo en una pierna", sets: 1, reps: "30s por lado", hold: 30, holdSides: 2, tag: "Sin equipo",
       cue: "Parado en una pierna, rodilla apenas flexionada, mirando un punto fijo. <strong>Que la cadera no se caiga del lado que está en el aire</strong> — ese descenso es exactamente lo que le pasa a tu pelvis en cada zancada. Si te resulta fácil, cierra los ojos." },
 
     /* --- fuerza en casa --- */
-    wallSit: { name: "Sentadilla isométrica en pared", sets: 3, reps: "45s", rest: 60, tag: "Pared",
+    wallSit: { name: "Sentadilla isométrica en pared", sets: 3, reps: "45s", hold: 45, rest: 60, tag: "Pared",
       cue: "Espalda contra la pared, rodillas a ~90°, y <strong>empuja los talones contra el piso como si quisieras arrastrarlos hacia atrás</strong>. Sostén. Es el ejercicio que más rápido baja el dolor de rodilla — si hoy te molesta, empieza por aquí y vas a notar que el resto de la rutina duele menos." },
     bulgarian: { name: "Sentadilla búlgara", sets: 3, reps: "8-12 por pierna", rest: 90, tag: "Silla o sillón",
       cue: "Pie de atrás sobre la silla, pecho arriba. <strong>La rodilla de adelante viaja sobre el dedo del medio, nunca hacia adentro</strong>. Si se mete, acorta el rango antes de acortar la técnica." },
@@ -88,13 +88,13 @@ window.KNEE_ROUTINE = (function () {
       cue: "Empuja con el talón. <strong>Si lo sientes en la lumbar, la cadera se te fue en anteversión</strong> — mete la pelvis y baja la altura." },
     revLunge: { name: "Zancada atrás con rodilla arriba", sets: 3, reps: "12 por pierna", rest: 60, tag: "Sin equipo",
       cue: "Paso atrás a la zancada y, sin pausa, <strong>sube esa rodilla al pecho en un solo movimiento</strong>. Es estabilidad dinámica: la mitad del ejercicio es no tambalearte al subir." },
-    copenhagen: { name: "Plancha copenhague (modificada)", sets: 3, reps: "20-30s por lado", rest: 45, tag: "Silla o sillón",
+    copenhagen: { name: "Plancha copenhague (modificada)", sets: 3, reps: "20-30s por lado", hold: 20, holdMax: 30, holdSides: 2, rest: 45, tag: "Silla o sillón",
       cue: "Plancha lateral con la rodilla de arriba apoyada en la silla y <strong>la pierna de abajo despegada del piso</strong>. Trabaja los aductores, que son el contrapeso de la banda iliotibial del lado de afuera." },
     stepDown: { name: "Step-down excéntrico", sets: 3, reps: "10 por pierna", rest: 60, tag: "Escalón",
       cue: "De costado en un escalón, baja el otro pie hacia el piso <strong>en 3-4 segundos</strong> y sube rápido. La lentitud de la bajada es todo el ejercicio — apunta al vasto interno, el que endereza la rótula." },
 
     /* --- fuerza en gimnasio --- */
-    wallSitLoaded: { name: "Sentadilla isométrica en pared", sets: 3, reps: "45s", rest: 60, tag: "Pared · disco opcional",
+    wallSitLoaded: { name: "Sentadilla isométrica en pared", sets: 3, reps: "45s", hold: 45, rest: 60, tag: "Pared · disco opcional",
       cue: "Igual que en casa, con un disco sobre los muslos si quieres más. <strong>Si hoy la rodilla molesta, haz esto primero</strong>: la isometría baja el dolor y te deja entrenar el resto con buena técnica en vez de compensando." },
     bulgarianW: { name: "Búlgara con mancuernas", sets: 3, reps: "8-10 por pierna", rest: 90, tag: "Mancuernas",
       cue: "El mejor ejercicio que hay para blindar rodillas. <strong>Suma peso solo cuando las 10 repeticiones salgan sin que la rodilla se meta</strong> — la carga amplifica la técnica que ya tienes, buena o mala." },
@@ -110,17 +110,17 @@ window.KNEE_ROUTINE = (function () {
       cue: "<strong>Solo los últimos 30 grados</strong>, de rodilla apenas flexionada a estirada, con peso moderado y apretando arriba. El rango completo cizalla la rodilla; este pedacito aísla el vasto interno sin cobrarte nada." },
 
     /* --- rodillo --- */
-    rollQuad: { name: "Rodillo: cuádriceps", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+    rollQuad: { name: "Rodillo: cuádriceps", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "De la cadera hasta justo arriba de la rótula. <strong>Cuando encuentres un punto sensible, párate ahí y flexiona y estira la rodilla</strong> — eso despega el tejido mucho más que seguir rodando." },
-    rollTFL: { name: "Rodillo: TFL", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+    rollTFL: { name: "Rodillo: TFL", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "El musculito arriba y adelante de la cadera, donde nace la banda iliotibial. <strong>No pases el rodillo por la banda iliotibial en el costado del muslo</strong>: es tendón, no músculo, y rodarla inflama más. Rueda aquí arriba, que es lo que la tensa." },
-    rollCalf: { name: "Rodillo: gemelos", sets: 1, reps: "60-90s por lado", tag: "Foam roller",
+    rollCalf: { name: "Rodillo: gemelos", sets: 1, reps: "60-90s por lado", hold: 60, holdMax: 90, holdSides: 2, tag: "Foam roller",
       cue: "Gemelos duros restan movilidad de tobillo, y lo que el tobillo no absorbe lo absorbe la rodilla." },
 
     /* --- movilidad (las cuatro rutinas) --- */
-    couch: { name: "Couch stretch", sets: 1, reps: "2 min por lado", tag: "Pared",
+    couch: { name: "Couch stretch", sets: 1, reps: "2 min por lado", hold: 120, holdSides: 2, tag: "Pared",
       cue: "De rodillas de espaldas a la pared, la rodilla de atrás en el rincón, el otro pie adelante en zancada. <strong>Mete la pelvis antes de buscar más rango</strong> — si no, estiras la lumbar y no el cuádriceps." },
-    pigeon: { name: "Postura de la paloma", sets: 1, reps: "2 min por lado", tag: "Sin equipo",
+    pigeon: { name: "Postura de la paloma", sets: 1, reps: "2 min por lado", hold: 120, holdSides: 2, tag: "Sin equipo",
       cue: "Para glúteo mayor y piramidal, que se agarrotan con las horas de sillín y de asfalto. <strong>Respira y suelta</strong>; dos minutos no son dos minutos de forcejeo." }
   };
 

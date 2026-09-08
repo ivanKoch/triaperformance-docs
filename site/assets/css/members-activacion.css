@@ -235,6 +235,44 @@ footer a { color: var(--text-dim); }
 .ctrl-main { flex: 1.4; }
 .ctrl-side { flex: 1; font-size: 14px; padding: 14px 8px; }
 
+/* --- auto-chain toggle (Sept 8, 2026) ---
+   Sits under the controls, not in the phase header: it is a preference set once
+   and then ignored, so it must be reachable without being the loudest thing on
+   a screen whose job is one exercise and one clock. */
+.auto-row {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 4px 0 16px;
+}
+.auto-toggle {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: none; border: none; padding: 4px 0; cursor: pointer;
+  font: inherit; font-size: 13px; font-weight: 700; color: var(--text-dim);
+  flex-shrink: 0;
+}
+.auto-toggle:hover { color: var(--text); }
+.auto-toggle.on { color: var(--blue-bright); }
+.auto-track {
+  width: 34px; height: 20px; border-radius: 999px; flex-shrink: 0;
+  background: var(--surface); border: 1.5px solid var(--border);
+  position: relative; transition: background .18s ease, border-color .18s ease;
+}
+.auto-knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--text-dim); transition: transform .18s ease, background .18s ease;
+}
+.auto-toggle.on .auto-track { background: var(--blue-dim); border-color: var(--blue-bright); }
+.auto-toggle.on .auto-knob { transform: translateX(14px); background: var(--blue-bright); }
+.auto-toggle:focus-visible { outline: 2px solid var(--blue-bright); outline-offset: 3px; }
+.auto-hint { font-size: 12px; color: var(--text-dim); line-height: 1.5; flex: 1; min-width: 14ch; }
+
+/* the next block's cue, shown during the rest countdown */
+.rest-cue {
+  font-size: 14px; color: var(--text-dim); line-height: 1.6;
+  max-width: 34ch; margin: 4px auto 0;
+}
+.rest-cue strong { color: var(--text); }
+
 /* --- EJERCICIOS --- */
 .list-wrap { padding: 16px 0 32px; }
 .list-phase { margin-bottom: 24px; }

@@ -32,6 +32,29 @@
 
   let idx = 0, side = 1, remaining = WORK, phase = "idle"; // idle | work | rest | done
   let interval = null, skipped = 0, replaced = 0;
+  // blockStarted = the countdown has run at least once for the block on screen.
+  // It is what distinguishes "Empezar" from "Reanudar", which used to be decided
+  // by `phase === "idle"` alone — true only for the very first block.
+  let blockStarted = false;
+
+  /* Auto-chain preference (September 8, 2026).
+     Default OFF. Every block now opens PAUSED with its cue on screen, because
+     the first thing a new athlete does is pause to read the instruction they
+     were given at the same instant the clock started — which means the tool's
+     default behaviour forced a workaround on its own first screen.
+     With auto ON the routine behaves exactly as it did before: fixed REST
+     between blocks, no taps. That is the right mode once you know the routine,
+     and the wrong one the first time, so it is a remembered preference rather
+     than a fourth setup question — the answer never changes for a given athlete
+     and asking it every session taxes the frequent user to help the new one.
+     ⚠️ It is also the constraint that makes video possible: an auto-advancing
+     countdown and a 40-second demonstration clip cannot share a screen.
+     localStorage can throw (private mode, embedded webviews); every access is
+     guarded and the failure mode is manual, which is the safe one. */
+  const AUTO_KEY = "tp.routine.autoChain";
+  function readAuto() { try { return localStorage.getItem(AUTO_KEY) === "1"; } catch (e) { return false; } }
+  function writeAuto(v) { try { localStorage.setItem(AUTO_KEY, v ? "1" : "0"); } catch (e) {} }
+  let auto = readAuto();
 
   const $ = id => document.getElementById(id);
   const blocksOf = ex => ex.mode === "uni" ? 2 : 1;
@@ -83,12 +106,14 @@
       '<button class="btn-primary start-btn" id="startBtn">' + t("startRoutine", "Empezar activación →") + '</button>';
     $("startBtn").addEventListener("click", () => {
       goTab("workout");
-      if (phase === "idle") { startWork(); run(); }
+      // Lands on exercise 1 with its cue visible and the clock stopped unless
+      // the athlete has previously asked for auto-chaining.
+      if (phase === "idle") { startWork(); if (auto) run(); else updateUI(); }
     });
   }
 
   /* ---- engine ---- */
-  function run() { if (!interval) interval = setInterval(tick, 1000); updateUI(); }
+  function run() { blockStarted = true; if (!interval) interval = setInterval(tick, 1000); updateUI(); }
   function pause() { clearInterval(interval); interval = null; updateUI(); }
 
   function tick() {
@@ -96,21 +121,28 @@
     if (remaining <= 3 && remaining > 0) beep(660, 0.1);
     if (remaining <= 0) {
       beep(880, 0.3); buzz([200, 100, 200]);
-      if (phase === "work") endWorkBlock(); else startWork();
+      if (phase === "work") endWorkBlock();
+      else { startWork(); blockStarted = true; }   // rest only exists in auto mode
     }
     updateUI();
   }
 
-  function startWork() { phase = "work"; remaining = secsOf(exercises[idx]); }
+  function startWork() { phase = "work"; remaining = secsOf(exercises[idx]); blockStarted = false; }
 
   function endWorkBlock() {
     const ex = exercises[idx];
-    if (ex.mode === "uni" && side === 1) {
-      side = 2; phase = "rest"; remaining = REST;
-    } else {
-      advance();
-      if (phase !== "done") { phase = "rest"; remaining = REST; }
-    }
+    if (ex.mode === "uni" && side === 1) side = 2;
+    else { advance(); if (phase === "done") return; }
+    nextBlock();
+  }
+
+  /* Auto: a fixed REST countdown, then the next block starts itself.
+     Manual: no rest phase at all — the next block is shown paused, and the rest
+     is however long the athlete takes to read the cue and get into position.
+     A fixed countdown in manual mode would be a clock measuring nothing. */
+  function nextBlock() {
+    if (auto) { phase = "rest"; remaining = REST; }
+    else { startWork(); pause(); }
   }
 
   function advance() {
@@ -140,7 +172,7 @@
     skipped++;
     clearIfRest();
     advance();
-    if (phase !== "done") { phase = "rest"; remaining = REST; }
+    if (phase !== "done") nextBlock();
     updateUI();
   });
 
@@ -159,7 +191,7 @@
 
   $("repeatBtn").addEventListener("click", () => {
     idx = 0; side = 1; skipped = 0; replaced = 0;
-    startWork(); run();
+    startWork(); if (auto) run(); else updateUI();
   });
 
   function clearIfRest() { /* rest state is implicit in `phase`; nothing extra to clear */ }
@@ -180,9 +212,17 @@
     if (!btn) return;
     const ex = exercises[idx];
     const v = ex.variants[+btn.dataset.i];
-    const old = { name: ex.name, mode: ex.mode, cue: ex.cue, tag: ex.tag };
+    // `secs` is carried explicitly in both directions. It was omitted from both
+    // sides of this swap, so a 60-second hold offered as a variant of a 40-second
+    // block ran for 40 seconds and displayed "60s" — MODE_LABEL reads the variant,
+    // the timer read the exercise it replaced. hasOwnProperty rather than `||` so
+    // a variant that deliberately carries no `secs` falls back to the routine
+    // default instead of inheriting the block it replaced.
+    const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+    const old = { name: ex.name, mode: ex.mode, cue: ex.cue, tag: ex.tag, secs: ex.secs };
     exercises[idx] = Object.assign({}, ex, {
       name: v.name, mode: v.mode,
+      secs: has(v, "secs") ? v.secs : undefined,
       cue: v.cue || ex.cue, tag: v.tag || ex.tag,
       variants: [old].concat(ex.variants.filter(x => x !== v))
     });
@@ -210,7 +250,8 @@
   function updateUI() {
     const ex = exercises[idx];
     const tb = totalBlocks();
-    $("mainBtn").textContent = phase === "idle" ? t("start", "Empezar") : (interval ? t("pause", "Pausar") : t("resume", "Reanudar"));
+    $("mainBtn").textContent = interval ? t("pause", "Pausar")
+      : ((phase === "idle" || !blockStarted) ? t("start", "Empezar") : t("resume", "Reanudar"));
     $("prevBtn").disabled = phase === "idle" || phase === "done" || (idx === 0 && side === 1);
     $("skipBtn").disabled = phase === "idle" || phase === "done";
     $("restOverlay").style.display = phase === "rest" ? "flex" : "none";
@@ -265,6 +306,12 @@
       $("restTime").textContent = fmt(remaining);
       $("restNext").innerHTML = t("next", "Siguiente:") + ' <strong>' + ex.name +
         (ex.mode === "uni" ? " — " + t("side", "Lado") + " " + side : "") + "</strong>";
+      // The cue belongs on the rest screen too: in auto mode this is the only
+      // window an athlete has to read the next instruction before it is running.
+      if ($("restCue")) {
+        $("restCue").innerHTML = ex.cue || "";
+        $("restCue").style.display = ex.cue ? "block" : "none";
+      }
     }
   }
 
@@ -292,6 +339,27 @@
     $("listContent").innerHTML = html;
   }
 
+  /* ---- auto-chain toggle ---- */
+  function renderAuto() {
+    const btn = $("autoToggle");
+    if (!btn) return;
+    btn.setAttribute("aria-pressed", auto ? "true" : "false");
+    btn.classList.toggle("on", auto);
+  }
+  if ($("autoToggle")) {
+    $("autoToggle").addEventListener("click", () => {
+      auto = !auto;
+      writeAuto(auto);
+      renderAuto();
+      // Switching off mid-rest drops straight into the upcoming block, paused,
+      // rather than letting a rest countdown the athlete just opted out of run
+      // to zero and start the next exercise anyway.
+      if (!auto && phase === "rest") { startWork(); pause(); }
+      updateUI();
+    });
+  }
+
+  renderAuto();
   renderHome();
   updateUI();
 })();
