@@ -59,19 +59,42 @@ RETURNING token;
 
 ### Step 1 — Twenty: add the `TOOL_LEAD` leadSource value
 
-`leadSource` today reads `COACHMATCH`, `WEBSITE_FORM`, `REFERRAL`, `OTHER`, `PLAN_CATALOG`, `ZONE_CALCULATOR`. **I can't do this or verify it — it's the Twenty UI.**
+**I can't do this or verify it — it's the Twenty UI.**
+
+⚠️ ***Do not type the current option list into this file.*** *Three documents in this repo each state a different `leadSource` list, all hand-typed, none re-derivable, and `AI_ASSISTANT` was added in early September 2026 without any of them noticing.* **Read it instead:**
+
+```bash
+export TWENTY_API_KEY='paste-the-key-here'
+bash automation/twenty-dump-enums.sh
+```
 
 1. Twenty → Settings → Data Model → Person → `leadSource` → add option `TOOL_LEAD`.
 2. Confirm it saved with a real API call rather than trusting the screen:
 
+🚨 **Use the heredoc form, not `-d '{...}'`.** *A JSON body inside single quotes on a `curl` line has three levels of quoting, and the failure mode when one of them breaks in a paste is that the shell sits at a `>` prompt waiting for a closing quote — which reads as "the request is hanging" and is not.* **`--data-binary @-` with a quoted heredoc has no nested quoting at all.**
+
 ```bash
-curl -i -X POST http://100.70.89.17:3000/rest/people \
-  -H "Authorization: Bearer <TWENTY_API_KEY>" \
+export TWENTY_API_KEY='paste-the-key-here'
+
+curl -sS -o /tmp/tw-create.json -w 'HTTP %{http_code}\n' \
+  -X POST "http://100.70.89.17:3000/rest/people" \
+  -H "Authorization: Bearer ${TWENTY_API_KEY}" \
   -H "Content-Type: application/json" \
-  -d '{"name":{"firstName":"ToolLeadTest","lastName":"-"},"emails":{"primaryEmail":"tool-lead-test-1@example.com"},"leadSource":"TOOL_LEAD"}'
+  --data-binary @- <<'JSON'
+{"name":{"firstName":"ToolLeadTest","lastName":"-"},
+ "emails":{"primaryEmail":"tool-lead-test-1@example.com"},
+ "leadSource":"TOOL_LEAD"}
+JSON
+
+python3 -m json.tool /tmp/tw-create.json | head -40
 ```
 
-Expect `201` echoing `leadSource: "TOOL_LEAD"`. A `400` naming `leadSource` means the value did not take. Delete the test Person afterwards (`DELETE /rest/people/<id>`).
+Expect `HTTP 201` and `leadSource: "TOOL_LEAD"` in the body. A `400` naming `leadSource` means the value did not take. Delete the test Person afterwards:
+
+```bash
+ID=$(python3 -c "import json;print(json.load(open('/tmp/tw-create.json'))['data']['createPerson']['id'])")
+curl -sS -X DELETE "http://100.70.89.17:3000/rest/people/${ID}" -H "Authorization: Bearer ${TWENTY_API_KEY}" -w 'HTTP %{http_code}\n'
+```
 
 ### Step 2 — Caddy: publish the webhook path
 

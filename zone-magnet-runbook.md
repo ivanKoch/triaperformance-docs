@@ -34,7 +34,7 @@
 
 ### Step 1 — Twenty: add the `ZONE_CALCULATOR` leadSource value
 
-`leadSource` today reads `COACHMATCH`, `WEBSITE_FORM`, `REFERRAL`, `OTHER`, `PLAN_CATALOG`. This needs a sixth. **I can't do this or verify it — it's the Twenty UI.**
+~~`leadSource` today reads `COACHMATCH`, `WEBSITE_FORM`, `REFERRAL`, `OTHER`, `PLAN_CATALOG`. This needs a sixth.~~ 🚨 ***Struck September 9, 2026 — not because the values changed but because this sentence should never have existed.*** *It is a hand-typed copy of a list Twenty owns, and by September it was wrong: `ZONE_CALCULATOR` was added by this very runbook and `AI_ASSISTANT` in early September, neither reaching this line.* **Two other docs carried their own different versions of the same list.** *Read it instead —* `bash automation/twenty-dump-enums.sh`. **I can't add an option or verify it — it's the Twenty UI.**
 
 1. Twenty → Settings → Data Model → Person → `leadSource` → add option `ZONE_CALCULATOR`.
 2. Confirm it actually saved, with a real API call rather than trusting the screen:
