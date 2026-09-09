@@ -186,15 +186,13 @@ Rules: no italics. Headlines in sentence case — labels are the only uppercase 
 
 **Offer ladder** — three offers are three tiers and the layout has to say so. The **featured** card takes a row of its own with a 3px Heat rule on the top edge, a Heat eyebrow, a Display-scale price and a filled button. The **middle** card gets the same anatomy at lower volume: a 2px rule in TP Blue, a 34px price, an outline button. The **plain** card keeps its price as meta and its actions as text links. ⚠️ *Give the middle card the Heat accent too and the ladder collapses back into three featured cards, which is the problem the row was built to solve.* A one-time price stated as a range ("desde $19.99") never becomes a display figure — a display figure claims a precision a range does not have.
 
-**Featured card** — the variant that carries the expensive offer. **A 3px Heat Graphic rule along the top edge** (`--heat-bright` on carbon), a Heat eyebrow, and more space than its siblings — wider, taller, or both. Nothing else changes. *One accent on one edge reads as "this is the chosen one"; a full orange outline reads as a warning.* Coaching 1:1 and a $19.99 plan must never share a card skin.
+**Featured card** — the variant that carries the expensive offer. **It is carbon** — one of the three public surfaces §3.3 permits — with a 3px `--heat-bright` rule along the top edge, a Heat eyebrow, and the coach's portrait in its own column. *One accent on one edge reads as "this is the chosen one"; a full orange outline reads as a warning.* **Making it a different material rather than a bigger box is what finally separated `$149` from `$19.99`** — three passes of sizing, spacing and accents did not. Coaching 1:1 and a $19.99 plan must never share a card skin.
 
 **Price** — Display weight and width, tabular figures, the period (`/mes`) at 20px weight 400 in Slate. Directly beneath it, **one line of five to seven words naming what you get** — not a feature, the shape of the thing. Then the list.
 
-**Testimonial** — quote in Body, then name (600), country (Small/Slate), and a **result chip**: the event and the outcome, in tabular figures, 3px radius, Heat text on a Heat tint. The chip is the proof; the quote is the colour around it. Quotes come from `social-proof-and-reviews.md`.
+**Testimonial** — **result-first.** The outcome is the headline and the quote is the caption, not the other way round. One featured result per page at 48px in tabular Heat with its event beneath in small uppercase Slate, the quote at 21px beside it; three compact results in a row underneath at 28px. Above them, a **review bar** bounded by hairlines: the aggregate star rating, the count, and a link to the real listing. Quotes come from `social-proof-and-reviews.md`.
 
-The result is **display type, not a label**: the outcome at 24px in tabular Heat with its event beneath it in a small uppercase slate, sitting at the end of the attribution line under a hairline. *§9's rule applies here more than anywhere — a figure that matters is set at display scale, and an 11px coloured chip was tried first and read as a tag rather than as proof.*
-
-> ⚠️ **The result is optional, and an empty one stays empty.** It may state only what that athlete's own quote states. `social-proof-and-reviews.md` holds names, countries and quotes — **it holds no separate finish-time data** — so "42k en menos de 3 hrs" earns `Sub-3 / Maratón` and nothing more precise. A testimonial whose quote names no result gets nothing, and the gap is the honest signal. *An invented time on a coaching site is not a design defect; it is a false claim about a real person's race.*
+> ⚠️ **Every figure is a real number from that athlete's own review, and an athlete without one does not run in this section.** `social-proof-and-reviews.md` holds names, countries and quotes — **it holds no finish-time dataset** — so "42k en menos de 3 hrs" earns `Sub-3`, "13.000 metros y 600 km" earns `600 km`, and a review naming no result keeps its quote for `/sobre-ivan/` instead. *Never invent a clock, and never reach for a wordy stand-in like "PB" to fill the slot — Heat at display size earns its keep next to a number and looks empty next to a label.* **A language with no result-bearing reviews renders the compact row with no figures at all; that gap is a content problem showing through the design, and it should stay visible.**
 
 **Credential band** — logo band grouped by issuing body, placed after athlete proof and before the final ask. Institutional proof follows human proof. Content from `site/_data/credentials.json`; never hand-written into a page.
 
@@ -218,7 +216,7 @@ The result is **display type, not a label**: the outcome at 24px in tabular Heat
 
 | Shot | For |
 |---|---|
-| Iván portrait, 4:5 tight | Sobre Iván, offer cards |
+| ~~Iván portrait, 4:5 tight~~ **✅ shot September 9, 2026** — `ivan-{560,800,1200}.{jpg,webp}` | Sobre Iván hero, featured offer card |
 | Iván portrait, 3:2 environmental | Home, About hero |
 | Iván racing | Home, About |
 | 4 athlete/result stills, named | Testimonials, All-Access |

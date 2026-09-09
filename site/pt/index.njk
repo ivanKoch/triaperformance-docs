@@ -4,6 +4,7 @@ lang: pt
 transKey: home
 title: Triaperformance — Eleve sua performance
 description: "Treinamento de triatlo e corrida baseado em dados. Testes, zonas corretas, análise, reteste. Feedback toda segunda-feira, sempre."
+hero: true
 ---
 <!-- HERO -->
 <section class="hero">
@@ -24,6 +25,13 @@ description: "Treinamento de triatlo e corrida baseado em dados. Testes, zonas c
     <p class="section-intro section-intro--full">O método é o mesmo nos três: o mesmo teste, as mesmas zonas, a mesma forma de evoluir. O que muda é quanto acompanhamento você tem da minha parte — e quanto custa.</p>
     <div class="offer-row">
       <div class="offer-featured">
+        <figure class="offer-portrait">
+          <picture>
+            <source type="image/webp" srcset="{{ "/assets/images/ivan-560.webp" | v }} 560w, {{ "/assets/images/ivan-800.webp" | v }} 800w" sizes="(max-width: 700px) 220px, 250px">
+            <img src="{{ "/assets/images/ivan-560.jpg" | v }}" srcset="{{ "/assets/images/ivan-560.jpg" | v }} 560w, {{ "/assets/images/ivan-800.jpg" | v }} 800w" sizes="(max-width: 700px) 220px, 250px" width="560" height="700" alt="Iván Koch, treinador da Triaperformance" loading="lazy" decoding="async">
+          </picture>
+          <figcaption><b>Iván Koch</b>Seu treinador. IRONMAN U · ESCI · TrainingPeaks Level 2.</figcaption>
+        </figure>
         <div class="offer-body">
           <span class="offer-eyebrow">Acompanhamento completo</span>
           <h3>Coaching 1:1</h3>
@@ -108,53 +116,43 @@ description: "Treinamento de triatlo e corrida baseado em dados. Testes, zonas c
   <section>
     <span class="label">Resultados</span>
     <h2>O que os atletas dizem</h2>
-    <p class="section-intro">{{ site.reviewCount }} avaliações 5 estrelas no Google, nenhuma negativa.</p>
-    <div class="grid-2">
-      <div class="testimonial">
-        <p class="quote">Com o apoio dele, consegui correr uma maratona (42km) em menos de 3 horas.</p>
-        <div class="t-foot">
-          <div class="t-who">
-            <span class="t-name">Luis Casillas</span>
-            <span class="t-place">México</span>
-          </div>
-          <div class="t-result">
-            <span class="t-figure">Sub-3</span>
-            <span class="t-event">Maratona</span>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p class="quote">Comecei sob os cuidados dele para o 70.3 do Panamá e consegui meu melhor tempo na distância.</p>
-        <div class="t-foot">
-          <div class="t-who">
-            <span class="t-name">Limaris</span>
-            <span class="t-place">Porto Rico</span>
-          </div>
-          <div class="t-result">
-            <span class="t-figure">PB</span>
-            <span class="t-event">70.3 Panamá</span>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p class="quote">Toda segunda-feira ele me escreve para saber como está indo minha semana, me dá feedback.</p>
-        <div class="t-foot">
-          <div class="t-who">
-            <span class="t-name">Sergio Toro</span>
-            <span class="t-place">Chile</span>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p class="quote">Não importa seu nível ou o país onde você esteja, a distância nunca é um impedimento.</p>
-        <div class="t-foot">
-          <div class="t-who">
-            <span class="t-name">Luis Lopez</span>
-            <span class="t-place">Colômbia</span>
-          </div>
-        </div>
-      </div>
+    <div class="reviews-bar">
+      <p class="reviews-fact">
+        <span class="reviews-stars" aria-hidden="true">★★★★★</span>
+        <b>{{ site.reviewCount }}</b> avaliações de 5 estrelas no Google<span> · 5,0 · nenhuma negativa</span>
+      </p>
+      <a class="reviews-link" href="https://www.google.com/maps/place/Triaperformance/@25.782414,-80.2253934,12z/data=!3m1!4b1!4m6!3m5!1s0x6ef3ca51c8b0c585:0x78d3a14cf0cf62fa!8m2!3d25.782414!4d-80.2253934!16s%2Fg%2F11wbhn51b9?entry=ttu&amp;g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">Ver todas as avaliações &rarr;</a>
     </div>
+      <div class="t-featured">
+        <div>
+          <span class="t-figure">Sub-3</span>
+          <span class="t-event">Maratona · 42 km</span>
+        </div>
+        <div>
+          <p class="t-quote">Com o apoio dele, consegui correr uma maratona (42 km) em menos de 3 horas.</p>
+          <span class="t-name">Luis Casillas <span>· México</span></span>
+        </div>
+      </div>
+      <div class="t-row">
+        <div class="testimonial">
+          <span class="t-figure">600 km</span>
+          <span class="t-event">13.000 m+ · Andorra</span>
+          <p class="t-quote">7 dias percorrendo os picos mais importantes de Andorra.</p>
+          <span class="t-name">Carlos Peña <span>· Colômbia</span></span>
+        </div>
+        <div class="testimonial">
+          <span class="t-figure">70.3</span>
+          <span class="t-event">Do zero</span>
+          <p class="t-quote">Ele me levou de absolutamente zero experiência em triatlo ao meu objetivo de fazer um Ironman 70.3.</p>
+          <span class="t-name">Humberto Rodríguez <span>· México</span></span>
+        </div>
+        <div class="testimonial">
+          <span class="t-figure">Sub-2:05</span>
+          <span class="t-event">Meia maratona</span>
+          <p class="t-quote">Um plano 100% virtual… adaptei aos meus horários.</p>
+          <span class="t-name">Nataly Ortiz</span>
+        </div>
+      </div>
   </section>
 </div>
 

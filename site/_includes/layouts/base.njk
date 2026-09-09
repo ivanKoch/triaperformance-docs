@@ -72,6 +72,19 @@
 <link rel="preload" href="{{ "/assets/fonts/archivo-var-latin.woff2" | v }}" as="font" type="font/woff2" crossorigin>
 {#- tokens.css must load BEFORE site.css: it is the single home for every
     colour, the type stack and the motion duration. -#}
+{#- Hero preload (September 9, 2026). The hero is a CSS background, so the
+    browser cannot discover it until the stylesheet has parsed — and above
+    1400px that background is a 247 KB WebP. The inline LQIP underneath it was
+    doing its job and, on a slow connection, doing it for a long time, which
+    reads as "the hero is a blur" rather than "the hero is loading".
+    `imagesrcset` lets the browser start the right file from the <head>.
+    Opt-in per page: only the three homepages have a hero, and preloading it
+    everywhere would waste the fetch on every other page. -#}
+{%- if hero %}
+<link rel="preload" as="image" fetchpriority="high"
+      imagesrcset="{{ "/assets/images/hero-960.webp" | v }} 960w, {{ "/assets/images/hero-1600.webp" | v }} 1600w, {{ "/assets/images/hero-2560.webp" | v }} 2560w"
+      imagesizes="100vw">
+{%- endif %}
 <link rel="stylesheet" href="{{ "/assets/css/tokens.css" | v }}">
 <link rel="stylesheet" href="{{ "/assets/css/site.css" | v }}">
 {#- pageCss takes either a single filename or a list of them, loaded in order after site.css. -#}

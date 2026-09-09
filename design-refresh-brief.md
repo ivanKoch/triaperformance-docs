@@ -180,6 +180,33 @@ All three languages. Build clean (588 files), suite green, no horizontal scroll 
 
 ---
 
+## 3e. Fourth tranche — September 9, 2026
+
+**The pass where the testimonials finally changed, and the reason the two before it did not.**
+
+🚨 ***`site.css` held two testimonial implementations at once.*** *The v0 block — `/* plain text, no card chrome (per guideline) */`, 17px quotes, and curly quotes as `::before`/`::after` — was never deleted, only appended past.* **A later rule can override a property; it cannot override a pseudo-element that is still declared.** *So every redesign changed the parts it could reach and the ornament outlived all of them, which is exactly what "still looks basic" was describing.* **One module, one set of selectors, v0 deleted.** *(Found by Grok, verified against the file — the best single catch in its review.)*
+
+| Change | Detail |
+|---|---|
+| **Testimonials v2, result-first** | The outcome is now the headline and the quote is the caption. One featured result at 48px, three compact at 28px, all in tabular Heat. **Every figure is a real number from that athlete's own review** — `Sub-3`, `600 km`, `70.3`, `Sub-2:05`. |
+| **The aggregate became the header** | A hairline-bounded review bar — stars, count, 5,0, "ninguna negativa" — with **a real link to the Google listing** (Iván supplied the URL), `target="_blank" rel="noopener noreferrer"`. It was a grey `section-intro` before; it is the strongest single fact in the section. |
+| **The featured offer went carbon, and got the portrait** | §3.3 already permitted carbon on this surface. **Making the card a different *material* rather than a bigger box is what finally separated `$149` from `$19.99`** — three passes of sizing, spacing and accent had not. |
+| **The portrait exists** | Iván shot it. `ivan-{560,800,1200}.{jpg,webp}`, 4:5, on the featured offer card and as a second column on all three About pages. *The largest trust failure the audit found, and the only one that was never fixable in CSS.* |
+| **Hero preload** | See below. |
+| **Auth link contrast** | 🚨 **TP Blue as text on carbon — 2.34:1.** A breach of this system's own §3.3 (`--blue` is fill-only on carbon). *It survived the conversion because `.help a` and `.auth-lang a.current` are class-scoped and beat a bare `a` on specificity.* ⚠️ **The lesson generalises: converting a theme by restyling element selectors silently misses every rule written with a class.** |
+
+**Two athletes moved off Home rather than being given a figure.** Limaris's review says "mi mejor tiempo en la distancia" and Sergio's and Jose's name no result at all. *The alternative was `PB` and two figure-less cells, and Heat at display size looks empty next to a label.* **Their quotes are good and belong on `/sobre-ivan/`.** ⚠️ **English still renders with no figures at all, deliberately** — no English review names a result. That is `open-loops.md` NEXT #7 showing through the design and it should stay visible.
+
+### The hero: a real symptom, a wrong diagnosis, and why the proposed fix was worse
+
+The review reported *"on desktop the hero is a stretched blur; the LQIP is winning; drop the LQIP layer."* **Tested at 1920, 1440, 1280 and 390 against the real assets: the correct image paints at every one, the layer order is right, and `image-set()` resolves.**
+
+*What is real is the wait.* Above 1400px the hero is **`hero-2560.webp`, 247 KB, and it is a CSS background** — so the browser cannot even discover it until the stylesheet parses. **The LQIP was doing its job and, on a slow connection, doing it for a long time**, which reads as "the hero is a blur" rather than "the hero is loading". *Removing the LQIP as proposed would have restored the flat rectangle it was added to eliminate — the same defect this brief opened with.* **Fixed at the cause:** a conditional `<link rel="preload" as="image" imagesrcset fetchpriority="high">`, gated on a `hero: true` flag so the three homepages pay for it and no other page does.
+
+⚠️ **Also worth recording, because it will recur: the review asserted that `brand-guidelines.md` still says testimonials are "plain text, no card chrome" and recommended writing a permanent waiver for that rule.** *It does not — that was v1.0, rewritten September 6.* **The claim came from the stale CSS comment, which is the one place the sentence still existed.** *A stale comment is not just untidy; it is read as the spec by the next reviewer, and the remedy it invites is a waiver against a rule nobody holds.*
+
+---
+
 ## 4. The two decisions only Iván can make
 
 Everything above is execution. These two are choices, and they gate items 18, 21, 25 and 26.

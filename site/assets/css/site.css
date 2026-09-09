@@ -435,12 +435,12 @@ h2 { font-size: 36px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 .price-card .btn-primary { background: var(--blue); color: var(--white); width: 100%; }
 .price-card .btn-primary:hover { background: var(--blue-deep); }
 
-/* Testimonials — plain text, no card chrome (per guideline) */
-.testimonial { margin-bottom: 40px; max-width: 65ch; }
-.testimonial p.quote { font-size: 17px; margin-bottom: 8px; }
-.testimonial p.quote::before { content: "“"; }
-.testimonial p.quote::after { content: "”"; }
-.testimonial .attribution { font-size: 14px; color: var(--slate); }
+/* The v0 testimonial rules lived here — plain text, 17px, and curly quotes as
+   ::before/::after pseudo-elements. Deleted September 9, 2026. They were the
+   reason three successive redesigns all still looked like the original: a later
+   `.testimonial` block overrides properties, but it cannot override a pseudo
+   element that is still declared, so the quote ornaments outlived every pass.
+   One module, one set of selectors — the module is at the end of this file. */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 56px; }
 @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
 
@@ -800,56 +800,131 @@ body.nav-open { overflow: hidden; }
 .offer-plain .card-meta { margin-bottom: 16px; }
 
 /* ============================================================================
-   TESTIMONIALS  —  design-refresh-brief.md item 14, reworked September 9
+   TESTIMONIALS  —  v2, September 9, 2026
    ----------------------------------------------------------------------------
-   v1 put the result in an 11px chip beside the name and Iván's read was that it
-   "didn't move the needle" — correct: the module was still a paragraph with a
-   small coloured label attached, and it sat at body size on a white page.
+   Iván: "testimonials still look basic", twice. Both earlier passes changed the
+   ornament and left the STRUCTURE alone — four equal cells of body copy in a
+   2x2 grid, with the proof as an afterthought at the end of each. A page reads
+   its own hierarchy, and that hierarchy said "four paragraphs".
 
-   v2 makes the result DISPLAY TYPE, which is what brand-guidelines §9 says a
-   figure that matters gets. The quote grows to 19px, a hairline separates it
-   from the attribution, and the outcome sits at the end of that line at 24px in
-   tabular Heat. The company promise is that everything is measured; the proof
-   block should look measured.
+   v2 inverts it. The result is the headline and the quote is the caption:
+     · a review bar carrying the aggregate fact, linked to the real listing
+     · ONE featured result at 48px, with the quote beside it
+     · three compact results in a row beneath
 
-   ⚠️ THE RESULT IS OPTIONAL AND ITS ABSENCE IS DELIBERATE. It may state only
-   what that athlete's own quote states. `social-proof-and-reviews.md` holds
-   names, countries and quotes and NO separate finish-time data — so
-   "42k en menos de 3 hrs" earns `Sub-3` and nothing more precise, and a quote
-   naming no result gets nothing at all. Do not fill the empty ones in. An
-   invented time on a coaching site is a false claim about a real person's race.
+   ⚠️ EVERY RESULT ON THIS SECTION IS A REAL NUMBER FROM THE ATHLETE'S OWN
+   REVIEW. `social-proof-and-reviews.md` has no finish-time dataset, so a
+   figure may only restate its own quote — "42k en menos de 3 hrs" earns
+   `Sub-3`, "13.000 metros y 600 km" earns `600 km`. Where a review names no
+   number, that athlete does not run in this section; the quote is still good
+   and belongs on /sobre-ivan/. Never invent a clock.
+
+   English is the exception and it is a CONTENT gap, not a layout one: no
+   English review names a result, so the EN page renders the compact row with
+   no figures. That is `open-loops.md` NEXT #7 showing through the design, and
+   it should stay visible until the reviews exist.
    ========================================================================= */
-.testimonial {
-  margin: 0; max-width: 62ch;
-  display: flex; flex-direction: column; gap: 18px;
-}
-.testimonial p.quote {
-  font-size: 19px; line-height: 1.55; color: var(--ink); margin: 0;
-  letter-spacing: -0.005em;
-}
-@media (max-width: 640px) { .testimonial p.quote { font-size: 17px; } }
 
-.t-foot {
-  margin-top: auto; padding-top: 14px; border-top: 1px solid var(--mist);
-  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+/* --- the aggregate, which is the strongest single fact in the section ----- */
+.reviews-bar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px 24px; margin: 4px 0 44px;
+  padding: 16px 0; border-top: 1px solid var(--mist); border-bottom: 1px solid var(--mist);
 }
-/* min-height is two lines' worth, so an athlete with no country recorded still
-   occupies the same block and the hairlines line up across a row. Padding the
-   layout rather than the data — the alternative was inventing a country. */
-.t-who { display: flex; flex-direction: column; gap: 2px; min-height: 38px; }
-.t-name { font-size: 14.5px; font-weight: 600; color: var(--ink); }
-.t-place { font-size: 13px; color: var(--slate); }
+.reviews-fact {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;
+  font-size: 15px; color: var(--slate);
+}
+.reviews-fact b {
+  font-size: 17px; font-weight: 700; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.reviews-stars { color: var(--heat); font-size: 15px; letter-spacing: .06em; }
+.reviews-link {
+  font-size: 14px; font-weight: 700; color: var(--blue); text-decoration: none;
+  border: 1.5px solid var(--blue); border-radius: 4px; padding: 9px 16px;
+  white-space: nowrap; transition: background var(--t), color var(--t);
+}
+.reviews-link:hover { background: var(--blue); color: var(--white); }
 
-/* The result. Right-aligned so the eye can run down a column of outcomes
-   without reading the names first. */
-.t-result { text-align: right; flex: 0 0 auto; }
+/* --- the featured result ------------------------------------------------- */
+.t-featured {
+  display: grid; grid-template-columns: minmax(150px, 210px) minmax(0, 1fr);
+  gap: 36px; align-items: start;
+  padding-bottom: 36px; margin-bottom: 36px; border-bottom: 1px solid var(--mist);
+}
+@media (max-width: 700px) { .t-featured { grid-template-columns: 1fr; gap: 18px; } }
+.t-featured .t-figure { font-size: 48px; }
+.t-featured .t-quote { font-size: 21px; line-height: 1.45; color: var(--ink); margin: 0 0 14px; }
+@media (max-width: 640px) { .t-featured .t-figure { font-size: 38px; } .t-featured .t-quote { font-size: 18px; } }
+
+/* --- the compact row ----------------------------------------------------- */
+.t-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+@media (max-width: 860px) { .t-row { grid-template-columns: 1fr; gap: 28px; } }
+.t-row .t-quote { font-size: 15.5px; line-height: 1.55; color: var(--slate); margin: 12px 0 10px; }
+
+/* --- shared parts -------------------------------------------------------- */
 .t-figure {
-  display: block; font-size: 24px; font-weight: 700; font-stretch: 106%;
-  line-height: 1.05; letter-spacing: -0.02em;
+  display: block; font-weight: 700; font-stretch: 108%;
+  font-size: 28px; line-height: 1; letter-spacing: -0.025em;
   font-variant-numeric: tabular-nums; color: var(--heat);
 }
 .t-event {
-  display: block; margin-top: 2px;
-  font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
-  color: var(--slate); white-space: nowrap;
+  display: block; margin-top: 6px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--slate);
 }
+.t-name { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+.t-name span { font-weight: 400; color: var(--slate); }
+
+/* When a language has no result-bearing reviews the row still has to hold its
+   shape, so the quote leads and nothing pretends to be a figure. */
+.t-row .testimonial--noresult .t-quote { margin-top: 0; color: var(--ink); font-size: 16px; }
+
+/* ============================================================================
+   THE FEATURED OFFER GOES CARBON  —  September 9, 2026
+   ----------------------------------------------------------------------------
+   brand-guidelines §3.3 permits carbon on exactly three public surfaces and the
+   featured offer card is one of them. Spending it here is what finally makes
+   $149 stop looking like $19.99 in a slightly different box: the card is not
+   bigger than its siblings, it is made of different material.
+   The portrait is the other half — a coach you can see is the thing a price
+   page cannot argue its way to.
+   ========================================================================= */
+.offer-featured {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--heat-bright);
+  grid-template-columns: minmax(200px, 250px) minmax(0, 1.25fr) minmax(220px, 0.8fr);
+  gap: 36px;
+}
+@media (max-width: 1000px) {
+  .offer-featured { grid-template-columns: 190px minmax(0, 1fr); }
+  .offer-featured .offer-price { grid-column: 1 / -1; }
+}
+@media (max-width: 700px) {
+  .offer-featured { grid-template-columns: 1fr; gap: 24px; padding: 28px 22px; }
+}
+.offer-featured h3 { color: var(--white); }
+.offer-featured .offer-eyebrow { color: var(--heat-bright); }
+.offer-featured .card-list li { color: var(--text-dim); }
+.offer-featured .card-list li::before { background: var(--border); }
+.offer-featured .card-list-hl { color: var(--text) !important; }
+
+.offer-portrait { margin: 0; }
+.offer-portrait img {
+  display: block; width: 100%; height: auto; border-radius: 6px;
+  background: var(--surface2);
+}
+.offer-portrait figcaption {
+  margin-top: 12px; font-size: 13px; line-height: 1.45; color: var(--text-dim);
+}
+.offer-portrait figcaption b { display: block; color: var(--text); font-weight: 600; font-size: 14px; }
+@media (max-width: 700px) {
+  .offer-portrait { max-width: 220px; }
+}
+
+.offer-featured .offer-price { background: var(--surface); }
+.offer-featured .offer-amount { color: var(--white); }
+.offer-featured .offer-amount span { color: var(--text-dim); }
+.offer-featured .offer-inc { color: var(--text-dim); }

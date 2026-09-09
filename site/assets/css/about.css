@@ -1,6 +1,18 @@
 /* About page — added Aug 27, 2026. */
 
 .about-hero { padding: 72px 0 40px; }
+/* The portrait, September 9, 2026. This page asked a visitor to believe a
+   $149/month coaching relationship and showed them no human being — the single
+   largest trust failure the design audit found, and the only one that could not
+   be fixed in CSS. The lede sets the type column at 60ch, so the photo takes the
+   remainder rather than a fixed share. */
+.about-hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 320px); gap: 48px; align-items: center; }
+@media (max-width: 820px) {
+  .about-hero .wrap { grid-template-columns: 1fr; gap: 28px; }
+  .about-portrait { max-width: 260px; }
+}
+.about-portrait { margin: 0; }
+.about-portrait img { display: block; width: 100%; height: auto; border-radius: 8px; background: var(--wash); }
 .about-lede { font-size: 20px; line-height: 1.55; max-width: 60ch; margin-top: 16px; color: var(--ink); }
 @media (max-width: 640px) { .about-lede { font-size: 17px; } }
 

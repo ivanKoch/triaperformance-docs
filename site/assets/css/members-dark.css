@@ -141,3 +141,14 @@ input::placeholder { color: var(--text-dim); }
 .auth-lang .sep { color: var(--border); }
 .login-card a, .card a { text-decoration: none; }
 .login-card a:hover, .card a:hover { text-decoration: underline; }
+
+/* 🚨 TP Blue on carbon, as TEXT — 2.34:1, a real contrast failure and a breach
+   of this system's own rule (§3.3: --blue is fill-only on carbon, blue text is
+   always --blue-bright, which is 7.4:1). It survived the conversion because
+   these are class-scoped selectors — `.help a` and `.auth-lang a.current` beat
+   a bare `a` on specificity, so the generic override never reached them.
+   The lesson generalises: converting a theme by restyling element selectors
+   silently misses every rule that was written with a class. */
+.help a, .auth-lang a.current, .login-card a, .card a { color: var(--blue-bright); }
+.help a:hover, .login-card a:hover, .card a:hover { color: var(--white); }
+.help { color: var(--text-dim); }
