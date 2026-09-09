@@ -13,8 +13,25 @@ description: "Todos os planos de treino da Triaperformance na TrainingPeaks: cor
 <section class="plan-hero">
   <div class="wrap">
     <span class="label">Planos de Treino</span>
-    <h1>Todos os planos, filtrados pelo que você procura</h1>
+    <h1>Escolha seu objetivo, e o plano</h1>
     <p class="section-intro">{{ catalogPlans.length }} planos na TrainingPeaks — corrida, ciclismo, natação, triatlo, duatlo e HYROX. Filtre por esporte, distância, nível e duração.</p>
+  </div>
+</section>
+<section style="padding-top:0;">
+  <div class="wrap">
+    <nav class="sport-tiles" aria-label="{{ u.filterSport }}">
+      <a class="sport-tile" href="/pt/planos/maratona/"><b>Maratona</b><span>{{ catalogPlans | facetCount("distance", "42 km") }} {{ u.resultsCount }}</span></a>
+      <a class="sport-tile" href="/pt/planos/ciclismo/"><b>{{ u.sport["Cycling"] or "Cycling" }}</b><span>{{ catalogPlans | facetCount("sport", "Cycling") }} {{ u.resultsCount }}</span></a>
+      <a class="sport-tile" href="/pt/planos/ironman/"><b>Ironman</b><span>{{ (catalogPlans | facetCount("distance", "Half")) + (catalogPlans | facetCount("distance", "Full")) }} {{ u.resultsCount }}</span></a>
+    </nav>
+    <div class="planes-aa">
+      <p>Se você vai preparar mais de um objetivo este ano, não compre um de cada vez. Todo o catálogo por <b>${{ allAccess.pt.price }}/mês</b>.</p>
+      <a href="/pt/all-access/">Conheça o Acesso Total</a>
+    </div>
+    <div class="catalog-recommended-head">
+      <h2>{{ u.recommendedLabel }}</h2>
+      <p>{{ u.recommendedIntro }}</p>
+    </div>
   </div>
 </section>
 <section style="padding-top:0;">

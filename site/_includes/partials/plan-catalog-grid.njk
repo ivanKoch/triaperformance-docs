@@ -94,13 +94,19 @@
 
   <div class="catalog-results">
     <p class="catalog-count" data-count>{{ catalogPlans.length }} {{ u.resultsCount }}</p>
-    <div class="catalog-grid" data-grid>
+    {#- Capped on first paint (Sept 9, 2026). EVERY card is still rendered
+        server-side and stays in the DOM — the cap is CSS on a class, so the
+        catalogue remains crawlable and the 164 internal links to the plan
+        pages are all still there. `<noscript>` lifts the cap for a reader
+        without JS, who has no button to press. -#}
+    <noscript><style>.catalog-grid--capped .catalog-card { display: flex !important; }</style></noscript>
+    <div class="catalog-grid catalog-grid--capped" data-grid>
       {%- for plan in catalogPlans %}
       {%- set featureTokens = "" %}
       {%- if plan.strength %}{% set featureTokens = featureTokens + "strength " %}{% endif %}
       {%- if plan.weightLoss %}{% set featureTokens = featureTokens + "weightloss " %}{% endif %}
       {%- if plan.metric %}{% set featureTokens = featureTokens + plan.metric %}{% endif %}
-      <a href="{{ plan.pageUrl }}" class="catalog-card"
+      <a href="{{ plan.pageUrl }}" class="catalog-card{% if plan.recommended %} is-recommended{% endif %}"
          data-sport="{{ plan.sport }}"
          data-distance="{{ plan.distance }}"
          data-difficulty="{{ plan.difficulty }}"
@@ -111,12 +117,29 @@
         <p class="catalog-card-meta">
           {{ plan.weeks }} {{ u.weeksShort }}{% if plan.difficulty %} · {{ u.difficulty[plan.difficulty] or plan.difficulty }}{% endif %}
         </p>
+        {#- Real weekly volume, from data/plan_weekly_breakdown.csv via
+            plans.js `weeklyTotals`. Coverage is 92% ES / 87% EN / 49% PT, so
+            this degrades in steps rather than assuming: hours when the plan's
+            activities are duration-based, sessions alone when they are not
+            (swim volume is metres, a handful of runs are miles, and neither is
+            guessed at), and nothing at all for the plans with no breakdown. -#}
+        {%- if plan.weeklyTotals %}
+        <p class="catalog-card-vol">
+          {%- if plan.weeklyTotals.sessions %}<span>{{ plan.weeklyTotals.sessions }}{{ u.sessionsPerWeekShort }}</span>{% endif %}
+          {%- if plan.weeklyTotals.hoursText %}<span>{{ plan.weeklyTotals.hoursText }}{{ u.perWeekShort }}</span>{% endif %}
+          {%- if plan.weeklyTotals.longestText %}<span>{{ u.longestShort }} {{ plan.weeklyTotals.longestText }}</span>{% endif %}
+        </p>
+        {%- endif %}
         <p class="catalog-card-price">US$ {{ plan.price }}</p>
         <span class="btn-primary">{{ u.viewPlan }}</span>
       </a>
       {%- endfor %}
     </div>
     <p class="catalog-empty" data-empty hidden>{{ u.noResults }}</p>
+    {#- Removed by catalog-filters.js as soon as the cap is lifted, and also the
+        moment any filter is touched — a filtered result set is already a short
+        list and capping it twice would hide matches the athlete asked for. -#}
+    <button type="button" class="catalog-showall" data-showall>{{ u.showAll }}</button>
   </div>
 </div>
 

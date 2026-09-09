@@ -215,6 +215,25 @@ The review reported *"on desktop the hero is a stretched blur; the LQIP is winni
 
 ---
 
+## 3f. The second external review — measured against the live site, September 9, 2026
+
+**Its entire Home section describes a page that no longer exists.** *It reported the duplicate `$149` block "still there", testimonials "still four quotes", offers "still three bullet lists", and Home "almost the same page as last time".* **All three had shipped and were live when it wrote that** — verified in a real browser on the live site: carbon featured card with the portrait, review bar linked to the Google listing, `Sub-3 / 600 km / 70.3 / Sub-2:05`, and one `$149` on the page. *It was reading a cached or earlier crawl.*
+
+🚨 ***And the hero is not broken.*** *Reported twice as "a stretched blur at 1920px, the LQIP is winning, rip out the blur layer".* **Tested twice now: headless Chromium against the real assets at 1920/1440/1280/390, and then the live site in a real browser at 1920. The photograph paints sharp at every one, `image-set()` resolves, and the layer order is correct.** *The only real part is latency — `hero-2560.webp` is 247 KB behind a CSS background — and the September 9 preload addresses exactly that.* ⚠️ **Removing the LQIP as instructed would have restored the flat black rectangle this brief opened by fixing.** *Second time this reviewer has diagnosed a timing symptom as a rendering bug and prescribed a fix that undoes a deliberate decision; the pattern is worth remembering when reading the next one.*
+
+**Where it is right, and the measurements to prove it — both about pages this brief has never touched:**
+
+| Page | Measured on the live site |
+|---|---|
+| `/planes/` | **164 cards rendered on first paint, zero hidden, 18,737 px tall at 1920.** No images, no hours/week, titles that repeat the eyebrow. *It is a warehouse, not a shop.* |
+| Plan PDP | **Buy sits at y=556 and the email form at y=625 — 69 px apart.** Two primary actions competing at the top of the page. **Zero images. The "what you'll train per week" table has one row.** *TrainingPeaks' own PDP, which the athlete reaches next, shows a photo, chips and a sample-week calendar — so the storefront hands off to a page that does the selling it did not do.* |
+
+**Fixed in passing:** the portrait's `<figure>` preceded `.offer-body` in the DOM, so a screen reader met "Iván Koch · Tu coach…" before it met "Coaching 1:1". *Moved after the body, restored visually with grid `order`.* **Reading order and visual order are different questions, and the grid is the right place to reconcile them.**
+
+⚠️ **The storefront work is a branch, not a pass.** *`triaperformance-growth-roadmap.md` §Storefront owns the standing decisions, the WIP limit is one big branch, and race landing pages (NEXT #1) have been queued and ungated since August 6.* **Scoping it against this brief would be the fourth doc to hold storefront decisions.** Iván's call: `open-loops.md` NOW.
+
+---
+
 ## 4. The two decisions only Iván can make
 
 Everything above is execution. These two are choices, and they gate items 18, 21, 25 and 26.

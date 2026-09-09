@@ -424,5 +424,44 @@ module.exports = function () {
     `pt run+bike+tri ${counts.byLangSport.pt.runBikeTri}`
   );
 
+  // ---------------------------------------------------------------------------
+  // recommended — the 8-12 plans a catalogue page renders on first paint.
+  //
+  // `/planes/` used to paint all 164 cards: 18,737px tall on a desktop and
+  // roughly 47,000px on a phone. A shop does not open with the warehouse.
+  //
+  // DERIVED, not a hand-kept list, for the reason this repo has learned three
+  // times: a curated list of plan ids goes stale the first time a plan is
+  // retired and nothing fails. One representative per real goal, in the order
+  // an athlete would recognise, picking the most approachable plan in each:
+  // Beginner first, then fewest weeks, then cheapest. Deterministic, so the
+  // same catalogue always yields the same twelve.
+  //
+  // A goal absent in a language is skipped rather than substituted — the
+  // Portuguese catalogue is a third the size and should show a shorter row,
+  // not a padded one.
+  // ---------------------------------------------------------------------------
+  const GOALS = [
+    ["Running", "5 km"], ["Running", "10 km"], ["Running", "21 km"], ["Running", "42 km"],
+    ["Triathlon", "Short - Sprint"], ["Triathlon", "Olympic"], ["Triathlon", "Half"], ["Triathlon", "Full"],
+    ["Cycling", "FTP"], ["Running", "HYROX"], ["Swimming", "1500m"], ["Strength", "Strength"],
+  ];
+  const RECOMMENDED_MAX = 12;
+  for (const code of Object.keys(byLanguage)) {
+    let picked = 0;
+    for (const [sport, distance] of GOALS) {
+      if (picked >= RECOMMENDED_MAX) break;
+      const candidates = byLanguage[code].filter((p) => p.sport === sport && p.distance === distance);
+      if (!candidates.length) continue;
+      candidates.sort((a, b) =>
+        DIFFICULTY_ORDER.indexOf(a.difficulty) - DIFFICULTY_ORDER.indexOf(b.difficulty) ||
+        (a.weeks || 99) - (b.weeks || 99) ||
+        parseFloat(a.price || 999) - parseFloat(b.price || 999));
+      candidates[0].recommended = true;
+      picked++;
+    }
+    console.log(`[plans] ${code}: ${picked} recommended of ${byLanguage[code].length}`);
+  }
+
   return { byId, all, byLanguage, counts, problems, verified: linkStatus !== null };
 };

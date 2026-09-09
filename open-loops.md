@@ -37,6 +37,27 @@
 
 ## NOW
 
+**Big branch: the storefront rebuild — opened September 9, 2026.** Home doc: **`storefront-rebuild-brief.md`**, which owns the four phases, each phase's definition of done, and the acceptance criteria. *(Iván: "I am committed to building a site that I am proud of.")*
+
+**Definition of done:** a stranger reaches a plan from `/planes/` in two clicks, sees the members product before paying, and reads the story on `/sobre-ivan/` — and only then do race pages send traffic into it.
+
+✅ **PHASE 1 SHIPPED September 9, 2026** — `/planes/` opens with **12 recommended plans instead of 164**, sport tiles, and an All-Access line in the first screen. **Mobile 47,000 px → 5,657 px; desktop 18,737 px → 3,240 px; all 164 cards still in the DOM and crawlable.** 🚨 ***And a correction: I told Iván the data could not produce hours per week — `plans.js` already derived it and had for months*** *(92% ES / 87% EN / 49% PT).* **Reading a schema is not reading the data layer built on it.** ⚠️ *Criterion 4 half done on purpose — Strength and Duathlon have no hub page, so the grid stays on `/planes/`; splitting needs those hubs first.* Detail: `storefront-rebuild-brief.md` §Phase 1.
+
+**Order, Iván's:** **1** `/planes/` refactor · **2** All-Access refactor, including a way to see the members area from outside · **3** About with the real story · **4** race landing pages.
+
+**Why ahead of race pages** *(NEXT #1, researched and ungated since Aug 6)*: race pages send traffic into this funnel, and **building the top of a funnel whose middle is a warehouse spends the traffic to prove the middle is broken.** Race pages get better the day this closes.
+
+**The measurement that opened it, taken against the live site:** `/planes/` renders **164 cards on first paint, zero hidden, 18,737 px tall at 1920** (~47,000 px on a phone), no images. The plan page puts **Buy at y=556 and the email capture at y=625 — 69 px apart** — two competing primary actions — with zero images and a one-row "what you'll train per week" table. *The athlete then lands on TrainingPeaks and finally sees a photo, chips and a sample week.* ***The storefront hands off to the page that does the selling.***
+
+**WIP:** the referral branch keeps its entry below but not the slot — *its own note has said since August 26 that it waits on the calendar rather than on work, and the first payout that can physically exist is October 6.*
+
+⚠️ **Two items already in this list are phases of this branch and are NOT duplicated into it** — read them where they are, and close them there:
+- **"Nothing in the library is visible to a prospect"** → phase 2. *Its three options are that phase's opening decision.*
+- **"The About page does not tell the story"** → phase 3. *The portrait shipped Sept 9; the story is what is still missing.*
+
+- [ ] 🆕 **`data/testimonials.csv` created September 9, 2026 — 17 rows seeded, 4 publishable, 13 waiting on a number.** *It answers "how do you join?" by removing the join: quote and result live in one row keyed by a repo-assigned slug, not by athlete name — accents drift, some athletes have no surname on file, and a translated page cannot match a Spanish name.* **`source` and `consent` decide what renders: a row needs a `figure` and a consent that is not `pending`.** 🚨 ***`recall` is never publishable on its own*** — a remembered finish time printed beside a named real person is a claim about their race. **Iván's half:** fill the numbers he has from WhatsApp and Instagram (already consented) and mark them `given`. *Full column spec: `storefront-rebuild-brief.md` §Testimonials. Not yet wired into the site — the loader is a phase-1 task.*
+
+
 - [ ] 🆕 **Decide whether the knee routine is the session you mean to prescribe.** *(Opened September 8, 2026. Home doc: `knee-strength-brief.md` §Athlete feedback.)* **`/members/rodillas/` home + roller now states ≈52 minutes** — 29 sets across warm-up, strength and foam rolling — against its own dosing line of **twice a week on easy endurance days**. *(Achilles ≈45, shoulder ≈38, cyclist core ≈26.)* 🔑 ***Nothing is wrong with the figure. The routines have always been that long; the time estimate added the same day is simply the first thing that ever said so out loud*** — *which is the useful half of shipping it.* **A coaching call, deliberately not taken in the build session.**
 - [ ] 🆕 **Design refresh — L1 shipped, L2 is the next tranche.** *(Opened September 6, 2026.)* Home doc: **`design-refresh-brief.md`**, which owns the argument, the findings and the tiered work list. **Both design decisions are closed** — Archivo as the single variable typeface, and a heat signal token taken from the zone model — *and `brand-guidelines.md` is now v1.1 with its three months of inline changelog moved to `ai-infrastructure-documentation.md` §45.*
   ~~**Needs Iván:** *(b)* grant delete permission or run the build himself; *(c)* commit and deploy.~~ **Both done September 6, 2026** — commit `6de4ed2` *"redesign"*, pushed, and the 6am deploy cron has run three times since. ~~⚠️ The one thing that is not verified: the tests pass (12) but were last run against the previous build.~~ **Resolved the same session — full suite green against a fresh build, exit 0.**

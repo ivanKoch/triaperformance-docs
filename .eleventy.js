@@ -459,6 +459,15 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
   // whatever the data actually contains, rather than a hand-maintained list
   // that drifts from the CSV.
   // ---------------------------------------------------------------------------
+  // facetCount — how many plans in this language carry a given facet value.
+  // Used by the sport tiles on the catalogue hub so each tile states its own
+  // size. Derived at build time from the same array the grid renders, so a
+  // tile can never claim a number the catalogue does not contain.
+  eleventyConfig.addFilter("facetCount", function (plans, key, value) {
+    if (!Array.isArray(plans)) return 0;
+    return plans.filter((p) => p[key] === value).length;
+  });
+
   eleventyConfig.addFilter("facetValues", function (plans, key) {
     const set = new Set();
     for (const p of plans || []) { if (p[key]) set.add(p[key]); }

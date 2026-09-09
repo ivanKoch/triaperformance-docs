@@ -133,7 +133,13 @@
     "helpWhatsapp": "Escríbenos por WhatsApp",
     "helpEmail": "Mándanos un mail",
     "helpNote": "Respondemos dentro de las 24 horas.",
-    "waText": "Hola Iván, estoy viendo el plan \"{plan}\" y no sé si es el indicado para mí."
+    "waText": "Hola Iván, estoy viendo el plan \"{plan}\" y no sé si es el indicado para mí.",
+    "sessionsPerWeekShort": "×/sem",
+    "perWeekShort": "/sem",
+    "longestShort": "larga",
+    "showAll": "Ver los {n} planes",
+    "recommendedLabel": "Empieza por aquí",
+    "recommendedIntro": "Un plan por objetivo, el más accesible de cada uno. Debajo está el catálogo completo con filtros."
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -268,7 +274,13 @@
     "helpWhatsapp": "Message us on WhatsApp",
     "helpEmail": "Send us an email",
     "helpNote": "We reply within 24 hours.",
-    "waText": "Hi Iván, I'm looking at the \"{plan}\" plan and I'm not sure it's the right one for me."
+    "waText": "Hi Iván, I'm looking at the \"{plan}\" plan and I'm not sure it's the right one for me.",
+    "sessionsPerWeekShort": "×/wk",
+    "perWeekShort": "/wk",
+    "longestShort": "longest",
+    "showAll": "See all {n} plans",
+    "recommendedLabel": "Start here",
+    "recommendedIntro": "One plan per goal, the most approachable of each. The full filterable catalogue is below."
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -403,6 +415,12 @@
     "helpWhatsapp": "Fale conosco no WhatsApp",
     "helpEmail": "Envie um email",
     "helpNote": "Respondemos em até 24 horas.",
-    "waText": "Olá Iván, estou vendo o plano \"{plan}\" e não sei se é o certo para mim."
+    "waText": "Olá Iván, estou vendo o plano \"{plan}\" e não sei se é o certo para mim.",
+    "sessionsPerWeekShort": "×/sem",
+    "perWeekShort": "/sem",
+    "longestShort": "longo",
+    "showAll": "Ver os {n} planos",
+    "recommendedLabel": "Comece por aqui",
+    "recommendedIntro": "Um plano por objetivo, o mais acessível de cada um. O catálogo completo com filtros está abaixo."
   }
 }

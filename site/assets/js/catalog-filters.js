@@ -47,7 +47,53 @@
     });
   }
 
-  function applyFilters(container) {
+  /* The first-paint cap. Lifted permanently the moment the athlete asks for
+   * more — either by pressing the button or by touching any filter, because a
+   * filtered result set is already a short list and capping it twice would
+   * hide matches they explicitly asked for. */
+  function liftCap(container) {
+    var grid = container.querySelector("[data-grid]");
+    if (!grid || !grid.classList.contains("catalog-grid--capped")) return;
+    grid.classList.remove("catalog-grid--capped");
+    var btn = container.querySelector("[data-showall]");
+    if (btn) btn.hidden = true;
+    var countEl = container.querySelector("[data-count]");
+    if (countEl && countEl.dataset.fullText) {
+      countEl.textContent = countEl.dataset.fullText;
+      delete countEl.dataset.fullText;
+    }
+  }
+
+  function setupCap(container) {
+    var grid = container.querySelector("[data-grid]");
+    var btn = container.querySelector("[data-showall]");
+    if (!grid || !btn) return;
+    // Count only what the preset pass left visible: on /planes/running/ the
+    // total is that sport's plans, not the whole catalogue.
+    var cards = [].slice.call(container.querySelectorAll(".catalog-card"));
+    var inScope = cards.filter(function (c) { return !c.hidden; });
+    var total = inScope.length;
+    var shown = inScope.filter(function (c) { return c.classList.contains("is-recommended"); }).length;
+    // Nothing to reveal, or nothing marked recommended in this language: the
+    // cap would hide the whole grid, so drop it rather than show an empty page.
+    if (!shown || total <= shown) { liftCap(container); return; }
+    btn.textContent = btn.textContent.replace("{n}", total);
+    btn.hidden = false;
+    btn.addEventListener("click", function () { liftCap(container); });
+
+    // While the cap is on, the results line has to say what is actually on the
+    // page. It read "164 planes" above twelve cards, which is the same defect
+    // as the "0" badge in reverse: a true number in a place that makes it read
+    // as something else.
+    var countEl = container.querySelector("[data-count]");
+    if (countEl) {
+      countEl.dataset.fullText = countEl.textContent;
+      countEl.textContent = shown + " / " + countEl.textContent;
+    }
+  }
+
+  function applyFilters(container, userInitiated) {
+    if (userInitiated) liftCap(container);
     var groups = {};
     allBoxes("input[type=checkbox][data-group]:checked").forEach(function (cb) {
       var g = cb.dataset.group;
@@ -121,7 +167,14 @@
       var badge = group.querySelector("[data-facet-badge]");
       // Shown on every chip, zero included — Iván's call, Aug 6 2026: the row
       // of dots reads better than badges popping in and out as you filter.
-      if (badge) badge.textContent = n;
+      // Sept 9, 2026: the zero state renders as an actual dot rather than the
+      // numeral "0", which on a page holding 164 plans was being read as "0
+      // results". That keeps the row steady, which is what the Aug 6 call was
+      // for, and stops the badge stating a number that is not a result count.
+      if (badge) {
+        badge.textContent = n || "·";
+        badge.classList.toggle("is-zero", !n);
+      }
       group.classList.toggle("has-active", n > 0);
     });
     var reset = container.querySelector("[data-reset]");
@@ -262,7 +315,7 @@
     document.addEventListener("change", function (e) {
       if (!e.target || !e.target.dataset || !e.target.dataset.group) return;
       if (e.target.dataset.group === "sport") updateDependentFacets(container);
-      applyFilters(container);
+      applyFilters(container, true);
       updateBadges(container);
     });
     var resetBtn = container.querySelector("[data-reset]");
@@ -270,13 +323,16 @@
       resetBtn.addEventListener("click", function () {
         allBoxes().forEach(function (cb) { cb.checked = false; });
         updateDependentFacets(container);
-        applyFilters(container);
+        applyFilters(container, true);
         updateBadges(container);
         closePanels(container);
       });
     }
     setupChips(container);
-    // Preset facets (sport-specific category pages) filter on load.
+    // Preset facets (sport-specific category pages) filter on load. This pass
+    // is NOT user-initiated, so it leaves the cap in place — a preset hub is
+    // still a first paint, and /planes/running/ alone holds 66 plans.
     if (container.querySelector("input[type=checkbox]:checked")) applyFilters(container);
+    setupCap(container);
   });
 })();

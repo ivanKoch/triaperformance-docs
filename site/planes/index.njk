@@ -13,8 +13,28 @@ description: "Todos los planes de entrenamiento de Triaperformance en TrainingPe
 <section class="plan-hero">
   <div class="wrap">
     <span class="label">Planes de Entrenamiento</span>
-    <h1>Todos los planes, filtrados por lo que buscas</h1>
+    <h1>Elige tu objetivo, y el plan</h1>
     <p class="section-intro">{{ catalogPlans.length }} planes en TrainingPeaks — running, ciclismo, natación, triatlón, duatlón y HYROX. Filtra por deporte, distancia, nivel y duración.</p>
+  </div>
+</section>
+<section style="padding-top:0;">
+  <div class="wrap">
+    <nav class="sport-tiles" aria-label="{{ u.filterSport }}">
+      <a class="sport-tile" href="/planes/running/"><b>{{ u.sport["Running"] or "Running" }}</b><span>{{ catalogPlans | facetCount("sport", "Running") }} {{ u.resultsCount }}</span></a>
+      <a class="sport-tile" href="/planes/ciclismo/"><b>{{ u.sport["Cycling"] or "Cycling" }}</b><span>{{ catalogPlans | facetCount("sport", "Cycling") }} {{ u.resultsCount }}</span></a>
+      <a class="sport-tile" href="/planes/triatlon/"><b>{{ u.sport["Triathlon"] or "Triathlon" }}</b><span>{{ catalogPlans | facetCount("sport", "Triathlon") }} {{ u.resultsCount }}</span></a>
+      <a class="sport-tile" href="/planes/natacion/"><b>{{ u.sport["Swimming"] or "Swimming" }}</b><span>{{ catalogPlans | facetCount("sport", "Swimming") }} {{ u.resultsCount }}</span></a>
+      <a class="sport-tile" href="/planes/hyrox/"><b>HYROX</b><span>{{ catalogPlans | facetCount("distance", "HYROX") }} {{ u.resultsCount }}</span></a>
+      <a class="sport-tile" href="/planes/ironman/"><b>Ironman</b><span>{{ (catalogPlans | facetCount("distance", "Half")) + (catalogPlans | facetCount("distance", "Full")) }} {{ u.resultsCount }}</span></a>
+    </nav>
+    <div class="planes-aa">
+      <p>Si vas a preparar más de un objetivo este año, no compres de a uno. Todo el catálogo por <b>${{ allAccess.es.price }}/mes</b>.</p>
+      <a href="/all-access/">Conoce All-Access</a>
+    </div>
+    <div class="catalog-recommended-head">
+      <h2>{{ u.recommendedLabel }}</h2>
+      <p>{{ u.recommendedIntro }}</p>
+    </div>
   </div>
 </section>
 <section style="padding-top:0;">

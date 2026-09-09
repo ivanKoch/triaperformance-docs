@@ -42,3 +42,51 @@ h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 .cta-final p { color: var(--white); opacity: 0.85; max-width: 560px; margin: 0 auto 32px; font-size: 17px; }
 .cta-final .btn-primary { background: var(--white); color: var(--blue); }
 .cta-final .btn-primary:hover { background: var(--wash); }
+
+/* --- Sport tiles (Sept 9, 2026) -------------------------------------------
+   `/planes/` was the catalogue and nothing else, which made it identical to
+   `/planes/triatlon/` with a different H1. It now opens as a hub: pick a sport,
+   or take one of the recommended plans, and the full filterable catalogue is
+   still underneath for anyone who wants to browse all of it.
+
+   ⚠️ The catalogue deliberately STAYS on this page rather than moving out to
+   the sport hubs. Two sports — Strength and Duathlon — have no hub page, so
+   removing the grid here would leave those plans reachable only from the
+   sitemap. Splitting it is a real option, but it needs those two hubs to exist
+   first, and inventing them to satisfy a layout is the wrong order. */
+.sport-tiles {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px; margin: 28px 0 0;
+}
+@media (max-width: 620px) { .sport-tiles { grid-template-columns: 1fr 1fr; } }
+.sport-tile {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 18px 20px; text-decoration: none;
+  background: var(--white); border: 1px solid var(--mist); border-radius: 8px;
+  transition: border-color var(--t), box-shadow var(--t);
+}
+.sport-tile:hover { border-color: var(--blue); box-shadow: 0 1px 3px rgba(30,32,25,.08); }
+.sport-tile b { font-size: 16px; font-weight: 700; color: var(--ink); }
+.sport-tile span {
+  font-size: 12.5px; color: var(--slate); font-variant-numeric: tabular-nums;
+}
+
+/* The All-Access line, placed in the first screen: an athlete with more than
+   one goal this year should not be buying plans one at a time. */
+.planes-aa {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px 24px; margin-top: 20px; padding: 18px 22px;
+  background: var(--wash); border-radius: 8px;
+}
+.planes-aa p { margin: 0; font-size: 15px; color: var(--ink); max-width: 62ch; }
+.planes-aa p b { font-weight: 700; }
+.planes-aa a {
+  font-size: 14px; font-weight: 700; color: var(--blue); text-decoration: none;
+  border: 1.5px solid var(--blue); border-radius: 4px; padding: 10px 18px;
+  white-space: nowrap; transition: background var(--t), color var(--t);
+}
+.planes-aa a:hover { background: var(--blue); color: var(--white); }
+
+.catalog-recommended-head { margin: 44px 0 4px; }
+.catalog-recommended-head h2 { font-size: 24px; margin-bottom: 8px; }
+.catalog-recommended-head p { color: var(--slate); font-size: 15px; max-width: 62ch; margin: 0; }

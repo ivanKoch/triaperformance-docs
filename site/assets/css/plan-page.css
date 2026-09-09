@@ -201,7 +201,44 @@
 .catalog-grid[hidden],
 .facet-reset[hidden],
 .facet-scrim[hidden],
+.catalog-showall[hidden],
 .facet-options label[hidden] { display: none; }
+
+/* --- First-paint cap (Sept 9, 2026) --------------------------------------
+   `/planes/` painted all 164 cards: 18,737px on a desktop, ~47,000px on a
+   phone. Every card still renders server-side and stays in the DOM — this is
+   a class on the grid, not a slice of the array — so the catalogue is exactly
+   as crawlable as it was and all 164 internal links survive. Same specificity
+   trick as the block above: `.catalog-grid--capped .catalog-card` is (0,2,0)
+   and beats `.catalog-card`'s `display: flex`. */
+.catalog-grid--capped .catalog-card:not(.is-recommended) { display: none; }
+
+.catalog-showall {
+  display: block; margin: 28px auto 0; padding: 13px 26px;
+  font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+  background: transparent; color: var(--blue);
+  border: 1.5px solid var(--blue); border-radius: 4px;
+  transition: background var(--t), color var(--t);
+}
+.catalog-showall:hover { background: var(--blue); color: var(--white); }
+
+/* Real weekly volume on the card. Rendered as separate spans rather than one
+   string so a plan with sessions but no hours (swim volume is metres) simply
+   shows fewer of them instead of leaving a dangling separator. */
+.catalog-card .catalog-card-vol {
+  display: flex; flex-wrap: wrap; gap: 2px 16px;
+  margin: -8px 0 14px; font-size: 12.5px; color: var(--slate);
+  font-variant-numeric: tabular-nums;
+}
+/* No separator glyphs between the spans: they are inserted before the span,
+   so a wrap orphans a leading "·" at the start of the next line. The gap
+   carries the separation and survives wrapping. */
+.catalog-card .catalog-card-vol span { white-space: nowrap; }
+
+/* The zero state of a facet chip is a dot, not the numeral 0 — on a page with
+   164 plans behind it, "0" was being read as "no results". Keeps the steady
+   row of chips that the Aug 6 decision was about. */
+.facet-badge.is-zero { opacity: .45; font-weight: 400; }
 
 /* --- Mobile: facets become a sticky chip bar ----------------------------- */
 /* Below 800px the sidebar column collapses to a single column. The previous

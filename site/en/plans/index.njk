@@ -19,6 +19,25 @@ description: "Every Triaperformance training plan on TrainingPeaks: running, cyc
 </section>
 <section style="padding-top:0;">
   <div class="wrap">
+    <nav class="sport-tiles" aria-label="{{ u.filterSport }}">
+      <a class="sport-tile" href="/en/plans/running/"><b>{{ u.sport["Running"] or "Running" }}</b><span>{{ catalogPlans | facetCount("sport", "Running") }} {{ u.resultsCount }}</span></a>
+      <a class="sport-tile" href="/en/plans/cycling/"><b>{{ u.sport["Cycling"] or "Cycling" }}</b><span>{{ catalogPlans | facetCount("sport", "Cycling") }} {{ u.resultsCount }}</span></a>
+      <a class="sport-tile" href="/en/plans/swimming/"><b>{{ u.sport["Swimming"] or "Swimming" }}</b><span>{{ catalogPlans | facetCount("sport", "Swimming") }} {{ u.resultsCount }}</span></a>
+      <a class="sport-tile" href="/en/plans/ironman/"><b>Ironman</b><span>{{ (catalogPlans | facetCount("distance", "Half")) + (catalogPlans | facetCount("distance", "Full")) }} {{ u.resultsCount }}</span></a>
+      <a class="sport-tile" href="/en/plans/weight-loss/"><b>Weight Loss</b><span>{{ catalogPlans | facetCount("distance", "Weight Loss") }} {{ u.resultsCount }}</span></a>
+    </nav>
+    <div class="planes-aa">
+      <p>Racing more than one goal this year? Don't buy them one at a time. The whole catalogue for <b>${{ allAccess.en.price }}/mo</b>.</p>
+      <a href="/en/all-access/">See All-Access</a>
+    </div>
+    <div class="catalog-recommended-head">
+      <h2>{{ u.recommendedLabel }}</h2>
+      <p>{{ u.recommendedIntro }}</p>
+    </div>
+  </div>
+</section>
+<section style="padding-top:0;">
+  <div class="wrap">
     {% include "partials/plan-catalog-grid.njk" %}
   </div>
 </section>

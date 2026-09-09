@@ -914,7 +914,11 @@ body.nav-open { overflow: hidden; }
 .offer-featured .card-list li::before { background: var(--border); }
 .offer-featured .card-list-hl { color: var(--text) !important; }
 
-.offer-portrait { margin: 0; }
+/* The figure sits AFTER .offer-body in the DOM so a screen reader meets
+   "Coaching 1:1" before it meets the photo's caption, and `order` puts it back
+   in the first column visually. Reading order and visual order are different
+   questions and the grid is the right place to reconcile them. */
+.offer-portrait { margin: 0; order: -1; }
 .offer-portrait img {
   display: block; width: 100%; height: auto; border-radius: 6px;
   background: var(--surface2);
