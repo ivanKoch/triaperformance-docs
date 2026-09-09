@@ -136,14 +136,30 @@ cracking expensive — but it is only expensive, and its expense is the entire c
 repo leaks. A single-user basic_auth line is the right design for this surface (the reasoning
 in the file is sound); the hash simply should not be the thing tracked alongside the code.
 
-**F6. npm supply chain executes as root.** *[repo-confirmed]*
+**F6. npm supply chain executes as root.** *[repo-confirmed]* ⚠️ ***Reduced, not closed — September 9, 2026.***
 
 `npm ci` runs as root, unattended, whenever `package-lock.json` changes, over the full Eleventy
-dev tree with lifecycle scripts enabled. A compromised transitive dependency is currently the
-single most common way sites this size acquire a cryptominer, and it needs no attacker
-interest in Triaperformance at all. The lockfile and the change-detection stamp already limit
-this to deliberate dependency changes, which is most of the mitigation; `--ignore-scripts` is
-the rest.
+dev tree. A compromised transitive dependency is the single most common way sites this size
+acquire a cryptominer, and it needs no attacker interest in Triaperformance at all. The
+lockfile and the change-detection stamp limit this to deliberate dependency changes, which is
+most of the mitigation.
+
+**npm 12.0.2 is now installed on both the VPS and the Mac, and it blocks dependency lifecycle
+scripts by default.** *That is an allow-list rather than the blanket `--ignore-scripts` this
+finding used to propose, and it is strictly better: a package that legitimately needs a script
+gets approved by name, instead of the flag being dropped wholesale the first time something
+breaks.* **Verified on the run that installed it** — *the Mac blocked `fsevents@2.3.3`, the
+tree's only install script, and the VPS installed 167 packages to the Mac's 168, `fsevents`
+being darwin-only. The upgrade also carries CVE-2026-59873, a decompression DoS in the `tar`
+bundled with npm 10.9.8.*
+
+🚨 ***What it does NOT fix, and the reason this finding stays open: `npm ci` and the Eleventy
+build still run as root, and the build `require()`s every one of those packages.*** *Blocking
+install scripts closes the easiest path, not the only one — a package that executes when it is
+imported runs at build time with exactly the root it always had.* **The remaining mitigation is
+to drop privileges for the dependency-install and build steps in `deploy-website.sh`** — *those
+two do not need root; the rsync into `/var/www` and the Caddy reload later in the same script
+genuinely do, which is why the split has to be inside the script rather than around it.*
 
 **F7. Members-area session model, and a cheap DoS in the auth service.** *[repo-confirmed]*
 
