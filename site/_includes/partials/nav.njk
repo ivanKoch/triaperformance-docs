@@ -80,11 +80,15 @@
     menu — neither admin page sets `lang`, so `nav[lang]` resolved to nothing and
     the bar was a logo over a blank row.
 
-    Styled to match the `.adminnav` in the content-engine admin (app.py) rather
-    than the site nav, so /admin/ideas/ and these two read as one tool. Links
-    come from nav.admin in site/_data/nav.json; the Flask copy must be edited in
-    the same session, and that is the whole reason nav.json carries a note
-    saying so. -#}
+    INTENDED to match the `.adminnav` in the content-engine admin (app.py) so
+    /admin/ideas/ and these two read as one tool. It does not, verified
+    September 9, 2026: that bar is class `.adminnav`, sits BELOW the <h1> with
+    no wordmark, and carries six links (its own four views, a separator, then
+    these two, labelling the first "Ideas pendientes"). This bar is
+    `.admin-nav`, sits at the top with a wordmark, and carries three. Do not
+    "sync" the two lists without reading the open-loops item that owns the fix
+    -- they are not the same list. Links here come from nav.admin in
+    site/_data/nav.json. -#}
 <nav class="admin-nav">
   <div class="wrap">
     <a href="/admin/ideas/" class="admin-nav-logo">{{ site.name }} <span>Admin</span></a>
