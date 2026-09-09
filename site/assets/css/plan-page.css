@@ -213,6 +213,16 @@
    and beats `.catalog-card`'s `display: flex`. */
 .catalog-grid--capped .catalog-card:not(.is-recommended) { display: none; }
 
+/* The second cap mode. `/planes/` caps by the CURATED set — one plan per goal
+   is the point of that page. A sport hub cannot: the athlete has already
+   picked the sport, and only a handful of that sport's plans are in the
+   curated twelve, so the same rule showed 1 of 33 cycling plans and 1 of 7
+   HYROX. There the cap is a COUNT, filled as a difficulty ladder, and it is
+   applied by JS after the preset filter runs — which is why it needs an
+   attribute of its own rather than the class above: `hidden` already means
+   "the filter excluded this" and the two must be liftable separately. */
+.catalog-card[data-cap-hidden] { display: none; }
+
 .catalog-showall {
   display: block; margin: 28px auto 0; padding: 13px 26px;
   font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer;

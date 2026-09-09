@@ -47,14 +47,83 @@
     });
   }
 
-  /* The first-paint cap. Lifted permanently the moment the athlete asks for
-   * more — either by pressing the button or by touching any filter, because a
-   * filtered result set is already a short list and capping it twice would
-   * hide matches they explicitly asked for. */
+  /* ------------------------------------------------------------------
+   * The first-paint cap, in two modes.
+   *
+   *   recommended  /planes/ — show the curated one-per-goal set. That IS the
+   *                page: pick a goal, get the most approachable plan for it.
+   *   count        a sport hub — show 12, filled as a difficulty ladder.
+   *
+   * The second mode exists because the first one was wrong here and badly:
+   * only a handful of any one sport's plans are in the curated twelve, so
+   * /planes/ciclismo/ rendered 1 card of 33 and /planes/hyrox/ 1 of 7. An
+   * athlete who has already chosen the sport wants that sport's RANGE.
+   *
+   * Two separate hiding mechanisms on purpose: `hidden` means "the filter
+   * excluded this" and `data-cap-hidden` means "this is past the cap". They
+   * lift independently, so revealing the rest never un-hides a card the
+   * athlete filtered away.
+   * ------------------------------------------------------------------ */
+  var CAP_N = 12;
+  var DIFF_ORDER = ["Beginner", "Intermediate", "Advanced"];
+
+  function clearCountCap(container) {
+    container.querySelectorAll(".catalog-card[data-cap-hidden]").forEach(function (c) {
+      c.removeAttribute("data-cap-hidden");
+    });
+  }
+
+  /* Fill the cap as a ladder rather than taking the first N in DOM order:
+   * round-robin across difficulty so a hub always opens with something for a
+   * beginner AND something for an advanced athlete. Source order decides
+   * within a difficulty, so the choice stays deterministic. */
+  function applyCountCap(container) {
+    clearCountCap(container);
+    var grid = container.querySelector("[data-grid]");
+    if (!grid || grid.dataset.capMode !== "count") return null;
+    var visible = [].slice.call(container.querySelectorAll(".catalog-card")).filter(function (c) {
+      return !c.hidden;
+    });
+    if (visible.length <= CAP_N) return { shown: visible.length, total: visible.length };
+
+    var buckets = {}, order = [];
+    visible.forEach(function (c) {
+      var d = c.dataset.difficulty || "";
+      if (!buckets[d]) { buckets[d] = []; order.push(d); }
+      buckets[d].push(c);
+    });
+    order.sort(function (a, b) {
+      var ia = DIFF_ORDER.indexOf(a), ib = DIFF_ORDER.indexOf(b);
+      return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+    });
+
+    var keep = [], row = 0, added = true;
+    while (keep.length < CAP_N && added) {
+      added = false;
+      for (var i = 0; i < order.length && keep.length < CAP_N; i++) {
+        var c = buckets[order[i]][row];
+        if (c) { keep.push(c); added = true; }
+      }
+      row++;
+    }
+    visible.forEach(function (c) {
+      if (keep.indexOf(c) === -1) c.setAttribute("data-cap-hidden", "");
+    });
+    return { shown: keep.length, total: visible.length };
+  }
+
+  /* Lifted permanently the moment the athlete asks for more — by pressing the
+   * button, or by touching any filter, because a filtered result set is
+   * already a short list and capping it twice would hide matches they asked
+   * for explicitly. */
   function liftCap(container) {
     var grid = container.querySelector("[data-grid]");
-    if (!grid || !grid.classList.contains("catalog-grid--capped")) return;
-    grid.classList.remove("catalog-grid--capped");
+    var wasCapped = grid && (grid.classList.contains("catalog-grid--capped") ||
+      container.querySelector(".catalog-card[data-cap-hidden]"));
+    if (!wasCapped) return;
+    if (grid) grid.classList.remove("catalog-grid--capped");
+    clearCountCap(container);
+    if (grid) grid.dataset.capMode = "off";
     var btn = container.querySelector("[data-showall]");
     if (btn) btn.hidden = true;
     var countEl = container.querySelector("[data-count]");
@@ -68,23 +137,38 @@
     var grid = container.querySelector("[data-grid]");
     var btn = container.querySelector("[data-showall]");
     if (!grid || !btn) return;
-    // Count only what the preset pass left visible: on /planes/running/ the
-    // total is that sport's plans, not the whole catalogue.
-    var cards = [].slice.call(container.querySelectorAll(".catalog-card"));
-    var inScope = cards.filter(function (c) { return !c.hidden; });
-    var total = inScope.length;
-    var shown = inScope.filter(function (c) { return c.classList.contains("is-recommended"); }).length;
-    // Nothing to reveal, or nothing marked recommended in this language: the
-    // cap would hide the whole grid, so drop it rather than show an empty page.
-    if (!shown || total <= shown) { liftCap(container); return; }
+
+    var shown, total;
+    if (grid.dataset.capMode === "count") {
+      var r = applyCountCap(container);
+      if (!r) { liftCap(container); return; }
+      shown = r.shown; total = r.total;
+    } else {
+      var cards = [].slice.call(container.querySelectorAll(".catalog-card"));
+      var inScope = cards.filter(function (c) { return !c.hidden; });
+      total = inScope.length;
+      shown = inScope.filter(function (c) { return c.classList.contains("is-recommended"); }).length;
+    }
+
+    // Nothing to reveal, or the cap would hide the whole grid: drop it rather
+    // than render an empty page. The button is hidden HERE rather than left to
+    // liftCap(), which returns early when there was no cap to lift — that is
+    // how /planes/hyrox/ (7 plans, under the cap) shipped a button still
+    // reading its own "{n}" placeholder.
+    if (!shown || total <= shown) {
+      btn.hidden = true;
+      liftCap(container);
+      return;
+    }
+
     btn.textContent = btn.textContent.replace("{n}", total);
     btn.hidden = false;
     btn.addEventListener("click", function () { liftCap(container); });
 
-    // While the cap is on, the results line has to say what is actually on the
-    // page. It read "164 planes" above twelve cards, which is the same defect
-    // as the "0" badge in reverse: a true number in a place that makes it read
-    // as something else.
+    // The results line has to say what is actually on the page. It read
+    // "164 planes" over twelve cards, which is the same defect as the "0"
+    // badge in reverse: a true number in a place that makes it read as
+    // something else.
     var countEl = container.querySelector("[data-count]");
     if (countEl) {
       countEl.dataset.fullText = countEl.textContent;

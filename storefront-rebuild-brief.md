@@ -70,6 +70,21 @@
 
 🚨 **The hours correction.** *I told Iván the data could not produce hours per week. That was wrong.* **`plans.js` already derives it** — 470 of 765 breakdown rows are `HH:MM:SS` durations and it sums them, deliberately skipping metres and miles rather than guessing. **Coverage: 92% ES, 87% EN, 49% PT**, so the card degrades in steps — hours where they exist, sessions alone otherwise, nothing where there is no breakdown. *The raw CSV has no "hours" column, which is what I checked; the derived value was already sitting in `weeklyTotals` two functions later.* ⚠️ **Reading a schema is not reading the data layer built on top of it.**
 
+🚨 **Correction, same day, Iván: the cap broke the sport hubs, and worse than it fixed the catalogue.** *He clicked through to `/planes/hyrox/` and got* ***one plan***. **Measured across all seven ES hubs: cycling showed 1 of 33, swimming 1 of 19, HYROX 1 of 7, Ironman 2 of 13, weight-loss 1 of 19.** *Cause: the cap hid everything not in the curated one-per-goal set, and only a handful of any single sport's plans are in that twelve.* ⚠️ ***A rule that is right for the page it was designed against is not automatically right for the page that reuses the component*** — the same partial serves the catalogue and all seven hubs, and it was only ever tested on the first.
+
+**Fixed with two cap modes:**
+
+| Page | Mode | Why |
+|---|---|---|
+| `/planes/` | **curated** — the one-per-goal set | *That IS the page: pick a goal, get the most approachable plan for it.* |
+| Any sport hub | **count of 12, filled as a difficulty ladder** | *The athlete has already chosen the sport and wants its range.* Round-robin across Beginner / Intermediate / Advanced, so a hub always opens with something for a beginner **and** something for an advanced athlete — **running and cycling now open 4 / 4 / 4** instead of 5 and 1. |
+
+*Two separate hiding mechanisms, deliberately: `hidden` means "the filter excluded this", `data-cap-hidden` means "this is past the cap".* **They lift independently, so revealing the rest can never un-hide a card the athlete filtered away.**
+
+⚠️ **Second bug found in the same pass:** `/planes/hyrox/` has 7 plans, fewer than the cap, so there was nothing to reveal — and the reveal button shipped **still reading its own `{n}` placeholder**, because the early-out called `liftCap()`, which returns immediately when there is no cap to lift and therefore never hid the button. *Hidden at the call site now.*
+
+**Still true and worth watching:** the `/planes/` curated twelve are all Beginner, by construction — "most approachable per goal" selects for that. *On the hub that is defensible, because the goal ladder is one click away on the sport hub. If it ever reads as a beginners-only catalogue, the fix is to pick two per goal at different levels rather than to widen the goal list.*
+
 **⚠️ Criterion 4 is deliberately only half done, and the reason should survive.** *The plan was to move the grid out to the sport hubs and leave `/planes/` as tiles alone.* **Two sports have no hub page — Strength and Duathlon — so removing the grid would leave those plans reachable only from the sitemap.** *Inventing two hubs to satisfy a layout is the wrong order.* The catalogue therefore stays on `/planes/`, below the fold, capped. **Splitting it is a real follow-up and needs those hubs first.**
 
 **Two decisions worth recording:**

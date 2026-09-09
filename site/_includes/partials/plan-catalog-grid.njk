@@ -100,7 +100,8 @@
         pages are all still there. `<noscript>` lifts the cap for a reader
         without JS, who has no button to press. -#}
     <noscript><style>.catalog-grid--capped .catalog-card { display: flex !important; }</style></noscript>
-    <div class="catalog-grid catalog-grid--capped" data-grid>
+    {%- set isPreset = presetSport or presetDistance or presetDistances or presetFeature -%}
+    <div class="catalog-grid{% if not isPreset %} catalog-grid--capped{% endif %}" data-grid data-cap-mode="{% if isPreset %}count{% else %}recommended{% endif %}">
       {%- for plan in catalogPlans %}
       {%- set featureTokens = "" %}
       {%- if plan.strength %}{% set featureTokens = featureTokens + "strength " %}{% endif %}
