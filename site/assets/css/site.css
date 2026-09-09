@@ -70,12 +70,13 @@ nav a:hover { color: var(--blue); }
    offer being made to them — outlined, lock-marked, quiet until hovered. */
 /* Utility strip — language switcher + members access (Aug 10, 2026).
    Sits above the main nav row. See the note in nav.njk for why it exists. */
-/* A strip, not a bar (September 6, 2026). The wash fill and the bottom rule are
-   what made the second nav row read as a plugin toolbar — not the fact that
-   there are two rows, which is a real width constraint (see nav.njk). Removing
-   the fill and the rule keeps the information architecture and drops the look.
-   brand-guidelines.md §6. */
-.nav-utility { background: transparent; border-bottom: 0; }
+/* The wash is back (Iván, September 9, 2026). It was made transparent on Sep 6
+   on the theory that the fill was what made this read as a plugin toolbar; he
+   preferred it with a ground of its own, and he is right that it separates the
+   two rows better than whitespace alone did. The rest of the Sep 6 pass stays —
+   12px type, slate links, no underline, no bottom rule — so it is a quiet band
+   rather than a second navigation bar. brand-guidelines.md §6. */
+.nav-utility { background: var(--wash); border-bottom: 0; }
 .nav-utility .wrap {
   display: flex; align-items: center; justify-content: flex-end;
   gap: 20px; padding-top: 7px; padding-bottom: 7px;
@@ -757,41 +758,98 @@ body.nav-open { overflow: hidden; }
 }
 .offer-price .btn-primary:hover { background: var(--blue-deep); }
 
-.offer-secondary { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.offer-secondary { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
 @media (max-width: 800px) { .offer-secondary { grid-template-columns: 1fr; } }
 
+/* Both secondary cards are flex columns so their footers sit on one line
+   whatever the copy above does. */
+.offer-secondary > .card { display: flex; flex-direction: column; }
+.offer-secondary .card-links, .offer-secondary .offer-mid-cta { margin-top: auto; }
+
+/* --- All-Access: the middle tier ------------------------------------------
+   Iván, September 9: the featured card worked and All-Access still looked
+   like the leftovers. It now gets the same ANATOMY — a rule on the top edge, a
+   real price figure, an inclusion line, a button rather than a text link — at
+   deliberately lower volume: 2px instead of 3, TP Blue instead of Heat, a 34px
+   figure instead of 50, and an outline button instead of a filled one.
+   ⚠️ The point is a LADDER, not three featured cards. Heat stays reserved for
+   the one offer that is actually being pushed; give this card the accent too
+   and the hierarchy the row was built to create disappears again. */
+.offer-mid { border-top: 2px solid var(--blue); }
+.offer-mid-price {
+  display: flex; align-items: baseline; gap: 2px;
+  font-size: 34px; font-weight: 700; font-stretch: 104%;
+  letter-spacing: -0.02em; line-height: 1; margin: -2px 0 0;
+  font-variant-numeric: tabular-nums; color: var(--ink);
+}
+.offer-mid-price span {
+  font-size: 15px; font-weight: 400; font-stretch: 100%;
+  letter-spacing: 0; color: var(--slate);
+}
+.offer-mid-inc { margin: 8px 0 18px; font-size: 14px; color: var(--slate); }
+.offer-mid-cta {
+  display: block; text-align: center; text-decoration: none;
+  border: 1.5px solid var(--blue); color: var(--blue);
+  border-radius: 4px; padding: 12px 20px; font-size: 15px; font-weight: 700;
+  margin-top: auto; transition: background var(--t), color var(--t);
+}
+.offer-mid-cta:hover { background: var(--blue); color: var(--white); }
+
+/* Plans keeps its price as meta — a one-time price from $19.99 is a range, and
+   a range set as a display figure claims a precision it does not have. */
+.offer-plain .card-meta { margin-bottom: 16px; }
+
 /* ============================================================================
-   TESTIMONIALS  —  design-refresh-brief.md item 14
+   TESTIMONIALS  —  design-refresh-brief.md item 14, reworked September 9
    ----------------------------------------------------------------------------
-   Was: a quote and a grey "Name — Country" line. The strongest proof in the
-   business, typeset as a sentence.
+   v1 put the result in an 11px chip beside the name and Iván's read was that it
+   "didn't move the needle" — correct: the module was still a paragraph with a
+   small coloured label attached, and it sat at body size on a white page.
 
-   The result chip is the point. It carries the event and the outcome in
-   tabular figures, and it is the second and last place the heat token appears
-   on this page — a finish time is the hard end of something, which is the only
-   argument that licenses the colour (brand-guidelines §3.3).
+   v2 makes the result DISPLAY TYPE, which is what brand-guidelines §9 says a
+   figure that matters gets. The quote grows to 19px, a hairline separates it
+   from the attribution, and the outcome sits at the end of that line at 24px in
+   tabular Heat. The company promise is that everything is measured; the proof
+   block should look measured.
 
-   ⚠️ THE CHIP IS OPTIONAL AND ITS ABSENCE IS DELIBERATE. It renders only where
-   the athlete's own quote states a result. `social-proof-and-reviews.md` holds
-   names, countries and quotes — it holds no separate finish-time data — so a
-   chip may only restate what the quote itself says. Do not fill the empty ones
-   in. An invented time on a coaching site is the one defect here that would
-   actually matter.
+   ⚠️ THE RESULT IS OPTIONAL AND ITS ABSENCE IS DELIBERATE. It may state only
+   what that athlete's own quote states. `social-proof-and-reviews.md` holds
+   names, countries and quotes and NO separate finish-time data — so
+   "42k en menos de 3 hrs" earns `Sub-3` and nothing more precise, and a quote
+   naming no result gets nothing at all. Do not fill the empty ones in. An
+   invented time on a coaching site is a false claim about a real person's race.
    ========================================================================= */
 .testimonial {
   margin: 0; max-width: 62ch;
-  display: flex; flex-direction: column; gap: 14px;
+  display: flex; flex-direction: column; gap: 18px;
 }
-.testimonial p.quote { font-size: 17px; color: var(--ink); margin: 0; }
-/* Pushed to the bottom of the cell so attributions line up across a row even
-   when one quote runs a line longer than its neighbour. */
-.t-who { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-.t-name { font-size: 14px; font-weight: 600; color: var(--ink); }
-.t-place { font-size: 14px; color: var(--slate); }
-.t-chip {
-  font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
-  color: var(--heat); background: var(--heat-dim);
-  border: 1px solid rgba(217, 72, 15, .22);
-  border-radius: 3px; padding: 3px 8px; white-space: nowrap;
+.testimonial p.quote {
+  font-size: 19px; line-height: 1.55; color: var(--ink); margin: 0;
+  letter-spacing: -0.005em;
+}
+@media (max-width: 640px) { .testimonial p.quote { font-size: 17px; } }
+
+.t-foot {
+  margin-top: auto; padding-top: 14px; border-top: 1px solid var(--mist);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+}
+/* min-height is two lines' worth, so an athlete with no country recorded still
+   occupies the same block and the hairlines line up across a row. Padding the
+   layout rather than the data — the alternative was inventing a country. */
+.t-who { display: flex; flex-direction: column; gap: 2px; min-height: 38px; }
+.t-name { font-size: 14.5px; font-weight: 600; color: var(--ink); }
+.t-place { font-size: 13px; color: var(--slate); }
+
+/* The result. Right-aligned so the eye can run down a column of outcomes
+   without reading the names first. */
+.t-result { text-align: right; flex: 0 0 auto; }
+.t-figure {
+  display: block; font-size: 24px; font-weight: 700; font-stretch: 106%;
+  line-height: 1.05; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums; color: var(--heat);
+}
+.t-event {
+  display: block; margin-top: 2px;
+  font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--slate); white-space: nowrap;
 }

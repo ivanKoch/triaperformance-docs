@@ -2,7 +2,9 @@
 layout: layouts/base.njk
 navVariant: "none"
 footerVariant: "none"
-pageCss: "members-login.css"
+pageCss:
+  - members-login.css
+  - members-dark.css
 title: "Iniciar sesión — Área de Miembros"
 ---
 {#- All three login pages POST to the SAME endpoint, /members/login. The page a

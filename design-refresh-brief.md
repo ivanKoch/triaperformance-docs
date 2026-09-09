@@ -163,6 +163,23 @@ All three languages. Build clean (588 files), suite green, no horizontal scroll 
 
 ---
 
+## 3d. Third tranche — September 9, 2026, all from Iván's read of the live page
+
+**The light/dark split is closed. Every page under `/members/` is now carbon.**
+
+| Change | What happened |
+|---|---|
+| **All-Access got a tier of its own** | *"The All-Access card should also get better design. I liked the 1-1 coaching one."* It now has the same anatomy as the featured card — top rule, real price figure, inclusion line, a button instead of a text link — at deliberately lower volume: **2px instead of 3, TP Blue instead of Heat, 34px instead of 50, outline instead of filled.** ⚠️ *The constraint that made this hard is worth recording: the obvious move was to give All-Access the featured treatment, and that would have rebuilt the exact problem the row was created to fix.* **Three tiers, one accent.** Plans keeps its price as meta — "desde $19.99" is a range, and a display figure claims a precision a range does not have. |
+| **Testimonials reworked** | *"The accent with the time didn't move the needle."* Correct, and the diagnosis was that an 11px chip reads as a tag, not as proof. **The result is now display type** — 24px tabular Heat with the event beneath it, under a hairline, at the end of the attribution line — and the quote grew to 19px. §9's own rule, applied where it matters most. |
+| **The utility strip got its wash back** | *"I liked more the one before with a different background color."* Reverted. **The Sep 6 theory was that the fill was what made it read as a plugin bar; it was the bottom rule and the 13px blue links.** Those stay gone, the ground comes back. |
+| **`members-dark.css`** | One override layer, loaded last, on the **15 pages that were still light**: three logins, three password-recovery screens, the six Garmin/Carga pages and the three Fuerza guides. *Additive by design — not one word, table or figure in the guides was touched, only the surface under them.* Carries the dark table grid (a Mist rule is invisible on carbon and a dense unbordered table is unreadable), a surface mat for the light TrainingPeaks screenshots so they stop floating, and the auth-screen fixes. |
+
+**Found in the render, not in the source, twice** — both alignment defects invisible in the CSS and obvious in a browser: testimonial hairlines landed at different heights wherever one athlete had no country recorded *(fixed with a min-height on the name block — padding the layout rather than inventing a country)*, and the auth screens carried a Mist hairline that reads as near-white on near-black.
+
+⚠️ **`members-fuerza.css` is a different file from `members-fuerza-guia.css` and only the second one was light.** *The first is the interactive strength tool and has been carbon since August. A pass that greps for "fuerza" hits both.*
+
+---
+
 ## 4. The two decisions only Iván can make
 
 Everything above is execution. These two are choices, and they gate items 18, 21, 25 and 26.

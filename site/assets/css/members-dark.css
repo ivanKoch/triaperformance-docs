@@ -1,0 +1,143 @@
+/* Members area — dark shell for the STATIC pages.
+ *
+ * The interactive tools have been dark since August (members-activacion.css and
+ * the stylesheets that import it). These fifteen pages were not: the three
+ * logins, the three forgot-password screens, the six Garmin/Carga pages and the
+ * three Fuerza guides. So the athlete's path ran light login -> dark library ->
+ * dark timer -> light guide, and the first frame after paying was a marketing
+ * card on a wash background.
+ *
+ * ⚠️ Load this LAST in a page's pageCss list. It is an override layer on top of
+ * site.css + members.css (or members-login.css), not a replacement for them —
+ * every page keeps its own structure and only the surface changes. Deliberately
+ * additive so the guides' words, tables and figures were not touched at all.
+ *
+ * The nav overrides are copied in technique, not in spirit, from
+ * members-activacion.css — same selectors, same 860px backdrop-filter escape
+ * hatch, same reason (see that file's comment for the root cause: a
+ * backdrop-filter element becomes the containing block for fixed descendants,
+ * so the parked drawer starts counting toward document width).
+ *
+ * Tokens: tokens.css, loaded site-wide. Nothing here declares a colour.
+ * brand-guidelines.md §3.2, §3.3.
+ */
+
+body {
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- shell: nav + footer -------------------------------------------------- */
+.site-nav-sticky, .site-nav {
+  background: rgba(13, 17, 23, 0.85);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+@media (max-width: 860px) {
+  .site-nav-sticky, .site-nav { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  header nav { background: var(--surface); box-shadow: none; border-left: 1px solid var(--border); }
+}
+.site-nav-sticky .logo, .site-nav .logo { color: var(--white); }
+.site-nav-sticky nav a, .site-nav nav a { color: var(--text-dim); }
+.site-nav-sticky nav a:hover, .site-nav nav a:hover { color: var(--blue-bright); }
+.nav-toggle span { background: var(--text); }
+.nav-utility { background: var(--surface); }
+.nav-utility a { color: var(--text-dim); }
+.nav-utility a:hover { color: var(--blue-bright); }
+.nav-utility .lang-active { color: var(--text); }
+.nav-utility .lang-switch .sep { color: var(--border); }
+.nav-member { border-color: var(--border) !important; color: var(--text-dim) !important; }
+.nav-member:hover { border-color: var(--blue-bright) !important; color: var(--blue-bright) !important; background: transparent !important; }
+
+footer { border-top: 1px solid var(--border); color: var(--text-dim); background: var(--bg); }
+footer a { color: var(--text-dim); }
+footer a:hover { color: var(--blue-bright); }
+
+/* --- prose ---------------------------------------------------------------- */
+h1, h2, h3, h4 { color: var(--white); }
+p, li { color: var(--text); }
+a { color: var(--blue-bright); }
+
+.label { color: var(--blue-bright); }
+.breadcrumb, .breadcrumb a { color: var(--text-dim); }
+.breadcrumb a:hover { color: var(--blue-bright); }
+.artifact-hero { border-bottom-color: var(--border); }
+.fineprint { color: var(--text-dim); }
+
+/* A washed section on a carbon page is a raised one, not a tinted one. */
+.section--wash { background: var(--surface); }
+
+/* --- tables (Carga, Garmin, the strength guides) -------------------------- */
+/* The TSB and zone tables are the densest thing in the members area and the
+   reason this file exists rather than a body-background override: a 1px Mist
+   grid on carbon is invisible, and an unbordered dense table is unreadable. */
+table.tp-table th, table.tp-table td { border-color: var(--border); color: var(--text); }
+table.tp-table th { background: var(--surface2); color: var(--white); }
+table.tp-table tbody tr:nth-child(even) td { background: rgba(255, 255, 255, .018); }
+table.tp-table td.tsb-band { color: var(--white); }
+@media (max-width: 640px) {
+  .tp-table--stack tr { border-color: var(--border); }
+  .tp-table--stack td[data-label]::before { color: var(--text-dim); }
+}
+
+/* --- callouts ------------------------------------------------------------- */
+.callout { background: var(--surface); border: 1px solid var(--border); }
+.callout-title { color: var(--white); }
+/* The warn variant keeps its amber, which is a state colour and not the Heat
+   token — Heat means intensity, amber means "read this before you continue".
+   brand-guidelines.md §3.1. */
+.callout--warn { background: var(--warn-dim); border-color: #6b4a1f; }
+.callout--warn .callout-title { color: #e8b96a; }
+
+/* --- figures -------------------------------------------------------------- */
+/* TrainingPeaks screenshots are light images. On carbon they float unless they
+   are given an edge, so they get a surface mat rather than a raw bleed. */
+.fig { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+.fig img { border-radius: 4px; display: block; }
+.fig figcaption { color: var(--text-dim); }
+
+/* --- the goal switch on the strength guides ------------------------------- */
+.goal-switch { background: var(--surface); border-color: var(--border); }
+.goal-switch-label { color: var(--blue-bright); }
+.goal-opt {
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim);
+  transition: border-color var(--t), color var(--t);
+}
+.goal-opt:hover { border-color: var(--blue-bright); color: var(--text); }
+.goal-opt[aria-pressed="true"] { border-color: var(--blue-bright); color: var(--white); background: var(--blue-dim); }
+
+/* --- login and password recovery ------------------------------------------
+   The first frame an athlete sees after paying. It should already be the
+   product, not a marketing card on a wash background. */
+/* `.login-card` is the login screen's own class; `.card` is what
+   members-forgot-password.css calls the same box. Both are safe to restyle
+   unconditionally here — this file only ever loads on carbon pages. */
+.login-card, .card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .35);
+}
+.login-card h1, .card h1 { color: var(--white); }
+.login-card p.sub, .card p.sub { color: var(--text-dim); }
+label { color: var(--text); }
+input[type="email"], input[type="password"], input[type="text"] {
+  background: var(--bg); border: 1px solid var(--border); color: var(--text);
+}
+input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus {
+  border-color: var(--blue-bright); outline: none;
+}
+input::placeholder { color: var(--text-dim); }
+.err, .msg { color: var(--text); }
+
+/* The auth screens carry three light-theme leftovers that read badly on carbon:
+   a Mist hairline above the language switcher (near-white on near-black), Mist
+   input borders, and underlined help links. */
+.auth-lang { border-top-color: var(--border) !important; color: var(--text-dim); }
+.auth-lang a { color: var(--text-dim); }
+.auth-lang a:hover { color: var(--blue-bright); text-decoration: none; }
+.auth-lang .sep { color: var(--border); }
+.login-card a, .card a { text-decoration: none; }
+.login-card a:hover, .card a:hover { text-decoration: underline; }

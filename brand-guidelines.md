@@ -106,6 +106,7 @@ Both token sets live once, in `assets/css/tokens.css`, imported by every stylesh
 - **Heat is not decorative, and that is what licenses it.** It is the top of the zone model in `data/zones.csv`. On a running scale the colour turns inside zone Y (100–102% of LTHR), which is where the physiology turns. If a proposed use of Heat cannot be justified by "this is the hard end of something", it is the wrong colour for that job.
 - **TP Blue is fill-only on carbon** — it fails as text on `--bg`. Blue text on carbon is always `--blue-bright`. Same rule, same reason, for `--heat-bright`.
 - **Full-blue sections are retired.** The dark moment on a page is carbon, not a flooded blue panel — a full-bleed brand-blue band is the single strongest "theme template" signal available. `/referidos/` and `/en/referrals/` still carry one and migrate to carbon when next touched.
+- **Every page under `/members/` is carbon. No exceptions, including login, password recovery and the static guides.** The shared override layer is `members-dark.css`, loaded last in a page's `pageCss`; a members page that renders light is a bug, not a page that has not been converted yet.
 - **Carbon on public pages is allowed on exactly three surfaces**: the **hero**, the **final CTA**, and the **featured offer card**. A page may use the hero and the final CTA together — they bookend it. Everything between them stays white-first.
 - No gradients as decoration. A gradient is allowed only where it encodes something: a photographic scrim (§7) or a transition between two zone colours.
 - Shadows: nothing heavier than `0 1px 3px rgba(30,32,25,.08)`. Form success/error may use standard green/red and appear nowhere else.
@@ -183,13 +184,17 @@ Rules: no italics. Headlines in sentence case — labels are the only uppercase 
 
 **Card** — white fill, 1px Mist border, 8px radius, 32px padding. `0 1px 3px` shadow on hover only. On carbon: `--surface` fill, 1px `--border`.
 
+**Offer ladder** — three offers are three tiers and the layout has to say so. The **featured** card takes a row of its own with a 3px Heat rule on the top edge, a Heat eyebrow, a Display-scale price and a filled button. The **middle** card gets the same anatomy at lower volume: a 2px rule in TP Blue, a 34px price, an outline button. The **plain** card keeps its price as meta and its actions as text links. ⚠️ *Give the middle card the Heat accent too and the ladder collapses back into three featured cards, which is the problem the row was built to solve.* A one-time price stated as a range ("desde $19.99") never becomes a display figure — a display figure claims a precision a range does not have.
+
 **Featured card** — the variant that carries the expensive offer. **A 3px Heat Graphic rule along the top edge** (`--heat-bright` on carbon), a Heat eyebrow, and more space than its siblings — wider, taller, or both. Nothing else changes. *One accent on one edge reads as "this is the chosen one"; a full orange outline reads as a warning.* Coaching 1:1 and a $19.99 plan must never share a card skin.
 
 **Price** — Display weight and width, tabular figures, the period (`/mes`) at 20px weight 400 in Slate. Directly beneath it, **one line of five to seven words naming what you get** — not a feature, the shape of the thing. Then the list.
 
 **Testimonial** — quote in Body, then name (600), country (Small/Slate), and a **result chip**: the event and the outcome, in tabular figures, 3px radius, Heat text on a Heat tint. The chip is the proof; the quote is the colour around it. Quotes come from `social-proof-and-reviews.md`.
 
-> ⚠️ **The chip is optional, and an empty one stays empty.** It may state only what that athlete's own quote states. `social-proof-and-reviews.md` holds names, countries and quotes — **it holds no separate finish-time data** — so "42k en menos de 3 hrs" earns `Maratón · sub-3` and nothing more precise. A testimonial whose quote names no result gets no chip, and the gap is the honest signal. *An invented time on a coaching site is not a design defect; it is a false claim about a real person's race.*
+The result is **display type, not a label**: the outcome at 24px in tabular Heat with its event beneath it in a small uppercase slate, sitting at the end of the attribution line under a hairline. *§9's rule applies here more than anywhere — a figure that matters is set at display scale, and an 11px coloured chip was tried first and read as a tag rather than as proof.*
+
+> ⚠️ **The result is optional, and an empty one stays empty.** It may state only what that athlete's own quote states. `social-proof-and-reviews.md` holds names, countries and quotes — **it holds no separate finish-time data** — so "42k en menos de 3 hrs" earns `Sub-3 / Maratón` and nothing more precise. A testimonial whose quote names no result gets nothing, and the gap is the honest signal. *An invented time on a coaching site is not a design defect; it is a false claim about a real person's race.*
 
 **Credential band** — logo band grouped by issuing body, placed after athlete proof and before the final ask. Institutional proof follows human proof. Content from `site/_data/credentials.json`; never hand-written into a page.
 
@@ -197,7 +202,7 @@ Rules: no italics. Headlines in sentence case — labels are the only uppercase 
 
 **Forms** — single column, Mist borders, 4px radius, labels above fields, never placeholder-only.
 
-**Nav** — two rows. A quiet utility strip carries the language switcher and the members link; the main row carries content. *It is two rows because content items and utility items competed for the same 1080px and the language switcher wrapped — one row, one job.* The strip is **transparent, no bottom border, 12px**; it is a strip, not a bar. Below 860px both its items move into the drawer. A dropdown parent with no page of its own (`Recursos`) renders as `.nav-dropdown-label` — a span styled like its sibling links that opens the menu and does not navigate.
+**Nav** — two rows. A quiet utility strip carries the language switcher and the members link; the main row carries content. *It is two rows because content items and utility items competed for the same 1080px and the language switcher wrapped — one row, one job.* The strip sits on **Blue Wash with no bottom border, 12px type, Slate links**; it is a strip, not a bar. *The fill separates the two rows; the missing rule and the quiet type are what stop it reading as a second navigation bar.* Below 860px both its items move into the drawer. A dropdown parent with no page of its own (`Recursos`) renders as `.nav-dropdown-label` — a span styled like its sibling links that opens the menu and does not navigate.
 
 **Members Access button** (`.nav-member`) — 1.5px Blue border, Blue text, transparent fill, 4px radius, 8px/16px padding, weight 700, outline padlock to its left. Hover inverts to Blue fill, white text. **It stays the outline variant.** It shares a row with the solid Contacto CTA, and two filled buttons read as two equally weighted asks; the one that should win is aimed at people who have not paid yet. This one is for people who already have.
 
