@@ -297,6 +297,18 @@ triaperformance.com {
 	# a POST from a form -- so it must stay reachable without any auth header,
 	# and the n8n workflow answers it with an HTML page rather than JSON.
 	# See unsubscribe-runbook.md.
+	# Generic lead-magnet endpoint — ONE route for every magnet. `magnet` in the
+	# payload selects the PDF and the copy inside the workflow, so a new lead
+	# magnet needs no new route here and no new n8n workflow. It exists because
+	# /api/plan-lead and /api/zone-workouts above are already two copies of the
+	# same six nodes and a third was the alternative. See tool-lead-runbook.md.
+	route /api/tool-lead {
+		rewrite * /webhook/tool-lead
+		reverse_proxy 100.70.89.17:5678 {
+			header_up Host {upstream_hport}
+		}
+	}
+
 	route /api/unsubscribe {
 		rewrite * /webhook/unsubscribe
 		reverse_proxy 100.70.89.17:5678 {

@@ -94,6 +94,53 @@
 
 ---
 
+### Phase 1.5 — the hub cap, finished (September 9, 2026)
+
+**Six rules came in as a ticket. Two were already shipped, one was a real remaining defect, one was half-right, two passed on inspection.**
+
+| Rule | Status |
+|---|---|
+| `/planes/` default: capped recommended, one per goal | **already shipped** |
+| Sport facet shows that sport's plans, not `recommended ∩ sport` | **already fixed** in the previous pass — the ticket predated it |
+| Minimum 3, twelve then "ver los N" | **already shipped** |
+| **Variety by goal, not three FTP beginners** | 🚨 **real, and it was exactly right** |
+| Counter `12 / 47`, never `12 / 164` on a hub | passed — `12 / 33` on cycling |
+| Facet list scoped to the sport | 🚨 **broken on load** |
+
+🚨 **The variety defect, measured: `/planes/ciclismo/` opened twelve cards that all read "CICLISMO · FTP".** *The v1 ladder round-robinned across DIFFICULTY, which fixed the count and not the content — a beginner, intermediate and advanced version of the same goal.* **Variety in the axis nobody was looking at.** *Buckets are now distances (a distance IS the goal here: FTP, VO2Max, Sprint, 5 km, HYROX), and the outer loop walks the goals: cycling opens FTP 3 / VO2Max 3 / Sprint 3 / Weight Loss 3.*
+
+⚠️ **Then the same mistake appeared one level down.** *With goals varied, `/planes/running/` opened* ***twelve Beginner cards*** *— six goals, two rounds, and taking `[0]` then `[1]` from a bucket sorted Beginner-first gives two beginners whenever a goal has 19 plans and most are beginner.* **Each bucket is now itself a difficulty round-robin**, so round one is one beginner per goal and round two is one *intermediate* per goal. **Running 7/5, cycling 6/3/3, swimming 6/5/1.** *The lesson is that fixing a variety bug on one axis does not fix it on the other, and the second one only becomes visible once the first is gone.*
+
+🚨 **Facet scoping: `updateDependentFacets()` only ever ran on a change event**, so a preset applied server-side never triggered it and `/planes/running/` offered **1500m** as a distance. *Called on load now — running offers 10 km, 21 km, 42 km, 5 km, HYROX, Weight Loss and nothing else.*
+
+---
+
+### Phase 2 — started September 9, 2026
+
+**The All-Access page sold thirteen interactive tools and contained zero images of any of them.** *The strongest evidence this product has could only be seen after paying for it.*
+
+**Shipped: a "míralo antes de pagar" section on all three All-Access pages**, carrying **screenshots of the real built pages driven into a real state** — a running athlete's seven zones computed from a 168 bpm threshold, and the activation setup with three answers chosen. *Not mockups, not stock: generated from `_site/` by driving the actual tools, in each language, so the English page shows the English UI.*
+
+⚠️ **They are generated, so regenerate them from the build rather than editing them by hand.** *A screenshot that stops matching the product is worse than no screenshot — it is a claim about a page that no longer exists.* **The shots sit on a wash band because the product is carbon and a dark image floating on white reads as a pasted rectangle.**
+
+**Still open, and it is Iván's:** *the brief's opening question for this phase — ungate one more tool as a public taste, or stop at screenshots.* **The zones calculator already has a public sibling and it is the only tool a stranger can touch**, so the pattern is proven; the question is whether a second one earns it. *Screenshots were the half that needed no decision, and they are done.*
+
+---
+
+### Phase 2, second tranche — the public runner core earns its keep (September 9, 2026)
+
+**The phase's opening question was "ungate a second tool as a public taste, or stop at screenshots". Iván took the tool** — `/core-para-corredores/` + EN/PT, extracted rather than duplicated so the routine still exists once — **and then chose what it trades for an email.**
+
+**Offer: "La semana de fuerza del corredor"**, six pages, three languages. `lead-magnet-semana-de-fuerza.md` owns it. *Chosen from four options against the test set one day earlier by the decision NOT to put a capture on the pace converter:* **an email box belongs on a tool only when an artifact exists that continues the job the tool started.** *The tool ends and the athlete's real question is "how often, and what else?" — which the tool cannot answer and this does.*
+
+**Pipeline: `/api/tool-lead`, one generic endpoint** rather than a third copy of plan-lead and zone-workouts. `tool-lead-runbook.md`. **Every magnet after this one costs two edits and zero UI work from Iván** — that was the whole basis of the choice.
+
+**Placement answers this branch's own opening measurement.** `/planes/` put Buy at y=556 and its email capture at y=625, **69 px apart** — two competing primary actions. Here the capture sits below the tool and the All-Access CTA at the foot of the page, **measured ~500 px apart**, with the done overlay carrying a one-line link rather than a second form.
+
+🚨 ***Two defects found on pages that shipped the previous day, both invisible from inside their own stylesheet and both found by rendering:*** *`.cta-final` painting near-white on pale blue at about 1.03:1 on all three public pages, because `site.css` declared that component's background and inherited its colour; and `.visually-hidden` existing only in `plan-page.css`, so the capture's screen-reader label rendered as visible text.* **Detail: `ai-infrastructure-documentation.md` §49.3 and §49.4.**
+
+⚠️ **NOT LIVE — three steps are Iván's** (Twenty enum, Caddy reload, n8n import), and one content question is his: **the week grid on page 4 of the guide is derived from his placement rules and has never been signed off as a week.**
+
 ## Phase 2 — All-Access, and letting a stranger see the members area
 
 **Absorbs `open-loops.md` NOW → "Nothing in the library is visible to a prospect."** *That item's three options — ungate one tool, screenshots, or a screen capture — are this phase's opening decision and are not decided here yet.*

@@ -1,0 +1,44 @@
+{#- Email capture for a public tool page. Renders only when the page sets
+    `toolCapture: <magnet>` in front matter; every gated page leaves it unset
+    and gets nothing.
+
+    ⚠️ PLACEMENT IS THE DESIGN DECISION HERE, and it comes from a measurement
+    this branch opened with: the plan page put Buy at y=556 and its email
+    capture at y=625 — 69 px apart — two competing primary actions in one
+    eyeline. So this block sits BELOW the tool and the All-Access CTA stays at
+    the foot of the page, with this section between them. They are two asks at
+    two moments, never a row of two buttons.
+
+    The done overlay carries a one-line nudge that scrolls here (see
+    partials/strength-tool.njk). That is deliberately a link and not a second
+    form: a form inside a centred overlay competes with "Repetir" for the same
+    40×20mm of phone screen, and the overlay is the worst place on the page to
+    type an address.
+
+    Copy: site/_data/toolCapture.json. Endpoint: /api/tool-lead, one webhook for
+    every magnet — tool-lead-runbook.md. -#}
+{%- set cap = (toolCapture and (capture[toolCapture][lang] or capture[toolCapture].es)) -%}
+{%- if cap %}
+<section class="tool-capture" id="tool-capture"
+         data-magnet="{{ toolCapture }}"
+         data-lang="{{ lang }}"
+         data-thanks="{{ cap.thanks | escape }}"
+         data-error="{{ cap.error | escape }}">
+  <div class="wrap">
+    <div class="tc-inner">
+      <span class="label">{{ cap.kicker }}</span>
+      <h2>{{ cap.title }}</h2>
+      <p>{{ cap.body }}</p>
+      <form class="tc-form" id="tcForm" novalidate>
+        <label class="visually-hidden" for="tcEmail">{{ cap.placeholder }}</label>
+        <input type="email" id="tcEmail" name="email" autocomplete="email"
+               placeholder="{{ cap.placeholder }}" required>
+        <button type="submit" class="btn-primary" id="tcSubmit">{{ cap.button }}</button>
+      </form>
+      <p class="tc-fine">{{ cap.fine }}</p>
+      <p class="tc-status" id="tcStatus" role="status" hidden></p>
+    </div>
+  </div>
+</section>
+<script src="{{ "/assets/js/tool-capture.js" | v }}" defer></script>
+{%- endif %}

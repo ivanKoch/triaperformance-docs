@@ -258,6 +258,8 @@ Data: `automation/build-sequences-data.py` writes `site/_data/sequences.json` fr
 **Not done yet, and this list is the open part of the item.** Each of these sends
 mail today and none of them checks suppression:
 
+> ✅ ***`tool-lead-workflow.json` is not on this list and never will be: it was built with the check, September 9, 2026 — the first sender in this repo that has one from its first line.*** *Two things it learned the hard way and this list should inherit:* **`alwaysOutputData: true` is mandatory on the suppression SELECT**, *because the NON-suppressed case is the one that returns no row, so a Postgres node without it emits no item, the `If` never runs, and the webhook hangs — **the happy path is the path that breaks**.* **And a workflow that mints its own token must use `replace(gen_random_uuid()::text,'-','')`, not `md5(random()::text)`** — *both are 32 hex characters and only one keeps the anti-enumeration property this schema is built on.* **Copy that shape when retrofitting the five below.**
+
 - `coachmatch-lead-automation.json` — email 1 (both languages)
 - `coachmatch-email-nurture-2-3.json` — emails 2 and 3 (all four branches)
 - `subscription-lifecycle-automation.json` — welcome + resend-password *(candidate

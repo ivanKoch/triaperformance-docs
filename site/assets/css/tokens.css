@@ -42,8 +42,9 @@
   --heat-dim: rgba(217, 72, 15, .10);
 
   /* --- carbon system --------------------------------------------------- */
-  /* Default for /members/*. Permitted on exactly three public surfaces:
-     the hero, the final CTA, and the featured offer card. */
+  /* Default for /members/*. Permitted on exactly four public surfaces: the
+     hero, the final CTA, the featured offer card, and a public copy of a
+     members tool (app-shaped only — see brand-guidelines.md §3.3). */
   --bg: #0d1117;
   --surface: #171b21;
   --surface2: #1f242c;

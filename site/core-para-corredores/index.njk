@@ -1,0 +1,50 @@
+---
+layout: layouts/base.njk
+lang: es
+transKey: runner-core
+pageCss:
+  - "members-fuerza.css"
+  - "public-tool.css"
+toolCapture: runner_week
+title: "Core para Corredores — rutina guiada con temporizador, gratis"
+description: "Seis ejercicios de core específicos para correr, con temporizador y series. Elige 3 o 4 vueltas y la rutina se arma sola. Sin registro."
+ogTitle: "Core para Corredores"
+rcPublic: true
+rcLibraryLabel: "Planes de running"
+rcLibraryHref: "/planes/running/"
+---
+{#- PUBLIC runner core. The gated twin is /members/core-corredor/ and its
+    siblings; both render partials/runner-core-es.njk, so the routine
+    itself exists once. See that partial's header for why.
+
+    INDEXABLE, unlike everything under /members/ — that is the point of it.
+    The zones calculator already proved this pattern: a real working tool in
+    public earns search traffic that a screenshot never can, and it is the only
+    honest way to show what a subscription contains before someone pays.
+
+    ⚠️ DARK, where the public zones calculator is light, and the distinction is
+    worth keeping: that one is document-shaped — a form and a table you read —
+    so it follows the page. This is app-shaped: a timer held in one hand on a
+    floor, mid-session. It keeps the product's own surface, because a light
+    clone of the members tool would be a different product wearing its name.
+    brand-guidelines.md §3.3 names this as the fourth permitted carbon surface.
+
+    The capture below the tool trades "La semana de fuerza del corredor" for an
+    email, through /api/tool-lead — ONE generic endpoint, not a third clone of
+    the plan-lead and zone-workouts workflows. tool-lead-runbook.md.
+    ⚠️ It sits BELOW the tool with the All-Access CTA at the foot, deliberately:
+    this branch opened on the plan page putting Buy at y=556 and its capture at
+    y=625, 69 px apart, and that measurement is the reason there is a whole
+    section between the two asks here. -#}
+{% include "partials/runner-core-es.njk" %}
+
+{% include "partials/tool-capture.njk" %}
+
+<section class="cta-final">
+  <div class="wrap">
+    <span class="label">La versión completa</span>
+    <h2>Esta es una de dieciséis herramientas</h2>
+    <p>El Área de Miembros tiene rutinas para antes y después de entrenar, para cuando algo duele, y calculadoras para tus zonas. Todas funcionan así: te la armas en el momento, no es un PDF para archivar.</p>
+    <a href="/all-access/" class="btn-primary">Conoce All-Access</a>
+  </div>
+</section>

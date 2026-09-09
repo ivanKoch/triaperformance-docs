@@ -93,6 +93,15 @@
           <div class="done-stat"><div class="done-val" id="statSkip">0</div><div class="done-lbl">{{ sui.statSkip }}</div></div>
         </div>
         <button class="btn-primary" id="repeatBtn">{{ sui.repeat }}</button>
+        {#- One line, public pages only. `toolCapture` is unset on all 15 gated
+            pages that share this partial, so they render nothing and load no
+            capture script. A LINK and not a form: the overlay is centred over
+            the stage and a form there fights "Repetir" for the same corner of a
+            phone screen. partials/tool-capture.njk owns the reasoning. -#}
+        {%- if toolCapture %}
+        {%- set tcap = capture[toolCapture][lang] or capture[toolCapture].es %}
+        <button type="button" class="done-capture" id="tcNudge" hidden>{{ tcap.doneNudge }}</button>
+        {%- endif %}
       </div>
 
       <div class="controls" id="workControls">

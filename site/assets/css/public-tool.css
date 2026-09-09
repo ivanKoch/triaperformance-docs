@@ -1,0 +1,145 @@
+/* public-tool.css — the page-level layer for a PUBLIC copy of a members tool:
+ * the email capture, and the corrections a carbon page needs on components
+ * site.css styles light by default.
+ *
+ * Named for the surface rather than for the capture because it turned out to
+ * hold both: the first page to use it exposed .cta-final rendering near-white
+ * on --wash, which is a property of the surface and not of the capture.
+ *
+ * ---------------------------------------------------------------------------
+ * The email capture on a public tool page.
+ *
+ * Carbon, because it sits directly under a carbon tool and a white band between
+ * a dark tool and a dark final CTA would read as a seam rather than a section.
+ * brand-guidelines.md §3.3 permits carbon on a public copy of a members tool;
+ * this block is part of that surface, not a fourth exception.
+ *
+ * Loaded only by the three public runner-core pages. Every gated page leaves
+ * `toolCapture` unset, renders nothing, and never loads this file. */
+
+.tool-capture {
+  background: var(--bg);
+  color: var(--text);
+  border-top: 1px solid var(--border);
+  padding: 72px 0;
+}
+
+.tool-capture .tc-inner {
+  max-width: 620px;
+}
+
+.tool-capture .label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--heat-bright);          /* §3.3: heat is a signal, never a button */
+  margin-bottom: 12px;
+}
+
+.tool-capture h2 {
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 700;
+  font-stretch: 112%;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+.tool-capture > .wrap > .tc-inner > p {
+  color: var(--text-dim);
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.tc-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tc-form input[type="email"] {
+  flex: 1 1 260px;
+  min-width: 0;                        /* without this the flex item refuses to
+                                          shrink below its intrinsic width and
+                                          overflows the section on a phone */
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;                     /* 16px or iOS zooms the page on focus */
+  padding: 14px 16px;
+  transition: border-color var(--t);
+}
+
+.tc-form input[type="email"]::placeholder { color: var(--text-dim); }
+
+.tc-form input[type="email"]:focus {
+  outline: none;
+  border-color: var(--blue-bright);
+}
+
+.tc-form .btn-primary {
+  flex: 0 0 auto;
+  padding: 14px 26px;
+  font-size: 16px;
+}
+
+.tc-fine {
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.tc-status {
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  padding: 12px 14px;
+  border-radius: 6px;
+}
+
+.tc-status.is-ok  { background: rgba(76, 175, 125, .14); color: var(--green); }
+.tc-status.is-err { background: var(--warn-dim);          color: var(--warn); }
+
+/* The done-overlay nudge. A link, not a second form — see the partial's header
+   for why the overlay is the wrong place to type an address. */
+.done-capture {
+  margin-top: 14px;
+  background: none;
+  border: 0;
+  padding: 4px 2px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--blue-bright);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.done-capture:hover { color: var(--text); }
+
+@media (max-width: 560px) {
+  .tool-capture { padding: 56px 0; }
+  .tc-form .btn-primary { flex: 1 1 100%; }
+}
+
+/* The final CTA, carbon. site.css styles this component light — correct there,
+   wrong at the foot of a carbon page, where a pale band reads as a seam between
+   two dark sections. brand-guidelines.md §3.3 permits carbon on the final CTA,
+   so this is the component's own permitted variant, not a fourth exception. */
+.cta-final {
+  background: var(--surface);
+  color: var(--text);
+  border-top: 1px solid var(--border);
+}
+.cta-final .label { color: var(--heat-bright); }
+.cta-final h2 { color: var(--text); }
+.cta-final p { color: var(--text-dim); }
+.cta-final .btn-primary { background: var(--blue); color: #fff; }
+.cta-final .btn-primary:hover { background: var(--blue-bright); }

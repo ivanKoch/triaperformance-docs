@@ -1,0 +1,686 @@
+{
+  "name": "Tool Lead Magnet (generic) -> Guide Email + Twenty + Telegram",
+  "nodes": [
+    {
+      "id": "sticky",
+      "name": "READ ME BEFORE ACTIVATING",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -620,
+        -120
+      ],
+      "parameters": {
+        "width": 520,
+        "height": 700,
+        "content": "## READ ME BEFORE ACTIVATING\n\n**Generic lead-magnet endpoint.** `POST /api/tool-lead`. One workflow for every\nmagnet; `magnet` in the payload selects the PDF, the subject and the copy.\n\n**Adding a magnet later is ONE edit** — an entry in the **Magnet registry** node,\nplus the capture form on the page. No new webhook, no Caddy route, no Twenty\nenum value, no second workflow. That is the point of it.\n\n### Before you activate — four things\n\n1. **Twenty:** add `TOOL_LEAD` to `Person.leadSource`\n   (Settings → Data Model → Person → leadSource). One value, for every magnet,\n   forever. Verify with a real API call, not the screen — see\n   `tool-lead-runbook.md`.\n2. **Credentials** on five nodes: **Twenty API** (HTTP Header Auth) on the three\n   HTTP Request nodes, **Gmail SMTP** on Send guide email, **Telegram** on the\n   three Telegram nodes, **Members Postgres** on the two Postgres nodes. The repo\n   copy carries `REPLACE_ME`, never a real id.\n3. **Config node:** set `TELEGRAM_CHAT_ID` — same value as the other workflows.\n4. **Execution modes** are already explicit on the Code node\n   (Run Once for Each Item). Do not leave any node you add on the default.\n\n### The suppression check is not optional\n\n`unsubscribe-runbook.md`: *every send checks `email_suppression` first, no\nexception for mail that feels transactional.* **Check suppression** runs before\nthe send, carries `alwaysOutputData: true` (a Postgres node that matches nothing\nemits no item at all, and the If would never run), and a suppressed address gets\na 200 with `suppressed: true` and no email.\n\n**This is the first sender in the repo built with that check from day one** — the\nother five are on the runbook's retrofit list.\n\n### If the import fails with \"does not contain valid JSON data\"\n\nThe file is valid. It is n8n's file reader. Open an empty workflow, select the\nwhole file, copy, click the canvas, paste — n8n parses pasted workflow JSON\ndirectly and skips the reader entirely."
+      }
+    },
+    {
+      "id": "hook",
+      "name": "Webhook - Tool Lead",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        160
+      ],
+      "webhookId": "tool-lead",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tool-lead",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "cfg",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        180,
+        160
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "TWENTY_BASE_URL",
+              "type": "string",
+              "value": "http://100.70.89.17:3000"
+            },
+            {
+              "id": "2",
+              "name": "TELEGRAM_CHAT_ID",
+              "type": "string",
+              "value": "REPLACE_WITH_IVAN_CHAT_ID"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "reg",
+      "name": "Magnet registry",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        160
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "/* THE MAGNET REGISTRY — the only node a new lead magnet touches.\n *\n * Adding a magnet is ONE entry here plus a capture form on the page. No new\n * webhook, no new Caddy route, no new Twenty enum value, no second workflow.\n * That is the whole reason this endpoint is generic: plan-lead and\n * zone-workouts are two near-identical copies of the same six nodes, and a\n * third copy was the alternative to this file.\n *\n * Repo mirror: automation/tool-lead-workflow.json. n8n is the live source;\n * edit here, then mirror the change into the repo copy in the same session.\n *\n * Execution mode is Run Once for Each Item, set explicitly. A webhook delivers\n * one item today; the standing rule exists because a node written single-item\n * style misbehaves silently the first time an execution carries two.\n */\n\nconst MAGNETS = {\n  runner_week: {\n    // Twenty leadSource stays TOOL_LEAD for every magnet, on purpose: a value\n    // per magnet turns one enum into a growing list Ivan has to maintain in the\n    // Twenty UI, which is the manual step this endpoint exists to remove.\n    // Which magnet it was lives in leadNotes and in the magnet key below.\n    noteLabel: 'Guia \"La semana de fuerza del corredor\" (core de corredor publico)',\n    pdf: {\n      es: 'https://triaperformance.com/assets/guias/semana-de-fuerza-del-corredor.pdf',\n      en: 'https://triaperformance.com/assets/guias/runner-strength-week.pdf',\n      pt: 'https://triaperformance.com/assets/guias/semana-de-forca-do-corredor.pdf',\n    },\n    offer: {\n      es: 'https://triaperformance.com/all-access/',\n      en: 'https://triaperformance.com/en/all-access/',\n      pt: 'https://triaperformance.com/pt/all-access/',\n    },\n    price: { es: '39,99', en: '39.99', pt: '29,99' },\n    subject: {\n      es: 'Tu semana de fuerza',\n      en: 'Your strength week',\n      pt: 'Sua semana de força',\n    },\n    body: {\n      es: (m, lang) => [\n        'Hola,',\n        '',\n        'Aquí está la guía: dónde entran esas dos sesiones de core en tu semana, y las tres cosas que la rutina no entrena.',\n        '',\n        m.pdf[lang],\n        '',\n        'Adentro está la dosis (dos veces por semana, en días fáciles, nunca antes de una sesión de calidad), las cuatro reglas que deciden dónde va el gimnasio, una semana completa con esas reglas aplicadas, y qué hacer cuando algo duele.',\n        '',\n        'Un aviso que está en la guía y que prefiero repetir aquí: el circuito que hiciste no entrena el resorte del pie y del gemelo, ni el seguimiento de la rótula bajo carga, ni la espalda alta. Los tres están explicados adentro, con qué hacer al respecto.',\n        '',\n        'Si prefieres que la semana ya venga escrita, eso es lo que hace la membresía All-Access: todo el catálogo de planes más la biblioteca de herramientas, por US$ ' + m.price[lang] + ' al mes.',\n        m.offer[lang],\n        '',\n        'Cualquier duda, responde a este mismo mail.',\n        '',\n        'Iván Koch — Triaperformance',\n      ].join('\\n'),\n      en: (m, lang) => [\n        'Hi,',\n        '',\n        'Here is the guide: where those two core sessions go in your week, and the three things the routine does not train.',\n        '',\n        m.pdf[lang],\n        '',\n        'Inside you will find the dose (twice a week, on easy days, never before a quality session), the four rules that decide where the gym goes, a full week with those rules applied, and what to do when something hurts.',\n        '',\n        'One warning that is in the guide and that I would rather repeat here: the circuit you just did does not train the foot and calf spring, kneecap tracking under load, or the upper back. All three are explained inside, with what to do about them.',\n        '',\n        'If you would rather the week came already written, that is what the All-Access membership does: the whole plan catalogue plus the tools library, for US$ ' + m.price[lang] + ' a month.',\n        m.offer[lang],\n        '',\n        'Any questions, just reply to this email.',\n        '',\n        'Iván Koch — Triaperformance',\n      ].join('\\n'),\n      pt: (m, lang) => [\n        'Olá,',\n        '',\n        'Aqui está o guia: onde entram essas duas sessões de core na sua semana, e as três coisas que a rotina não treina.',\n        '',\n        m.pdf[lang],\n        '',\n        'Lá dentro está a dose (duas vezes por semana, em dias leves, nunca antes de uma sessão de qualidade), as quatro regras que decidem onde entra a academia, uma semana completa com essas regras aplicadas, e o que fazer quando algo dói.',\n        '',\n        'Um aviso que está no guia e que prefiro repetir aqui: o circuito que você fez não treina a mola do pé e da panturrilha, nem o rastreamento da patela sob carga, nem a parte alta das costas. Os três estão explicados lá dentro, com o que fazer a respeito.',\n        '',\n        'Se você prefere que a semana já venha escrita, é isso que a assinatura All-Access faz: todo o catálogo de planos mais a biblioteca de ferramentas, por US$ ' + m.price[lang] + ' por mês.',\n        m.offer[lang],\n        '',\n        'Qualquer dúvida, responda a este mesmo email.',\n        '',\n        'Iván Koch — Triaperformance',\n      ].join('\\n'),\n    },\n  },\n};\n\n/* The footer every send carries. unsubscribe-runbook.md §Footer copy: never\n * omit it to make a message feel more personal, and name the reason they are\n * hearing from you — that is the half that reduces complaints. The reason\n * differs from the CoachMatch footer because the reason really is different:\n * they asked for a guide on the website, not about coaching on TrainingPeaks. */\nconst FOOTER = {\n  es: 'Recibes este correo porque pediste la guía en triaperformance.com.\\nSi no quieres recibir más, date de baja aquí:',\n  en: 'You are receiving this because you asked for the guide on triaperformance.com.\\nIf you would rather not hear from me, unsubscribe here:',\n  pt: 'Você recebe este email porque pediu o guia em triaperformance.com.\\nSe preferir não receber mais, descadastre-se aqui:',\n};\n\nconst LANG_ENUM = { es: 'SPANISH', en: 'ENGLISH', pt: 'PORTUGUESE' };\n\nconst body = $json.body || {};\nconst email = String(body.email || '').trim().toLowerCase();\nconst magnetKey = String(body.magnet || '').trim();\nconst lang = (LANG_ENUM[body.language] ? body.language : 'es');\n\n/* Fail loudly on a bad payload rather than minting a token and mailing nobody.\n * A magnet key that is not in the registry is the likely mistake: a page shipped\n * with a form before its entry was added here. */\nif (!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(email)) {\n  throw new Error('tool-lead: invalid or missing email in payload');\n}\nconst m = MAGNETS[magnetKey];\nif (!m) {\n  throw new Error('tool-lead: unknown magnet \"' + magnetKey + '\" — add it to the registry in this node');\n}\n\nreturn {\n  json: {\n    email: email,\n    magnet: magnetKey,\n    lang: lang,\n    langEnum: LANG_ENUM[lang],\n    subject: m.subject[lang] || m.subject.es,\n    emailBody: (m.body[lang] || m.body.es)(m, lang),\n    footerPrefix: FOOTER[lang] || FOOTER.es,\n    pdf: m.pdf[lang] || m.pdf.es,\n    leadNotes: m.noteLabel + '. Idioma: ' + lang + '. Pagina: ' + (body.page_url || 'n/a'),\n    pageUrl: body.page_url || '',\n  },\n};"
+      }
+    },
+    {
+      "id": "supp",
+      "name": "Check suppression",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        620,
+        160
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT 1 AS suppressed\nFROM email_suppression\nWHERE lower(email) = lower($1);",
+        "options": {
+          "queryReplacement": "={{ $('Magnet registry').item.json.email }}"
+        }
+      }
+    },
+    {
+      "id": "issupp",
+      "name": "Suppressed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        840,
+        160
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "s1",
+              "leftValue": "={{ $json.suppressed }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "looseTypeValidation": true
+        }
+      }
+    },
+    {
+      "id": "respsupp",
+      "name": "Respond suppressed",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1060,
+        40
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, suppressed: true }) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "mint",
+      "name": "Mint unsubscribe token",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1060,
+        280
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "REPLACE_ME",
+          "name": "Members Postgres"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- 32 hex from gen_random_uuid(), which is a CSPRNG and needs no extension.\n-- md5(random()) would also be 32 hex and would NOT be unguessable, which is\n-- the property schema-email-suppression.sql relies on: a token cannot be\n-- constructed for an address you do not already hold one for.\nINSERT INTO unsubscribe_tokens (token, email, lang, source)\nVALUES (replace(gen_random_uuid()::text, '-', ''), $1, $2, $3)\nRETURNING token;",
+        "options": {
+          "queryReplacement": "={{ $('Magnet registry').item.json.email }},{{ $('Magnet registry').item.json.langEnum }},{{ 'tool-lead:' + $('Magnet registry').item.json.magnet }}"
+        }
+      }
+    },
+    {
+      "id": "send",
+      "name": "Send guide email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1280,
+        280
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_ME",
+          "name": "Gmail SMTP"
+        }
+      },
+      "parameters": {
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $('Magnet registry').item.json.email }}",
+        "subject": "={{ $('Magnet registry').item.json.subject }}",
+        "emailFormat": "text",
+        "text": "={{ $('Magnet registry').item.json.emailBody }}\n\n---\n{{ $('Magnet registry').item.json.footerPrefix }} https://triaperformance.com/api/unsubscribe?t={{ $json.token }}",
+        "options": {
+          "appendAttribution": false
+        }
+      }
+    },
+    {
+      "id": "look",
+      "name": "Check Twenty for existing Person",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1500,
+        280
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ME",
+          "name": "Twenty API"
+        }
+      },
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "filter",
+              "value": "=emails.primaryEmail[eq]:{{ $('Magnet registry').item.json.email }}"
+            }
+          ]
+        },
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "exists",
+      "name": "Already exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1720,
+        280
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e1",
+              "leftValue": "={{ $json.data?.people?.length || 0 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "looseTypeValidation": true
+        }
+      }
+    },
+    {
+      "id": "append",
+      "name": "Append magnet to leadNotes",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1940,
+        160
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ME",
+          "name": "Twenty API"
+        }
+      },
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people/{{ $json.data.people[0].id }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ leadNotes: (($('Check Twenty for existing Person').item.json.data.people[0].leadNotes || '') + ' | ' + $('Magnet registry').item.json.leadNotes).slice(-1800) }) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "build",
+      "name": "Build Twenty payload",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1940,
+        400
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "name.firstName",
+              "type": "string",
+              "value": "={{ $('Magnet registry').item.json.email.split('@')[0] }}"
+            },
+            {
+              "id": "2",
+              "name": "name.lastName",
+              "type": "string",
+              "value": "-"
+            },
+            {
+              "id": "3",
+              "name": "emails.primaryEmail",
+              "type": "string",
+              "value": "={{ $('Magnet registry').item.json.email }}"
+            },
+            {
+              "id": "4",
+              "name": "leadNotes",
+              "type": "string",
+              "value": "={{ $('Magnet registry').item.json.leadNotes }}"
+            },
+            {
+              "id": "5",
+              "name": "leadSource",
+              "type": "string",
+              "value": "TOOL_LEAD"
+            },
+            {
+              "id": "6",
+              "name": "leadStatus",
+              "type": "string",
+              "value": "NEW"
+            },
+            {
+              "id": "7",
+              "name": "preferredLanguage",
+              "type": "string",
+              "value": "={{ $('Magnet registry').item.json.langEnum }}"
+            },
+            {
+              "id": "8",
+              "name": "excludeFromSequence",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "create",
+      "name": "Create Person in Twenty",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2160,
+        400
+      ],
+      "onError": "continueErrorOutput",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ME",
+          "name": "Twenty API"
+        }
+      },
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').item.json.TWENTY_BASE_URL }}/rest/people",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {}
+      }
+    },
+    {
+      "id": "tgerr",
+      "name": "Telegram alert - Twenty error",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2380,
+        540
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_ME",
+          "name": "Telegram bot"
+        }
+      },
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=⚠️ tool-lead: el email de la guía SE ENVIÓ pero Twenty falló.\nMagnet: {{ $('Magnet registry').item.json.magnet }}\nEmail: {{ $('Magnet registry').item.json.email }}\nCárgalo a mano.",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "tgnew",
+      "name": "Telegram notify Iván",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2380,
+        400
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_ME",
+          "name": "Telegram bot"
+        }
+      },
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=📩 Lead nuevo desde una herramienta\nMagnet: {{ $('Magnet registry').item.json.magnet }}\nEmail: {{ $('Magnet registry').item.json.email }}\nIdioma: {{ $('Magnet registry').item.json.lang }}\nPágina: {{ $('Magnet registry').item.json.pageUrl }}",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "tgdup",
+      "name": "Telegram notify (duplicate)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2160,
+        160
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_ME",
+          "name": "Telegram bot"
+        }
+      },
+      "parameters": {
+        "chatId": "={{ $('Config').item.json.TELEGRAM_CHAT_ID }}",
+        "text": "=🔁 Contacto conocido pidió otra guía\nMagnet: {{ $('Magnet registry').item.json.magnet }}\nEmail: {{ $('Magnet registry').item.json.email }}",
+        "additionalFields": {}
+      }
+    },
+    {
+      "id": "resp",
+      "name": "Respond success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        2600,
+        400
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "respdup",
+      "name": "Respond success (duplicate)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        2380,
+        160
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Webhook - Tool Lead": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Magnet registry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Magnet registry": {
+      "main": [
+        [
+          {
+            "node": "Check suppression",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check suppression": {
+      "main": [
+        [
+          {
+            "node": "Suppressed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Suppressed?": {
+      "main": [
+        [
+          {
+            "node": "Respond suppressed",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mint unsubscribe token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mint unsubscribe token": {
+      "main": [
+        [
+          {
+            "node": "Send guide email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send guide email": {
+      "main": [
+        [
+          {
+            "node": "Check Twenty for existing Person",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Twenty for existing Person": {
+      "main": [
+        [
+          {
+            "node": "Already exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Already exists?": {
+      "main": [
+        [
+          {
+            "node": "Append magnet to leadNotes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Twenty payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append magnet to leadNotes": {
+      "main": [
+        [
+          {
+            "node": "Telegram notify (duplicate)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram notify (duplicate)": {
+      "main": [
+        [
+          {
+            "node": "Respond success (duplicate)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Twenty payload": {
+      "main": [
+        [
+          {
+            "node": "Create Person in Twenty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Person in Twenty": {
+      "main": [
+        [
+          {
+            "node": "Telegram notify Iván",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram alert - Twenty error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram notify Iván": {
+      "main": [
+        [
+          {
+            "node": "Respond success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram alert - Twenty error": {
+      "main": [
+        [
+          {
+            "node": "Respond success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "pinData": {}
+}

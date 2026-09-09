@@ -279,3 +279,14 @@ Carried from the audit, all of it correct:
 - **`open-loops.md` stays the only open-item list.** Nothing in §3 is an open item until Iván commits it to a branch; then it goes there and points back here by item number. *The list above is a menu, not a queue — treating it as a queue is how this file becomes the fourth thing that has to be split.*
 - **Item 22 (show the product on All-Access) overlaps an existing NOW item** — "Nothing in the library is visible to a prospect", which already frames screenshots as one of three undecided options. Design says screenshots are the cheap half and need no decision; the ungating question is separate and stays there.
 - **Items 25–28 create asset dependencies** that are Iván's, not a builder's. They are the long pole. Start the portrait this week regardless of what else is decided.
+
+---
+
+## Added September 9, 2026 — the two older guide PDFs still render in Helvetica
+
+`automation/build-lead-magnet-pdf.js` and `automation/build-zones-guide-pdf.js` both declare `font-family: "Helvetica Neue", Helvetica, Arial` — **they predate v1.1 by one day.** So five customer-facing PDFs, including the one emailed to every contact-form prospect and every CoachMatch lead, are set in the stack `brand-guidelines.md` §11 item 1 calls a bug rather than a fallback.
+
+**The new builder** (`automation/build-runner-week-pdf.js`, September 9) **embeds the Archivo subset as a base64 woff2 and is the pattern to copy** — it needs no server and no network, so the change to each older builder is one `@font-face` block and one `font-family` line.
+
+*Sized honestly: it is a tranche-sized edit, not a project, and it is not queued. It enters `open-loops.md` when Iván commits it, like everything else in this list.* ⚠️ **Do not do it as a drive-by while touching those files for another reason** — a PDF builder change means re-generating and re-checking five PDFs in three languages, and that is the work, not the CSS.
+

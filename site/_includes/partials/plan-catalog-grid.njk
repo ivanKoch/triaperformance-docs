@@ -112,6 +112,8 @@
          data-distance="{{ plan.distance }}"
          data-difficulty="{{ plan.difficulty }}"
          data-weeksbucket="{{ plan.weeksBucket }}"
+         data-weeks="{{ plan.weeks }}"
+         data-price="{{ plan.price }}"
          data-features="{{ featureTokens }}">
         <span class="label">{{ u.sport[plan.sport] or plan.sport }}{% if plan.distance %} · {{ plan.distance }}{% endif %}</span>
         <h3>{{ plan.displayName }}</h3>

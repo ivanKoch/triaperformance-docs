@@ -45,10 +45,7 @@
 .plan-capture-status { margin-top: 10px; font-size: 13px; min-height: 16px; }
 .plan-capture-status.success { color: #1a7a3c; }
 .plan-capture-status.error { color: var(--slate); }
-.visually-hidden {
-  position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0,0,0,0); white-space: nowrap;
-}
+/* .visually-hidden moved to site.css — shared partials use it. */
 
 .plan-breakdown { padding-top: 0; }
 .breakdown-table { width: 100%; border-collapse: collapse; margin-top: 8px; }

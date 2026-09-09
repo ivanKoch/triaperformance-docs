@@ -448,13 +448,30 @@ h2 { font-size: 36px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
 
 /* Lead magnet CTA */
+/* 🚨 `color` is load-bearing and was missing until September 9, 2026. This rule
+   declared a background and inherited its text colour, so it was only correct on
+   a page whose body colour happened to suit --wash. The three public runner-core
+   pages are carbon, so their body colour is --text (near-white) and this section
+   rendered near-white on pale blue — about 1.03:1, i.e. invisible — on live pages.
+   ⚠️ Same family as the auth-link breach found one day earlier: a component that
+   is right on the page it was designed against is not right on the page that
+   reuses it. A component that paints a background must state its colour. */
 .cta-final {
-  background: var(--wash); text-align: center;
+  background: var(--wash); color: var(--ink); text-align: center;
 }
 .cta-final h2 { margin-bottom: 16px; }
 .cta-final p { color: var(--slate); max-width: 560px; margin: 0 auto 32px; font-size: 17px; }
 .cta-final .btn-primary { background: var(--blue); color: var(--white); }
 .cta-final .btn-primary:hover { background: var(--blue-deep); }
+
+/* Screen-reader-only. Lives here rather than in one page's stylesheet because
+   shared partials use it: it was defined only in plan-page.css, so the label in
+   partials/tool-capture.njk rendered as visible text beside its input on every
+   page that did not happen to load that file. */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap;
+}
 
 footer {
   padding: 48px 0; text-align: center; color: var(--slate); font-size: 14px;

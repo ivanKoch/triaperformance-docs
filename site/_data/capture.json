@@ -1,0 +1,38 @@
+{
+  "_note": "THE SINGLE SOURCE FOR EMAIL-CAPTURE COPY ON PUBLIC TOOL PAGES, keyed magnet -> language. A page opts in with `toolCapture: <magnet>` in its front matter — note the file is capture.json and NOT toolCapture.json, because Eleventy front matter overrides global data of the same name and a page setting `toolCapture` would shadow the whole file; partials/tool-capture.njk renders this and partials/strength-tool.njk adds a one-line nudge to the done overlay. The magnet key is sent verbatim to /api/tool-lead, where the workflow's Magnet registry node resolves it to a PDF and the email copy — so ADDING A MAGNET IS AN ENTRY HERE PLUS AN ENTRY THERE, and nothing else. Deliberately NOT in strengthUi.json: that file is engine chrome shared by 15 gated pages, and capture copy is neither engine-level nor gated. THE TEST FOR WHETHER A TOOL GETS A CAPTURE AT ALL (open-loops.md, September 8, 2026, the pace-converter decision): an email box belongs on a tool only when an artifact exists that CONTINUES THE JOB THE TOOL STARTED. The zones calculator qualifies; the pace converter does not and correctly has none. Do not add a key here just because a page is public.",
+  "runner_week": {
+    "es": {
+      "kicker": "La guía",
+      "title": "¿Y dónde entra esto en tu semana?",
+      "body": "Dos sesiones de core no son el programa. Te mando la guía con la dosis, las cuatro reglas que deciden dónde va el gimnasio, una semana completa con esas reglas aplicadas, y las tres cosas que esta rutina no entrena — con qué hacer al respecto.",
+      "placeholder": "tu@email.com",
+      "button": "Mándame la guía",
+      "fine": "Un PDF de seis páginas, un solo email, y te puedes dar de baja cuando quieras.",
+      "thanks": "Listo — revisa tu bandeja de entrada en un rato.",
+      "error": "Algo salió mal al enviar. Escríbeme a coach@triaperformance.com y te la mando a mano.",
+      "doneNudge": "Te mando la guía →"
+    },
+    "en": {
+      "kicker": "The guide",
+      "title": "So where does this go in your week?",
+      "body": "Two core sessions are not the programme. I'll send you the guide: the dose, the four rules that decide where the gym goes, a full week with those rules applied, and the three things this routine doesn't train — with what to do about them.",
+      "placeholder": "you@email.com",
+      "button": "Send me the guide",
+      "fine": "A six-page PDF, one single email, and you can unsubscribe whenever you want.",
+      "thanks": "Done — check your inbox in a little while.",
+      "error": "Something went wrong sending it. Write to me at coach@triaperformance.com and I'll send it by hand.",
+      "doneNudge": "Send me the guide →"
+    },
+    "pt": {
+      "kicker": "O guia",
+      "title": "E onde isso entra na sua semana?",
+      "body": "Duas sessões de core não são o programa. Eu te mando o guia: a dose, as quatro regras que decidem onde entra a academia, uma semana completa com essas regras aplicadas, e as três coisas que esta rotina não treina — com o que fazer a respeito.",
+      "placeholder": "voce@email.com",
+      "button": "Me manda o guia",
+      "fine": "Um PDF de seis páginas, um único email, e você pode se descadastrar quando quiser.",
+      "thanks": "Pronto — dá uma olhada na sua caixa de entrada daqui a pouco.",
+      "error": "Algo deu errado no envio. Me escreva em coach@triaperformance.com e eu mando na mão.",
+      "doneNudge": "Me manda o guia →"
+    }
+  }
+}

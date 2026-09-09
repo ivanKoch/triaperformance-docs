@@ -194,3 +194,36 @@ h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 @media (max-width: 640px) {
   .lib-soon { padding: 22px 20px; }
 }
+
+/* --- "See it before you pay" (Sept 9, 2026, phase 2) -----------------------
+   The All-Access page sold a members area of thirteen interactive tools and
+   contained zero images of any of them — the strongest evidence this product
+   has could only be seen after paying for it.
+
+   These are not mockups and not stock: they are screenshots of the real built
+   pages, driven into a real state (a running athlete's seven zones computed
+   from a 168 bpm threshold; the activation setup with three answers chosen).
+   Regenerate them from the build rather than editing them by hand — a
+   screenshot that stops matching the product is worse than no screenshot.
+
+   The shots are carbon because the product is carbon, so they sit on a wash
+   band rather than on white: a dark image floating on a white page reads as a
+   pasted rectangle. */
+.aa-peek { background: var(--wash); }
+.aa-peek-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px;
+  align-items: start;
+}
+@media (max-width: 820px) { .aa-peek-grid { grid-template-columns: 1fr; gap: 28px; } }
+.aa-peek figure { margin: 0; }
+.aa-peek img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--mist); border-radius: 8px;
+  background: var(--bg);
+}
+.aa-peek figcaption { margin-top: 14px; }
+.aa-peek figcaption b {
+  display: block; font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px;
+}
+.aa-peek figcaption span { font-size: 14.5px; line-height: 1.5; color: var(--slate); }
+.aa-peek-note { margin-top: 28px; font-size: 14px; color: var(--slate); }

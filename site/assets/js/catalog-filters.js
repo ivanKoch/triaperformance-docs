@@ -73,10 +73,19 @@
     });
   }
 
-  /* Fill the cap as a ladder rather than taking the first N in DOM order:
-   * round-robin across difficulty so a hub always opens with something for a
-   * beginner AND something for an advanced athlete. Source order decides
-   * within a difficulty, so the choice stays deterministic. */
+  /* Fill the cap by GOAL first, difficulty second.
+   *
+   * v1 of this round-robinned across difficulty alone, which fixed the count
+   * and not the content: /planes/ciclismo/ opened twelve cards that all read
+   * "CICLISMO · FTP" — a beginner, intermediate and advanced version of the
+   * same goal. Variety in the axis nobody was looking at.
+   *
+   * So the buckets are distances (a distance IS the goal here: FTP, VO2Max,
+   * Sprint, 5 km, HYROX), each internally sorted Beginner -> fewest weeks ->
+   * cheapest, and the round-robin walks them. Round one is therefore one plan
+   * per goal at its most approachable level; later rounds fill in the harder
+   * and longer ones. Both axes end up represented without either being the
+   * stated rule. */
   function applyCountCap(container) {
     clearCountCap(container);
     var grid = container.querySelector("[data-grid]");
@@ -88,14 +97,52 @@
 
     var buckets = {}, order = [];
     visible.forEach(function (c) {
-      var d = c.dataset.difficulty || "";
-      if (!buckets[d]) { buckets[d] = []; order.push(d); }
-      buckets[d].push(c);
+      var g = c.dataset.distance || "";
+      if (!buckets[g]) { buckets[g] = []; order.push(g); }
+      buckets[g].push(c);
     });
-    order.sort(function (a, b) {
-      var ia = DIFF_ORDER.indexOf(a), ib = DIFF_ORDER.indexOf(b);
-      return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+    /* Within a goal, walk the DIFFICULTIES rather than the sorted list.
+     *
+     * Sorting a bucket Beginner -> weeks -> price and taking [0], [1], [2] in
+     * successive rounds gives three beginners whenever a goal has three of
+     * them — which is why /planes/running/ opened twelve Beginner cards even
+     * after the goals were varied: it has six goals and 19 5-km plans, most of
+     * them beginner. Round one is one beginner per goal; round two should be
+     * one INTERMEDIATE per goal, not the second-easiest beginner.
+     *
+     * So each bucket is re-laid as a difficulty round-robin, and the outer
+     * loop then walks the goals. Beginner -> fewest weeks -> cheapest still
+     * decides the order inside a single difficulty. */
+    order.forEach(function (g) {
+      var byDiff = {}, diffOrder = [];
+      buckets[g].forEach(function (c) {
+        var d = c.dataset.difficulty || "";
+        if (!byDiff[d]) { byDiff[d] = []; diffOrder.push(d); }
+        byDiff[d].push(c);
+      });
+      diffOrder.sort(function (a, b) {
+        var ia = DIFF_ORDER.indexOf(a), ib = DIFF_ORDER.indexOf(b);
+        return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+      });
+      diffOrder.forEach(function (d) {
+        byDiff[d].sort(function (a, b) {
+          return ((+a.dataset.weeks || 99) - (+b.dataset.weeks || 99)) ||
+                 ((parseFloat(a.dataset.price) || 999) - (parseFloat(b.dataset.price) || 999));
+        });
+      });
+      var laid = [], r = 0, more = true;
+      while (more) {
+        more = false;
+        for (var i = 0; i < diffOrder.length; i++) {
+          var c = byDiff[diffOrder[i]][r];
+          if (c) { laid.push(c); more = true; }
+        }
+        r++;
+      }
+      buckets[g] = laid;
     });
+    // Bigger goals first, so a hub leads with what it actually has depth in.
+    order.sort(function (a, b) { return buckets[b].length - buckets[a].length; });
 
     var keep = [], row = 0, added = true;
     while (keep.length < CAP_N && added) {
@@ -416,7 +463,14 @@
     // Preset facets (sport-specific category pages) filter on load. This pass
     // is NOT user-initiated, so it leaves the cap in place — a preset hub is
     // still a first paint, and /planes/running/ alone holds 66 plans.
-    if (container.querySelector("input[type=checkbox]:checked")) applyFilters(container);
+    if (container.querySelector("input[type=checkbox]:checked")) {
+      // Scope the dependent facets too, or /planes/running/ offers 1500m as a
+      // distance. updateDependentFacets() only ran on change events, so a
+      // preset applied server-side never triggered it.
+      updateDependentFacets(container);
+      applyFilters(container);
+      updateBadges(container);
+    }
     setupCap(container);
   });
 })();

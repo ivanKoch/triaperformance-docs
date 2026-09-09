@@ -1,0 +1,50 @@
+---
+layout: layouts/base.njk
+lang: en
+transKey: runner-core
+pageCss:
+  - "members-fuerza.css"
+  - "public-tool.css"
+toolCapture: runner_week
+title: "Runner Core — guided routine with a timer, free"
+description: "Six core exercises specific to running, with a timer and set counter. Pick 3 or 4 rounds and the routine builds itself. No sign-up."
+ogTitle: "Runner Core"
+rcPublic: true
+rcLibraryLabel: "Running plans"
+rcLibraryHref: "/en/plans/running/"
+---
+{#- PUBLIC runner core. The gated twin is /members/core-corredor/ and its
+    siblings; both render partials/runner-core-en.njk, so the routine
+    itself exists once. See that partial's header for why.
+
+    INDEXABLE, unlike everything under /members/ — that is the point of it.
+    The zones calculator already proved this pattern: a real working tool in
+    public earns search traffic that a screenshot never can, and it is the only
+    honest way to show what a subscription contains before someone pays.
+
+    ⚠️ DARK, where the public zones calculator is light, and the distinction is
+    worth keeping: that one is document-shaped — a form and a table you read —
+    so it follows the page. This is app-shaped: a timer held in one hand on a
+    floor, mid-session. It keeps the product's own surface, because a light
+    clone of the members tool would be a different product wearing its name.
+    brand-guidelines.md §3.3 names this as the fourth permitted carbon surface.
+
+    The capture below the tool trades "La semana de fuerza del corredor" for an
+    email, through /api/tool-lead — ONE generic endpoint, not a third clone of
+    the plan-lead and zone-workouts workflows. tool-lead-runbook.md.
+    ⚠️ It sits BELOW the tool with the All-Access CTA at the foot, deliberately:
+    this branch opened on the plan page putting Buy at y=556 and its capture at
+    y=625, 69 px apart, and that measurement is the reason there is a whole
+    section between the two asks here. -#}
+{% include "partials/runner-core-en.njk" %}
+
+{% include "partials/tool-capture.njk" %}
+
+<section class="cta-final">
+  <div class="wrap">
+    <span class="label">The full library</span>
+    <h2>This is one of sixteen tools</h2>
+    <p>The Member Area has routines for before and after training, routines for when something hurts, and calculators for your zones. They all work like this one: you build it in the moment, it is not a PDF to file away.</p>
+    <a href="/en/all-access/" class="btn-primary">See All-Access</a>
+  </div>
+</section>

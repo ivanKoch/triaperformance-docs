@@ -2,6 +2,14 @@
 
 **Status: v1 SHIPPED in all three languages, September 4, 2026** **· verified: 2026-09-08** — `/members/core-corredor/`, `/members/en/runner-core/`, `/members/pt/core-do-corredor/`. *ES first, EN and PT the same day, at Iván's request.* Fifth artifact on the strength engine (`strength-tool.js`; engine home doc: `knee-strength-brief.md`).
 
+## It has a public sibling, and that sibling is where the capture lives
+
+**`/core-para-corredores/`, `/en/runner-core/`, `/pt/core-do-corredor/` — shipped September 9, 2026**, indexable, the second free public tool after the zones calculator. ***Extracted, not duplicated:*** *the routine body moved into `partials/runner-core-{es,en,pt}.njk` and both the gated and the public page render it, so the twelve exercises and their cues still exist once.* **A change to the routine still goes into all three languages in one pass, and now reaches six pages.**
+
+**The public one carries an email capture; the gated one does not** — a subscriber has already paid for the guide, and asking them for an address would be charging them twice. Offer: `lead-magnet-semana-de-fuerza.md`. Pipeline: `tool-lead-runbook.md`.
+
+🔑 ***The guide is where this brief's honesty about the upper-back gap goes public.*** *Section 2 of it tells the reader, in his voice, that the paracaidista swap left scapular endurance untrained anywhere in the circuit — and tells them to fill it with a prone W with the legs on the floor, not a superman.* **So the §Changes-from-the-source warning below is no longer only an internal note; it is customer-facing copy, and changing the decision now means changing the guide too.**
+
 ## What it is
 
 One question — 3 or 4 rounds — then warm-up → circuit × N → cool-down. Bodyweight throughout. Source: Iván's `Running core.md`, not committed; this file is the home.

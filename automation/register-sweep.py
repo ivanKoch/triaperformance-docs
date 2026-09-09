@@ -263,6 +263,8 @@ cómo dónde cuándo porqués ademá
 olá até pés trás você vocé nahí josué fechá sequenciá organizá-las
 # Portuguese function words in the trilingual data files — not Spanish, not voseo
 já dá vá há lá aí cá pé né dás vás hás daí aí mostrá separá deixá prescrevê
+# Spanish weekday abbreviations in table headers — "mié" is miércoles, not a verb
+mié
 # irregular futures: the stem is not the infinitive, so the generic rule misses them
 verás veré verá harás haré hará irás iré irá dirás diré dirá podrás podré podrá
 pondrás pondré pondrá tendrás tendré tendrá saldrás saldrá vendrás vendrá

@@ -6,6 +6,8 @@
 
 > *Corrected August 14, 2026, one day after this file was created. The struck line read* **"Status: NOT LIVE. Front end has been posting to `/api/zone-workouts` since Aug 10; nothing was listening."** *It was true when written and false within a day — **the shortest-lived stale status claim in the repo, and the cheapest kind to produce**: a runbook written the day before the thing it describes goes live. Everything below is now a build record, not a to-do list. Live state belongs to `open-loops.md`; this header carries a `verified:` date so its age is visible.*
 
+> 🚨 ***DO NOT CLONE THIS RUNBOOK FOR A NEW LEAD MAGNET. September 9, 2026:*** *`/api/tool-lead` exists and is generic — one webhook, one workflow, one `TOOL_LEAD` enum value, with `magnet` in the payload selecting the PDF and the copy.* **This file and `plan-lead-pipeline-runbook.md` are the two copies that motivated it; a third was the alternative.** *Adding a magnet is now two edits and zero n8n work: `tool-lead-runbook.md`.* ⚠️ **This pipeline stays as it is and is not migrated** — it works, it is live, and rewriting a live sender to prove a point is how a working pipeline breaks. *It migrates when it next needs a change, or never.*
+
 ~~Everything below is what makes it work.~~ **Cloned from `plan-lead-pipeline-runbook.md` and `automation/plan-lead-workflow.json`, which are the proven pattern; read that runbook if anything here is ambiguous.**
 
 ## What the front end sends
