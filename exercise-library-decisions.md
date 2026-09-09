@@ -10,6 +10,146 @@ so a later session does not re-open a settled question.
 
 ---
 
+## D0 — What this cost, and the rule it earns
+
+*Written September 9, 2026, one day after the fact, because the failure is more
+instructive than any of the decisions below it and would otherwise survive only
+as "the day I lost an afternoon."*
+
+### What actually happened
+
+Nine artifacts were authored over roughly four weeks. Each one was written from
+scratch: the author opened a blank page, wrote the routines the athlete would
+see, and wrote the exercise names and cues inline as part of writing the routine.
+That is the natural way to build the first one. It is also the natural way to
+build the ninth, because nothing in the process ever asks whether the exercise
+being written already exists somewhere else.
+
+The problem surfaced on September 8 — not from an audit, not from a hygiene pass,
+but because filming videos required a list of what to film. **There was no list.**
+Producing one meant extracting the exercises out of nine pages of hand-written
+markup, and the extraction is what showed the shape of it.
+
+### The numbers, and the reframe they force
+
+The instinct is to say "there were 700 exercises." That is the wrong sentence and
+it produces the wrong fix.
+
+| | |
+|---|---|
+| Exercise placements, Spanish | **253** |
+| Same, in each of EN and PT | **253 each** |
+| **Total name + cue copies in the repo** | **759** |
+| **Canonical exercises underneath them** | **188** |
+| Clips actually needed to film | **187** |
+| Clusters where one exercise had 2+ names | **33** |
+| Worst case | a **four-way** name split |
+
+*Derived by `automation/extract-members-exercises.js` and
+`automation/apply-exercise-merge-map.js` — re-run them rather than quoting these.*
+
+**There were never 700 exercises. There were 188 exercises stored 759 times.**
+
+That distinction is the whole finding. "700 exercises" describes a content
+problem, and the fix for a content problem is a long afternoon of tidying.
+"188 exercises stored 759 times" describes a **missing entity** — there was no
+such thing as *an exercise* in this system, only text that happened to appear on
+pages — and the fix for that is a schema, which is a different and larger job.
+
+The visible symptom was the cost of a correction: editing one cue correctly meant
+editing **up to 18 places across 15 files**. That is why `core/` came to call
+cat-cow *"Gato-vaca"* while five other artifacts called it *"Gato-camello"*.
+Nobody made a mistake. The structure made agreement expensive and disagreement
+free.
+
+### Why it went unnoticed for nine artifacts
+
+**Because each one was cheap to build.** That is the uncomfortable half.
+
+A missing entity model is normally caught by pain — the second time you build
+something, the duplication hurts enough to make you stop and factor it out. Here
+the second, third and ninth artifacts each cost an afternoon, so the question
+that duplication is supposed to trigger never got triggered. The tooling removed
+the friction that would have forced the design decision.
+
+⚠️ ***The general form, and it is worth stating as a rule rather than a war
+story: when building an instance gets cheap, the missing abstraction stops
+announcing itself.*** *The old signal for "you need a schema here" was that
+copying was laborious. That signal is gone. It has to be replaced with a
+deliberate check, because nothing in the work itself will now supply it.*
+
+### The second finding: it was discovered by accident
+
+Nothing in this repo would have found this. The hygiene pass diffs
+`library.json` against `site/members/`; the build guards check links and alt
+text; `open-loops.md` tracks what was decided. **None of them can see that two
+pages describe the same movement in different words**, because none of them
+holds a concept of *the same movement*.
+
+It surfaced only because filming needs a list, and needing a list is the first
+task in fourteen months that required the entity to exist. Had videos never been
+wanted, the drift would have compounded silently through artifact #10, #11 and
+#12.
+
+*This is the same family as the September 2 inventory finding — an inventory is
+only a control if the thing it is meant to catch would appear in it — and it is
+the sharper version of it: here the control could not exist at all, because the
+thing it would check was not a thing the system represented.*
+
+### What was actually fixed on September 8, and what was not
+
+**Do not describe this as "an afternoon of standardising with the plumbing still
+undone."** It undersells the first half and blurs the second.
+
+**Closed, same day, all three languages:**
+
+- **69 name renames** across 21 pages, three languages, three rounds. All 33
+  clusters now read one name everywhere; regression check
+  `automation/exercise-name-audit.js` reports 33 clusters, 0 divergent.
+- **Every cue harmonised** — 253 placements × 3 languages, Iván's own text.
+  Spanish first, then EN/PT the same evening.
+
+**Still open, and this is the durable half (`open-loops.md` NEXT #15, parked
+behind race pages):**
+
+- **`site/_data/exercises.json` does not exist.** The words agree today; nothing
+  *makes* them agree tomorrow. Same pattern and same precedent as
+  `site/_data/library.json`, whose own header records the identical failure on
+  the marketing side.
+- **`strength-tool.js` has no `video` field.** `activation-tool.js` has one and
+  renders it. So **55 of the 188 canonical exercises have nowhere to put a video**
+  — aquiles, rodillas, hombro, core-ciclista, core-corredor. The filming problem
+  that started all of this is still not solved for a third of the library.
+- **`artifact-publish-runbook.md` still has no lookup step.** An author writing
+  artifact #10 today writes its exercises from scratch, exactly as the first nine
+  did.
+
+🔑 ***That last one is the only fix that matters, because it is the only one that
+prevents recurrence rather than repairing damage.*** *A canonical library that
+nothing is obliged to consult is a suggestion, and a day of harmonisation buys
+about six weeks before the next tool re-splits it.*
+
+### The three rules this earns
+
+1. **Before authoring artifact N+1, ask what entity it instantiates — and whether
+   that entity has a home.** Not "has this been built before" (the wrong
+   question, answered by memory) but "does the thing this page is made of exist
+   as data anywhere" (the right one, answered by looking).
+
+2. **The lookup must match on the movement, not the string.** An author writing
+   *"Gato-vaca"*, *"Cat-cow"* or *"Gato camello"* has to be shown the existing
+   `catcow` entry. `automation/cluster-exercise-duplicates.js` already does that
+   matching against the corpus; the missing piece is running it against a
+   *candidate*, and a runbook step that requires it.
+   **Build it in the same branch as `exercises.json`, not after.**
+
+3. **When a build gets cheap, add the design checkpoint the cost used to
+   supply.** The friction that used to force factoring-out is gone and is not
+   coming back. Whatever replaces it has to be explicit, scheduled, and part of
+   the authoring process — not a virtue exercised when someone happens to notice.
+
+---
+
 ## D1 — Cue model. **DECIDED September 8, 2026: merge, keep notes.**
 
 One canonical `cue` per exercise carrying the **movement description**, plus an
