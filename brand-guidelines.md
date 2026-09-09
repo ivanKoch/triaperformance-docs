@@ -187,7 +187,9 @@ Rules: no italics. Headlines in sentence case — labels are the only uppercase 
 
 **Price** — Display weight and width, tabular figures, the period (`/mes`) at 20px weight 400 in Slate. Directly beneath it, **one line of five to seven words naming what you get** — not a feature, the shape of the thing. Then the list.
 
-**Testimonial** — quote in Body, then name (600), country (Small/Slate), and a **result chip**: the event and the time, in tabular figures, 3px radius, Heat text on a Heat tint. The chip is the proof; the quote is the colour around it. Quotes come from `social-proof-and-reviews.md`.
+**Testimonial** — quote in Body, then name (600), country (Small/Slate), and a **result chip**: the event and the outcome, in tabular figures, 3px radius, Heat text on a Heat tint. The chip is the proof; the quote is the colour around it. Quotes come from `social-proof-and-reviews.md`.
+
+> ⚠️ **The chip is optional, and an empty one stays empty.** It may state only what that athlete's own quote states. `social-proof-and-reviews.md` holds names, countries and quotes — **it holds no separate finish-time data** — so "42k en menos de 3 hrs" earns `Maratón · sub-3` and nothing more precise. A testimonial whose quote names no result gets no chip, and the gap is the honest signal. *An invented time on a coaching site is not a design defect; it is a false claim about a real person's race.*
 
 **Credential band** — logo band grouped by issuing body, placed after athlete proof and before the final ask. Institutional proof follows human proof. Content from `site/_data/credentials.json`; never hand-written into a page.
 

@@ -143,6 +143,26 @@ Effort tiers, not priority. The **Impact** column is how much less accidental th
 
 ---
 
+## 3c. Second tranche — September 9, 2026
+
+**Items 13, 14 and 15, shipped together because they are one piece of work.** *This is also the tranche where the heat token first renders: until today it was defined in `tokens.css` and used **zero times**, because all three of its permitted uses are components that did not exist. That gap was real and worth naming — the decision was taken on September 6 and was invisible on the site for three days.*
+
+| Item | What landed |
+|---|---|
+| 13 | **Unequal offer row.** Coaching 1:1 takes a full-width featured card with a 3px Heat rule on the top edge and a Heat eyebrow; All-Access and Plans sit beneath as a pair. *Chosen over a 2fr/1fr/1fr single row because these cards carry four or five lines of real copy and a narrow third column crushes them.* |
+| 14 | **Testimonial module** with an optional result chip — name, country, and the event/outcome in tabular Heat-on-Heat-tint. Attributions align across a row. |
+| 15 | **Price treatment on the featured card** — 50px tabular figure, `/mes` in slate, a five-word inclusion line, and the section's one primary CTA. |
+
+All three languages. Build clean (588 files), suite green, no horizontal scroll at 390px.
+
+🚨 **The finding, and it changed what shipped.** *The mockup that won the decision showed a chip reading `MARATÓN · 2:58`.* **There is no 2:58 anywhere in this repo.** `social-proof-and-reviews.md` holds names, countries and quotes and **no separate finish-time data** — every time lives inside a quote as the athlete phrased it. So a chip may only restate its own quote: "42k en menos de 3 hrs" became `Maratón · sub-3`, and quotes naming no result got **no chip at all** — two of four in ES and PT, and **all three in EN**. *The module was built to degrade quietly for exactly this reason.* ⚠️ **The EN page having zero chips is not a bug, it is `NEXT #7` (EN/PT review generation) showing up as a hole in a component.** The rule is now in `brand-guidelines.md` §6.
+
+**Two things left open, both small and both Iván's:**
+- **No Google reviews URL exists in the repo** — `site.json` has `reviewCount` and no link. Item 14 called for linking the 46 reviews; the count still renders as plain text until he supplies the GBP URL.
+- **The homepage states `$149` twice** — once on the featured card, once in the `.pricing` section below it. *This predates today: the old service card already carried `$149/mes` in its `card-meta`.* It is `open-loops.md`'s existing three-option decision about that section, and it was deliberately not taken here.
+
+---
+
 ## 4. The two decisions only Iván can make
 
 Everything above is execution. These two are choices, and they gate items 18, 21, 25 and 26.

@@ -679,3 +679,119 @@ body.nav-open { overflow: hidden; }
 .plan-credential { font-size: 13px; color: var(--slate); margin-top: 12px; }
 .plan-credential a { color: var(--slate); text-decoration: underline; }
 .plan-credential a:hover { color: var(--blue); }
+
+/* ============================================================================
+   HOMEPAGE OFFER ROW  —  design-refresh-brief.md items 13 and 15
+   ----------------------------------------------------------------------------
+   The three offers were three identical `.card`s in a `.grid-3`, and equal
+   weight is a claim: it said $149 and $19.99 are the same kind of thing. They
+   are not, and the section's own intro says so ("lo que cambia es cuánto
+   seguimiento tienes de mi parte — y cuánto cuesta").
+
+   Shape: the featured offer takes a full-width row of its own with the price
+   given real estate, and the two self-serve offers sit beneath it as a pair.
+   Chosen over a 2fr/1fr/1fr single row because these cards carry four or five
+   lines of real copy each and a narrow third column crushes them.
+
+   This is also where the second accent token finally appears on the site:
+   ONE 3px rule along the top edge, plus the eyebrow. Per brand-guidelines §6,
+   a card ringed in heat reads as a warning; a card capped in it reads as the
+   chosen one. Boldness spent in a single place.
+   ========================================================================= */
+.offer-row { display: flex; flex-direction: column; gap: 24px; }
+
+.offer-featured {
+  background: var(--white);
+  border: 1px solid var(--mist);
+  border-top: 3px solid var(--heat-graphic);
+  border-radius: 8px;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(250px, 0.8fr);
+  gap: 44px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .offer-featured { grid-template-columns: 1fr; gap: 28px; padding: 32px 24px; }
+}
+
+.offer-eyebrow {
+  display: block; margin-bottom: 10px;
+  font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--heat);
+}
+.offer-featured h3 {
+  font-size: 28px; font-stretch: 104%; letter-spacing: -0.015em;
+  margin-bottom: 20px;
+}
+@media (max-width: 640px) { .offer-featured h3 { font-size: 24px; } }
+.offer-featured .card-list li { font-size: 15.5px; }
+
+/* The price panel. Wash rather than white so it separates from the card body
+   without a second border — the card already has all the edges it needs. */
+.offer-price {
+  background: var(--wash); border-radius: 6px; padding: 26px 24px;
+  align-self: start;
+}
+.offer-amount {
+  display: flex; align-items: baseline; gap: 2px;
+  font-size: 50px; font-weight: 700; font-stretch: 108%;
+  letter-spacing: -0.025em; line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+@media (max-width: 640px) { .offer-amount { font-size: 42px; } }
+.offer-amount span {
+  font-size: 19px; font-weight: 400; font-stretch: 100%;
+  letter-spacing: 0; color: var(--slate);
+}
+/* The five-to-seven words that say what the number buys, per §6 Price. Without
+   it the figure sits alone and the reader has to go hunting up the card. */
+.offer-inc {
+  margin: 10px 0 20px; font-size: 14px; line-height: 1.45; color: var(--slate);
+}
+.offer-price .btn-primary {
+  display: block; width: 100%; text-align: center;
+  background: var(--blue); color: var(--white); font-size: 15px; padding: 14px 20px;
+  transition: background var(--t);
+}
+.offer-price .btn-primary:hover { background: var(--blue-deep); }
+
+.offer-secondary { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 800px) { .offer-secondary { grid-template-columns: 1fr; } }
+
+/* ============================================================================
+   TESTIMONIALS  —  design-refresh-brief.md item 14
+   ----------------------------------------------------------------------------
+   Was: a quote and a grey "Name — Country" line. The strongest proof in the
+   business, typeset as a sentence.
+
+   The result chip is the point. It carries the event and the outcome in
+   tabular figures, and it is the second and last place the heat token appears
+   on this page — a finish time is the hard end of something, which is the only
+   argument that licenses the colour (brand-guidelines §3.3).
+
+   ⚠️ THE CHIP IS OPTIONAL AND ITS ABSENCE IS DELIBERATE. It renders only where
+   the athlete's own quote states a result. `social-proof-and-reviews.md` holds
+   names, countries and quotes — it holds no separate finish-time data — so a
+   chip may only restate what the quote itself says. Do not fill the empty ones
+   in. An invented time on a coaching site is the one defect here that would
+   actually matter.
+   ========================================================================= */
+.testimonial {
+  margin: 0; max-width: 62ch;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.testimonial p.quote { font-size: 17px; color: var(--ink); margin: 0; }
+/* Pushed to the bottom of the cell so attributions line up across a row even
+   when one quote runs a line longer than its neighbour. */
+.t-who { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.t-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+.t-place { font-size: 14px; color: var(--slate); }
+.t-chip {
+  font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--heat); background: var(--heat-dim);
+  border: 1px solid rgba(217, 72, 15, .22);
+  border-radius: 3px; padding: 3px 8px; white-space: nowrap;
+}
