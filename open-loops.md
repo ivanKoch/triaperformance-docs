@@ -437,6 +437,26 @@
 
 - [ ] **`quick_grant.py` exists only on the VPS at `~/.hermes/`, with no repo copy.** *Found while rewriting `automation/members-area/OPERATIONS.md` §1: Iván's own token playbook ends with `python3 quick_grant.py <email> --name "..."`, and there is no file by that name anywhere in this repo.* **This is precisely the condition the July 31, 2026 standing practice was written to end** — three scripts and the live Caddy config existing only on the box with no version history (`ai-infrastructure-documentation.md` §18). *Either move it into `automation/members-area/` and point the invocation at the repo copy, or delete it: §1 now documents three granting paths, and a fourth undocumented one on the box is worse than none.* ⚠️ **Read it before deciding** — if it prints a token to stdout it is also a leak surface, and §1c already covers the on-the-spot case it was presumably written for.
 
+- [ ] **#16 · n8n attribution is ON in all 17 email nodes, across 10 workflows.** *(Found September 9, 2026, from Iván's screenshot of the `Send an Email` options list — the node's `options` is `{}` everywhere, so the default applies.)* **Every outbound email this business sends currently carries n8n's "sent automatically with n8n" footer**, including the two that go to people who already paid: `Send Welcome Email` and `Send Coaching Welcome Email` in `subscription-lifecycle-automation.json`. ⚠️ ***The CoachMatch rewrite shipped the same day is the one that makes this urgent*** — its opening line is *"te escribo yo para no dejarte solo con un link"*, directly above a machine attribution. **Fix per node: Options → Add option → Append n8n Attribution → OFF** (`"options": { "appendAttribution": false }`). *The live source of truth is n8n, not these files — change it in the UI, then mirror into the `automation/` reference copy.* **The full list:**
+
+  | Workflow | Node(s) |
+  |---|---|
+  | CoachMatch – Email Nurture 2-3 | `Send an Email`, `Send an Email1`, `Send an Email PT`, `Send an Email1 PT` |
+  | CoachMatch Lead Automation | `Send an Email`, `Send an Email PT` |
+  | Subscription Lifecycle (New + Churn) | `Send Welcome Email`, `Send Resend Email`, `Send Coaching Welcome Email` |
+  | Athlete Intake Form | `Email Briefing` |
+  | Website Contact Form → Twenty | `Send confirmation email` |
+  | Plan Catalog Email Capture | `Send reply email` |
+  | Zone Calculator Lead Magnet | `Send reply email` |
+  | Send — CoachMatch PT Backlog | `Send` |
+  | Daily Error Digest | `Send Digest Email` |
+  | `stage11-cancellation-paste.json` | `Send Goodbye Email` |
+
+  📌 *`zone-workouts-workflow.json` and `zone-workouts-workflow.ascii.json` are the same workflow — one node, two reference copies. **Fix it once in n8n and mirror to both files**, or the next audit reads it as two.*
+
+- [ ] **#17 · Mirror the rewritten CoachMatch ES sequence into `automation/`.** *(Opened September 9, 2026. Trigger: Iván imports the new copy into n8n.)* **The three Spanish emails were rewritten this session** — email 1 no longer carries the price, all three ask a question, and the day-5 break-up offers only the zones guide. *The diagnosis behind it: the n8n email always beat Iván's WhatsApp, so a lead read $149 with no discovery and no framing, then went silent — and the CRM recorded that as "no response". **Price losses were being absorbed by the no-response bucket**, which is why close #1's "price = 6.6% of losses" is a floor, not an estimate.* **Register verified**: `register-sweep.py --wide` returns 0 lines would change; the only flags are `escribí` and `bajé`, both first-person preterite. ⚠️ **Decisions taken with it, so they are not re-opened:** *(a)* **price stays at $149** — Iván has already told his athletes referrals and new customers are at that number; *(b)* **the unsubscribe footer was removed from the ES emails** rather than wired, because `unsubscribe_url` is produced nowhere in either workflow and was rendering an empty `href` (see the runbook correction below); *(c)* **PT stays as-is** — old copy, price still in PT email 1, no footer — *deliberate, not drift: the PT sequence sells All-Access as the language answer and is a different offer*; *(d)* **no reply alert** — replies to the new "respóndeme aquí" CTA land in the IMAP inbox with no notification, and Iván has accepted that.
+  🔑 ***What this buys, and it is the reason to do it:*** *with the price out of the emails, **"no response" and "not interested — price" stop overlapping.** Labelled properly from here, six weeks of leads give the first honest read on whether $149 is the problem — which is the read the next pricing decision needs.*
+
 ---
 
 ## LATER (parked deliberately)

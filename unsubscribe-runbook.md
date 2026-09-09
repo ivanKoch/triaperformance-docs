@@ -177,11 +177,14 @@ run it, and remove whatever it returns from the merge file.
 Every bulk email ends with this. **Never omit it to make a message feel more
 personal** — that is exactly the reasoning that produces a spam complaint.
 
+🚨 ***REGISTER DEFECT, found September 9, 2026 — the ES footer below is VOSEO, against `brand-guidelines.md` §8.*** *`Recibís`, `no querés`, `acá`. It was written September 6 — two days AFTER the tuteo standardisation — and it is not on `register-sweep.py`'s EXEMPT list: running the sweep on this file reports* **2 lines would change**. ***This is the footer intended for every bulk email the business sends***, so it would have propagated the defect to each new send. **Corrected to tuteo below; the voseo original is struck so the failure mode is not repeated.**
+
 **ES**
 ```
-Recibís este correo porque pediste información sobre coaching en TrainingPeaks.
-Si no querés recibir más, date de baja acá: {{unsubscribe_url}}
+Recibes este correo porque pediste información sobre coaching en TrainingPeaks.
+Si no quieres recibir más, date de baja aquí: {{unsubscribe_url}}
 ```
+~~*Original (voseo, do not use):* `Recibís este correo… Si no querés recibir más, date de baja acá:`~~
 **EN**
 ```
 You're receiving this because you asked about coaching on TrainingPeaks.
@@ -197,6 +200,8 @@ Se preferir não receber mais, descadastre-se aqui: {{unsubscribe_url}}
 "why am I getting this" is the question a spam click is usually answering.*
 
 ## Headers
+
+🚨 ***CORRECTION, September 9, 2026 — this instruction is not executable on the node this repo actually uses.*** *`n8n-nodes-base.emailSend` (typeVersion 2.1) has NO Email Headers option. Its complete option list is:* **Append n8n Attribution · Attachments (Inline) · Attachments (File) · CC · BCC · Ignore SSL Issues · Reply To.** *Confirmed against the live node by Iván.* **So `List-Unsubscribe` cannot be set from a `Send an Email` node at all** — it needs a provider API (Resend/Postmark/SendGrid) driven from an HTTP Request node, which is the move when paid-ads volume justifies it and not before. *At today's volume — 1–2 solicited leads a day — the footer link alone is proportionate.* ⚠️ **The instruction below is retained as the target state, not as a step anyone can follow today.**
 
 On every bulk `Send an Email` node, under **Options → Email Headers**:
 
