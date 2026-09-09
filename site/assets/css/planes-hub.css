@@ -122,3 +122,10 @@ h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
    reading width and in --slate, not as a second lede. */
 .hub-note { padding-top: 0; }
 .hub-note p { max-width: 62ch; color: var(--slate); font-size: 15.5px; line-height: 1.65; }
+
+/* The one-line pointer at the free tool, below the grid. Deliberately not a
+   card and not a CTA: it sits under the plans it must not compete with. */
+.hub-freetool { padding-top: 0; }
+.hub-freetool p { font-size: 15px; color: var(--slate); }
+.hub-freetool a { color: var(--blue); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--wash); }
+.hub-freetool a:hover { border-color: var(--blue); }

@@ -23,8 +23,24 @@ body {
   border-bottom: 1px solid var(--border);
 }
 .site-nav-sticky .logo { color: var(--white); }
-.site-nav-sticky nav a { color: var(--text-dim); }
-.site-nav-sticky nav a:hover { color: var(--blue-bright); }
+
+/* 🚨 COLOUR IS SET ON THE CONTAINER AND INHERITED, not enumerated per element.
+   September 9, 2026: this used to be `.site-nav-sticky nav a { color: … }`, and
+   the "Recursos" dropdown parent is `menuOnly` — a <span role="button">, not an
+   <a> — so it kept the LIGHT theme's --ink on carbon and rendered at 1.15:1 in
+   all three languages. Not dim: invisible.
+   ⚠️ Third instance of one family in four days. `.help a` beat a bare `a` on the
+   auth screens; `.cta-final` painted a background and inherited a colour that
+   was only right on a light page; and here a rule scoped to `a` could not see
+   the sibling that is not an `a`. **Enumerating selectors converts the elements
+   you thought of. Setting colour on the container converts the ones you didn't** —
+   including whatever gets added to this nav next. */
+.site-nav-sticky nav { color: var(--text-dim); }
+.site-nav-sticky nav a,
+.site-nav-sticky nav .nav-dropdown-label { color: inherit; }
+.site-nav-sticky nav a:hover,
+.site-nav-sticky nav .nav-dropdown-label:hover,
+.site-nav-sticky nav .nav-dropdown:hover .nav-dropdown-label { color: var(--blue-bright); }
 .nav-toggle span { background: var(--text); }
 
 @media (max-width: 860px) {
