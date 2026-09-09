@@ -197,6 +197,14 @@ All three languages. Build clean (588 files), suite green, no horizontal scroll 
 
 **Two athletes moved off Home rather than being given a figure.** Limaris's review says "mi mejor tiempo en la distancia" and Sergio's and Jose's name no result at all. *The alternative was `PB` and two figure-less cells, and Heat at display size looks empty next to a label.* **Their quotes are good and belong on `/sobre-ivan/`.** ⚠️ **English still renders with no figures at all, deliberately** — no English review names a result. That is `open-loops.md` NEXT #7 showing through the design and it should stay visible.
 
+### The duplicate coaching block is gone — Iván, September 9, 2026
+
+**"Nuestro enfoque personalizado" / "Our Personalized Approach" / "Nossa abordagem personalizada" removed from all three homepages**, along with the now-dead `.pricing` and `.price-card` rules. *This was the three-option decision that had been open since before this branch, and the carbon featured card is what forced it: the page explained Coaching 1:1 twice, and the second telling had become a plain white box repeating `$149` immediately beneath a carbon one.* **§5: one idea per section; the second appearance is deleted, not reworded.** The homepage now says `$149` exactly once.
+
+⚠️ **`#planes` had to survive the deletion and nearly didn't.** *It lived on the section that was removed, and three things point at it: the hero's second CTA in all three languages, and `/en/#planes` from a published blog post.* **It moved onto the Plans card in the offer row, which is what the anchor always meant.** `#coaching` was never at risk — it sits on the offer section itself and is referenced by the nav in all three languages plus three blog posts. *Worth stating as a rule: before deleting a homepage section, grep the whole repo for its `id`, because the references are mostly not on the homepage.*
+
+**Home is now five sections:** hero → the three offers → testimonials → credential band → contact.
+
 ### The hero: a real symptom, a wrong diagnosis, and why the proposed fix was worse
 
 The review reported *"on desktop the hero is a stretched blur; the LQIP is winning; drop the LQIP layer."* **Tested at 1920, 1440, 1280 and 390 against the real assets: the correct image paints at every one, the layer order is right, and `image-set()` resolves.**

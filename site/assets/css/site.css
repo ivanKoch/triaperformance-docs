@@ -415,10 +415,13 @@ h2 { font-size: 36px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 .card-list li.card-list-hl::before { background: var(--blue); }
 
 /* Pricing */
-.pricing {
-  background: var(--wash);
-}
-.price-card {
+/* `.pricing` / `.price-card` deleted September 9, 2026 (Iván). The homepage
+   explained Coaching 1:1 twice — once in the offer row, then again in its own
+   section with the same $149 — and after the offer card went carbon the second
+   one was a plain white box repeating the price directly beneath it. One idea
+   per section, per §5; the second appearance is deleted, not reworded.
+   `#planes` moved onto the Plans card in the offer row, which is what the
+   hero's "Ver planes" and one EN blog link have always meant by it. */
   background: var(--white); border: 1px solid var(--mist); border-radius: 8px;
   padding: 48px; max-width: 420px; margin: 0 auto; text-align: center;
 }
