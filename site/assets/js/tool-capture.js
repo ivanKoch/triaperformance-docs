@@ -54,10 +54,20 @@
         submitted_at: new Date().toISOString()
       })
     })
-      /* A non-2xx is a failure and says so. A thank-you for an email nobody
-         received is the same class of bug as a placeholder shipping as copy. */
-      .then(function (r) { if (!r.ok) throw new Error("bad status " + r.status); })
-      .then(function () {
+      /* 🚨 `r.ok` ALONE IS NOT ENOUGH, and this was found the hard way on
+         September 9, 2026. An n8n webhook set to responseMode "responseNode"
+         returns **HTTP 200 with an empty body** when the workflow fails before
+         reaching a Respond node — so a run that threw on its first validation
+         step looked, from here, exactly like a successful send. The page would
+         have shown "revisa tu bandeja de entrada" for an email nobody got,
+         which is the same class of bug as a placeholder shipping as copy.
+         The contract is now the BODY: `{"ok":true}`, not the status line. */
+      .then(function (r) {
+        if (!r.ok) throw new Error("bad status " + r.status);
+        return r.json().catch(function () { throw new Error("empty body"); });
+      })
+      .then(function (d) {
+        if (!d || d.ok !== true) throw new Error("workflow did not confirm");
         form.hidden = true;
         say(root.dataset.thanks, "ok");
         if (window.gtag) {

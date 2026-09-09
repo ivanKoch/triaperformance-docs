@@ -147,7 +147,21 @@ curl -i -X POST https://triaperformance.com/api/tool-lead \
   -H 'Content-Type: application/json' -d '{"email":"a@b.co","magnet":"ghost","language":"es"}'
 ```
 
-Expect a 500 and a failed execution in n8n naming the magnet — **not** a 200. *A capture form pointing at a magnet nobody added is the mistake this guards, and it must not look like success.*
+🚨 ***CORRECTED September 9, 2026, against the live endpoint — it returns `HTTP 200` with an EMPTY BODY, not a 500.*** ~~Expect a 500 and a failed execution in n8n naming the magnet.~~
+
+**The guard itself works**: the registry throws, the execution goes red in n8n, and nothing is minted or sent. **The empty body IS the signal** — a successful run always returns `{"ok":true}` — because `responseMode: "responseNode"` answers 200 whenever a workflow ends without reaching a Respond node. *So the pass condition is:* **empty body + a red execution in n8n**, *never `{"ok":true}`.*
+
+⚠️ ***This is a sloppy contract and it is left as-is deliberately.*** *A proper fix is an error output on the registry node routed to a Respond node returning 400 — one node and two clicks in the n8n UI.* **The reason not to do it yet: nothing consumes the status line.** *`tool-capture.js` requires the body to say `{"ok":true}`, so the page already shows its error correctly, and there is no second caller.* 🔑 **Do it the day a second caller appears — and until then, any new caller must check the body, not the status.**
+
+## Two traps this pipeline already hit, live (September 9, 2026)
+
+**Both were found on the first real request, and both are the kind that report success.**
+
+🚨 **1. An n8n Set node REPLACES the item.** `Config` dropped the webhook body, so `Magnet registry` threw on its own `invalid or missing email in payload` guard. *This is why `zone-workouts-workflow.json` references its webhook by node name in every downstream expression — a reason nobody had written down, so the pattern was copied and the reason was not.* **Both fixes are in:** *Include Other Input Fields* is on, **and** the registry reads `$('Webhook - Tool Lead').item.json.body` rather than `$json`. *Keep the second one even if the first looks redundant — it is the half that survives someone editing the Set node.*
+
+🚨 **2. `responseMode: "responseNode"` answers HTTP 200 with an EMPTY BODY when the workflow dies before a Respond node.** *So a run that failed on its first line looked exactly like a successful send.* **`site/assets/js/tool-capture.js` now requires the body to say `{"ok":true}`; the status line is not the contract.** ⚠️ **Anything else that ever calls this endpoint must do the same.**
+
+🔑 ***What actually caught it: the database check, not the HTTP check.*** *Step A returned 200; step B returned zero rows in `unsubscribe_tokens`.* **After any write path, assert the write — not what the write reported about itself.** *That single habit would have caught all five members of this family already recorded in `ai-infrastructure-documentation.md`.*
 
 ## The front end
 
