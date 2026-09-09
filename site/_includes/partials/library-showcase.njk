@@ -27,12 +27,31 @@
     <div class="lib-group">
       <h3 class="lib-group-title">{{ lib.categories[cat] }}</h3>
       <div class="grid-3 lib-grid">
+        {#- 🚨 A PUBLIC ENTRY IS A LINK; A GATED ONE IS NOT. Until September 9,
+            2026 every card here was a plain <div> — sixteen tools described and
+            not one of them clickable, on the page whose whole job is to make
+            the product feel real. Three of them have public siblings that a
+            stranger can use right now, and those are the strongest thing on
+            this page: they are the only place the reader can touch the product
+            before paying.
+            ⚠️ The gated thirteen deliberately stay un-linked. Sending a
+            prospect at a login wall converts nothing and reads as a bait —
+            the same rule partials/tool-cta.njk already follows. -#}
         {%- for item in lib.live %}{% if item.category == cat %}
+        {%- if item.gated %}
         <div class="include-card">
           <span class="tag">{{ item.tag }}</span>
           <h3>{{ item.name }}</h3>
           <p>{{ item.desc }}</p>
         </div>
+        {%- else %}
+        <a class="include-card include-card--free" href="{{ item.url }}">
+          <span class="tag tag--free">{{ lib.freeLabel }}</span>
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.desc }}</p>
+          <span class="include-cta">{{ lib.freeCta }}</span>
+        </a>
+        {%- endif %}
         {%- endif %}{% endfor %}
       </div>
     </div>

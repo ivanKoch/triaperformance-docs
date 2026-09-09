@@ -141,6 +141,24 @@
 
 ⚠️ **NOT LIVE — three steps are Iván's** (Twenty enum, Caddy reload, n8n import), and one content question is his: **the week grid on page 4 of the guide is derived from his placement rules and has never been signed off as a week.**
 
+### Phase 1.6 — the chooser stopped lying, September 9, 2026
+
+*From Iván's audit. Three items accepted, and the measurement behind one of them found a bigger defect than the audit did.*
+
+🚨 ***The sport chooser counted 20 plans twice and left 12 with no door.*** *The six tiles were Running 70 · Ciclismo 33 · Triatlón 30 · Natación 19 · HYROX 7 · Ironman 13 —* **which sums to 172 against a 164-plan catalogue.** *Measured from `data/training_plans_inventory.csv`:* **all 7 HYROX plans are `sport = Running`** *and* **all 13 Half/Full plans are `sport = Triathlon`**, *so both tiles were distances wearing a sport's clothes and double-listing plans that already sat inside their neighbour.* **Meanwhile Duatlón (10) and Fuerza (2) had no tile at all.** 🔑 *The audit spotted Ironman. It did not spot HYROX doing the identical thing, or the 12 plans reachable from nowhere — and fixing Ironman alone would have left a chooser that still did not add up.* **Now: four sports = 152, a secondary "o por objetivo" line for HYROX and Ironman, and a sentence naming Duatlón and Fuerza. 152 + 12 = 164.** ⚠️ ***Do not put a distance back in that row.***
+
+**Also shipped, all three from the audit and all verified in a browser:**
+
+- **The sport facet is hidden on a sport hub.** `/planes/running/` was offering Ciclismo and Duatlón as checkboxes: ticking one navigates nowhere and un-ticking Running empties a page whose identity is Running. 🔑 ***A control that can only take you off the page you are on is not a filter, it is a broken link with a checkbox*** — and it is the strongest "admin tool" signal the page had. *Hidden, not deleted: the preset checkbox is what `catalog-filters.js` reads to know which sport the hub is.* **`/planes/running/` now shows Distancia · Nivel · Duración · Características, and `/planes/` still shows Deporte.**
+- **Tiles became a row of links.** No radius, no shadow, no fill; hairline separators, name left, count right. *Six identical white boxes invite comparison and offer nothing to compare — the only difference between two of them is a word and a number.*
+- **The hub hero is one paragraph.** Five hubs had two plus a "Ver planes" button pointing at a grid already on screen. *The second paragraph moved BELOW the catalogue rather than being cut — it is a real selling point, and under the grid it reads as a footnote to a decision instead of a delay before one.* **`.plan-hero` bottom padding 48 → 24px: on `/planes/` the stack put 132 px of nothing between "Elige tu objetivo" and the four links that answer it.**
+
+**Measured after:** `/planes/` 3,307 px desktop and 5,719 px mobile, `/planes/running/` 3,000 px, zero horizontal overflow at 390 and 1440, 12 of 164 cards visible, `npm test` exit 0.
+
+**Still open from the audit, and not done here:** cards → rows in the catalogue itself, the PDP, and All-Access merchandising. *Two follow-ups this pass created rather than closed:* **`/planes/duatlon/` and `/planes/fuerza/` have no hub**, which is why Phase 1 criterion 4 is still only half met and why those 12 plans are named in a sentence rather than given a link.
+
+---
+
 ## Phase 2 — All-Access, and letting a stranger see the members area
 
 **Absorbs `open-loops.md` NOW → "Nothing in the library is visible to a prospect."** *That item's three options — ungate one tool, screenshots, or a screen capture — are this phase's opening decision and are not decided here yet.*

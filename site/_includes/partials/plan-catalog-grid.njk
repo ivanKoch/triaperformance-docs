@@ -44,7 +44,20 @@
 
 <div class="catalog-layout plan-catalog" data-catalog>
   <aside class="facets">
-    <div class="facet-group" data-facet-group>
+    {#- 🚨 THE SPORT FACET IS HIDDEN ON A SPORT HUB, and it is a route change
+        rather than a filter. `/planes/running/` was offering Ciclismo and
+        Duatlón as checkboxes: ticking one navigates nowhere and un-ticking
+        Running empties a page whose whole identity is Running. A control that
+        can only take you off the page you are on is not a filter, it is a
+        broken link with a checkbox, and it is the single strongest "this is an
+        admin tool" signal on the page.
+
+        Still RENDERED, not deleted: the preset checkbox is what
+        catalog-filters.js reads to know which sport this hub is, and removing
+        the input would break the count and the dependent-facet scoping. It is
+        hidden from sight and from the accessibility tree, and the group's
+        heading goes with it. On /planes/ itself the group shows normally. -#}
+    <div class="facet-group" data-facet-group{% if presetSport %} hidden aria-hidden="true"{% endif %}>
       {{ facetHead(u.filterSport) }}
       <div class="facet-options" data-facet-panel>
         {%- for s in sports %}

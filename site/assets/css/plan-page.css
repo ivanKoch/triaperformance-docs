@@ -7,7 +7,11 @@
 .breadcrumb a { color: var(--slate); text-decoration: none; }
 .breadcrumb a:hover { color: var(--blue); }
 
-.plan-hero { padding-bottom: 48px; }
+.plan-hero { padding-bottom: 24px; }
+/* Was 48px. On /planes/ it stacked with the chooser's own margin and the
+   intro paragraph's, putting 132px of nothing between "Elige tu objetivo" and
+   the four links that answer it — on the one screen whose whole job is to be
+   chosen from quickly. */
 .plan-hero h1 { font-size: 40px; margin: 8px 0 12px; }
 @media (max-width: 640px) { .plan-hero h1 { font-size: 28px; } }
 .plan-meta { color: var(--slate); font-size: 16px; margin-bottom: 16px; }
@@ -135,6 +139,11 @@
 
 .facets { position: sticky; top: 24px; }
 .facet-group { margin-bottom: 28px; }
+/* 0,2,0 so it beats every `.facet-group` rule in this file, including the
+   mobile block's `margin-bottom: 0`. Same trap as `.catalog-card[hidden]`:
+   the UA sheet's display:none is the weakest declaration in the cascade and
+   any class rule that touches display or layout will quietly win. */
+.facet-group[hidden] { display: none !important; }
 .facet-group h3 {
   font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
   color: var(--slate); margin-bottom: 12px;

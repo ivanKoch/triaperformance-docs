@@ -227,3 +227,30 @@ h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 }
 .aa-peek figcaption span { font-size: 14.5px; line-height: 1.5; color: var(--slate); }
 .aa-peek-note { margin-top: 28px; font-size: 14px; color: var(--slate); }
+
+/* The three cards that are real doors. A public sibling is the only place a
+   prospect can touch this product before paying, so it does not look like the
+   thirteen it sits among: heat kicker, a visible call, and the whole card is
+   the hit area. The gated thirteen stay plain <div>s on purpose — a card that
+   lands on a login wall converts nothing and reads as a bait. */
+.include-card--free {
+  display: flex; flex-direction: column; align-items: flex-start;
+  /* align-items is load-bearing: a column flex container stretches its children,
+     so the tag — an inline-block that hugs its text inside the gated <div>s —
+     became a full-width bar the moment this card became a flex column. The two
+     card types sit side by side and must read as the same object. */
+  text-decoration: none; color: inherit;
+  border-color: var(--heat);
+  transition: border-color var(--t), transform var(--t);
+}
+.include-card--free:hover { border-color: var(--heat-graphic); transform: translateY(-1px); }
+.include-card--free h3 { color: var(--ink); }
+.tag--free {
+  background: var(--heat-dim) !important;
+  color: var(--heat) !important;
+}
+.include-cta {
+  margin-top: auto; padding-top: 12px; align-self: flex-start;
+  font-size: 13.5px; font-weight: 700; color: var(--heat);
+}
+

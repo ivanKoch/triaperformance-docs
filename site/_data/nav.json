@@ -87,6 +87,10 @@
       "url": "/blog/"
      },
      {
+      "label": "Core de Corredor (gratis)",
+      "url": "/core-para-corredores/"
+     },
+     {
       "label": "Conversor de Ritmo",
       "url": "/conversor-de-ritmo/"
      },
@@ -184,6 +188,10 @@
       "url": "/en/blog/"
      },
      {
+      "label": "Runner Core (free)",
+      "url": "/en/runner-core/"
+     },
+     {
       "label": "Pace Converter",
       "url": "/en/pace-converter/"
      },
@@ -270,6 +278,10 @@
      {
       "label": "Blog",
       "url": "/pt/blog/"
+     },
+     {
+      "label": "Core do Corredor (grátis)",
+      "url": "/pt/core-do-corredor/"
      },
      {
       "label": "Conversor de Ritmo",

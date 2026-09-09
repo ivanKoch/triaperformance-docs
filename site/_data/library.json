@@ -236,7 +236,9 @@
       "numbers": 6,
       "train": 7,
       "pain": 3
-    }
+    },
+    "freeLabel": "Gratis",
+    "freeCta": "Probar ahora →"
   },
   "en": {
     "heading": "The Members Area library",
@@ -474,7 +476,9 @@
       "numbers": 6,
       "train": 7,
       "pain": 3
-    }
+    },
+    "freeLabel": "Free",
+    "freeCta": "Try it now →"
   },
   "pt": {
     "heading": "A biblioteca da Área de Membros",
@@ -712,7 +716,9 @@
       "numbers": 6,
       "train": 7,
       "pain": 3
-    }
+    },
+    "freeLabel": "Grátis",
+    "freeCta": "Testar agora →"
   },
   "_paceNote": "September 8, 2026 — `Conversor de ritmos` moved out of `soon` and into `live` in all three languages. It had been listed as a coming-soon ALL-ACCESS tool; it shipped as a PUBLIC page under Recursos instead (Iván's call, same day), with a members copy on the zones-calculator pattern. Keeping it in `soon` would have had the three sales pages promising subscribers a tool anyone can already use for free. `categoryCounts.numbers` went 5 → 6 with it. That figure is hand-maintained and nothing checks it — it is a count of a list sitting three keys below the list it counts, in three languages. Re-derive it whenever a tool ships or retires."
 }

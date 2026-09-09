@@ -54,22 +54,48 @@ h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
    removing the grid here would leave those plans reachable only from the
    sitemap. Splitting it is a real option, but it needs those two hubs to exist
    first, and inventing them to satisfy a layout is the wrong order. */
+/* A ROW OF LINKS, not fake product cards. Six identical white boxes with a
+   border and a radius read as a product grid, so the eye tries to compare them
+   and finds nothing to compare — the only difference between two tiles is a
+   word and a number. Rows separated by a hairline say "pick one" instead.
+   No radius, no shadow, no fill: the type does the work. */
 .sport-tiles {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px; margin: 28px 0 0;
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 0 32px; margin: 4px 0 0;   /* the chooser is the point of this screen; it does not need 28px of runway */
+  border-top: 1px solid var(--mist);
 }
-@media (max-width: 620px) { .sport-tiles { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 620px) { .sport-tiles { grid-template-columns: 1fr; } }
 .sport-tile {
-  display: flex; flex-direction: column; gap: 4px;
-  padding: 18px 20px; text-decoration: none;
-  background: var(--white); border: 1px solid var(--mist); border-radius: 8px;
-  transition: border-color var(--t), box-shadow var(--t);
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+  padding: 15px 2px; text-decoration: none;
+  border-bottom: 1px solid var(--mist);
+  transition: color var(--t);
 }
-.sport-tile:hover { border-color: var(--blue); box-shadow: 0 1px 3px rgba(30,32,25,.08); }
-.sport-tile b { font-size: 16px; font-weight: 700; color: var(--ink); }
+.sport-tile:hover b { color: var(--blue); }
+.sport-tile b { font-size: 17px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
 .sport-tile span {
-  font-size: 12.5px; color: var(--slate); font-variant-numeric: tabular-nums;
+  font-size: 13px; color: var(--slate); font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
+
+/* The secondary line. HYROX and Ironman are DISTANCES, not sports — every
+   HYROX plan is sport=Running and every 70.3/140.6 is sport=Triathlon — so as
+   siblings of Running and Triatlón they counted 20 plans twice and made the
+   chooser sum to 172 against a 164-plan catalogue. They are goals inside a
+   sport, and they read as goals here. */
+.sport-goals {
+  margin: 18px 0 0; font-size: 14px; color: var(--slate);
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px;
+}
+.sport-goals .label {
+  font-size: 11.5px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--slate);
+}
+.sport-goals a { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--mist); }
+.sport-goals a:hover { color: var(--blue); border-color: var(--blue); }
+.sport-goals a span { color: var(--slate); font-weight: 400; font-variant-numeric: tabular-nums; }
+.sport-rest { margin: 10px 0 0; font-size: 13px; color: var(--slate); }
+.sport-rest a { color: var(--ink); border-bottom: 1px solid var(--mist); text-decoration: none; }
 
 /* The All-Access line, placed in the first screen: an athlete with more than
    one goal this year should not be buying plans one at a time. */
@@ -90,3 +116,9 @@ h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 
 .catalog-recommended-head { margin: 44px 0 4px; }
 .catalog-recommended-head h2 { font-size: 24px; margin-bottom: 8px; }
 .catalog-recommended-head p { color: var(--slate); font-size: 15px; max-width: 62ch; margin: 0; }
+
+/* The paragraph that used to sit second in the hero. Below the catalogue it is
+   a footnote to a decision rather than a delay before one, so it is set at
+   reading width and in --slate, not as a second lede. */
+.hub-note { padding-top: 0; }
+.hub-note p { max-width: 62ch; color: var(--slate); font-size: 15.5px; line-height: 1.65; }
