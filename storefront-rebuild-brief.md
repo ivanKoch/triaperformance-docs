@@ -188,28 +188,44 @@
 
 ---
 
-### Phase 2 — the PDP gets a second offer and its first colour, September 10, 2026
+### Phase 2 — the PDP rebuilt, September 10, 2026
 
-**Iván's ask was for colour** — *"at least one card in dark the same as Training peaks is doing when they offer premium"* — **and the honest read is that the page had a worse problem than being grey.**
+**Two passes in one day, and the second reversed part of the first.** *Morning: Iván asked for colour — "at least one card in dark the same as Training peaks is doing when they offer premium". Afternoon: he read the live page and an external audit, and the read was sharper than the ask.*
 
-**The buy box held two primary actions 69 px apart.** Buy at y=556, an email-capture form at y=625. *A page with two things to click first has no first thing to click.* The capture is not lost — `.plan-help` further down carries the same form under a heading that asks whether you need help choosing, which is where a form that collects a question belongs. **Forms per plan page: 2 → 1.**
+**His two sentences are the whole brief:** *"before sharing anything about the plan we put in front of the user 2 options… two prices, and they don't even know where they are standing"* and *"the moment you scroll down, we are back to having 4 boxes of bullet points with no separator, no color in between, no nothing."*
 
-**What took the slot is the All-Access card, in carbon** — the offer that until now rendered *last* on the page, below the week-by-week table, where the decision has already been made. It is the **featured offer card** — the third of the four public carbon surfaces `brand-guidelines.md` §3.3 permits — and it carries that component's documented signature: a **3px `--heat-bright` rule along the top edge** plus the Heat badge, and no other accent anywhere on the card. *`.offer-featured` in `site.css` is the other instance; the rule was written once and is now cited, not re-argued.*
+#### The first-screen rule this page now obeys
 
-**Three things the card does that the old footer module did not:**
-- Names the **TrainingPeaks Premium** inclusion against its own standalone price, which is the strongest line in the argument and was buried.
-- Says **two plans at once**, which is the objection a triathlete raises.
-- Puts **Heat on the badge and nowhere else.** *A badge is a signal, which is what §3.3 licenses Heat for. The button stays blue in both columns — an accent that becomes a second button is a second CTA wearing a different colour.* Measured from rendered pixels, not from the token: **6.63:1**.
+🚨 **One price and one primary action.** *The morning's build put this plan's price beside All-Access's, which asks a reader to pick a commercial model before they have decided the plan is theirs.* **All-Access survives in the rail as one sentence and one link — never a second button, which would be the same defect in smaller type — and the card moved to a full-width carbon band mid-page.**
 
-**The price moved out of the hero and into its own column.** *It sat ~200 px above the box, so the only price inside the box was All-Access's — the upsell read as the plan's price.* Now each column carries one price and one unit: **US$ 59.99 · pago único** against **US$ 39.99 · /mes, todos los planes**. The compare line underneath was cut to the half that the units do not already say (`Sin compromiso: cancelas cuando quieras.`) rather than repeating them.
+🔑 ***The numbers made the trade cheap, and they came from `monthly-close/2026-08.md`:*** *All-Access went* **3 → 1 subscriber, NRR 27.3%**, *and the one remaining subscriber has never logged in.* **Its problem is delivery, not exposure** — so the first screen was being spent arguing for a product that currently converts nobody, against the product that actually sells.
 
-**The left column also gained the plan's own numbers** — sessions/week, hours/week, longest session — from the same derived `weeklyTotals` the catalogue cards use. **301 of 328 plan pages have them; the 27 without render the block not at all rather than printing empty rows.** *Those 27 still read correctly, because the price now carries the column.*
+#### The audit's one concrete asset recommendation was the worst move available
 
-**Found while measuring, unrelated to colour:** the week-by-week breakdown table pushed **71 px of horizontal overflow at 390 px on the 301 plan pages that carry it** *(it predates this branch)*. Wrapped in `.table-scroll` — **horizontal scroll belongs to the table, never to the page.**
+**It said to reuse the banner images Iván already serves from the VPS inside his TrainingPeaks listings.** *They were opened before answering.* 🚨 **`vp_es.png` bakes five sentences into an 880 KB PNG** — different typeface, different palette (teal/olive/gold), `coach@triaperformance.com` rendered as pixels — **and all five panels state things the page already says in HTML.** 🚨 **`header_running_es.png` carries the retired `TP / TRIATHLON & RUNNING PERFORMANCE` lockup, not the current wordmark, and "+1000 planes vendidos" baked in where no one can ever correct it.**
 
-**Measured after, all three languages:** overflow **0** at 390 and 1440 · the two price rows within **6 px** of each other · Buy → capture **1,681–1,771 px** desktop and **3,083–3,478 px** phone (was 69 px) · one form per page · `npm test` exit 0 · register sweep 0 lines.
+⚠️ ***Iván's own message contains the reason they exist:*** *"I have a 4000 char limit and… I can only use `<p> <h1> <h2>` and `<font>`."* **They are the output of a constraint we do not have here.** *Inheriting a workaround's output onto 328 pages, three files per surface, untranslatable and unindexable, would have undone the design refresh on the largest indexed surface the site has.* **The general rule: an asset built to survive someone else's CMS is evidence of that CMS, not a design decision to import.**
 
-⚠️ **`.plan-price` is still defined in `planes-bajar-de-peso.css` for a different element at a different size.** *The new class is `.plan-buy-price` deliberately — reusing the name would have been the fifth instance of this branch's recurring defect: a style written against one context and inherited by another, which CSS cannot complain about and only rendering catches.*
+#### What was built instead
+
+- **Hero chips** replace the meta line and the flag row: `16 semanas · Avanzado · Por ritmo · 6:42 h/sem · Incluye gimnasio`. *Hours per week is the figure most people decide on and it was the furthest from the top.*
+- **The week, as an object rather than a table row.** Stat blocks per discipline — count, hours/week, longest — plus rest days. **It replaces the breakdown table and the morning's spec list, which were stating sessions-per-week twice.** ⚠️ ***A seven-day calendar is NOT derivable and was deliberately not built:*** *session counts sum to exactly 7 on only* **145 of the 301** *plans with breakdown data — doubles push 62 to 8 and 33 to 9 — so a weekday grid would be wrong on half the catalogue.* **What is honest is the shape of the week, not the days of it.**
+- **Heat, for the first time on a plan page, on the longest session** — `--heat` at **5.18:1 on white, sampled from rendered pixels**. *§3.3 licenses Heat for "the hard end of something"; the longest session is the hard end of the week and the figure that decides whether a plan fits someone's Sunday. If that stops being true the colour goes, not the figure.*
+- **Prose rhythm:** two sections on different grounds (wash, then white) with the carbon band between them. **The separator is made of product, not decoration.**
+- **One image:** a real TrainingPeaks calendar with a plan applied. 🚨 *It is not this plan's week and the caption says so in all three languages — a screenshot of another calendar presented as "your plan" is the one error class on this page that would matter.*
+- **The foot All-Access module was retired** (`all-access-module.njk` deleted, now included nowhere). *With the band mid-page and a line in the rail it was the third mention of one product on one page, and it made the last thing a reader saw a different product than the one the page sells.*
+
+#### Two defects found by building, not by the suite
+
+🚨 **`.chip` is defined only in `members-carrera.css` and `admin-secuencias.css`, neither of which a plan page loads.** *The chips row was written as `class="chip"` and would have rendered as unstyled inline text on 328 pages, with a clean build and a green suite.* **Renamed `.plan-chip`.** *Same reason `.plan-shot` is not All-Access's `.aa-shot`.* ⚠️ **Sixth and seventh instance of this branch's one recurring defect — a style written against one context and reused in another — and the first two caught before rendering rather than by it.**
+
+🚨 ***"Puedes entrenar {sessions} días por semana" — the copy called sessions days, in all three languages.*** *`weeklyTotals.sessions` sums session counts and excludes rest days, so on* **66 of 301 plans it stated more than 7 training days a week**, *and on* **123** *it overstated because of doubles.* **It survived a month because nothing on the page contradicted it — the week block put the rest-day count directly above the sentence and it became obvious in one render.** *Now "sesiones por semana", which is what the number is. The Product schema description uses the same string and was wrong in the same way.*
+
+#### And one thing that was tried and measured away
+
+⚠️ **The rail is not sticky.** *It was written sticky, on the reasoning that the buy button is the only actionable thing on the page. Measured: after scrolling 1,600 px the button sat at viewport* **y = −1,039**. *A sticky child travels only within its own grid area, and that row is as tall as the week block beside it.* **Making it real means one grid wrapping the whole page, which is what the full-bleed carbon band and the two wash sections are built out of.** *Not traded. The rule was deleted and the comment now records why, rather than claiming a behaviour the page does not have.*
+
+**Measured after, four page variants (ES, EN, PT, and one of the 27 with no breakdown data):** horizontal overflow **0** at 390 and 1440 · **one price and one primary** above the fold, All-Access band at y≈1,300–1,400 · one form per page · Buy at y≈520–560 desktop and y≈520–650 phone, before the week block on mobile · the no-breakdown variant degrades to a single centred rail rather than an empty column · `npm test` exit 0 · register sweep 0 lines.
 
 ---
 

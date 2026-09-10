@@ -84,8 +84,8 @@
       "Intermediate": "Ya entrenas de forma regular y quieres estructura. El plan asume una base aeróbica formada.",
       "Advanced": "Tienes temporadas encima y buscas rendimiento. El volumen y la intensidad son exigentes desde el arranque."
     },
-    "forWhoTime": "Puedes entrenar {sessions} días por semana, alrededor de {hours} en una semana promedio.",
-    "forWhoTimeNoHours": "Puedes entrenar {sessions} días por semana.",
+    "forWhoTime": "Puedes hacer {sessions} sesiones por semana, alrededor de {hours} en una semana promedio.",
+    "forWhoTimeNoHours": "Puedes hacer {sessions} sesiones por semana.",
     "forWhoLongest": "La sesión más larga del plan es de {longest}: necesitas un día con ese hueco disponible.",
     "forWhoWeeks": "Tienes {weeks} semanas por delante antes de tu objetivo. Si te quedan menos, elige un plan más corto.",
     "forWhoMetric": {
@@ -151,7 +151,18 @@
     ],
     "aaCardCompare": "Sin compromiso: cancelas cuando quieras.",
     "aaCardCta": "Ver All-Access",
-    "specHoursLabel": "Horas/semana"
+    "specHoursLabel": "Horas/semana",
+    "weekTitle": "Cómo se ve tu semana",
+    "weekIntro": "Datos reales del plan en TrainingPeaks, no un ejemplo.",
+    "weekRestLabel": "Descanso",
+    "unitSessions": "sesiones",
+    "unitSession": "sesión",
+    "unitDays": "días",
+    "unitDay": "día",
+    "aaInline": "¿Más de un objetivo? All-Access, US$ {price}/mes",
+    "tpShotTitle": "Así se ve un plan aplicado a tu calendario",
+    "tpShotCaption": "Ejemplo de un plan ya aplicado en TrainingPeaks: cada sesión en su día, con duración, TSS y el detalle de los intervalos. No es la semana de este plan.",
+    "tpShotAlt": "Tres semanas de un plan aplicadas a un calendario de TrainingPeaks"
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -237,8 +248,8 @@
       "Intermediate": "You already train regularly and want structure. The plan assumes an established aerobic base.",
       "Advanced": "You have seasons behind you and you're chasing performance. Volume and intensity are demanding from week one."
     },
-    "forWhoTime": "You can train {sessions} days a week, around {hours} in an average week.",
-    "forWhoTimeNoHours": "You can train {sessions} days a week.",
+    "forWhoTime": "You can fit {sessions} sessions a week, around {hours} in an average week.",
+    "forWhoTimeNoHours": "You can fit {sessions} sessions a week.",
     "forWhoLongest": "The longest session in the plan is {longest} — you need one day with that much room in it.",
     "forWhoWeeks": "You have {weeks} weeks before your goal. If you have fewer, pick a shorter plan.",
     "forWhoMetric": {
@@ -304,7 +315,18 @@
     ],
     "aaCardCompare": "No commitment: cancel whenever you want.",
     "aaCardCta": "See All-Access",
-    "specHoursLabel": "Hours/week"
+    "specHoursLabel": "Hours/week",
+    "weekTitle": "What your week looks like",
+    "weekIntro": "Real data from the plan in TrainingPeaks, not an example.",
+    "weekRestLabel": "Rest",
+    "unitSessions": "sessions",
+    "unitSession": "session",
+    "unitDays": "days",
+    "unitDay": "day",
+    "aaInline": "More than one goal? All-Access, US$ {price}/mo",
+    "tpShotTitle": "This is a plan applied to your calendar",
+    "tpShotCaption": "An example of a plan already applied in TrainingPeaks: every session on its day, with duration, TSS and the interval detail. Not this plan’s week.",
+    "tpShotAlt": "Three weeks of a plan applied to a TrainingPeaks calendar"
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -390,8 +412,8 @@
       "Intermediate": "Você já treina com regularidade e quer estrutura. O plano pressupõe uma base aeróbica formada.",
       "Advanced": "Você tem temporadas na bagagem e busca desempenho. O volume e a intensidade são exigentes desde o início."
     },
-    "forWhoTime": "Você pode treinar {sessions} dias por semana, cerca de {hours} numa semana média.",
-    "forWhoTimeNoHours": "Você pode treinar {sessions} dias por semana.",
+    "forWhoTime": "Você consegue fazer {sessions} sessões por semana, cerca de {hours} numa semana média.",
+    "forWhoTimeNoHours": "Você consegue fazer {sessions} sessões por semana.",
     "forWhoLongest": "A sessão mais longa do plano é de {longest}: você precisa de um dia com esse espaço livre.",
     "forWhoWeeks": "Você tem {weeks} semanas até o seu objetivo. Se tiver menos, escolha um plano mais curto.",
     "forWhoMetric": {
@@ -457,6 +479,17 @@
     ],
     "aaCardCompare": "Sem compromisso: você cancela quando quiser.",
     "aaCardCta": "Ver Acesso Total",
-    "specHoursLabel": "Horas/semana"
+    "specHoursLabel": "Horas/semana",
+    "weekTitle": "Como é a sua semana",
+    "weekIntro": "Dados reais do plano na TrainingPeaks, não um exemplo.",
+    "weekRestLabel": "Descanso",
+    "unitSessions": "sessões",
+    "unitSession": "sessão",
+    "unitDays": "dias",
+    "unitDay": "dia",
+    "aaInline": "Mais de um objetivo? Acesso Total, US$ {price}/mês",
+    "tpShotTitle": "É assim que um plano fica no seu calendário",
+    "tpShotCaption": "Exemplo de um plano já aplicado na TrainingPeaks: cada sessão no seu dia, com duração, TSS e o detalhe dos intervalos. Não é a semana deste plano.",
+    "tpShotAlt": "Três semanas de um plano aplicadas a um calendário da TrainingPeaks"
   }
 }

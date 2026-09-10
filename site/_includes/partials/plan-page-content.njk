@@ -21,131 +21,114 @@
     <p class="breadcrumb"><a href="{{ home }}">{{ u.breadcrumbHome }}</a> / <a href="{{ plansUrl }}">{{ u.breadcrumbPlans }}</a> / {{ plan.displayName }}</p>
     <span class="label">{{ sportLabel }}{% if plan.distance %} · {{ plan.distance }}{% endif %}</span>
     <h1>{{ plan.displayName }}</h1>
-    <p class="plan-meta">
-      {{ plan.weeks }} {{ u.weeksLabel }}
-      {%- if difficultyLabel %} · {{ difficultyLabel }}{% endif %}
-      {%- if metricLabel %} · {{ metricLabel }}{% endif %}
-    </p>
-    {%- if plan.strength or plan.weightLoss or plan.timeGoal %}
-    <div class="plan-flags">
-      {%- if plan.strength %}<span class="flag">{{ u.strengthFlag }}</span>{% endif %}
-      {%- if plan.weightLoss %}<span class="flag">{{ u.weightLossFlag }}</span>{% endif %}
-      {%- if plan.timeGoal %}<span class="flag">{{ u.timeGoalFlag }}</span>{% endif %}
+    {#- Chips, September 10, 2026. The facts a buyer screens on — duration,
+        level, metric, hours per week — were spread across a meta line, a flag
+        row and a spec list further down. One row, one read. Hours/week is the
+        one most people decide on and it was the furthest away.
+        ⚠️ The class is `.plan-chip`, NOT the bare `.chip` this markup wants to
+        be called: `.chip` is defined only in `members-carrera.css` and
+        `admin-secuencias.css`, neither of which a plan page loads, so the bare
+        name would have rendered unstyled text on 328 pages with a clean build
+        and a green suite. Same family as `.aa-shot` below. -#}
+    <div class="plan-chips">
+      {%- if plan.weeks %}<span class="plan-chip">{{ plan.weeks }} {{ u.weeksLabel }}</span>{% endif %}
+      {%- if difficultyLabel %}<span class="plan-chip">{{ difficultyLabel }}</span>{% endif %}
+      {%- if metricLabel %}<span class="plan-chip">{{ metricLabel }}</span>{% endif %}
+      {%- if plan.weeklyTotals and plan.weeklyTotals.hoursText %}<span class="plan-chip">{{ plan.weeklyTotals.hoursText }}{{ u.perWeekShort }}</span>{% endif %}
+      {%- if plan.strength %}<span class="plan-chip plan-chip--flag">{{ u.strengthFlag }}</span>{% endif %}
+      {%- if plan.weightLoss %}<span class="plan-chip plan-chip--flag">{{ u.weightLossFlag }}</span>{% endif %}
+      {%- if plan.timeGoal %}<span class="plan-chip plan-chip--flag">{{ u.timeGoalFlag }}</span>{% endif %}
     </div>
-    {%- endif %}
   </div>
 </section>
 
-<section class="plan-buy">
-  <div class="wrap plan-buy-grid">
-    <div class="plan-buy-cta">
-      {#- The price moved here from the hero, September 10, 2026. It sat ~200 px
-          above the buy box, so the only price INSIDE the box was All-Access's
-          US$ 39.99 — the upsell read as this plan's price. One offer per column,
-          each with its own price and its own unit, is what putting the two side
-          by side is for. `priceOnceSuffix` names the unit, so it answers the
-          "/mes" opposite it rather than leaving the reader to infer it. -#}
-      <div class="plan-buy-price">US$ {{ plan.price }} <span>{{ u.priceOnceSuffix }}</span></div>
-      {#- The plan's own numbers, beside its own Buy. Added September 10, 2026:
-          once the email form left this grid the left column held a button and
-          two lines of small print against a 412 px offer card, so the thing the
-          page exists to sell read as the lesser of the two.
-          It is not decoration — `weeklyTotals` is the same derived data the
-          catalogue cards show (92% ES / 87% EN / 49% PT coverage), and
-          sessions-per-week and the longest session are the two questions a
-          reader has to answer before buying. Renders nothing when the data is
-          missing rather than printing an empty row. -#}
-      {%- if plan.weeklyTotals %}
-      <dl class="plan-buy-specs">
-        {%- if plan.weeklyTotals.sessions %}
-        <div><dt>{{ u.colSessions }}</dt><dd>{{ plan.weeklyTotals.sessions }}</dd></div>
-        {%- endif %}
-        {%- if plan.weeklyTotals.hoursText %}
-        <div><dt>{{ u.specHoursLabel }}</dt><dd>{{ plan.weeklyTotals.hoursText }}</dd></div>
-        {%- endif %}
-        {%- if plan.weeklyTotals.longestText %}
-        <div><dt>{{ u.colLongest }}</dt><dd>{{ plan.weeklyTotals.longestText }}</dd></div>
-        {%- endif %}
-      </dl>
-      {%- endif %}
-      <a href="{{ buyUrl }}" class="btn-primary btn-buy plan-buy-btn plan-card" target="_blank" rel="noopener">{{ u.ctaBuy }}</a>
-      <p class="plan-buy-note">{{ u.ctaNote }}</p>
-      {#- Credential line, Aug 27, 2026. One edit here reaches every plan page in
-          all three languages — the largest indexed surface this site has. Copy is
-          owned by _data/credentials.json, never written here. -#}
-      <p class="plan-credential">{{ credentials[lang].planLine }} <a href="{{ credentials[lang].aboutHref }}">{{ credentials[lang].aboutLabel }}</a></p>
-    </div>
-    {#- 🚨 THIS SLOT USED TO HOLD A SECOND EMAIL FORM. September 10, 2026.
-        The storefront branch opened on a measurement of this exact box: Buy at
-        y=556 and the email capture at y=625 — **69 px apart, two primary
-        actions competing**. The capture is not lost: `.plan-help` further down
-        carries the same form under a heading that literally asks whether you
-        need help choosing, which is where it belonged.
+{#- ═══════════════════════════════════════════════════════════════════════════
+    THE OFFER BLOCK. Rebuilt September 10, 2026 on Iván's read of the live page,
+    against an external audit.
 
-        What replaces it is the offer that was previously LAST on the page — the
-        All-Access module still renders at the foot, but the decision happens
-        here, so the recurring product now appears where the one-off purchase is
-        being weighed. Same move TrainingPeaks makes with its Premium upsell.
+    🚨 The rule this block now obeys: **one price and one primary action in the
+    first screen.** What shipped that morning put this plan's price beside
+    All-Access's, which asks the reader to pick a commercial model before they
+    have decided the plan is theirs. All-Access survives here as ONE LINE under
+    the button; the card itself moved below "Para quién es este plan", where a
+    reader who has decided meets the alternative. `monthly-close/2026-08.md` is
+    why the trade is cheap: All-Access went 3 → 1 subscriber, NRR 27.3%, and the
+    remaining subscriber has never logged in — its problem is delivery, not
+    exposure, so the first screen was being spent on a product that converts
+    nobody.
 
-        ⚠️ Carbon is permitted here by `brand-guidelines.md` §3.3 as the
-        **featured offer card**, and Heat appears as the badge — a signal, never
-        a button. The CTA is blue. **Do not restyle this toward the pink/navy of
-        the TrainingPeaks card it is modelled on**: the structure is the
-        borrowed part, the palette is ours. -#}
-    <aside class="plan-aa-card">
-      <div class="plan-aa-head">
-        <span class="plan-aa-badge">{{ u.aaCardBadge }}</span>
-        <span class="plan-aa-price">US$ {{ aa.price }}<span>{{ u.allAccessPriceSuffix }}</span></span>
-      </div>
-      <h3>{{ u.aaCardHeading }}</h3>
-      <ul class="plan-aa-list">
-        {%- for line in u.aaCardBullets %}
-        <li>{{ line }}</li>
-        {%- endfor %}
-      </ul>
-      <a href="{{ aa.url }}" class="btn-primary plan-aa-cta">{{ u.aaCardCta }}</a>
-      <p class="plan-aa-compare">{{ u.aaCardCompare }}</p>
-    </aside>
-  </div>
-</section>
+    Left column is the WEEK, which is the object a buyer actually screens on and
+    which this page has never shown as anything but a table row.
+    ═══════════════════════════════════════════════════════════════════════════ -#}
+<section class="plan-offer">
+  <div class="wrap plan-offer-grid{% if not plan.weeklyBreakdown %} plan-offer-grid--solo{% endif %}">
 
-<section class="plan-breakdown">
-  <div class="wrap">
-    <h2>{{ u.breakdownTitle }}</h2>
     {%- if plan.weeklyBreakdown %}
-    <p class="section-intro">{{ u.breakdownIntro }}</p>
-    {#- 🚨 The table scrolls inside its own box, not the page. Measured
-        September 10, 2026: four columns need 461 px and a phone gives 390, so
-        every plan page — ~490 of them across three languages, the largest
-        indexed surface this site has — had 71 px of horizontal page scroll on
-        mobile. Pre-existing; found while measuring something else.
-        A wrapper is the fix rather than dropping a column, because the columns
-        ARE the content: sessions, weekly average and longest session per
-        discipline is what the reader came to compare. -#}
-    <div class="table-scroll">
-    <table class="breakdown-table">
-      <thead>
-        <tr><th scope="col"></th><th scope="col">{{ u.colSessions }}</th><th scope="col">{{ u.colAvg }}</th><th scope="col">{{ u.colLongest }}</th></tr>
-      </thead>
-      <tbody>
+    <div class="plan-week">
+      <h2>{{ u.weekTitle }}</h2>
+      <p class="plan-week-intro">{{ u.weekIntro }}</p>
+      {#- Stat blocks, not a table. Same data the breakdown table carried — this
+          REPLACES it rather than joining it, because the page was stating
+          sessions-per-week twice (a spec list in the buy box and again in the
+          table) and neither was the thing you look at.
+          ⚠️ A seven-day grid is NOT derivable and was deliberately not built:
+          the session counts sum to exactly 7 on only 145 of the 301 plans that
+          have breakdown data — doubles push 62 of them to 8 and 33 to 9 — so a
+          weekday calendar would be wrong on half the catalogue. What is honest
+          is the SHAPE of the week: how many of each, how long, and how long the
+          longest one is. -#}
+      <div class="plan-week-grid">
         {%- for a in plan.weeklyBreakdown.activities %}
-        <tr>
-          <th scope="row">{{ u.activity[a.type] or a.type }}</th>
-          <td>{{ a.weeklyCount or "—" }}</td>
-          <td>{{ a.weeklyAvg | formatWeeklyStat(a.weeklyAvgUnit) }}</td>
-          <td>{{ a.longest | formatWeeklyStat(a.longestUnit) }}</td>
-        </tr>
+        <div class="plan-week-block">
+          <span class="plan-week-n">{{ a.weeklyCount or "—" }}</span>
+          <span class="plan-week-label">{{ u.activity[a.type] or a.type }}</span>
+          <span class="plan-week-unit">{% if a.weeklyCount == 1 %}{{ u.unitSession }}{% else %}{{ u.unitSessions }}{% endif %}</span>
+          {%- if a.weeklyAvg %}
+          <span class="plan-week-detail">{{ a.weeklyAvg | formatWeeklyStat(a.weeklyAvgUnit) }}{{ u.perWeekShort }}</span>
+          {%- endif %}
+          {#- Heat on the longest session, and nowhere else on this page.
+              `brand-guidelines.md` §3.3: Heat marks "the hard end of something",
+              and the longest session is the hard end of the week — it is also
+              the single figure that decides whether a plan fits someone's
+              Sunday. If that justification stops being true, the colour goes,
+              not the figure. -#}
+          {%- if a.longest %}
+          <span class="plan-week-longest">{{ u.longestShort }} <b>{{ a.longest | formatWeeklyStat(a.longestUnit) }}</b></span>
+          {%- endif %}
+        </div>
         {%- endfor %}
-      </tbody>
-    </table>
+        {%- if plan.weeklyBreakdown.restDaysPerWeek %}
+        <div class="plan-week-block plan-week-block--rest">
+          <span class="plan-week-n">{{ plan.weeklyBreakdown.restDaysPerWeek }}</span>
+          <span class="plan-week-label">{{ u.weekRestLabel }}</span>
+          <span class="plan-week-unit">{% if plan.weeklyBreakdown.restDaysPerWeek == 1 %}{{ u.unitDay }}{% else %}{{ u.unitDays }}{% endif %}</span>
+        </div>
+        {%- endif %}
+      </div>
     </div>
-    {%- if plan.weeklyBreakdown.restDaysPerWeek %}
-    <p class="rest-days">{{ u.restDays }}: {{ plan.weeklyBreakdown.restDaysPerWeek }}</p>
     {%- endif %}
-    {%- else %}
-    <p class="section-intro">{{ u.noBreakdown }}</p>
-    {%- endif %}
+
+    {#- The rail: the one action on this page. It is NOT sticky — that was tried
+        and measured away; see the note on `.plan-rail-inner` in plan-page.css. -#}
+    <aside class="plan-rail">
+      <div class="plan-rail-inner">
+        <div class="plan-buy-price">US$ {{ plan.price }} <span>{{ u.priceOnceSuffix }}</span></div>
+        <a href="{{ buyUrl }}" class="btn-primary btn-buy plan-buy-btn plan-card" target="_blank" rel="noopener">{{ u.ctaBuy }}</a>
+        <p class="plan-buy-note">{{ u.ctaNote }}</p>
+        {#- All-Access, demoted to a sentence. It is a LINK, not a button:
+            a second button here would be the same defect in smaller type. -#}
+        <a class="plan-rail-aa" href="{{ aa.url }}">{{ u.aaInline | replace("{price}", aa.price) }}</a>
+        {#- Credential line, Aug 27, 2026. One edit here reaches every plan page in
+            all three languages — the largest indexed surface this site has. Copy is
+            owned by _data/credentials.json, never written here. -#}
+        <p class="plan-credential">{{ credentials[lang].planLine }} <a href="{{ credentials[lang].aboutHref }}">{{ credentials[lang].aboutLabel }}</a></p>
+      </div>
+    </aside>
+
   </div>
+  {%- if not plan.weeklyBreakdown %}
+  <div class="wrap"><p class="plan-nobreakdown">{{ u.noBreakdown }}</p></div>
+  {%- endif %}
 </section>
 
 {#- ---------------------------------------------------------------------------
@@ -202,6 +185,55 @@
       </ul>
     </div>
 
+
+  </div>
+</section>
+
+{#- ═══════════════════════════════════════════════════════════════════════════
+    ALL-ACCESS, in its new position: after the reader has met "para quién" and
+    "cómo funciona", and before the practical half of the page. Moved here from
+    the buy box September 10, 2026 (see the note on `.plan-offer`).
+
+    It does two jobs at once, which is why it sits mid-page rather than at the
+    foot. It is the alternative offer for someone who has now decided the plan
+    is right — and it is the SEPARATOR. Iván's read of the live page: "the
+    moment you scroll down, we are back to having 4 boxes of bullet points with
+    no separator, no color in between, no nothing." A carbon band across the
+    middle of that slab is the break, and it is a break made of product rather
+    than of decoration.
+
+    ⚠️ Carbon is permitted here by `brand-guidelines.md` §3.3 as the **featured
+    offer card**, with that component's signature 3px Heat rule on the top edge
+    and a Heat badge — a signal, never a button. The CTA is blue.
+    **Do not restyle this toward the pink/navy of the TrainingPeaks card it is
+    modelled on**: the structure is the borrowed part, the palette is ours.
+    ═══════════════════════════════════════════════════════════════════════════ -#}
+<section class="plan-aa-band">
+  <div class="wrap">
+    <aside class="plan-aa-card plan-aa-card--wide">
+      <div class="plan-aa-main">
+        <div class="plan-aa-head">
+          <span class="plan-aa-badge">{{ u.aaCardBadge }}</span>
+          <span class="plan-aa-price">US$ {{ aa.price }}<span>{{ u.allAccessPriceSuffix }}</span></span>
+        </div>
+        <h2>{{ u.aaCardHeading }}</h2>
+        <ul class="plan-aa-list">
+          {%- for line in u.aaCardBullets %}
+          <li>{{ line }}</li>
+          {%- endfor %}
+        </ul>
+      </div>
+      <div class="plan-aa-side">
+        <a href="{{ aa.url }}" class="btn-primary plan-aa-cta">{{ u.aaCardCta }}</a>
+        <p class="plan-aa-compare">{{ u.aaCardCompare }}</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="plan-prose plan-prose--practical">
+  <div class="wrap plan-prose-grid">
+
     <div class="plan-prose-block">
       <h2>{{ u.gearTitle }}</h2>
       <ul class="plan-list">
@@ -223,6 +255,39 @@
       </ul>
     </div>
 
+  </div>
+</section>
+
+{#- The one image on this page, September 10, 2026. It is a real TrainingPeaks
+    calendar with a plan already applied — the thing the buyer is actually
+    purchasing, which the page described in four bullets and never showed.
+
+    🚨 It is NOT this plan's week, and the caption says so in every language.
+    A screenshot of someone else's calendar presented as "your plan" is the one
+    class of error on this page that would matter; labelling it as an example
+    costs one sentence.
+
+    ⚠️ The figure class is `.plan-shot`, not All-Access's `.aa-shot`. That
+    component is defined in `all-access.css`, which plan pages do not load —
+    reusing the name would have rendered an unstyled image on 328 pages and the
+    build would not have complained. Fifth-and-sixth instance of the same defect
+    family this branch keeps producing.
+
+    srcset carries the same two widths All-Access proved: 2200 px for the 2×
+    desktop case, 1600 px so a phone does not download the large one. -#}
+<section class="plan-shot-section">
+  <div class="wrap">
+    <h2>{{ u.tpShotTitle }}</h2>
+    <figure class="plan-shot">
+      <picture>
+        <source type="image/webp" sizes="(max-width: 760px) 92vw, 1032px"
+                srcset='{{ "/assets/images/tp-calendario.webp" | v }} 1600w, {{ "/assets/images/tp-calendario-2200.webp" | v }} 2200w'>
+        <img src="{{ "/assets/images/tp-calendario-2200.jpg" | v }}" sizes="(max-width: 760px) 92vw, 1032px"
+             srcset='{{ "/assets/images/tp-calendario.jpg" | v }} 1600w, {{ "/assets/images/tp-calendario-2200.jpg" | v }} 2200w'
+             width="2200" height="1053" alt="{{ u.tpShotAlt }}" loading="lazy" decoding="async">
+      </picture>
+      <figcaption>{{ u.tpShotCaption }}</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -271,7 +336,10 @@
   </div>
 </section>
 
-{% include "partials/all-access-module.njk" %}
+{#- The foot All-Access module was REMOVED September 10, 2026. With the card
+    now mid-page and a line in the buy rail, it was the third mention of the
+    same product on one page, and the last thing a reader saw was a different
+    product than the one the page sells. -#}
 
 <script type="application/ld+json">
 {

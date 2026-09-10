@@ -14,32 +14,7 @@
    chosen from quickly. */
 .plan-hero h1 { font-size: 40px; margin: 8px 0 12px; }
 @media (max-width: 640px) { .plan-hero h1 { font-size: 28px; } }
-.plan-meta { color: var(--slate); font-size: 16px; margin-bottom: 16px; }
-.plan-flags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-.plan-flags .flag {
-  font-size: 13px; font-weight: 700; color: var(--blue); background: var(--wash);
-  border-radius: 4px; padding: 6px 12px;
-}
 
-.plan-buy { padding-top: 0; padding-bottom: 64px; }
-.plan-buy-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 40px 56px;
-  background: var(--wash); border-radius: 8px; padding: 40px;
-}
-@media (max-width: 800px) { .plan-buy-grid { grid-template-columns: 1fr; padding: 28px; } }
-.plan-buy-cta { display: flex; flex-direction: column; justify-content: center; }
-/* The plan's own price, at the head of its own column — mirroring the price
-   line at the head of the All-Access card opposite. Larger than that one
-   (32 vs 21) because this is what the page sells; the card is the alternative. */
-.plan-buy-price {
-  font-size: 32px; font-weight: 700; color: var(--ink); margin-bottom: 20px;
-  font-variant-numeric: tabular-nums;
-}
-.plan-buy-price span {
-  font-size: 13px; font-weight: 400; color: var(--slate); margin-left: 6px;
-}
-.plan-buy-btn { text-align: center; }
-.plan-buy-note { color: var(--slate); font-size: 14px; margin-top: 12px; }
 .plan-capture h3 { font-size: 18px; margin-bottom: 8px; }
 .plan-capture p { color: var(--slate); font-size: 14px; margin-bottom: 16px; }
 .plan-capture-row { display: flex; gap: 8px; }
@@ -59,24 +34,6 @@
 .plan-capture-status.success { color: #1a7a3c; }
 .plan-capture-status.error { color: var(--slate); }
 /* .visually-hidden moved to site.css — shared partials use it. */
-
-.plan-breakdown { padding-top: 0; }
-.breakdown-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-.breakdown-table th, .breakdown-table td {
-  text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--mist); font-size: 15px;
-}
-.breakdown-table thead th { color: var(--slate); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
-.breakdown-table tbody th { font-weight: 700; }
-.rest-days { color: var(--slate); font-size: 14px; margin-top: 16px; }
-
-.plan-allaccess { background: var(--wash); }
-.allaccess-card {
-  background: var(--white); border: 1px solid var(--mist); border-radius: 8px;
-  padding: 32px; max-width: 440px; display: flex; align-items: center;
-  justify-content: space-between; gap: 20px; flex-wrap: wrap;
-}
-.allaccess-price { font-size: 24px; font-weight: 700; }
-.allaccess-price span { font-size: 14px; font-weight: 400; color: var(--slate); display: block; }
 
 .plan-final-cta { text-align: center; padding-top: 0; }
 .plan-final-cta .plan-buy-note { margin-top: 12px; }
@@ -120,10 +77,6 @@
 .plan-help-note { font-size: 14px; color: var(--slate); margin: 12px 0 0; text-align: center; }
 
 /* --- Generated content sections ----------------------------------------- */
-.plan-prose { padding-top: 0; }
-.plan-prose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 56px; }
-@media (max-width: 800px) { .plan-prose-grid { grid-template-columns: 1fr; gap: 32px; } }
-.plan-prose-block h2 { font-size: 22px; margin-bottom: 16px; }
 .plan-list { list-style: none; padding: 0; margin: 0; }
 .plan-list li {
   position: relative; padding-left: 22px; margin-bottom: 12px;
@@ -444,27 +397,143 @@
 }
 @media (max-width: 800px) { .plan-aa-card { padding: 22px 20px; } }
 
-/* Horizontal scroll belongs to the table, never to the page. */
-.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.table-scroll .breakdown-table { min-width: 460px; }
-@media (max-width: 520px) {
-  .breakdown-table th, .breakdown-table td { padding: 12px 10px; font-size: 14px; }
+/* --- Hero chips ---------------------------------------------------------- */
+/* Replaces `.plan-meta` and `.plan-flags`, September 10, 2026: the same facts,
+   one row, above the fold. `.plan-chip`, not `.chip` — see the note in the
+   template for why the short name would have silently rendered nothing. */
+.plan-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; }
+.plan-chip {
+  font-size: 13.5px; font-weight: 700; color: var(--ink);
+  border: 1px solid var(--mist); border-radius: 999px; padding: 6px 14px;
+  white-space: nowrap;
+}
+.plan-chip--flag { color: var(--blue); background: var(--wash); border-color: transparent; }
+
+/* --- The offer block: week on the left, the one action on the right ------- */
+.plan-offer { padding-top: 28px; padding-bottom: 56px; }
+.plan-offer-grid {
+  display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.85fr);
+  gap: 48px; align-items: start;
+}
+.plan-offer-grid--solo { grid-template-columns: minmax(0, 480px); }
+@media (max-width: 959px) { .plan-offer-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+/* 🚨 THIS RAIL IS NOT STICKY, AND THE ATTEMPT IS THE NOTE WORTH KEEPING.
+   `position: sticky` was written here first, on the reasoning that the buy
+   button is the only thing on this page a reader can act on. Measured: after
+   scrolling 1,600 px the button sat at viewport y = -1,039 — it had scrolled
+   away like any other element.
+   A sticky child travels only within ITS OWN grid area, and this row is as tall
+   as the week block beside it (~300 px), so there was never more than a few
+   pixels of travel to have. Making it real would mean one grid wrapping the
+   whole page, which is exactly what the full-bleed carbon band and the two
+   wash sections are built out of. Not worth trading those for it: the page is
+   3,547 px and `.plan-final-cta` puts the same button at the foot. */
+.plan-rail-inner {
+  background: var(--wash); border-radius: 8px; padding: 28px;
+}
+/* Mobile order: the price and the button come BEFORE the week, because on a
+   phone the week block is 600px tall and would bury the only action. */
+@media (max-width: 959px) {
+  .plan-offer-grid { display: flex; flex-direction: column; }
+  .plan-rail { order: -1; }
 }
 
-/* The plan's own numbers, beside its own Buy — so the left column carries
-   weight against the All-Access card opposite it. Hairline rows, no box: it is
-   a fact list, not a third card competing with the two offers. */
-.plan-buy-specs { margin: 0 0 24px; }
-.plan-buy-specs > div {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
-  padding: 11px 0; border-bottom: 1px solid var(--mist);
+.plan-buy-price {
+  font-size: 34px; font-weight: 700; color: var(--ink); margin-bottom: 18px;
+  font-variant-numeric: tabular-nums; line-height: 1.1;
 }
-.plan-buy-specs > div:first-child { border-top: 1px solid var(--mist); }
-.plan-buy-specs dt {
-  font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
-  color: var(--slate);
+.plan-buy-price span {
+  font-size: 13px; font-weight: 400; color: var(--slate); margin-left: 6px;
+  white-space: nowrap;
 }
-.plan-buy-specs dd {
-  margin: 0; font-size: 17px; font-weight: 700; color: var(--ink);
-  font-variant-numeric: tabular-nums; white-space: nowrap;
+.plan-buy-btn { text-align: center; display: block; }
+.plan-buy-note { color: var(--slate); font-size: 14px; margin-top: 12px; }
+
+/* All-Access as a sentence, not a sibling card. A link, never a button:
+   a second button here is the competing-CTA defect in smaller type. */
+.plan-rail-aa {
+  display: block; margin-top: 18px; padding-top: 16px;
+  border-top: 1px solid var(--mist);
+  font-size: 14.5px; font-weight: 700; color: var(--blue); text-decoration: none;
+}
+.plan-rail-aa::after { content: " →"; }
+.plan-rail-aa:hover { text-decoration: underline; }
+.plan-credential { color: var(--slate); font-size: 13px; margin-top: 14px; line-height: 1.5; }
+
+/* --- The week, as an object ---------------------------------------------- */
+.plan-week h2 { font-size: 24px; margin-bottom: 6px; }
+.plan-week-intro { color: var(--slate); font-size: 15px; margin-bottom: 20px; }
+.plan-week-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); gap: 14px;
+}
+.plan-week-block {
+  display: flex; flex-direction: column;
+  border: 1px solid var(--mist); border-radius: 8px; padding: 18px 18px 16px;
+  background: var(--white);
+}
+.plan-week-n {
+  font-size: 40px; font-weight: 700; line-height: 1; color: var(--ink);
+  font-variant-numeric: tabular-nums; font-stretch: 112%;
+}
+.plan-week-label {
+  font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink); margin-top: 10px;
+}
+.plan-week-unit { font-size: 13px; color: var(--slate); margin-top: 1px; }
+.plan-week-detail {
+  font-size: 13.5px; color: var(--slate); margin-top: 10px;
+  padding-top: 10px; border-top: 1px solid var(--mist);
+}
+/* Heat, and the only Heat on a plan page. §3.3 licenses it for "the hard end of
+   something" — the longest session is the hard end of the week, and it is the
+   figure that decides whether a plan fits someone's Sunday. --heat is 5.19:1 on
+   white, so it is text-safe here; --heat-graphic would not be. */
+.plan-week-longest { font-size: 13.5px; color: var(--slate); margin-top: 3px; }
+.plan-week-longest b { color: var(--heat); font-variant-numeric: tabular-nums; }
+.plan-week-block--rest { background: var(--wash); border-color: transparent; }
+.plan-week-block--rest .plan-week-n { color: var(--slate); }
+.plan-nobreakdown { color: var(--slate); font-size: 15px; max-width: 65ch; margin-top: 24px; }
+
+/* --- Prose rhythm --------------------------------------------------------- */
+/* The complaint this answers, in Iván's words: "the moment you scroll down, we
+   are back to having 4 boxes of bullet points with no separator, no color in
+   between, no nothing." Two sections now, on different grounds, with the
+   carbon All-Access band between them. */
+.plan-prose { background: var(--wash); padding: 56px 0; }
+.plan-prose--practical { background: var(--white); }
+.plan-prose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 56px; }
+@media (max-width: 800px) { .plan-prose-grid { grid-template-columns: 1fr; gap: 32px; } }
+.plan-prose-block h2 { font-size: 22px; margin-bottom: 16px; }
+
+/* --- The All-Access band -------------------------------------------------- */
+.plan-aa-band { padding: 0 0 56px; background: var(--white); }
+.plan-aa-card--wide {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+  gap: 40px; align-items: center; padding: 34px 36px;
+}
+@media (max-width: 800px) { .plan-aa-card--wide { grid-template-columns: 1fr; gap: 24px; padding: 26px 22px; } }
+/* In the wide variant the head is a left-aligned pair, not space-between:
+   space-between is right when the card is a narrow column, and puts the
+   price adrift in the middle of a 1fr grid cell when it is not. */
+.plan-aa-card--wide .plan-aa-head { justify-content: flex-start; gap: 18px; margin-bottom: 10px; }
+.plan-aa-card--wide h2 {
+  font-size: 24px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em;
+  color: var(--text); margin-bottom: 16px;
+}
+.plan-aa-card--wide .plan-aa-list { margin-bottom: 0; }
+.plan-aa-side { display: flex; flex-direction: column; }
+.plan-aa-side .plan-aa-cta { margin-top: 0; }
+
+/* --- The one image on the page -------------------------------------------- */
+.plan-shot-section { padding: 0 0 56px; }
+.plan-shot-section h2 { font-size: 22px; margin-bottom: 16px; }
+.plan-shot { margin: 0; max-width: 1032px; }
+.plan-shot img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--mist); border-radius: 8px;
+}
+.plan-shot figcaption {
+  color: var(--slate); font-size: 13.5px; line-height: 1.6; margin-top: 12px;
+  max-width: 68ch;
 }
