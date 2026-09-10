@@ -159,7 +159,7 @@ New Private athletes pay a $50 one-time starting fee in month one (nets $48.25 a
 
 ⚠️ **The caveat ships in the copy, not in a footnote.** *TP Virtual is not Zwift — smaller world, fewer riders. The pitch is explicitly "if you're on the trainer for the workouts, not for the crowd", and it names the migration cost out loud.* **A cyclist who switches on an overclaim churns in month two, and a churned subscriber costs more than the one who never came.**
 
-*Live on all three All-Access pages since September 10, 2026.* ⚠️ **These are third-party prices on a page that sells against them — if Zwift or TrainingPeaks moves, this section is wrong and nothing in this repo will notice.** *Re-check it at the monthly close.*
+*Live on all three All-Access pages since September 10, 2026, and* ***on all 328 plan pages*** *since the same day — `planUi.aaCardBullets` carries a one-line version in the dark All-Access band.* 🚨 **That bullet says "si hoy pagas Zwift, son US$ 19.99/mes menos", never "reemplaza a Zwift"** — *the phrasing first proposed. A bullet cannot carry the honesty caveat two paragraphs above, so it states the saving conditionally and claims nothing about equivalence.* **The caveat is why: a cyclist who switches on an overclaim churns in month two.* ⚠️ **These are third-party prices on a page that sells against them — if Zwift or TrainingPeaks moves, this section is wrong and nothing in this repo will notice.** *Re-check it at the monthly close.*
 
 ## All-Access subscription pricing
 
