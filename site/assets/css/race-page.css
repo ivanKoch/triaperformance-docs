@@ -1,0 +1,326 @@
+/* Race landing pages. Blocks and their order: race-page-content-outline.md.
+   Every colour, the type stack and the motion duration come from tokens.css —
+   this file declares no :root block, per the rule that cost six edits per token
+   change before September 9. */
+
+/* ── Hero ───────────────────────────────────────────────────────────────────
+   Carbon, which brand-guidelines §3.3 permits on exactly four public surfaces
+   and this is one of them. The photograph is an <img> rather than a CSS
+   background: its URL varies per page, so it comes from data, and an <img>
+   carries fetchpriority on its own — no LQIP layer, no per-page preload flag.
+   The scrim is a separate layer over the image for the same reason the
+   homepage hero stopped using a flat veil: a uniform wash greys the whole
+   frame to protect text that only occupies part of it. */
+.race-hero {
+  position: relative;
+  background: var(--bg);
+  color: var(--text);
+  isolation: isolate;
+}
+.race-hero-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+}
+.race-hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 45%;
+  display: block;
+}
+/* Two axes, not one, and the second is the one that matters here. This hero
+   left-aligns its text in a column roughly half the frame wide, so a purely
+   vertical gradient protects empty sky at the top and leaves the breadcrumb
+   sitting on whatever the photograph happens to put behind it — in Valencia's
+   case a white building, at about 2:1 contrast. The horizontal pass puts the
+   density behind the words and lets the right-hand side of the photograph keep
+   its own light, which is the same reasoning that replaced the homepage's flat
+   45% veil in September. Measured on the Valencia crop: breadcrumb text clears
+   AA, h1 and hook clear AAA. */
+.race-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      to right,
+      rgba(13, 17, 23, .74) 0%,
+      rgba(13, 17, 23, .58) 38%,
+      rgba(13, 17, 23, .20) 72%,
+      rgba(13, 17, 23, .10) 100%),
+    linear-gradient(
+      to bottom,
+      rgba(13, 17, 23, .22) 0%,
+      rgba(13, 17, 23, .30) 45%,
+      rgba(13, 17, 23, .62) 100%);
+}
+/* On a phone the text column is the whole frame, so the horizontal pass has
+   nothing to protect and only darkens the picture. */
+@media (max-width: 700px) {
+  .race-hero::after {
+    /* Denser than the desktop vertical pass, and it has to be: with the
+       horizontal axis gone the breadcrumb and eyebrow have nothing behind them
+       but whatever the photograph puts there, and on a phone the text starts
+       about a third of the way down rather than half. */
+    background: linear-gradient(
+      to bottom,
+      rgba(13, 17, 23, .38) 0%,
+      rgba(13, 17, 23, .60) 34%,
+      rgba(13, 17, 23, .84) 100%);
+  }
+}
+.race-hero-body {
+  position: relative;
+  z-index: 2;
+  padding: 152px 0 48px;
+}
+/* Not --text-dim. That token is calibrated against the flat --bg of a members
+   page; here it sits on a photograph, where it was the least readable thing on
+   the page at both viewports. White at 78% holds against a bright crop and
+   still reads as secondary against the h1. */
+.race-hero .breadcrumb { color: rgba(255, 255, 255, .78); margin-bottom: 20px; }
+.race-hero .breadcrumb a { color: rgba(255, 255, 255, .78); }
+.race-hero .breadcrumb a:hover { color: var(--white); }
+.race-hero .label { color: var(--blue-bright); }
+.race-hero h1 {
+  color: var(--white);
+  margin: 8px 0 16px;
+  max-width: 18ch;
+}
+.race-date {
+  font-size: 17px;
+  color: var(--text);
+  margin: 0 0 12px;
+}
+.race-date strong { color: var(--white); }
+.race-hook {
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--text);
+  max-width: 54ch;
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .race-hero-body { padding: 112px 0 32px; }
+  .race-hero h1 { font-size: 32px; max-width: none; }
+  .race-hook { font-size: 17px; }
+}
+
+/* ── Sections ─────────────────────────────────────────────────────────────── */
+.race-verdict,
+.race-course,
+.race-conditions,
+.race-entry,
+.race-training,
+.race-plans,
+.race-sources { padding: 56px 0; }
+.race-verdict { background: var(--wash); }
+.race-conditions { background: var(--wash); }
+.race-plans { background: var(--wash); }
+.race-sources { padding: 40px 0 56px; border-top: 1px solid var(--mist); }
+
+.race-verdict h2,
+.race-course h2,
+.race-conditions h2,
+.race-entry h2,
+.race-training h2,
+.race-plans h2 { margin: 0 0 24px; }
+.race-course h3 { margin: 40px 0 12px; }
+
+.race-prose p { margin: 0 0 16px; max-width: 68ch; line-height: 1.65; }
+.race-prose p:last-child { margin-bottom: 0; }
+.race-note { font-size: 14px; color: var(--slate); max-width: 68ch; }
+
+/* ── Stat row ───────────────────────────────────────────────────────────────
+   Tabular figures so the numbers align down the row rather than dancing on
+   the 1s — these are read comparatively, which is the whole job of block 1. */
+.race-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-bottom: 16px;
+}
+.race-stat {
+  background: var(--white);
+  border: 1px solid var(--mist);
+  border-radius: 6px;
+  padding: 20px;
+}
+.race-stat-n {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.race-stat-l {
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--slate);
+  margin-top: 6px;
+}
+.race-stat-sub {
+  display: block;
+  font-size: 13px;
+  color: var(--slate);
+  margin-top: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.race-stat-source { font-size: 13px; color: var(--slate); margin: 0 0 20px; }
+
+/* The one place --heat appears on this page. It is the hard end of the effort
+   model, and a cut-off is the hard end of the race — a rule, not a fill, and
+   never a button or a link. */
+.race-callout {
+  border-left: 3px solid var(--heat-graphic);
+  background: var(--white);
+  padding: 16px 20px;
+  border-radius: 0 6px 6px 0;
+  margin-top: 24px;
+}
+.race-callout-l {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--heat);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* ── Fact lists ─────────────────────────────────────────────────────────────
+   A two-column dl on desktop and stacked on phones. Grid rather than float so
+   a long value wraps under its own term instead of under the next one. */
+.race-facts {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) 1fr;
+  gap: 12px 24px;
+  margin: 0 0 24px;
+  max-width: 78ch;
+}
+.race-facts dt {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--slate);
+  padding-top: 2px;
+}
+.race-facts dd { margin: 0; line-height: 1.6; }
+@media (max-width: 560px) {
+  .race-facts { grid-template-columns: 1fr; gap: 4px 0; }
+  .race-facts dd { margin-bottom: 14px; }
+}
+
+/* ── Plan ladder ────────────────────────────────────────────────────────────
+   Six cards for the marathon, three for the half. Never filtered by how many
+   weeks remain — see the raceLadder filter for why that filter does not exist. */
+.race-plans-intro { max-width: 68ch; margin: 0 0 24px; }
+/* Three columns at desktop, deliberately fixed rather than auto-fill. The
+   ladder is a 3 x 2 matrix — difficulty across, duration down — and auto-fill
+   rendered it as four cards then two, which reads as a wrap accident rather
+   than a structure. Two columns on tablets keeps each row one duration; one
+   column on phones. */
+.race-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 900px) { .race-plan-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .race-plan-grid { grid-template-columns: 1fr; } }
+.race-plan-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--white);
+  border: 1px solid var(--mist);
+  border-radius: 6px;
+  padding: 20px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: border-color var(--t), transform var(--t);
+}
+.race-plan-card:hover {
+  border-color: var(--blue);
+  transform: translateY(-2px);
+}
+.race-plan-level {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--blue);
+  font-weight: 600;
+}
+.race-plan-weeks {
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+/* The plan's own name, with its duration prefix already stripped by the
+   template — the card states the weeks in 22px directly above, and the raw
+   catalogue name repeats it ("Plan 12 Semanas: Maratón Base…"). What is left is
+   the part that distinguishes one card from another: the volume band. */
+.race-plan-name { font-size: 13px; color: var(--slate); line-height: 1.45; }
+.race-plan-price {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: auto;
+  padding-top: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.race-plans-note {
+  font-size: 14px;
+  color: var(--slate);
+  max-width: 68ch;
+  margin: 24px 0 0;
+}
+
+.race-capture {
+  background: var(--white);
+  border: 1px solid var(--mist);
+  border-radius: 6px;
+  padding: 24px;
+  margin-top: 32px;
+  max-width: 620px;
+}
+.race-capture h3 { margin: 0 0 8px; font-size: 20px; }
+.race-capture p { margin: 0 0 16px; color: var(--slate); }
+
+/* ⚠️ The capture form's own rules, duplicated here on purpose.
+   `partials/plan-capture-form.njk` is shared, but its CSS lives only in
+   plan-page.css — so including the partial on any page that does not load that
+   stylesheet renders raw browser controls, with a clean build and no error.
+   Caught by screenshotting this page, not by reading it; exactly the family of
+   defect the `.plan-chip` note in plan-page-content.njk describes.
+   Loading the whole 29 KB plan-page.css for eighteen lines is the worse trade.
+   If a third page ever needs this form, promote these to site.css rather than
+   copying them a third time. */
+.plan-capture h3 { font-size: 18px; margin-bottom: 8px; }
+.plan-capture p { color: var(--slate); font-size: 14px; margin-bottom: 16px; }
+.plan-capture-row { display: flex; gap: 8px; }
+.plan-capture-row input {
+  flex: 1; border: 1px solid var(--mist); border-radius: 4px; padding: 12px 14px;
+  font-size: 15px; font-family: inherit; color: var(--ink); background: var(--white);
+}
+.plan-capture-row input:focus { outline: none; border-color: var(--blue); }
+.plan-capture-row button {
+  background: var(--blue); color: var(--white); border: none; border-radius: 4px;
+  padding: 12px 20px; font-weight: 700; font-size: 14px; cursor: pointer; white-space: nowrap;
+}
+.plan-capture-row button:hover { background: var(--blue-deep); }
+.plan-capture-row button:disabled { opacity: 0.6; cursor: not-allowed; }
+@media (max-width: 480px) { .plan-capture-row { flex-direction: column; } }
+.plan-capture-status { margin-top: 10px; font-size: 13px; min-height: 16px; }
+.plan-capture-status.success { color: #1a7a3c; }
+.plan-capture-status.error { color: var(--slate); }
+
+/* ── Sources ────────────────────────────────────────────────────────────── */
+.race-sources h2 { font-size: 16px; margin: 0 0 12px; color: var(--slate); }
+.race-sources ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.race-sources a { font-size: 13px; color: var(--slate); }
+.race-sources a:hover { color: var(--blue); }

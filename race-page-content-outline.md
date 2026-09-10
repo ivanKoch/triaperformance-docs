@@ -70,7 +70,9 @@ Race pages are children of the sport hub, not a new top-level section:
 
 `transKey` set across a race's language siblings so hreflang and the switcher wire up; a single-language race simply emits none. `noindex` stays off — these are public acquisition pages. Everything else (GA4, Clarity, canonical, sitemap) comes free from `layouts/base.njk`.
 
-Hero image per race: 3:2 at 1600 and 960, matching the site hero convention, at `/assets/images/races/<race-slug>-1600.jpg`. `automation/resize-blog-images.py` needs one added mode for this — blog cards are 16:10 at 1400 and do not match.
+Hero image per race: **2:1 at 960 / 1600 / 2560, `.webp` + `.jpg`**, at `/assets/images/races/<race-slug>-<width>.<ext>`. Widths match the breakpoints `site.css` already uses for the homepage hero. Built by `automation/resize-blog-images.py` from `_incoming/races/<race-slug>.jpg` (races mode added September 10, 2026).
+
+**The race hero is an `<img>`, not a CSS background.** The homepage hero hardcodes its widths per breakpoint in `site.css` and carries an inline LQIP data URI — correct for one image shared by three homepages, unusable for a per-page image that has to come from data. An `<img>` carries `fetchpriority="high"` on its own, so it needs neither the LQIP nor the `hero: true` preload flag. The scrim becomes an overlay element rather than `::before` on a background. This is `design-refresh-brief.md` item 33 (split hero, carbon tokens) applied to a new page type — the hero and the final CTA are two of the four public surfaces §3.3 of the guidelines permits on carbon.
 
 ## Deliberately not here
 

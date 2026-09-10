@@ -1,0 +1,17 @@
+---
+pagination:
+  data: races.byLanguage.es
+  size: 1
+  alias: race
+  addAllPagesToCollections: true
+permalink: "{{ race.url }}"
+layout: layouts/base.njk
+lang: es
+pageCss: race-page.css
+eleventyComputed:
+  transKey: "{{ race.transKey }}"
+  title: "{{ race.name }}: plan de entrenamiento y recorrido | Triaperformance"
+  ogTitle: "{{ race.name }}"
+  description: "{% set d %}{{ race.name }}: perfil del recorrido, tiempo límite, clima y cómo entrenar para la carrera. Planes de 12 y 18 semanas por frecuencia cardíaca.{% endset %}{{ d | clamp(158) }}"
+---
+{% include "partials/race-page-content.njk" %}

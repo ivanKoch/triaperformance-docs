@@ -526,6 +526,134 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
   // Weight-loss plans are excluded: several are filed under a race distance, and
   // recommending one to somebody asking how to raise their VO2max is wrong.
   // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // raceDate / thousands / hostname — three small formatters for race pages.
+  //
+  // These format in the PAGE's language, not the server's locale. A build that
+  // formats with the machine's default produces different output on the VPS
+  // than on a laptop, which is the kind of difference nobody notices until a
+  // Portuguese page shows an American date.
+  // ---------------------------------------------------------------------------
+  const RACE_LOCALE = { es: "es-ES", en: "en-GB", pt: "pt-BR" };
+
+  eleventyConfig.addFilter("raceDate", function (iso, lang) {
+    if (!iso) return "";
+    const d = new Date(iso + "T12:00:00Z");
+    if (isNaN(d)) return iso;
+    return new Intl.DateTimeFormat(RACE_LOCALE[lang] || "en-GB", {
+      day: "numeric", month: "long", year: "numeric", timeZone: "UTC",
+    }).format(d);
+  });
+
+  eleventyConfig.addFilter("thousands", function (n, lang) {
+    if (n === null || n === undefined || n === "") return "";
+    const num = typeof n === "number" ? n : parseFloat(String(n).replace(/[^0-9.]/g, ""));
+    if (isNaN(num)) return n;
+    return new Intl.NumberFormat(RACE_LOCALE[lang] || "en-GB").format(num);
+  });
+
+  /** Bare host for a source link — the full URL is the href, the host is what a
+   *  reader can actually scan down a list of. */
+  eleventyConfig.addFilter("hostname", function (url) {
+    try { return new URL(url).hostname.replace(/^www\./, ""); }
+    catch (e) { return url; }
+  });
+
+  // ---------------------------------------------------------------------------
+  // raceProse — the deliberately tiny prose renderer for data/races/*.json.
+  //
+  // Race copy lives in JSON, so it needs *some* markup for paragraphs and the
+  // occasional emphasised phrase. It does NOT need a markdown dependency: the
+  // supported syntax is exactly two things — a blank line starts a paragraph,
+  // and **text** emphasises. Anything else is escaped and rendered literally.
+  //
+  // Keeping the subset this narrow is the point. A full markdown filter over a
+  // data file invites headings, tables and raw HTML into fields the template
+  // has already decided the shape of, and the first time a race row contains a
+  // stray underscore the page renders italics nobody asked for.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addFilter("raceProse", function (text) {
+    if (!text) return "";
+    const esc = (t) => t
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+    return String(text)
+      .split(/\n\s*\n/)
+      .map((para) => esc(para.trim()).replace(/\n/g, " ")
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>"))
+      .filter(Boolean)
+      .map((para) => `<p>${para}</p>`)
+      .join("\n");
+  });
+
+  // ---------------------------------------------------------------------------
+  // raceLadder — the plans a race page offers, for one language and distance.
+  //
+  // THIS IS A CONSTANT, NOT A SEARCH. race-landing-pages-longlist.md §1 fixed
+  // the ladder on September 5, 2026: three difficulties, and for the marathon
+  // both durations, on ONE intensity type in all three languages. It is
+  // resolved live against the inventory rather than stored per race, so a
+  // retired plan leaves every race page at the next build.
+  //
+  // THERE IS NO COUNTDOWN FILTER, and its absence is deliberate. Filtering to
+  // plans that still fit the weeks remaining rendered ZERO plans for 8 of the
+  // 13 races in the file when it was tested (marathon plans exist only at 12
+  // and 18 weeks), i.e. it emptied the page during exactly the window when
+  // demand peaks. Nobody starts an 18-week block from zero on a start date, so
+  // the full ladder is the honest answer whatever the date.
+  // ---------------------------------------------------------------------------
+  const RACE_LADDER = {
+    "42k": { distance: "42 km", metric: "hr", weeks: { Beginner: [12, 18], Intermediate: [12, 18], Advanced: [12, 18] } },
+    "21k": { distance: "21 km", metric: "pace", weeks: { Beginner: [16], Intermediate: [16], Advanced: [12] } },
+  };
+  const RACE_DIFFICULTY_ORDER = ["Beginner", "Intermediate", "Advanced"];
+
+  /** Strip a plan name's leading duration, which the race card already states
+   *  in 22px directly above it: "Plan 12 Semanas: Maratón Base" -> "Maratón
+   *  Base", "16 Week Half Marathon Prep" -> "Half Marathon Prep". Deliberately
+   *  anchored and conservative — a name that does not match is left alone. */
+  eleventyConfig.addFilter("stripDuration", function (name) {
+    if (!name) return "";
+    return String(name)
+      .replace(/^Plan\s+\d{1,2}\s+Semanas\s*[:\-–]\s*/i, "")
+      .replace(/^Plano?\s+de\s+\d{1,2}\s+Semanas\s*[:\-–]\s*/i, "")
+      .replace(/^\d{1,2}\s+Week\s+/i, "")
+      .replace(/^\d{1,2}\s+Semanas?\s*[:|\-–]\s*/i, "")
+      .replace(/^(Maratona|Meia Maratona)\s*\(\d+k\)\s*\|\s*\d{1,2}\s+Semanas\s*\|\s*/i, "")
+      .trim();
+  });
+
+  eleventyConfig.addFilter("raceLadder", function (plansForLang, distance) {
+    const spec = RACE_LADDER[distance];
+    if (!spec || !Array.isArray(plansForLang)) return [];
+    // Duration OUTER, difficulty INNER, so a three-column grid renders as
+    // difficulty across and duration down. Difficulty-outer produced
+    // B12 B18 I12 / I18 A12 A18 — a row that mixes two levels and two
+    // durations and means nothing.
+    const out = [];
+    const allWeeks = [...new Set(Object.values(spec.weeks).flat())].sort((a, b) => a - b);
+    for (const weeks of allWeeks) {
+      for (const difficulty of RACE_DIFFICULTY_ORDER) {
+        if (!(spec.weeks[difficulty] || []).includes(weeks)) continue;
+        const match = plansForLang.find((p) =>
+          p.sport === "Running" &&
+          p.distance === spec.distance &&
+          p.difficulty === difficulty &&
+          p.weeks === weeks &&
+          p.metric === spec.metric &&
+          !p.strength &&
+          !p.weightLoss);
+        // A missing cell is skipped, never substituted. The ladder is verified
+        // complete in all three languages; if one ever goes missing the page
+        // should show five plans and the build log should say so, rather than
+        // quietly promoting a plan the athlete did not ask for.
+        if (match) out.push(match);
+        else console.log(`[races] ladder gap: ${distance} ${difficulty} ${weeks}w — no matching plan`);
+      }
+    }
+    return out;
+  });
+
   eleventyConfig.addFilter("zoneGoalPlan", function (plansForLang, distance) {
     if (!plansForLang) return null;
     const rank = (d) => ({ Intermediate: 0, Beginner: 1, Advanced: 2 }[d] ?? 3);

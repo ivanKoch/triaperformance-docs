@@ -1,0 +1,17 @@
+---
+pagination:
+  data: races.byLanguage.en
+  size: 1
+  alias: race
+  addAllPagesToCollections: true
+permalink: "{{ race.url }}"
+layout: layouts/base.njk
+lang: en
+pageCss: race-page.css
+eleventyComputed:
+  transKey: "{{ race.transKey }}"
+  title: "{{ race.name }}: training plan, course and cut-off | Triaperformance"
+  ogTitle: "{{ race.name }}"
+  description: "{% set d %}{{ race.name }}: course profile, time limit, conditions and how to train for it. 12 and 18-week heart-rate plans.{% endset %}{{ d | clamp(158) }}"
+---
+{% include "partials/race-page-content.njk" %}

@@ -1,0 +1,208 @@
+{#- Shared content for every race landing page (ES/EN/PT). Included by the three
+    thin pagination shells under site/planes/running/, site/en/plans/running/
+    and site/pt/planos/maratona/ — each sets `lang` and paginates a different
+    slice of races.byLanguage. `race` comes from the pagination alias.
+
+    Block order is race-page-content-outline.md, and it is not the order a coach
+    would assume: what kind of race -> course -> conditions -> getting in ->
+    how to train -> plans. Every block answers "does this change how I train, or
+    whether I choose this race". Kit collection, expo hours and bag drop fail
+    that test and are deliberately absent. -#}
+{%- set u = planUi[lang] -%}
+{%- set r = raceUi[lang] -%}
+{%- set home = site.languages[lang].home -%}
+{%- set plansUrl = { es: "/planes/", en: "/en/plans/", pt: "/pt/planos/" }[lang] -%}
+{%- set hubUrl = { es: "/planes/running/", en: "/en/plans/running/", pt: "/pt/planos/maratona/" }[lang] -%}
+{%- set ladder = plans.byLanguage[lang] | raceLadder(race.distance) -%}
+{#- The lead plan is the Intermediate short block: the middle of the ladder, and
+    the one the capture form attributes to. A race page has no single product,
+    so without this the form would have no plan_id and the lead would arrive in
+    Twenty with nothing to say what it was about. -#}
+{%- set plan = ladder[2] if ladder | length > 2 else ladder[0] -%}
+
+{#- ── Hero. Carbon, per brand-guidelines §3.3: the hero is one of the four
+    public surfaces the dark system is allowed on. The image is an <img>, not a
+    CSS background — its URL varies per page, so it has to come from data, and
+    an <img> gets fetchpriority on its own without the LQIP and preload flag the
+    homepage hero needs. -#}
+<section class="race-hero">
+  <picture class="race-hero-img">
+    <source type="image/webp"
+            srcset="{{ (race.image.base + '-960.webp') | v }} 960w, {{ (race.image.base + '-1600.webp') | v }} 1600w, {{ (race.image.base + '-2560.webp') | v }} 2560w"
+            sizes="100vw">
+    <img src="{{ (race.image.base + '-1600.jpg') | v }}"
+         srcset="{{ (race.image.base + '-960.jpg') | v }} 960w, {{ (race.image.base + '-1600.jpg') | v }} 1600w, {{ (race.image.base + '-2560.jpg') | v }} 2560w"
+         sizes="100vw" width="2560" height="1280"
+         alt="{{ race.city }}, {{ race.country }}"
+         fetchpriority="high" decoding="async">
+  </picture>
+  <div class="race-hero-body">
+    <div class="wrap">
+      <p class="breadcrumb"><a href="{{ home }}">{{ r.breadcrumbHome }}</a> / <a href="{{ plansUrl }}">{{ r.breadcrumbPlans }}</a> / <a href="{{ hubUrl }}">{{ r.breadcrumbHub }}</a></p>
+      <span class="label">{{ r.eyebrow }} · {{ race.city }}</span>
+      <h1>{{ race.name }}</h1>
+      <p class="race-date">
+        {%- if race.nextEditionDate %}{{ r.nextEdition }}: <strong>{{ race.nextEditionDate | raceDate(lang) }}</strong>
+        {%- else %}{{ r.typicalWindow }}: <strong>{{ race.typicalWindow }}</strong>{% endif %}
+      </p>
+      {%- if race.hook %}<p class="race-hook">{{ race.hook }}</p>{% endif %}
+    </div>
+  </div>
+</section>
+
+{#- ── 1. What kind of race this is. The cut-off lives here rather than in its
+    own section: it is an answer to "is this for me", not a topic. -#}
+{%- if race.field or race.cutOff %}
+<section class="race-verdict">
+  <div class="wrap">
+    <h2>{{ r.verdictTitle }}</h2>
+    <div class="race-stats">
+      {%- if race.field and race.field.median %}
+      <div class="race-stat">
+        <span class="race-stat-n">{{ race.field.median }}</span>
+        <span class="race-stat-l">{{ r.statMedian }}</span>
+        {%- if race.field.median_m and race.field.median_f %}
+        <span class="race-stat-sub">{{ r.statMedianM }} {{ race.field.median_m }} · {{ r.statMedianF }} {{ race.field.median_f }}</span>
+        {%- endif %}
+      </div>
+      {%- endif %}
+      {%- if race.field and race.field.sub3_pct %}
+      <div class="race-stat">
+        <span class="race-stat-n">{{ race.field.sub3_pct }}%</span>
+        <span class="race-stat-l">{{ r.statSub3 }}</span>
+        {%- if race.field.sub3_count_low %}
+        <span class="race-stat-sub">{{ race.field.sub3_count_low | thousands(lang) }}{% if race.field.sub3_count_high and race.field.sub3_count_high != race.field.sub3_count_low %}–{{ race.field.sub3_count_high | thousands(lang) }}{% endif %}</span>
+        {%- endif %}
+      </div>
+      {%- endif %}
+      {%- if race.field and race.field.finishers_low %}
+      <div class="race-stat">
+        <span class="race-stat-n">{{ race.field.finishers_low | thousands(lang) }}{% if race.field.finishers_high and race.field.finishers_high != race.field.finishers_low %}+{% endif %}</span>
+        <span class="race-stat-l">{{ r.statFinishers }}</span>
+        {%- if race.field.finishers_high and race.field.finishers_high != race.field.finishers_low %}
+        <span class="race-stat-sub">{{ race.field.finishers_low | thousands(lang) }}–{{ race.field.finishers_high | thousands(lang) }}</span>
+        {%- endif %}
+      </div>
+      {%- endif %}
+    </div>
+    {%- if race.field and race.field.year %}
+    <p class="race-stat-source">{{ r.fieldYearPrefix }} {{ race.field.year }}.</p>
+    {%- endif %}
+    {%- if race.field and race.field.note %}<div class="race-prose">{{ race.field.note | raceProse | safe }}</div>{% endif %}
+    {%- if race.cutOff and race.cutOff.text %}
+    <div class="race-callout">
+      <span class="race-callout-l">{{ r.statCutOff }}{% if race.cutOff.year %} · {{ race.cutOff.year }}{% endif %}</span>
+      <div class="race-prose">{{ race.cutOff.text | raceProse | safe }}</div>
+    </div>
+    {%- endif %}
+  </div>
+</section>
+{%- endif %}
+
+{#- ── 2. The course, and where the field comes apart. -#}
+<section class="race-course">
+  <div class="wrap">
+    <h2>{{ r.courseTitle }}</h2>
+    <dl class="race-facts">
+      {%- if race.courseProfile %}<dt>{{ r.profileLabel }}</dt><dd>{{ race.courseProfile }}</dd>{% endif %}
+      {%- if race.elevationGainM %}<dt>{{ r.elevationLabel }}</dt><dd>{{ race.elevationGainM }} m</dd>{% endif %}
+      {%- if race.altitudeM %}<dt>{{ r.altitudeLabel }}</dt><dd>{{ race.altitudeM | thousands(lang) }} m</dd>{% endif %}
+    </dl>
+    {%- if race.elevationNote %}<p class="race-note">{{ race.elevationNote }}</p>{% endif %}
+    {%- if race.courseNotes %}<div class="race-prose">{{ race.courseNotes | raceProse | safe }}</div>{% endif %}
+    {%- if race.whereTheyStruggle %}
+    <h3>{{ r.struggleTitle }}</h3>
+    <div class="race-prose">{{ race.whereTheyStruggle | raceProse | safe }}</div>
+    {%- endif %}
+  </div>
+</section>
+
+{#- ── 3. Conditions. Start time is here because it is a body-clock and fuelling
+    input, not because it is logistics. -#}
+{%- if race.typicalWeather or race.startTime %}
+<section class="race-conditions">
+  <div class="wrap">
+    <h2>{{ r.conditionsTitle }}</h2>
+    <dl class="race-facts">
+      {%- if race.typicalWeather %}<dt>{{ r.weatherLabel }}</dt><dd>{{ race.typicalWeather }}</dd>{% endif %}
+      {%- if race.startTime %}<dt>{{ r.startLabel }}</dt><dd>{{ race.startTime }}</dd>{% endif %}
+    </dl>
+  </div>
+</section>
+{%- endif %}
+
+{#- ── 4. Getting in. Decision input, not administration: when entries open and
+    whether you can get a place. Everything below registration — kit, expo,
+    corral hours — is deliberately not here. -#}
+{%- if race.registrationWindow %}
+<section class="race-entry">
+  <div class="wrap">
+    <h2>{{ r.entryTitle }}</h2>
+    <dl class="race-facts">
+      <dt>{{ r.regWindowLabel }}</dt><dd>{{ race.registrationWindow }}</dd>
+      {%- if race.registrationModel %}<dt>{{ r.regModelLabel }}</dt><dd>{{ race.registrationModel }}</dd>{% endif %}
+      {%- if race.qualifying %}<dt>{{ r.qualifyingLabel }}</dt><dd>{{ race.qualifying }}</dd>{% endif %}
+      {%- if race.corralPolicy %}<dt>{{ r.corralLabel }}</dt><dd>{{ race.corralPolicy }}</dd>{% endif %}
+    </dl>
+    {%- if race.sellOutNote %}<div class="race-prose">{{ race.sellOutNote | raceProse | safe }}</div>{% endif %}
+    {%- if race.officialUrl %}<p class="race-note"><a href="{{ race.officialUrl }}" rel="nofollow noopener" target="_blank">{{ r.officialSite }} →</a></p>{% endif %}
+  </div>
+</section>
+{%- endif %}
+
+{#- ── 5. How to train for this one. methodology.md applied to blocks 2 and 3 —
+    not a restatement of the course. -#}
+{%- if race.howToTrain %}
+<section class="race-training">
+  <div class="wrap">
+    <h2>{{ r.trainingTitle }}</h2>
+    <div class="race-prose">{{ race.howToTrain | raceProse | safe }}</div>
+  </div>
+</section>
+{%- endif %}
+
+{#- ── 6. The ladder. A constant, not a per-race lookup, and with no countdown
+    filter — see the raceLadder filter for why. -#}
+{%- if ladder | length %}
+<section class="race-plans">
+  <div class="wrap">
+    <h2>{{ r.plansTitle }}</h2>
+    <p class="race-plans-intro">{{ r.plansIntro }}</p>
+    <div class="race-plan-grid">
+      {%- for p in ladder %}
+      <a class="race-plan-card" href="{{ p.pageUrl }}">
+        <span class="race-plan-level">{{ u.difficulty[p.difficulty] }}</span>
+        <span class="race-plan-weeks">{{ p.weeks }} {{ r.weeksLabel }}</span>
+        <span class="race-plan-name">{{ p.displayName | stripDuration }}</span>
+        <span class="race-plan-price">US$ {{ p.price }}</span>
+      </a>
+      {%- endfor %}
+    </div>
+    <p class="race-plans-note">{{ r.plansNote }}</p>
+
+    {%- if plan %}
+    <div class="race-capture">
+      <h3>{{ u.captureHeading }}</h3>
+      <p>{{ u.captureBody }}</p>
+      {%- set captureSource = "race" -%}
+      {% include "partials/plan-capture-form.njk" %}
+    </div>
+    {%- endif %}
+  </div>
+</section>
+{%- endif %}
+
+{#- ── Sources. Not decoration: the standing rule is that an organiser's own
+    document wins over any derived reading, so the page says where it looked. -#}
+{%- if race.sources | length %}
+<section class="race-sources">
+  <div class="wrap">
+    <h2>{{ r.sourcesTitle }}</h2>
+    <ul>
+      {%- for s in race.sources %}
+      <li><a href="{{ s }}" rel="nofollow noopener" target="_blank">{{ s | hostname }}</a></li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+{%- endif %}

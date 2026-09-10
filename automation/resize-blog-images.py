@@ -4,6 +4,7 @@ Resize photo originals into blog card images.
 
     _incoming/<topic>/*        ->  site/assets/images/blog/topics/<topic>-N.jpg
     _incoming/articles/<slug>* ->  site/assets/images/blog/articles/<slug>.jpg
+    _incoming/races/<slug>*    ->  site/assets/images/races/<slug>-{960,1600,2560}.{webp,jpg}
 
 USAGE
     python3 automation/resize-blog-images.py --dry-run    show what would happen
@@ -62,6 +63,22 @@ SRC_EXT = (".jpg", ".jpeg", ".png", ".webp", ".avif", ".heic", ".tif", ".tiff")
 TOPICS = ("running", "cycling", "swimming", "triathlon", "nutrition",
           "recovery", "physiology", "strength", "weight-loss")
 
+# --- race heroes -----------------------------------------------------------
+# A different job from a blog card and deliberately a different shape. The card
+# is 16:10 at one size because it renders at ~700px maximum; a race hero spans
+# the viewport, so it needs the same three widths site.css already uses for the
+# homepage hero, in both formats, at 2:1.
+#
+# WHY NOT THE HOMEPAGE HERO MECHANISM: that one is a CSS background with the
+# widths hardcoded per breakpoint plus an inline LQIP data URI. That is fine for
+# one image shared by three homepages. A race hero's URL varies per page, so it
+# has to come from data, which means an <img> — and an <img> is preloadable on
+# its own with fetchpriority, so it needs no LQIP and no per-page preload flag.
+RACES_OUT = os.path.join(REPO, "site", "assets", "images", "races")
+RACE_WIDTHS = (960, 1600, 2560)
+RACE_RATIO = 2.0
+RACE_WEBP_QUALITY = 80
+
 
 def convert(src, dst, dry):
     if dry:
@@ -83,6 +100,53 @@ def convert(src, dst, dry):
     return os.path.getsize(dst)
 
 
+def convert_race(src, slug, dry):
+    """One sourced city photo -> three widths x two formats, 2:1.
+
+    NOTHING IS EVER UPSCALED. A source narrower than a given width simply does
+    not produce that width, and one narrower than the smallest is refused
+    outright rather than shipped soft — an upscaled hero is worse than no hero,
+    and it is the failure a sourcing pass makes most often.
+    """
+    written = n = 0
+    with Image.open(src) as im:
+        im = ImageOps.exif_transpose(im)
+        if im.mode not in ("RGB", "L"):
+            im = im.convert("RGB")
+        if im.width < RACE_WIDTHS[0]:
+            print(f"    SKIPPED {os.path.basename(src)} — {im.width}px wide, "
+                  f"needs {RACE_WIDTHS[0]}px minimum", file=sys.stderr)
+            return 0, 0
+        if im.width < RACE_WIDTHS[-1]:
+            print(f"    note: {im.width}px source — "
+                  f"{', '.join(str(w) for w in RACE_WIDTHS if w <= im.width)} only")
+        for w in RACE_WIDTHS:
+            if im.width < w:
+                continue
+            h = round(w / RACE_RATIO)
+            # Centred, biased slightly high: these are cityscapes and landmarks,
+            # where the subject sits above the midline and the bottom of the
+            # frame is usually road or crowd.
+            frame = ImageOps.fit(im, (w, h), method=Image.LANCZOS,
+                                 centering=(0.5, 0.45))
+            for ext in ("webp", "jpg"):
+                dst = os.path.join(RACES_OUT, f"{slug}-{w}.{ext}")
+                if dry:
+                    print(f"    would write {os.path.relpath(dst, REPO)}")
+                    n += 1
+                    continue
+                if ext == "webp":
+                    frame.save(dst, "WEBP", quality=RACE_WEBP_QUALITY, method=6)
+                else:
+                    frame.save(dst, "JPEG", quality=QUALITY, optimize=True,
+                               progressive=True)
+                sz = os.path.getsize(dst)
+                written += sz
+                n += 1
+                print(f"    {os.path.relpath(dst, REPO)}  ({sz/1024:.0f} KB)")
+    return written, n
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
@@ -94,15 +158,16 @@ def main():
 
     os.makedirs(os.path.join(OUT, "topics"), exist_ok=True)
     os.makedirs(os.path.join(OUT, "articles"), exist_ok=True)
+    os.makedirs(RACES_OUT, exist_ok=True)
 
     total_in = total_out = count = 0
     for folder in sorted(os.listdir(INCOMING)):
         src_dir = os.path.join(INCOMING, folder)
         if not os.path.isdir(src_dir):
             continue
-        if folder != "articles" and folder not in TOPICS:
-            print(f"  SKIPPED {folder}/ — not a topic. Valid: {', '.join(TOPICS)}",
-                  file=sys.stderr)
+        if folder not in ("articles", "races") and folder not in TOPICS:
+            print(f"  SKIPPED {folder}/ — not a topic. Valid: articles, races, "
+                  f"{', '.join(TOPICS)}", file=sys.stderr)
             continue
 
         files = sorted(f for f in os.listdir(src_dir)
@@ -110,6 +175,18 @@ def main():
         if not files:
             continue
         print(f"\n  {folder}/  ({len(files)} file(s))")
+
+        if folder == "races":
+            # Filename is the race slug and carries the meaning, same rule as
+            # articles/. One source in, up to six files out.
+            for f in files:
+                src = os.path.join(src_dir, f)
+                total_in += os.path.getsize(src)
+                out_bytes, made = convert_race(
+                    src, os.path.splitext(f)[0], args.dry_run)
+                total_out += out_bytes
+                count += made
+            continue
 
         for i, f in enumerate(files, 1):
             src = os.path.join(src_dir, f)

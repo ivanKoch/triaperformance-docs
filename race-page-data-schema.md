@@ -1,51 +1,76 @@
-# Race Page Data Schema
+# Race Page — Data Schema
 
-**Status: proposed July 30, 2026, revised same day after Iván's review · verified: 2026-08-14 — still a proposal; the race-page branch is unblocked (NEXT #1) but NOT STARTED.** Backs `data/races.csv`. Companion: `race-landing-pages-longlist.md`, `race-page-content-outline.md`.
+**Rewritten September 10, 2026.** Backs `data/races/<race_id>.json` — **one JSON file per race, not a CSV row.**
 
-**Revision note:** the original version of this schema only joined plans on distance + language + weeks + difficulty. That undercounted real inventory (missed 2 of 3 EN full-distance Ironman plans because they're flagged `is_published=FALSE` — likely a stale flag, see `race-landing-pages-longlist.md` §1) and left out two real, already-planned facets: intensity type (pace/HR/power) and the strength/gym add-on. Both fixed below.
+> **Why the container changed, decided while building the first page.** Every other dataset in `data/` is a table because something outside this repo produces it as one: `training_plans_inventory.csv` is a TrainingPeaks export. Race data is the opposite — most of a race is multi-paragraph prose in three languages, and a CSV cell is the wrong container for a paragraph. The July `races.csv` already carried 900-character quoted fields with embedded commas and was unreadable in every tool that opens a CSV. One file per race gives one commit per race and a diff that shows which paragraph changed. `data/races.csv` is superseded; its 13 rows are the old research set and do not match the 19 dossiers. Page structure and the test every field has to pass: `race-page-content-outline.md`. Plan ladder: `race-landing-pages-longlist.md` §1.
 
 ## Design principle
-One row per race in `data/races.csv`. The page template reads a row plus a **live join** against `training_plans_inventory.csv` — it does not store plan IDs statically. This is what makes the whole system evergreen: as a race date approaches or passes, the same row keeps producing the right plan recommendations without a data edit. The only thing that goes stale in `races.csv` is the race's own facts (date, course, hooks) — which is exactly the "update the page, not the plan" model already agreed.
+
+One file per race. The template reads the row and renders the six blocks. **Nothing about training plans is stored here** — the ladder is a constant (3 difficulties × 12/18w on HR for the marathon; Beginner 16w / Intermediate 16w / Advanced 12w on pace for the half, all three languages), so the page renders it from the inventory without consulting the race row at all.
+
+**Every field is either always-filled or optional, and the schema says which.** An optional field that an organiser does not publish is left empty and its block simply does not render. Nothing is inferred to fill a gap, and no research pass is commissioned to close one.
+
+> 🚨 **A falsified belief, kept because it explains an absence.** The July 30 version specified plan matching as a live join filtered by `weeks ≤ floor((race_date − today)/7)`, plus a facet ladder across intensity type and a strength add-on. **Both are gone.** The countdown filter was tested against the real inventory on September 3, 2026 and rendered **zero plans for 8 of the 13 races then in `races.csv`** — marathon plans exist only at 12 and 18 weeks, so any race inside 12 weeks showed an empty ladder, which is precisely the window when search demand peaks. The facet grid was retired the same week: *"most coaches only have three difficulty levels and that's all."* **There is no date filter on the plan join, and the reason is a coaching argument, not a workaround** — nobody starts an 18-week block from zero on a start date, so the full ladder is always the honest answer.
 
 ## Fields
 
-**Identity**
-- `race_id` — slug, e.g. `valencia-marathon`. Used for the page URL and as the join key from any internal link.
-- `race_name_es` / `race_name_en` / `race_name_pt` — display name per language. Empty where no page exists in that language (e.g. Boston has no `race_name_es`).
+### Identity — always filled
+
+- `race_id` — slug, and the join key for everything. **It is also the hero-image filename**, so `valencia-marathon` resolves to `/assets/images/races/valencia-marathon-{960,1600,2560}.{webp,jpg}` with no field required. One naming system, not two.
+- `race_name_es` / `race_name_en` / `race_name_pt` — display name per language; empty where the race has no page in that language.
+- `slug_es` / `slug_en` / `slug_pt` — the URL segment per language, so a Spanish page can be `maraton-de-valencia` rather than carrying an English slug for SEO. **Falls back to `race_id` when empty**, which is the right answer for most races.
 - `city`, `country`.
-- `language_market` — **resolved this session:** comma-separated list on a single row (e.g. `EN,ES,PT` for California International Marathon), not one row per market. `race_name_es`/`race_name_en`/`race_name_pt` and `target_queries_es`/`_en`/`_pt` already carry the per-language content, so a second row would just duplicate the race facts (dates, course, hooks) for no reason. A race only gets a language in this list where the (distance, language) pair clears the 3-plan floor — e.g. Boston stays EN-only, Valencia stays ES-only, but a race like CIM or Rio that has real (or, for CIM, test-purposes) multi-language relevance lists all three.
-- `distance` — `42k` / `21k` / `70.3` / `140.6`.
+- `language_market` — comma-separated (`ES`, `ES,EN,PT`). Drives which pages get built and which `transKey` siblings exist. `transKey` is `race_id`.
+- `distance` — `42k` / `21k`.
 
-**Race facts**
-- `next_edition_date` — ISO date where confirmed; otherwise a clearly-labeled estimate string (see confidence_flags below). This is the field that makes the page "carry the year."
-- `typical_month` — for the recurring/evergreen pattern, independent of the exact confirmed date.
-- `registration_notes` — lottery vs. direct entry, qualifying windows, field size, sell-out risk. Feeds FAQ content directly.
-- `course_profile` — flat/rolling/hilly, one line, plus `elevation_gain_m` as a separate field so it can be sorted/compared across races later if useful.
-- `course_hooks` — **the differentiator field, and the reason this schema exists.** Free text, real research per race: Heartbreak Hill, CDMX's 2,240m altitude, Valencia's flatness, Cartagena's heat — whatever makes training for *this* race different from generic advice. This is what a thin auto-generated page can't fake.
-- `typical_weather` — race-day conditions, feeds both the hooks and FAQ.
-- `qualifying_relevance` — BQ, Abbott World Marathon Majors, World Athletics Platinum Label, IRONMAN Championship status, or "none." Directly answers a real search intent for the majors.
+### Dates — `typical_window` always, `next_edition_date` when published
 
-**Plan matching (the join, not a static list)**
-- `plan_duration_weeks_available` — which week-counts actually exist in the inventory for this distance+language (e.g. marathon ES = `12,18`). Static reference so the template knows what's possible.
-- `plan_matching_rule` — documents the full join, corrected this session: `sport` + `distance` + `language` filter, `weeks ≤ floor((race_date − today)/7)`, then a facet ladder of **difficulty** (Beginner/Intermediate/Advanced) × **intensity_type** × **strength add-on** — not difficulty alone. Written out per row mainly so a future build session (or Hermes) doesn't have to reverse-engineer the logic from code.
-- `intensity_type` (facet, not a races.csv column — read live from `training_plans_inventory.csv`'s `pace_based`/`hr_based`/`power_based` booleans) — lets the athlete choose zones by pace, heart rate, or power, exactly like the storefront facet filter already planned in `growth-roadmap.md` Phase 1 ("features: strength/power/HR/pace"). **Known data-quality gap:** at least one plan (476791, "Maratón con Potencia ⚡ (Stryd)") has all three flags `FALSE` despite being named as power-based — these columns need a cleanup pass before either the storefront or a race page can trust them without spot-checking. Not something to silently auto-correct; flag for Iván to confirm plan-by-plan, same as any other catalog data-quality item.
-- `strength_addon` (facet, same source, `strength` boolean column) — some plans are the pure-endurance plan plus gym work (e.g. 612551 "Maratón Base + Gym" vs. 434678, the same tier without it). Surface as a checkbox, not folded into difficulty.
-- **Template behavior when a facet cell is empty:** not every difficulty × intensity × strength combination exists for every distance/language. The template must degrade gracefully — fall back to the nearest available intensity type (e.g. no power-based Advanced/18wk plan exists → show the HR- or pace-based Advanced/18wk plan instead) — rather than render a dead facet combination or a "no plans found" state. This needs to be a real rule in the build, not an edge case discovered in QA.
+Organisers publish on wildly different horizons: Boston has 2027 and 2028; Mexico City ran in August and will not name its next registration date for months. **Two fields, and the page never renders blank.**
 
-**SEO**
-- `target_queries_es` / `target_queries_en` / `target_queries_pt` — real target search queries in whichever language(s) the page exists, semicolon-separated. Only the relevant language column gets filled per row.
+- `typical_window` — **always filled**, prose. "Late August." "First Sunday in December."
+- `next_edition_date` — ISO date, **only when the organiser has published it.** Empty otherwise. Never an estimate, never an inference: the page shows the window instead, which is honest and still useful.
 
-**Provenance**
-- `sources` — URLs actually used, semicolon-separated. Every Tier 1 row has at least one.
-- `confidence_flags` — anything not fully verified: estimated dates, figures sourced from secondary blogs rather than official race sites, anything that needs a re-check before the row goes live on a page. Treat this column as a pre-publish checklist, not decoration.
+### Getting in — `registration_window` always, the rest optional
 
-## What's deliberately NOT in this schema
-- **No plan_id column.** Storing specific plan IDs per race would recreate the exact "race-year-stamped plan" problem this whole initiative exists to kill — a plan_id baked into a CSV row goes stale the moment that plan is retired or a better-fitting one is added. The join stays live.
-- **No price field.** Prices live on the plan rows in `training_plans_inventory.csv`; a race page never needs to know a price directly, only which plans qualify.
-- **No testimonial/review field.** Reviews are sourced from `social-proof-and-reviews.md`'s quote bank at render time, same pattern as the blog's `planCard` shortcode — not duplicated into this file.
+- `registration_window` — **always filled**, prose. "Lottery opens late January." "Loyalty window the week after race day, general ballot mid-December."
+- `registration_model` — lottery / ballot+loyalty / direct / qualifying-time. Optional.
+- `sell_out_note` — optional. "First 10,000 bibs gone in two hours." "67-minute sell-out."
+- `qualifying` — optional. BQ standards, WMM status, World Athletics label, the Boston downhill index. Where it applies it is often the strongest block on the page; where it does not, it is empty and renders nothing.
+- `corral_policy` — optional. Whether an accredited time is required and by when. **Registration decision, not race-week logistics** — the hours corrals open are deliberately not in this schema.
+- `proof_of_time` — optional. What document, in what language, from which qualifying races.
 
-## Resolved this session
-The multi-market question from the first draft is settled: `language_market` is comma-separated on one row (see above), tested live on the California International Marathon row (`EN,ES,PT`) in `data/races.csv`.
+### The course — the differentiator
 
-## Still open
-The `is_published` flag in `training_plans_inventory.csv` has now got two confirmed staleness cases surfaced through this exercise alone (EN full-distance Ironman, PT triathlon half/full siblings) — worth asking whether a broader audit of that column is due before more facets get built on top of it, rather than finding the next one by accident.
+- `course_profile` — flat / rolling / hilly, one line.
+- `elevation_gain_m` — number. Optional; several organisers publish no official figure and a scraped one is not worth the risk.
+- `altitude_m` — optional, and where it exists it usually *is* the page (CDMX at 2,288 m, Bogotá, Medellín).
+- `course_notes` — free text, the km-by-km shape. From dossier §1.
+- `where_they_struggle` — free text, **the field this whole initiative exists for.** Boston's mile 20 as the statistically slowest mile across 110,013 finishers; CDMX's Insurgentes opening paid for at km 17–30; Floripa's runners contradicting the official "80% plano." A tourism site can describe a route; this is the part only a coach writes.
+
+### Conditions
+
+- `typical_weather` — real numbers where they exist, not "can be warm."
+- `start_time` — training-relevant: a 05:30 gun is a body-clock and fueling input.
+
+### The field — answers "is this fast"
+
+- `median_finish`, `sub3_pct`, `finishers`, `field_year` — all optional, all from a named source.
+- `cut_off` — overall limit, and intermediate gates in clock time where published. **Renders inside block 1** as the pace floor, not as its own section.
+
+### SEO and provenance
+
+- `target_queries_es` / `_en` / `_pt` — semicolon-separated, only for languages the race has a page in.
+- `sources` — URLs actually used, semicolon-separated.
+- `confidence_flags` — anything unverified. **Treat as a pre-publish checklist, not decoration.** Standing rule: an organiser's reglamento or FAQ wins over any derived reading, and where ours conflicts with theirs that is a question for the organiser, never a claim on a page.
+
+## Not in this schema, deliberately
+
+- **No plan fields of any kind** — no `plan_id`, no `plan_duration_weeks_available`, no `plan_matching_rule`. The ladder is a constant. Storing plan IDs per race would recreate the race-year-stamped-plan problem this initiative was built to kill.
+- **No hero-image field** — the filename is `race_id` by convention.
+- **No price** — prices live on plan rows.
+- **No testimonial** — sourced from `social-proof-and-reviews.md`'s quote bank at render time.
+- **No kit collection, expo hours, bag drop, shirt swaps or transport to the start.** These fail the outline's test and they are the fastest-decaying facts about any race, so carrying them would break the evergreen rule on every page at once.
+
+## Open
+
+**The two São Paulo races need distinct ids.** `sp-city-marathon` (Iguana, July, Pacaembu → Jockey) and the Yescom Maratona Internacional (April, Ibirapuera) are different events in the same city, dossiered separately in batches 1 and 4. One hero image currently exists under `sao-paulo-marathon`; the second race needs its own id and its own photo before either page ships.

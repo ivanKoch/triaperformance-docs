@@ -1,0 +1,17 @@
+---
+pagination:
+  data: races.byLanguage.pt
+  size: 1
+  alias: race
+  addAllPagesToCollections: true
+permalink: "{{ race.url }}"
+layout: layouts/base.njk
+lang: pt
+pageCss: race-page.css
+eleventyComputed:
+  transKey: "{{ race.transKey }}"
+  title: "{{ race.name }}: plano de treino e percurso | Triaperformance"
+  ogTitle: "{{ race.name }}"
+  description: "{% set d %}{{ race.name }}: perfil do percurso, tempo limite, clima e como treinar para a prova. Planos de 12 e 18 semanas por frequência cardíaca.{% endset %}{{ d | clamp(158) }}"
+---
+{% include "partials/race-page-content.njk" %}
