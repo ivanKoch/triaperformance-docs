@@ -334,11 +334,29 @@ module.exports = function () {
       ? [] : family.filter((p) => p.difficulty === DIFFICULTY_ORDER[r]));
     const sameDiff = family.filter((p) => p.difficulty === plan.difficulty && p.weeks);
 
-    // Flattened to the three fields the template renders, deliberately NOT the
-    // plan object: plan A's sibling is plan B, whose sibling is plan A, and
-    // Eleventy deep-merges its data cascade — the object graph blows the stack
-    // with "Maximum call stack size exceeded" before a single page renders.
-    const ref = (p) => (p ? { pageUrl: p.pageUrl, difficulty: p.difficulty, weeks: p.weeks } : null);
+    // Flattened to PRIMITIVES ONLY, deliberately NOT the plan object: plan A's
+    // sibling is plan B, whose sibling is plan A, and Eleventy deep-merges its
+    // data cascade — the object graph blows the stack with "Maximum call stack
+    // size exceeded" before a single page renders.
+    //
+    // Widened September 10, 2026 from three fields to the set a catalogue card
+    // renders, because the plan page's cross-links became cards instead of two
+    // text links at the foot of a bullet list. The rule that matters is
+    // unchanged and is the reason this is a literal rather than a spread:
+    // every value here is a string or a number, and `weeklyTotals` is copied
+    // field by field rather than referenced. Nothing in this object can lead
+    // back to a plan.
+    const ref = (p) => (p ? {
+      pageUrl: p.pageUrl,
+      displayName: p.displayName,
+      difficulty: p.difficulty,
+      weeks: p.weeks,
+      weeksBucket: p.weeksBucket,
+      price: p.price,
+      sessions: (p.weeklyTotals && p.weeklyTotals.sessions) || null,
+      hoursText: (p.weeklyTotals && p.weeklyTotals.hoursText) || null,
+      longestText: (p.weeklyTotals && p.weeklyTotals.longestText) || null,
+    } : null);
 
     plan.siblings = {
       easier: ref(rank > 0 ? nearestWeeks(atRank(rank - 1)) : null),

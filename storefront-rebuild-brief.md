@@ -227,6 +227,26 @@
 
 **Measured after, four page variants (ES, EN, PT, and one of the 27 with no breakdown data):** horizontal overflow **0** at 390 and 1440 · **one price and one primary** above the fold, All-Access band at y≈1,300–1,400 · one form per page · Buy at y≈520–560 desktop and y≈520–650 phone, before the week block on mobile · the no-breakdown variant degrades to a single centred rail rather than an empty column · `npm test` exit 0 · register sweep 0 lines.
 
+#### Third pass, same day: the wrong-fit exit becomes a comparison
+
+**Iván asked for "the plan alternative offering to improve", carrying a second audit note.** ⚠️ ***Most of that note was auditing the LIVE page, which is still the pre-rebuild version because none of this is pushed*** — the rail, the week blocks and the single help CTA it lists as missing were already in the working tree. **Checked item by item against the current build rather than answered from the ticket:** H1 renders **once**, forms **one**, filled primary buttons **three** (Buy top, Buy foot, All-Access). *Two claims survived, and one recommendation was new and good.*
+
+**The new one, built:** *"¿No te encaja del todo?" plus two text links was a footnote.* 🔑 **A person on the wrong plan needs a comparison, not a whisper** — they cannot judge "Ver la versión para Intermedio" without the weeks, sessions, hours and price that made them reject this one. **It is now a `También puedes` row of up to three `.catalog-card`s after the first prose block**, ahead of the All-Access band, so the page reads as a ladder: *not this one → these three → or all of them.*
+
+- **The same component as `/planes/`, not a second card system.** *`.catalog-card` is defined in `plan-page.css`, which plan pages already load — checked before writing it, because `.plan-card`, the obvious-looking name, lives only in the four sport-hub stylesheets and would have rendered nothing.*
+- **The eyebrow carries the RELATION, not sport · distance.** *Every sibling is the same sport and distance by construction, so the catalogue's eyebrow would print the identical string three times.*
+- **Their CTA renders as a link, not a filled button.** *On the catalogue these cards are the primary action; here the primary is Buy. Three filled blue buttons below it is the competing-CTA defect at a distance.* **Measured: three filled primaries on the page, and none of them is an alternative card.**
+- **Nothing hardcoded.** `plans.js` derives the family. **`ref()` was widened from three fields to the card's set** — still primitives only, with `weeklyTotals` copied field by field, because *that* is what keeps plan A → sibling B → sibling A from blowing Eleventy's data cascade.
+- **Coverage: 303 of 328 pages show a row** — 67 with three cards, 129 with two, 107 with one, 25 with none. *A plan with one sibling shows one rather than being padded from another sport.*
+
+**The second surviving claim, fixed:** *the audit said "H1 printed twice". The H1 renders once — but the breadcrumb printed `plan.displayName` in full directly above an `<h1>` printing the same string, and these titles run to 90 characters, so the page opened with the same long sentence twice.* **Truncated to 48 characters.** 🔑 ***The observation was right and its stated mechanism was wrong, which is the case worth checking rather than accepting or dismissing.***
+
+**Not done, and why:**
+- **The TP banner images**, re-raised: decided against above, on the files themselves. *Not an open question.*
+- **A sticky rail**, re-raised: tried and measured away above.
+- **A "next distance" card slot.** *Siblings are scoped same-sport-same-distance in `plans.js`, so this needs a distance ladder per sport (5K→10K→21K→42K, Sprint→Olympic→70.3→140.6) that does not exist in the data.* **A real addition, not a template change — left for Iván to decide whether it earns its build.**
+- **Trimming "Cómo funciona el entrenamiento"**, which is the same 80/20 paragraph on every plan page. *True, and it is coaching copy Iván owns — `methodology.md`, not a design call.*
+
 ---
 
 ## Phase 3 — About, with the story it actually has

@@ -537,3 +537,25 @@
   color: var(--slate); font-size: 13.5px; line-height: 1.6; margin-top: 12px;
   max-width: 68ch;
 }
+
+/* --- "También puedes": the wrong-fit exit, as cards ----------------------- */
+/* The cards are `.catalog-card`, the storefront's own component, defined above
+   in this same file. Only the container and two overrides live here — forking
+   the card would give the site a second card system to keep in sync. */
+.plan-alts { padding: 0 0 56px; background: var(--wash); }
+.plan-alts h2 { font-size: 22px; margin-bottom: 6px; }
+.plan-alts-intro { color: var(--slate); font-size: 15px; margin-bottom: 22px; max-width: 65ch; }
+.plan-alts-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;
+}
+/* On the catalogue these cards ARE the primary action, so the CTA is a filled
+   button. Here the primary action is Buy, and three filled blue buttons under
+   it would be the competing-CTA defect again at a distance. Same markup, link
+   treatment — the whole card is the click target either way. */
+.plan-alts .catalog-card .btn-primary {
+  background: none; color: var(--blue); padding: 0; text-align: left;
+  font-size: 14.5px; text-decoration: underline; text-underline-offset: 3px;
+}
+.plan-alts .catalog-card .btn-primary:hover { background: none; color: var(--blue-deep); }
+/* The wash section behind them needs the cards to keep their own ground. */
+.plan-alts .catalog-card { background: var(--white); }

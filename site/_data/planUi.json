@@ -162,7 +162,14 @@
     "aaInline": "¿Más de un objetivo? All-Access, US$ {price}/mes",
     "tpShotTitle": "Así se ve un plan aplicado a tu calendario",
     "tpShotCaption": "Ejemplo de un plan ya aplicado en TrainingPeaks: cada sesión en su día, con duración, TSS y el detalle de los intervalos. No es la semana de este plan.",
-    "tpShotAlt": "Tres semanas de un plan aplicadas a un calendario de TrainingPeaks"
+    "tpShotAlt": "Tres semanas de un plan aplicadas a un calendario de TrainingPeaks",
+    "altsTitle": "También puedes",
+    "altsIntro": "Este es de {weeks} semanas, nivel {level}, {metric}. Si no es tu caso:",
+    "altsIntroPlain": "Si este no te encaja del todo:",
+    "altEasier": "Más accesible",
+    "altHarder": "Más exigente",
+    "altShorter": "Más corto",
+    "altLonger": "Más tiempo"
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -326,7 +333,14 @@
     "aaInline": "More than one goal? All-Access, US$ {price}/mo",
     "tpShotTitle": "This is a plan applied to your calendar",
     "tpShotCaption": "An example of a plan already applied in TrainingPeaks: every session on its day, with duration, TSS and the interval detail. Not this plan’s week.",
-    "tpShotAlt": "Three weeks of a plan applied to a TrainingPeaks calendar"
+    "tpShotAlt": "Three weeks of a plan applied to a TrainingPeaks calendar",
+    "altsTitle": "You could also take",
+    "altsIntro": "This one is {weeks} weeks, {level} level, {metric}. If that is not you:",
+    "altsIntroPlain": "If this one is not quite right:",
+    "altEasier": "More accessible",
+    "altHarder": "More demanding",
+    "altShorter": "Shorter",
+    "altLonger": "More time"
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -490,6 +504,13 @@
     "aaInline": "Mais de um objetivo? Acesso Total, US$ {price}/mês",
     "tpShotTitle": "É assim que um plano fica no seu calendário",
     "tpShotCaption": "Exemplo de um plano já aplicado na TrainingPeaks: cada sessão no seu dia, com duração, TSS e o detalhe dos intervalos. Não é a semana deste plano.",
-    "tpShotAlt": "Três semanas de um plano aplicadas a um calendário da TrainingPeaks"
+    "tpShotAlt": "Três semanas de um plano aplicadas a um calendário da TrainingPeaks",
+    "altsTitle": "Você também pode",
+    "altsIntro": "Este é de {weeks} semanas, nível {level}, {metric}. Se não for o seu caso:",
+    "altsIntroPlain": "Se este não encaixa bem:",
+    "altEasier": "Mais acessível",
+    "altHarder": "Mais exigente",
+    "altShorter": "Mais curto",
+    "altLonger": "Mais tempo"
   }
 }

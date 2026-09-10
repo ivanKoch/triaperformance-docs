@@ -18,7 +18,16 @@
 
 <section class="plan-hero">
   <div class="wrap">
-    <p class="breadcrumb"><a href="{{ home }}">{{ u.breadcrumbHome }}</a> / <a href="{{ plansUrl }}">{{ u.breadcrumbPlans }}</a> / {{ plan.displayName }}</p>
+    {#- 🚨 The last crumb is TRUNCATED, September 10, 2026. It printed
+        `plan.displayName` in full, directly above an <h1> printing the same
+        string — and these titles run to 90 characters
+        ("16 Semanas HYROX: Avanzados - Running (Volumen y carga) + Fuerza
+        (Máxima + potencia)"), so the page opened with the same long sentence
+        twice. An audit read that as "H1 printed twice"; the H1 is rendered
+        once, but on screen the title genuinely appeared twice, which is the
+        half of the observation that mattered. 48 characters keeps the crumb
+        recognisable and lets the H1 be the first thing that is read. -#}
+    <p class="breadcrumb"><a href="{{ home }}">{{ u.breadcrumbHome }}</a> / <a href="{{ plansUrl }}">{{ u.breadcrumbPlans }}</a> / <span>{{ plan.displayName | truncate(48) }}</span></p>
     <span class="label">{{ sportLabel }}{% if plan.distance %} · {{ plan.distance }}{% endif %}</span>
     <h1>{{ plan.displayName }}</h1>
     {#- Chips, September 10, 2026. The facts a buyer screens on — duration,
@@ -165,14 +174,6 @@
         {%- if plan.weeks %}<li>{{ u.forWhoWeeks | replace("{weeks}", plan.weeks) }}</li>{% endif %}
         {%- if u.forWhoMetric[plan.metric] %}<li>{{ u.forWhoMetric[plan.metric] }}</li>{% endif %}
       </ul>
-      {%- if sib and (sib.easier or sib.harder or sib.shorter or sib.longer) %}
-      <p class="plan-siblings"><strong>{{ u.forWhoNotFit }}</strong>
-        {%- if sib.easier %} <a href="{{ sib.easier.pageUrl }}">{{ u.siblingEasier | replace("{level}", u.difficulty[sib.easier.difficulty]) }}</a>{% endif %}
-        {%- if sib.harder %} <a href="{{ sib.harder.pageUrl }}">{{ u.siblingHarder | replace("{level}", u.difficulty[sib.harder.difficulty]) }}</a>{% endif %}
-        {%- if sib.shorter %} <a href="{{ sib.shorter.pageUrl }}">{{ u.siblingShorter | replace("{weeks}", sib.shorter.weeks) }}</a>{% endif %}
-        {%- if sib.longer %} <a href="{{ sib.longer.pageUrl }}">{{ u.siblingLonger | replace("{weeks}", sib.longer.weeks) }}</a>{% endif %}
-      </p>
-      {%- endif %}
     </div>
 
     <div class="plan-prose-block">
@@ -188,6 +189,82 @@
 
   </div>
 </section>
+
+{#- ═══════════════════════════════════════════════════════════════════════════
+    "TAMBIÉN PUEDES" — the wrong-fit exit, September 10, 2026.
+
+    It replaces two text links that sat at the foot of a bullet list under the
+    heading "¿No te encaja del todo?". 🔑 **A person on the wrong plan needs a
+    comparison, not a whisper** — they cannot judge "Ver la versión para
+    Intermedio" without the weeks, the sessions and the price that made them
+    reject this one.
+
+    These are the SAME `.catalog-card` component `/planes/` uses, not a second
+    card system: same markup, same class, and `.catalog-card` happens to be
+    defined in `plan-page.css`, which this page already loads. (Checked before
+    writing it — `.plan-card`, the obvious-looking name, is defined only in the
+    four sport-hub stylesheets and would have rendered nothing here.)
+
+    Two deliberate differences from the catalogue:
+    - The eyebrow carries the RELATION, not sport · distance. Every sibling is
+      the same sport and the same distance by construction — `plans.js` scopes
+      the family that way — so the catalogue's eyebrow would print the identical
+      string on all three cards.
+    - The card's CTA renders as a link rather than a filled button. On the
+      catalogue these cards are the primary action; here the primary action is
+      Buy, and three blue buttons under it would be the competing-CTA defect
+      again, at a distance.
+
+    Nothing is hardcoded: `plan.siblings` is derived in `plans.js` from the same
+    family the storefront picker uses. Up to three, in a fixed order, and fewer
+    when fewer exist — a plan with one sibling shows one rather than being
+    padded with something from another sport.
+    ═══════════════════════════════════════════════════════════════════════════ -#}
+{%- set altList = [] -%}
+{%- if sib %}
+  {%- if sib.easier %}{% set altList = (altList.push({ ref: sib.easier, label: u.altEasier }), altList) %}{% endif %}
+  {%- if sib.harder %}{% set altList = (altList.push({ ref: sib.harder, label: u.altHarder }), altList) %}{% endif %}
+  {%- if sib.shorter %}{% set altList = (altList.push({ ref: sib.shorter, label: u.altShorter }), altList) %}{% endif %}
+  {%- if sib.longer %}{% set altList = (altList.push({ ref: sib.longer, label: u.altLonger }), altList) %}{% endif %}
+{%- endif %}
+{%- if altList.length %}
+<section class="plan-alts">
+  <div class="wrap">
+    <h2>{{ u.altsTitle }}</h2>
+    <p class="plan-alts-intro">
+      {%- if difficultyLabel and metricLabel -%}
+        {{ u.altsIntro | replace("{weeks}", plan.weeks) | replace("{level}", difficultyLabel | lower) | replace("{metric}", metricLabel | lower) }}
+      {%- else -%}
+        {{ u.altsIntroPlain }}
+      {%- endif -%}
+    </p>
+    <div class="plan-alts-grid">
+      {%- for alt in altList.slice(0, 3) %}
+      <a href="{{ alt.ref.pageUrl }}" class="catalog-card">
+        <span class="label">{{ alt.label }}</span>
+        <h3>{{ alt.ref.displayName }}</h3>
+        <p class="catalog-card-meta">
+          {{ alt.ref.weeks }} {{ u.weeksShort }}{% if alt.ref.difficulty %} · {{ u.difficulty[alt.ref.difficulty] or alt.ref.difficulty }}{% endif %}
+        </p>
+        {#- Same stepwise degradation as the catalogue card: hours when the
+            plan's activities are duration-based, sessions alone when they are
+            not, nothing at all when there is no breakdown. PT coverage is 49%,
+            so the empty case is common and must not print an empty row. -#}
+        {%- if alt.ref.sessions or alt.ref.hoursText %}
+        <p class="catalog-card-vol">
+          {%- if alt.ref.sessions %}<span>{{ alt.ref.sessions }}{{ u.sessionsPerWeekShort }}</span>{% endif %}
+          {%- if alt.ref.hoursText %}<span>{{ alt.ref.hoursText }}{{ u.perWeekShort }}</span>{% endif %}
+          {%- if alt.ref.longestText %}<span>{{ u.longestShort }} {{ alt.ref.longestText }}</span>{% endif %}
+        </p>
+        {%- endif %}
+        <p class="catalog-card-price">US$ {{ alt.ref.price }}</p>
+        <span class="btn-primary">{{ u.viewPlan }}</span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}
 
 {#- ═══════════════════════════════════════════════════════════════════════════
     ALL-ACCESS, in its new position: after the reader has met "para quién" and
