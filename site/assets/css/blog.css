@@ -230,3 +230,27 @@
 .tool-cta a:hover { text-decoration: underline; }
 
 @media (max-width: 640px) { .tool-cta { padding: 20px; margin: 32px 0 8px; } }
+
+/* ── Race-guide link on an article ──────────────────────────────────────────
+   Lives here, not in race-page.css: the partial renders on ARTICLES, and an
+   article loads blog.css. The first draft put it next to the other race styles
+   and it would have shipped unstyled on six live pages. Deliberately quiet: it is a
+   signpost at the top of an article, not a promotion — the reader came for this
+   article and the link is an offer of more, not an interruption. */
+.race-guide-link {
+  border-left: 3px solid var(--blue);
+  background: var(--wash);
+  padding: 14px 18px;
+  border-radius: 0 6px 6px 0;
+  margin: 0 0 32px;
+}
+.race-guide-link-l {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--slate);
+  margin-bottom: 4px;
+}
+.race-guide-link p { margin: 0; font-size: 16px; line-height: 1.5; }
+.race-guide-link a { font-weight: 600; }

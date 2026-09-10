@@ -55,7 +55,10 @@
     "faqCutOff": "¿Cuál es el tiempo límite de {race}?",
     "faqStruggle": "¿Dónde se suele pinchar en {race}?",
     "faqWeeks": "¿Cuántas semanas de plan hay que contar hacia atrás?",
-    "faqEntry": "¿Cómo se consigue dorsal para {race}?"
+    "faqEntry": "¿Cómo se consigue dorsal para {race}?",
+    "guideLinkLabel": "Guía de carrera",
+    "guideLinkText": "Todo sobre el {race}: recorrido, cortes, clima e inscripciones",
+    "statEntrants": "Inscritos"
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -112,7 +115,10 @@
     "faqCutOff": "What is the time limit at {race}?",
     "faqStruggle": "Where do runners blow up at {race}?",
     "faqWeeks": "How many weeks should I count back from race day?",
-    "faqEntry": "How do you get a place at {race}?"
+    "faqEntry": "How do you get a place at {race}?",
+    "guideLinkLabel": "Race guide",
+    "guideLinkText": "Everything about the {race}: course, cut-offs, conditions and entry",
+    "statEntrants": "Entrants"
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -169,6 +175,9 @@
     "faqCutOff": "Qual é o tempo limite da {race}?",
     "faqStruggle": "Onde o pessoal quebra na {race}?",
     "faqWeeks": "Quantas semanas contar para trás a partir da prova?",
-    "faqEntry": "Como conseguir vaga na {race}?"
+    "faqEntry": "Como conseguir vaga na {race}?",
+    "guideLinkLabel": "Guia da prova",
+    "guideLinkText": "Tudo sobre a {race}: percurso, cortes, clima e inscrições",
+    "statEntrants": "Inscritos"
   }
 }

@@ -83,6 +83,12 @@
         {%- endif %}
       </div>
       {%- endif %}
+      {%- if race.field and race.field.entrants %}
+      <div class="race-stat">
+        <span class="race-stat-n">{{ race.field.entrants | thousands(lang) }}+</span>
+        <span class="race-stat-l">{{ r.statEntrants }}</span>
+      </div>
+      {%- endif %}
       {%- if race.field and race.field.finishers_low %}
       <div class="race-stat">
         <span class="race-stat-n">{{ race.field.finishers_low | thousands(lang) }}{% if race.field.finishers_high and race.field.finishers_high != race.field.finishers_low %}+{% endif %}</span>

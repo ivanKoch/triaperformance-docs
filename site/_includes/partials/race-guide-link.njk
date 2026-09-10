@@ -1,0 +1,20 @@
+{#- Sends an article up to its race page.
+
+    WHY BY ID AND NOT BY URL. An article declares `raceId: valencia-marathon` in
+    front matter and this partial resolves the name and the URL from the race
+    data, in the article's own language. Same rule that governs plan links: an
+    article never contains a hand-typed URL, because a hand-typed URL survives
+    the page it points at being moved or renamed. This one already earned its
+    keep — Portuguese race pages moved from /pt/planos/maratona/ to
+    /pt/planos/running/ two days after they were built.
+
+    Renders NOTHING when the race has no page in this language, which is the
+    correct behaviour for a race that only qualifies in one market. -#}
+{%- set target = null -%}
+{%- for p in races.byLanguage[lang] %}{% if p.id == raceId %}{% set target = p %}{% endif %}{% endfor -%}
+{%- if target %}
+<aside class="race-guide-link">
+  <span class="race-guide-link-l">{{ raceUi[lang].guideLinkLabel }}</span>
+  <p><a href="{{ target.url }}">{{ raceUi[lang].guideLinkText | replace("{race}", target.name) }} →</a></p>
+</aside>
+{%- endif %}

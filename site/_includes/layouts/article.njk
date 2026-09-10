@@ -27,6 +27,10 @@ ogType: article
   </header>
 
   <div class="wrap article-body">
+    {#- An article about a specific race points up at that race's page before
+        its own body. The race page is the hub for the head query; the article
+        is the depth. Nothing renders unless the article declares a raceId. -#}
+    {%- if raceId %}{% include "partials/race-guide-link.njk" %}{% endif %}
     {{ content | safe }}
     {% include "partials/tool-cta.njk" %}
   </div>
