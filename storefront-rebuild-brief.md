@@ -171,6 +171,23 @@
 
 ---
 
+### Phase 2 — All-Access reordered, September 10, 2026
+
+**The page explained the SKU and never showed it.** Iván's read: *"Math is a benefit. The product is the dark timer and 'the plan appears on your TP calendar.' Show those first."*
+
+**New order, all three languages — WHAT before WHY:** hero as a statement (not the old rhetorical question) → **how a plan gets onto your TrainingPeaks** (four steps + a real calendar + a session opened from the inside) → **the members area moving** (the activation loop in a phone frame + the zones calculator) → **a tool you can run logged out** → the Zwift argument → *Haz la cuenta* → what's included → the library → FAQ.
+
+**Measured:** the first picture of the product moved to **y≈1,300**; the maths to **y≈4,900**; the sixteen-card library grid became **three rows**. Zero horizontal overflow at 390 and 1440, `npm test` exit 0, register sweep clean.
+
+**Three calls made in the build:**
+- 🚨 **The loop is Spanish-only, and EN/PT get their own-language still in the same frame.** *Shipping the ES recording on the English page is `ai-infrastructure-documentation.md` §40 exactly — Spanish chrome on four EN/PT pages for three weeks.* **When an EN recording exists it is a two-line swap and nothing else changes.**
+- **One device on the page.** The phone frame is on the loop only; the zones calculator stays a desktop crop, because it is a table you read. *Iván's rule: a page where every image is framed reads as a template.*
+- **The live-demo block is deliberately not styled like a library card.** It is a product you can open, not the seventeenth tile in a grid.
+
+⚠️ **An athlete's name was on one of the source screenshots** (`Luis Casillas`, on the coach dashboard) and was cropped out before the asset entered the repo. *This repo's standing rule is that customer names never enter it; on a public sales page it is also a consent question.* **Check every screenshot for names before it ships, every time.**
+
+---
+
 ## Phase 3 — About, with the story it actually has
 
 **Absorbs `open-loops.md` NOW → "The About page does not tell the story, and the story is the strongest asset the site has."** *(Iván, September 4.)*

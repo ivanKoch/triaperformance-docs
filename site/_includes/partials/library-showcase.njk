@@ -1,71 +1,62 @@
-{# The members-library showcase on the All-Access sales pages.
-   Renders entirely from site/_data/library.json off the page's own `lang`.
+{#- The members-library block on the All-Access sales pages.
+    Renders entirely from site/_data/library.json off the page's own `lang`.
 
-   This exists because the three All-Access pages hand-wrote the same list and
-   all three decayed: on Aug 13, 2026 they were still selling a members area of
-   "flexibility, kettlebell, fixing lower back pain" — one deleted that morning,
-   two that never existed — while naming none of the eight real entries.
+    This exists because the three All-Access pages hand-wrote the same list and
+    all three decayed: on Aug 13, 2026 they were still selling a members area of
+    "flexibility, kettlebell, fixing lower back pain" — one deleted that morning,
+    two that never existed — while naming none of the eight real entries.
+    Shipping a tool is still ONE edit to library.json and every sales page
+    updates. Do not hand-write entries back into the pages.
 
-   Shipping a tool is now one edit to library.json, in three languages, and
-   every sales page updates. Do not hand-write entries back into the pages.
+    🚨 CUT FROM SIXTEEN CARDS TO ONE LINE, September 10, 2026 (Iván).
+    It had become the members hub copied onto a sales page: sixteen titles, each
+    with a paragraph and a Rutina/Herramienta/Guía label, and it was most of the
+    reason the page ran 7–12k px. **Nobody buying a subscription reads sixteen
+    product descriptions.** Three things are now shown properly further up the
+    page — the activation loop, the zones calculator, and a tool you can run
+    logged out — and this block is the sentence that says what else is in there.
+    *Naming them all still matters; giving each one a card did not.*
 
-   Grouped by `category` since Sep 4, 2026 — the flat grid of 13 gave a reader
-   no way to tell what was for them. Same three buckets as the members home,
-   same source. The card above this section must NOT re-list individual tools:
-   it did until Sep 4 and named six of the thirteen, which read as duplication
-   and went stale ("Ocho herramientas" while the real count was 13). #}
+    `peekKeys` is the list the page has already shown above; those are skipped
+    here so the same tool is not sold twice on one scroll. -#}
 {%- set lib = library[lang] or library.es -%}
 {%- set order = lib.categoryOrder or ["train", "pain", "numbers"] -%}
-<section class="section--wash" id="biblioteca">
+{%- set skip = peekKeys or [] -%}
+{#- ⚠️ `section--wash` was on this element and computed to `rgba(0,0,0,0)`.
+    It is not a typo and not undefined: it is defined in `members.css` and
+    `members-dark.css`, and this partial renders on the three PUBLIC All-Access
+    pages, which load `all-access.css` and neither of those. A members-area
+    class was quietly doing nothing on a sales page.
+    🔑 Same family as everything else found this week — `.help a` beating a bare
+    `a`, `.cta-final` inheriting a colour that was only right on a light page,
+    a rule scoped to `a` missing the sibling that is not one. **A class is only
+    a class on a page that loads the sheet defining it**, and nothing in the
+    markup says which sheet that is.
+    Removed September 10, 2026; the section is white on purpose, which also
+    stops it stacking with the wash on `.includes-section` above into one slab.
+    ⚠️ If a wash is ever wanted here, define it in `all-access.css`. -#}
+<section class="lib-line" id="biblioteca">
   <div class="wrap">
     <h2>{{ lib.heading }}</h2>
     <p class="section-intro">{{ lib.intro }}</p>
-
-    <span class="lib-label">{{ lib.liveLabel }}</span>
-    {%- for cat in order %}
-      {%- if lib.categoryCounts[cat] %}
-    <div class="lib-group">
-      <h3 class="lib-group-title">{{ lib.categories[cat] }}</h3>
-      <div class="grid-3 lib-grid">
-        {#- 🚨 A PUBLIC ENTRY IS A LINK; A GATED ONE IS NOT. Until September 9,
-            2026 every card here was a plain <div> — sixteen tools described and
-            not one of them clickable, on the page whose whole job is to make
-            the product feel real. Three of them have public siblings that a
-            stranger can use right now, and those are the strongest thing on
-            this page: they are the only place the reader can touch the product
-            before paying.
-            ⚠️ The gated thirteen deliberately stay un-linked. Sending a
-            prospect at a login wall converts nothing and reads as a bait —
-            the same rule partials/tool-cta.njk already follows. -#}
-        {%- for item in lib.live %}{% if item.category == cat %}
-        {%- if item.gated %}
-        <div class="include-card">
-          <span class="tag">{{ item.tag }}</span>
-          <h3>{{ item.name }}</h3>
-          <p>{{ item.desc }}</p>
-        </div>
-        {%- else %}
-        <a class="include-card include-card--free" href="{{ item.url }}">
-          <span class="tag tag--free">{{ lib.freeLabel }}</span>
-          <h3>{{ item.name }}</h3>
-          <p>{{ item.desc }}</p>
-          <span class="include-cta">{{ lib.freeCta }}</span>
-        </a>
-        {%- endif %}
-        {%- endif %}{% endfor %}
+    <dl class="lib-rest">
+      {%- for cat in order %}
+      {%- set names = [] -%}
+      {%- for item in lib.live %}{% if item.category == cat and item.key not in skip %}{% set names = (names.push(item.name), names) %}{% endif %}{% endfor %}
+      {%- if names.length %}
+      <div>
+        <dt>{{ lib.categories[cat] }}</dt>
+        <dd>{{ names | join(" · ") }}</dd>
       </div>
-    </div>
       {%- endif %}
-    {%- endfor %}
-
-    <div class="lib-soon">
-      <h3 class="lib-soon-title">{{ lib.soonHeading }}</h3>
-      <p class="lib-soon-intro">{{ lib.soonIntro }}</p>
-      <ul class="lib-soon-list">
-        {%- for item in lib.soon %}
-        <li><strong>{{ item.name }}</strong> — {{ item.desc }}</li>
-        {%- endfor %}
-      </ul>
-    </div>
+      {%- endfor %}
+    </dl>
+    {%- if lib.soon.length %}
+    {#- ⚠️ No `map` filter: Nunjucks is not Jinja2, and it does not have one.
+        Same family as the `selectattr` bug in ai-infrastructure §41, which
+        silently rendered all 13 cards under all 3 headings. This one at
+        least fails loudly. -#}
+    <p class="lib-soon-line"><b>{{ lib.soonHeading }}</b> {% for item in lib.soon %}{{ item.name }}{% if not loop.last %} · {% endif %}{% endfor %}</p>
+    {%- endif %}
   </div>
 </section>

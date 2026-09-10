@@ -143,6 +143,24 @@ New Private athletes pay a $50 one-time starting fee in month one (nets $48.25 a
 - CoachMatch has no equivalent; this is a Private-channel tool only.
 
 
+## The Zwift substitution argument (added September 10, 2026 — Iván's angle)
+
+**TrainingPeaks Virtual is included with any TrainingPeaks Premium subscription**, and Premium is included with All-Access. So for a cyclist or triathlete who trains indoors, All-Access can *replace* a Zwift subscription rather than sit alongside it.
+
+**Both figures were verified against the source before they went on a sales page**, not taken from memory:
+
+| | | verified |
+|---|---|---|
+| TP Virtual included with Premium | trainingpeaks.com/virtual FAQ | Sept 10, 2026 |
+| Zwift | **$19.99/mo · $199.99/yr** | Sept 10, 2026 |
+| TP Premium standalone | **~$19.95/mo** | Sept 10, 2026 |
+
+🔑 ***The arithmetic is the argument, and it is stronger than the way it was first pitched.*** *Iván's framing was "that pays your 39.99 automatically", which overstates it — Zwift alone covers half.* **The exact version is better:** Premium **$19.95** + Zwift **$19.99** = **$39.94**, which is the ES/EN price of All-Access to within five cents, *with no plans in it at all.* **On PT it is stronger still: those two subscriptions cost MORE than the $29.99 product.**
+
+⚠️ **The caveat ships in the copy, not in a footnote.** *TP Virtual is not Zwift — smaller world, fewer riders. The pitch is explicitly "if you're on the trainer for the workouts, not for the crowd", and it names the migration cost out loud.* **A cyclist who switches on an overclaim churns in month two, and a churned subscriber costs more than the one who never came.**
+
+*Live on all three All-Access pages since September 10, 2026.* ⚠️ **These are third-party prices on a page that sells against them — if Zwift or TrainingPeaks moves, this section is wrong and nothing in this repo will notice.** *Re-check it at the monthly close.*
+
 ## All-Access subscription pricing
 
 Two live products, priced by market purchasing power:

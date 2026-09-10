@@ -3,38 +3,133 @@ layout: layouts/base.njk
 lang: en
 transKey: all-access
 pageCss: all-access.css
-title: All-Access — All Training Plans + TrainingPeaks Premium | Triaperformance
-description: "All-Access membership: every Triaperformance training plan + TrainingPeaks Premium included, for $39.99/mo. Switch plans whenever you want."
+title: All-Access — Every plan on your TrainingPeaks calendar + Premium | Triaperformance
+description: "All-Access membership: every Triaperformance plan applied to your TrainingPeaks calendar, Premium included, plus the tools library — $39.99/mo."
 checkout: https://checkout.trainingpeaks.com/product/7127a1e4-f736-45b7-b98d-1bbe468d950a
 ---
-<!-- HERO -->
+{#- Same order as the Spanish page and for the same reason: WHAT before WHY.
+    See site/all-access/index.njk for the full note. -#}
+
 <section class="hero-aa">
   <div class="wrap">
     <span class="label">All-Access</span>
-    <h1>Why buy one plan when you can have them all?</h1>
-    <p class="sub">Every Triaperformance training plan + TrainingPeaks Premium included. Switch plans as often as you want, without paying separately each time.</p>
-    <div class="price-tag">
-      <span class="amount">$39.99<span>/mo</span></span>
+    <h1>{{ plans.counts.byLang.en }} plans on your TrainingPeaks calendar, and the tools you warm up with.</h1>
+    <p class="sub">They get applied to your calendar — they are not PDFs. Change plan when the goal changes, without paying again.</p>
+    <div class="price-tag"><span class="amount">$39.99<span>/mo</span></span></div>
+    <div><a href="{{ checkout }}" class="btn-primary" target="_blank" rel="noopener">Subscribe</a></div>
+  </div>
+</section>
+
+<section class="aa-how">
+  <div class="wrap">
+    <span class="label">How it works</span>
+    <h2>How a plan gets onto your TrainingPeaks</h2>
+    <ol class="aa-steps">
+      <li><b>You pay through TrainingPeaks Payments.</b> The subscription lives there; you cancel from there.</li>
+      <li><b>You get connected to my coach profile</b> and your TrainingPeaks Premium switches on by itself.</li>
+      <li><b>You pick a plan — or two — and apply it to your calendar.</b> The sessions land on the right days, with duration, TSS and every interval spelled out.</li>
+      <li><b>You change plan when the goal changes.</b> You do not pay again.</li>
+    </ol>
+
+    <figure class="aa-shot aa-shot--wide">
+      <picture>
+        <source type="image/webp" srcset="{{ "/assets/images/tp-calendario.webp" | v }}">
+        <img src="{{ "/assets/images/tp-calendario.jpg" | v }}" width="1600" height="766"
+             alt="Three weeks of a triathlon plan already applied to a TrainingPeaks calendar" loading="lazy" decoding="async">
+      </picture>
+      <figcaption><b>This is what the plan looks like on Monday.</b><span>Three weeks applied: bike, swim, run and strength on their days, with the duration and TSS of every session and the week's total on the right.</span></figcaption>
+    </figure>
+
+    <figure class="aa-shot aa-shot--wide">
+      <picture>
+        <source type="image/webp" srcset="{{ "/assets/images/tp-workout.webp" | v }}">
+        <img src="{{ "/assets/images/tp-workout.jpg" | v }}" width="1600" height="837"
+             alt="A VO2max session open in TrainingPeaks, showing the interval blocks and the description" loading="lazy" decoding="async">
+      </picture>
+      <figcaption><b>And this is a session from the inside.</b><span>Intervals built block by block as a % of your FTP, with the description and the purpose written by me — not "do 6×3 minutes hard".</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="aa-peek">
+  <div class="wrap">
+    <span class="label">See it before you pay</span>
+    <h2>This is what it looks like on the other side</h2>
+    <p class="section-intro">Real screens from the Member Area. The same pages my athletes use.</p>
+
+    <div class="aa-peek-row">
+      {#- ⚠️ A STILL, not the loop. The screen recording is in Spanish, and putting
+          it on the English page is `ai-infrastructure-documentation.md` §40 all
+          over again — Spanish chrome shipped on four EN/PT pages for three weeks.
+          When an English recording exists this becomes the same <video> as the
+          Spanish page and nothing else changes. -#}
+      <figure class="aa-phone">
+        <div class="aa-phone-shell aa-phone-shell--still">
+          <picture>
+            <source type="image/webp" srcset="{{ "/assets/images/members-activacion-en.webp" | v }}">
+            <img src="{{ "/assets/images/members-activacion-en.jpg" | v }}" width="1200" height="1173"
+                 alt="Adaptive activation routine" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <figcaption><b>Adaptive activation</b><span>Three questions — what you're about to do, how you're arriving, what kit you have — and the circuit builds itself. Every exercise runs on a timer: there is nothing to count.</span></figcaption>
+      </figure>
+
+      <figure class="aa-shot">
+        <picture>
+          <source type="image/webp" srcset="{{ "/assets/images/members-zonas-en.webp" | v }}">
+          <img src="{{ "/assets/images/members-zonas-en.jpg" | v }}" width="1200" height="1013"
+               alt="Training Zones Calculator" loading="lazy" decoding="async">
+        </picture>
+        <figcaption><b>Training Zones Calculator</b><span>Put in your test result and out come your seven zones by power, pace and heart rate — with zones X and Y explained, which is where most people train too hard.</span></figcaption>
+      </figure>
     </div>
-    <div>
-      <a href="{{ checkout }}" class="btn-primary" target="_blank" rel="noopener">Subscribe Now</a>
+
+    <div class="aa-try">
+      <div>
+        <span class="label">No sign-up</span>
+        <h3>Or try one yourself, right now</h3>
+        <p>Runner Core is one of the {{ library[lang].live | length }} tools and it is open: six exercises, a timer, no account and no card. It is exactly what a subscriber gets, without the door.</p>
+      </div>
+      <a href="/en/runner-core/" class="btn-primary">Try Runner Core →</a>
     </div>
   </div>
 </section>
 
-<!-- COMPARISON -->
+<section class="aa-virtual">
+  <div class="wrap">
+    <div class="aa-virtual-text">
+      <span class="label">If you train indoors</span>
+      <h2>Your Zwift subscription already pays for half of this</h2>
+      <p><b>TrainingPeaks Virtual is included with Premium</b>, and Premium is included with All-Access. If you pay for Zwift today ($19.99/mo) plus Premium separately ($19.95/mo), you are already spending <b>$39.94</b> — the price of All-Access, with no plans in it at all.</p>
+      <p class="aa-virtual-caveat">Said honestly: TP Virtual is not Zwift. The world is smaller and there are fewer people riding. If you're on the trainer for the workouts, you will not miss anything and you save the subscription. If you're there for the crowd, stay on Zwift — and this particular sum does not apply to you.</p>
+    </div>
+    <div class="aa-virtual-shots">
+      <picture>
+        <source type="image/webp" srcset="{{ "/assets/images/tp-virtual-home.webp" | v }}">
+        <img src="{{ "/assets/images/tp-virtual-home.jpg" | v }}" width="1400" height="906"
+             alt="TrainingPeaks Virtual: home screen with the workout of the day and routes" loading="lazy" decoding="async">
+      </picture>
+      <picture>
+        <source type="image/webp" srcset="{{ "/assets/images/tp-virtual-workouts.webp" | v }}">
+        <img src="{{ "/assets/images/tp-virtual-workouts.jpg" | v }}" width="1400" height="906"
+             alt="TrainingPeaks Virtual: the structured workout library" loading="lazy" decoding="async">
+      </picture>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
-    <h2>Do the Math</h2>
-    <p class="section-intro">TrainingPeaks Premium alone already costs $19.95/mo. Add a separate plan for every discipline you train, and it adds up fast.</p>
+    <h2>Do the maths</h2>
+    <p class="section-intro">TrainingPeaks Premium on its own is already $19.95/mo. Add a separate plan for every discipline you train and it climbs fast.</p>
     <div class="compare-grid">
       <div class="compare-card bad">
-        <h3>Buying Separately</h3>
+        <h3>Buying separately</h3>
         <ul>
-          <li>TrainingPeaks Premium (monthly): $19.95/mo</li>
-          <li>+ 70.3 Triathlon Plan ($69.99): ~$14/mo</li>
-          <li>+ 5K Running Plan ($39.99): ~$20/mo</li>
-          <li>+ Swimming Plan ($39.99): ~$20/mo</li>
+          <li>TrainingPeaks Premium monthly: $19.95/mo</li>
+          <li>+ 70.3 Triathlon plan ($69.99): ~$14/mo</li>
+          <li>+ 5K Running plan ($39.99): ~$20/mo</li>
+          <li>+ Swimming plan ($39.99): ~$20/mo</li>
         </ul>
         <div class="compare-total">~$73.95/mo</div>
       </div>
@@ -43,103 +138,79 @@ checkout: https://checkout.trainingpeaks.com/product/7127a1e4-f736-45b7-b98d-1bb
         <ul>
           <li>TrainingPeaks Premium: included</li>
           <li>Every training plan: included</li>
-          <li>Run 2 plans at once: like your Ironman plan + a cycling plan to build FTP, at the same time</li>
-          <li>Switch plans whenever you want, no extra charge</li>
-          <li>Members Area access: tools that complement your training</li>
+          <li>Run 2 plans at once: your Ironman plan plus a cycling plan for your FTP, at the same time</li>
+          <li>Change plan whenever you want, without paying again</li>
+          <li>Member Area access: tools that complement your training</li>
         </ul>
         <div class="compare-total">$39.99/mo, flat</div>
       </div>
     </div>
     <div class="worked-example">
-      <strong>In this example:</strong> a triathlete training for a 70.3, who also wants to build 5K speed and work on swim technique with dedicated plans, pays <strong>~$73.95/mo buying everything separately</strong>. With All-Access, the same plans — plus the ability to run more than one at a time — cost <strong>$39.99/mo flat</strong>, nearly half.
+      <strong>In this example:</strong> a triathlete preparing a 70.3 who also wants 5K speed and specific swim technique work pays <strong>~$73.95/mo buying everything separately</strong>. With All-Access the same plans — and the option of running several at once — cost <strong>$39.99/mo flat</strong>, almost half.
     </div>
   </div>
 </section>
 
-<!-- INCLUDES -->
 <section class="includes-section">
   <div class="wrap">
-    <h2>What's Included</h2>
-    <p class="section-intro">Everything you need to train without paying separately every time your goal changes.</p>
+    <h2>What's included</h2>
     <div class="grid-3">
       <div class="include-card">
         <span class="tag">Plans</span>
-        <h3>Every plan I've built, inside TrainingPeaks</h3>
-        <p>Full access to my catalogue: <strong>{{ plans.counts.byLang.en }} plans in English</strong> across running, cycling, swimming, duathlon, triathlon, HYROX and weight loss. They load straight into your TrainingPeaks calendar. <strong>You can run more than one plan at a time</strong> and switch as often as your goal changes, without paying again.</p>
+        <h3>The whole catalogue, on your calendar</h3>
+        <p><strong>{{ plans.counts.byLang.en }} plans in English</strong> for running, cycling, swimming, duathlon, triathlon, HYROX and weight loss. <strong>You can have more than one plan running at once</strong> and change them as often as you like.</p>
       </div>
       <div class="include-card">
         <span class="tag">Included</span>
         <h3>TrainingPeaks Premium</h3>
-        <p>TrainingPeaks' Premium tier (normally $19.95/mo on its own) comes included with your membership.</p>
+        <p>Normally $19.95/mo on its own. It brings the fitness and fatigue charts, the analysis of every session — and TrainingPeaks Virtual for the trainer.</p>
       </div>
       <div class="include-card featured">
-        <span class="tag">New</span>
-        <h3>Members Area</h3>
-        <p>{{ library[lang].live | length }} interactive tools that build themselves around your sport, your kit and how you are arriving — not PDFs to file away. <a href="#biblioteca">See the full library ↓</a> Password access as soon as you subscribe.</p>
+        <span class="tag">Member Area</span>
+        <h3>{{ library[lang].live | length }} tools that build themselves</h3>
+        <p>Around your sport, your kit and how you're arriving. Not PDFs to file away. Password access as soon as you subscribe.</p>
       </div>
       <div class="include-card">
         <span class="tag">Support</span>
         <h3>Coach support</h3>
-        <p>Stuck on a tool, unsure about your zones, or not sure which plan to pick? Message me and I answer personally. It does not include reviewing your training or weekly adjustments — that is 1:1 coaching.</p>
+        <p>Questions about a tool, about your zones, or about which plan to pick? Write to me and I answer. It does not include reviewing your training or weekly adjustments — that is 1:1 coaching.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="aa-peek">
-  <div class="wrap">
-    <span class="label">See it before you pay</span>
-    <h2>This is what it looks like on the other side</h2>
-    <p class="section-intro">Real screenshots of the Member Area, not mockups. These are the same pages my athletes use.</p>
-    <div class="aa-peek-grid">
-      <figure>
-        <picture>
-          <source type="image/webp" srcset="{{ "/assets/images/members-zonas-en.webp" | v }}">
-          <img src="{{ "/assets/images/members-zonas-en.jpg" | v }}" width="1200" height="1013" alt="Training Zones Calculator" loading="lazy" decoding="async">
-        </picture>
-        <figcaption><b>Training Zones Calculator</b><span>Put in your test result and it returns your seven zones by power, pace and heart rate — including the X and Y bands, which is where most athletes train too hard without noticing.</span></figcaption>
-      </figure>
-      <figure>
-        <picture>
-          <source type="image/webp" srcset="{{ "/assets/images/members-activacion-en.webp" | v }}">
-          <img src="{{ "/assets/images/members-activacion-en.jpg" | v }}" width="1200" height="1173" alt="Activation" loading="lazy" decoding="async">
-        </picture>
-        <figcaption><b>Activation</b><span>Three questions — what you're about to do, how you're arriving, what kit you have — and it builds the circuit. Every exercise runs on time; there is nothing to count.</span></figcaption>
-      </figure>
-    </div>
-    <p class="aa-peek-note">Plus eleven more tools: mobility, recovery, core, and routines for when something hurts.</p>
-  </div>
-</section>
-
+{% set peekKeys = ["zones", "activation", "runnercore"] %}
 {% include "partials/library-showcase.njk" %}
 
-<!-- FAQ -->
 <section>
   <div class="wrap">
-    <h2>Frequently Asked Questions</h2>
+    <h2>Frequently asked</h2>
     <div class="faq-item">
-      <h3>Can I cancel anytime?</h3>
-      <p>Yes — the membership runs directly through TrainingPeaks Payments, so you can cancel from there whenever you want.</p>
+      <h3>Can I cancel whenever I want?</h3>
+      <p>Yes — the subscription is handled directly in TrainingPeaks Payments, and you cancel from there.</p>
     </div>
     <div class="faq-item">
       <h3>How do I get access after subscribing?</h3>
-      <p>TrainingPeaks automatically connects you to my coach profile, activates your TrainingPeaks Premium, and gives you access to the plans included in the membership. Members Area access arrives separately as soon as you subscribe.</p>
+      <p>TrainingPeaks connects you to my coach profile automatically, switches on your TrainingPeaks Premium, and gives you access to the plans included in the subscription. Member Area access arrives separately as soon as you subscribe.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Which tools are in the Member Area?</h3>
+      <p>{{ library[lang].live | length }} today, and I add one every so often: {% for item in library[lang].live %}{{ item.name }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
     </div>
     <div class="faq-item">
       <h3>Is this the same as 1:1 coaching?</h3>
-      <p>No. All-Access is self-guided: you choose and run your own plans, with Premium and the library included, and you can message me with specific questions about the tools, your zones or which plan to pick. What it does not include is exactly what defines 1:1 coaching: personalized testing, reviewing your training, and weekly adjustments. If you want that, <a href="/en/#contacto" style="color:var(--blue); font-weight:700;">1:1 coaching</a> is the other option.</p>
+      <p>No. All-Access is self-guided: you pick and run your own plans, with Premium and the library included, and you can write to me with specific questions about the tools, your zones or which plan to choose. What it does not include is exactly what defines 1:1 coaching: personalised testing, review of your training and weekly adjustments. If you want that, <a href="/en/#contacto">1:1 coaching</a> is the other option.</p>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
 {% include "partials/credentials-band.njk" %}
 
 <section class="cta-final">
   <div class="wrap">
     <span class="label">Everything included, $39.99/mo</span>
     <h2>Stop picking one plan at a time</h2>
-    <p>Subscribe and get every plan and guide + TrainingPeaks Premium, today.</p>
-    <a href="{{ checkout }}" class="btn-primary" target="_blank" rel="noopener">Subscribe Now</a>
+    <p>Subscribe and get every plan + TrainingPeaks Premium, today.</p>
+    <a href="{{ checkout }}" class="btn-primary" target="_blank" rel="noopener">Subscribe</a>
   </div>
 </section>

@@ -3,96 +3,53 @@ layout: layouts/base.njk
 lang: pt
 transKey: all-access
 pageCss: all-access.css
-title: "Acesso Total — todos os planos + TrainingPeaks Premium"
-description: "Acesso Total: todos os planos de treino em português + TrainingPeaks Premium incluído, por $29.99/mês. Troque de plano quando quiser."
+title: "Acesso Total — todos os planos no seu calendário + TrainingPeaks Premium"
+description: "Acesso Total: todos os planos de treino aplicados ao seu calendário do TrainingPeaks, Premium incluído e a biblioteca de ferramentas, por $29.99/mês."
 checkout: https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a
 ---
-{#- NOTE: the Portuguese product is priced differently, not scoped differently —
-    $29.99/mo vs $39.99/mo on ES/EN. The comparison maths below are deliberately
-    different for that reason. Confirmed product names live in
-    triaperformance-pricing-and-positioning.md.
+{#- Mesma ordem da página em espanhol e pelo mesmo motivo: O QUÉ antes do POR QUÊ.
+    A nota completa está em site/all-access/index.njk.
+    ⚠️ O preço aqui é $29.99, não $39.99 — produto próprio, mais barato. Não
+    copie a aritmética das outras duas páginas. -#}
 
-    ~~running/cycling/triathlon plans only~~ CORRECTED September 4, 2026, Iván:
-    the page had always claimed three disciplines while the subscription grants
-    the whole catalogue, so it advertised 45 plans and delivered 53. The narrower
-    claim was a legacy of the product's TP Payments title, never a scope decision
-    — the pricing doc has said "all plans included" is an approved claim since
-    Aug 2, 2026. Now renders plans.counts.byLang.pt. -#}
-<!-- HERO -->
 <section class="hero-aa">
   <div class="wrap">
     <span class="label">Acesso Total</span>
-    <h1>Por que comprar um plano se você pode ter todos?</h1>
-    <p class="sub">Todos os planos de treino em português + TrainingPeaks Premium incluído. Troque de plano quantas vezes quiser, sem pagar separado de novo.</p>
-    <div class="price-tag">
-      <span class="amount">$29.99<span>/mês</span></span>
-    </div>
-    <div>
-      <a href="{{ checkout }}" class="btn-primary" target="_blank" rel="noopener">Assinar Agora</a>
-    </div>
+    <h1>{{ plans.counts.byLang.pt }} planos no seu calendário do TrainingPeaks, e as ferramentas com que você ativa.</h1>
+    <p class="sub">Eles são aplicados ao seu calendário — não são PDFs. Você troca de plano quando o objetivo muda, sem pagar de novo.</p>
+    <div class="price-tag"><span class="amount">$29.99<span>/mês</span></span></div>
+    <div><a href="{{ checkout }}" class="btn-primary" target="_blank" rel="noopener">Assinar</a></div>
   </div>
 </section>
 
-<!-- COMPARISON -->
-<section>
+<section class="aa-how">
   <div class="wrap">
-    <h2>Faça as Contas</h2>
-    <p class="section-intro">Só o TrainingPeaks Premium já custa $19.95/mês. Se você ainda compra um plano separado para cada objetivo, a conta sobe rápido.</p>
-    <div class="compare-grid">
-      <div class="compare-card bad">
-        <h3>Comprando Separado</h3>
-        <ul>
-          <li>TrainingPeaks Premium mensal: $19.95/mês</li>
-          <li>+ Plano de Triatlo 70.3 ($69.99): ~$14/mês</li>
-          <li>+ Plano de Corrida 5K ($39.99): ~$20/mês</li>
-        </ul>
-        <div class="compare-total">~$53.95/mês</div>
-      </div>
-      <div class="compare-card good">
-        <h3>Com Acesso Total</h3>
-        <ul>
-          <li>TrainingPeaks Premium: incluído</li>
-          <li>Todos os planos de treino: incluídos</li>
-          <li>Execute 2 planos ao mesmo tempo: por exemplo, seu plano de Ironman + um plano de ciclismo para melhorar seu FTP</li>
-          <li>Troque de plano quando quiser, sem pagar de novo</li>
-          <li>Acesso à Área de Membros: ferramentas para complementar o seu treino</li>
-        </ul>
-        <div class="compare-total">$29.99/mês, fixo</div>
-      </div>
-    </div>
-    <div class="worked-example">
-      <strong>Neste exemplo:</strong> um triatleta se preparando para um 70.3, que também quer ganhar velocidade no 5K com um plano específico, paga <strong>~$53.95/mês comprando tudo separado</strong>. Com Acesso Total, os mesmos planos — e a possibilidade de executar mais de um ao mesmo tempo — custam <strong>$29.99/mês fixo</strong>.
-    </div>
-  </div>
-</section>
+    <span class="label">Como funciona</span>
+    <h2>Como o plano entra no seu TrainingPeaks</h2>
+    <ol class="aa-steps">
+      <li><b>Você paga no TrainingPeaks Payments.</b> A assinatura fica lá; você cancela por lá.</li>
+      <li><b>Você fica conectado ao meu perfil de coach</b> e o seu TrainingPeaks Premium liga sozinho.</li>
+      <li><b>Você escolhe um plano — ou dois — e aplica ao seu calendário.</b> As sessões aparecem nos dias certos, com duração, TSS e o detalhe de cada intervalo.</li>
+      <li><b>Você troca de plano quando o objetivo muda.</b> Não paga de novo.</li>
+    </ol>
 
-<!-- INCLUDES -->
-<section class="includes-section">
-  <div class="wrap">
-    <h2>O Que Está Incluído</h2>
-    <p class="section-intro">Tudo que você precisa para treinar sem pagar separado toda vez que seu objetivo muda.</p>
-    <div class="grid-3">
-      <div class="include-card">
-        <span class="tag">Planos</span>
-        <h3>Todos os meus planos, dentro do TrainingPeaks</h3>
-        <p>Acesso completo ao meu catálogo: <strong>{{ plans.counts.byLang.pt }} planos em português</strong> — corrida, ciclismo, triatlo, natação e duatlo. Eles entram sozinhos no seu calendário do TrainingPeaks. <strong>Você pode ter mais de um plano rodando ao mesmo tempo</strong> e trocar quantas vezes quiser se o seu objetivo mudar, sem pagar de novo.</p>
-      </div>
-      <div class="include-card">
-        <span class="tag">Incluído</span>
-        <h3>TrainingPeaks Premium</h3>
-        <p>O nível Premium do TrainingPeaks (normalmente $19.95/mês à parte) vem incluído na sua assinatura.</p>
-      </div>
-      <div class="include-card featured">
-        <span class="tag">Novo</span>
-        <h3>Área de Membros</h3>
-        <p>{{ library[lang].live | length }} ferramentas interativas que se montam sozinhas conforme o seu esporte, o seu equipamento e como você chega — não são PDFs para arquivar. <a href="#biblioteca">Veja a biblioteca completa ↓</a> Acesso com senha assim que assinar.</p>
-      </div>
-      <div class="include-card">
-        <span class="tag">Suporte</span>
-        <h3>Suporte do coach</h3>
-        <p>Dúvida sobre uma ferramenta, sobre suas zonas, ou sobre qual plano escolher? Me escreva que eu respondo. Não inclui revisão do seu treino nem ajustes semanais — isso é o coaching 1:1.</p>
-      </div>
-    </div>
+    <figure class="aa-shot aa-shot--wide">
+      <picture>
+        <source type="image/webp" srcset="{{ "/assets/images/tp-calendario.webp" | v }}">
+        <img src="{{ "/assets/images/tp-calendario.jpg" | v }}" width="1600" height="766"
+             alt="Três semanas de um plano de triatlo já aplicadas a um calendário do TrainingPeaks" loading="lazy" decoding="async">
+      </picture>
+      <figcaption><b>É assim que o plano aparece na segunda-feira.</b><span>Três semanas aplicadas: bike, natação, corrida e força nos seus dias, com a duração e o TSS de cada sessão e o total da semana à direita.</span></figcaption>
+    </figure>
+
+    <figure class="aa-shot aa-shot--wide">
+      <picture>
+        <source type="image/webp" srcset="{{ "/assets/images/tp-workout.webp" | v }}">
+        <img src="{{ "/assets/images/tp-workout.jpg" | v }}" width="1600" height="837"
+             alt="Uma sessão de VO2max aberta no TrainingPeaks, com os blocos de intervalos e a descrição" loading="lazy" decoding="async">
+      </picture>
+      <figcaption><b>E é assim que uma sessão é por dentro.</b><span>Os intervalos construídos bloco a bloco em % do seu FTP, com a descrição e o propósito escritos por mim — não "faça 6×3 minutos forte".</span></figcaption>
+    </figure>
   </div>
 </section>
 
@@ -100,56 +57,161 @@ checkout: https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-341
   <div class="wrap">
     <span class="label">Veja antes de pagar</span>
     <h2>É isto que se vê do outro lado</h2>
-    <p class="section-intro">Capturas reais da Área de Membros, não maquetes. São as mesmas páginas que meus atletas usam.</p>
-    <div class="aa-peek-grid">
-      <figure>
+    <p class="section-intro">Telas reais da Área de Membros. As mesmas páginas que os meus atletas usam.</p>
+
+    <div class="aa-peek-row">
+      {#- ⚠️ UMA IMAGEM, não o vídeo. A gravação está em espanhol, e colocá-la na
+          página em português é o §40 do `ai-infrastructure-documentation.md` de
+          novo. Quando existir uma gravação em português isto vira o mesmo
+          <video> da página espanhola e nada mais muda. -#}
+      <figure class="aa-phone">
+        <div class="aa-phone-shell aa-phone-shell--still">
+          <picture>
+            <source type="image/webp" srcset="{{ "/assets/images/members-activacion-pt.webp" | v }}">
+            <img src="{{ "/assets/images/members-activacion-pt.jpg" | v }}" width="1200" height="1173"
+                 alt="Ativação adaptativa" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <figcaption><b>Ativação adaptativa</b><span>Três perguntas — o que você vai fazer, como está chegando, que equipamento tem — e o circuito se monta sozinho. Cada exercício vai por tempo: não há nada para contar.</span></figcaption>
+      </figure>
+
+      <figure class="aa-shot">
         <picture>
           <source type="image/webp" srcset="{{ "/assets/images/members-zonas-pt.webp" | v }}">
-          <img src="{{ "/assets/images/members-zonas-pt.jpg" | v }}" width="1200" height="1013" alt="Calculadora de Zonas" loading="lazy" decoding="async">
+          <img src="{{ "/assets/images/members-zonas-pt.jpg" | v }}" width="1200" height="1013"
+               alt="Calculadora de Zonas" loading="lazy" decoding="async">
         </picture>
-        <figcaption><b>Calculadora de Zonas</b><span>Você coloca o resultado do seu teste e saem suas sete zonas por potência, ritmo e frequência cardíaca — com as zonas X e Y explicadas, que é onde quase todo mundo treina demais.</span></figcaption>
-      </figure>
-      <figure>
-        <picture>
-          <source type="image/webp" srcset="{{ "/assets/images/members-activacion-pt.webp" | v }}">
-          <img src="{{ "/assets/images/members-activacion-pt.jpg" | v }}" width="1200" height="1173" alt="Ativação" loading="lazy" decoding="async">
-        </picture>
-        <figcaption><b>Ativação</b><span>Três perguntas — o que você vai fazer, como você chega, que equipamento tem — e ele monta o circuito. Cada exercício vai por tempo; não há nada para contar.</span></figcaption>
+        <figcaption><b>Calculadora de Zonas</b><span>Você coloca o resultado do seu teste e saem as suas sete zonas por potência, ritmo e frequência cardíaca — com as zonas X e Y explicadas, que é onde quase todo mundo treina demais.</span></figcaption>
       </figure>
     </div>
-    <p class="aa-peek-note">E mais onze ferramentas: mobilidade, recuperação, core, e rotinas para quando algo dói.</p>
+
+    <div class="aa-try">
+      <div>
+        <span class="label">Sem cadastro</span>
+        <h3>Ou teste você mesmo, agora</h3>
+        <p>Core do Corredor é uma das {{ library[lang].live | length }} ferramentas e está aberta: seis exercícios, cronômetro, sem conta e sem cartão. É exatamente o que um assinante recebe, sem a porta.</p>
+      </div>
+      <a href="/pt/core-do-corredor/" class="btn-primary">Testar Core do Corredor →</a>
+    </div>
   </div>
 </section>
 
-{% include "partials/library-showcase.njk" %}
+<section class="aa-virtual">
+  <div class="wrap">
+    <div class="aa-virtual-text">
+      <span class="label">Se você treina indoor</span>
+      <h2>A sua assinatura do Zwift já paga isto inteiro</h2>
+      <p><b>O TrainingPeaks Virtual vem incluído no Premium</b>, e o Premium vem incluído no Acesso Total. Se hoje você paga Zwift ($19.99/mês) mais Premium separado ($19.95/mês), já está gastando <b>$39.94</b> — mais do que o Acesso Total custa, e sem um único plano dentro.</p>
+      <p class="aa-virtual-caveat">Com honestidade: o TP Virtual não é o Zwift. O mundo é menor e há menos gente pedalando. Se você anda no rolo pelos treinos, não vai sentir falta de nada e economiza a assinatura. Se você anda pelo ambiente, fique no Zwift — e aí esta conta não se aplica.</p>
+    </div>
+    <div class="aa-virtual-shots">
+      <picture>
+        <source type="image/webp" srcset="{{ "/assets/images/tp-virtual-home.webp" | v }}">
+        <img src="{{ "/assets/images/tp-virtual-home.jpg" | v }}" width="1400" height="906"
+             alt="TrainingPeaks Virtual: tela inicial com o treino do dia e rotas" loading="lazy" decoding="async">
+      </picture>
+      <picture>
+        <source type="image/webp" srcset="{{ "/assets/images/tp-virtual-workouts.webp" | v }}">
+        <img src="{{ "/assets/images/tp-virtual-workouts.jpg" | v }}" width="1400" height="906"
+             alt="TrainingPeaks Virtual: a biblioteca de treinos estruturados" loading="lazy" decoding="async">
+      </picture>
+    </div>
+  </div>
+</section>
 
-<!-- FAQ -->
 <section>
   <div class="wrap">
-    <h2>Perguntas Frequentes</h2>
+    <h2>Faça a conta</h2>
+    <p class="section-intro">O TrainingPeaks Premium sozinho já custa $19.95/mês. Se além disso você compra um plano separado para cada disciplina que treina, a conta sobe rápido.</p>
+    <div class="compare-grid">
+      <div class="compare-card bad">
+        <h3>Comprando separado</h3>
+        <ul>
+          <li>TrainingPeaks Premium mensal: $19.95/mês</li>
+          <li>+ Plano de Triatlo 70.3 ($69.99): ~$14/mês</li>
+          <li>+ Plano de Corrida 5K ($39.99): ~$20/mês</li>
+          <li>+ Plano de Natação ($39.99): ~$20/mês</li>
+        </ul>
+        <div class="compare-total">~$73.95/mês</div>
+      </div>
+      <div class="compare-card good">
+        <h3>Com o Acesso Total</h3>
+        <ul>
+          <li>TrainingPeaks Premium: incluído</li>
+          <li>Todos os planos de treino: incluídos</li>
+          <li>Rode 2 planos ao mesmo tempo: o seu plano de Ironman mais um plano de ciclismo para o FTP</li>
+          <li>Troca de plano quando quiser, sem pagar de novo</li>
+          <li>Acesso à Área de Membros: ferramentas para complementar o seu treino</li>
+        </ul>
+        <div class="compare-total">$29.99/mês, fixo</div>
+      </div>
+    </div>
+    <div class="worked-example">
+      <strong>Neste exemplo:</strong> um triatleta preparando um 70.3, que ainda quer ganhar velocidade nos 5K e trabalhar técnica de natação com planos específicos, paga <strong>~$73.95/mês comprando tudo separado</strong>. Com o Acesso Total, os mesmos planos — e a possibilidade de rodar vários ao mesmo tempo — custam <strong>$29.99/mês fixo</strong>.
+    </div>
+  </div>
+</section>
+
+<section class="includes-section">
+  <div class="wrap">
+    <h2>O que está incluído</h2>
+    <div class="grid-3">
+      <div class="include-card">
+        <span class="tag">Planos</span>
+        <h3>Todo o catálogo, no seu calendário</h3>
+        <p><strong>{{ plans.counts.byLang.pt }} planos em português</strong> de corrida, ciclismo, natação, duatlo, triatlo, HYROX e emagrecimento. <strong>Você pode ter mais de um plano rodando ao mesmo tempo</strong> e trocá-los quantas vezes quiser.</p>
+      </div>
+      <div class="include-card">
+        <span class="tag">Incluído</span>
+        <h3>TrainingPeaks Premium</h3>
+        <p>Normalmente $19.95/mês separado. Traz os gráficos de carga e forma, a análise de cada sessão — e o TrainingPeaks Virtual para o rolo.</p>
+      </div>
+      <div class="include-card featured">
+        <span class="tag">Área de Membros</span>
+        <h3>{{ library[lang].live | length }} ferramentas que se montam sozinhas</h3>
+        <p>Conforme o seu esporte, o seu equipamento e como você chega. Não são PDFs para arquivar. Acesso com senha assim que você assina.</p>
+      </div>
+      <div class="include-card">
+        <span class="tag">Suporte</span>
+        <h3>Suporte do coach</h3>
+        <p>Dúvidas sobre uma ferramenta, sobre as suas zonas, ou sobre qual plano escolher? Me escreva e eu respondo. Não inclui revisão do seu treino nem ajustes semanais — isso é o treinamento 1:1.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% set peekKeys = ["zones", "activation", "runnercore"] %}
+{% include "partials/library-showcase.njk" %}
+
+<section>
+  <div class="wrap">
+    <h2>Perguntas frequentes</h2>
     <div class="faq-item">
       <h3>Posso cancelar quando quiser?</h3>
-      <p>Sim, a assinatura é gerenciada direto no TrainingPeaks Payments — você cancela quando quiser por lá.</p>
+      <p>Sim, a assinatura é gerenciada direto no TrainingPeaks Payments — você cancela por lá quando quiser.</p>
     </div>
     <div class="faq-item">
       <h3>Como acesso depois de assinar?</h3>
-      <p>O TrainingPeaks conecta você automaticamente ao meu perfil de coach, ativa seu TrainingPeaks Premium, e libera acesso aos planos incluídos na assinatura. O acesso à Área de Membros chega separadamente assim que você assina.</p>
+      <p>O TrainingPeaks conecta você automaticamente ao meu perfil de coach, ativa o seu TrainingPeaks Premium e libera os planos incluídos na assinatura. O acesso à Área de Membros chega separado assim que você assina.</p>
     </div>
     <div class="faq-item">
-      <h3>É a mesma coisa que o coaching 1:1?</h3>
-      <p>Não. O Acesso Total é autoguiado: você escolhe e executa seus próprios planos, com Premium e a biblioteca incluídos, e pode me escrever com dúvidas pontuais sobre as ferramentas, suas zonas ou qual plano escolher. O que não inclui é justamente o que define o coaching 1:1: testes personalizados, revisão do seu treino e ajustes semanais. Se você quer isso, <a href="/pt/#contacto" style="color:var(--blue); font-weight:700;">o coaching 1:1</a> é a outra opção.</p>
+      <h3>Quais ferramentas tem na Área de Membros?</h3>
+      <p>{{ library[lang].live | length }} hoje, e eu somo mais de vez em quando: {% for item in library[lang].live %}{{ item.name }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
+    </div>
+    <div class="faq-item">
+      <h3>É a mesma coisa que o treinamento 1:1?</h3>
+      <p>Não. O Acesso Total é autoguiado: você escolhe e executa os seus planos, com o Premium e a biblioteca incluídos, e pode me escrever com dúvidas pontuais sobre as ferramentas, as suas zonas ou qual plano escolher. O que não inclui é justamente o que define o treinamento 1:1: teste personalizado, revisão do seu treino e ajustes semanais. Se você quer isso, <a href="/pt/#contacto">o treinamento 1:1</a> é a outra opção.</p>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
 {% include "partials/credentials-band.njk" %}
 
 <section class="cta-final">
   <div class="wrap">
     <span class="label">Tudo incluído, $29.99/mês</span>
     <h2>Pare de escolher um plano de cada vez</h2>
-    <p>Assine e tenha acesso a todos os planos e guias + TrainingPeaks Premium, hoje mesmo.</p>
-    <a href="{{ checkout }}" class="btn-primary" target="_blank" rel="noopener">Assinar Agora</a>
+    <p>Assine e tenha todos os planos + TrainingPeaks Premium, hoje.</p>
+    <a href="{{ checkout }}" class="btn-primary" target="_blank" rel="noopener">Assinar</a>
   </div>
 </section>
