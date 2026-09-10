@@ -1,0 +1,192 @@
+PASTE FILE -- n8n subscription-lifecycle-automation, September 9, 2026
+
+Fix: two Code nodes read item.json.textPlain only. TrainingPeaks sends these
+templates as a single text/html part, so textPlain is "" and every field parsed
+empty. Same defect as Parse CoachMatch Hire (fixed Aug 20, 2026, that node only).
+Paste each block over the ENTIRE contents of the named node's JavaScript field.
+
+
+========================================================================
+NODE: Parse New Subscription Email
+========================================================================
+
+// Parses the "New subscription confirmation" email from receipt@trainingpeaks.com
+// FIXED September 9, 2026, by the first REAL email of this shape to reach this
+// node -- Ivan Lopez, the first $149 Private athlete. It failed for the SAME
+// reason "Parse CoachMatch Hire" failed on August 20, 2026, and that fix was
+// applied to that one node only: this template arrives as a SINGLE text/html
+// part, so item.json.textPlain is "". Every hand-typed mock this branch was
+// tested against carried a textPlain key, because a person typed it.
+// All four regexes missed, every field came out '', subscription_name was ''
+// and Classify Product correctly returned UNKNOWN -- which sent a Telegram
+// alert blaming the product list. The product was fine. The body was empty.
+// A plain part is still preferred if TrainingPeaks ever sends one.
+
+const decodeEntities = (s) => s
+  .replace(/&#(\d+);/g, (_, d) => String.fromCharCode(Number(d)))
+  .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
+  .replace(/&nbsp;/gi, ' ')
+  .replace(/&quot;/gi, '"')
+  .replace(/&lt;/gi, '<')
+  .replace(/&gt;/gi, '>')
+  .replace(/&amp;/gi, '&');   // last, so a decode can't re-create another entity
+
+const htmlToText = (html) => decodeEntities(
+  (html || '')
+    .replace(/<(style|script)[\s\S]*?<\/\1>/gi, ' ')
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<\/(p|div|tr|table|h[1-6])>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+);
+
+const bodyText = (j) => {
+  const plain = (j.textPlain || '').trim();
+  return plain ? plain : htmlToText(j.textHtml);
+};
+
+const results = [];
+
+for (const item of $input.all()) {
+  // Collapse all whitespace/line-wraps so multi-line fields become single-line before matching
+  const flat = bodyText(item.json).replace(/\s+/g, ' ').trim();
+
+  const nameEmail = flat.match(/Customer Name:\s*([^(]+?)\s*\(([^)]+)\)/i);
+  const subMatch = flat.match(/Subscription:\s*([\s\S]+?)\s-\s\$/);
+  const invoiceMatch = flat.match(/Invoice Number:\s*(\S+)/i);
+  const amountMatch = flat.match(/Amount Charged:\s*\$([\d.,]+)/i);
+
+  const fullName = nameEmail ? nameEmail[1].trim() : '';
+  // Latin naming: first non-initial token is the given name, the rest is the
+  // surname. "Paula Maria Gonzalez" -> "Paula" / "Maria Gonzalez". The old rule
+  // popped only the LAST token, which is right on a two-token name and wrong on
+  // the two-surname norm -- it put the whole string into firstname. Same fix as
+  // the CoachMatch lead parser, September 4, 2026.
+  const titleCase = (s) => s.replace(
+    /[\p{L}][\p{L}'\u2019-]*/gu,
+    (t) => t.charAt(0).toLocaleUpperCase('es') + t.slice(1).toLocaleLowerCase('es')
+  );
+  const isInitial = (t) => /^[\p{L}]\.?$/u.test(t);
+  const isShouted = (s) => s === s.toLocaleUpperCase('es') && /\p{Lu}/u.test(s);
+  const isAllLower = (s) => s === s.toLocaleLowerCase('es') && /\p{Ll}/u.test(s);
+
+  const cleanName = (isShouted(fullName) || isAllLower(fullName)) ? titleCase(fullName) : fullName;
+  const nameParts = cleanName.split(/\s+/).filter(Boolean);
+
+  let firstIdx = nameParts.findIndex((t) => !isInitial(t));
+  if (firstIdx === -1) firstIdx = 0;
+  const firstname = nameParts[firstIdx] || '';
+  const lastname = nameParts.slice(firstIdx + 1).join(' ');
+
+  results.push({
+    json: {
+      // parse_ok is explicit for the same reason it is on Parse CoachMatch
+      // Hire: an empty body and an unrecognised product look identical
+      // downstream unless something says which one happened. READ IT.
+      parse_ok: Boolean(nameEmail && subMatch),
+      firstname,
+      lastname,
+      email: nameEmail ? nameEmail[2].trim() : '',
+      subscription_name: subMatch ? subMatch[1].trim() : '',
+      invoice_number: invoiceMatch ? invoiceMatch[1] : '',
+      amount_charged: amountMatch ? amountMatch[1] : '',
+      source_subject: item.json.subject,
+      source_date: item.json.date,
+    }
+  });
+}
+
+return results;
+
+========================================================================
+NODE: Parse Churn Email
+========================================================================
+
+// Parses the "Subscription cancellation" (confirmed, not "scheduled") email
+// FIXED September 9, 2026, by the first REAL email of this shape to reach this
+// node -- Ivan Lopez, the first $149 Private athlete. It failed for the SAME
+// reason "Parse CoachMatch Hire" failed on August 20, 2026, and that fix was
+// applied to that one node only: this template arrives as a SINGLE text/html
+// part, so item.json.textPlain is "". Every hand-typed mock this branch was
+// tested against carried a textPlain key, because a person typed it.
+// All four regexes missed, every field came out '', subscription_name was ''
+// and Classify Product correctly returned UNKNOWN -- which sent a Telegram
+// alert blaming the product list. The product was fine. The body was empty.
+// A plain part is still preferred if TrainingPeaks ever sends one.
+
+const decodeEntities = (s) => s
+  .replace(/&#(\d+);/g, (_, d) => String.fromCharCode(Number(d)))
+  .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
+  .replace(/&nbsp;/gi, ' ')
+  .replace(/&quot;/gi, '"')
+  .replace(/&lt;/gi, '<')
+  .replace(/&gt;/gi, '>')
+  .replace(/&amp;/gi, '&');   // last, so a decode can't re-create another entity
+
+const htmlToText = (html) => decodeEntities(
+  (html || '')
+    .replace(/<(style|script)[\s\S]*?<\/\1>/gi, ' ')
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<\/(p|div|tr|table|h[1-6])>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+);
+
+const bodyText = (j) => {
+  const plain = (j.textPlain || '').trim();
+  return plain ? plain : htmlToText(j.textHtml);
+};
+
+const results = [];
+
+for (const item of $input.all()) {
+  const flat = bodyText(item.json).replace(/\s+/g, ' ').trim();
+
+  const m = flat.match(/that\s+(.+?)'s\s*\(([^)]+)\)\s+subscription to\s+(.+?)\s+has been cancelled/i);
+
+  const fullName = m ? m[1].trim() : '';
+  // Latin naming: first non-initial token is the given name, the rest is the
+  // surname. "Paula Maria Gonzalez" -> "Paula" / "Maria Gonzalez". The old rule
+  // popped only the LAST token, which is right on a two-token name and wrong on
+  // the two-surname norm -- it put the whole string into firstname. Same fix as
+  // the CoachMatch lead parser, September 4, 2026.
+  const titleCase = (s) => s.replace(
+    /[\p{L}][\p{L}'\u2019-]*/gu,
+    (t) => t.charAt(0).toLocaleUpperCase('es') + t.slice(1).toLocaleLowerCase('es')
+  );
+  const isInitial = (t) => /^[\p{L}]\.?$/u.test(t);
+  const isShouted = (s) => s === s.toLocaleUpperCase('es') && /\p{Lu}/u.test(s);
+  const isAllLower = (s) => s === s.toLocaleLowerCase('es') && /\p{Ll}/u.test(s);
+
+  const cleanName = (isShouted(fullName) || isAllLower(fullName)) ? titleCase(fullName) : fullName;
+  const nameParts = cleanName.split(/\s+/).filter(Boolean);
+
+  let firstIdx = nameParts.findIndex((t) => !isInitial(t));
+  if (firstIdx === -1) firstIdx = 0;
+  const firstname = nameParts[firstIdx] || '';
+  const lastname = nameParts.slice(firstIdx + 1).join(' ');
+
+  results.push({
+    json: {
+      firstname,
+      lastname,
+      email: m ? m[2].trim() : '',
+      subscription_name: m ? m[3].trim() : '',
+      source_subject: item.json.subject,
+      source_date: item.json.date,
+    }
+  });
+}
+
+return results;
+
+========================================================================
+NODE: Telegram - Unknown Product  (field: Text)
+========================================================================
+
+={{ $json.parse_ok === false ? '🛑 PARSEO VACIO -- el email llego pero no se pudo leer el cuerpo' : '⚠️ PRODUCTO NO RECONOCIDO' }} -- no se escribio nada en Twenty
+Nombre: {{ $json.firstname }} {{ $json.lastname }}
+Email: {{ $json.email }}
+Producto: {{ $json.subscription_name }}
+Factura: {{ $json.invoice_number }}
+Asunto: {{ $json.source_subject }}
+
+{{ $json.parse_ok === false ? 'Revisar el nodo Parse New Subscription Email. NO agregar nada a Classify Product -- la lista de productos no es el problema.' : 'Procesar a mano y agregar el producto a Classify Product.' }}

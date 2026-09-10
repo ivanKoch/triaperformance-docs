@@ -1,0 +1,106 @@
+PASTE FILE 2 -- n8n subscription-lifecycle-automation, September 10, 2026
+
+Fix: signUpDate was written on BOTH update paths. An update fires only when the
+person already exists -- i.e. exactly when they are RETURNING -- so the return
+silently overwrote the original sign-up date. Now create-only, like leadSource.
+Paste each line over the ENTIRE contents of the named node's JSON / Body field.
+
+
+========================================================================
+NODE: Update Person (Coaching)   (Body / JSON field)
+========================================================================
+
+={{ JSON.stringify({ customerType: 'OPT1_1_COACHING', leadStatus: 'WON_CUSTOMER', coachingStartDate: $('Normalize Coaching Athlete').item.json.coachingStartDate, planPurchased: $('Normalize Coaching Athlete').item.json.product, churnDate: null }) }}
+
+========================================================================
+NODE: Update Person (Existing Subscriber)   (Body / JSON field)
+========================================================================
+
+={{ JSON.stringify({ customerType: 'ALL_ACCESS', leadStatus: 'WON_CUSTOMER', planPurchased: $('Map Language + Build Twenty Fields').item.json.subscription_name, preferredLanguage: $('Map Language + Build Twenty Fields').item.json.preferredLanguage, churnDate: null }) }}
+
+========================================================================
+NODE: Normalize Coaching Athlete  (comment block only -- optional,
+but paste it so the next session does not re-add signUpDate)
+========================================================================
+
+// ONE normalizer fed by BOTH coaching branches, so everything downstream has a
+// single node name to reference. Referencing a branch-specific node that did not
+// run in this execution throws in n8n -- this avoids that entirely.
+//
+// FIXED Aug 20, 2026 -- shape detection used to read Boolean(d.package_name),
+// which is the ONE field a failed CoachMatch parse guarantees is empty. So a
+// CoachMatch email whose regex missed did not just lose its data: it was
+// reclassified as a PRIVATE signup and written to Twenty as one, with a blank
+// name, a blank email and a blank product. Detect the branch from routing, not
+// from parsed content: productType is set by Classify Product and exists only on
+// the private path, so it survives a parse failure on either side.
+//
+// parse_ok is now carried on BOTH shapes and must be gated before Twenty.
+//
+// SEPTEMBER 10, 2026 -- signUpDate is now CREATE-ONLY, on both update paths.
+// Same rule, same reason, as leadSourceOnCreate below, and it was not applied
+// here: an UPDATE fires when the person already exists, and the person already
+// exists precisely when they are RETURNING. So the one event that made the
+// original sign-up date interesting was also the event that overwrote it --
+// silently, on every returning athlete, on both the coaching and All-Access
+// branches. Found by Ivan Lopez's return (2024-08-30 -> paused 2026-07-15 ->
+// back 2026-09-09), the first return since tenure-analysis.md named this exact
+// gap as "the one input this analysis is missing".
+// signUpDate  = first ever, never rewritten.
+// coachingStartDate = THIS billing period, rewritten every time (it already was).
+// churnDate: null still clears on return -- that one is correct, they are active.
+
+return $input.all().map(item => {
+  const d = item.json;
+  const isPrivate = d.productType === 'PRIVATE_COACHING';
+
+  if (!isPrivate) {
+    return { json: {
+      channel: 'COACHMATCH',
+      parse_ok: Boolean(d.parse_ok),
+      source_subject: d.source_subject || '',
+      email: (d.email || '').trim(),
+      full_name: d.full_name,
+      firstname: d.firstname,
+      lastname: d.lastname,
+      product: d.package_name,
+      signUpDate: d.sign_up_date,
+      // CoachMatch athletes CAN start in the future -- these two differ.
+      coachingStartDate: d.coaching_start_date,
+      // Set only on create; a CoachMatch athlete is normally already a lead
+      // with leadSource already COACHMATCH, and overwriting destroys attribution.
+      leadSourceOnCreate: 'COACHMATCH',
+      invoice_number: '',
+      amount_charged: '',
+    }};
+  }
+
+  // FIXED Aug 8 2026: this previously read d.source_date, which the upstream
+  // "Map Language + Build Twenty Fields" node does NOT pass through -- it emits
+  // only firstname/lastname/email/subscription_name/invoice_number/amount_charged
+  // /preferredLanguage. Result was an empty signUpDate and coachingStartDate on
+  // every Private signup. Using the run date instead, which is what the existing
+  // All-Access branch already does and is accurate to the minute in a live run.
+  const today = new Date().toISOString().slice(0, 10);
+
+  return { json: {
+    channel: 'PRIVATE',
+    // No parse_ok upstream on this path -- the two fields everything downstream
+    // needs are the check.
+    parse_ok: Boolean((d.email || '').trim() && d.subscription_name),
+    source_subject: d.source_subject || '',
+    email: (d.email || '').trim(),
+    full_name: [d.firstname, d.lastname].filter(Boolean).join(' '),
+    firstname: d.firstname,
+    lastname: d.lastname,
+    product: d.subscription_name,
+    signUpDate: today,
+    // No athlete-selectable start on TP Payments: payment IS the start.
+    coachingStartDate: today,
+    // The email carries NO signal about where this athlete came from.
+    // Null is honest; 'OTHER' would be a guess that looks like data.
+    leadSourceOnCreate: null,
+    invoice_number: d.invoice_number || '',
+    amount_charged: d.amount_charged || '',
+  }};
+});
