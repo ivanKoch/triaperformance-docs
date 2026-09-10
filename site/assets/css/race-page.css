@@ -221,6 +221,81 @@
    Six cards for the marathon, three for the half. Never filtered by how many
    weeks remain — see the raceLadder filter for why that filter does not exist. */
 .race-plans-intro { max-width: 68ch; margin: 0 0 24px; }
+/* ── Facet controls (Spanish only, for now) ─────────────────────────────────
+   Two segmented groups, not checkboxes: these are exclusive choices with two
+   options each, and a segmented control says "pick one of these" where a
+   checkbox says "add this". A disabled segment is a real state here rather than
+   an edge case — Spanish has no heart-rate + gym marathon ladder — so it is
+   styled to read as unavailable rather than merely low-contrast. */
+.race-facets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 40px;
+  margin: 0 0 12px;
+}
+.race-facet-group { display: flex; flex-direction: column; gap: 8px; }
+.race-facet-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--slate);
+}
+.race-facet-btns {
+  display: inline-flex;
+  background: var(--white);
+  border: 1px solid var(--mist);
+  border-radius: 6px;
+  padding: 3px;
+  gap: 3px;
+}
+.race-facet-btns button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  color: var(--slate);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--t), color var(--t);
+}
+.race-facet-btns button:hover:not(:disabled):not(.is-active) { color: var(--ink); }
+.race-facet-btns button.is-active {
+  background: var(--blue);
+  color: var(--white);
+  font-weight: 600;
+}
+.race-facet-btns button:disabled {
+  color: var(--mist);
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+.race-facet-btns button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 1px;
+}
+.race-facet-hint {
+  font-size: 13px;
+  color: var(--slate);
+  max-width: 68ch;
+  margin: 0 0 20px;
+}
+/* The partial-ladder line. --heat is the signal token and this is a limit, the
+   same category as the cut-off callout above — a rule, never a fill. */
+.race-facet-note {
+  font-size: 13px;
+  color: var(--heat);
+  border-left: 2px solid var(--heat-graphic);
+  padding-left: 12px;
+  margin: 0 0 20px;
+}
+@media (max-width: 560px) {
+  .race-facets { gap: 16px 24px; }
+  .race-facet-btns button { padding: 8px 12px; font-size: 13px; }
+}
+
 /* Three columns at desktop, deliberately fixed rather than auto-fill. The
    ladder is a 3 x 2 matrix — difficulty across, duration down — and auto-fill
    rendered it as four cards then two, which reads as a wrap accident rather
@@ -231,6 +306,12 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
+/* 🚨 Without this the facet controls do nothing visible. `display: grid` on a
+   class selector beats the user-agent's `[hidden] { display: none }`, so every
+   variant's grid painted at once — three ladders stacked, fifteen cards — while
+   `el.hidden` reported true and a DOM assertion passed. Caught by screenshotting
+   the page, not by reading it or by testing the property. */
+.race-plan-grid[hidden] { display: none; }
 @media (max-width: 900px) { .race-plan-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .race-plan-grid { grid-template-columns: 1fr; } }
 .race-plan-card {

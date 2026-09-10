@@ -32,10 +32,19 @@
     "corralLabel": "Cajones",
     "trainingTitle": "Cómo se entrena para esta carrera",
     "plansTitle": "Planes de entrenamiento",
-    "plansIntro": "Tres niveles, dos duraciones, por frecuencia cardíaca. Elegí por el volumen que podés sostener, no por el que te gustaría hacer.",
+    "plansIntro": "Tres niveles y dos duraciones. Elige por el volumen que puedes sostener, no por el que te gustaría hacer.",
     "plansNote": "No hace falta que falten exactamente 12 o 18 semanas para la carrera. Un bloque específico no se empieza desde cero: se llega a él ya activo, y estos planes son la parte final del camino.",
     "sourcesTitle": "Fuentes",
-    "weeksLabel": "semanas"
+    "weeksLabel": "semanas",
+    "facetMetricLabel": "Zonas por",
+    "facetHr": "Frecuencia cardíaca",
+    "facetPace": "Ritmo",
+    "facetGymLabel": "Fuerza",
+    "facetGymOff": "Solo carrera",
+    "facetGymOn": "Con gimnasio",
+    "facetUnavailable": "Esa combinación no existe en el catálogo todavía.",
+    "facetWeeksOnly": "Esta versión existe solo en {weeks} semanas.",
+    "facetHint": "El plan es el mismo bloque: cambia con qué mides la intensidad y si sumas trabajo de gimnasio."
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -72,7 +81,16 @@
     "plansIntro": "Three levels, two durations, heart-rate based. Choose by the volume you can sustain, not the volume you would like to run.",
     "plansNote": "You do not need to be exactly 12 or 18 weeks out. A specific block is not started from zero — you arrive at it already active, and these plans are the last part of that road.",
     "sourcesTitle": "Sources",
-    "weeksLabel": "weeks"
+    "weeksLabel": "weeks",
+    "facetMetricLabel": "Zones by",
+    "facetHr": "Heart rate",
+    "facetPace": "Pace",
+    "facetGymLabel": "Strength",
+    "facetGymOff": "Running only",
+    "facetGymOn": "With gym",
+    "facetUnavailable": "That combination does not exist in the catalogue yet.",
+    "facetWeeksOnly": "This version exists at {weeks} weeks only.",
+    "facetHint": "Same block either way: what changes is how you measure intensity, and whether gym work is built in."
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -109,6 +127,15 @@
     "plansIntro": "Três níveis, duas durações, por frequência cardíaca. Escolha pelo volume que você consegue sustentar, não pelo que gostaria de fazer.",
     "plansNote": "Não precisa faltar exatamente 12 ou 18 semanas para a prova. Um bloco específico não começa do zero: você chega nele já ativo, e estes planos são a parte final do caminho.",
     "sourcesTitle": "Fontes",
-    "weeksLabel": "semanas"
+    "weeksLabel": "semanas",
+    "facetMetricLabel": "Zonas por",
+    "facetHr": "Frequência cardíaca",
+    "facetPace": "Ritmo",
+    "facetGymLabel": "Força",
+    "facetGymOff": "Só corrida",
+    "facetGymOn": "Com academia",
+    "facetUnavailable": "Essa combinação ainda não existe no catálogo.",
+    "facetWeeksOnly": "Esta versão existe só em {weeks} semanas.",
+    "facetHint": "O bloco é o mesmo: muda com o que você mede a intensidade e se soma trabalho de academia."
   }
 }

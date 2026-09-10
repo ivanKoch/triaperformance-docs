@@ -13,7 +13,15 @@
 {%- set home = site.languages[lang].home -%}
 {%- set plansUrl = { es: "/planes/", en: "/en/plans/", pt: "/pt/planos/" }[lang] -%}
 {%- set hubUrl = { es: "/planes/running/", en: "/en/plans/running/", pt: "/pt/planos/maratona/" }[lang] -%}
-{%- set ladder = plans.byLanguage[lang] | raceLadder(race.distance) -%}
+{#- Every (intensity x gym) ladder the catalogue actually holds for this
+    language. Variant 1 is heart-rate / no-gym everywhere; Spanish is currently
+    the only catalogue with more than one populated variant at 42 km, so it is
+    the only language that gets the facet controls. The condition is the DATA,
+    not a hardcoded language check — English fills in the moment its third
+    variant is worth exposing. -#}
+{%- set variants = plans.byLanguage[lang] | raceLadderVariants(race.distance) -%}
+{%- set ladder = variants[0].plans if variants | length else [] -%}
+{%- set showFacets = variants | length > 1 and lang == "es" -%}
 {#- The lead plan is the Intermediate short block: the middle of the ladder, and
     the one the capture form attributes to. A race page has no single product,
     so without this the form would have no plan_id and the lead would arrive in
@@ -168,8 +176,41 @@
   <div class="wrap">
     <h2>{{ r.plansTitle }}</h2>
     <p class="race-plans-intro">{{ r.plansIntro }}</p>
-    <div class="race-plan-grid">
-      {%- for p in ladder %}
+
+    {%- if showFacets %}
+    {#- Server-rendered: every variant's grid is in the HTML and the buttons
+        swap which one is visible. No fetch, no template on the client, and the
+        page still shows a full ladder with JavaScript off — the first grid is
+        the only one without `hidden`, and the controls simply do nothing. -#}
+    {%- set availableKeys = [] -%}
+    {%- for v in variants %}{% set availableKeys = (availableKeys.push(v.key), availableKeys) %}{% endfor -%}
+    <div class="race-facets" data-race-facets data-available="{{ availableKeys | dump | escape }}">
+      <div class="race-facet-group">
+        <span class="race-facet-label">{{ r.facetMetricLabel }}</span>
+        <div class="race-facet-btns" role="group" aria-label="{{ r.facetMetricLabel }}">
+          <button type="button" data-facet="metric" data-value="hr" aria-pressed="true">{{ r.facetHr }}</button>
+          <button type="button" data-facet="metric" data-value="pace" aria-pressed="false">{{ r.facetPace }}</button>
+        </div>
+      </div>
+      <div class="race-facet-group">
+        <span class="race-facet-label">{{ r.facetGymLabel }}</span>
+        <div class="race-facet-btns" role="group" aria-label="{{ r.facetGymLabel }}">
+          <button type="button" data-facet="gym" data-value="off" aria-pressed="true">{{ r.facetGymOff }}</button>
+          <button type="button" data-facet="gym" data-value="on" aria-pressed="false">{{ r.facetGymOn }}</button>
+        </div>
+      </div>
+    </div>
+    <p class="race-facet-hint">{{ r.facetHint }}</p>
+    <p class="race-facet-note" data-facet-note hidden></p>
+    {%- endif %}
+
+    {%- set renderVariants = variants if showFacets else [variants[0]] %}
+    {%- for v in renderVariants %}
+    <div class="race-plan-grid" data-variant="{{ v.key }}"
+         data-weeks="{{ v.weeks | join(',') }}"
+         data-complete="{{ 'true' if v.complete else 'false' }}"
+         {% if not loop.first %}hidden{% endif %}>
+      {%- for p in v.plans %}
       <a class="race-plan-card" href="{{ p.pageUrl }}">
         <span class="race-plan-level">{{ u.difficulty[p.difficulty] }}</span>
         <span class="race-plan-weeks">{{ p.weeks }} {{ r.weeksLabel }}</span>
@@ -178,6 +219,7 @@
       </a>
       {%- endfor %}
     </div>
+    {%- endfor %}
     <p class="race-plans-note">{{ r.plansNote }}</p>
 
     {%- if plan %}
@@ -194,6 +236,12 @@
 
 {#- ── Sources. Not decoration: the standing rule is that an organiser's own
     document wins over any derived reading, so the page says where it looked. -#}
+{%- if showFacets %}
+<script src="{{ "/assets/js/race-facets.js" | v }}" defer
+        data-unavailable="{{ r.facetUnavailable | escape }}"
+        data-weeks-only="{{ r.facetWeeksOnly | escape }}"></script>
+{%- endif %}
+
 {%- if race.sources | length %}
 <section class="race-sources">
   <div class="wrap">

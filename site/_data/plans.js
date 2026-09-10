@@ -173,9 +173,24 @@ module.exports = function () {
 
     const langCode = LANG_CODE[o.language] || null;
 
+    // ⚠️ The zero-width joiner and variation selector have to go too, and they
+    // are NOT in the ranges above. Stripping only the pictographs out of a
+    // sequence like "Triathlon 🏊‍♂️" leaves the invisible glue behind —
+    // U+200D U+FE0F — so the name rendered as "Triathlon ‍️ (Polarized 80/20)"
+    // with a stray double space and two invisible characters. It affected 149
+    // of 328 plans and, because displayName feeds the <h1>, the <title> and the
+    // Product schema, it was shipping into search results. Found September 10,
+    // 2026 while building the race-page plan cards, which surface the same
+    // string. The \s{2,} collapse below is what turns the gap back into one
+    // space, so the order of these two replaces matters.
     const displayName = o.plan_name
-      .replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]/gu, "")
+      .replace(/[\u{1F000}-\u{1FFFF}\u{2300}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}]/gu, "")
       .replace(/\s{2,}/g, " ")
+      // An emoji sitting just inside a bracket leaves the space that preceded
+      // it: "(Carrera 🏃 + Gym 🏋️)" collapses to "(Carrera + Gym )". Only
+      // closing brackets are tidied — a space before any other punctuation is
+      // rare enough in this catalogue to be intentional.
+      .replace(/\s+([)\]])/g, "$1")
       .trim();
 
     const plan = {

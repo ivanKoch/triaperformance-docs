@@ -623,35 +623,85 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
       .trim();
   });
 
-  eleventyConfig.addFilter("raceLadder", function (plansForLang, distance) {
+  // ---------------------------------------------------------------------------
+  // raceLadderVariants — every (intensity type x gym) ladder that actually
+  // exists for one language and distance. Spanish only, today, because Spanish
+  // is the only catalogue with more than one populated variant at 42 km.
+  //
+  // DERIVED, NOT DECLARED. The variants a race page offers are whatever the
+  // inventory contains: a combination with no plans produces no button, and a
+  // combination that later fills in produces one with no code change. The
+  // alternative — hand-listing which facets exist — is the exact pattern that
+  // put a 407-row catalogue and six phantom dead plans into this repo.
+  //
+  // 🚨 CONTRADICTION GUARD. A plan whose NAME says gym while its `strength`
+  // column says FALSE is excluded from every variant and named in the build
+  // log. Three Spanish 42 km plans are in that state right now (612559 /
+  // 612560 / 612561, "Maratón … (Carrera + Gym)" at 18 weeks, whose 12-week
+  // siblings 612551/612554/612555 are correctly flagged TRUE). Without this
+  // guard they render under "sin gimnasio" with "+ Gym" printed on the card.
+  // Excluding is the conservative half of the choice: the page shows fewer
+  // plans rather than the wrong ones, and the moment the flags are confirmed
+  // on TrainingPeaks and flipped, the grid fills in by itself.
+  // ---------------------------------------------------------------------------
+  const RACE_VARIANTS = [
+    { key: "hr",       metric: "hr",   gym: false },
+    { key: "hr-gym",   metric: "hr",   gym: true },
+    { key: "pace",     metric: "pace", gym: false },
+    { key: "pace-gym", metric: "pace", gym: true },
+  ];
+  const GYM_IN_NAME = /gym|gimnasio|for[çc]a|strength/i;
+
+  function ladderVariants(plansForLang, distance) {
     const spec = RACE_LADDER[distance];
     if (!spec || !Array.isArray(plansForLang)) return [];
-    // Duration OUTER, difficulty INNER, so a three-column grid renders as
-    // difficulty across and duration down. Difficulty-outer produced
-    // B12 B18 I12 / I18 A12 A18 — a row that mixes two levels and two
-    // durations and means nothing.
-    const out = [];
-    const allWeeks = [...new Set(Object.values(spec.weeks).flat())].sort((a, b) => a - b);
-    for (const weeks of allWeeks) {
-      for (const difficulty of RACE_DIFFICULTY_ORDER) {
-        if (!(spec.weeks[difficulty] || []).includes(weeks)) continue;
-        const match = plansForLang.find((p) =>
-          p.sport === "Running" &&
-          p.distance === spec.distance &&
-          p.difficulty === difficulty &&
-          p.weeks === weeks &&
-          p.metric === spec.metric &&
-          !p.strength &&
-          !p.weightLoss);
-        // A missing cell is skipped, never substituted. The ladder is verified
-        // complete in all three languages; if one ever goes missing the page
-        // should show five plans and the build log should say so, rather than
-        // quietly promoting a plan the athlete did not ask for.
-        if (match) out.push(match);
-        else console.log(`[races] ladder gap: ${distance} ${difficulty} ${weeks}w — no matching plan`);
+
+    const pool = plansForLang.filter((p) => {
+      if (p.sport !== "Running" || p.distance !== spec.distance || p.weightLoss) return false;
+      if (GYM_IN_NAME.test(p.name) && !p.strength) {
+        console.log(`[races] EXCLUDED ${p.id}: name says gym, strength flag says FALSE — ${p.name}`);
+        return false;
       }
+      return true;
+    });
+
+    const allWeeks = [...new Set(Object.values(spec.weeks).flat())].sort((a, b) => a - b);
+    const out = [];
+    for (const v of RACE_VARIANTS) {
+      const found = [];
+      for (const weeks of allWeeks) {
+        for (const difficulty of RACE_DIFFICULTY_ORDER) {
+          if (!(spec.weeks[difficulty] || []).includes(weeks)) continue;
+          const match = pool.find((p) =>
+            p.difficulty === difficulty && p.weeks === weeks &&
+            p.metric === v.metric && !!p.strength === v.gym);
+          if (match) found.push(match);
+        }
+      }
+      if (!found.length) continue;
+      const weeksPresent = [...new Set(found.map((p) => p.weeks))].sort((a, b) => a - b);
+      out.push({
+        ...v,
+        plans: found,
+        weeks: weeksPresent,
+        // A variant is complete when it fills every difficulty x duration cell
+        // the distance defines. Incomplete is not a defect to hide — the page
+        // says which durations exist, because "no results" and "only 12 weeks"
+        // are different answers and only one of them is useful.
+        complete: found.length === allWeeks.length * RACE_DIFFICULTY_ORDER.length,
+      });
     }
     return out;
+  }
+  eleventyConfig.addFilter("raceLadderVariants", ladderVariants);
+
+  /** The default ladder: the first variant that exists, which is heart-rate /
+   *  no-gym in all three languages. One selection rule, used by both filters —
+   *  two implementations of "which plans belong on a race page" would disagree
+   *  within a month. */
+  eleventyConfig.addFilter("raceLadder", function (plansForLang, distance) {
+    const v = ladderVariants(plansForLang, distance);
+    return v.length ? v[0].plans : [];
   });
 
   eleventyConfig.addFilter("zoneGoalPlan", function (plansForLang, distance) {
