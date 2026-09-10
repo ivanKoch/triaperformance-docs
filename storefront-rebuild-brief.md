@@ -188,6 +188,31 @@
 
 ---
 
+### Phase 2 — the PDP gets a second offer and its first colour, September 10, 2026
+
+**Iván's ask was for colour** — *"at least one card in dark the same as Training peaks is doing when they offer premium"* — **and the honest read is that the page had a worse problem than being grey.**
+
+**The buy box held two primary actions 69 px apart.** Buy at y=556, an email-capture form at y=625. *A page with two things to click first has no first thing to click.* The capture is not lost — `.plan-help` further down carries the same form under a heading that asks whether you need help choosing, which is where a form that collects a question belongs. **Forms per plan page: 2 → 1.**
+
+**What took the slot is the All-Access card, in carbon** — the offer that until now rendered *last* on the page, below the week-by-week table, where the decision has already been made. It is the **featured offer card** — the third of the four public carbon surfaces `brand-guidelines.md` §3.3 permits — and it carries that component's documented signature: a **3px `--heat-bright` rule along the top edge** plus the Heat badge, and no other accent anywhere on the card. *`.offer-featured` in `site.css` is the other instance; the rule was written once and is now cited, not re-argued.*
+
+**Three things the card does that the old footer module did not:**
+- Names the **TrainingPeaks Premium** inclusion against its own standalone price, which is the strongest line in the argument and was buried.
+- Says **two plans at once**, which is the objection a triathlete raises.
+- Puts **Heat on the badge and nowhere else.** *A badge is a signal, which is what §3.3 licenses Heat for. The button stays blue in both columns — an accent that becomes a second button is a second CTA wearing a different colour.* Measured from rendered pixels, not from the token: **6.63:1**.
+
+**The price moved out of the hero and into its own column.** *It sat ~200 px above the box, so the only price inside the box was All-Access's — the upsell read as the plan's price.* Now each column carries one price and one unit: **US$ 59.99 · pago único** against **US$ 39.99 · /mes, todos los planes**. The compare line underneath was cut to the half that the units do not already say (`Sin compromiso: cancelas cuando quieras.`) rather than repeating them.
+
+**The left column also gained the plan's own numbers** — sessions/week, hours/week, longest session — from the same derived `weeklyTotals` the catalogue cards use. **301 of 328 plan pages have them; the 27 without render the block not at all rather than printing empty rows.** *Those 27 still read correctly, because the price now carries the column.*
+
+**Found while measuring, unrelated to colour:** the week-by-week breakdown table pushed **71 px of horizontal overflow at 390 px on the 301 plan pages that carry it** *(it predates this branch)*. Wrapped in `.table-scroll` — **horizontal scroll belongs to the table, never to the page.**
+
+**Measured after, all three languages:** overflow **0** at 390 and 1440 · the two price rows within **6 px** of each other · Buy → capture **1,681–1,771 px** desktop and **3,083–3,478 px** phone (was 69 px) · one form per page · `npm test` exit 0 · register sweep 0 lines.
+
+⚠️ **`.plan-price` is still defined in `planes-bajar-de-peso.css` for a different element at a different size.** *The new class is `.plan-buy-price` deliberately — reusing the name would have been the fifth instance of this branch's recurring defect: a style written against one context and inherited by another, which CSS cannot complain about and only rendering catches.*
+
+---
+
 ## Phase 3 — About, with the story it actually has
 
 **Absorbs `open-loops.md` NOW → "The About page does not tell the story, and the story is the strongest asset the site has."** *(Iván, September 4.)*

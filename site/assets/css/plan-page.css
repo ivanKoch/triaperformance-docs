@@ -20,7 +20,6 @@
   font-size: 13px; font-weight: 700; color: var(--blue); background: var(--wash);
   border-radius: 4px; padding: 6px 12px;
 }
-.plan-price { font-size: 32px; font-weight: 700; }
 
 .plan-buy { padding-top: 0; padding-bottom: 64px; }
 .plan-buy-grid {
@@ -29,6 +28,16 @@
 }
 @media (max-width: 800px) { .plan-buy-grid { grid-template-columns: 1fr; padding: 28px; } }
 .plan-buy-cta { display: flex; flex-direction: column; justify-content: center; }
+/* The plan's own price, at the head of its own column — mirroring the price
+   line at the head of the All-Access card opposite. Larger than that one
+   (32 vs 21) because this is what the page sells; the card is the alternative. */
+.plan-buy-price {
+  font-size: 32px; font-weight: 700; color: var(--ink); margin-bottom: 20px;
+  font-variant-numeric: tabular-nums;
+}
+.plan-buy-price span {
+  font-size: 13px; font-weight: 400; color: var(--slate); margin-left: 6px;
+}
 .plan-buy-btn { text-align: center; }
 .plan-buy-note { color: var(--slate); font-size: 14px; margin-top: 12px; }
 .plan-capture h3 { font-size: 18px; margin-bottom: 8px; }
@@ -372,3 +381,90 @@
   .facet-reset[hidden] { display: block; }   /* always available in the sidebar */
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   The All-Access card inside the buy box — September 10, 2026.
+   Iván asked for "at least one accent card, the same as TrainingPeaks does when
+   they offer premium". The STRUCTURE is borrowed (a dark block inside the white
+   buy card, badge, checklist, its own CTA); the PALETTE is ours — TP's pink and
+   navy are their brand, and copying them would make this page look like a
+   TrainingPeaks page rather than one that sells on a TrainingPeaks page.
+   brand-guidelines.md §3.3 permits carbon here as the featured offer card.
+   ═══════════════════════════════════════════════════════════════════════════ */
+/* The 3px Heat rule along the top edge is the featured offer card's documented
+   signature (brand-guidelines.md, `.offer-featured` in site.css is the other
+   instance). It is on one edge, with the badge, and nowhere else on the card:
+   "one accent on one edge reads as 'this is the chosen one'". */
+.plan-aa-card {
+  display: flex; flex-direction: column;
+  background: var(--bg); color: var(--text);
+  border-radius: 8px; padding: 26px 28px;
+  border-top: 3px solid var(--heat-bright);
+}
+.plan-aa-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+}
+/* Heat, and only here: a badge is a signal, which is what §3.3 licenses it for.
+   It is never the button — that stays blue. */
+.plan-aa-badge {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--heat-bright); background: var(--heat-dim-dark);
+  padding: 5px 10px; border-radius: 4px; white-space: nowrap;
+}
+.plan-aa-price {
+  font-size: 21px; font-weight: 700; color: var(--text);
+  font-variant-numeric: tabular-nums; font-stretch: 112%;
+}
+.plan-aa-price span { font-size: 12.5px; font-weight: 400; color: var(--text-dim); margin-left: 5px; }
+.plan-aa-card h3 {
+  font-size: 19px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em;
+  color: var(--text); margin-bottom: 14px;
+}
+.plan-aa-list { list-style: none; margin: 0 0 20px; }
+.plan-aa-list li {
+  position: relative; padding-left: 24px; margin-bottom: 9px;
+  font-size: 14.5px; line-height: 1.5; color: var(--text-dim);
+}
+/* The check is drawn, not an icon font and not an emoji: two borders rotated.
+   Blue, because it marks what you get — heat marks intensity, not inclusion. */
+.plan-aa-list li::before {
+  content: ""; position: absolute; left: 2px; top: 5px;
+  width: 5px; height: 10px;
+  border-right: 2px solid var(--blue-bright); border-bottom: 2px solid var(--blue-bright);
+  transform: rotate(45deg);
+}
+.plan-aa-cta {
+  margin-top: auto; text-align: center;
+  background: var(--blue); color: #fff;
+}
+.plan-aa-cta:hover { background: var(--blue-bright); }
+.plan-aa-compare {
+  margin-top: 12px; font-size: 12.5px; line-height: 1.5; color: var(--text-dim);
+}
+@media (max-width: 800px) { .plan-aa-card { padding: 22px 20px; } }
+
+/* Horizontal scroll belongs to the table, never to the page. */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-scroll .breakdown-table { min-width: 460px; }
+@media (max-width: 520px) {
+  .breakdown-table th, .breakdown-table td { padding: 12px 10px; font-size: 14px; }
+}
+
+/* The plan's own numbers, beside its own Buy — so the left column carries
+   weight against the All-Access card opposite it. Hairline rows, no box: it is
+   a fact list, not a third card competing with the two offers. */
+.plan-buy-specs { margin: 0 0 24px; }
+.plan-buy-specs > div {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+  padding: 11px 0; border-bottom: 1px solid var(--mist);
+}
+.plan-buy-specs > div:first-child { border-top: 1px solid var(--mist); }
+.plan-buy-specs dt {
+  font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--slate);
+}
+.plan-buy-specs dd {
+  margin: 0; font-size: 17px; font-weight: 700; color: var(--ink);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}

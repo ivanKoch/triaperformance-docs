@@ -26,6 +26,7 @@
     "weightLossFlag": "Enfocado en bajar de peso",
     "timeGoalFlag": "Con objetivo de tiempo",
     "priceLabel": "Precio",
+    "priceOnceSuffix": "pago único",
     "breakdownTitle": "Qué vas a entrenar por semana",
     "breakdownIntro": "Datos reales del plan en TrainingPeaks: sesiones, duración promedio y la más larga de la semana.",
     "activity": {
@@ -139,7 +140,18 @@
     "longestShort": "larga",
     "showAll": "Ver los {n} planes",
     "recommendedLabel": "Empieza por aquí",
-    "recommendedIntro": "Un plan por objetivo, el más accesible de cada uno. Debajo está el catálogo completo con filtros."
+    "recommendedIntro": "Un plan por objetivo, el más accesible de cada uno. Debajo está el catálogo completo con filtros.",
+    "aaCardBadge": "Mejor valor",
+    "aaCardHeading": "O ten este plan y todos los demás",
+    "aaCardBullets": [
+      "Este plan y todo el catálogo, cuando cambies de objetivo",
+      "TrainingPeaks Premium incluido — US$ 19.95/mes por separado",
+      "Dos planes corriendo a la vez, si entrenas para más de una cosa",
+      "El Área de Miembros: activación, movilidad, zonas y más"
+    ],
+    "aaCardCompare": "Sin compromiso: cancelas cuando quieras.",
+    "aaCardCta": "Ver All-Access",
+    "specHoursLabel": "Horas/semana"
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -167,6 +179,7 @@
     "weightLossFlag": "Weight-loss focused",
     "timeGoalFlag": "Built around a time goal",
     "priceLabel": "Price",
+    "priceOnceSuffix": "one payment",
     "breakdownTitle": "What you'll train each week",
     "breakdownIntro": "Real data from the plan on TrainingPeaks: sessions, average duration, and the longest session of the week.",
     "activity": {
@@ -280,7 +293,18 @@
     "longestShort": "longest",
     "showAll": "See all {n} plans",
     "recommendedLabel": "Start here",
-    "recommendedIntro": "One plan per goal, the most approachable of each. The full filterable catalogue is below."
+    "recommendedIntro": "One plan per goal, the most approachable of each. The full filterable catalogue is below.",
+    "aaCardBadge": "Best value",
+    "aaCardHeading": "Or get this plan and every other one",
+    "aaCardBullets": [
+      "This plan and the whole catalogue, whenever the goal changes",
+      "TrainingPeaks Premium included — US$ 19.95/mo on its own",
+      "Two plans running at once, if you train for more than one thing",
+      "The Member Area: activation, mobility, zones and more"
+    ],
+    "aaCardCompare": "No commitment: cancel whenever you want.",
+    "aaCardCta": "See All-Access",
+    "specHoursLabel": "Hours/week"
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -308,6 +332,7 @@
     "weightLossFlag": "Focado em emagrecimento",
     "timeGoalFlag": "Com objetivo de tempo",
     "priceLabel": "Preço",
+    "priceOnceSuffix": "pagamento único",
     "breakdownTitle": "O que você vai treinar por semana",
     "breakdownIntro": "Dados reais do plano no TrainingPeaks: sessões, duração média e a mais longa da semana.",
     "activity": {
@@ -421,6 +446,17 @@
     "longestShort": "longo",
     "showAll": "Ver os {n} planos",
     "recommendedLabel": "Comece por aqui",
-    "recommendedIntro": "Um plano por objetivo, o mais acessível de cada um. O catálogo completo com filtros está abaixo."
+    "recommendedIntro": "Um plano por objetivo, o mais acessível de cada um. O catálogo completo com filtros está abaixo.",
+    "aaCardBadge": "Melhor custo",
+    "aaCardHeading": "Ou tenha este plano e todos os outros",
+    "aaCardBullets": [
+      "Este plano e todo o catálogo, quando o objetivo mudar",
+      "TrainingPeaks Premium incluído — US$ 19.95/mês separado",
+      "Dois planos rodando ao mesmo tempo, se você treina para mais de uma coisa",
+      "A Área de Membros: ativação, mobilidade, zonas e mais"
+    ],
+    "aaCardCompare": "Sem compromisso: você cancela quando quiser.",
+    "aaCardCta": "Ver Acesso Total",
+    "specHoursLabel": "Horas/semana"
   }
 }
