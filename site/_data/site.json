@@ -38,5 +38,7 @@
   ],
   "socialImage": "/assets/images/og-default.jpg",
   "reviewCount": "46",
-  "_reviewCountNote": "Rendered here so no page hand-types it. COSMETIC FIGURE — allowed to drift, not reconciled against GBP, not a hygiene finding (Ivan, Sep 2, 2026)."
+  "_reviewCountNote": "Rendered here so no page hand-types it. COSMETIC FIGURE — allowed to drift, not reconciled against GBP, not a hygiene finding (Ivan, Sep 2, 2026).",
+  "_coachMatchLeadsNote": "Number of TrainingPeaks Coach Match leads Iván has spoken with, for the About page. NULL ON PURPOSE, September 10, 2026: a draft of that page asserted '1.500' and NO FILE IN THIS REPO CAN REPRODUCE IT. The About sentence renders without a number while this is null, and gains one the moment a real figure exists. Source when it does: TrainingPeaks' own Coach Match dashboard, or a count of COACHMATCH-sourced rows in Twenty. This is the same failure linkedin-positioning.md already records twice — a profile claim with no source file behind it.",
+  "coachMatchLeads": null
 }

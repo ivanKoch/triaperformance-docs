@@ -3,90 +3,124 @@ layout: layouts/base.njk
 lang: pt
 transKey: about
 pageCss: about.css
-title: "Sobre Iván Koch — Treinador de triatlo e corrida"
-description: "Iván Koch: TrainingPeaks Level 2 Accredited Coach, ESCI Certified Coach, IRONMAN U Certified Coach. 20 maratonas, 3 Ironman, +100 atletas treinados."
+title: "Iván Koch — Treinador de triatlo e corrida | TrainingPeaks Coach Match"
+description: "Iván Koch, treinador de resistência em espanhol, inglês e português. TrainingPeaks Level 2 e parte do Coach Match. 20 maratonas, 3 Ironman, um ultra de 110k."
 ogTitle: "Sobre Iván Koch"
-personDescription: "Treinador de triatlo e corrida. TrainingPeaks Level 2 Accredited Coach e parte do diretório Coach Match da TrainingPeaks. 20 maratonas corridas, melhor marca abaixo de 3 horas; 3 Ironman completos, melhor tempo 10h06; mais de 100 atletas treinados em espanhol, inglês e português."
+personDescription: "Treinador de triatlo e corrida. TrainingPeaks Level 2 Accredited Coach e parte do diretório Coach Match da TrainingPeaks. 20 maratonas corridas, melhor marca 2h58; 3 Ironman completos, melhor tempo 10h06; um ultra de 110k; treina em espanhol, inglês e português."
 ---
+{#- See site/sobre-ivan/index.njk for the three rules this page enforces and why
+    the order changed. Written natively per language, not translated. -#}
 {%- set cr = credentials.pt -%}
 
-<section class="about-hero">
+{%- if aboutPhotos.hero %}
+<figure class="about-figure-hero">
+  <img src="{{ ("/assets/images/about/" + aboutPhotos.hero.file) | v }}" alt="{{ aboutPhotos.hero.alt.pt or aboutPhotos.hero.alt.es }}"
+       width="2000" height="1125" fetchpriority="high" decoding="async">
+</figure>
+{%- endif %}
+
+<section class="about-hero{% if aboutPhotos.hero %} about-hero--photo{% endif %}">
   <div class="wrap">
   <div>
     <span class="label">Sobre o treinador</span>
     <h1>Iván Koch</h1>
-    <p class="about-lede">Treino atletas de resistência há mais de três anos, em espanhol, inglês e português. Antes de treinar alguém, corri 20 maratonas e terminei 3 Ironman. As duas coisas contam: sei o que os dados dizem e sei o que se sente na quarta hora de prova.</p>
+    <p class="about-lede">Treinador de resistência, em espanhol, inglês e português. Antes disso, o amigo que montava o seu plano.</p>
+    <p>Durante muito tempo eu achei que ajudar alguém não era um gesto isolado: era algo que a gente tinha que estar fazendo. Quando treinei o meu primeiro atleta — um amigo que queria a primeira maratona — eu não estava montando um negócio. Estava passando adiante o que já usava comigo.</p>
+    <p>Isso continua sendo o trabalho. Hoje são cerca de quarenta atletas ao mesmo tempo.</p>
   </div>
   <figure class="about-portrait">
     <picture>
       <source type="image/webp" srcset="{{ "/assets/images/ivan-800.webp" | v }} 800w, {{ "/assets/images/ivan-1200.webp" | v }} 1200w" sizes="(max-width: 820px) 260px, 320px">
-      <img src="{{ "/assets/images/ivan-800.jpg" | v }}" srcset="{{ "/assets/images/ivan-800.jpg" | v }} 800w, {{ "/assets/images/ivan-1200.jpg" | v }} 1200w" sizes="(max-width: 820px) 260px, 320px" width="800" height="1000" alt="Iván Koch, coach de Triaperformance" fetchpriority="high" decoding="async">
+      <img src="{{ "/assets/images/ivan-800.jpg" | v }}" srcset="{{ "/assets/images/ivan-800.jpg" | v }} 800w, {{ "/assets/images/ivan-1200.jpg" | v }} 1200w" sizes="(max-width: 820px) 260px, 320px" width="800" height="1000" alt="Iván Koch, treinador da Triaperformance" fetchpriority="high" decoding="async">
     </picture>
   </figure>
   </div>
 </section>
 
-<section class="about-record">
+<div class="wrap about-prose">
+  <section>
+    <h2>Como começou</h2>
+    <p>O combinado era simples: eu entrava com o plano, ele com as pernas, e a maratona deixava de ser uma ideia solta. Funcionou bem o bastante para que o seguinte não fosse um amigo.</p>
+    <p>O motivo não mudou. Mudou a escala. A segunda-feira agora é o mesmo check-in, quarenta vezes, em três idiomas.</p>
+  </section>
+
+  <section>
+    <h2>Por que eu fiquei nisso</h2>
+    <p>Tenho formação em finanças e um MBA, e trabalho com operações. Gosto dessa parte. Mas o que me prendeu ao esporte não foi “seguir a ciência” como slogan: foi fazer a conta enquanto corro.</p>
+    <p>Um exemplo que uso muito: os 4×4 para VO2max. Não basta saber que é o protocolo. É preciso ver se a frequência passou do limiar, quanto tempo ficou lá em cima, e se a quarta repetição ainda era o treino ou já era sobrevivência. Essa conta, feita na rua, é a mesma que depois eu faço com o arquivo de um atleta.</p>
+    <p>Alguns querem ver a conta. Outros só querem saber o que tem na terça. Os dois estão certos: nos dois casos eu já fiz a tradução, e o dado que chega cru sai como a semana seguinte.</p>
+  </section>
+
+</div>
+
+{#- The race chapter is pulled OUT of `.about-prose` and given the page's
+    one washed band. Two jobs at once: it breaks a page that is otherwise
+    an unbroken white field from nav to footer, and it is where the race
+    photography lands — so when the stills arrive they arrive inside a
+    surface that already exists rather than on top of nothing. -#}
+<section class="about-races">
   <div class="wrap">
-    <ul class="record-grid">
-      {%- for r in cr.record %}
-      <li>
-        <span class="record-figure">{{ r.figure | replace("{reviewCount}", site.reviewCount) }}</span>
-        <span class="record-label">{{ r.label }}</span>
-        <span class="record-note">{{ r.note }}</span>
-      </li>
-      {%- endfor %}
-    </ul>
+    <h2>O que eu corri, sem a versão de folheto</h2>
+    {#- ALTERNATING ROWS, Iván's layout: text left / photo right, then photo
+        left / text right, then text left / photo right. The zig-zag is what
+        stops three portrait photographs reading as a gallery strip — each one
+        belongs to the paragraph beside it. Pairing lives here rather than in
+        `aboutPhotos.json` because the prose does; the data file holds only the
+        files and the captions. -#}
+    <div class="about-row">
+      <div class="about-row-text">
+        <p>Vinte maratonas. Três vezes abaixo de 3 horas, a melhor delas 2h58. A média dessas vinte está mais perto de 3h30.</p>
+        <p>A primeira foi 3h23. Depois vieram um monte de 3h30. Também tem tardes de 4h00, 4h10 e 4h15. As duas coisas são minhas, e a segunda é a que me deixa útil quando a prova de um atleta desanda no meio.</p>
+      </div>
+      {% set photoKey = "run" %}{% include "partials/about-photo.njk" %}
+    </div>
+    <div class="about-row about-row--reverse">
+      <div class="about-row-text">
+        <p>Três Ironman completos, o mais rápido em 10h06. Um ultra de 110 quilômetros. E todas as provas que ninguém pergunta o tempo: as que usei para testar uma carga de carboidratos, uma semana de polimento, ou um plano que depois passo para alguém.</p>
+      </div>
+      {% set photoKey = "bike" %}{% include "partials/about-photo.njk" %}
+    </div>
+    <div class="about-row">
+      <div class="about-row-text">
+        <p>Continuo competindo. Não porque falte outra medalha ao método, e sim porque o arquivo de uma prova minha é o laboratório mais barato que eu tenho.</p>
+      </div>
+      {% set photoKey = "finish" %}{% include "partials/about-photo.njk" %}
+    </div>
   </div>
 </section>
 
 <div class="wrap about-prose">
-  <section>
-    <h2>Como cheguei aqui</h2>
-    <p>Comecei como remador quando era criança, passei para a corrida e acabei no triatlo e no trail. Vinte maratonas depois, a minha melhor marca está abaixo das 3 horas, e dos três Ironman completos que fiz o melhor foi 10h06.</p>
-    <p>A Triaperformance começou com um amigo que queria correr uma maratona. Hoje são mais de 100 atletas treinados, vários deles sub-3 na maratona e finishers de Ironman completo. Não parei de competir para treinar: continuo a treinar e a competir, e isso faz parte do motivo pelo qual o método funciona.</p>
-    <p>Fora do desporto trabalho em operações. Isso explica mais sobre a forma como treino do que parece: meço, comparo com um plano, e mudo quando os dados dizem que é preciso mudar — não quando a semana ficou difícil.</p>
-  </section>
-
-  <section>
-    <h2>Como treino</h2>
-    <p>Um único serviço, sem níveis nem letras pequenas. Testes obrigatórios antes de escrever a tua primeira semana, zonas calculadas com os teus números e não com uma tabela genérica, feedback todas as segundas-feiras sem falhar, ajustes quando os pedires, e um novo teste para confirmar que o progresso é real e não uma sensação.</p>
-    <p>Os atletas descrevem esse serviço melhor do que eu: a adaptação à agenda deles e o check-in semanal são os dois temas que mais se repetem nas avaliações.</p>
-    <p><a href="/pt/calculadora-de-zonas/">Experimenta a calculadora de zonas</a> — é pública, é a mesma que uso com os meus atletas, e mostra-te concretamente como trabalho antes de falares comigo.</p>
-  </section>
 
   <section id="trainingpeaks">
     <h2>TrainingPeaks</h2>
-    <p>Sou partner da TrainingPeaks e treinador acreditado de Nível 2 na plataforma deles. Na prática isso significa duas coisas.</p>
-    <p>A primeira: a TrainingPeaks avalia e acredita os treinadores da sua plataforma, e essa acreditação é renovada todos os anos. A segunda, e é a que mais te interessa: a TrainingPeaks mantém um <strong>diretório limitado</strong> de treinadores — Coach Match — onde se entra por candidatura e avaliação. Quando um atleta preenche o questionário, a TrainingPeaks lê as respostas e encaminha-o para um treinador por afinidade. A mim encaminham-me atletas de toda a América Latina.</p>
-    <p>Dito sem rodeios: não sou eu a dizer que sou um bom treinador. É a plataforma onde trabalha a maioria dos treinadores de resistência do mundo a decidir, caso a caso, enviar-me atletas.</p>
-    <p>Publico lá também o catálogo completo de planos de treino — {{ plans.byLanguage.pt.length }} em português, e mais de 300 somando os três idiomas.</p>
+    <p>Comecei vendendo planos no marketplace deles. Depois entrei no <strong>Coach Match</strong>: o diretório restrito para onde a TrainingPeaks encaminha atletas quando alguém preenche o questionário e precisa ser combinado com um treinador.</p>
+    <p>Hoje boa parte desses encaminhamentos na região chega até mim{% if site.coachMatchLeads %}, e já conversei com mais de {{ site.coachMatchLeads }} pessoas que vieram por aí{% endif %}. É por isso que digo que trabalho em parceria com a TrainingPeaks: não como um selo na bio, mas porque o fluxo real de atletas passa por lá. Sou também <strong>treinador acreditado Nível&nbsp;2</strong> na plataforma, e essa acreditação é renovada todo ano.</p>
+    <p>Os {{ plans.byLanguage.pt.length }} planos do catálogo em português vivem nessa mesma plataforma. O coaching 1:1 também.</p>
   </section>
 
   <section>
-    <h2>Certificações</h2>
-    <ul class="cred-list">
-      {%- for item in cr.items %}
-      <li{% if item.badge %} class="has-badge"{% endif %}>
-        {%- if item.badge %}
-        <img class="cred-badge" src="{{ item.badge | v }}" alt="{{ item.badgeAlt }}" width="56" height="56" decoding="async">
-        {%- endif %}
-        <span class="cred-text">
-          <span class="cred-name">{{ item.name }}</span>
-          <span class="cred-issuer">{{ item.issuer }}</span>
-          <span class="cred-note">{{ item.note }}</span>
-        </span>
-      </li>
-      {%- endfor %}
-    </ul>
+    <h2>Papéis</h2>
+    <p class="about-papers"><span class="cred-inline">{% for item in cr.items %}{{ item.name }}{% if not loop.last %} · {% endif %}{% endfor %}</span></p>
+    <p>Eles se renovam e valem o que valem. Não são o método. O método é o teste, as zonas calculadas com os <em>seus</em> números, o check-in de segunda e o re-teste que confirma que o progresso foi real e não uma sensação.</p>
+    <p><a href="/pt/calculadora-de-zonas/">Experimente a calculadora de zonas</a> — é pública, é a mesma que uso com os meus atletas, e mostra concretamente como eu trabalho antes de você falar comigo.</p>
+  </section>
+
+  <section class="about-faq">
+    <h2>Perguntas frequentes</h2>
+    <h3>O Iván Koch está no TrainingPeaks Coach Match?</h3>
+    <p>Sim. A TrainingPeaks encaminha atletas de resistência para o roster dele através do Coach Match, o diretório restrito de treinadores da plataforma.</p>
+    <h3>Quais acreditações ele tem?</h3>
+    <p>TrainingPeaks Level 2 Accredited Coach, IRONMAN U Certified Coach, ESCI Certified Coach e Certified Stryd Coach.</p>
+    <h3>Em quais idiomas ele treina?</h3>
+    <p>Espanhol, inglês e português.</p>
   </section>
 </div>
 
 <section class="cta-final" id="contacto">
   <div class="wrap">
-    <span class="label">Começa agora</span>
-    <h2>Conta-me o teu objetivo</h2>
-    <p>Deixa-me os teus dados e entro em contacto em menos de 24 horas. Sem compromisso.</p>
+    <span class="label">Comece agora</span>
+    <h2>Conte o seu objetivo</h2>
+    <p>Deixe os seus dados e eu respondo em menos de 24 horas. Sem compromisso.</p>
     {% include "partials/contact-form.njk" %}
   </div>
 </section>

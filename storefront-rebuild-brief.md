@@ -271,7 +271,39 @@
 
 ***That progression is the claim — not the number on its own.*** *It says the coaching was real before it was a business, which is the one thing a prospect cannot verify from a price page and the one thing most coach bios cannot say.*
 
-The portrait shipped September 9 and the page has a face on it. **The story is what is still missing.** Three pages: `site/sobre-ivan`, `site/en/about`, `site/pt/sobre-ivan`. Voice: `brand-guidelines.md` §10.
+✅ **SHIPPED September 10, 2026 — the page is a memoir now, not a CV.** Three pages rebuilt natively per language: `site/sobre-ivan`, `site/en/about`, `site/pt/sobre-ivan`.
+
+**The order was the whole defect.** *It opened with a portrait, then a four-figure brag bar (20 / 3 / +100 / 46), then three essays that repeated the same PRs — medals first, person second.* **It now runs: origin → why I stayed → what I actually ran → TrainingPeaks → papers → FAQ.** *The friend who wanted a marathon opens it; the roster closes it; the twenty marathons sit in the middle where they cannot impersonate the thesis.*
+
+**Three rules the page enforces, each one a thing that was on it:**
+
+1. 🚨 **No stat component at the top. Numbers live inside sentences.** *`.about-record` and the `record` array in `credentials.json` are deleted, not hidden — nothing renders them and the data file carries a do-not-restore note.*
+2. 🔑 **One ugly number per proud number.** *The sub-3 only means something beside the 4h15, and the average of the twenty — nearer 3h30 — is the sentence an athlete can stand next to.* ⚠️ ***These were NOT in this repo and are the reason the build stopped to ask:*** *first marathon 3h23, average nearer 3h30, afternoons of 4h00 / 4h10 / 4h15, and a 110k ultra.* **Iván confirmed all of them September 10, 2026; they are now sourced and are in the page and the Person schema.**
+3. **TrainingPeaks is a pipe, not a verdict.** *The old page said "no es que yo diga que soy buen coach, es que la plataforma decide mandarme atletas" — which denies bragging while doing it.* **It now states the mechanism (Coach Match routes athletes to a matched coach) and stops.**
+
+🚨 ***The claim that was refused, and it is the same failure `linkedin-positioning.md` already records twice.*** *The draft asserted "hablé con más de 1.500 personas que llegaron así". **No file in this repo can reproduce 1,500.** The sentence ships without a number and gains one the moment a real figure exists:* `site.coachMatchLeads` *is null, the clause is conditional in all three languages, and the note in `site.json` names where the number would come from (TrainingPeaks' Coach Match dashboard, or a count of COACHMATCH rows in Twenty).*
+
+⚠️ **Athlete counts stay owned by `monthly-close/YYYY-MM.md`.** *"Alrededor de cuarenta atletas al mismo tiempo" is deliberately rounded and slow-moving so it does not need correcting every close —* `data/monthly_close/2026-08-roster.csv` *carries 47 athletes in August, 42 paying, 37 active at month end.*
+
+**The photography is the half that is not done, and the page was built not to look broken while it waits.** `site/_data/aboutPhotos.json` *has a null `hero` and an empty `stills` array; the hero figure and the stills grid render nothing until they are filled, and adding one is a data edit rather than a template change.* **The race chapter was pulled out of the prose column into the page's one washed band — it breaks a page that was otherwise white from nav to footer, and it is the surface the stills land inside.**
+
+**AEO without the swagger:** *title carries `TrainingPeaks Coach Match`; the TP section names Coach Match, Level 2 and partner in factual prose; and a* **visible, non-accordion FAQ** *answers the three entity questions.* 🔑 ***Not a `<details>`, on purpose: a person and a machine have to read the same answer, and a machine does not open a disclosure widget.***
+
+**Measured, all three languages:** overflow **0** at 390 and 1440 · one `<h1>` · **zero stat components** · Person schema intact · HTML parsed for structure after the section was moved (zero unclosed, zero mismatched) · `npm test` exit 0 · register sweep 0 lines *(its seven flags are all first-person preterites — `pensé`, `entrené`, `quedé` — which is the homograph case its own design anticipated)*.
+
+✅ **The race photography landed the same day.** *Three photos from Iván — a marathon, a bike leg in the rain, an Ironman finish — processed to 1000w/1400w in jpg and webp and committed to `site/assets/images/about/`.*
+
+**His layout, and it is the right one for three portraits:** ***alternating rows*** — text left / photo right, then photo left / text right, then text left / photo right. 🔑 *The zig-zag is what stops three tall photographs reading as a gallery strip: each one belongs to the paragraph beside it rather than to a row of its siblings.* **The reversal swaps the grid COLUMN TEMPLATE, not `order` or `direction`** — *`order` would leave the photo first in the DOM, so a screen reader and a phone would meet the picture before the paragraph it illustrates.* **On a phone the text is always first.**
+
+⚠️ **The photo column caps at 380px, and the number was measured rather than picked.** *All three originals are portrait at ~2:3, so uncapped they render ~990px tall on a 1440 screen. At 420 they came out 659px against paragraphs of one to three lines, and two of the three rows read as a photograph with a caption floating beside it. 380 gives 570px.*
+
+🚨 ***One honesty flag raised and left to Iván:*** *the Cozumel arch clock in `about-finish` reads* **10:28:02** *against the* **10h06** *the prose states. Both are true — that is gun time on a rolling start against a chip time — but a reader who does not know Ironman sees a contradiction.* **Flagged, not silently cropped.**
+
+**Captions are place and year, and Iván supplied all three the same day:** `Maratón de Buenos Aires, 2022` · `IRONMAN Florianópolis, 2022` · `IRONMAN Cozumel, 2021`. *The bike race was unidentifiable from the image and had been captioned descriptively rather than guessed at; it is now named.*
+
+🔑 ***He also supplied "2h58 PR" with the marathon photo, and it did NOT go in the caption.*** *It went into the prose, in the same sentence as the average:* **"Tres veces bajé de las 3 horas, y la mejor fue 2h58. La media de esos veinte está más cerca de 3h30."** ⚠️ **A caption is exactly where a proud number goes to stand alone, which is the highlight-reel behaviour this page was rewritten to remove** — *in the sentence it is bounded by the 3h30 two clauses later, and the page's one rule survives contact with its best number.* **`personDescription` was sharpened at the same time** — *"mejor marca 2h58" instead of "por debajo de 3 horas", in all three languages* — *because that string feeds the `Person` schema and a precise figure is a better entity fact than a bound.*
+
+**Still Iván's:** the Coach Match lead number, if he has one.
 
 ---
 

@@ -1,0 +1,25 @@
+{#- One race photo inside an alternating row. Takes `photoKey`, set by the
+    caller. Renders NOTHING when the key is missing from aboutPhotos.photos, so
+    a page keeps working if a file is pulled.
+
+    🚨 The caption is place, never a time. The times are in the prose beside it,
+    where the 4h15 sits next to the sub-3 — a caption reading "Cozumel · 10h06"
+    would rebuild the highlight reel this page was rewritten to remove.
+
+    Two widths because the column caps at 420 CSS px: 1000w covers 2×, 1400w
+    covers a wide 2×. `sizes` tells the browser the column width so a phone
+    never pulls the large file. -#}
+{%- set ph = aboutPhotos.photos[photoKey] -%}
+{%- if ph %}
+<figure class="about-photo">
+  <picture>
+    <source type="image/webp" sizes="(max-width: 860px) 92vw, 380px"
+            srcset='{{ ("/assets/images/about/" + ph.file + "-1000.webp") | v }} 1000w, {{ ("/assets/images/about/" + ph.file + "-1400.webp") | v }} 1400w'>
+    <img src="{{ ("/assets/images/about/" + ph.file + "-1000.jpg") | v }}"
+         sizes="(max-width: 860px) 92vw, 380px"
+         srcset='{{ ("/assets/images/about/" + ph.file + "-1000.jpg") | v }} 1000w, {{ ("/assets/images/about/" + ph.file + "-1400.jpg") | v }} 1400w'
+         width="1400" height="2100" alt="{{ ph.alt[lang] or ph.alt.es }}" loading="lazy" decoding="async">
+  </picture>
+  {%- if ph.caption %}<figcaption>{{ ph.caption[lang] or ph.caption.es }}</figcaption>{% endif %}
+</figure>
+{%- endif %}

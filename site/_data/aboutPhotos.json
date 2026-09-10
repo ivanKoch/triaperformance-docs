@@ -1,0 +1,45 @@
+{
+  "_note": "Race photography for the About pages. Added September 10, 2026, when the page was rebuilt from a CV into a memoir. The three photos are laid out as ALTERNATING ROWS in the race chapter — text left / photo right, then photo left / text right, then text left / photo right — and the pairing of a photo to a paragraph lives in each language's template, because the prose does. Only the files and the captions live here. Files: site/assets/images/about/, 1000w + 1400w in jpg and webp, portrait ~2:3. 🚨 CAPTIONS ARE PLACE AND YEAR, NEVER A FINISH TIME. Iván supplied '2h58 PR' with the Buenos Aires photo and it is NOT in that caption: it went into the prose instead, in the same sentence as the 3h30 average, because this page's rule is one ugly number per proud number and a caption is where a proud number goes to stand alone. ⚠️ The Cozumel arch clock in about-finish reads 10:28:02 — that is GUN time on a rolling start, against the 10h06 chip time the prose states. Both are true. Iván to decide whether to crop the clock; flagged September 10, 2026.",
+  "hero": null,
+  "photos": {
+    "run": {
+      "file": "about-run",
+      "alt": {
+        "es": "Iván Koch corriendo el Maratón de Buenos Aires en 2022",
+        "en": "Iván Koch running the Buenos Aires Marathon in 2022",
+        "pt": "Iván Koch correndo a Maratona de Buenos Aires em 2022"
+      },
+      "caption": {
+        "es": "Maratón de Buenos Aires, 2022",
+        "en": "Buenos Aires Marathon, 2022",
+        "pt": "Maratona de Buenos Aires, 2022"
+      }
+    },
+    "bike": {
+      "file": "about-bike",
+      "alt": {
+        "es": "Iván Koch en el segmento de ciclismo del IRONMAN Florianópolis 2022, bajo lluvia",
+        "en": "Iván Koch on the bike leg of IRONMAN Florianópolis 2022, in the rain",
+        "pt": "Iván Koch no segmento de ciclismo do IRONMAN Florianópolis 2022, na chuva"
+      },
+      "caption": {
+        "es": "IRONMAN Florianópolis, 2022",
+        "en": "IRONMAN Florianópolis, 2022",
+        "pt": "IRONMAN Florianópolis, 2022"
+      }
+    },
+    "finish": {
+      "file": "about-finish",
+      "alt": {
+        "es": "Iván Koch cruzando la meta del IRONMAN Cozumel en 2021",
+        "en": "Iván Koch crossing the finish line at IRONMAN Cozumel in 2021",
+        "pt": "Iván Koch cruzando a linha de chegada do IRONMAN Cozumel em 2021"
+      },
+      "caption": {
+        "es": "IRONMAN Cozumel, 2021",
+        "en": "IRONMAN Cozumel, 2021",
+        "pt": "IRONMAN Cozumel, 2021"
+      }
+    }
+  }
+}

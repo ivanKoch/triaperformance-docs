@@ -13,18 +13,13 @@
 }
 .about-portrait { margin: 0; }
 .about-portrait img { display: block; width: 100%; height: auto; border-radius: 8px; background: var(--wash); }
+/* The two paragraphs under the lede are the opening of the story, not caption
+   text. Without this they fell back to the base body size and read as a
+   footnote to their own first sentence. */
+.about-hero p:not(.about-lede) { font-size: 17px; line-height: 1.65; max-width: 60ch; margin-top: 14px; }
+
 .about-lede { font-size: 20px; line-height: 1.55; max-width: 60ch; margin-top: 16px; color: var(--ink); }
 @media (max-width: 640px) { .about-lede { font-size: 17px; } }
-
-/* Record figures. `.about-record` is the page's one washed section (§3). */
-.about-record { padding: 40px 0; background: var(--wash); border-top: 1px solid var(--mist); border-bottom: 1px solid var(--mist); }
-.record-grid { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin: 0; }
-.record-grid li { display: flex; flex-direction: column; }
-.record-figure { font-size: 40px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; color: var(--blue); }
-.record-label { font-size: 15px; font-weight: 700; margin-top: 6px; }
-.record-note { font-size: 13px; color: var(--slate); margin-top: 4px; line-height: 1.45; }
-@media (max-width: 860px) { .record-grid { grid-template-columns: 1fr 1fr; gap: 28px; } }
-@media (max-width: 420px) { .record-grid { grid-template-columns: 1fr; } .record-figure { font-size: 32px; } }
 
 /* Prose. 65ch per §4 — this page is read, not scanned, so the reading measure
    is correct here (unlike the blog listing, where it was the Aug 25 bug). */
@@ -53,3 +48,97 @@
 .cred-name { font-size: 17px; font-weight: 700; }
 .cred-issuer { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue); margin-top: 4px; }
 .cred-note { font-size: 15px; color: var(--slate); margin-top: 6px; line-height: 1.5; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE MEMOIR REBUILD, September 10, 2026.
+
+   The page was a CV: portrait, then a four-figure brag bar (20 / 3 / +100 / 46),
+   then three essays repeating the same PRs. The order was the problem — medals
+   first, person second. It now runs origin → why I stayed → what I actually ran
+   → TrainingPeaks → papers, and **there is no stat component at the top any
+   more**. Numbers live inside sentences. `.about-record` and its `record` array
+   in credentials.json are retired; nothing renders them.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* The hero photo slot. Empty until the race photography exists, and when it is
+   empty the portrait carries the top of the page exactly as before. */
+.about-hero--photo { padding-top: 0; }
+.about-figure-hero { margin: 0 0 40px; }
+.about-figure-hero img {
+  display: block; width: 100%; height: auto; max-height: 62vh;
+  object-fit: cover; object-position: center 35%; background: var(--wash);
+}
+.about-hero--photo .wrap { grid-template-columns: minmax(0, 1fr); }
+.about-hero--photo .about-portrait { display: none; }
+
+/* The credential row, demoted. It was a spec sheet with 56px badges reading as
+   the point of the page; it is now a quiet line under a chapter that says the
+   papers are not the method. The full list with issuers and notes stays — it is
+   what `hasCredential` in the Person schema is built from — but it no longer
+   opens with an image the size of a headline. */
+.about-papers { font-size: 17px; max-width: 65ch; }
+.about-papers .cred-inline { font-weight: 700; }
+
+/* The FAQ. Visible, not an accordion: it exists so a person and a machine read
+   the same answer, and a machine does not open a <details>. */
+.about-faq { border-top: 1px solid var(--mist); margin-top: 8px; }
+.about-faq h3 {
+  font-size: 17px; margin: 28px 0 6px;
+}
+.about-faq p { max-width: 65ch; color: var(--slate); font-size: 16px; }
+
+/* The race chapter is the page's one washed band. Two jobs: it breaks a page
+   that is otherwise an unbroken white field from nav to footer, and it is where
+   the photography lands — so when the stills arrive they arrive inside a
+   surface that already exists rather than on top of nothing. Same full-bleed
+   section + inner .wrap pattern as .plan-prose. */
+.about-races { background: var(--wash); padding: 56px 0; margin-top: 56px; }
+.about-races h2 { margin-bottom: 16px; }
+.about-races p { max-width: 65ch; margin-bottom: 16px; font-size: 17px; }
+.about-races .about-stills figure figcaption { color: var(--slate); }
+
+/* ── The race chapter's alternating rows ──────────────────────────────────
+   Iván's layout, September 10, 2026: text left / photo right, then photo left
+   / text right, then text left / photo right. The zig-zag is what stops three
+   portrait photographs reading as a gallery strip — each one belongs to the
+   paragraph beside it rather than to a row of its siblings.
+
+   The photo column caps at 380px, and the number was measured rather than
+   picked. All three originals are portrait at roughly 2:3, so an uncapped
+   half-width photo on a 1440 screen is ~990px tall and the chapter becomes a
+   scroll. At 420 the image rendered 659px tall against paragraphs of one to
+   three lines, and two of the three rows read as a photograph with a caption
+   floating beside it. 380 gives 570px — still tall enough to hold a person in
+   motion, short enough that the text is the other half of the row rather than
+   an annotation. */
+.about-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 380px);
+  gap: 44px; align-items: center; margin-bottom: 56px;
+}
+.about-row:last-child { margin-bottom: 0; }
+/* The reversed row swaps the COLUMN TEMPLATE rather than using `direction` or
+   `order`: order would leave the photo first in the DOM, so a screen reader
+   and a phone would meet the picture before the paragraph it illustrates. */
+.about-row--reverse { grid-template-columns: minmax(240px, 380px) minmax(0, 1fr); }
+.about-row--reverse .about-row-text { grid-column: 2; grid-row: 1; }
+.about-row--reverse .about-photo { grid-column: 1; grid-row: 1; }
+.about-row-text p { max-width: 60ch; }
+.about-row-text p:last-child { margin-bottom: 0; }
+
+.about-photo { margin: 0; }
+.about-photo img {
+  display: block; width: 100%; height: auto; border-radius: 8px;
+  background: var(--mist);
+}
+.about-photo figcaption {
+  font-size: 13px; color: var(--slate); margin-top: 10px; line-height: 1.45;
+}
+
+/* One column below 860px, and the TEXT always comes first — on a phone the
+   paragraph is the thing being read and the photograph is what confirms it. */
+@media (max-width: 860px) {
+  .about-row, .about-row--reverse { grid-template-columns: 1fr; gap: 24px; margin-bottom: 44px; }
+  .about-row--reverse .about-row-text,
+  .about-row--reverse .about-photo { grid-column: 1; grid-row: auto; }
+  .about-photo { max-width: 380px; }
+}

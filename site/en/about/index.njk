@@ -3,19 +3,31 @@ layout: layouts/base.njk
 lang: en
 transKey: about
 pageCss: about.css
-title: "About Iván Koch — Triathlon and running coach"
-description: "Iván Koch: TrainingPeaks Level 2 Accredited Coach, ESCI Certified Coach, IRONMAN U Certified Coach. 20 marathons, 3 Ironmans, 100+ athletes coached."
+title: "Iván Koch — Triathlon and running coach | TrainingPeaks Coach Match"
+description: "Iván Koch, endurance coach in Spanish, English and Portuguese. TrainingPeaks Level 2 and part of Coach Match. 20 marathons, 3 Ironman, a 110k ultra."
 ogTitle: "About Iván Koch"
-personDescription: "Triathlon and running coach. TrainingPeaks Level 2 Accredited Coach and a member of the TrainingPeaks Coach Match directory. 20 marathons raced with a personal best under 3 hours; 3 full Ironmans, best time 10:06; more than 100 athletes coached in Spanish, English and Portuguese."
+personDescription: "Triathlon and running coach. TrainingPeaks Level 2 Accredited Coach and part of the TrainingPeaks Coach Match directory. 20 marathons run, best time 2h58; 3 full Ironman finishes, best time 10h06; a 110k ultra; coaches in Spanish, English and Portuguese."
 ---
+{#- See site/sobre-ivan/index.njk for the three rules this page enforces and why
+    the order changed. Written natively per language, not translated — the
+    Spanish page is the reference for STRUCTURE, never for wording. -#}
 {%- set cr = credentials.en -%}
 
-<section class="about-hero">
+{%- if aboutPhotos.hero %}
+<figure class="about-figure-hero">
+  <img src="{{ ("/assets/images/about/" + aboutPhotos.hero.file) | v }}" alt="{{ aboutPhotos.hero.alt.en or aboutPhotos.hero.alt.es }}"
+       width="2000" height="1125" fetchpriority="high" decoding="async">
+</figure>
+{%- endif %}
+
+<section class="about-hero{% if aboutPhotos.hero %} about-hero--photo{% endif %}">
   <div class="wrap">
   <div>
     <span class="label">About the coach</span>
     <h1>Iván Koch</h1>
-    <p class="about-lede">I have coached endurance athletes for more than three years, in Spanish, English and Portuguese. Before I coached anyone, I raced 20 marathons and finished 3 Ironmans. Both matter: I know what the data says, and I know what hour four feels like.</p>
+    <p class="about-lede">Endurance coach, in Spanish, English and Portuguese. Before that, the friend who wrote your plan.</p>
+    <p>For a long time I thought helping someone wasn't a one-off gesture — it was something you were supposed to be doing. When I coached my first athlete, a friend who wanted a first marathon, I wasn't building a business. I was handing over what I already used on myself.</p>
+    <p>That is still the job. Today it's around forty athletes at once.</p>
   </div>
   <figure class="about-portrait">
     <picture>
@@ -26,67 +38,90 @@ personDescription: "Triathlon and running coach. TrainingPeaks Level 2 Accredite
   </div>
 </section>
 
-<section class="about-record">
+<div class="wrap about-prose">
+  <section>
+    <h2>How it started</h2>
+    <p>The deal was simple: I brought the plan, he brought the legs, and the marathon stopped being an idea. It worked well enough that the next one wasn't a friend.</p>
+    <p>The reason never changed. The scale did. Monday is now the same check-in, forty times over, in three languages.</p>
+  </section>
+
+  <section>
+    <h2>Why I stayed</h2>
+    <p>I have a finance degree and an MBA, and I work in operations. I like that part. But what kept me in the sport wasn't “follow the science” as a slogan — it was doing the arithmetic while I run.</p>
+    <p>An example I use a lot: 4×4s for VO2max. Knowing they're the protocol isn't enough. You have to look at whether heart rate actually crossed threshold, how long it stayed up there, and whether the fourth rep was still the work or had turned into survival. That calculation, made on the road, is the same one I make later with an athlete's file.</p>
+    <p>Some athletes want to see it. Others just want to know what Tuesday looks like. Both are fine — in both cases I've already done the interpreting, and data that arrives raw leaves as next week's training.</p>
+  </section>
+
+</div>
+
+{#- The race chapter is pulled OUT of `.about-prose` and given the page's
+    one washed band. Two jobs at once: it breaks a page that is otherwise
+    an unbroken white field from nav to footer, and it is where the race
+    photography lands — so when the stills arrive they arrive inside a
+    surface that already exists rather than on top of nothing. -#}
+<section class="about-races">
   <div class="wrap">
-    <ul class="record-grid">
-      {%- for r in cr.record %}
-      <li>
-        <span class="record-figure">{{ r.figure | replace("{reviewCount}", site.reviewCount) }}</span>
-        <span class="record-label">{{ r.label }}</span>
-        <span class="record-note">{{ r.note }}</span>
-      </li>
-      {%- endfor %}
-    </ul>
+    <h2>What I've actually run</h2>
+    {#- ALTERNATING ROWS, Iván's layout: text left / photo right, then photo
+        left / text right, then text left / photo right. The zig-zag is what
+        stops three portrait photographs reading as a gallery strip — each one
+        belongs to the paragraph beside it. Pairing lives here rather than in
+        `aboutPhotos.json` because the prose does; the data file holds only the
+        files and the captions. -#}
+    <div class="about-row">
+      <div class="about-row-text">
+        <p>Twenty marathons. Three times under 3 hours, the best of them 2h58. The average across those twenty is closer to 3h30.</p>
+        <p>The first was 3h23. Then came a lot of 3h30s. There are also afternoons of 4h00, 4h10 and 4h15. Both of those are mine, and the second set is what makes me useful when an athlete&rsquo;s race falls apart halfway through.</p>
+      </div>
+      {% set photoKey = "run" %}{% include "partials/about-photo.njk" %}
+    </div>
+    <div class="about-row about-row--reverse">
+      <div class="about-row-text">
+        <p>Three full Ironman finishes, the fastest in 10h06. A 110-kilometre ultra. And all the races nobody asks the time for: the ones I used to test a carbohydrate load, a taper week, or a plan I later hand to someone else.</p>
+      </div>
+      {% set photoKey = "bike" %}{% include "partials/about-photo.njk" %}
+    </div>
+    <div class="about-row">
+      <div class="about-row-text">
+        <p>I still race. Not because the method needs another medal, but because my own race file is the cheapest laboratory I have.</p>
+      </div>
+      {% set photoKey = "finish" %}{% include "partials/about-photo.njk" %}
+    </div>
   </div>
 </section>
 
 <div class="wrap about-prose">
-  <section>
-    <h2>How I got here</h2>
-    <p>I started as a rower as a kid, moved to running, and ended up in triathlon and trail. Twenty marathons later my personal best is under 3 hours, and of the three full Ironmans I have finished, the fastest was 10:06.</p>
-    <p>Triaperformance started with one friend who wanted to run a marathon. It is now more than 100 athletes coached, several of them sub-3 marathoners and full-Ironman finishers. I did not stop racing in order to coach — I still train and still race, and that is part of why the method holds up.</p>
-    <p>Outside sport I work in operations. That explains more about how I coach than it sounds like it should: I measure, I compare against a plan, and I change course when the data says to — not when the week got hard.</p>
-  </section>
-
-  <section>
-    <h2>How I coach</h2>
-    <p>One service, no tiers and no fine print. Testing before I write your first week, zones built from your numbers rather than a generic table, feedback every Monday without fail, adjustments whenever you ask for them, and a re-test to prove the progress is real instead of a feeling.</p>
-    <p>My athletes describe that service better than I do: adapting to their schedule and the weekly check-in are the two themes that come up most in the reviews.</p>
-    <p><a href="/en/training-zones-calculator/">Try the zones calculator</a> — it is public, it is the same one I use with my athletes, and it shows you concretely how I work before you ever talk to me.</p>
-  </section>
 
   <section id="trainingpeaks">
     <h2>TrainingPeaks</h2>
-    <p>I am a TrainingPeaks partner and a Level 2 Accredited coach on their platform. In practice that means two things.</p>
-    <p>First: TrainingPeaks reviews and accredits the coaches on its platform, and that accreditation is renewed every year. Second, and this is the part that matters to you: TrainingPeaks maintains a <strong>limited directory</strong> of coaches — Coach Match — which you enter by application and review. When an athlete fills in the questionnaire, TrainingPeaks reads the answers and refers them to a coach by fit. They refer athletes to me from across Latin America and beyond.</p>
-    <p>Put plainly: this is not me saying I am a good coach. It is the platform most of the world's endurance coaches work on deciding, case by case, to send me athletes.</p>
-    <p>I also publish my full training plan catalogue there — {{ plans.byLanguage.en.length }} in English, and more than 300 across all three languages.</p>
+    <p>I started by selling plans in their marketplace. Then I joined <strong>Coach Match</strong>: the limited directory TrainingPeaks refers athletes into when someone completes the questionnaire and has to be paired with a coach.</p>
+    <p>A good share of those referrals in the region now reach me{% if site.coachMatchLeads %}, and I have spoken with more than {{ site.coachMatchLeads }} people who arrived that way{% endif %}. That's why I say I work in partnership with TrainingPeaks: not as a badge in a bio, but because the real flow of athletes runs through it. I'm also a <strong>Level&nbsp;2 Accredited Coach</strong> on the platform, and that accreditation is renewed every year.</p>
+    <p>The {{ plans.byLanguage.en.length }} English plans in the catalogue live on that same platform. So does the 1:1 coaching.</p>
   </section>
 
   <section>
-    <h2>Certifications</h2>
-    <ul class="cred-list">
-      {%- for item in cr.items %}
-      <li{% if item.badge %} class="has-badge"{% endif %}>
-        {%- if item.badge %}
-        <img class="cred-badge" src="{{ item.badge | v }}" alt="{{ item.badgeAlt }}" width="56" height="56" decoding="async">
-        {%- endif %}
-        <span class="cred-text">
-          <span class="cred-name">{{ item.name }}</span>
-          <span class="cred-issuer">{{ item.issuer }}</span>
-          <span class="cred-note">{{ item.note }}</span>
-        </span>
-      </li>
-      {%- endfor %}
-    </ul>
+    <h2>Papers</h2>
+    <p class="about-papers"><span class="cred-inline">{% for item in cr.items %}{{ item.name }}{% if not loop.last %} · {% endif %}{% endfor %}</span></p>
+    <p>They renew, and they're worth what they're worth. They are not the method. The method is the test, zones built from <em>your</em> numbers, the Monday check-in, and the re-test that confirms the progress was real rather than a feeling.</p>
+    <p><a href="/en/training-zones-calculator/">Try the zone calculator</a> — it's public, it's the same one I use with my athletes, and it shows you concretely how I work before you talk to me.</p>
+  </section>
+
+  <section class="about-faq">
+    <h2>Frequently asked</h2>
+    <h3>Is Iván Koch on TrainingPeaks Coach Match?</h3>
+    <p>Yes. TrainingPeaks refers endurance athletes to his roster through Coach Match, the platform's limited coach directory.</p>
+    <h3>What accreditations does he hold?</h3>
+    <p>TrainingPeaks Level 2 Accredited Coach, IRONMAN U Certified Coach, ESCI Certified Coach and Certified Stryd Coach.</p>
+    <h3>What languages does he coach in?</h3>
+    <p>Spanish, English and Portuguese.</p>
   </section>
 </div>
 
-<section class="cta-final" id="contact">
+<section class="cta-final" id="contacto">
   <div class="wrap">
-    <span class="label">Start now</span>
+    <span class="label">Start here</span>
     <h2>Tell me your goal</h2>
-    <p>Leave your details and I will get back to you within 24 hours. No commitment.</p>
+    <p>Leave your details and I'll get back to you within 24 hours. No commitment.</p>
     {% include "partials/contact-form.njk" %}
   </div>
 </section>
