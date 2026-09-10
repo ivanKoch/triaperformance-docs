@@ -86,7 +86,9 @@
         "subject": "={{ $json.subject }}",
         "emailFormat": "text",
         "text": "={{ $json.body }}",
-        "options": {}
+        "options": {
+          "appendAttribution": false
+        }
       },
       "credentials": {
         "smtp": {

@@ -115,7 +115,8 @@
                 "value": "=<mailto:coach@triaperformance.com?subject=unsubscribe>, <{{ $('Loop Over Items').item.json.unsubscribe_url }}>"
               }
             ]
-          }
+          },
+          "appendAttribution": false
         }
       },
       "type": "n8n-nodes-base.emailSend",

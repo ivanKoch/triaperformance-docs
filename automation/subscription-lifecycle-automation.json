@@ -322,7 +322,9 @@
         "subject": "={{ $json.subject }}",
         "emailFormat": "text",
         "text": "={{ $json.body }}",
-        "options": {}
+        "options": {
+          "appendAttribution": false
+        }
       },
       "credentials": {
         "smtp": {
@@ -645,7 +647,9 @@
         "subject": "={{ $json.subject }}",
         "emailFormat": "text",
         "text": "={{ $json.text }}",
-        "options": {}
+        "options": {
+          "appendAttribution": false
+        }
       },
       "credentials": {
         "smtp": {
@@ -1218,7 +1222,9 @@
         "subject": "={{ $json.subject }}",
         "emailFormat": "text",
         "text": "={{ $json.body }}",
-        "options": {}
+        "options": {
+          "appendAttribution": false
+        }
       },
       "credentials": {
         "smtp": {

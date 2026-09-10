@@ -232,7 +232,8 @@
         "toEmail": "={{ $('Webhook - Contact Form').item.json.body.email }}",
         "subject": "Recibimos tu mensaje - Triaperformance",
         "emailFormat": "text",
-        "text": "=Hola {{ $('Webhook - Contact Form').item.json.body.name.split(' ')[0] }},\n\nGracias por escribirnos. Recibimos tu consulta sobre {{ $('Webhook - Contact Form').item.json.body.sport }} y te vamos a contactar por WhatsApp en menos de 24 horas.\n\nMientras tanto, mira esta guia gratuita de zonas de entrenamiento: https://triaperformance.com/guias/zonas-de-entrenamiento.pdf\n\nIvan Koch - Triaperformance"
+        "text": "=Hola {{ $('Webhook - Contact Form').item.json.body.name.split(' ')[0] }},\n\nGracias por escribirnos. Recibimos tu consulta sobre {{ $('Webhook - Contact Form').item.json.body.sport }} y te vamos a contactar por WhatsApp en menos de 24 horas.\n\nMientras tanto, mira esta guia gratuita de zonas de entrenamiento: https://triaperformance.com/guias/zonas-de-entrenamiento.pdf\n\nIvan Koch - Triaperformance",
+        "options": { "appendAttribution": false }
       },
       "credentials": {
         "smtp": { "id": "REPLACE_ME", "name": "Gmail SMTP" }

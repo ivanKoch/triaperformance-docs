@@ -51,7 +51,7 @@ Two questions — where (home / gym) × foam roller (yes / no) — build one of 
 
 **2. Estimated time to completion**, on the home screen next to the set count. Timed work and rest are exact; a rep-based set is assumed at **40 seconds**, stated in the engine and prefixed `≈`.
 
-🚨 ***An unlooked-for finding, and it belongs to Iván, not to the tool: the home + roller routine estimates at ≈52 minutes.*** *That is 29 sets across warm-up, strength and foam rolling, and the dosing above is* **twice a week on easy endurance days**. *Nothing about the estimate is wrong — the routine really is that long, and the figure just made it visible for the first time.* **Worth deciding whether that is the session he intends to prescribe** (the gym variants and the Achilles tool land at ≈45 min on the same basis). *Not changed here: the length is a coaching decision, not an engine one.*
+🚨 ***An unlooked-for finding, and it belongs to Iván, not to the tool: the home + roller routine estimates at ≈52 minutes.*** *That is 29 sets across warm-up, strength and foam rolling, and the dosing above is* **twice a week on easy endurance days**. *Nothing about the estimate is wrong — the routine really is that long, and the figure just made it visible for the first time.* **Worth deciding whether that is the session he intends to prescribe** (the gym variants and the Achilles tool land at ≈45 min on the same basis). *Not changed here: the length is a coaching decision, not an engine one.* ✅ **Decided — Iván, September 10, 2026: yes, this is the session he means to prescribe.**
 
 ## Open
 

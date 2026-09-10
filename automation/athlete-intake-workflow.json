@@ -296,7 +296,9 @@
         "subject": "=Briefing: {{ $('Normalize Intake').item.json.full_name }} ({{ $('Normalize Intake').item.json.sport }})",
         "emailFormat": "text",
         "text": "={{ $('Parse Briefing').item.json.briefing }}\n\n----------------------------------------\nAtleta: {{ $('Normalize Intake').item.json.full_name }}\nEmail: {{ $('Normalize Intake').item.json.email }}\nTelefono: {{ $('Normalize Intake').item.json.phone }}\nTwenty: {{ $('Find Person in Twenty').item.json.data?.people?.[0]?.id ? 'http://100.70.89.17:3000/object/person/' + $('Find Person in Twenty').item.json.data.people[0].id : 'NO ESTA EN TWENTY -- revisar' }}\nIntake id: {{ $('Parse Briefing').item.json.intake_id }}\nModelo: {{ $('Parse Briefing').item.json.briefing_model }}",
-        "options": {}
+        "options": {
+          "appendAttribution": false
+        }
       },
       "credentials": {
         "smtp": {

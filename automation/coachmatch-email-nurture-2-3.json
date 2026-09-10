@@ -227,7 +227,9 @@
         "toEmail": "={{ $json.email }}",
         "subject": "={{ $json.firstname }}, no busques un plan — busca un coach",
         "html": "=<p>Hola {{ $json.firstname }},</p>\n\n<p>Siguiendo mi correo de ayer, quiero contarte algo que aprendí entrenando a docenas de atletas.</p>\n\n<p>Un plan perfecto en papel no sirve de nada si no se adapta a tu realidad. Un PDF no sabe si tuviste una reunión hasta tarde, si dormiste mal, o si hoy amaneciste con más energía de lo normal.</p>\n\n<p>Por eso lo que te ofrecía ayer no es \"cargarte rutinas en TrainingPeaks\". Es comunicación constante y feedback real, incluido siempre, sin costo extra:</p>\n\n<ul>\n  <li>¿Surgió un viaje imprevisto? Ajustamos el plan.</li>\n  <li>¿No entendiste una sesión? Me escribes y lo resolvemos.</li>\n  <li>¿Necesitas un empujón? Ahí estaré.</li>\n</ul>\n\n<p>Si lees las <a href=\"https://maps.app.goo.gl/Dfw4166sxw3WGwA3A\">Reseñas de Google</a>, verás que lo que más valoran mis atletas no son los números, sino justamente eso: la adaptación a su agenda y el check-in semanal.</p>\n\n<p>No quiero venderte una hoja de cálculo. Quiero ser parte de tu proceso.</p>\n\n<p>Sigamos por <a href=\"https://wa.me/573105437088\">WhatsApp</a> y vemos cómo adaptar esto a tus horarios.</p>\n\n<p>Saludos,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",
-        "options": {}
+        "options": {
+          "appendAttribution": false
+        }
       },
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
@@ -264,7 +266,9 @@
         "toEmail": "={{ $json.email }}",
         "subject": "={{ $json.firstname }}, ¿sigues buscando coach? (un regalo, sin compromiso)",
         "html": "=<p>Hola {{ $json.firstname }},</p>\n\n<p>Imagino que estás ocupado, o quizás ya encontraste el coach que buscabas. Sin problema.</p>\n\n<p>Pero no quiero que te vayas con las manos vacías. En Triaperformance creemos en aportar valor desde el día uno, seas atleta oficial o no.</p>\n\n<p>Elige la guía que más te sirva hoy y es tuya:</p>\n\n<ul>\n  <li><a href=\"https://triaperformance.com/guias/pre-entreno.pdf\">Guía de bolsillo para el pre-entreno</a> — qué comer antes de entrenar según el tiempo que tengas.</li>\n  <li><a href=\"https://triaperformance.com/guias/intervalos.pdf\">Manual para sobrevivir a los intervalos</a> — herramientas para fortalecer tu mente cuando las piernas ya no responden.</li>\n  <li><a href=\"https://triaperformance.com/guias/zonas-de-entrenamiento.pdf\">Guía rápida de zonas de entrenamiento</a> — deja de entrenar a ciegas y define tus ritmos exactos.</li>\n</ul>\n\n<p>Haz clic en la que prefieras y es tuya al instante. Es mi forma de agradecerte por haberme contactado.</p>\n\n<p>Y si en algún momento quieres retomar la conversación, aquí me tienes: <a href=\"https://wa.me/573105437088\">WhatsApp</a>.</p>\n\n<p>Un abrazo,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",
-        "options": {}
+        "options": {
+          "appendAttribution": false
+        }
       },
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
@@ -353,7 +357,9 @@
         "toEmail": "={{ $json.email }}",
         "subject": "={{ $json.firstname }}, não procure um plano — procure um treinador",
         "html": "=<p>Olá {{ $json.firstname }},</p>\n\n<p>Seguindo o meu email de ontem, queria te contar uma coisa que aprendi treinando dezenas de atletas.</p>\n\n<p>Um plano perfeito no papel não serve de nada se não se adapta à sua realidade. Um PDF não sabe que você teve reunião até tarde, que dormiu mal, ou que hoje acordou com mais energia do que o normal.</p>\n\n<p>Por isso o que eu te oferecia ontem não é \"subir treinos no TrainingPeaks\". É comunicação constante e feedback de verdade, sempre incluído, sem custo extra:</p>\n\n<ul>\n  <li>Apareceu uma viagem de última hora? A gente ajusta o plano.</li>\n  <li>Não entendeu uma sessão? Você me escreve e resolvemos.</li>\n  <li>Precisa de um empurrão? Estarei ali.</li>\n</ul>\n\n<p>Se você ler as <a href=\"https://maps.app.goo.gl/Dfw4166sxw3WGwA3A\">avaliações no Google</a>, vai ver que o que os meus atletas mais valorizam não são os números — é exatamente isso: a adaptação à agenda deles e o check-in semanal.</p>\n\n<p>Não quero te vender uma planilha. Quero fazer parte do seu processo.</p>\n\n<p>Seguimos no <a href=\"https://wa.me/573105437088\">WhatsApp</a> e vemos como encaixar isso nos seus horários. (E se a questão for a língua, o All-Access que te mencionei ontem continua de pé, todo em português.)</p>\n\n<p>Abraço,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",
-        "options": {}
+        "options": {
+          "appendAttribution": false
+        }
       },
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
@@ -377,7 +383,9 @@
         "toEmail": "={{ $json.email }}",
         "subject": "={{ $json.firstname }}, e se o problema for a língua?",
         "html": "=<p>Olá {{ $json.firstname }},</p>\n\n<p>Imagino que você esteja ocupado, ou que já tenha encontrado o treinador que procurava. Sem problema nenhum.</p>\n\n<p>Mas se o que te segurou foi eu ter dito que o acompanhamento 1:1 é em espanhol ou inglês, então vale um último email — porque para isso eu tenho a resposta certa.</p>\n\n<p><strong>Triaperformance All-Access, 29,99 USD por mês, inteiramente em português.</strong></p>\n\n<ul>\n  <li><strong>Os 53 planos em português</strong>: 28 de corrida, 9 de ciclismo, 8 de triatlo, 4 de natação e 4 de duatlo. Troque de plano quantas vezes quiser, sem custo — terminou um bloco de 10k e quer partir para a meia, é só trocar.</li>\n  <li><strong>TrainingPeaks Premium incluído.</strong> Sozinho custa 19,95 USD/mês, ou seja, mais de metade do preço da assinatura.</li>\n  <li><strong>13 ferramentas na Área de Membros</strong>, todas em português e todas montadas na hora, no celular: as suas sete zonas nos três esportes, ativação e mobilidade que se adaptam ao seu dia, rotinas de carga progressiva para joelho, aquiles e ombro de nadador, core para quarto de hotel, configuração do Garmin campo a campo, e o guia de carga de treino (TSS, CTL, ATL e o PMC) explicado direito. Subo ferramentas novas quase toda semana.</li>\n  <li><strong>Suporte meu por escrito, em português.</strong> Dúvida sobre uma ferramenta, sobre as suas zonas ou sobre qual plano escolher: me escreve que eu respondo.</li>\n</ul>\n\n<p>Comparado com o que você já ia gastar: só o TrainingPeaks Premium mensal são 19,95 USD, e um plano avulso costuma sair entre 40 e 50 USD. O All-Access custa 29,99 USD e inclui os dois, mais tudo o que está acima.</p>\n\n<p><a href=\"https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-34199d662d4a\"><strong>Assinar o All-Access — 29,99 USD/mês</strong></a><br>\n<em>No checkout da TrainingPeaks o produto aparece como \"Acesso Total: Planos de Treino\" — é este mesmo. Cancela quando quiser.</em></p>\n\n<p>E se preferir retomar a conversa sobre o acompanhamento 1:1, estou aqui: <a href=\"https://wa.me/573105437088\">WhatsApp</a>.</p>\n\n<p>Um abraço,<br>\nIván Koch — Head Coach, Triaperformance<br>\nTrainingPeaks Partner Coach Level 2 · IRONMAN U Certified</p>",
-        "options": {}
+        "options": {
+          "appendAttribution": false
+        }
       },
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,

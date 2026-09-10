@@ -8,6 +8,75 @@
 
 ---
 
+## Closed — September 10, 2026 (six items closed on Iván's word)
+
+### Decide whether the knee routine is the session you mean to prescribe
+
+**Closed September 10, 2026 — Iván: yes, already decided and never struck.** *`knee-strength-brief.md` updated the same day.*
+
+**The original item, preserved:**
+
+- [ ] 🆕 **Decide whether the knee routine is the session you mean to prescribe.** *(Opened September 8, 2026. Home doc: `knee-strength-brief.md` §Athlete feedback.)* **`/members/rodillas/` home + roller now states ≈52 minutes** — 29 sets across warm-up, strength and foam rolling — against its own dosing line of **twice a week on easy endurance days**. *(Achilles ≈45, shoulder ≈38, cyclist core ≈26.)* 🔑 ***Nothing is wrong with the figure. The routines have always been that long; the time estimate added the same day is simply the first thing that ever said so out loud*** — *which is the useful half of shipping it.* **A coaching call, deliberately not taken in the build session.**
+
+### `Recursos` has no page of its own
+
+**Closed September 10, 2026 — won't build, Iván's call: `Recursos` stays a menu-only dropdown, and that is fine.** *The lead-magnet half of its argument closed the same day for its own reason (next entry).*
+
+**The original item, preserved:**
+
+- [ ] **`Recursos` has no page of its own.** *(Aug 12, 2026: it now has a first piece of real content waiting for it — the TSS/PMC explainer, **NEXT #11**. Pointer only; that item owns the scope.)* It renders as a menu-opener, not a link, because a dropdown parent pointing nowhere real is worse than one that doesn't pretend to. **A real `/recursos/` hub is the proper fix, and it would double as the public landing page for the lead magnets** — the small-slot item below records that there is currently nowhere public to capture an email at all. One page, three languages, and it closes both.
+
+### Public lead-magnet landing page with email capture
+
+**Closed September 10, 2026 — Iván's call.** ⚠️ *Recorded so nobody reads it as "verified": bare `/guias/` still returns **404** on the live site (checked in a browser, September 10 — the PDF redirects under it work, the index does not). **It does not matter:** nothing in `site/` or `automation/` links to it, and the job this item existed for — a public page that captures an email and starts a sequence — is done by the public zones calculator and the public runner core (`/api/tool-lead`, live September 9).* The Sept 8 note below also carries the calculator-library shape decision (separate URLs per tool), kept here.
+
+**The original item, preserved:**
+
+- [ ] **Public lead-magnet landing page with email capture** — the 3 Spanish lead magnets each have an 8-email nurture sequence attached, but since the migration there is no public page to capture an email on: bare `/guias/` 404s, `/members/guias/` is gated + `noindex`, and the only public path is a direct PDF link that captures nothing. Any external campaign (GBP posts, IG bio, TP listings) currently has nowhere to send cold traffic that starts a sequence. (Found Aug 2, 2026; Iván taking this next.)
+  ⚠️ ***Sharpened September 8, 2026, and it now has a second reason to exist that does not depend on the lead magnets at all.*** *`Recursos` in the nav is `menuOnly` — a dropdown parent with no page behind it — and the pace converter took it to six rows in every language (Blog, the converter, the zones hub, its three sport pages). **There are now two free public tools and a blog sitting behind a menu label that leads nowhere**, which is the cheapest cold-traffic destination this site owns and it cannot be linked to.* **Build `/recursos/` (+ `/en/resources/`, `/pt/recursos/`) as the one hub: the two calculators, the blog, and the guides with the email capture on them.** *That is a single page per language that closes this item and gives every future calculator a home to be listed on, rather than a fifth nav row.*
+  🔑 ***And it settles the shape of the calculator library, which was Iván's actual question on September 8.*** *He asked whether the finish-time, altitude-equivalent and heat-equivalent calculators he wants next should live as one multi-tool page or as separate ones.* **Separate URLs, listed on `/recursos/` — same reasoning as `zones-calculator-brief.md` §4: `calculadora ritmo altitud` and `conversor min km millas` are different searches with different intent, and one page can only win one head term.** *The line between "one tool" and "two tools" is intent, not subject matter: the unit converter and the treadmill speed shipped together because they are one question — the same pace written four ways — while a heat-adjusted pace is a different question that happens to use the same units.*
+
+### Search demand evidence for the race-pages branch
+
+**Closed September 10, 2026 — Iván: the research is finished and he is building the pages.** *The evidence below stays valid; `NEXT #1` carries the in-build note.*
+
+**The original item, preserved:**
+
+- [ ] **Search demand evidence for the race-pages branch — attach to NEXT #1, do not open a second item.** *August GSC: **PT marathon ≈ 94 impressions** across five query variants at positions 16–66, and **Valencia marathon ≈ 38 impressions** across five ES queries at 36–66, with `/en/blog/valencia-marathon-training-plan/` already pulling 5 sessions.* **`race-landing-pages-longlist.md` concluded from the catalogue alone that PT is a marathon-only play; search demand independently confirms it.** *Valencia is a December race with live demand and nothing ranking.* ⚠️ **Blocked by WIP** *— the referral branch holds the big slot.*
+
+### Ask every inbound WhatsApp lead how they found you
+
+**Closed September 10, 2026 — Iván already asks every lead, and a standing practice has no close condition.** *The line lives where it belongs: `sales-playbook.md` A2 ("¿cómo llegaste a mí?").*
+
+**The original item, preserved:**
+
+- [ ] **Ask every inbound WhatsApp lead how they found you — one line, before the five questions.** *Jenyfer volunteered it; nobody else will.* **Direct is 46.6% of external sessions and WhatsApp inbound carries no source at all, so the honest answer to "how many AI leads am I getting" is currently "unknown", not "one".** *One line appended to `sales-playbook.md` A2 is the whole build.*
+
+### NEXT #16 · n8n attribution ON in all 17 email nodes
+
+**Closed September 10, 2026 — Iván switched attribution off in the live nodes when it was raised.** *Reference copies mirrored the same day: `"appendAttribution": false` on every `emailSend` node in the table below — 17 node entries across 11 reference files, both zone-workouts copies included. `tool-lead-workflow.json` already carried it.* **Do not renumber: `#16` stays retired.**
+
+**The original item, preserved:**
+
+- [ ] **#16 · n8n attribution is ON in all 17 email nodes, across 10 workflows.** *(Found September 9, 2026, from Iván's screenshot of the `Send an Email` options list — the node's `options` is `{}` everywhere, so the default applies.)* **Every outbound email this business sends currently carries n8n's "sent automatically with n8n" footer**, including the two that go to people who already paid: `Send Welcome Email` and `Send Coaching Welcome Email` in `subscription-lifecycle-automation.json`. ⚠️ ***The CoachMatch rewrite shipped the same day is the one that makes this urgent*** — its opening line is *"te escribo yo para no dejarte solo con un link"*, directly above a machine attribution. **Fix per node: Options → Add option → Append n8n Attribution → OFF** (`"options": { "appendAttribution": false }`). *The live source of truth is n8n, not these files — change it in the UI, then mirror into the `automation/` reference copy.* **The full list:**
+
+  | Workflow | Node(s) |
+  |---|---|
+  | CoachMatch – Email Nurture 2-3 | `Send an Email`, `Send an Email1`, `Send an Email PT`, `Send an Email1 PT` |
+  | CoachMatch Lead Automation | `Send an Email`, `Send an Email PT` |
+  | Subscription Lifecycle (New + Churn) | `Send Welcome Email`, `Send Resend Email`, `Send Coaching Welcome Email` |
+  | Athlete Intake Form | `Email Briefing` |
+  | Website Contact Form → Twenty | `Send confirmation email` |
+  | Plan Catalog Email Capture | `Send reply email` |
+  | Zone Calculator Lead Magnet | `Send reply email` |
+  | Send — CoachMatch PT Backlog | `Send` |
+  | Daily Error Digest | `Send Digest Email` |
+  | `stage11-cancellation-paste.json` | `Send Goodbye Email` |
+
+  📌 *`zone-workouts-workflow.json` and `zone-workouts-workflow.ascii.json` are the same workflow — one node, two reference copies. **Fix it once in n8n and mirror to both files**, or the next audit reads it as two.*
+
+---
+
 ## Closed — September 10, 2026 (cleanup pass: six ticked items never moved, two items closed by the storefront branch, one duplicate)
 
 ### Tool-lead capture pipeline (public runner core)
