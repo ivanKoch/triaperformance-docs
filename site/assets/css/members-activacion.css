@@ -43,6 +43,31 @@ body {
 .site-nav-sticky nav .nav-dropdown:hover .nav-dropdown-label { color: var(--blue-bright); }
 .nav-toggle span { background: var(--text); }
 
+/* 🚨 THE UTILITY STRIP, September 10, 2026. It was still `--wash` — a pale blue
+   band sitting directly above a carbon nav on a carbon page — on every page
+   that loads this shell, which includes the three PUBLIC core pages.
+
+   The carbon version of this block already existed, in `members-dark.css`. The
+   two files are the site's two carbon shells and they serve DISJOINT page sets:
+   16 pages load members-dark, the tool pages load this one (via
+   members-fuerza.css's @import), and no page loads both. So the nav was themed
+   here and the strip above it was themed there, and a page got whichever half
+   its stylesheet happened to carry.
+
+   ⚠️ This block is therefore a deliberate second copy, not an oversight — edit
+   BOTH or neither until the structural fix lands (one body-level carbon class
+   in site.css, which needs a hook base.njk does not have yet; logged in
+   open-loops.md). Same defect family as the nav rule above it, one level up:
+   there a rule did not reach a sibling element, here it did not reach a
+   sibling page. */
+.nav-utility { background: var(--surface); border-bottom: 1px solid var(--border); }
+.nav-utility a { color: var(--text-dim); }
+.nav-utility a:hover { color: var(--blue-bright); }
+.nav-utility .lang-active { color: var(--text); }
+.nav-utility .lang-switch .sep { color: var(--border); }
+.nav-utility .nav-member { color: var(--text-dim) !important; }
+.nav-utility .nav-member:hover { color: var(--blue-bright) !important; }
+
 @media (max-width: 860px) {
   header nav {
     background: var(--surface);

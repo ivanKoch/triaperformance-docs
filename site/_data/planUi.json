@@ -169,7 +169,8 @@
     "altEasier": "Más accesible",
     "altHarder": "Más exigente",
     "altShorter": "Más corto",
-    "altLonger": "Más tiempo"
+    "altLonger": "Más tiempo",
+    "aaInlineNoPrice": "¿Más de un objetivo? Mira All-Access"
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -340,7 +341,8 @@
     "altEasier": "More accessible",
     "altHarder": "More demanding",
     "altShorter": "Shorter",
-    "altLonger": "More time"
+    "altLonger": "More time",
+    "aaInlineNoPrice": "More than one goal? See All-Access"
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -511,6 +513,7 @@
     "altEasier": "Mais acessível",
     "altHarder": "Mais exigente",
     "altShorter": "Mais curto",
-    "altLonger": "Mais tempo"
+    "altLonger": "Mais tempo",
+    "aaInlineNoPrice": "Mais de um objetivo? Veja o Acesso Total"
   }
 }

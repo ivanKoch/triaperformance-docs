@@ -125,8 +125,26 @@
         <a href="{{ buyUrl }}" class="btn-primary btn-buy plan-buy-btn plan-card" target="_blank" rel="noopener">{{ u.ctaBuy }}</a>
         <p class="plan-buy-note">{{ u.ctaNote }}</p>
         {#- All-Access, demoted to a sentence. It is a LINK, not a button:
-            a second button here would be the same defect in smaller type. -#}
-        <a class="plan-rail-aa" href="{{ aa.url }}">{{ u.aaInline | replace("{price}", aa.price) }}</a>
+            a second button here would be the same defect in smaller type.
+
+            🚨 AND THE PRICE COMES OUT WHEN IT COLLIDES, September 10, 2026.
+            Measured: on **71 of 328 plan pages (22%)** this line printed the
+            SAME NUMBER as the price directly above it — `US$ 39.99 pago único`
+            and `US$ 39.99/mes` in one box — because 41 ES, 22 EN and 8 PT plans
+            are priced at exactly the All-Access figure. Two identical numbers a
+            few lines apart read as a bug, not as an offer.
+            ⚠️ The tempting fix — "por el mismo precio, todos los planes" — was
+            NOT taken: $39.99 once and $39.99 a month are the same *number*, not
+            the same price, and writing otherwise would be a false equivalence
+            on a page whose only job is a purchase. The number simply leaves;
+            it is one click away, and it is in the band mid-page. -#}
+        <a class="plan-rail-aa" href="{{ aa.url }}">
+          {%- if plan.price == aa.price -%}
+            {{ u.aaInlineNoPrice }}
+          {%- else -%}
+            {{ u.aaInline | replace("{price}", aa.price) }}
+          {%- endif -%}
+        </a>
         {#- Credential line, Aug 27, 2026. One edit here reaches every plan page in
             all three languages — the largest indexed surface this site has. Copy is
             owned by _data/credentials.json, never written here. -#}
