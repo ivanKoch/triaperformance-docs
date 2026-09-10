@@ -12,7 +12,7 @@
 {%- set r = raceUi[lang] -%}
 {%- set home = site.languages[lang].home -%}
 {%- set plansUrl = { es: "/planes/", en: "/en/plans/", pt: "/pt/planos/" }[lang] -%}
-{%- set hubUrl = { es: "/planes/running/", en: "/en/plans/running/", pt: "/pt/planos/maratona/" }[lang] -%}
+{%- set hubUrl = { es: "/planes/running/", en: "/en/plans/running/", pt: "/pt/planos/running/" }[lang] -%}
 {#- Every (intensity x gym) ladder the catalogue actually holds for this
     language. Variant 1 is heart-rate / no-gym everywhere; Spanish is currently
     the only catalogue with more than one populated variant at 42 km, so it is
@@ -46,7 +46,7 @@
   </picture>
   <div class="race-hero-body">
     <div class="wrap">
-      <p class="breadcrumb"><a href="{{ home }}">{{ r.breadcrumbHome }}</a> / <a href="{{ plansUrl }}">{{ r.breadcrumbPlans }}</a> / <a href="{{ hubUrl }}">{{ r.breadcrumbHub }}</a></p>
+      <p class="breadcrumb"><a href="{{ home }}">{{ r.breadcrumbHome }}</a> / <a href="{{ plansUrl }}">{{ r.breadcrumbPlans }}</a> / <a href="{{ hubUrl }}">{{ r.breadcrumbHub }}</a> / <span>{{ race.name }}</span></p>
       <span class="label">{{ r.eyebrow }} · {{ race.city }}</span>
       <h1>{{ race.name }}</h1>
       <p class="race-date">
@@ -154,6 +154,11 @@
     </dl>
     {%- if race.sellOutNote %}<div class="race-prose">{{ race.sellOutNote | raceProse | safe }}</div>{% endif %}
     {%- if race.officialUrl %}<p class="race-note"><a href="{{ race.officialUrl }}" rel="nofollow noopener" target="_blank">{{ r.officialSite }} →</a></p>{% endif %}
+    {#- The stamp, not a promise. Ballot dates and prices move every season and
+        this block is the one that rots; saying when it was last checked and
+        pointing at the organiser is what we can actually maintain across
+        nineteen races. -#}
+    {%- if race.lastVerified %}<p class="race-verified">{{ r.verifiedOn | replace("{date}", race.lastVerified | raceDate(lang)) }}</p>{% endif %}
   </div>
 </section>
 {%- endif %}
@@ -165,6 +170,20 @@
   <div class="wrap">
     <h2>{{ r.trainingTitle }}</h2>
     <div class="race-prose">{{ race.howToTrain | raceProse | safe }}</div>
+    {#- "12 or 18 weeks" is abstract; a date is the answer to "when do I start".
+        Computed from next_edition_date, so it is different on every page and
+        cannot be written by hand wrongly. No confirmed date, no invented one. -#}
+    <div class="race-startby">
+      <span class="race-startby-l">{{ r.startByTitle }}</span>
+      {%- if race.startBy %}
+      <p>{{ r.startByLine
+            | replace("{date}", race.nextEditionDate | raceDate(lang))
+            | replace("{d18}", race.startBy["18"] | raceDate(lang))
+            | replace("{d12}", race.startBy["12"] | raceDate(lang)) }}</p>
+      {%- else %}
+      <p>{{ r.startByNoDate }}</p>
+      {%- endif %}
+    </div>
   </div>
 </section>
 {%- endif %}
@@ -232,6 +251,114 @@
     {%- endif %}
   </div>
 </section>
+{%- endif %}
+
+{#- ── FAQ. Built as one array and rendered twice — visible <h3>/<p> and
+    FAQPage JSON-LD — because schema that does not match the DOM is a penalty
+    risk and the only reliable way to match is to render both from the same
+    strings rather than maintain two copies.
+
+    Note on expectations: Google restricted FAQ rich results in 2023 to
+    authoritative health and government sites, so this will almost certainly
+    not produce a rich snippet. It is here because the questions are the ones
+    people actually type, because it is what gets the page quoted by an
+    assistant, and because the answers are already facts on the page. -#}
+{%- set faq = [] -%}
+{%- if race.nextEditionDate -%}
+  {%- set faq = (faq.push({
+      q: r.faqWhen | replace("{race}", race.name) | replace("{year}", race.year),
+      a: (race.nextEditionDate | raceDate(lang)) + (". " + race.startTime if race.startTime else ".")
+    }), faq) -%}
+{%- else -%}
+  {%- set faq = (faq.push({
+      q: r.faqWhenNoDate | replace("{race}", race.name),
+      a: race.typicalWindow + "."
+    }), faq) -%}
+{%- endif -%}
+{%- if race.cutOff and race.cutOff.text -%}
+  {%- set faq = (faq.push({
+      q: r.faqCutOff | replace("{race}", race.name),
+      a: race.cutOff.text | plainProse(2)
+    }), faq) -%}
+{%- endif -%}
+{%- if race.whereTheyStruggle -%}
+  {%- set faq = (faq.push({
+      q: r.faqStruggle | replace("{race}", race.name),
+      a: race.whereTheyStruggle | plainProse(2)
+    }), faq) -%}
+{%- endif -%}
+{%- if race.startBy -%}
+  {%- set faq = (faq.push({
+      q: r.faqWeeks,
+      a: r.startByLine
+           | replace("{date}", race.nextEditionDate | raceDate(lang))
+           | replace("{d18}", race.startBy["18"] | raceDate(lang))
+           | replace("{d12}", race.startBy["12"] | raceDate(lang))
+    }), faq) -%}
+{%- endif -%}
+{%- if race.registrationWindow -%}
+  {%- set faq = (faq.push({
+      q: r.faqEntry | replace("{race}", race.name),
+      a: race.registrationWindow + (" " + (race.sellOutNote | plainProse(1)) if race.sellOutNote else "")
+    }), faq) -%}
+{%- endif -%}
+
+{%- if faq | length %}
+<section class="race-faq">
+  <div class="wrap">
+    <h2>{{ r.faqTitle }}</h2>
+    <dl class="race-faq-list">
+      {%- for item in faq %}
+      <dt>{{ item.q }}</dt>
+      <dd>{{ item.a }}</dd>
+      {%- endfor %}
+    </dl>
+  </div>
+</section>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for item in faq %}
+    {
+      "@type": "Question",
+      "name": {{ item.q | dump | safe }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ item.a | dump | safe }} }
+    }{{ "," if not loop.last }}
+    {%- endfor %}
+  ]
+}
+</script>
+{%- endif %}
+
+{#- SportsEvent, emitted only where the organiser has published a date. An
+    event without a startDate is not an event Google can place on a calendar,
+    and guessing one to satisfy the validator is the exact thing the two-field
+    date model exists to prevent. -#}
+{%- if race.nextEditionDate %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsEvent",
+  "name": {{ race.name | dump | safe }},
+  "startDate": "{{ race.nextEditionDate }}",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "sport": "Running",
+  "url": "{{ page.url | absoluteUrl }}",
+  "location": {
+    "@type": "Place",
+    "name": {{ race.city | dump | safe }},
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": {{ race.city | dump | safe }},
+      "addressCountry": {{ race.country | dump | safe }}
+    }
+  }{% if race.officialUrl %},
+  "organizer": { "@type": "Organization", "url": "{{ race.officialUrl }}" }{% endif %}
+}
+</script>
 {%- endif %}
 
 {#- ── Sources. Not decoration: the standing rule is that an organiser's own

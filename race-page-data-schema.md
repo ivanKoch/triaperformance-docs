@@ -32,6 +32,7 @@ Organisers publish on wildly different horizons: Boston has 2027 and 2028; Mexic
 
 ### Getting in — `registration_window` always, the rest optional
 
+- `last_verified` — ISO date, **always filled**. When the entry and conditions facts were last checked against the organiser. Rendered under that block as a stamp. This is the block that rots every season; a date and a link to the organiser is what can actually be maintained across nineteen races, and it is cheaper than pretending it will be.
 - `registration_window` — **always filled**, prose. "Lottery opens late January." "Loyalty window the week after race day, general ballot mid-December."
 - `registration_model` — lottery / ballot+loyalty / direct / qualifying-time. Optional.
 - `sell_out_note` — optional. "First 10,000 bibs gone in two hours." "67-minute sell-out."
@@ -70,6 +71,16 @@ Organisers publish on wildly different horizons: Boston has 2027 and 2028; Mexic
 - **No price** — prices live on plan rows.
 - **No testimonial** — sourced from `social-proof-and-reviews.md`'s quote bank at render time.
 - **No kit collection, expo hours, bag drop, shirt swaps or transport to the start.** These fail the outline's test and they are the fastest-decaying facts about any race, so carrying them would break the evergreen rule on every page at once.
+
+## The publish gate
+
+**A race that does not differ does not build.** Nineteen pages from one template is structurally what a search engine calls a doorway set, and the defence is mechanical rather than editorial. Two halves:
+
+`site/_data/races.js` checks what the data alone can show and **drops the offending race** — never throws, because one unfinished city must not stop the other eighteen shipping (the same idiom `plans.js` uses for dead plans). It blocks on: a missing `hook`, `course_notes`, `where_they_struggle`, `typical_window` or `registration_window`; an empty `sources`; an incomplete hero image set; a hero image byte-identical to another race's; and a `where_they_struggle` or `hook` more than 55% similar to one already loaded, per language.
+
+`automation/race-page-check.js` checks what only exists after a build and **exits non-zero**, so it can gate a deploy: hreflang complete and resolving to pages that were built, `x-default` present, title not truncated by the 60-character clamp and carrying the year where a date is confirmed, four breadcrumb nodes, exactly one `<h1>`, valid JSON-LD, **FAQPage matching the visible `<dl>` question for question**, SportsEvent present if and only if a date is confirmed, every referenced hero file present, and the ladder's *shape* identical across the languages a race publishes in.
+
+⚠️ **Shape, not price.** Grok's original template proposed failing a page when the plan price differs by language. That contradicts a standing decision — price is a purchasing-power lever, so the PT marathon ladder is US$ 24/36 against US$ 49.99/59.99 deliberately (`triaperformance-pricing-and-positioning.md`). A check that fires on every run gets silenced, and then so does everything next to it.
 
 ## Open
 

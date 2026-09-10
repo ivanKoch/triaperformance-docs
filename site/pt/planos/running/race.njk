@@ -10,7 +10,7 @@ lang: pt
 pageCss: race-page.css
 eleventyComputed:
   transKey: "{{ race.transKey }}"
-  title: "{{ race.name }}: plano de treino e percurso | Triaperformance"
+  title: "{{ race.name }}{% if race.year %} {{ race.year }}{% endif %}: plano de treino e tempo de corte | Triaperformance"
   ogTitle: "{{ race.name }}"
   description: "{% set d %}{{ race.name }}: perfil do percurso, tempo limite, clima e como treinar para a prova. Planos de 12 e 18 semanas por frequência cardíaca.{% endset %}{{ d | clamp(158) }}"
 ---

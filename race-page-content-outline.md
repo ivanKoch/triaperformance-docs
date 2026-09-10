@@ -26,7 +26,11 @@ Out: kit collection, shirt swaps, medal engraving, bag drop, expo hours, transpo
 
 **5. How to train for this one.** `methodology.md` applied to blocks 2 and 3 — altitude pacing for CDMX, downhill-quad prep for Boston, heat and hydration for Cartagena, hills for São Paulo. Not a restatement of the course section: it answers "so what do I do differently because of that."
 
-**6. Plans, laddered → All-Access → email capture.** The ladder is a constant, not a per-race lookup (see below). Same laddered offer as every plan page: plan → plan + testing-and-zones consultation (+$50) → All-Access ($39.99/mo). All-Access module and capture form are the existing partials, reused unchanged. Capture comes before any TrainingPeaks redirect — non-negotiable, Phase 1 rule.
+**6. Plans, laddered → email capture.** The ladder is a constant, not a per-race lookup (see below). Same laddered offer as every plan page: plan → plan + testing-and-zones consultation (+$50) → All-Access ($39.99/mo). All-Access module and capture form are the existing partials, reused unchanged. Capture comes before any TrainingPeaks redirect — non-negotiable, Phase 1 rule.
+
+**7. Questions.** Four to six, built from the facts already on the page — the date, the cut-off, where the field comes apart, when to start counting back, how to get in. Rendered visibly as a `<dl>`, never accordion-only, and emitted as FAQPage JSON-LD **from the same array**, so schema and DOM cannot drift. A SportsEvent block is emitted alongside it, but only where the organiser has published a date.
+
+*Expectation to keep honest: Google restricted FAQ rich results in 2023 to authoritative health and government sites, so this will almost certainly not produce a rich snippet. It earns its place because the questions are what people type, and because it is what gets the page quoted by an assistant.*
 
 ## Dates, and why nothing here is ever blank
 
@@ -38,6 +42,10 @@ Organisers publish on wildly different horizons: Boston has 2027 and 2028; Mexic
 The page renders whichever exists and never presents an inference as a confirmed date. Registration behaves identically: `registration_window` as prose ("lottery opens late January"), exact dates only when published.
 
 **A missing date does not weaken the page, and the reason is a coaching argument worth making on it:** nobody starts an 18-week block from zero on a start date. You arrive at a specific block already active. So the plan ladder shows in full regardless of the countdown — *there is no date filter on the plan join.*
+
+**Where a date exists, it is turned into the answer people actually want.** "12 or 18 weeks" is abstract; *the 18-week block starts on 2 August* is the query behind "when do I start". Computed from `next_edition_date`, so it is different on every page and cannot be hand-written wrongly. No confirmed date, no invented one — the page says to count back from the typical window instead.
+
+**The year goes in the title, never in the slug.** The event is annual and "maratón X 2027" is a real query shape; keeping the year out of the URL means next year's edition is an update to this page rather than a new one. A race with no confirmed date gets no year rather than a guessed one.
 
 ## Optional is optional
 
@@ -66,7 +74,7 @@ Race pages are children of the sport hub, not a new top-level section:
 
 - ES `/planes/running/[race-slug]/`
 - EN `/en/plans/running/[race-slug]/`
-- PT — ⚠️ **open:** `site/pt/planos/` has `ciclismo`, `ironman`, `maratona`, `p` and no running hub. PT races go under `maratona` or a new `corrida` hub is created. Decide before the first PT page.
+- PT `/pt/planos/running/[race-slug]/` — **resolved September 11, 2026.** Portuguese race pages briefly sat under `/pt/planos/maratona/`, which is a *distance* level where ES and EN use a *sport* level; the first half-marathon race page would have split the Portuguese race set across two hubs while the other two languages kept theirs in one. A `running` hub was created and the race template moved while exactly one Portuguese page existed. *(The reason usually given for this — that mismatched paths break hreflang — is false; hreflang exists to map differently-shaped URLs and was emitting correctly across all three before the move. The argument is maintenance.)* `maratona` stays as the distance hub it always was.
 
 `transKey` set across a race's language siblings so hreflang and the switcher wire up; a single-language race simply emits none. `noindex` stays off — these are public acquisition pages. Everything else (GA4, Clarity, canonical, sitemap) comes free from `layouts/base.njk`.
 

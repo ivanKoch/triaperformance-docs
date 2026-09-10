@@ -8,6 +8,91 @@
 
 ---
 
+## Closed — September 10, 2026 (cleanup pass: six ticked items never moved, two items closed by the storefront branch, one duplicate)
+
+### Tool-lead capture pipeline (public runner core)
+
+**Closed September 9, 2026 — verified live by Iván; ticked and never moved.**
+
+**The original item, preserved:**
+
+- [x] ✅ **LIVE — verified end to end against the real stack, September 9, 2026, by Iván.** *`{"ok":true}` on a fresh address · token row carrying `source = tool-lead:runner_week` · HTTP 200 on the unsubscribe with the suppression row written · and* **the same request re-sent returning `{"ok":true,"suppressed":true}` with no second email**, *which is the assertion the whole build exists for.* 🚨 ***It failed on the first request and the way it failed is the finding: HTTP 200 with an empty body, having done nothing*** — *an n8n Set node had dropped the webhook payload, and `responseNode` mode answers 200 when a workflow dies before a Respond node, so the capture script's `r.ok` check would have thanked athletes for emails nobody sent.* 🔑 **The check that caught it was the database one — 200 from the endpoint, zero rows in the table.** *`ai-infrastructure-documentation.md` §49.7.* ~~**Iván: the four steps that make it live.**~~ *(Opened September 9, 2026. Full commands and pass conditions: `tool-lead-runbook.md`.)*
+  1. **Twenty** → Settings → Data Model → Person → `leadSource` → add `TOOL_LEAD`. *One value, for every magnet, forever — a value per magnet is the manual step this endpoint exists to remove.* Verify with the `curl` in Step 1, not with the screen.
+  2. **Caddy** — the `/api/tool-lead` route is already in `automation/Caddyfile` and ships on the next daily `deploy-website.sh`. To apply now, run that script. ⚠️ *The pass condition is a* **404 from n8n**, *not a 200: it proves the proxy hop works and only the workflow is missing.*
+  3. **n8n** — import `automation/tool-lead-workflow.json`, attach five existing credentials, set `TELEGRAM_CHAT_ID`, activate. *No new credentials.*
+  4. 🚨 **Send the verification request TWICE.** *The second one, with the address now suppressed, must return `{"ok":true,"suppressed":true}` and no email.* **That is the assertion a happy-path test skips and it is the one this build is about.**
+
+### Library cards are doors (library-showcase links)
+
+**Closed September 9, 2026; ticked and never moved.**
+
+**The original item, preserved:**
+
+- [x] ✅ **CLOSED same day — the library cards are doors now, and the page it was orphaning was worse off than the item said.** 🚨 ***Measured before fixing: the public runner core had THREE inbound links site-wide and all three were itself*** *(its own canonical and hreflang tags). The public zones calculator had* **243**. *"It's published but it's not clickable from anywhere relevant" — Iván, and the number was 0.* **Two doors built: the Recursos nav dropdown in all three languages (3 → 529 inbound links), and the All-Access showcase, where a public entry is now a real link and a gated one deliberately still is not** — *sending a prospect at a login wall converts nothing, which is the rule `tool-cta.njk` already followed and this partial never had.* 🔑 ***The asymmetry is the merchandising:*** *three of sixteen cards carry a heat border, a `GRATIS` tag and "Probar ahora →", so the page now says "you can touch these right now" instead of describing sixteen things equally.* ⚠️ *One layout defect caught by rendering: making the card a column flex container stretched its tag into a full-width bar, because the gated siblings are `<div>`s where an inline-block tag hugs its text.* ~~**`library-showcase.njk` renders no links at all — none of the 16 All-Access library cards is clickable.**~~ *(Opened September 9, 2026.)* 🚨 ***And it makes one of this session's own edits a no-op: `library.json`'s `runnercore` url was repointed from the All-Access anchor to the public page, and the sales page emits no `href` to carry it.*** *A data fix to a field nobody renders.* **The audit's "Core de Corredor is a label with no door" is true of every entry, not one.** *Phase 2 work; the fix is the partial, not the data.*
+
+### All-Access PT subscriber outreach
+
+**Sent September 4, 2026. Split September 10, 2026:** the send is closed; the measurement half stays in `open-loops.md` as its own checkbox (re-check `access_count` on or after September 14).
+
+**The original item, preserved:**
+
+- [x] ✅ ~~**Send the All-Access PT subscriber outreach — drafted September 4, 2026, unsent.**~~ **SENT September 4, 2026**, token rotated first, same day it was drafted. Drafts and the rotation record: `all-access-pt-subscriber-outreach-2026-09.md`. ***Measurement is the open half: re-check `access_count` on or after September 14*** — this subscriber had never logged in, so a non-zero count is the entire read on whether the message worked. Record it in `monthly-close/2026-09.md` and retire the doc. → move to archive after the check. *(Original item, for the record:* Email + WhatsApp in Portuguese, both in `all-access-pt-subscriber-outreach-2026-09.md`, which also carries the token-rotation commands and the figures each claim rests on. **Audience is one person**: the only live All-Access subscriber, PT tier, never logged in. *The trigger is real rather than manufactured — coach support was added to All-Access today and they get it retroactively, so there is something to hand over that did not exist when they subscribed.* **Three steps, all Iván's:** identify the right PT row (two exist — cross-check `customerType = ALL_ACCESS` in Twenty), rotate the token, send. ***Do not fold this into the members-area announcement*** — that is 33 coaching athletes in Spanish being told "your coaching includes this"; this is a paying subscriber in Portuguese being told "your subscription includes this."*)
+
+### Nothing in the library is visible to a prospect
+
+**Closed September 10, 2026 by storefront Phase 2**, which took two of its three options: real screenshots of the built members pages on All-Access ("míralo antes de pagar"), and a public tool — the runner core, public and capturing email since September 9 — with the library cards now linking to the three public tools. *The third option, a screen capture, survives as the "Record the activation loop in EN and PT" item.*
+
+**The original item, preserved:**
+
+- [ ] **Nothing in the library is visible to a prospect.** All 24 members pages are `noindex` behind the token gate, by design. So the strongest evidence All-Access has — a working calculator, an adaptive routine builder — cannot be seen before paying, and the sales page can only assert it. **Options, none decided:** ungate one tool as a public taste (the zones calculator already has a public sibling, so this is nearly free), put real screenshots on the All-Access page, or record one short screen capture. *Iván's call; note the public zone calculator already proves the pattern works — it exists, it is indexed, and it is the only tool a stranger can touch.*
+
+### `member_tool_usage` counted the members home as a tool
+
+**Fixed in the repo September 8, 2026. Split September 10, 2026:** the fix is archived; applying it to the live `members` DB stays in `open-loops.md` as its own checkbox — no document confirms `schema.sql` was ever run.
+
+**The original item, preserved:**
+
+- [x] ✅ ~~**`member_tool_usage` counts the members HOME as a tool, which will corrupt the "which tools" ranking the close is built on.**~~ **FIXED in the repo September 8, 2026 — `automation/members-area/schema.sql`.** *The three language homes and the login pages are filtered out of `member_tool_usage`, and the browse signal moved to a new `member_home_visits` view.*
+  🔑 ***Two design calls worth keeping.*** *(1)* **Filtered in the view, not documented as a caveat** — *same rule as `token_roster` twelve lines above it: the query people actually type is the short one, and a warning asks someone to remember. Second application of that rule in this file.* *(2)* **An `is_tool` flag was the first design and was rejected** — *a flag still hands the wrong ranking to anyone who forgets to filter on it, and it would have changed the column list, which `CREATE OR REPLACE VIEW` refuses rather than warns about (the trap already recorded in `schema_analytics.sql`). Splitting the rows into two views keeps the column list identical, so the migration is a plain re-run.*
+  ⏳ **Not live until Iván runs the file against the `members` DB** — *idempotent, every statement `IF NOT EXISTS` / `CREATE OR REPLACE`.*
+
+### Spanish athlete on an English-locale phone
+
+**Won't fix, Iván's call, September 8, 2026; ticked and never moved.** *Kept here for the trap it records: English page usage is not English-language demand.*
+
+**The original item, preserved:**
+
+- [x] ✅ ~~🚨 **A Spanish athlete on an English-locale phone lands on the English members page.**~~ **WON'T FIX — Iván's call, September 8, 2026, and it is right.** *Measured first: **5 Spanish-token athletes, 11 views on English pages** — 38% of all tool views, and Nadine, the only English token, is not in the data at all. So it is common, not rare.* **And it does not matter.** *His reasoning: plenty of his athletes run English-locale phones, as he does, and* ***every tool exists in all three languages*** *(verified this session — 48/48 `library.json` entries), so an athlete routed to English gets the same routine, not a worse one.* 🔑 **The repo's own test settles it: who acts differently once this is fixed? Nobody.** *The `login()` code path is unchanged and still ignores `preferred_language` when `next_url` is set — that reading was correct — but a defect nobody experiences as a defect is not a defect.*
+  ⚠️ ***One narrow exception, recorded so it is not rediscovered as a surprise:*** **`/members/en/downloads/` carries 1 PDF against Spanish's 5** *(`artifact-publish-runbook.md`; the four Spanish-only guides are their own open item above).* **That is the single page where landing in English delivers less**, *and it closes when those guides are translated — not by touching the redirect.*
+  🚨 ***The trap this leaves behind, and it is the reason this item is archived rather than deleted:*** **English page usage is NOT English-language demand.** *A future session reading "38% of members-area views are on `/members/en/`" would reasonably conclude there is an English-speaking audience worth building for. There is not — it is Spanish athletes with English phones.* **Anyone segmenting this data by page language is measuring device settings.**
+
+### Duplicate: stale zone-calculator test records
+
+**Closed September 10, 2026 as a duplicate** of "Two stale test records sitting in the CRM at `MESSAGE_SENT`" (CoachMatch greeting-name section), which stays open and now carries Iván's September 5 answer: **still in Twenty**.
+
+**The original item, preserved:**
+
+- [ ] 🆕 ~~**Confirm the two stale zone-calculator test records are gone from Twenty.**~~ 🚨 **THIS WAS A DUPLICATE OF AN ITEM THAT ALREADY EXISTED** *(the "two stale test records sitting in the CRM at `MESSAGE_SENT`" item under the CoachMatch greeting-name section). Opened September 5, 2026 by a session that had read this file the same day and still wrote a second copy — the exact failure the September 2 pass found four instances of.* **Merged into the original, which is the one to read. The answer, from Iván the same day: they are STILL IN TWENTY**, so the 292 → 290 drop was two other records leaving, cause unknown. *(Original text:* `coach+zone-en@` and `coach+zone-pt@`, `leadSource: ZONE_CALCULATOR`, sitting at `MESSAGE_SENT` since the August zone-magnet testing. **The evidence they may already be deleted is indirect and worth stating as such:** *`backfill_person_names.py` fetched* **292** *people on September 4 and* **290** *on September 5, and these two are the obvious candidates for the difference.* ⚠️ ***That is a coincidence of arithmetic, not a confirmation*** *— two other records could have gone instead.* **One filter in Twenty settles it** (People → `leadSource = ZONE_CALCULATOR`). *If they are gone, the existing item under the CoachMatch greeting-name section closes with them; if not, delete them or move them to a terminal status.*)*
+
+### `recovery` had no EN/PT page (sub-item of the `/w/` links item)
+
+**Closed September 5, 2026; ticked and never moved.**
+
+**The original item, preserved:**
+
+- [x] ✅ ~~**`recovery` has no EN/PT page**, so the three `/w/recuperacion*` codes fall back to the members home for those athletes.~~ **CLOSED September 5, 2026 — `/members/en/recovery/` and `/members/pt/recuperacao/` are live**, so all three `/w/recuperacion*` codes now resolve in every language and `/admin/enlaces/` should stop greying those badges. *It closed as a consequence of the Recuperación activa build, never as work of its own — which is what a pointer is for.* ⚠️ ***Confirm the badges when you next open `/admin/enlaces/`; nothing re-derives that.***
+
+### The About page does not tell the story
+
+**Closed September 10, 2026 — shipped as storefront Phase 3**: memoir in three languages, photo-led, captions with years (record in the storefront-branch notes in `open-loops.md` NOW, same date). *The 50+ guardrail below held: no About page states a current athlete count (checked September 10).*
+
+**The original item, preserved:**
+
+- [ ] 🆕 **The About page does not tell the story, and the story is the strongest asset the site has.** *(Iván, September 4, 2026.)* **The arc: he started coaching himself, then a friend, then family. For years the goal for the whole year was to help one person. Now he coaches 50+ athletes across LatAm.** *That progression is the claim — not the number on its own. It says the coaching was real before it was a business, which is the one thing a prospect cannot verify from a price page and the one thing most coach bios cannot say.* Three pages: `site/sobre-ivan`, `site/en/about`, `site/pt/sobre-ivan`. Voice: `brand-guidelines.md` §8.
+  ⚠️ **Guardrail for whoever writes it: 50+ is CUMULATIVE and must never be phrased as a current count.** *`data/athlete_tenure.csv` holds 98 athletes lifetime; `monthly-close/2026-08.md` puts the current book at **37 paying** at 2026-08-31.* **"I've coached more than 50 athletes" is true and strong. "I coach 50 athletes" is false and is the kind of sentence that ends up quoted back in a sales conversation.** *Same rule for "across LatAm" — check it against `data/monthly_close/2026-08-roster.csv` before it ships rather than assuming it.*
+
+---
+
 ## Closed — September 8, 2026 (Routine engines — athlete feedback, both engines, 25 paid pages) — *and the stale-JavaScript defect that shipped with it*
 
 **Confirmed working live by Iván**, on the deployed page, after the second deploy.

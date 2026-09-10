@@ -1,0 +1,49 @@
+---
+layout: layouts/base.njk
+lang: pt
+transKey: plan-hub-running
+pageCss:
+  - planes-running.css
+  - plan-page.css
+title: "Planos de Corrida — 5K, 10K, 21K e Maratona"
+description: "Planos de corrida com estrutura profissional para 5K, 10K, meia maratona e maratona. Por ritmo ou frequência cardíaca, no TrainingPeaks."
+---
+{#- Created September 11, 2026, so the three languages share one tree:
+    /planes/running/, /en/plans/running/, /pt/planos/running/. Portuguese race
+    pages used to hang off /pt/planos/maratona/, which is a DISTANCE level where
+    the other two languages use a SPORT level — the first half-marathon race
+    page would have split the Portuguese race set across two hubs while ES and
+    EN kept theirs in one. `maratona` stays as the distance hub it always was;
+    it is linked from here and from /pt/planos/. -#}
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="/pt/">Início</a> / <a href="/pt/planos/">Planos</a> / Corrida</p>
+    <span class="label">Planos de Corrida</span>
+    <h1>Planos de treinamento de corrida, por distância e nível</h1>
+    <p>De 5 km à maratona, com estrutura profissional. Cada plano define suas zonas de treino por ritmo ou frequência cardíaca e se ajusta ao seu nível.</p>
+  </div>
+</section>
+
+{%- set catalogPlans = plans.byLanguage.pt -%}
+{%- set u = planUi.pt -%}
+{%- set presetSport = "Running" -%}
+<section id="catalogo" style="padding-top:0;">
+  <div class="wrap">
+    {% include "partials/plan-catalog-grid.njk" %}
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="wrap">
+    <span class="label">Prefere acompanhamento semanal?</span>
+    <h2>Coaching 1:1 em vez de um plano autoguiado</h2>
+    <p>Se você quer testes personalizados, ajustes semanais e feedback direto em vez de seguir um plano fixo, o coaching 1:1 pode ser a melhor opção.</p>
+    <a href="/pt/#contacto" class="btn-primary">Conte o seu objetivo</a>
+  </div>
+</section>
+
+<section class="hub-freetool">
+  <div class="wrap">
+    <p>Antes desses planos: <a href="/pt/core-do-corredor/">Core do Corredor, grátis →</a> — seis exercícios com cronômetro, sem cadastro.</p>
+  </div>
+</section>

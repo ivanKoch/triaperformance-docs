@@ -25,17 +25,27 @@
 
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const DIR = path.join(__dirname, "../../data/races");
 
-/** Per-language URL base. PT marathons sit under the existing `maratona` hub —
- *  there is no `corrida` hub in Portuguese and every researched race is a
- *  marathon, so inventing one would create an empty level. Revisit if a
- *  half-marathon race page is ever built. */
+/** Per-language URL base. All three languages share one tree, with the SPORT
+ *  as the level that holds race pages.
+ *
+ *  Portuguese used to sit under `/pt/planos/maratona/`, which is a distance
+ *  level — fine while every researched race was a marathon, and broken the
+ *  first time a half-marathon race page exists, because Portuguese would split
+ *  its race set across two hubs while ES and EN kept theirs in one. Moved
+ *  September 11, 2026, while exactly one Portuguese race page existed.
+ *
+ *  (The reason usually given for this — that mismatched paths break hreflang —
+ *  is not true: hreflang exists precisely to map differently-shaped URLs to
+ *  each other, and it was emitting correctly across all three before the move.
+ *  The argument is maintenance, not search.) */
 const URL_BASE = {
   es: "/planes/running/",
   en: "/en/plans/running/",
-  pt: "/pt/planos/maratona/",
+  pt: "/pt/planos/running/",
 };
 
 const IMAGE_WIDTHS = [960, 1600, 2560];
@@ -48,6 +58,72 @@ function pick(field, lang) {
   return field[lang] !== undefined ? field[lang] : null;
 }
 
+/** Weeks-back calendar math. "12 or 18 weeks" is abstract; "the 18-week block
+ *  starts on 2 August" is the answer to the query people actually type. Only
+ *  computable where the organiser has published a date — where they have not,
+ *  the page says to count back from the typical window instead of inventing a
+ *  Sunday. */
+function startByDates(iso, weeks) {
+  if (!iso) return null;
+  const out = {};
+  for (const w of weeks) {
+    const d = new Date(iso + "T12:00:00Z");
+    d.setUTCDate(d.getUTCDate() - w * 7);
+    out[w] = d.toISOString().slice(0, 10);
+  }
+  return out;
+}
+
+/** Durations the ladder offers for a distance. Kept here rather than imported
+ *  from the raceLadder filter because this file must not depend on the plan
+ *  inventory — the whole point of the constant ladder is that a race row never
+ *  consults it. If these ever disagree, the filter wins and the page shows the
+ *  filter's plans; this only decides which dates are printed. */
+const LADDER_WEEKS = { "42k": [12, 18], "21k": [12, 16] };
+
+/* ---------------------------------------------------------------------------
+ * THE PUBLISH GATE (part 1 of 2: what can be checked from the data alone).
+ *
+ * Nineteen pages built from one template is the shape search engines call a
+ * doorway set: identical headings, one token swapped. The defence is not good
+ * intentions, it is that a page which does not differ REFUSES TO BUILD.
+ *
+ * A failing race is DROPPED, not thrown — one unfinished city must never stop
+ * the other eighteen from shipping. Same idiom as plans.js, which drops a dead
+ * plan and collects it in `problems` rather than failing the site.
+ *
+ * The complement lives in automation/race-page-check.js, which checks what only
+ * exists after a build: hreflang completeness, schema/DOM agreement, title
+ * length, breadcrumb depth.
+ * ------------------------------------------------------------------------- */
+
+/** Fields without which a race page is scaffolding with a city name in it. */
+const REQUIRED = [
+  ["hook", "the one sentence under the race name"],
+  ["course_notes", "the km-by-km course"],
+  ["where_they_struggle", "where the field comes apart — the clone-diff"],
+  ["typical_window", "when the race is held"],
+  ["registration_window", "how you get in"],
+];
+
+/** Bag-of-words similarity, 0..1. Deliberately crude and dependency-free: it
+ *  cannot tell that two paragraphs make the same point in different words, and
+ *  it does not need to. What it catches is the failure that actually happens —
+ *  one city's paragraph pasted into another with the nouns changed. The content
+ *  engine's research agent uses the same idea for duplicate article titles. */
+function similarity(a, b) {
+  const bag = (t) => new Set(String(t).toLowerCase().normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .split(/[^a-z0-9]+/).filter((w) => w.length > 3));
+  const A = bag(a), B = bag(b);
+  if (!A.size || !B.size) return 0;
+  let shared = 0;
+  for (const w of A) if (B.has(w)) shared++;
+  return shared / Math.min(A.size, B.size);
+}
+
+const CLONE_LIMIT = 0.55;
+
 module.exports = function () {
   if (!fs.existsSync(DIR)) {
     console.log("[races] no data/races/ directory — no race pages will be built");
@@ -58,6 +134,9 @@ module.exports = function () {
   const byLanguage = { es: [], en: [], pt: [] };
   const all = [];
   const problems = [];
+  const blocked = [];
+  const heroHashes = new Map();
+  const seenProse = {};
 
   for (const file of files) {
     let raw;
@@ -86,6 +165,49 @@ module.exports = function () {
     ).filter((f) => !fs.existsSync(path.join(imgDir, f)));
     if (missing.length) problems.push(`${id}: missing ${missing.length} image file(s), first is ${missing[0]}`);
 
+    // ── Gate, per race. Anything appended to `fails` drops this race.
+    const fails = [];
+    for (const [field, why] of REQUIRED) {
+      const v = raw[field];
+      const empty = !v || (typeof v === "object" && !Object.values(v).some((x) => String(x || "").trim()));
+      if (empty) fails.push(`missing ${field} (${why})`);
+    }
+    if (!(raw.sources || []).length) fails.push("no sources — every figure has to be traceable or removed");
+    if (missing.length) fails.push(`hero image incomplete (${missing.length} file(s) missing, first ${missing[0]})`);
+
+    // A hero shared between two cities is the single clearest doorway signal,
+    // and it is the one mistake a bulk image pass makes. Hash, not filename.
+    const heroPath = path.join(imgDir, `${id}-1600.jpg`);
+    if (fs.existsSync(heroPath)) {
+      const hash = crypto.createHash("sha1").update(fs.readFileSync(heroPath)).digest("hex");
+      if (heroHashes.has(hash)) fails.push(`hero image is identical to ${heroHashes.get(hash)}`);
+      else heroHashes.set(hash, id);
+    }
+
+    // The two paragraphs that make a race page a page, checked against every
+    // race already loaded. Structure is meant to be shared; these are not.
+    for (const field of ["where_they_struggle", "hook"]) {
+      for (const [otherId, otherText] of (seenProse[field] || [])) {
+        for (const lang of Object.keys(raw[field] || {})) {
+          const mine = (raw[field] || {})[lang], theirs = (otherText || {})[lang];
+          if (!mine || !theirs) continue;
+          const sim = similarity(mine, theirs);
+          if (sim >= CLONE_LIMIT) {
+            fails.push(`${field} (${lang}) is ${(sim * 100).toFixed(0)}% the same as ${otherId} — that paragraph is the page`);
+          }
+        }
+      }
+    }
+    seenProse.where_they_struggle = seenProse.where_they_struggle || [];
+    seenProse.hook = seenProse.hook || [];
+    seenProse.where_they_struggle.push([id, raw.where_they_struggle]);
+    seenProse.hook.push([id, raw.hook]);
+
+    if (fails.length) {
+      blocked.push({ id, fails });
+      continue;
+    }
+
     for (const lang of raw.language_market || []) {
       if (!byLanguage[lang]) continue;
       const slug = pick(raw.slug, lang) || id;
@@ -105,6 +227,19 @@ module.exports = function () {
         nextEditionDate: raw.next_edition_date || null,
         typicalWindow: pick(raw.typical_window, lang),
         startTime: pick(raw.start_time, lang),
+
+        // The edition year, and ONLY when the organiser has published a date.
+        // It goes in the <title> because the event is annual and "maratón X
+        // 2027" is a real query shape; it stays out of the slug so next year's
+        // edition is an update to this URL rather than a new one. A race with
+        // no confirmed date gets no year rather than a guessed one.
+        year: raw.next_edition_date ? Number(raw.next_edition_date.slice(0, 4)) : null,
+        startBy: startByDates(raw.next_edition_date, LADDER_WEEKS[raw.distance] || []),
+
+        // The date the conditions and entry facts were last checked against the
+        // organiser. This block rots every season — a stamp is the honest
+        // mitigation, and it is cheaper than pretending it will be maintained.
+        lastVerified: raw.last_verified || null,
 
         hook: pick(raw.hook, lang),
         courseProfile: pick(raw.course_profile, lang),
@@ -150,10 +285,18 @@ module.exports = function () {
     console.log(`[races] ⚠️  ${problems.length} image problem(s):`);
     for (const p of problems) console.log(`[races]    ${p}`);
   }
+  if (blocked.length) {
+    console.log(`[races] 🚫 ${blocked.length} race(s) BLOCKED from publishing:`);
+    for (const b of blocked) {
+      console.log(`[races]    ${b.id}`);
+      for (const f of b.fails) console.log(`[races]       - ${f}`);
+    }
+  }
   console.log(
     `[races] ${files.length} race file(s) -> ${all.length} page(s): ` +
-    `es ${byLanguage.es.length} / en ${byLanguage.en.length} / pt ${byLanguage.pt.length}`
+    `es ${byLanguage.es.length} / en ${byLanguage.en.length} / pt ${byLanguage.pt.length}` +
+    (blocked.length ? ` — ${blocked.length} blocked` : "")
   );
 
-  return { all, byLanguage, count: all.length, problems };
+  return { all, byLanguage, count: all.length, problems, blocked };
 };

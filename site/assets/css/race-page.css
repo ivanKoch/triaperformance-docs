@@ -400,6 +400,58 @@
 .plan-capture-status.success { color: #1a7a3c; }
 .plan-capture-status.error { color: var(--slate); }
 
+/* ── Start-by dates ─────────────────────────────────────────────────────────
+   Boxed rather than run into the prose above it: it is the one line on the page
+   a reader is likely to come back for, and it is a different kind of statement
+   from the coaching paragraphs around it — a calculation, not an argument. */
+.race-startby {
+  background: var(--wash);
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin-top: 32px;
+  max-width: 68ch;
+}
+.race-startby-l {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--slate);
+  margin-bottom: 6px;
+}
+.race-startby p { margin: 0; font-size: 17px; line-height: 1.55; }
+
+/* The verified stamp reads as metadata, not as content — small, quiet, and
+   deliberately not styled as a warning. It is a fact about the page, not a
+   caveat about the race. */
+.race-verified {
+  font-size: 13px;
+  color: var(--slate);
+  max-width: 68ch;
+  margin: 20px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--mist);
+}
+
+/* ── FAQ ────────────────────────────────────────────────────────────────────
+   A <dl>, and visible — not an accordion. The questions are the page's own
+   facts restated in the form people type them, so hiding them behind a click
+   costs the one thing this block is for. */
+.race-faq { padding: 56px 0; background: var(--wash); }
+.race-faq h2 { margin: 0 0 24px; }
+.race-faq-list { margin: 0; max-width: 74ch; }
+.race-faq-list dt {
+  font-weight: 700;
+  font-size: 17px;
+  margin: 0 0 8px;
+}
+.race-faq-list dd {
+  margin: 0 0 24px;
+  line-height: 1.65;
+  color: var(--slate);
+}
+.race-faq-list dd:last-child { margin-bottom: 0; }
+
 /* ── Sources ────────────────────────────────────────────────────────────── */
 .race-sources h2 { font-size: 16px; margin: 0 0 12px; color: var(--slate); }
 .race-sources ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }

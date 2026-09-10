@@ -559,6 +559,21 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
     catch (e) { return url; }
   });
 
+  /** First N paragraphs of a race prose field as PLAIN text — no markup, no
+   *  entities. Used for FAQ answers, which have to appear identically in the
+   *  visible <p> and in the FAQPage JSON-LD; schema that does not match the DOM
+   *  is a penalty risk, and the only reliable way to match is to render both
+   *  from one string rather than to keep two in sync. */
+  eleventyConfig.addFilter("plainProse", function (text, paragraphs) {
+    if (!text) return "";
+    return String(text)
+      .split(/\n\s*\n/)
+      .slice(0, paragraphs || 1)
+      .map((p) => p.trim().replace(/\*\*(.+?)\*\*/g, "$1").replace(/\n/g, " "))
+      .filter(Boolean)
+      .join(" ");
+  });
+
   // ---------------------------------------------------------------------------
   // raceProse — the deliberately tiny prose renderer for data/races/*.json.
   //

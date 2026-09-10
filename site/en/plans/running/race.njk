@@ -10,7 +10,7 @@ lang: en
 pageCss: race-page.css
 eleventyComputed:
   transKey: "{{ race.transKey }}"
-  title: "{{ race.name }}: training plan, course and cut-off | Triaperformance"
+  title: "{{ race.name }}{% if race.year %} {{ race.year }}{% endif %}: training plan and cut-offs | Triaperformance"
   ogTitle: "{{ race.name }}"
   description: "{% set d %}{{ race.name }}: course profile, time limit, conditions and how to train for it. 12 and 18-week heart-rate plans.{% endset %}{{ d | clamp(158) }}"
 ---

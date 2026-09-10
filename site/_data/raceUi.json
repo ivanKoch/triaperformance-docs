@@ -44,7 +44,18 @@
     "facetGymOn": "Con gimnasio",
     "facetUnavailable": "Esa combinación no existe en el catálogo todavía.",
     "facetWeeksOnly": "Esta versión existe solo en {weeks} semanas.",
-    "facetHint": "El plan es el mismo bloque: cambia con qué mides la intensidad y si sumas trabajo de gimnasio."
+    "facetHint": "El plan es el mismo bloque: cambia con qué mides la intensidad y si sumas trabajo de gimnasio.",
+    "verifiedOn": "Datos de inscripción y condiciones verificados el {date}. La organización es la fuente para cualquier fecha que se mueva.",
+    "startByTitle": "Cuándo empezar",
+    "startByLine": "Para la edición del {date}: el bloque de 18 semanas empieza el {d18} y el de 12 semanas el {d12}.",
+    "startByNoDate": "Cuando la organización publique la fecha, cuenta 18 o 12 semanas hacia atrás desde ahí para saber cuándo empezar.",
+    "faqTitle": "Preguntas",
+    "faqWhen": "¿Cuándo es {race} {year}?",
+    "faqWhenNoDate": "¿Cuándo se corre {race}?",
+    "faqCutOff": "¿Cuál es el tiempo límite de {race}?",
+    "faqStruggle": "¿Dónde se suele pinchar en {race}?",
+    "faqWeeks": "¿Cuántas semanas de plan hay que contar hacia atrás?",
+    "faqEntry": "¿Cómo se consigue dorsal para {race}?"
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -90,12 +101,23 @@
     "facetGymOn": "With gym",
     "facetUnavailable": "That combination does not exist in the catalogue yet.",
     "facetWeeksOnly": "This version exists at {weeks} weeks only.",
-    "facetHint": "Same block either way: what changes is how you measure intensity, and whether gym work is built in."
+    "facetHint": "Same block either way: what changes is how you measure intensity, and whether gym work is built in.",
+    "verifiedOn": "Entry and conditions verified on {date}. The organiser is the source for any date that moves.",
+    "startByTitle": "When to start",
+    "startByLine": "For the {date} edition: the 18-week block starts on {d18} and the 12-week block on {d12}.",
+    "startByNoDate": "Once the organiser publishes the date, count 18 or 12 weeks back from it to find your start.",
+    "faqTitle": "Questions",
+    "faqWhen": "When is {race} {year}?",
+    "faqWhenNoDate": "When is {race} held?",
+    "faqCutOff": "What is the time limit at {race}?",
+    "faqStruggle": "Where do runners blow up at {race}?",
+    "faqWeeks": "How many weeks should I count back from race day?",
+    "faqEntry": "How do you get a place at {race}?"
   },
   "pt": {
     "breadcrumbHome": "Início",
     "breadcrumbPlans": "Planos",
-    "breadcrumbHub": "Maratona",
+    "breadcrumbHub": "Corrida",
     "eyebrow": "Guia da prova",
     "nextEdition": "Próxima edição",
     "typicalWindow": "Acontece",
@@ -136,6 +158,17 @@
     "facetGymOn": "Com academia",
     "facetUnavailable": "Essa combinação ainda não existe no catálogo.",
     "facetWeeksOnly": "Esta versão existe só em {weeks} semanas.",
-    "facetHint": "O bloco é o mesmo: muda com o que você mede a intensidade e se soma trabalho de academia."
+    "facetHint": "O bloco é o mesmo: muda com o que você mede a intensidade e se soma trabalho de academia.",
+    "verifiedOn": "Dados de inscrição e condições verificados em {date}. A organização é a fonte para qualquer data que mude.",
+    "startByTitle": "Quando começar",
+    "startByLine": "Para a edição de {date}: o bloco de 18 semanas começa em {d18} e o de 12 semanas em {d12}.",
+    "startByNoDate": "Quando a organização publicar a data, conte 18 ou 12 semanas para trás a partir dela.",
+    "faqTitle": "Perguntas",
+    "faqWhen": "Quando é a {race} {year}?",
+    "faqWhenNoDate": "Quando acontece a {race}?",
+    "faqCutOff": "Qual é o tempo limite da {race}?",
+    "faqStruggle": "Onde o pessoal quebra na {race}?",
+    "faqWeeks": "Quantas semanas contar para trás a partir da prova?",
+    "faqEntry": "Como conseguir vaga na {race}?"
   }
 }

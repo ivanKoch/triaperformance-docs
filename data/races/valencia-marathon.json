@@ -3,8 +3,11 @@
   "city": "Valencia",
   "country": "España",
   "distance": "42k",
-  "language_market": ["es", "en", "pt"],
-
+  "language_market": [
+    "es",
+    "en",
+    "pt"
+  ],
   "name": {
     "es": "Maratón Valencia",
     "en": "Valencia Marathon",
@@ -17,8 +20,8 @@
     "en": "valencia-marathon",
     "pt": "maratona-valencia"
   },
-
   "next_edition_date": "2026-12-06",
+  "last_verified": "2026-09-05",
   "typical_window": {
     "es": "Primer domingo de diciembre",
     "en": "First Sunday in December",
@@ -29,13 +32,11 @@
     "en": "Nine corrals, 08:15 to 09:35, by accredited time (2025).",
     "pt": "Nove caixas, das 08:15 às 09:35, por tempo comprovado (2025)."
   },
-
   "hook": {
     "es": "El circuito más rápido de España, y la razón por la que la gente no baja su marca aquí casi nunca es el perfil.",
     "en": "The fastest course in Spain — and the reason people miss their target here is almost never the profile.",
     "pt": "O percurso mais rápido da Espanha, e o motivo de alguém não bater a marca aqui quase nunca é o perfil."
   },
-
   "course_profile": {
     "es": "Circuito cerrado a nivel del mar. Desnivel acumulado entre 47 y 87 m según la fuente; punto más alto, 31 m.",
     "en": "Sea-level loop. Published elevation gain ranges from 47 to 87 m depending on the source; high point 31 m.",
@@ -47,32 +48,27 @@
     "en": "The sources disagree and we do not average them: Las Provincias and Superdeporte give 76 m, Marathon-Index 47 m, Plotaroute 87 m raw and 30-35 m filtered.",
     "pt": "As fontes não coincidem e não fazemos média: Las Provincias e Superdeporte dão 76 m, Marathon-Index 47 m, Plotaroute 87 m bruto e 30-35 m filtrado."
   },
-
   "course_notes": {
     "es": "Salida en el Puente de Monteolivete, junto a la Ciudad de las Artes; meta sobre la pasarela del lago, frente a L'Hemisfèric. Circuito homologado y válido para récord.\n\n**km 0-1.** Bajas del puente. Es el tramo más inclinado de toda la carrera y va hacia abajo (-5,6% en el primer metro, +4,4% en el 0,27). Aquí se regalan los quince segundos que después se pagan.\n\n**km 2-8.** Hacia el Cabanyal y luego Tarongers. Tramo abierto, sin edificios que corten: si hay levante, lo notas de frente.\n\n**km 15-25.** Casco histórico. Giros más cerrados, calles estrechas y el público más denso del recorrido.\n\n**km 31-34.** Hacia el Bioparc y General Avilés. Es la única exigencia real del circuito: alrededor del 1% en lo peor, recta larga y mucho menos público. En 2025 acortaron General Avilés a unos 300 m.\n\n**km 34-38,5.** Bajada suave de vuelta al centro. Se recuperan diez o veinte segundos sin subir el esfuerzo, si todavía queda pierna.",
     "en": "Start on the Puente de Monteolivete beside the City of Arts and Sciences; finish on the walkway over the lake in front of L'Hemisfèric. Certified and record-eligible.\n\n**km 0-1.** Off the bridge. This is the steepest section of the entire race and it points downhill (-5.6% in the first metre, +4.4% at 0.27). This is where the fifteen seconds get given away that get paid back later.\n\n**km 2-8.** East toward Cabanyal, then Tarongers. Open ground with nothing to break the air: an easterly is felt head-on here.\n\n**km 15-25.** The old town. Tighter turns, narrower streets, and the densest crowd on the course.\n\n**km 31-34.** Out toward Bioparc and General Avilés. The only real demand the course makes: about 1% at its worst, a long straight, and far fewer spectators. The 2025 reroute shortened General Avilés to roughly 300 m.\n\n**km 34-38.5.** A gentle descent back into the centre. Ten to twenty seconds come back without lifting effort — if there are legs left to take them.",
     "pt": "Largada na Ponte de Monteolivete, ao lado da Cidade das Artes; chegada na passarela sobre o lago, em frente ao L'Hemisfèric. Percurso homologado e válido para recorde.\n\n**km 0-1.** Descida da ponte. É o trecho mais inclinado da prova inteira e aponta para baixo (-5,6% no primeiro metro, +4,4% no 0,27). É aqui que se regalam os quinze segundos que depois se pagam.\n\n**km 2-8.** Rumo ao Cabanyal e depois Tarongers. Trecho aberto, sem prédios para cortar o vento: se houver leste, você sente de frente.\n\n**km 15-25.** Centro histórico. Curvas mais fechadas, ruas estreitas e o público mais denso do percurso.\n\n**km 31-34.** Em direção ao Bioparc e General Avilés. É a única exigência real do circuito: cerca de 1% no pior ponto, reta longa e muito menos público. Em 2025 encurtaram a General Avilés para uns 300 m.\n\n**km 34-38,5.** Descida suave de volta ao centro. Recuperam-se dez ou vinte segundos sem subir o esforço, se ainda houver perna."
   },
-
   "where_they_struggle": {
     "es": "El problema de Valencia es el calor de las últimas tandas, no las cuestas.\n\nEn 2025, la edición más calurosa del calendario reciente: Aemet marcó 22 °C en meta y poniente de 30-40 km/h en la segunda mitad. Quien salió a las 09:35 corrió una carrera distinta de quien salió a las 08:15, y los que venían de entrenar el invierno británico o del norte de Europa lo pagaron entero.\n\nEl punto de rotura se repite en los relatos: **entre el 30 y el 35**. Un corredor de 2:41 lo describió como \"una falsa cuesta minúscula en el 32 que se sintió como el Everest\", con gente parando y con calambres alrededor. Su parcial más lento de toda la carrera fue ese.\n\nY el viento no se reparte igual: el Cabanyal en los primeros ocho kilómetros y la Ronda Norte son donde pega.",
     "en": "Valencia's problem is heat in the later waves, not hills.\n\n2025 was the warmest edition of the recent calendar: the Spanish met office recorded 22 °C at the finish and a 30-40 km/h westerly through the second half. A runner starting at 09:35 ran a different race from one starting at 08:15, and anyone arriving off a British or northern European winter block paid for it in full.\n\nThe breaking point is consistent across race reports: **between 30 and 35 km**. A 2:41 finisher described \"a tiny false incline around 32K that felt like Mount Everest,\" with people stopping and cramping around him. That was his slowest 5 km split of the day.\n\nThe wind is not evenly distributed either: Cabanyal in the first eight kilometres and the Ronda Norte are where it lands.",
     "pt": "O problema de Valência é o calor dos últimos pelotões, não as subidas.\n\nEm 2025, a edição mais quente do calendário recente: o instituto meteorológico espanhol registrou 22 °C na chegada e vento oeste de 30-40 km/h na segunda metade. Quem largou às 09:35 correu uma prova diferente de quem largou às 08:15, e quem vinha de treinar o inverno britânico ou do norte da Europa pagou inteiro.\n\nO ponto de ruptura se repete nos relatos: **entre o 30 e o 35**. Um corredor de 2:41 descreveu \"uma falsa subida minúscula no 32 que pareceu o Everest\", com gente parando e com cãibras em volta. O parcial mais lento dele na prova toda foi esse.\n\nE o vento não se distribui igual: o Cabanyal nos primeiros oito quilômetros e a Ronda Norte são onde ele bate."
   },
-
   "typical_weather": {
     "es": "Diciembre en Valencia: media histórica cercana a 15 °C y 65% de humedad, a nivel del mar. Brisa marina en los primeros ocho kilómetros; poniente en la segunda mitad los años en que aprieta.",
     "en": "December in Valencia: historical average near 15 °C and 65% humidity, at sea level. Sea breeze over the first eight kilometres; a westerly through the second half in the years it blows.",
     "pt": "Dezembro em Valência: média histórica perto de 15 °C e 65% de umidade, ao nível do mar. Brisa marinha nos primeiros oito quilômetros; vento oeste na segunda metade nos anos em que aperta."
   },
-
   "cut_off": {
     "year": 2025,
     "es": "**5:30** desde 2025, bajado desde las 6:00 anteriores. Corte intermedio por reloj: quien pasa el **km 25 después de las 12:57** queda fuera de carrera. La meta cerró a las 15:10.",
     "en": "**5:30**, lowered from 6:00 in 2025. Intermediate gate on clock time: anyone through **km 25 after 12:57** is pulled. The finish line closed at 15:10.",
     "pt": "**5:30** desde 2025, reduzido das 6:00 anteriores. Corte intermediário por relógio: quem passa o **km 25 depois das 12:57** fica fora de prova. A chegada fechou às 15:10."
   },
-
   "field": {
     "year": 2025,
     "finishers_low": 30406,
@@ -89,7 +85,6 @@
       "pt": "Um 2:59:59 foi aproximadamente o 5.450º lugar entre uns 30.500. É o dado que melhor explica que tipo de prova é esta."
     }
   },
-
   "registration_window": {
     "es": "Ventana de fidelidad a mediados de diciembre, justo después de la carrera; sorteo abierto para el resto a finales de diciembre.",
     "en": "Loyalty window in mid-December, immediately after race day; open ballot for everyone else in late December.",
@@ -101,7 +96,7 @@
     "pt": "Janela de fidelidade + sorteio"
   },
   "sell_out_note": {
-    "es": "Los primeros 10.000 dorsales salieron a 80 € y se agotaron en dos horas; el resto, a 180 €. El sorteo para corredores nuevos es gratuito, con 5 € de retención y doce días para pagar si sales elegido. Cupo total entre 35.000 y 36.000.",
+    "es": "Los primeros 10.000 dorsales salieron a 80 € y se agotaron en dos horas; el resto, a 180 €. El sorteo para corredores nuevos es gratuito, con 5 € de retención y doce días para pagar si resultas elegido. Cupo total entre 35.000 y 36.000.",
     "en": "The first 10,000 bibs went at €80 and were gone in two hours; the rest at €180. The ballot for new runners is free, with a €5 hold and twelve days to pay if drawn. Total cap between 35,000 and 36,000.",
     "pt": "Os primeiros 10.000 números saíram a 80 € e esgotaram em duas horas; o resto, a 180 €. O sorteio para corredores novos é gratuito, com 5 € de retenção e doze dias para pagar se você for sorteado. Cota total entre 35.000 e 36.000."
   },
@@ -115,19 +110,33 @@
     "en": "Corrals targeting under 3:12 require a documented marathon, half, 15 km or 10 km time from the last three years. If you want one, the qualifying race has to happen before you register.",
     "pt": "As caixas que miram abaixo de 3:12 exigem uma marca documentada de maratona, meia, 15 km ou 10 km dos últimos três anos. Se você quer uma, precisa correr essa prova antes de se inscrever."
   },
-
   "how_to_train": {
     "es": "Dos cosas del circuito cambian el bloque, y ninguna es la cuesta.\n\n**La primera es la salida cuesta abajo.** El kilómetro más rápido de tu maratón va a ser el primero, quieras o no. Eso no se corrige el día de la carrera con fuerza de voluntad: se entrena metiendo rodajes largos que empiecen por debajo del ritmo objetivo, para que el cuerpo tenga memoria de arrancar lento cuando todo empuja a lo contrario.\n\n**La segunda es el calor de la última tanda.** Si sales a las 09:30 vas a correr la segunda mitad varios grados por encima de lo que entrenaste, sobre todo si tu bloque fue en un invierno de verdad. Ahí la estrategia no es correr más: es haber ensayado la hidratación a ritmo de carrera, no solo en rodajes suaves, y haber aceptado un objetivo con un margen de seguridad de diez o quince segundos por kilómetro.\n\n**Y el tramo del 30 al 35 es lo que decide el resultado.** No es duro por el desnivel, es duro porque llega con treinta kilómetros de ritmo sostenido en las piernas y sin público. Los bloques que funcionan aquí meten trabajo a ritmo maratón *al final* de rodajes largos, no al principio: la capacidad que necesitas es sostener ritmo con fatiga acumulada, y eso es una sesión concreta, no una idea.",
     "en": "Two things about this course change the training block, and neither of them is the hill.\n\n**The first is the downhill start.** The fastest kilometre of your marathon will be the first one, whether you plan it or not. That does not get corrected on race day by willpower — it gets trained by running long runs that open below goal pace, so the body has a memory of starting slow when everything is pushing the other way.\n\n**The second is heat in the last wave.** Starting at 09:30 means running the second half several degrees warmer than you trained, especially off a real winter block. The answer there is not to run harder: it is to have rehearsed fuelling and fluid at race pace rather than only on easy runs, and to have set a target with ten or fifteen seconds per kilometre of margin in it.\n\n**And the 30-35 km stretch is what decides the result.** It is not hard because of the gradient. It is hard because it arrives with thirty kilometres of sustained pace in the legs and no crowd. The blocks that work here put marathon-pace work at the *end* of long runs, not the beginning: the capacity you need is holding pace under accumulated fatigue, and that is a specific session, not an idea.",
     "pt": "Duas coisas do percurso mudam o bloco, e nenhuma delas é a subida.\n\n**A primeira é a largada em descida.** O quilômetro mais rápido da sua maratona vai ser o primeiro, querendo ou não. Isso não se corrige no dia da prova na base da força de vontade: treina-se colocando longões que começam abaixo do ritmo alvo, para o corpo ter memória de sair devagar quando tudo empurra para o contrário.\n\n**A segunda é o calor do último pelotão.** Largar às 09:30 significa correr a segunda metade vários graus acima do que você treinou, ainda mais vindo de um inverno de verdade. Ali a estratégia não é correr mais: é ter ensaiado a hidratação e o carboidrato em ritmo de prova, não só nos rodagens leves, e ter aceitado um objetivo com dez ou quinze segundos por quilômetro de margem.\n\n**E o trecho do 30 ao 35 é o que decide o resultado.** Não é duro pelo desnível. É duro porque chega com trinta quilômetros de ritmo sustentado nas pernas e sem público. Os blocos que funcionam aqui colocam trabalho em ritmo de maratona *no fim* dos longões, não no começo: a capacidade que você precisa é sustentar ritmo com fadiga acumulada, e isso é uma sessão concreta, não uma ideia."
   },
-
   "target_queries": {
-    "es": ["plan entrenamiento maraton valencia", "maraton valencia tiempo limite", "como prepararse maraton valencia diciembre", "maraton valencia inscripciones 2027", "maraton valencia perfil recorrido"],
-    "en": ["valencia marathon training plan", "valencia marathon cut off time", "is the valencia marathon flat", "valencia marathon ballot", "valencia marathon weather december"],
-    "pt": ["plano treino maratona valencia", "maratona de valencia tempo de corte", "maratona valencia inscricao", "maratona de valencia percurso"]
+    "es": [
+      "plan entrenamiento maraton valencia",
+      "maraton valencia tiempo limite",
+      "como prepararse maraton valencia diciembre",
+      "maraton valencia inscripciones 2027",
+      "maraton valencia perfil recorrido"
+    ],
+    "en": [
+      "valencia marathon training plan",
+      "valencia marathon cut off time",
+      "is the valencia marathon flat",
+      "valencia marathon ballot",
+      "valencia marathon weather december"
+    ],
+    "pt": [
+      "plano treino maratona valencia",
+      "maratona de valencia tempo de corte",
+      "maratona valencia inscricao",
+      "maratona de valencia percurso"
+    ]
   },
-
   "sources": [
     "https://www.valenciaciudaddelrunning.com",
     "https://www.lasprovincias.es/sociedad/a-la-carrera/recorrido-maraton-valencia-2025-barrios-calle-calle-20251206195513-nt.html",
