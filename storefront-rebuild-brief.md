@@ -303,6 +303,18 @@
 
 🔑 ***He also supplied "2h58 PR" with the marathon photo, and it did NOT go in the caption.*** *It went into the prose, in the same sentence as the average:* **"Tres veces bajé de las 3 horas, y la mejor fue 2h58. La media de esos veinte está más cerca de 3h30."** ⚠️ **A caption is exactly where a proud number goes to stand alone, which is the highlight-reel behaviour this page was rewritten to remove** — *in the sentence it is bounded by the 3h30 two clauses later, and the page's one rule survives contact with its best number.* **`personDescription` was sharpened at the same time** — *"mejor marca 2h58" instead of "por debajo de 3 horas", in all three languages* — *because that string feeds the `Person` schema and a precise figure is a better entity fact than a bound.*
 
+**Copy pass, Iván's, same day — seven edits, all applied in three languages:**
+
+- *"Antes de eso, el amigo que te armaba el plan"* → **"Empezó siendo el amigo que te armaba el plan."**
+- *"lo que me pegó al deporte no fue 'seguir la ciencia' como eslogan: fue…"* → **"Lo que me pegó al deporte fue hacer la cuenta mientras corro."** *The straw man goes; the sentence keeps only what it was actually asserting.*
+- **"trabajo en operaciones" removed** from the finance/MBA line. *`Pero` went with it — with nothing to contrast against, the conjunction was pointing at a clause that no longer existed.*
+- **`Papeles` → `Certificaciones`** (`Certifications` / `Certificações`).
+- **"Se renuevan y sirven para lo que sirven" removed.** *Nothing is lost: the TrainingPeaks section two chapters up already says the accreditation renews every year.*
+- **Form: "Déjame tus datos y te contacto en menos de 24 horas. Sin compromiso." → "Objetivo y fecha de carrera alcanzan."** *Page-local, checked — the three About pages each carry their own `.cta-final` copy, so nothing else moved.*
+- **The roster line gained the work behind it:** *"Hoy, después de mucho aprendizaje, certificaciones y miles de horas coacheando, son alrededor de cuarenta atletas al mismo tiempo."*
+
+⚠️ ***One grammar fix inside that last edit, and it is worth recording because the fix is invisible in English.*** *As dictated — "Hoy, mucho aprendizaje, certificaciones y miles de horas coacheando, son alrededor de cuarenta atletas" — the apposition has nothing to attach to and the sentence does not parse in Spanish.* **`después de` was added so the list becomes what the years consist of rather than a second subject.** *`coacheando` was KEPT despite being an anglicism: the neutral alternative, "miles de horas entrenando", is ambiguous in Spanish — it reads as thousands of hours of his OWN training, which is the opposite of the claim. PT has no such verb, so it uses the explicit "treinando atletas".*
+
 **Still Iván's:** the Coach Match lead number, if he has one.
 
 ---
