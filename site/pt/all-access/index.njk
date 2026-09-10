@@ -34,19 +34,39 @@ checkout: https://checkout.trainingpeaks.com/product/938a0833-d337-4a9f-a33a-341
     </ol>
 
     <figure class="aa-shot aa-shot--wide">
+      {#- 🚨 srcset, and the 1.55× that made it necessary. This figure renders at
+          1032 CSS px on desktop and 342 px on a phone. A single 1600 px file is
+          1.55× at the desktop size — visibly soft on any retina display, and
+          these are screenshots of small dense text, which is exactly where soft
+          costs the most. It was 4.68× on the phone at the same time: the one
+          file was simultaneously too small and too big.
+          Two widths fix both — 2200 px for the 2× desktop case, 1600 px so a
+          phone does not download it. Measured in a browser, not guessed. -#}
       <picture>
-        <source type="image/webp" srcset="{{ "/assets/images/tp-calendario.webp" | v }}">
-        <img src="{{ "/assets/images/tp-calendario.jpg" | v }}" width="1600" height="766"
-             alt="Três semanas de um plano de triatlo já aplicadas a um calendário do TrainingPeaks" loading="lazy" decoding="async">
+        <source type="image/webp" sizes="(max-width: 760px) 92vw, 1032px"
+                srcset='{{ "/assets/images/tp-calendario.webp" | v }} 1600w, {{ "/assets/images/tp-calendario-2200.webp" | v }} 2200w'>
+        <img src="{{ "/assets/images/tp-calendario-2200.jpg" | v }}" sizes="(max-width: 760px) 92vw, 1032px"
+             srcset='{{ "/assets/images/tp-calendario.jpg" | v }} 1600w, {{ "/assets/images/tp-calendario-2200.jpg" | v }} 2200w'
+             width="2200" height="1053" alt="Três semanas de um plano de triatlo já aplicadas a um calendário do TrainingPeaks" loading="lazy" decoding="async">
       </picture>
       <figcaption><b>É assim que o plano aparece na segunda-feira.</b><span>Três semanas aplicadas: bike, natação, corrida e força nos seus dias, com a duração e o TSS de cada sessão e o total da semana à direita.</span></figcaption>
     </figure>
 
     <figure class="aa-shot aa-shot--wide">
+      {#- 🚨 srcset, and the 1.55× that made it necessary. This figure renders at
+          1032 CSS px on desktop and 342 px on a phone. A single 1600 px file is
+          1.55× at the desktop size — visibly soft on any retina display, and
+          these are screenshots of small dense text, which is exactly where soft
+          costs the most. It was 4.68× on the phone at the same time: the one
+          file was simultaneously too small and too big.
+          Two widths fix both — 2200 px for the 2× desktop case, 1600 px so a
+          phone does not download it. Measured in a browser, not guessed. -#}
       <picture>
-        <source type="image/webp" srcset="{{ "/assets/images/tp-workout.webp" | v }}">
-        <img src="{{ "/assets/images/tp-workout.jpg" | v }}" width="1600" height="837"
-             alt="Uma sessão de VO2max aberta no TrainingPeaks, com os blocos de intervalos e a descrição" loading="lazy" decoding="async">
+        <source type="image/webp" sizes="(max-width: 760px) 92vw, 1032px"
+                srcset='{{ "/assets/images/tp-workout.webp" | v }} 1600w, {{ "/assets/images/tp-workout-2200.webp" | v }} 2200w'>
+        <img src="{{ "/assets/images/tp-workout-2200.jpg" | v }}" sizes="(max-width: 760px) 92vw, 1032px"
+             srcset='{{ "/assets/images/tp-workout.jpg" | v }} 1600w, {{ "/assets/images/tp-workout-2200.jpg" | v }} 2200w'
+             width="2200" height="1151" alt="Uma sessão de VO2max aberta no TrainingPeaks, com os blocos de intervalos e a descrição" loading="lazy" decoding="async">
       </picture>
       <figcaption><b>E é assim que uma sessão é por dentro.</b><span>Os intervalos construídos bloco a bloco em % do seu FTP, com a descrição e o propósito escritos por mim — não "faça 6×3 minutos forte".</span></figcaption>
     </figure>

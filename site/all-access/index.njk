@@ -46,21 +46,39 @@ checkout: https://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd
     </ol>
 
     <figure class="aa-shot aa-shot--wide">
+      {#- 🚨 srcset, and the 1.55× that made it necessary. This figure renders at
+          1032 CSS px on desktop and 342 px on a phone. A single 1600 px file is
+          1.55× at the desktop size — visibly soft on any retina display, and
+          these are screenshots of small dense text, which is exactly where soft
+          costs the most. It was 4.68× on the phone at the same time: the one
+          file was simultaneously too small and too big.
+          Two widths fix both — 2200 px for the 2× desktop case, 1600 px so a
+          phone does not download it. Measured in a browser, not guessed. -#}
       <picture>
-        <source type="image/webp" srcset="{{ "/assets/images/tp-calendario.webp" | v }}">
-        <img src="{{ "/assets/images/tp-calendario.jpg" | v }}" width="1600" height="766"
-             alt="Tres semanas de un plan de triatlón ya aplicadas a un calendario de TrainingPeaks"
-             loading="lazy" decoding="async">
+        <source type="image/webp" sizes="(max-width: 760px) 92vw, 1032px"
+                srcset='{{ "/assets/images/tp-calendario.webp" | v }} 1600w, {{ "/assets/images/tp-calendario-2200.webp" | v }} 2200w'>
+        <img src="{{ "/assets/images/tp-calendario-2200.jpg" | v }}" sizes="(max-width: 760px) 92vw, 1032px"
+             srcset='{{ "/assets/images/tp-calendario.jpg" | v }} 1600w, {{ "/assets/images/tp-calendario-2200.jpg" | v }} 2200w'
+             width="2200" height="1053" alt="Tres semanas de un plan de triatlón ya aplicadas a un calendario de TrainingPeaks" loading="lazy" decoding="async">
       </picture>
       <figcaption><b>Así se ve el plan el lunes.</b><span>Tres semanas aplicadas: bici, natación, carrera y fuerza en sus días, con la duración y el TSS de cada sesión y el total de la semana a la derecha.</span></figcaption>
     </figure>
 
     <figure class="aa-shot aa-shot--wide">
+      {#- 🚨 srcset, and the 1.55× that made it necessary. This figure renders at
+          1032 CSS px on desktop and 342 px on a phone. A single 1600 px file is
+          1.55× at the desktop size — visibly soft on any retina display, and
+          these are screenshots of small dense text, which is exactly where soft
+          costs the most. It was 4.68× on the phone at the same time: the one
+          file was simultaneously too small and too big.
+          Two widths fix both — 2200 px for the 2× desktop case, 1600 px so a
+          phone does not download it. Measured in a browser, not guessed. -#}
       <picture>
-        <source type="image/webp" srcset="{{ "/assets/images/tp-workout.webp" | v }}">
-        <img src="{{ "/assets/images/tp-workout.jpg" | v }}" width="1600" height="837"
-             alt="Una sesión de VO2max abierta en TrainingPeaks, con los bloques de intervalos y la descripción"
-             loading="lazy" decoding="async">
+        <source type="image/webp" sizes="(max-width: 760px) 92vw, 1032px"
+                srcset='{{ "/assets/images/tp-workout.webp" | v }} 1600w, {{ "/assets/images/tp-workout-2200.webp" | v }} 2200w'>
+        <img src="{{ "/assets/images/tp-workout-2200.jpg" | v }}" sizes="(max-width: 760px) 92vw, 1032px"
+             srcset='{{ "/assets/images/tp-workout.jpg" | v }} 1600w, {{ "/assets/images/tp-workout-2200.jpg" | v }} 2200w'
+             width="2200" height="1151" alt="Una sesión de VO2max abierta en TrainingPeaks, con los bloques de intervalos y la descripción" loading="lazy" decoding="async">
       </picture>
       <figcaption><b>Y así se ve una sesión por dentro.</b><span>Los intervalos construidos bloque a bloque en % de tu FTP, con la descripción y el propósito escritos por mí — no "haz 6×3 minutos fuerte".</span></figcaption>
     </figure>
@@ -88,12 +106,38 @@ checkout: https://checkout.trainingpeaks.com/product/188df02f-d71f-4b5b-8d43-abd
               costs 232 KB and buys a verifiable one, plus Firefox builds with no
               system H.264. MP4 first: it is smaller and it is what most visitors
               will actually decode. -#}
+          {#- 🚨 NO `autoplay`, and `preload="none"`. Measured September 10, 2026:
+              with `autoplay` the browser fetched the video at first paint —
+              before the reader had scrolled anywhere near it — and the phone's
+              initial payload was 712 kB for a first screen that is a headline
+              and a price. `autoplay` overrides `preload="metadata"`: the browser
+              has to load in order to obey it.
+              So playback starts on intersection instead, and until the section is
+              on screen the page pays ZERO video bytes. -#}
           <video poster="{{ "/assets/images/activacion-poster.jpg" | v }}"
-                 muted autoplay loop playsinline preload="metadata"
+                 muted loop playsinline preload="none"
                  aria-label="Rutina de activación armándose y corriendo con temporizador">
             <source src="{{ "/assets/video/activacion-loop.mp4" | v }}" type="video/mp4">
             <source src="{{ "/assets/video/activacion-loop.webm" | v }}" type="video/webm">
           </video>
+          {#- Loads and plays only once the block is on screen; the poster carries
+              the section until then. Reduced motion is respected — someone who
+              asked the OS not to animate things does not want a looping video. -#}
+          <script>
+          (function(){
+            var v = document.currentScript.previousElementSibling;
+            if (!v || !('IntersectionObserver' in window)) return;
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            new IntersectionObserver(function(es, o){
+              es.forEach(function(e){
+                if (!e.isIntersecting) return;
+                v.preload = 'auto';
+                v.play().catch(function(){});   /* a refusal leaves the poster up */
+                o.disconnect();
+              });
+            }, { rootMargin: '200px' }).observe(v);
+          })();
+          </script>
         </div>
         <figcaption><b>Activación adaptativa</b><span>Tres preguntas — qué vas a hacer, cómo llegas, qué equipo tienes — y el circuito se arma solo. Cada ejercicio va por tiempo: no hay nada que contar.</span></figcaption>
       </figure>
