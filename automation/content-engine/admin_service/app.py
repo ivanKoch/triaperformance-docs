@@ -47,7 +47,8 @@ TYPE_LABEL = {"plan_guide": "Guía de planes", "education": "Educativo",
               "gated_teaser": "Teaser (miembros)", "gear": "Equipamiento",
               "case_study": "Caso de atleta"}
 CTA_LABEL = {"plan": "Plan", "all_access": "All-Access", "coaching": "Coaching",
-             "affiliate": "Afiliados", "lead_magnet": "Lead magnet", "none": "Sin CTA"}
+             "affiliate": "Afiliados", "lead_magnet": "Lead magnet",
+             "tool": "Herramienta gratis", "none": "Sin CTA"}
 LANG_LABEL = {"es": "ES", "en": "EN", "pt": "PT"}
 
 
@@ -305,16 +306,50 @@ def ideas_decide():
 # DESC — his own ideas belong ahead of agent proposals in the queue.
 # ---------------------------------------------------------------------------
 ARTICLE_TYPES = ("education", "plan_guide", "gated_teaser", "gear", "case_study")
-CTA_TYPES = ("all_access", "plan", "coaching", "lead_magnet", "affiliate", "none")
+CTA_TYPES = ("all_access", "plan", "coaching", "lead_magnet", "tool", "affiliate", "none")
 LANGS = ("es", "en", "pt")
 
 # Offered as a datalist on cta_target. Pointing an article at a specific tool is
 # the main reason this form exists, and nobody remembers exact paths.
-TOOL_PATHS = [
+#
+# The members list stays hand-kept — those paths are gated and change rarely.
+# The free public ones are READ FROM THE NAV (September 11, 2026), the same
+# source `research_agent.load_public_tools()` uses, because a public tool that is
+# not in the Recursos menu is an orphan URL anyway. One list, two consumers.
+_MEMBERS_TOOL_PATHS = [
     "/members/calculadora-de-zonas/", "/members/activacion/", "/members/rodillas/",
     "/members/aquiles/", "/members/core/", "/members/respiracion/",
     "/members/carga/", "/members/guias/",
 ]
+
+
+# The repo root, from this file: automation/content-engine/admin_service/app.py
+_REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+
+
+def _public_tool_paths():
+    """Public tool URLs from the Recursos menu. Empty list if the nav is absent —
+    this is a convenience datalist, never a reason for the admin not to start."""
+    nav = os.path.join(_REPO, "site", "_data", "nav.json")
+    if not os.path.exists(nav):
+        return []
+    try:
+        data = json.load(open(nav, encoding="utf-8"))
+    except (ValueError, OSError):
+        return []
+    out = []
+    for lang in ("es", "en", "pt"):
+        for item in (data.get(lang) or {}).get("items", []):
+            if not item.get("menuOnly"):
+                continue
+            for child in item.get("children", []):
+                url = (child.get("url") or "").strip()
+                if url.endswith("/") and url.rstrip("/").split("/")[-1] != "blog":
+                    out.append(url)
+    return out
+
+
+TOOL_PATHS = _MEMBERS_TOOL_PATHS + _public_tool_paths()
 
 
 def _sel(values, labels, chosen):

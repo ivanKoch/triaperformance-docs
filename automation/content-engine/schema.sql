@@ -82,8 +82,18 @@ CREATE TYPE cta_type AS ENUM (
     'coaching',    -- 1:1
     'affiliate',   -- gear
     'lead_magnet', -- the PDF guides, for email capture
+    'tool',        -- a FREE, ungated tool page. Added September 11, 2026.
     'none'         -- ranking and traffic is a legitimate goal on its own
 );
+
+-- ⚠️ `tool` was added to an enum that already existed in production, so this
+-- file describes a fresh install and NOT the live database. The live value was
+-- added with:
+--     ALTER TYPE cta_type ADD VALUE IF NOT EXISTS 'tool';
+-- Run that BEFORE deploying a research_agent that can emit it: an insert of an
+-- absent enum value aborts the transaction, and save_ideas() inserts a whole
+-- batch under one cursor — so the failure would not cost one idea, it would
+-- cost the run.
 
 CREATE TABLE IF NOT EXISTS content_ideas (
     id             SERIAL PRIMARY KEY,

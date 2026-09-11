@@ -87,6 +87,12 @@ A new `content` database on the existing `analytics-postgres` container — same
 
 For each: what goes in, what comes out, what runs it. "Runtime" follows your execution-ownership principle — n8n for deterministic, an LLM for judgment, and nothing recurring on a Claude scheduled task.
 
+> **Amendment, September 11, 2026 — a sixth CTA type, and the asset list the agent was missing.** *Detail and the defect that came with it: `ai-infrastructure-documentation.md` §52.*
+>
+> **`cta_type` gains `tool`:** a free, ungated page on our own site. It is not `lead_magnet` (that is a PDF behind an email form) and it is not `all_access` (that is behind a login). ⚠️ *The coherence rule runs the opposite way to the others — the CTA constrains the article type (`education` or `plan_guide`), not the reverse — because the failure mode is a free tool proposed as a `gated_teaser`.*
+>
+> **And `our_assets` gains `public_tools`, which is the bigger half.** Until this date the agent had **never been told that any free public tool exists** — not the zones calculator, not the pace converter. It could name a plan, a members artifact, a methodology section or a race, and `save_ideas()` discards an idea that names none, so an article routing a reader to a free tool was not unlikely, it was *unproposable*. 🔑 **The list is read from the Recursos nav, not from a scan of `site/`,** because a public tool that is not in that menu is an orphan URL — so "it is in the nav" and "the ideas agent knows it exists" become one fact instead of two lists.
+
 ### Agent 1 — Research / ideation
 
 **Runs:** weekly, n8n schedule trigger → LLM call with a deterministically assembled prompt.

@@ -507,6 +507,110 @@ def discover(source, delay=2.0, debug=False):
 
 
 # ---------------------------------------------------------------------------
+# The free public tools, read from the Recursos menu
+#
+# Derived, not listed — the same fix `writer_agent.site_links()` applies to
+# internal links, for the same reason, and it is worth saying why the SOURCE is
+# the nav rather than a scan of `site/`.
+#
+# The repo already enforces this inventory from the other side: a free public
+# tool that is not in the Recursos dropdown is an orphan URL with no way in.
+# That is how `/calculadora-de-ritmo-en-calor/` and `/calor-y-rendimiento/` were
+# caught on September 11, 2026 — published, indexable, and reachable only by
+# typing the address. So reading the menu makes "it is in the nav" and "the
+# ideas agent knows it exists" the same fact instead of two lists that drift.
+#
+# ⚠️ The gap this closes is wider than one tool. Before this, the ideas agent had
+# NEVER been told that any free public tool exists — not the zones calculator,
+# not the pace converter. It could name a plan, a members artifact, a
+# methodology section or a race as the asset behind an idea, and nothing else.
+# ---------------------------------------------------------------------------
+def load_public_tools(nav_path=None, site_root=None):
+    """Free, ungated pages a reader can use today, per language.
+
+    Returns [{lang, url, name, page}] — `name` is the nav label (what Iván calls
+    it) and `page` is the page's own <title> (what the reader lands on). The blog
+    index is excluded: it is a feed, not a tool, and an idea whose named asset is
+    "the blog" is an idea anyone could write.
+    """
+    nav_path = nav_path or os.path.join(REPO, "site", "_data", "nav.json")
+    site_root = site_root or os.path.join(REPO, "site")
+    if not os.path.exists(nav_path):
+        return []
+    try:
+        nav = json.load(open(nav_path, encoding="utf-8"))
+    except (ValueError, OSError):
+        return []
+
+    out = []
+    for lang in ("es", "en", "pt"):
+        for item in (nav.get(lang) or {}).get("items", []):
+            # The resources dropdown is the one with no page of its own.
+            if not item.get("menuOnly"):
+                continue
+            for child in item.get("children", []):
+                url = (child.get("url") or "").strip()
+                if not url.endswith("/"):
+                    continue
+                if url.rstrip("/").split("/")[-1] == "blog":
+                    continue
+                rel = url.strip("/").replace("/", os.sep)
+                title = ""
+                for idx in ("index.njk", "index.md"):
+                    f = os.path.join(site_root, rel, idx)
+                    if os.path.exists(f):
+                        txt = open(f, encoding="utf-8").read()
+                        if txt.startswith("---"):
+                            fm = txt.split("---", 2)[1]
+                            m = re.search(r"^title:\s*(.*)$", fm, re.M)
+                            if m:
+                                title = m.group(1).strip().strip('"')
+                        break
+                out.append({"lang": lang, "url": url,
+                            "name": child.get("label", ""),
+                            "page": title,
+                            "sub": bool(child.get("sub"))})
+    return out
+
+
+# Serialising the assets without silently losing half of them
+# ---------------------------------------------------------------------------
+# 🚨 Found September 11, 2026, adding `public_tools`: this block was
+# `json.dumps(assets, indent=1)[:6000]`, and the real payload is ~13.5 KB. So a
+# hard slice at 6000 was cutting the JSON IN THE MIDDLE OF A STRING and handing
+# the model a document that does not close. Two consequences, both live for
+# however long it has been that size:
+#
+#   * `lead_magnets` is the last key and has NEVER reached the prompt. The
+#     prompt has been offering `cta_type = lead_magnet` to a model that was
+#     never shown which lead magnets exist.
+#   * `races` — described in the prompt as "the single highest-intent content
+#     angle in the repo" — was arriving truncated, roughly a third of it.
+#
+# The fix is not a bigger number. A budget that can be exceeded by adding a race
+# will be exceeded again, so the truncation has to degrade a LIST rather than a
+# STRING: drop whole races from the end until it fits, and always emit valid
+# JSON. Every other section is small and bounded and is never dropped.
+def assets_payload(assets, budget=20000):
+    """Assets as JSON that always parses, shrinking by whole races if needed.
+
+    Any truncation is announced in a top-level `_races_truncated` key rather
+    than inside the list — a marker spliced into the array is how the first
+    version of this function reintroduced the exact bug it was written to fix.
+    """
+    total = len(assets.get("races") or [])
+    races = list(assets.get("races") or [])
+    while True:
+        a = dict(assets)
+        a["races"] = races
+        if len(races) < total:
+            a["_races_truncated"] = f"{len(races)} of {total} races shown"
+        out = json.dumps(a, ensure_ascii=False, indent=1)
+        if len(out) <= budget or not races:
+            return out
+        races = races[:-1]
+
+
 # Our own assets — the half of the equation the sources don't have
 # ---------------------------------------------------------------------------
 def load_our_assets():
@@ -514,8 +618,20 @@ def load_our_assets():
     import csv
 
     assets = {"plans_by_topic": {}, "members_artifacts": [], "methodology_sections": [],
-              "races": [],
-              "lead_magnets": ["zonas-de-entrenamiento", "pre-entreno", "intervalos"]}
+              "races": [], "public_tools": [], "lead_magnets": []}
+
+    # Lead magnets, derived. This was a hardcoded three-item list until
+    # September 11, 2026, and by then it was wrong in BOTH directions: it named
+    # `pre-entreno`, a PDF deleted that week, and it missed
+    # `semana-de-fuerza-del-corredor` and `sesiones-por-zona` plus every EN/PT
+    # sibling. A hardcoded inventory of files does not survive the files
+    # changing — an `ls` does.
+    guias = os.path.join(REPO, "site", "assets", "guias")
+    if os.path.isdir(guias):
+        assets["lead_magnets"] = sorted(
+            f[:-4] for f in os.listdir(guias) if f.endswith(".pdf"))
+
+    assets["public_tools"] = load_public_tools()
 
     inv = os.path.join(REPO, "data", "training_plans_inventory.csv")
     if os.path.exists(inv):
@@ -965,8 +1081,12 @@ WHAT MAKES AN IDEA GOOD
 Every idea must name concrete Triaperformance assets in `our_assets`. If you cannot
 name any, the idea is one anyone could write — discard it and propose another.
 Available assets are listed under OUR ASSETS below: the plan catalog (with counts
-per language), the members-area artifacts, the coaching methodology sections, and
-the lead-magnet guides.
+per language), the members-area artifacts, the coaching methodology sections, the
+lead-magnet guides, and PUBLIC TOOLS — free, ungated pages a reader can use the
+moment they land. A public tool is the strongest asset in that list for a
+how-much / how-fast / what-should-my-number-be question, because the article can
+answer it in prose and then hand the reader the thing that answers it for their
+own numbers.
 
 ARTICLE TYPES — pick per idea:
   plan_guide    decision guide routing readers to specific plans
@@ -983,14 +1103,19 @@ ARTICLE TYPES — pick per idea:
                 this when methodology.md or the review bank gives you a real
                 athlete and a real result to build on. Never invent an athlete.
 
-CTA TYPES: plan | all_access | coaching | affiliate | lead_magnet | none
+CTA TYPES: plan | all_access | coaching | affiliate | lead_magnet | tool | none
 
 COHERENCE RULES — these are enforced in code, violations are discarded:
   gated_teaser  MUST use cta_type = all_access. That is what the type means: the
                 artifact lives behind the members login. If you want to point at a
-                free PDF instead, the type is `education` with cta_type=lead_magnet.
+                free PDF instead, the type is `education` with cta_type=lead_magnet;
+                if you want to point at a free TOOL, it is cta_type=tool.
   case_study    MUST use cta_type = coaching or none.
   gear          MUST use cta_type = affiliate.
+  tool          cta_target MUST be a url from PUBLIC TOOLS, copied exactly. The
+                tool is free and ungated, so this is NOT a gated_teaser — the
+                article type stays `education` or `plan_guide`. Do not propose
+                cta_type=tool for a members-area artifact; that one is all_access.
 
 REQUIRED MIX across the set you return:
   - at least 2 ideas with cta_type = none. An article that ranks and builds trust
@@ -1289,7 +1414,7 @@ def log_usage(**row):
 
 
 VALID_TYPES = {"plan_guide", "education", "gated_teaser", "gear", "case_study"}
-VALID_CTAS = {"plan", "all_access", "coaching", "affiliate", "lead_magnet", "none"}
+VALID_CTAS = {"plan", "all_access", "coaching", "affiliate", "lead_magnet", "tool", "none"}
 VALID_SIGNALS = {"convergence", "gap", "evergreen"}
 
 # An article type implies its offer. The first run produced gated_teaser ideas
@@ -1298,6 +1423,13 @@ REQUIRED_CTA = {
     "gated_teaser": {"all_access"},
     "case_study": {"coaching", "none"},
     "gear": {"affiliate"},
+}
+
+# `tool` runs the implication the other way: the type does not fix the CTA, the
+# CTA fixes the type. A free ungated tool behind a `gated_teaser` is the same
+# funnel confusion that put a free PDF behind one on the first run.
+CTA_REQUIRES_TYPE = {
+    "tool": {"education", "plan_guide"},
 }
 
 
@@ -1338,6 +1470,11 @@ def save_ideas(conn, ideas, url_to_source=None):
             if allowed and ct not in allowed:
                 dropped.append((i.get("working_title", "?"),
                                 f"{at} must use cta {'/'.join(sorted(allowed))}, got {ct}"))
+                continue
+            need = CTA_REQUIRES_TYPE.get(ct)
+            if need and at not in need:
+                dropped.append((i.get("working_title", "?"),
+                                f"cta {ct} requires type {'/'.join(sorted(need))}, got {at}"))
                 continue
             sig = i.get("signal_type")
             if sig not in VALID_SIGNALS:
@@ -1587,7 +1724,7 @@ def main():
                              "summary": p.get("summary", "")[:300], "url": p["url"]}
                             for p in balanced_sample(recent, 120)],
                            ensure_ascii=False, indent=1),
-        assets=json.dumps(assets, ensure_ascii=False, indent=1)[:6000],
+        assets=assets_payload(assets),
         published=json.dumps(
             [{"lang": a["lang"], "topic": a["topic"], "title": a["headline"], "slug": a["slug"]}
              for a in corpus], ensure_ascii=False, indent=1)[:14000],

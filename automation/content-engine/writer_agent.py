@@ -418,6 +418,12 @@ HARD RULES
    - case_study  -> only real athletes and real numbers from the methodology doc.
                     Never invent an athlete, a time, or a result.
    - gear        -> affiliate-oriented.
+   If the offer is `tool`, `cta_target` in the idea block is a FREE, UNGATED page
+   on this site. Link it from inside the body at the point the reader would want
+   it — right after the paragraph that makes them ask "so what is MY number" —
+   and once more at the end. Never behind an email form and never as All-Access:
+   it costs nothing and needs no login, so say so plainly. The URL must be copied
+   from the internal-link list below, exactly.
 3. ONE topic. If you find yourself changing subject, cut the section instead.
    Every section must hand off to the next.
 4. Numbers over adjectives. Any figure must come from the methodology or the
