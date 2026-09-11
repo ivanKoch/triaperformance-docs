@@ -1,0 +1,7 @@
+{
+  "_comment": "Directory data for the public heat-pace calculator. Public and indexable. Pairs with /calor-y-rendimiento/, which is the guide that continues the job this tool starts — the test in tool-lead-runbook.md. See heat-guide-brief.md.",
+  "layout": "layouts/base.njk",
+  "lang": "es",
+  "pageCss": "heat-calculator.css",
+  "pageJs": "heat-calc.js"
+}

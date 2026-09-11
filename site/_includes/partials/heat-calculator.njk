@@ -1,0 +1,56 @@
+{#- heat-calculator.njk — the WBGT → ritmo tool.
+    Model and its limits: heat-guide-brief.md §4. Styles: heat-calculator.css.
+    Logic: assets/js/heat-calc.js, which bails unless #hc is on the page. -#}
+<div id="hc">
+  <div class="hc-presets" role="group" aria-label="Carreras con datos cargados">
+    <button class="hc-chip" type="button" data-ta="26.1" data-td="25.0">Cartagena 70.3</button>
+    <button class="hc-chip" type="button" data-ta="26.1" data-td="25.0">Barranquilla 70.3</button>
+    <button class="hc-chip" type="button" data-ta="25.0" data-td="23.9">San Andrés</button>
+    <button class="hc-chip" type="button" data-ta="25.0" data-td="21.1" aria-pressed="true">Ironman Cozumel</button>
+    <button class="hc-chip" type="button" data-ta="22.8" data-td="20.6">Maratón de Miami</button>
+    <button class="hc-chip" type="button" data-ta="17.8" data-td="17.5">Maratón de Río</button>
+    <button class="hc-chip" type="button" data-ta="14.6" data-td="14.2">Maratón CDMX</button>
+  </div>
+  <p class="hc-small" style="margin-top:10px;max-width:65ch">Valores observados en la hora de largada en estaciones de aeropuerto. Puedes editarlos a mano para el pronóstico de tu día.</p>
+
+  <div class="hc-tool">
+    <form class="hc-panel" autocomplete="off" onsubmit="return false">
+      <fieldset>
+        <legend>Condiciones</legend>
+        <div class="hc-row2">
+          <div><label for="hcTa">Temperatura del aire</label><input type="number" id="hcTa" step="0.1" value="25.0" min="-10" max="55"></div>
+          <div><label for="hcHum" id="hcHumLab">Punto de rocío</label><input type="number" id="hcHum" step="0.1" value="21.1" min="-20" max="40"></div>
+        </div>
+        <div class="hc-seg" role="group" aria-label="Tipo de dato de humedad">
+          <button type="button" id="hcDew" aria-pressed="true">Punto de rocío (°C)</button>
+          <button type="button" id="hcRh" aria-pressed="false">Humedad relativa (%)</button>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Tu carrera</legend>
+        <div><label for="hcDist">Distancia</label>
+          <select id="hcDist">
+            <option value="5">5 km</option>
+            <option value="10">10 km</option>
+            <option value="21.0975">Media maratón</option>
+            <option value="42.195" selected>Maratón</option>
+          </select>
+        </div>
+        <div class="hc-row2">
+          <div><label for="hcGh">Objetivo — horas</label><input type="number" id="hcGh" value="3" min="0" max="20"></div>
+          <div><label for="hcGm">Minutos</label><input type="number" id="hcGm" value="30" min="0" max="59"></div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Tú</legend>
+        <div class="hc-seg" role="group" aria-label="Nivel">
+          <button type="button" id="hcLvlA" aria-pressed="true">Atleta entrenado</button>
+          <button type="button" id="hcLvlB" aria-pressed="false">Medio pelotón</button>
+        </div>
+        <label class="hc-check"><input type="checkbox" id="hcAcc"><span>Hice un bloque de aclimatación al calor</span></label>
+        <label class="hc-check"><input type="checkbox" id="hcTri"><span>Es el trote de un triatlón</span></label>
+      </fieldset>
+    </form>
+    <div class="hc-out" id="hcOut" aria-live="polite"></div>
+  </div>
+</div>

@@ -10,6 +10,20 @@
 
 ## Closed — September 11, 2026
 
+### Río: the two figures that disagreed with `rio-de-janeiro-marathon.json` — decided, and one of them was never a conflict
+
+**Closing note, September 11, 2026.**
+
+**WBGT — Iván's call: the Galeão reading stands.** The guide and the calculator preset carry the observed SBGL reading for 22 June 2025 — **17,8 °C air / 17,5 °C dew / WBGT 21,9**. `rio-de-janeiro-marathon.json` declines to estimate a race-morning value (*"no lo estimamos"*) and **that abstention remains correct on the race page.** The two files are answering different questions: a race page answers *"what will race morning be like"*, where one station reading from one year is a bad answer; a guide table answers *"how do these seven races rank against each other"*, where one sourced reading beats a blank. ⚠️ **Do not "reconcile" the race page to the guide table — the difference is the two files doing their own jobs, not drift.**
+
+**Start time — the conflict did not exist, and that is the part worth keeping.** The item claimed *"guide says 05:00, JSON says 05:30"* and Iván ruled 05:00. Checked against the shipped files the same day: **the guide states no Río start time anywhere** — `grep` for `05:00` across the guide, the partial and the JS returns nothing. The conflict was between a live file and a draft line that never shipped. 🔑 **The general lesson: verify a conflict against the shipped file before spending someone's judgement on it.** *Two of the three figures were worth his time; the third was worth a grep.*
+
+**What the check did find, and it was a real defect.** `rio-de-janeiro-marathon.json` carries **2026 actuals, wave by wave** — PCD 5:25, elite 5:30, pelotón from 5:35 — better sourced than the 2025 regulation PDF the question was built on. Meanwhile the guide's §12 table promises *"condiciones observadas en la hora de largada"* and prints **07:00** for Río, a race that starts at 5:30 **in the dark, two hours before sunrise**. So that row is a reading from roughly 90 minutes into the race, labelled as the gun. It errs toward *over*stating the stress and the row's job — *"no es una carrera de calor"* — survives either way, **so the fix was a sentence in the table note and not a number nobody has measured.** *A plausible 05:30 value would have been worse than an honest caveat.*
+
+### `register-sweep.py` on the heat copy — PASSED
+
+**Closing note, September 11, 2026.** **0 lines would change.** Four words tripped the final-accent gate and all four are correct: three are Iván's own first-person preterites (*encontré, crucé, escribí*), one is the island of San Andrés. *The gate re-asking those four on every run is a live item, not history — it sits in `open-loops.md` NOW as the `gate_accented` allow-list.*
+
 ### Fuelling guide v1 — ES/EN/PT, scoped back to `methodology.md` §8
 
 **Shipped September 11, 2026:** `fueling-guide/kit-de-combustible-{es,en,pt}.md`, 620 lines each, written natively per language. Home doc: `fueling-guide-brief.md`.

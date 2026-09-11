@@ -70,6 +70,9 @@ Effort tiers, not priority. The **Impact** column is how much less accidental th
 
 ### L2 — an evening each
 
+**`.btn-primary` is defined as the inverse of §6's primary button, and nine stylesheets pay for it.** *(Found September 11, 2026, porting the heat guide — its one CTA rendered as blue text with padding and no button.)* `brand-guidelines.md` §6 says a primary button is **blue fill, white text**. `site.css:338` defines `.btn-primary` as **white fill, blue text** — the hero inverse. **So the default is wrong for every light page on the site, and every light page undoes it locally:** `all-access.css`, `blog.css`, `planes-bajar-de-peso.css`, `planes-hyrox.css`, `planes-running.css`, `planes-triatlon.css`, `members-activacion.css`, `members-nutricion.css` and `public-tool.css` each re-declare it, **and five of those then re-declare `.cta-final .btn-primary` to put the inverse back** for the one section that wanted it in the first place. `site.css` itself carries four more descendant overrides. 🔑 **The fix is to swap the default and the exception** — `.btn-primary` becomes blue-on-white per §6, and the carbon surfaces (`.hero`, `.cta-final`) take an explicit inverse class — which deletes roughly two dozen override rules. ⚠️ *Not a token change and not a redesign: the button looks identical everywhere afterwards. It is an evening because it touches nine files and needs a visual pass on each, not because any single edit is hard.* **Do this before the storefront rebuild's `/planes/` phase, which touches five of the nine.**
+
+
 | # | Change | Where | Impact |
 |---|---|---|---|
 | 10 | **Extract `members-theme.css`.** One token block; the six stylesheets import it. **Prerequisite for 11, 12 and 20.** | `assets/css/` | Structural — nothing in members is cheap until this exists. |

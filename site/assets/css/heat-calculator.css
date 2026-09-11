@@ -1,0 +1,215 @@
+/* heat-calculator.css — the WBGT → ritmo tool and the heat guide.
+ *
+ * No :root block here on purpose: every token comes from tokens.css.
+ * Light-first, like every public page. The tool is NOT a public copy of a
+ * members tool, so it does not take the carbon exception in
+ * brand-guidelines.md §3.3 — it is a white page with one Heat accent.
+ *
+ * Heat appears in exactly three places on these two surfaces, and each one is
+ * the hard end of a scale: the dew-point bar (it turns at 24 °C, which is where
+ * the physiology turns), the alarm section's top rule, and the result chip on
+ * Iván's own race. Never a button, never a link. See heat-guide-brief.md §5. */
+
+/* ⚠️ --surface / --surface2 / --bg are CARBON tokens (tokens.css §carbon,
+ * brand-guidelines.md §3.2). They are not "the page's card fill" — on a light
+ * page they paint #171b21 under --ink text, which is near-black on near-black.
+ * Every panel, table and card here shipped that way on the first pass and was
+ * unreadable. Card fill on a light page is --white; the tinted fill (table
+ * headers, dose blocks) is --wash. Do not reintroduce --surface on a public
+ * page that is not taking the §3.3 carbon exception. */
+
+/* ─── Presets ─────────────────────────────────────────────────────────── */
+.hc-presets{display:flex;flex-wrap:wrap;gap:8px}
+.hc-chip{
+  font:600 14px/1 var(--font);letter-spacing:.005em;padding:9px 14px;border-radius:4px;
+  background:transparent;border:1.5px solid var(--mist);color:var(--ink);cursor:pointer;
+  transition:border-color var(--t),background var(--t),color var(--t);
+}
+.hc-chip:hover{border-color:var(--blue);color:var(--blue)}
+.hc-chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:var(--white)}
+
+/* ─── Layout ──────────────────────────────────────────────────────────── */
+.hc-tool{display:grid;grid-template-columns:minmax(300px,380px) minmax(0,1fr);gap:36px;align-items:start;margin-top:28px}
+/* minmax(0,1fr), not 1fr, and min-width:0 below. A `1fr` track floors at
+ * min-content, and .hc-tablewrap's table carries min-width:440px — so the
+ * results column refused to shrink, the grid grew past the viewport and
+ * the page scrolled sideways at 390px. Flooring the track at 0 is what
+ * lets the tablewrap's own overflow-x:auto do the scrolling instead. */
+.hc-panel,.hc-out{min-width:0}
+.hc-panel{
+  background:var(--white);border:1px solid var(--mist);border-radius:8px;padding:28px;
+  display:flex;flex-direction:column;gap:22px;
+}
+.hc-panel fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hc-panel legend{
+  font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--slate);padding:0;margin-bottom:2px;
+}
+.hc-panel label:not(.hc-check){font-size:14px;font-weight:600;display:block;margin-bottom:6px}
+/* :not(), not a more specific .hc-panel .hc-check. The two rules were
+ * fighting over `display` — `.hc-panel label` (0,1,1) beat `.hc-check`
+ * (0,1,0), so the checkbox rows rendered as blocks and the 10px gap never
+ * applied: the text sat on top of the box. Excluding is cheaper than
+ * escalating, and it does not start a specificity ladder. */
+.hc-panel input[type=number],.hc-panel select{
+  width:100%;font:400 16px/1.4 var(--font);font-variant-numeric:tabular-nums;
+  padding:11px 13px;border:1px solid var(--mist);border-radius:4px;
+  background:var(--white);color:var(--ink);
+}
+.hc-row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
+/* align-items:end — "Temperatura del aire" wraps to two lines at this
+ * column width and "Punto de rocío" does not, which left the two inputs
+ * on different baselines. Aligning the cells' bottoms fixes it at every
+ * width instead of fixing it for one string. */
+.hc-seg{display:flex;border:1px solid var(--mist);border-radius:4px;overflow:hidden}
+.hc-seg button{
+  flex:1;font:600 14px/1 var(--font);padding:10px 8px;border:0;cursor:pointer;
+  background:transparent;color:var(--slate);transition:background var(--t),color var(--t);
+}
+.hc-seg button[aria-pressed="true"]{background:var(--blue);color:var(--white)}
+.hc-check{display:flex;align-items:flex-start;gap:10px;font-size:15px;font-weight:400;line-height:1.45}
+.hc-check input{margin-top:3px;accent-color:var(--blue);width:16px;height:16px}
+
+/* ─── Results ─────────────────────────────────────────────────────────── */
+.hc-out{display:flex;flex-direction:column;gap:24px}
+.hc-verdict{border:1px solid var(--mist);border-radius:8px;overflow:hidden;background:var(--white)}
+.hc-verdict-top{height:4px;background:var(--mist)}
+.hc-verdict-body{padding:28px;display:flex;flex-direction:column;gap:22px}
+.hc-wbgtline{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px}
+.hc-wbgtval{
+  font-size:40px;font-weight:700;font-stretch:106%;letter-spacing:-.02em;line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.hc-band{
+  font:700 13px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;
+  padding:6px 10px;border-radius:3px;color:var(--white);
+}
+.hc-headline{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.hc-stat{display:flex;flex-direction:column;gap:5px}
+.hc-stat .hc-v{
+  font-size:32px;font-weight:700;font-stretch:106%;letter-spacing:-.02em;line-height:1.05;
+  font-variant-numeric:tabular-nums;
+}
+.hc-stat .hc-k{font-size:13px;color:var(--slate);line-height:1.4}
+.hc-note{
+  background:var(--wash);border-left:3px solid var(--blue);padding:16px 20px;
+  border-radius:0 4px 4px 0;font-size:15px;line-height:1.55;
+  display:flex;flex-direction:column;gap:8px;
+}
+.hc-note--heat{border-left-color:var(--heat-graphic)}
+.hc-refuse{
+  border:1px solid var(--mist);border-top:3px solid var(--heat-graphic);
+  border-radius:0 0 8px 8px;background:var(--white);padding:28px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.hc-tablewrap{overflow-x:auto;border:1px solid var(--mist);border-radius:8px;background:var(--white)}
+.hc-tablewrap table{border-collapse:collapse;width:100%;min-width:440px;font-variant-numeric:tabular-nums}
+.hc-tablewrap th,.hc-tablewrap td{
+  padding:11px 15px;text-align:left;border-bottom:1px solid var(--mist);font-size:15px;
+}
+.hc-tablewrap thead th{
+  background:var(--wash);font-size:12px;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--slate);
+}
+.hc-tablewrap tbody tr:last-child td{border-bottom:none}
+
+/* ─── Guide-only components ───────────────────────────────────────────── */
+.hc-scale{display:flex;flex-direction:column;gap:10px}
+.hc-scale-bar{display:flex;height:14px;border-radius:3px;overflow:hidden}
+.hc-scale-ticks{display:flex;font-variant-numeric:tabular-nums;font-size:13px;color:var(--slate)}
+.hc-scale-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:6px}
+.hc-scale-item{display:flex;flex-direction:column;gap:2px;padding-top:10px;border-top:2px solid var(--mist)}
+.hc-scale-item .hc-sv{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.hc-scale-item .hc-sd{font-size:14px;color:var(--slate);line-height:1.4}
+.hc-chip-result{
+  display:inline-flex;align-items:baseline;gap:8px;align-self:flex-start;
+  font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;
+  color:var(--heat);background:var(--heat-dim);border-radius:3px;padding:7px 11px;
+}
+.hc-alarm{
+  border:1px solid var(--mist);border-top:3px solid var(--heat-graphic);
+  border-radius:0 0 8px 8px;background:var(--white);padding:32px;
+}
+.hc-split{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.hc-figs{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.hc-fig{display:flex;flex-direction:column;gap:4px}
+.hc-fig .hc-fv{
+  font-size:40px;font-weight:700;font-stretch:106%;letter-spacing:-.02em;line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.hc-fig .hc-fl{font-size:14px;color:var(--slate);line-height:1.4}
+.hc-shot figure{margin:0;border-radius:8px;overflow:hidden;background:#a29a98;line-height:0}
+.hc-shot img{width:100%;height:auto;display:block}
+
+@media (max-width:880px){
+  .hc-tool{grid-template-columns:minmax(0,1fr);gap:24px}
+  .hc-headline,.hc-split,.hc-figs,.hc-scale-legend{grid-template-columns:1fr}
+  .hc-figs{gap:24px}
+  .hc-scale-legend{gap:0}
+  .hc-scale-item{border-top:none;border-left:2px solid var(--mist);padding:8px 0 8px 14px}
+}
+
+/* ─── Page-scoped utilities ───────────────────────────────────────────────
+ * All prefixed, deliberately. site.css already owns `.card` (23 rules) and
+ * `.hero` (whose `.hero .label` forces white on a photographic hero, which
+ * would have silently killed the blue eyebrow on these white pages). This is
+ * the same selector-collision family as `.help a` and `.cta-final`; the fix is
+ * to not compete for the name, not to add a more specific selector. */
+.hc-intro{padding:72px 0 0}   /* section{padding:96px 0} supplies the gap below */
+.hc-intro .hc-col{display:flex;flex-direction:column;gap:18px}
+.hc-col{max-width:65ch}
+.hc-lede{font-size:20px;line-height:1.5;color:var(--slate)}
+.hc-small{font-size:14px;color:var(--slate);line-height:1.55}
+.hc-num{font-variant-numeric:tabular-nums}
+.hc-label-heat{color:var(--heat)}
+/* site.css `.btn-primary` is WHITE fill / blue text — it is built for the
+ * carbon hero, and `.cta-final .btn-primary` already re-specifies it to
+ * survive on a light page. On these white pages it rendered as blue text
+ * with padding and no button at all. Same family as `.card` and
+ * `.hero .label`: take our own name rather than out-specify theirs. */
+.hc-btn{
+  display:inline-block;background:var(--blue);color:var(--white);
+  padding:16px 32px;border-radius:4px;font-weight:700;text-decoration:none;
+  font-size:16px;transition:background var(--t);
+}
+.hc-btn:hover{background:var(--blue-deep);color:var(--white)}
+.hc-stack{display:flex;flex-direction:column;gap:20px}
+.hc-sec-head{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.hc-t-note{font-size:14px;color:var(--slate);line-height:1.55;margin-top:12px;max-width:65ch}
+.hc-router{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.hc-router a{
+  display:flex;flex-direction:column;gap:6px;padding:18px 20px;
+  background:var(--white);border:1px solid var(--mist);border-radius:8px;
+  color:var(--ink);text-decoration:none;transition:border-color var(--t),background var(--t);
+}
+.hc-router a:hover{border-color:var(--blue);background:var(--wash)}
+.hc-router .hc-when{font-size:20px;font-weight:700;font-stretch:106%;letter-spacing:-.015em}
+.hc-router .hc-what{font-size:14px;color:var(--slate);line-height:1.45}
+.hc-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+.hc-protocol{
+  background:var(--white);border:1px solid var(--mist);border-radius:8px;
+  padding:28px;display:flex;flex-direction:column;gap:14px;
+}
+.hc-protocol ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.5}
+.hc-rank{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+.hc-dose{
+  display:flex;flex-direction:column;gap:2px;padding:14px 16px;
+  background:var(--wash);border-radius:4px;font-variant-numeric:tabular-nums;
+}
+.hc-dose .hc-dk{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--slate)}
+.hc-dose .hc-dv{font-size:15px;font-weight:600;line-height:1.45}
+.hc-todo{
+  border-left:3px solid var(--blue);background:var(--wash);padding:20px 24px;
+  border-radius:0 4px 4px 0;display:flex;flex-direction:column;gap:10px;
+}
+.hc-todo ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.5}
+.hc-herogrid{display:grid;grid-template-columns:1fr 400px;gap:48px;align-items:start}
+.hc-herotext{display:flex;flex-direction:column;gap:18px;max-width:60ch}
+.hc-shot{display:flex;flex-direction:column;gap:14px}
+.hc-shot figcaption{font-size:14px;color:var(--slate);line-height:1.5}
+@media (max-width:880px){
+  .hc-intro{padding:48px 0 0}
+  .hc-router,.hc-cards{grid-template-columns:1fr}
+  .hc-herogrid{grid-template-columns:1fr;gap:32px}
+  .hc-shot{max-width:420px}
+}
