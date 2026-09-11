@@ -230,7 +230,7 @@ git mv website/guias  site/assets/guias
 ```
 redir /guias/zonas-de-entrenamiento.pdf /assets/guias/zonas-de-entrenamiento.pdf permanent
 redir /guias/pre-entreno.pdf /assets/guias/pre-entreno.pdf permanent
-redir /guias/intervalos.pdf /assets/guias/intervalos.pdf permanent
+redir /guias/intervalos.pdf /assets/guias/decidir-en-el-kilometro-30.pdf permanent
 ```
 
 **Step 19.** Once step 18 is verified locally (`npm run serve`, check every page, hero image loads, guías links resolve), delete only the now-unused hand-written page folders — NOT all of `website/`, since `hubfs` must remain:

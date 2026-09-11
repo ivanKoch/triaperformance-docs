@@ -59,8 +59,14 @@
   /* Semantic states. Form validation and the members-area safety callouts —
      these are not brand colours and appear nowhere else. */
   --green: #4caf7d;
-  --warn: #d97a68;
+  --warn: #d97a68;                        /* carbon: 7.0:1 on --bg          */
   --warn-dim: rgba(217, 122, 104, 0.12);
+  /* The light half of the same state, added September 11, 2026. It did not
+     exist, so .callout--warn on white fell back to a blue one shade off the
+     plain callout and every safety block read as a note. --warn itself is
+     3.4:1 on white and cannot carry text there. */
+  --warn-ink: #a3301c;                    /* light: 9.0:1 on --warn-wash    */
+  --warn-wash: #fdf1ef;
 }
 
 /* Motion is opt-out at the token level, so a single media query disables

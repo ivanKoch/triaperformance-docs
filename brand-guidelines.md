@@ -79,6 +79,10 @@ Two complete systems, **peers, not a system and an appendix.** Light is the defa
 | Tint | Blue Wash | `#edf3fb` | Alternate section backgrounds, card fills. Max one washed section per page. |
 | Neutral | Slate | `#565a52` | Secondary text, captions, meta. |
 | Line | Mist | `#e4e6e1` | Borders, dividers, card outlines. |
+| Stop (text) | Warn Ink | `#a3301c` | Safety callout titles and rules. Text-safe on Warn Wash. |
+| Stop (tint) | Warn Wash | `#fdf1ef` | Safety callout backgrounds only. |
+
+The Stop pair is a state, not a brand colour, and it is not Heat. Heat means intensity and carries zone bars and result chips; Stop means stop reading and act. They must not be the same colour, or a zone-2 bar and a medical stop rule look alike. Added September 11, 2026: the light half did not exist, so `.callout--warn` on white fell back to a blue one shade off the plain callout and every safety block read as a note.
 
 ### 3.2 Carbon system
 
@@ -94,6 +98,8 @@ Two complete systems, **peers, not a system and an appendix.** Light is the defa
 | Blue tint | `--blue-dim` | `rgba(0,74,173,.22)` |
 | Heat, any use | `--heat-bright` | `#ff8a4c` |
 | Heat tint | `--heat-dim` | `rgba(217,72,15,.22)` |
+| Stop | `--warn` | `#d97a68` |
+| Stop tint | `--warn-dim` | `rgba(217,122,104,.12)` |
 | Text | `--text` | `#f2f3f1` |
 | Secondary text | `--text-dim` | `#8b9089` |
 | Headings | `--white` | `#ffffff` |

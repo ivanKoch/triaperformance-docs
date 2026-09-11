@@ -80,16 +80,24 @@ table.tp-table td.tsb-band { color: var(--white); }
 @media (max-width: 640px) {
   .tp-table--stack tr { border-color: var(--border); }
   .tp-table--stack td[data-label]::before { color: var(--text-dim); }
+  /* The stacked first cell carries the light --wash background from the light
+     theme. On carbon that put white text on a near-white box and the header of
+     every stacked row was invisible. Matches the desktop th treatment above.
+     Found on /members/ejecucion/ at phone width, September 11, 2026; the same
+     bug is live on /members/combustible/. */
+  .tp-table--stack td:first-child { background: var(--surface2); color: var(--white); }
 }
 
 /* --- callouts ------------------------------------------------------------- */
 .callout { background: var(--surface); border: 1px solid var(--border); }
 .callout-title { color: var(--white); }
-/* The warn variant keeps its amber, which is a state colour and not the Heat
-   token — Heat means intensity, amber means "read this before you continue".
-   brand-guidelines.md §3.1. */
-.callout--warn { background: var(--warn-dim); border-color: #6b4a1f; }
-.callout--warn .callout-title { color: #e8b96a; }
+/* The warn variant is red, not amber (September 11, 2026). Amber said "read
+   this before you continue", which is not what these blocks do: the race
+   guide's stop list and the fuelling guide's hyponatraemia block both say
+   stop. One state, one colour — two shades of caution is a distinction no
+   reader makes correctly. */
+.callout--warn { background: var(--warn-dim); border-color: var(--warn); }
+.callout--warn .callout-title { color: var(--warn); }
 
 /* --- figures -------------------------------------------------------------- */
 /* TrainingPeaks screenshots are light images. On carbon they float unless they

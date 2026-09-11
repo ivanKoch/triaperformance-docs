@@ -69,5 +69,40 @@
       "error": "Algo deu errado no envio. Me escreva em coach@triaperformance.com e eu mando na mão.",
       "doneNudge": "Me manda o guia →"
     }
+  },
+  "raceexec": {
+    "es": {
+      "kicker": "La guía",
+      "title": "¿Y qué haces cuando el plan falla?",
+      "body": "El corte, el kilómetro 30, la decisión de caminar. Te mando las tres secciones que resuelven el día: cómo escribir tus metas A, B y C antes de la carrera, el procedimiento exacto para cuando el ritmo se cae y el objetivo se aleja, y la plantilla de decisiones que llevas encima.",
+      "placeholder": "tu@email.com",
+      "button": "Mándame la guía",
+      "fine": "Un PDF de doce páginas, un solo email, y te puedes dar de baja cuando quieras.",
+      "thanks": "Listo — revisa tu bandeja de entrada en un rato.",
+      "error": "Algo salió mal al enviar. Escríbeme a coach@triaperformance.com y te la mando a mano.",
+      "doneNudge": "Te mando la guía →"
+    },
+    "en": {
+      "kicker": "The guide",
+      "title": "And what do you do when the plan fails?",
+      "body": "The cut-off, kilometre 30, the decision to walk. I'll send you the three sections that settle the day: how to write your A, B and C goals before the race, the exact procedure for when the pace drops and the goal moves away, and the decision sheet you carry with you.",
+      "placeholder": "you@email.com",
+      "button": "Send me the guide",
+      "fine": "A twelve-page PDF, one single email, and you can unsubscribe whenever you want.",
+      "thanks": "Done — check your inbox in a little while.",
+      "error": "Something went wrong sending it. Write to me at coach@triaperformance.com and I'll send it by hand.",
+      "doneNudge": "Send me the guide →"
+    },
+    "pt": {
+      "kicker": "O guia",
+      "title": "E o que você faz quando o plano falha?",
+      "body": "O tempo limite, o quilômetro 30, a decisão de caminhar. Eu te mando as três seções que resolvem o dia: como escrever as suas metas A, B e C antes da prova, o procedimento exato para quando o ritmo cai e o objetivo se afasta, e a folha de decisões que você leva junto.",
+      "placeholder": "voce@email.com",
+      "button": "Me manda o guia",
+      "fine": "Um PDF de doze páginas, um único email, e você pode se descadastrar quando quiser.",
+      "thanks": "Pronto — dá uma olhada na sua caixa de entrada daqui a pouco.",
+      "error": "Algo deu errado no envio. Me escreva em coach@triaperformance.com e eu mando na mão.",
+      "doneNudge": "Me manda o guia →"
+    }
   }
 }

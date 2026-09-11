@@ -37,7 +37,8 @@ table.tp-table th { background: var(--wash); font-weight: 700; }
 .callout { background: var(--wash); border-radius: 8px; padding: 24px 28px; margin: 24px 0; }
 .callout p:last-child, .callout ul:last-child, .callout ol:last-child { margin-bottom: 0; }
 .callout-title { margin-top: 0; }
-.callout--warn { border-left: 3px solid var(--blue); background: #f4f8fd; }
+.callout--warn { border-left: 3px solid var(--warn-ink); background: var(--warn-wash); }
+.callout--warn .callout-title { color: var(--warn-ink); }
 
 /* --- the in-page contents list -------------------------------------------- */
 

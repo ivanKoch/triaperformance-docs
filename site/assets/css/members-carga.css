@@ -29,7 +29,8 @@ table.tp-table td.tsb-band { font-weight: 700; white-space: nowrap; vertical-ali
    opens the page and gets a colour the rest of the page doesn't use. Deliberately
    the brand blue rather than a red alert bar: this is the load-bearing
    instruction, not an error. */
-.callout--warn { border-left: 3px solid var(--blue); background: #f4f8fd; }
+.callout--warn { border-left: 3px solid var(--warn-ink); background: var(--warn-wash); }
+.callout--warn .callout-title { color: var(--warn-ink); }
 
 /* --- figures: the two TrainingPeaks screenshots --- */
 .fig { margin: 28px 0; }

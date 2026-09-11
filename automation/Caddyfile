@@ -388,7 +388,13 @@ triaperformance.com {
 	redir @esPrefix /{re.esprefix.1} permanent
 
 	redir /guias/zonas-de-entrenamiento.pdf /assets/guias/zonas-de-entrenamiento.pdf permanent
-	redir /guias/intervalos.pdf /assets/guias/intervalos.pdf permanent
+	# /guias/intervalos.pdf was the mental-training lead magnet, and the URL is
+	# linked from already-sent email sequences, so it cannot simply go away.
+	# The file was withdrawn September 11, 2026 (see site/members/guias/index.njk).
+	# Repointed at its replacement rather than deleted: the nutrition twin
+	# /guias/pre-entreno.pdf was deleted outright in September because no
+	# replacement magnet existed yet. One exists here, for the same audience.
+	redir /guias/intervalos.pdf /assets/guias/decidir-en-el-kilometro-30.pdf permanent
 
 	file_server
 	encode gzip

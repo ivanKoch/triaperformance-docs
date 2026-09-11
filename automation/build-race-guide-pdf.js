@@ -140,7 +140,10 @@ const coverLede = MAGNET ? MAGNET_CHROME.lede : plain((scopeParas[1] || scopePar
 const HTML = `<!doctype html>
 <html lang="${LANG}"><head><meta charset="UTF-8"><style>
   :root{ --blue:#004aad; --blue-deep:#003a89; --ink:#1e2019; --white:#fff;
-         --wash:#edf3fb; --slate:#565a52; --mist:#e4e6e1; }
+         --wash:#edf3fb; --slate:#565a52; --mist:#e4e6e1;
+         /* Literal copies of --warn-ink / --warn-wash from tokens.css. A PDF is
+            standalone HTML and cannot import them; the values must match. */
+         --warn-ink:#a3301c; --warn-wash:#fdf1ef; }
   @page { size: A4; margin: 16mm 15mm 18mm; }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);
@@ -208,7 +211,10 @@ const HTML = `<!doctype html>
            padding:4mm 5mm;margin:4.5mm 0;page-break-inside:avoid}
   .callout h3,.callout h4{margin-top:0}
   .callout p:last-child,.callout ul:last-child,.callout ol:last-child{margin-bottom:0}
-  .callout--warn{border-left-color:var(--blue-deep);background:#e8f0fa}
+  /* Red, not blue. #e8f0fa was one shade off the plain callout and the stop
+     list printed as a note. Matches .callout--warn in members-dark.css. */
+  .callout--warn{border-left-color:var(--warn-ink);border-left-width:3px;background:var(--warn-wash)}
+  .callout--warn h3,.callout--warn h4{color:var(--warn-ink)}
   .scope{border:1px solid var(--mist);border-left:3px solid var(--blue);border-radius:0 4px 4px 0;
          padding:5mm 6mm;margin-bottom:6mm}
   .scope h2{font-size:13pt;font-weight:700;margin-bottom:3mm}

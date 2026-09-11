@@ -200,23 +200,31 @@
         "memberDesc": "La fórmula del pre-entreno, cuántos gramos por hora según duración y disciplina, el bloque de 6 semanas para entrenar el intestino, y una plantilla de carrera por distancia."
       },
       {
+        "tag": "Guía",
+        "name": "Ejecución de Carrera",
+        "desc": "Cómo preparar, correr y decidir el día de la carrera — las tres metas, el techo de ritmo y qué hacer en el kilómetro 30.",
+        "key": "raceexec",
+        "url": "/all-access/#biblioteca",
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/ejecucion/",
+        "memberCta": "Ver guía →",
+        "memberDesc": "El plan de carrera escrito, las metas A, B y C, el techo de ritmo de los primeros kilómetros, el procedimiento del kilómetro 30, y cuatro plantillas imprimibles."
+      },
+      {
         "tag": "Descargas",
         "name": "Guías en PDF",
-        "desc": "La guía completa de preparación mental, más las guías de zonas, sesiones y fuerza, en PDF, para descargar cuando quieras.",
+        "desc": "Las guías de ejecución de carrera, combustible, zonas, sesiones y fuerza, en PDF, para descargar cuando quieras.",
         "key": "downloads",
         "url": "/all-access/#biblioteca",
         "gated": true,
         "category": "numbers",
         "memberUrl": "/members/guias/",
         "memberCta": "Ver descargas →",
-        "memberDesc": "Todas las guías en PDF: combustible, zonas, sesiones por zona, fuerza del corredor y preparación mental."
+        "memberDesc": "Todas las guías en PDF: ejecución de carrera, combustible, zonas, sesiones por zona y fuerza del corredor."
       }
     ],
     "soon": [
-      {
-        "name": "Ejecución de carrera y pacing",
-        "desc": "Plan de carrera por distancia, del 5k al Ironman."
-      },
       {
         "name": "Nutrición y carga de carbohidratos",
         "desc": "Tu esquema de hidratos por sesión y la semana de carrera."
@@ -224,10 +232,6 @@
       {
         "name": "Rutina de espalda baja",
         "desc": "Para la lumbar que se queja después del sillín o del fondo."
-      },
-      {
-        "name": "Más herramientas de preparación mental",
-        "desc": "Rutinas para la semana previa y para los momentos malos de la carrera."
       }
     ],
     "ctaLabel": "Herramienta",
@@ -245,7 +249,7 @@
       "numbers"
     ],
     "categoryCounts": {
-      "numbers": 6,
+      "numbers": 7,
       "train": 7,
       "pain": 3
     },
@@ -452,6 +456,18 @@
         "memberDesc": "The pre-session formula, how many grams per hour by duration and discipline, the 6-week gut-training block, and a race template per distance."
       },
       {
+        "tag": "Guide",
+        "name": "Race Execution",
+        "desc": "How to prepare, run and decide on race day — the three goals, the pace ceiling, and what to do at kilometre 30.",
+        "key": "raceexec",
+        "url": "/en/all-access/#biblioteca",
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/en/race-execution/",
+        "memberCta": "See guide →",
+        "memberDesc": "The written race plan, your A, B and C goals, the pace ceiling for the opening kilometres, the kilometre-30 procedure, and four printable templates."
+      },
+      {
         "tag": "Downloads",
         "name": "PDF guides",
         "desc": "Training guides in PDF, downloadable whenever you want them.",
@@ -461,14 +477,10 @@
         "category": "numbers",
         "memberUrl": "/members/en/downloads/",
         "memberCta": "See downloads →",
-        "memberDesc": "Your PDF guides: the two thresholds, and the sessions that grow each zone."
+        "memberDesc": "Your PDF guides: race execution, fuelling, the two thresholds, the sessions that grow each zone, and the runner's strength week."
       }
     ],
     "soon": [
-      {
-        "name": "Race execution and pacing",
-        "desc": "A race plan by distance, from 5k to Ironman."
-      },
       {
         "name": "Nutrition and carb loading",
         "desc": "Your carbohydrate targets per session and through race week."
@@ -476,10 +488,6 @@
       {
         "name": "Lower back routine",
         "desc": "For the back that complains after the saddle or the long run."
-      },
-      {
-        "name": "More mental prep tools",
-        "desc": "Routines for the week before, and for the bad patches mid-race."
       }
     ],
     "ctaLabel": "Tool",
@@ -497,7 +505,7 @@
       "numbers"
     ],
     "categoryCounts": {
-      "numbers": 6,
+      "numbers": 7,
       "train": 7,
       "pain": 3
     },
@@ -704,6 +712,18 @@
         "memberDesc": "A fórmula do pré-treino, quantos gramas por hora conforme duração e modalidade, o bloco de 6 semanas para treinar o intestino, e um modelo de prova por distância."
       },
       {
+        "tag": "Guia",
+        "name": "Execução de Prova",
+        "desc": "Como preparar, correr e decidir no dia da prova — as três metas, o teto de ritmo, e o que fazer no quilômetro 30.",
+        "key": "raceexec",
+        "url": "/pt/all-access/#biblioteca",
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/pt/execucao/",
+        "memberCta": "Ver guia →",
+        "memberDesc": "O plano de prova escrito, as metas A, B e C, o teto de ritmo dos primeiros quilômetros, o procedimento do quilômetro 30, e quatro modelos para imprimir."
+      },
+      {
         "tag": "Downloads",
         "name": "Guias em PDF",
         "desc": "Guias de treino em PDF, para baixar quando quiser.",
@@ -713,14 +733,10 @@
         "category": "numbers",
         "memberUrl": "/members/pt/downloads/",
         "memberCta": "Ver downloads →",
-        "memberDesc": "Seus guias em PDF: os dois limiares, e as sessões que fazem cada zona crescer."
+        "memberDesc": "Seus guias em PDF: execução de prova, combustível, os dois limiares, as sessões que fazem cada zona crescer, e a semana de força do corredor."
       }
     ],
     "soon": [
-      {
-        "name": "Execução de prova e pacing",
-        "desc": "Plano de prova por distância, do 5k ao Ironman."
-      },
       {
         "name": "Nutrição e carga de carboidratos",
         "desc": "Suas metas de carboidrato por sessão e na semana da prova."
@@ -728,10 +744,6 @@
       {
         "name": "Rotina de lombar",
         "desc": "Para a lombar que reclama depois do selim ou do longo."
-      },
-      {
-        "name": "Mais ferramentas de preparação mental",
-        "desc": "Rotinas para a semana anterior e para os momentos ruins da prova."
       }
     ],
     "ctaLabel": "Ferramenta",
@@ -749,7 +761,7 @@
       "numbers"
     ],
     "categoryCounts": {
-      "numbers": 6,
+      "numbers": 7,
       "train": 7,
       "pain": 3
     },

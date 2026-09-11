@@ -10,9 +10,7 @@
 
 It covers one thing, and it covers it completely: **how to execute a race, and what to do when the plan stops working.**
 
-It does not cover anxiety or depression, it does not cover loss of motivation as a clinical matter, it does not cover exercise dependence, or your relationship with food or with your body. It also does not treat "mental toughness" as a character trait that needs fixing. Not because those things don't matter — they matter enormously — but because they are not my job. I'm your coach, not your psychologist, and that difference isn't a technicality: it's the line between what I can defend with my experience and what requires a licence.
-
-On nutrition, this guide repeats nothing: everything on fuel, hydration and sodium lives in **The Fuel Kit**, and that's where you should look for it.
+It does not cover anxiety or depression, it does not cover loss of motivation as a clinical matter, it does not cover exercise dependence, or your relationship with food or with your body. It also does not treat "mental toughness" as a character trait that needs fixing. Not because those things don't matter — they matter enormously — but because they are not my job. I'm a coach, not a psychologist, and that difference isn't a technicality: it's the line between what I can defend with my experience and what requires a licence.
 
 ### Talk to a professional before applying any of this if:
 
@@ -36,7 +34,7 @@ If thoughts of harming yourself show up, that isn't an appointment you book for 
 
 ### What I do and what I don't
 
-I adjust the plan, redistribute load to the sports that don't hurt, and hold the calendar with you. I don't diagnose, I don't assess injury risk, I don't give guidance on medication, and I don't coach weight. When something falls on that side of the line, I refer you out. That's the rule, and it has no exceptions.
+With the athletes I coach, I adjust the plan, redistribute load to the sports that don't hurt, and hold the calendar. Either way: I don't diagnose, I don't assess injury risk, I don't give guidance on medication, and I don't coach weight. When something falls on that side of the line, I refer you out. That's the rule, and it has no exceptions.
 
 One more, and it organises everything that follows: **slowing down, walking and stopping are decisions with a cost, not failures of character.** This guide will never treat them as giving up.
 
@@ -472,8 +470,6 @@ On sodium and hydration problems — including hyponatraemia, which is serious a
 1. **No goal justifies ignoring it.** Not A, not C, not finishing. None.
 2. **If you stop for anything on this list, you see a doctor.** Not "let's see how I feel tomorrow". That same day.
 3. **If you can't assess yourself clearly, that is the answer.** Confusion doesn't self-diagnose. If you're doubting your own ability to judge, you already have the data.
-
-And a general rule that applies to everything medical, in and out of a race: **I don't diagnose.** If any of this shows up, I refer you out and my part ends there. That's not legal caution — it's that it isn't my competence.
 
 ### The cut-off
 

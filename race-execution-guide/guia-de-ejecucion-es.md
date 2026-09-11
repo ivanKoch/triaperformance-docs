@@ -10,9 +10,7 @@
 
 Cubre una sola cosa, y la cubre completa: **cómo ejecutar una carrera, y qué hacer cuando el plan deja de funcionar.**
 
-No cubre ansiedad ni depresión, no cubre la pérdida de motivación como problema clínico, no cubre la dependencia del ejercicio, ni tu relación con la comida o con tu cuerpo. Tampoco trata la "fortaleza mental" como un rasgo de carácter que haya que arreglar. No porque esas cosas no importen —importan mucho— sino porque no son mi trabajo. Soy tu coach, no tu psicólogo, y la diferencia no es un tecnicismo: es la línea entre lo que puedo defender con mi experiencia y lo que necesita una matrícula.
-
-Sobre alimentación, esta guía no repite nada: todo lo de combustible, hidratación y sodio vive en el **Kit de Combustible**, y ahí es donde tienes que buscarlo.
+No cubre ansiedad ni depresión, no cubre la pérdida de motivación como problema clínico, no cubre la dependencia del ejercicio, ni tu relación con la comida o con tu cuerpo. Tampoco trata la "fortaleza mental" como un rasgo de carácter que haya que arreglar. No porque esas cosas no importen —importan mucho— sino porque no son mi trabajo. Soy coach, no psicólogo, y la diferencia no es un tecnicismo: es la línea entre lo que puedo defender con mi experiencia y lo que necesita una matrícula.
 
 ### Consulta a un profesional antes de aplicar nada de esto si:
 
@@ -36,7 +34,7 @@ Si aparecen pensamientos de hacerte daño, esto no es una consulta que se agenda
 
 ### Lo que yo hago y lo que no
 
-Yo ajusto el plan, redistribuyo carga a los deportes que no te duelen, y sostengo el calendario contigo. No diagnostico, no evalúo riesgo de lesión, no doy indicaciones sobre medicación y no hago coaching de peso. Cuando algo cae de ese lado de la línea, te derivo. Esa es la regla y no tiene excepciones.
+Con los atletas que entreno, ajusto el plan, redistribuyo carga a los deportes que no duelen, y sostengo el calendario. En cualquier caso: no diagnostico, no evalúo riesgo de lesión, no doy indicaciones sobre medicación y no hago coaching de peso. Cuando algo cae de ese lado de la línea, te derivo. Esa es la regla y no tiene excepciones.
 
 Una última, que ordena todo lo que sigue: **bajar el ritmo, caminar y parar son decisiones con un costo, no fracasos de carácter.** Esta guía no va a tratarlos como rendirse en ningún momento.
 
@@ -472,8 +470,6 @@ Sobre problemas de sodio e hidratación —incluida la hiponatremia, que es grav
 1. **Ninguna meta justifica ignorarla.** Ni la A, ni la C, ni terminar. Ninguna.
 2. **Si paras por algo de esta lista, vas al médico.** No "a ver cómo amanezco". Ese mismo día.
 3. **Si no puedes evaluarte con claridad, esa es la respuesta.** La confusión no se autodiagnostica. Si dudas de tu propia capacidad de juzgar, ya tienes el dato.
-
-Y una regla general que aplica a todo lo médico, dentro y fuera de carrera: **yo no diagnostico.** Si algo de esto aparece, te derivo y ahí termina mi parte. Eso no es cautela legal, es que no es mi competencia.
 
 ### El corte de tiempo
 

@@ -10,9 +10,7 @@
 
 Cobre uma coisa só, e cobre por inteiro: **como executar uma prova, e o que fazer quando o plano para de funcionar.**
 
-Não cobre ansiedade nem depressão, não cobre perda de motivação como questão clínica, não cobre dependência de exercício, nem a sua relação com a comida ou com o seu corpo. Também não trata "força mental" como um traço de caráter que precisa ser consertado. Não porque essas coisas não importem — importam muito — mas porque não são o meu trabalho. Sou seu treinador, não seu psicólogo, e essa diferença não é um detalhe técnico: é a linha entre o que posso defender com a minha experiência e o que exige um registro profissional.
-
-Sobre alimentação, este guia não repete nada: tudo sobre combustível, hidratação e sódio está no **Kit de Combustível**, e é lá que você deve procurar.
+Não cobre ansiedade nem depressão, não cobre perda de motivação como questão clínica, não cobre dependência de exercício, nem a sua relação com a comida ou com o seu corpo. Também não trata "força mental" como um traço de caráter que precisa ser consertado. Não porque essas coisas não importem — importam muito — mas porque não são o meu trabalho. Sou treinador, não psicólogo, e essa diferença não é um detalhe técnico: é a linha entre o que posso defender com a minha experiência e o que exige um registro profissional.
 
 ### Converse com um profissional antes de aplicar qualquer coisa daqui se:
 
@@ -36,7 +34,7 @@ Se aparecerem pensamentos de se machucar, isso não é uma consulta que se marca
 
 ### O que eu faço e o que não faço
 
-Eu ajusto o plano, redistribuo carga para os esportes que não doem, e seguro o calendário junto com você. Não diagnostico, não avalio risco de lesão, não oriento sobre medicação e não faço acompanhamento de peso. Quando alguma coisa cai desse lado da linha, eu encaminho você. Essa é a regra, e ela não tem exceções.
+Com os atletas que eu treino, ajusto o plano, redistribuo carga para os esportes que não doem, e seguro o calendário. De todo modo: não diagnostico, não avalio risco de lesão, não oriento sobre medicação e não faço acompanhamento de peso. Quando alguma coisa cai desse lado da linha, eu encaminho você. Essa é a regra, e ela não tem exceções.
 
 Mais uma, e ela organiza tudo o que vem a seguir: **diminuir o ritmo, caminhar e parar são decisões com um custo, não fracassos de caráter.** Este guia não vai tratar nenhuma delas como desistência.
 
@@ -472,8 +470,6 @@ Sobre problemas de sódio e hidratação — incluindo hiponatremia, que é grav
 1. **Nenhuma meta justifica ignorá-la.** Nem a A, nem a C, nem terminar. Nenhuma.
 2. **Se você parar por alguma coisa desta lista, você vai ao médico.** Não "vamos ver como eu acordo". No mesmo dia.
 3. **Se você não consegue se avaliar com clareza, essa é a resposta.** Confusão não se autodiagnostica. Se você está duvidando da sua própria capacidade de julgar, já tem o dado.
-
-E uma regra geral que vale para tudo o que é médico, dentro e fora de prova: **eu não diagnostico.** Se qualquer coisa disso aparecer, eu encaminho você e a minha parte termina ali. Isso não é cautela jurídica — é que não é a minha competência.
 
 ### O tempo limite
 

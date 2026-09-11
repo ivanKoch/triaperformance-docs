@@ -2929,3 +2929,11 @@ Five repo-about-the-repo items closed in the pass:
 - [x] **Decide what `members-exercise-dedup-review.md` is** — a generated report, superseded evidence, regenerable with `automation/cluster-exercise-duplicates.js`. Indexed as such; not open work.
 
 Also this session: the 42 km race set (19 races / 26 pages) went live; the 21 km set was parked by Iván with the research finished ("I need to work on acquisition and retention"). September revenue and churn figures were deliberately not logged — they belong to close #2.
+
+### Closed September 11, 2026 — the mental-training pair
+
+- [x] **Two of the six downloadable guides are Spanish-only — the mental-training pair** (`guia-de-herramientas-mentales.pdf`, `intervalos.pdf`).
+
+Closed by withdrawal, not by translation. Two independent model reviews found the full guide unpublishable: it named CBT and ACT, delivered their worksheets, and carried a section headed "Depresión Post-Carrera" under a coach's byline, with no referral path and no stop rule. The root cause was that `methodology.md` had a scope line for fuelling (§8) and none for psychology, so the guide breached a boundary that did not exist. §14 now exists.
+
+Both PDFs are in `_to_delete/mental-guides-2026-09-11/`. The replacement is the race execution guide — three members pages and six PDFs, ES/EN/PT, built the same day from one markdown source. `/guias/intervalos.pdf` is repointed at the new magnet rather than deleted, because that URL is in already-sent email sequences. Home doc: `race-execution-guide-brief.md`.

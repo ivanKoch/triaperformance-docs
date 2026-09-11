@@ -132,4 +132,4 @@ python3 -c "import re,io,unicodedata as u; t=u.normalize('NFC',io.open('automati
 - [ ] **`lead-magnet-sesiones-por-zona.md` claims authorship of Zones X and Y** (*"Les dimos nombre propio"*) and calls the moderate band *el agujero negro*. Both are now superseded — see decisions 3a and 3b. The text is live in three published PDFs, so this is a rebuild, not an edit. Natural moment: the EN/PT pass above.
 - [ ] **Deliberately not done:** extracting shared PDF CSS into `automation/pdf-style.js`. See standing decision 8.
 
-*Related and separate: the Backlog item on the four remaining Spanish-only legacy guides (`intervalos.pdf`, `pre-entreno.pdf`, `guia-de-herramientas-mentales.pdf`, `guia-de-herramientas-nutricionales.pdf`) — same vintage, same 20×-too-large problem, no funnel urgency.*
+*Related and separate: the Backlog item on the Spanish-only legacy guides — same vintage, same 20×-too-large problem, no funnel urgency. All four named there have since been withdrawn: the nutrition pair in September 2026 and the mental pair on September 11, 2026, each replaced by a generated three-language guide.*
