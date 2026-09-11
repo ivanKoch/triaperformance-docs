@@ -33,6 +33,13 @@ ogType: article
     {%- if raceId %}{% include "partials/race-guide-link.njk" %}{% endif %}
     {{ content | safe }}
     {% include "partials/tool-cta.njk" %}
+    {#- An article whose subject has a guide behind it trades that guide for an
+        email. Same conditional shape as raceId above: nothing renders unless the
+        article declares `toolCapture`, so this costs the other articles nothing.
+        Added Sept 11, 2026 with the fuelling magnet — the three nutrition
+        articles were the site's only public writing on a subject whose guide
+        had just gone behind the paywall, and none of them captured anything. -#}
+    {%- if toolCapture %}{% include "partials/tool-capture.njk" %}{% endif %}
   </div>
 </article>
 

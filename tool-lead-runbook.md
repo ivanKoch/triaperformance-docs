@@ -15,6 +15,8 @@
 
 ⚠️ ***The `leadSource` value stays `TOOL_LEAD` for every magnet, deliberately.*** A value per magnet turns one enum into a list Iván maintains by hand in the Twenty UI forever, which is the exact cost this endpoint exists to remove. **Which magnet it was lives in `leadNotes`.** *The trade is real and worth naming: per-magnet reporting in Twenty is now a text search rather than a filter. Nothing in this business currently reports on `leadSource` at magnet grain, and if that changes the answer is a proper field, not six enum values.*
 
+✅ ***The "two edits" claim was tested by a second magnet on September 11, 2026 and held exactly.*** *`fueling` — the fuelling guide's lead-magnet cut — took one entry in the registry node and one in `capture.json`, plus `toolCapture: fueling` on three articles. No new webhook, no Caddy route, no Twenty enum value, no second workflow.* 🔑 **One thing the first magnet did not exercise: it lived on a tool page, and this one lives on blog articles.** *`layouts/article.njk` gained a conditional `{%- if toolCapture %}` include in the same shape as its existing `raceId` one, so from now on any article opts in from its own front matter and the layout needs no further edit.* ⚠️ *It also surfaced a stale pointer in `partials/tool-capture.njk`, which named the copy file as `toolCapture.json` — corrected to `capture.json`, the name the file itself explains it must have.*
+
 **The two existing workflows are NOT migrated.** They work, they are live, and rewriting a live sender to prove a point is how a working pipeline breaks. They migrate when one of them next needs a change, or never.
 
 ## The payload

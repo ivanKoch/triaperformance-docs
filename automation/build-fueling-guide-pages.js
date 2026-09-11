@@ -26,6 +26,9 @@ const ROOT = path.join(__dirname, "..");
 
 /* Page chrome. This is UI, not guide copy, so it lives here rather than in the
    markdown — the markdown holds only what an athlete reads. */
+// noindex is NOT set here on purpose: site/members/members.json is a directory
+// data file that already applies it to every page under site/members/, en/ and
+// pt/ included. Restating it per page gives the setting two homes and no benefit.
 const CHROME = {
   es: { dir: "site/members/combustible",    home: "/members/#biblioteca",    lib: "Biblioteca", crumb: "Combustible", label: "Guía",  toc: "En esta guía", pdf: "Descargar en PDF" },
   en: { dir: "site/members/en/fueling",     home: "/members/en/#biblioteca", lib: "Library",    crumb: "Fuelling",    label: "Guide", toc: "In this guide", pdf: "Download as PDF" },
@@ -102,7 +105,6 @@ function buildPage(lang) {
 
   return `---
 layout: layouts/base.njk
-noindex: true
 pageCss:
   - members.css
   - members-combustible.css

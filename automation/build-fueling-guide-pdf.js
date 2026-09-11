@@ -19,7 +19,7 @@
  * it is meant to be searched, not read through. The lead-magnet cut of this
  * guide is a separate artifact and a separate open item.
  *
- * Usage: node automation/build-fueling-guide-pdf.js [es|en|pt] [outfile.pdf]
+ * Usage: node automation/build-fueling-guide-pdf.js [es|en|pt] [--magnet] [outfile.pdf]
  * Needs: playwright + chromium.
  */
 
@@ -28,10 +28,51 @@ const path = require("path");
 const C = require("./fueling-guide-content.js");
 const { inline, plain } = C;
 
+const MAGNET = process.argv.includes("--magnet");
 const LANG = (process.argv[2] || "es").toLowerCase();
 const DOC = C[LANG];
 if (!DOC) { console.error(`unknown language "${LANG}" — expected es | en | pt`); process.exit(2); }
-const OUT = process.argv[3] || path.join(__dirname, "..", "site", "assets", "guias", DOC.filename);
+/* The lead-magnet cut is a SECTION ALLOWLIST through this same builder, not a
+   fourth document — the decision recorded in fueling-guide-brief.md. Sections
+   are chosen by their number in the guide, so the list is language-independent
+   and survives a reorder. 2/3/4/10 is the "how to fuel your long session, and
+   what to do when your stomach says no" story: the four both reviews named as
+   load-bearing, minus the race templates.
+
+   ⚠️ What is deliberately NOT in the magnet, and why it is not an oversight:
+   hydration and sodium (§6), caffeine (§8) and carb loading (§7) all carry a
+   safety tail — hyponatraemia symptoms, contraindications, a loading protocol —
+   that needs the space the full guide gives it. A magnet reaching strangers
+   should not carry a dose it cannot also carry the warning for. The scope box
+   ships with the magnet for the same reason, uncut. */
+const MAGNET_SECTIONS = [2, 3, 4, 10];
+
+const MAGNET_CHROME = {
+  es: { file: "alimentar-tus-sesiones-largas.pdf", title: "Cómo alimentar tus sesiones largas",
+        sub: "La fórmula del pre-entreno, cuántos gramos por hora, y cómo entrenar el intestino para tolerarlos",
+        lede: "Cuatro secciones del Kit de Combustible de Triaperformance: qué comer antes, cuánto meter por hora según la duración y el deporte, cómo subir esa cantidad sin romperte el estómago, y qué hacer el día que se cierre igual.",
+        ctaH: "Esto es la cuarta parte de la guía completa",
+        ctaP: "El Kit de Combustible completo añade hidratación y sodio, cafeína, carga de carbohidratos, calor y altura, y una plantilla de carrera para nueve distancias. Está dentro de Triaperformance All-Access, junto con el resto de la biblioteca.",
+        ctaA: "Ver All-Access", ctaU: "https://triaperformance.com/all-access/",
+        ctaB: "¿Prefieres que lo aterricemos a tu carrera concreta? Escríbeme." },
+  en: { file: "fuel-your-long-sessions.pdf", title: "How to fuel your long sessions",
+        sub: "The pre-session formula, how many grams per hour, and how to train your gut to tolerate them",
+        lede: "Four sections from the Triaperformance Fuel Kit: what to eat before, how much to take per hour by duration and sport, how to raise that number without wrecking your stomach, and what to do the day it shuts down anyway.",
+        ctaH: "This is a quarter of the full guide",
+        ctaP: "The complete Fuel Kit adds hydration and sodium, caffeine, carbohydrate loading, heat and altitude, and a race template for nine distances. It is inside Triaperformance All-Access, along with the rest of the library.",
+        ctaA: "See All-Access", ctaU: "https://triaperformance.com/en/all-access/",
+        ctaB: "Would you rather we fitted it to your actual race? Write to me." },
+  pt: { file: "alimentar-seus-treinos-longos.pdf", title: "Como alimentar seus treinos longos",
+        sub: "A fórmula do pré-treino, quantos gramas por hora, e como treinar o intestino para tolerá-los",
+        lede: "Quatro seções do Kit de Combustível da Triaperformance: o que comer antes, quanto colocar por hora conforme a duração e o esporte, como subir essa quantidade sem arrebentar o estômago, e o que fazer no dia em que ele fechar assim mesmo.",
+        ctaH: "Isto é um quarto do guia completo",
+        ctaP: "O Kit de Combustível completo acrescenta hidratação e sódio, cafeína, carga de carboidratos, calor e altitude, e um modelo de prova para nove distâncias. Está dentro do Triaperformance All-Access, junto com o resto da biblioteca.",
+        ctaA: "Ver All-Access", ctaU: "https://triaperformance.com/pt/all-access/",
+        ctaB: "Prefere que a gente adapte isso à sua prova? Me escreva." },
+}[LANG];
+
+const OUT = process.argv.find((a) => a.endsWith(".pdf")) ||
+  path.join(__dirname, "..", "site", "assets", "guias", MAGNET ? MAGNET_CHROME.file : DOC.filename);
 
 const CHROME = {
   es: { kicker: "Guía Triaperformance", contents: "Contenido", cover: "Kit de Combustible" },
@@ -76,8 +117,20 @@ function blocks(list) {
 }
 
 const [scope, letter, ...rest] = DOC.sections;
-const body = rest.slice(0, -1);
+const allBody = rest.slice(0, -1);
 const sources = rest[rest.length - 1];
+
+const secNo = (s) => parseInt((s.heading.match(/^(\d+)\./) || [])[1], 10);
+const body = MAGNET ? allBody.filter((s) => MAGNET_SECTIONS.includes(secNo(s))) : allBody;
+if (MAGNET && body.length !== MAGNET_SECTIONS.length) {
+  console.error(`magnet allowlist matched ${body.length} of ${MAGNET_SECTIONS.length} sections — the guide was renumbered`);
+  process.exit(2);
+}
+// In the magnet the guide's numbering is meaningless, so headings renumber 1..n.
+const headingOf = (s, i) => MAGNET ? `${i + 1}. ${s.heading.replace(/^\d+\.\s*/, "")}` : s.heading;
+
+const TITLE = MAGNET ? MAGNET_CHROME.title : DOC.title;
+const SUBTITLE = MAGNET ? MAGNET_CHROME.sub : DOC.subtitle;
 
 /* The cover lede: the guide's own one-line promise, taken from the scope
    section rather than written here, so the cover cannot contradict the text. */
@@ -85,7 +138,7 @@ const scopeParas = scope.blocks.filter((b) => b.t === "p" && !WARN.test(b.x));
 // [0] is the "this is not medical advice" disclaimer; [1] is what the guide
 // actually promises. The cover takes the promise — the disclaimer is three
 // lines further in, in the scope box, where a reader is already reading.
-const coverLede = plain((scopeParas[1] || scopeParas[0] || { x: "" }).x);
+const coverLede = MAGNET ? MAGNET_CHROME.lede : plain((scopeParas[1] || scopeParas[0] || { x: "" }).x);
 
 const HTML = `<!doctype html>
 <html lang="${LANG}"><head><meta charset="UTF-8"><style>
@@ -156,17 +209,17 @@ const HTML = `<!doctype html>
   <div class="wordmark">Triaperformance</div>
   <div class="cover-body">
     <span class="kicker">${CHROME.kicker}</span>
-    <h1>${inline(DOC.title)}</h1>
-    <p class="sub">${inline(DOC.subtitle)}</p>
+    <h1>${inline(TITLE)}</h1>
+    <p class="sub">${inline(SUBTITLE)}</p>
     <p class="lede">${coverLede}</p>
   </div>
   <div class="foot">Iván Koch — Founder &amp; Head Coach · coach@triaperformance.com</div>
 </div>
 
-<div class="toc">
+${MAGNET ? "" : `<div class="toc">
   <h2>${CHROME.contents}</h2>
   <ol>${body.map((s) => `<li>${inline(s.heading.replace(/^\d+\.\s*/, ""))}</li>`).join("")}</ol>
-</div>
+</div>`}
 
 <section class="tight">
   <div class="scope">
@@ -177,9 +230,14 @@ const HTML = `<!doctype html>
   ${blocks(letter.blocks)}
 </section>
 
-${body.map((s) => `<section><h2 class="sec">${inline(s.heading)}</h2>${blocks(s.blocks)}</section>`).join("")}
+${body.map((s, i) => `<section><h2 class="sec">${inline(headingOf(s, i))}</h2>${blocks(s.blocks)}</section>`).join("")}
 
-<section><h2 class="sec">${inline(sources.heading)}</h2><div class="sources">${blocks(sources.blocks)}</div></section>
+${MAGNET ? `<section>
+  <h2 class="sec">${MAGNET_CHROME.ctaH}</h2>
+  <p>${MAGNET_CHROME.ctaP}</p>
+  <div class="callout"><p><strong><a href="${MAGNET_CHROME.ctaU}">${MAGNET_CHROME.ctaA} →</a></strong></p>
+  <p>${MAGNET_CHROME.ctaB} <a href="mailto:coach@triaperformance.com">coach@triaperformance.com</a> · <a href="https://wa.me/573105437088">WhatsApp</a></p></div>
+</section>` : `<section><h2 class="sec">${inline(sources.heading)}</h2><div class="sources">${blocks(sources.blocks)}</div></section>`}
 
 </body></html>`;
 
@@ -199,9 +257,9 @@ ${body.map((s) => `<section><h2 class="sec">${inline(s.heading)}</h2>${blocks(s.
     footerTemplate:
       `<div style="width:100%;font-family:Helvetica,Arial,sans-serif;font-size:7pt;color:#565a52;
         padding:0 15mm;display:flex;justify-content:space-between;">
-        <span>Triaperformance · ${plain(DOC.title)}</span>
+        <span>Triaperformance · ${plain(TITLE)}</span>
         <span class="pageNumber"></span></div>`,
   });
   await browser.close();
-  console.log(`PDF written: ${path.relative(path.join(__dirname, ".."), OUT)}  (${DOC.sections.length} sections)`);
+  console.log(`${MAGNET ? "MAGNET" : "GUIDE "} ${LANG}: ${path.relative(path.join(__dirname, ".."), OUT)}  (${body.length} sections)`);
 })();

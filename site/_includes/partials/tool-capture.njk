@@ -15,7 +15,8 @@
     40×20mm of phone screen, and the overlay is the worst place on the page to
     type an address.
 
-    Copy: site/_data/toolCapture.json. Endpoint: /api/tool-lead, one webhook for
+    Copy: site/_data/capture.json (NOT toolCapture.json — that name would shadow
+    the page's own `toolCapture` front matter; the file's own note explains). Endpoint: /api/tool-lead, one webhook for
     every magnet — tool-lead-runbook.md. -#}
 {%- set cap = (toolCapture and (capture[toolCapture][lang] or capture[toolCapture].es)) -%}
 {%- if cap %}

@@ -15,7 +15,8 @@ fueling-guide/kit-de-combustible-{es,en,pt}.md        ← EDIT HERE, and only he
         │
         └── automation/fueling-guide-content.js        parses all three into one AST
                     ├── automation/build-fueling-guide-pages.js  → site/members/{combustible,en/fueling,pt/combustivel}/index.njk
-                    └── automation/build-fueling-guide-pdf.js    → site/assets/guias/{kit-de-combustible,the-fuel-kit,kit-de-combustivel}.pdf
+                    ├── automation/build-fueling-guide-pdf.js    → site/assets/guias/{kit-de-combustible,the-fuel-kit,kit-de-combustivel}.pdf
+                    └── ...  --magnet                            → site/assets/guias/{alimentar-tus-sesiones-largas,fuel-your-long-sessions,alimentar-seus-treinos-longos}.pdf
 ```
 
 ⚠️ **Never hand-edit a generated page or rebuild a PDF from anything else.** Both generated pages carry a DO-NOT-EDIT banner. A hand edit survives until the next build and until then the page, its two siblings and the PDF disagree — which is the exact failure this design exists to prevent, one layer up from the "one home per figure" rule: **one home per sentence.**
@@ -122,8 +123,13 @@ Only three figures in the guide are not from `methodology.md` §8:
 
 *Two layout defects were found by reading the rendered PDF rather than the code, and both were fixed in the parser so pages and PDFs inherited the fix at once: the signature block lost its line break (`**Iván**\nFounder & Head Coach` printed as one line — the parser was joining paragraph lines with a space, and all three multi-line blocks in the guide are deliberate soft breaks), and the PDF cover lede pulled the medical disclaimer instead of the promise, because it took the scope section's first paragraph.* **Neither was visible in the HTML or in any assertion. Render the artifact and look at it.**
 
+✅ **The lead magnet shipped the same day** — `alimentar-tus-sesiones-largas.pdf` / `fuel-your-long-sessions.pdf` / `alimentar-seus-treinos-longos.pdf`, 8–9 pages, traded for an email on the three public nutrition articles through `/api/tool-lead`.
+
+**It is a section allowlist through the same builder, exactly as predicted — `MAGNET_SECTIONS = [2, 3, 4, 10]` and a `--magnet` flag, no fourth document and no copy typed twice.** The allowlist is by *guide section number*, so it is language-independent and the build fails loudly if the guide is ever renumbered underneath it. Magnet mode also swaps the cover lede, drops the contents page (four items did not earn a sheet) and ends on a CTA instead of the sources.
+
+⚠️ **What the magnet deliberately leaves out, and it is not an oversight: §6 hydration and sodium, §7 carb loading, §8 caffeine.** *Each carries a safety tail — hyponatraemia symptoms, a loading protocol, contraindications — that needs the room the full guide gives it.* **A magnet reaching strangers should not carry a dose it cannot also carry the warning for.** *The scope box ships with it uncut, for the same reason.* The four sections that remain — pre-session, the per-hour ladder, the gut block, and what to do when the stomach shuts down — are the load-bearing four both reviews named, minus the race templates, which are the reason to open the full guide.
+
 **Left, and not queued:**
 
 1. The 100% liquid race option, with a rehearsal gate and a grams-per-100 ml ceiling.
-2. The lead-magnet compression. **Load-bearing, per both reviews independently:** the pre-session traffic light, the duration-based carbohydrate ladder, the race templates *as rehearsal starting points*, and "nothing new on race day" + the trainable gut. Remove any of those four and what is left is a pep talk. *The generator makes this cheaper than it looks — a lead-magnet cut is a section allowlist passed to the same builders, not a fourth document.*
-3. The old *Kit de Herramientas Nutricionales* is superseded and unpublished. It is not in this repo and should not be re-imported.
+2. The old *Kit de Herramientas Nutricionales* is superseded and unpublished. It is not in this repo and should not be re-imported.

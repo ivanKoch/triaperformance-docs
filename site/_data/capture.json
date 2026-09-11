@@ -34,5 +34,40 @@
       "error": "Algo deu errado no envio. Me escreva em coach@triaperformance.com e eu mando na mão.",
       "doneNudge": "Me manda o guia →"
     }
+  },
+  "fueling": {
+    "es": {
+      "kicker": "La guía",
+      "title": "¿Y cuántos gramos por hora te tocan a ti?",
+      "body": "Saber que existe un límite no te dice cuál es el tuyo. Te mando la guía con la fórmula del pre-entreno, la escala de gramos por hora según duración y deporte, el bloque de seis semanas para entrenar el intestino, y qué hacer el día que se cierre igual.",
+      "placeholder": "tu@email.com",
+      "button": "Mándame la guía",
+      "fine": "Un PDF de ocho páginas, un solo email, y te puedes dar de baja cuando quieras.",
+      "thanks": "Listo — revisa tu bandeja de entrada en un rato.",
+      "error": "Algo salió mal al enviar. Escríbeme a coach@triaperformance.com y te la mando a mano.",
+      "doneNudge": "Te mando la guía →"
+    },
+    "en": {
+      "kicker": "The guide",
+      "title": "So how many grams an hour are yours?",
+      "body": "Knowing a ceiling exists doesn't tell you where yours is. I'll send you the guide: the pre-session formula, the grams-per-hour ladder by duration and sport, the six-week block for training your gut, and what to do the day it shuts down anyway.",
+      "placeholder": "you@email.com",
+      "button": "Send me the guide",
+      "fine": "A eight-page PDF, one single email, and you can unsubscribe whenever you want.",
+      "thanks": "Done — check your inbox in a little while.",
+      "error": "Something went wrong sending it. Write to me at coach@triaperformance.com and I'll send it by hand.",
+      "doneNudge": "Send me the guide →"
+    },
+    "pt": {
+      "kicker": "O guia",
+      "title": "E quantos gramas por hora são os seus?",
+      "body": "Saber que existe um limite não diz qual é o seu. Eu te mando o guia: a fórmula do pré-treino, a escada de gramas por hora conforme duração e esporte, o bloco de seis semanas para treinar o intestino, e o que fazer no dia em que ele fechar assim mesmo.",
+      "placeholder": "voce@email.com",
+      "button": "Me manda o guia",
+      "fine": "Um PDF de nove páginas, um único email, e você pode se descadastrar quando quiser.",
+      "thanks": "Pronto — dá uma olhada na sua caixa de entrada daqui a pouco.",
+      "error": "Algo deu errado no envio. Me escreva em coach@triaperformance.com e eu mando na mão.",
+      "doneNudge": "Me manda o guia →"
+    }
   }
 }
