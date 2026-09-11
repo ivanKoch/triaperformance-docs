@@ -10,6 +10,22 @@
 
 ## Closed — September 11, 2026
 
+### `gate_accented`'s allow-list — closed, and the item had the cause wrong
+
+**Closing note, September 11, 2026.**
+
+⚠️ **The item as filed was wrong about the diagnosis.** It said *"the gate's allow-list is assembled from the five conversion maps, so a correct word can only be silenced by pretending it needs converting."* **`ALLOW` is a standalone set and always was** — it already held `país`, `café`, `bogotá`, `mié`. The words simply were not in it. *The mistake behind the mistake: an earlier pass had tried adding `andrés` to `ACC_OK`, which belongs to the accent-inside-clitic gate, and the item then generalised from that one wrong reach into a claim about the design.* 🔑 **Read which list a gate actually consults before concluding it does not have one.**
+
+**One real defect was there and is fixed.** `escribí` printed as **UNCLASSIFIED and as HOMOGRAPH on the same run**: `IMPER_REVIEW` keys are popped out of `WORD` so they are never auto-converted, which also stopped `gate_accented` skipping them. Two lists, same word — and the unclassified list therefore looked like it held unanswered questions when the answer sat three lines below it. `gate_accented` now skips anything the homograph gate owns.
+
+**Then measuring it repo-wide replaced the fix with a rule.** Across 394 files the gate reported **58 distinct words and essentially no defects**: 16 ending `-é` (`bajé`, `entrené`, `pensé`, `largué` — every one a first-person preterite), 3 ending `-í`, and 39 ending `-á`, which were Portuguese. **Approving them by hand would have been a list that grows a few entries every time a new Spanish document is written, and therefore never converges** — the race-execution guide alone added seven on the day this was opened.
+
+🔑 **The rule that replaced it splits by ending, because the endings are not equivalent.** `-á` is where real voseo lives — every `-ar` verb, which is most of Spanish — so it stays deny-by-default. A bare `-é` or `-í` collides head-on with the first-person preterite, which is Iván's own narrative voice (*"escribí esta guía"*, *"crucé la meta"*), so those are reported with their line by a new `gate_preterite()` and never accumulate in a list to approve. ⚠️ **`-ás/-és/-ís` are deliberately unaffected: those are voseo PRESENT tense (`contás`, `comés`, `vivís`) and remain real defects.**
+
+**`PRETERITE?` rows deliberately do NOT block `--write`, and a HOMOGRAPH row still does.** A homograph is in `IMPER` and a human has to choose; a preterite is in no map at all, so `convert()` would not touch it whatever the answer is. Blocking would have bought nothing and would have stopped every file containing `pensé` from ever being written.
+
+*Result, repo-wide: UNCLASSIFIED 58 → 3, and the 3 belong to other gates (two Portuguese verbs in race JSONs, one bare `vos` in `unsubscribe-workflow.json`, which also carries 2 real pending conversions).* **Proper nouns, demonyms and irregular futures went into `ALLOW` where they belong** — `avilés`, `algés`, `luís`, `joá`, `berlinés`, `chá`, `provendrá` — *completing patterns the set already had (`francés`, `inglés`, `portugués`, `verás`, `harás`) rather than starting new ones.*
+
 ### WITHDRAWN same day: "/members/* is documented as noindex and not one page sets it"
 
 **The claim was false and never should have been written.** `site/members/members.json` is an Eleventy **directory data file** carrying `"noindex": true`, and it cascades to every page under `site/members/` — including the `en/` and `pt/` subtrees, whose own data files exist only to flip `lang` and say so in their comments. Verified against the built HTML rather than the source: **60 of 60 members pages emit `<meta name="robots" content="noindex, nofollow">`**, and the public pages correctly emit none.
