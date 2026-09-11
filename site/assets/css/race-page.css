@@ -433,6 +433,91 @@
   border-top: 1px solid var(--mist);
 }
 
+/* ── Start-by list ────────────────────────────────────────────────────────── */
+.race-startby-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+}
+.race-startby-list li {
+  font-size: 17px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+.race-startby p { margin: 0; }
+.race-startby-list + p { margin-top: 4px; font-size: 15px; color: var(--slate); }
+
+/* ── The coach block ────────────────────────────────────────────────────────
+   Carbon, and the only dark band on the page besides the hero. That is the
+   point: everything between them is reference material on a light ground, and
+   this is the one place the page stops explaining and makes an offer. A band
+   rather than a line because a sentence in body copy after six product cards
+   is not an offer, it is a footnote — and this reader has just been told the
+   race has a constraint their plan will not absorb.
+
+   The photograph is load-bearing. The whole proposition is "a person, not a
+   PDF", and that argument is not made by a paragraph claiming it. */
+.race-coach {
+  background: var(--bg);
+  color: var(--text);
+  padding: 56px 0;
+}
+.race-coach-inner {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.race-coach-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  /* The portrait is shot against a white wall, and on a carbon band that wall
+     is the brightest object in the section — it pulled the eye before the
+     heading. Trimmed rather than vignetted: a vignette would darken the face,
+     which is the one thing in the frame that has to stay clear. A hairline in
+     the border token seats the photograph into the band instead of letting it
+     float on top of it. */
+  filter: brightness(.94) saturate(.94);
+  border: 1px solid var(--border);
+}
+.race-coach-body .label { color: var(--heat-bright); }
+.race-coach-body h2 {
+  color: var(--white);
+  margin: 8px 0 14px;
+  max-width: 22ch;
+}
+/* The race-specific sentence. Larger than the generic paragraph under it,
+   because it is the one line that could only have been written about this
+   race — the same reason the hook carries the hero. */
+.race-coach-hook {
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--white);
+  max-width: 54ch;
+  margin: 0 0 14px;
+  padding-left: 14px;
+  border-left: 3px solid var(--heat-graphic);
+}
+.race-coach-body p {
+  color: var(--text);
+  max-width: 62ch;
+  line-height: 1.65;
+  margin: 0 0 22px;
+}
+.race-coach-body .btn-primary { display: inline-block; }
+@media (max-width: 760px) {
+  .race-coach { padding: 40px 0; }
+  .race-coach-inner { grid-template-columns: 140px 1fr; gap: 24px; align-items: start; }
+  .race-coach-body h2 { font-size: 26px; max-width: none; }
+  .race-coach-hook { font-size: 17px; }
+}
+@media (max-width: 520px) {
+  .race-coach-inner { grid-template-columns: 1fr; gap: 20px; }
+  .race-coach-photo { max-width: 160px; }
+}
+
 /* ── FAQ ────────────────────────────────────────────────────────────────────
    A <dl>, and visible — not an accordion. The questions are the page's own
    facts restated in the form people type them, so hiding them behind a click

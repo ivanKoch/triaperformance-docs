@@ -19,7 +19,7 @@
     the only language that gets the facet controls. The condition is the DATA,
     not a hardcoded language check — English fills in the moment its third
     variant is worth exposing. -#}
-{%- set variants = plans.byLanguage[lang] | raceLadderVariants(race.distance) -%}
+{%- set variants = plans.byLanguage[lang] | raceLadderVariants(race.distance, race.weeksToRace) -%}
 {%- set ladder = variants[0].plans if variants | length else [] -%}
 {%- set showFacets = variants | length > 1 and lang == "es" -%}
 {#- The lead plan is the Intermediate short block: the middle of the ladder, and
@@ -179,14 +179,24 @@
     {#- "12 or 18 weeks" is abstract; a date is the answer to "when do I start".
         Computed from next_edition_date, so it is different on every page and
         cannot be written by hand wrongly. No confirmed date, no invented one. -#}
+    {#- Only durations you can still start are listed, and the note underneath
+        depends on how close the race is. A page eight weeks out that offers an
+        18-week block, or prints a start date in August, is a page that has not
+        noticed what day it is. Rebuilt daily by the 6am cron. -#}
     <div class="race-startby">
       <span class="race-startby-l">{{ r.startByTitle }}</span>
       {%- if race.startBy %}
-      <p>{{ r.startByLine
-            | replace("{date}", race.nextEditionDate | raceDate(lang))
-            | replace("{d18}", race.startBy["18"] | raceDate(lang))
-            | replace("{d12}", race.startBy["12"] | raceDate(lang)) }}</p>
-      {%- else %}
+      <ul class="race-startby-list">
+        {%- for w, d in race.startBy %}
+        <li><strong>{{ w }} {{ r.weeksLabel }}</strong> — {{ r.startByItem | replace("{date}", d | raceDate(lang)) }}</li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+      {%- if race.ladderPhase == "band" %}
+      <p>{{ r.startByBand | replace("{weeks}", race.weeksToRace) }}</p>
+      {%- elif race.ladderPhase == "tight" %}
+      <p>{{ r.startByTight | replace("{weeks}", race.weeksToRace) }}</p>
+      {%- elif race.ladderPhase == "undated" %}
       <p>{{ r.startByNoDate }}</p>
       {%- endif %}
     </div>
@@ -258,6 +268,35 @@
   </div>
 </section>
 {%- endif %}
+
+{#- ── The coach, as the alternative to a fixed plan.
+    Carbon, which brand-guidelines §3.3 permits on exactly four public surfaces
+    — and the final CTA is one of them. It sits AFTER the plan cards on purpose:
+    the page has just explained a constraint (two gun-timed cuts on a climb, a
+    09:35 wave running a different race in the heat) that a calendar PDF cannot
+    absorb, and this is the reader that a US$ 50 SKU does not fit. One offer,
+    one link. No All-Access, no members tools, no price in this block. -#}
+<section class="race-coach">
+  <div class="wrap race-coach-inner">
+    <div class="race-coach-photo">
+      <picture>
+        <source type="image/webp" sizes="(max-width: 760px) 140px, 240px"
+                srcset="{{ "/assets/images/ivan-560.webp" | v }} 560w, {{ "/assets/images/ivan-800.webp" | v }} 800w">
+        <img src="{{ "/assets/images/ivan-560.jpg" | v }}"
+             srcset="{{ "/assets/images/ivan-560.jpg" | v }} 560w, {{ "/assets/images/ivan-800.jpg" | v }} 800w"
+             sizes="(max-width: 760px) 140px, 240px"
+             width="560" height="700" alt="{{ r.coachAlt }}" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <div class="race-coach-body">
+      <span class="label">{{ r.coachEyebrow }}</span>
+      <h2>{{ r.coachHeading }}</h2>
+      {%- if race.coachHook %}<p class="race-coach-hook">{{ race.coachHook }}</p>{% endif %}
+      <p>{{ r.coachBodyGeneric }}</p>
+      <a href="{{ planUi[lang].ctaHref }}" class="btn-primary">{{ r.coachCta }}</a>
+    </div>
+  </div>
+</section>
 
 {#- ── FAQ. Built as one array and rendered twice — visible <h3>/<p> and
     FAQPage JSON-LD — because schema that does not match the DOM is a penalty

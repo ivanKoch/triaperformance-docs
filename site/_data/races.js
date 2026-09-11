@@ -63,15 +63,28 @@ function pick(field, lang) {
  *  computable where the organiser has published a date — where they have not,
  *  the page says to count back from the typical window instead of inventing a
  *  Sunday. */
-function startByDates(iso, weeks) {
+function startByDates(iso, weeks, today) {
   if (!iso) return null;
   const out = {};
   for (const w of weeks) {
     const d = new Date(iso + "T12:00:00Z");
     d.setUTCDate(d.getUTCDate() - w * 7);
-    out[w] = d.toISOString().slice(0, 10);
+    const start = d.toISOString().slice(0, 10);
+    // Only durations you can still START. Printing "the 18-week block starts
+    // 2 August" to someone reading in October is not a calculation, it is a
+    // page that has not noticed what day it is. The box rebuilds at 6am daily,
+    // so this re-evaluates every morning without anyone touching it.
+    if (start >= today) out[w] = start;
   }
-  return out;
+  return Object.keys(out).length ? out : null;
+}
+
+/** Whole weeks from today to race day. Null when the organiser has not
+ *  published a date — which is the case the plan row must still handle. */
+function weeksUntil(iso, today) {
+  if (!iso) return null;
+  const ms = new Date(iso + "T12:00:00Z") - new Date(today + "T12:00:00Z");
+  return Math.floor(ms / (7 * 24 * 3600 * 1000));
 }
 
 /** Durations the ladder offers for a distance. Kept here rather than imported
@@ -130,6 +143,7 @@ module.exports = function () {
     return { all: [], byLanguage: { es: [], en: [], pt: [] }, count: 0 };
   }
 
+  const TODAY = new Date().toISOString().slice(0, 10);
   const files = fs.readdirSync(DIR).filter((f) => f.endsWith(".json")).sort();
   const byLanguage = { es: [], en: [], pt: [] };
   const all = [];
@@ -234,7 +248,22 @@ module.exports = function () {
         // edition is an update to this URL rather than a new one. A race with
         // no confirmed date gets no year rather than a guessed one.
         year: raw.next_edition_date ? Number(raw.next_edition_date.slice(0, 4)) : null,
-        startBy: startByDates(raw.next_edition_date, LADDER_WEEKS[raw.distance] || []),
+        startBy: startByDates(raw.next_edition_date, LADDER_WEEKS[raw.distance] || [], TODAY),
+        weeksToRace: weeksUntil(raw.next_edition_date, TODAY),
+        // Which of four situations the reader is in, decided once here so the
+        // template switches instead of re-deriving the arithmetic three times:
+        //   undated — organiser has published no date
+        //   tight   — closer than the shortest block; only that block is offered
+        //   band    — between the shortest and longest; BOTH are real answers
+        //   ample   — more time than the longest block needs
+        ladderPhase: (() => {
+          const w = weeksUntil(raw.next_edition_date, TODAY);
+          const all = LADDER_WEEKS[raw.distance] || [];
+          if (w === null || !all.length) return "undated";
+          const lo = Math.min(...all), hi = Math.max(...all);
+          return w < lo ? "tight" : w <= hi ? "band" : "ample";
+        })(),
+        coachHook: pick(raw.coach_hook, lang),
 
         // The date the conditions and entry facts were last checked against the
         // organiser. This block rots every season — a stamp is the honest

@@ -151,5 +151,10 @@
     "Elevation gain is a range across four sources, deliberately not averaged.",
     "Finisher and sub-3 counts differ by source (MarathonView vs Soy Corredor); both ends shown.",
     "2027 registration opening date not published as of September 2026 — typical_window is what renders."
-  ]
+  ],
+  "coach_hook": {
+    "es": "Salir a las 09:35 es correr una carrera distinta a la de las 08:15, y un plan cerrado no sabe en qué tanda te tocó.",
+    "en": "Starting at 09:35 is a different race from starting at 08:15, and a fixed plan does not know which wave you drew.",
+    "pt": "Largar às 09:35 é correr uma prova diferente da das 08:15, e um plano fechado não sabe em que pelotão você caiu."
+  }
 }

@@ -667,7 +667,35 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
   ];
   const GYM_IN_NAME = /gym|gimnasio|for[çc]a|strength/i;
 
-  function ladderVariants(plansForLang, distance) {
+  /** Which durations to show, and in what order, given weeks to race day.
+   *
+   *  ORDERING, NOT FILTERING — with one deliberate exception. Iván's rule, and
+   *  the coaching reason behind each branch:
+   *
+   *    weeks < shortest   -> the shortest block only. An 18-week plan offered to
+   *                          someone eight weeks out is not a choice, it is a
+   *                          page that cannot count.
+   *    shortest..longest  -> BOTH, shortest first. This is the band the rule
+   *                          exists for: at 14 weeks an athlete can take the
+   *                          18-week plan and start at week 3, or take the
+   *                          12-week and repeat its first weeks. Both are real
+   *                          answers, so the page shows both and says so.
+   *    weeks > longest    -> both, longest first. There is time to do the whole
+   *                          thing, so lead with the whole thing.
+   *    no date            -> both, longest first. The full ladder, unchanged.
+   *
+   *  The box rebuilds at 6am every day, so this re-evaluates daily without
+   *  anyone touching a file. */
+  function ladderWeekOrder(allWeeks, weeksToRace) {
+    const asc = [...allWeeks].sort((a, b) => a - b);
+    if (weeksToRace === null || weeksToRace === undefined) return asc.slice().reverse();
+    const shortest = asc[0], longest = asc[asc.length - 1];
+    if (weeksToRace < shortest) return [shortest];
+    if (weeksToRace <= longest) return asc;
+    return asc.slice().reverse();
+  }
+
+  function ladderVariants(plansForLang, distance, weeksToRace) {
     const spec = RACE_LADDER[distance];
     if (!spec || !Array.isArray(plansForLang)) return [];
 
@@ -680,7 +708,8 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
       return true;
     });
 
-    const allWeeks = [...new Set(Object.values(spec.weeks).flat())].sort((a, b) => a - b);
+    const everyWeek = [...new Set(Object.values(spec.weeks).flat())].sort((a, b) => a - b);
+    const allWeeks = ladderWeekOrder(everyWeek, weeksToRace);
     const out = [];
     for (const v of RACE_VARIANTS) {
       const found = [];
@@ -704,6 +733,7 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
         // says which durations exist, because "no results" and "only 12 weeks"
         // are different answers and only one of them is useful.
         complete: found.length === allWeeks.length * RACE_DIFFICULTY_ORDER.length,
+        weeksShown: allWeeks,
       });
     }
     return out;
@@ -714,8 +744,8 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
    *  no-gym in all three languages. One selection rule, used by both filters —
    *  two implementations of "which plans belong on a race page" would disagree
    *  within a month. */
-  eleventyConfig.addFilter("raceLadder", function (plansForLang, distance) {
-    const v = ladderVariants(plansForLang, distance);
+  eleventyConfig.addFilter("raceLadder", function (plansForLang, distance, weeksToRace) {
+    const v = ladderVariants(plansForLang, distance, weeksToRace);
     return v.length ? v[0].plans : [];
   });
 
