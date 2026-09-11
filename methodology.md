@@ -146,6 +146,8 @@ Extracted from chats + answers; each maps a trigger to a response.
 - No weight-loss coaching → nutritionist. Nutrition scope strictly = training/race fueling + carb load.
 - No swim-teaching for non-swimmers; no coaching commitments the data can't support.
 - No differentiated protocols yet for minors/pregnancy/health conditions — meaning the AI Coach needs hard exclusions there (don't serve those cases), since no methodology exists for them. Female-cycle-aware training: identified opportunity, not yet competent — excluded.
+- **Narrow exception to the no-medical-context rule, September 11, 2026 (Iván):** a printed stop-symptom list is permitted in **published athlete-facing guides only** — never conversationally, never in the AI Coach. Sourced to Meijen et al., it prescribes exactly one action: stop and see a doctor. Everything else in this section is unchanged. *(Live in `race-execution-guide/`; see §14 and `race-execution-guide-brief.md` §7.)*
+- **Psychology is its own red line and has its own section — see §14** *(added September 11, 2026, after the* Kit de Herramientas Mentales *was found to be delivering named psychotherapy under a coach's byline).*
 
 ## 12. Worked examples (case library)
 
@@ -170,3 +172,14 @@ Extracted from chats + answers; each maps a trigger to a response.
 3. **Section 9 partially reconstructed** — confirm taper lengths by distance (only IM and marathon observed) and pacing frameworks for sprint/Olympic.
 4. **Exit policy** — soft-exit narrative vs. honest boundary statement; document one so a hired coach doesn't improvise.
 5. **The referral-source rate** and Monday spreadsheet/concatenate tooling are operational, not methodology — already captured in `pricing-and-positioning.md` / future ops docs.
+
+## 14. Mental & race-execution scope *(added September 11, 2026)*
+
+**Scope line: race execution and training decisions only.** Never anxiety or depression as conditions, never motivation loss as a clinical matter, never exercise dependence, body image or the athlete's relationship with food, never "mental toughness" as a character trait to fix. → licensed psychologist in the athlete's country.
+
+- **In scope:** the written race plan; the A/B/C goal ladder; pacing discipline in the opening kilometres; attentional focus switched by intensity; the persist / revise / stop decision; walking as a pacing tool; cut-off arithmetic; the post-race debrief; what the athlete rehearses in each block.
+- **In scope only when scoped to a rep or a race:** effort tolerance inside a prescribed interval; execution cues tied to a named technique failure. **The scope is the rep, never the person.**
+- **No named psychotherapy.** CBT, ACT and their techniques are not delivered, named or paraphrased as coaching tools. *(This is precisely what the retired* Kit de Herramientas Mentales *did — two independent reviews returned "unpublishable as written", and the root cause was scope, not prose. The guide was withdrawn September 11, 2026 and replaced by `race-execution-guide/`.)*
+- **Referral triggers are stated to the athlete as duration and function, never as mood:** a post-race low lasting beyond two weeks or impairing life outside sport; sleep collapse; loss of interest in things outside sport; being unable to take a rest day; training through illness or injury because stopping feels impossible; food or weight deciding whether they train. Thoughts of self-harm → same day, not an appointment.
+- **Persistence is never framed as moral.** Slowing down, walking and stopping are decisions with a cost, not failures of character. Any copy that codes them as giving up is out of scope, whatever else it gets right.
+- **Home doc:** `race-execution-guide-brief.md`. The athlete-facing scope box in `race-execution-guide/guia-de-ejecucion-{es,en,pt}.md` is a **copy** of this section — move it here first, then copy it there.

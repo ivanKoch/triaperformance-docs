@@ -10,7 +10,7 @@
 
 Cubre una sola cosa, y la cubre completa: **cómo ejecutar una carrera, y qué hacer cuando el plan deja de funcionar.**
 
-No cubre ansiedad, depresión, pérdida de motivación como problema clínico, dependencia del ejercicio, ni tu relación con la comida o con tu cuerpo. No porque no importen —importan mucho— sino porque no son mi trabajo. Soy tu coach, no tu psicólogo, y la diferencia no es un tecnicismo: es la línea entre lo que puedo defender con mi experiencia y lo que necesita una matrícula.
+No cubre ansiedad ni depresión, no cubre la pérdida de motivación como problema clínico, no cubre la dependencia del ejercicio, ni tu relación con la comida o con tu cuerpo. Tampoco trata la "fortaleza mental" como un rasgo de carácter que haya que arreglar. No porque esas cosas no importen —importan mucho— sino porque no son mi trabajo. Soy tu coach, no tu psicólogo, y la diferencia no es un tecnicismo: es la línea entre lo que puedo defender con mi experiencia y lo que necesita una matrícula.
 
 Sobre alimentación, esta guía no repite nada: todo lo de combustible, hidratación y sodio vive en el **Kit de Combustible**, y ahí es donde tienes que buscarlo.
 
@@ -24,7 +24,7 @@ Sobre alimentación, esta guía no repite nada: todo lo de combustible, hidratac
 
 ### Habla con un profesional de salud mental si:
 
-Esto no es una lista de diagnóstico. Son observaciones que puedes hacer sobre ti mismo, con un umbral de tiempo o de función, no de estado de ánimo.
+Esto no es una lista de diagnóstico. Son observaciones que puedes hacer sobre ti mismo, con un umbral de **tiempo o de función**, no de estado de ánimo.
 
 - El bajón después de una carrera dura **más de dos semanas**, o te impide funcionar en el trabajo, en tu casa o con tu gente
 - Perdiste el interés en cosas que no tienen nada que ver con el deporte
@@ -36,7 +36,9 @@ Si aparecen pensamientos de hacerte daño, esto no es una consulta que se agenda
 
 ### Lo que yo hago y lo que no
 
-Yo ajusto el plan, redistribuyo carga a los deportes que no te duelen, y sostengo el calendario contigo. No diagnostico, no evalúo riesgo de lesión, no doy indicaciones sobre medicación y no hago coaching de peso. Cuando algo cae de ese lado de la línea, te derivo. Esa es la regla, y no tiene excepciones.
+Yo ajusto el plan, redistribuyo carga a los deportes que no te duelen, y sostengo el calendario contigo. No diagnostico, no evalúo riesgo de lesión, no doy indicaciones sobre medicación y no hago coaching de peso. Cuando algo cae de ese lado de la línea, te derivo. Esa es la regla y no tiene excepciones.
+
+Una última, que ordena todo lo que sigue: **bajar el ritmo, caminar y parar son decisiones con un costo, no fracasos de carácter.** Esta guía no va a tratarlos como rendirse en ningún momento.
 
 ---
 
@@ -67,10 +69,6 @@ Founder & Head Coach, Triaperformance
 
 ---
 
-# Parte I — Lo que ensayas
-
----
-
 ## 1. La carrera se decide antes de la salida
 
 Hay una asimetría que vale la pena entender antes de seguir.
@@ -83,13 +81,13 @@ La solución no es entrenar la cabeza para decidir mejor con el tanque vacío. E
 
 Un plan de carrera no es una predicción. Es una lista de decisiones ya tomadas.
 
-Todo lo que sigue en la Parte I es eso: las decisiones que se toman con anticipación, en orden, y la forma de ensayarlas para que el día de la carrera salgan solas.
+Las secciones 2 a 6 son eso: las decisiones que se toman con anticipación, en orden, y la forma de ensayarlas para que el día de la carrera salgan solas.
 
 ---
 
 ## 2. Tus tres metas: A, B y C
 
-⭐ *Este es el ejercicio más importante de la guía. Si haces uno solo, haz este.*
+*Este es el ejercicio más importante de la guía. Si haces uno solo, haz este.*
 
 La mayoría de los atletas llega a la línea de salida con **una** meta. Un número. Y ese número tiene una propiedad peligrosa: o se cumple o se rompe. No tiene estados intermedios.
 
@@ -144,7 +142,7 @@ Esto no es una técnica mental. Es planificación de objetivos, exactamente igua
 
 Un plan de carrera tiene tres partes, y no está terminado hasta que las tres están en papel. Esto es lo mismo que armo con cada atleta que entreno antes de una carrera A, y tiene el mismo contenido siempre.
 
-### 3.1 Ritmo por tramo
+### Ritmo por tramo
 
 No un ritmo promedio. Un rango por tramo, con la variable que corresponda a tu deporte y a tus datos: ritmo, potencia o frecuencia cardíaca.
 
@@ -161,7 +159,7 @@ En triatlón largo hay una regla adicional que no es negociable: **los picos de 
 
 Todo ritmo objetivo es condicional. Se escribe con sus supuestos al lado: combustible ejecutado al 100%, clima dentro de rango, sin sobregirar la bici. Si un supuesto cae, el ritmo objetivo cae con él —y eso no es un fracaso, es el plan funcionando.
 
-### 3.2 Cronograma de combustible
+### Cronograma de combustible
 
 Qué, cuánto y en qué kilómetro. Escrito. El **Kit de Combustible** tiene los números; aquí solo importa que estén en tu plan y no en tu memoria.
 
@@ -170,7 +168,7 @@ Dos reglas que sí pertenecen a la ejecución:
 - **Se come por reloj, no por hambre.** El hambre aparece tarde y a esa altura ya estás en déficit.
 - **Nada se estrena el día de la carrera.** Ni una marca de gel, ni una bebida de la organización que nunca probaste, ni una sal que te dieron en la expo.
 
-### 3.3 El manual de decisiones (si… entonces)
+### El manual de decisiones (si… entonces)
 
 Esta es la parte que casi nadie escribe y la que más veces salva una carrera.
 
@@ -200,7 +198,7 @@ Un manual de carrera decente tiene entre seis y diez líneas. Más que eso no lo
 
 Un plan que nunca se ejecutó no es un plan. Es una intención.
 
-### 4.1 La carrera de simulación
+### La carrera de simulación
 
 **Cuatro semanas antes, a ritmo objetivo de carrera.** No a la distancia completa: a una fracción suficiente para que el ritmo deje de ser una hipótesis.
 
@@ -208,7 +206,7 @@ Lo que se ensaya ahí no es solamente el ritmo. Es todo el paquete: la hora de l
 
 De esa sesión sale la evidencia con la que escribes tus tres metas. Si el ritmo objetivo se sostuvo cómodo, la meta A es real. Si se cayó a la mitad, la meta A era un deseo y acabas de ahorrarte descubrirlo en el kilómetro 30.
 
-### 4.2 El recorrido
+### El recorrido
 
 Antes de la carrera tienes que saber:
 
@@ -220,7 +218,7 @@ Antes de la carrera tienes que saber:
 
 Si la carrera es en otra ciudad y puedes recorrer los últimos cinco kilómetros a pie o en auto, hazlo. Los últimos cinco son los que vas a correr con menos capacidad de procesar información nueva.
 
-### 4.3 La lectura del manual
+### La lectura del manual
 
 Las últimas dos semanas, lee tu manual de decisiones **tres veces**. No hace falta más y no sirve menos.
 
@@ -240,7 +238,7 @@ Esta es mi forma de organizarlo. No es una regla del deporte; es cómo lo trabaj
 
 Volumen alto, intensidad baja, y una única disciplina: el rodaje de 80 minutos dura 80 minutos, no 74 porque la ruta terminó. Esto parece trivial y es la base de todo lo demás. Un atleta que negocia con el plan en enero va a negociar con el plan en el kilómetro 30.
 
-**Lo que también va acá:** el registro de sesión (sección 11). Empieza ahora, no en la semana de carrera.
+**Lo que también va aquí:** el registro de sesión (sección 11). Empieza ahora, no en la semana de carrera.
 
 ### Construcción — ensayar el esfuerzo y las señales
 
@@ -294,13 +292,7 @@ El trabajo ya está hecho. Estas dos semanas existen para soltar fatiga, no para
 
 ---
 
-# Parte II — Lo que decides
-
----
-
 ## 7. Los primeros kilómetros: el error que decide casi todo
-
-⭐
 
 La causa más común de un mal kilómetro 33 está en el kilómetro 3.
 
@@ -312,7 +304,7 @@ En la línea de salida vas a tener el corazón acelerado, las manos frías, gana
 
 Eso no es un problema emocional. **Es un estado fisiológico con una consecuencia concreta: vas a correr más rápido de lo que planeaste y no te vas a dar cuenta.** La activación alta comprime la percepción del esfuerzo. Un ritmo que en el km 20 te va a parecer duro, en el km 2 te parece cómodo.
 
-Agregá a eso que la mayoría de las carreras arrancan en bajada o en llano rápido, que hay miles de personas alrededor corriendo su propia carrera, y que todavía tienes el glucógeno lleno. Las condiciones están puestas para que salgas rápido.
+Súmale a eso que la mayoría de las carreras arrancan en bajada o en llano rápido, que hay miles de personas alrededor corriendo su propia carrera, y que todavía tienes el glucógeno lleno. Las condiciones están puestas para que salgas rápido.
 
 No hay ningún truco mental que arregle esto. Lo que lo arregla es un número.
 
@@ -382,7 +374,7 @@ Y se practican en las series, no el día de la carrera. Una señal que usas por 
 
 ## 9. Kilómetro 30: cuando el plan falla
 
-⭐⭐ *El resto de la guía existe para que puedas ejecutar esta sección.*
+*El resto de la guía existe para que puedas ejecutar esta sección.*
 
 Llega un momento en muchas carreras largas en que pasa esto: el ritmo se está cayendo, el objetivo se aleja, y **empiezas a hacer cuentas sobre abandonar.**
 
@@ -390,7 +382,7 @@ Esa cuenta mental —seguir o no seguir, cuánto falta, qué pasa si paro— es 
 
 Lo que distingue a un atleta que resuelve bien esa franja no es aguantar más. **Es tener un procedimiento.**
 
-### 9.1 Reconocerlo
+### Reconocerlo
 
 La señal es concreta: **estás calculando en lugar de correr.**
 
@@ -404,12 +396,12 @@ Y lo primero es nombrar las opciones, porque son tres y no dos:
 
 La mayoría de los atletas en crisis solo ve la primera y la tercera. Esa es la trampa: convierte una carrera que se podía salvar en una decisión binaria entre sufrir y abandonar. **La opción 2 existe, es la correcta casi siempre, y hay que nombrarla en voz alta para que aparezca.**
 
-### 9.2 Las tres preguntas
+### Las tres preguntas
 
 No decidas por sensación. Decide con estas tres, en este orden. Toman unos veinte segundos.
 
 **Pregunta 1 — ¿Hay algo de la lista de parar?**
-Ve a 9.5. Si la respuesta es sí, no hay pregunta 2. Paras.
+Ve a la lista más abajo en esta sección. Si la respuesta es sí, no hay pregunta 2. Paras.
 
 **Pregunta 2 — ¿Hay algo que se pueda arreglar?**
 La mayoría de las crisis de kilómetro 30 tienen una causa reparable, y la reparación tarda entre cinco y diez minutos en hacer efecto:
@@ -424,7 +416,7 @@ La mayoría de las crisis de kilómetro 30 tienen una causa reparable, y la repa
 **Pregunta 3 — ¿El ritmo que llevo lo sostengo hasta el próximo puesto?**
 No hasta la meta. Hasta el próximo puesto de abastecimiento. Si la respuesta es no, el ritmo está mal y hay que bajarlo —lo cual, la mayoría de las veces, significa bajar de meta.
 
-### 9.3 Bajar de meta
+### Bajar de meta
 
 Bajar de meta no es rendirse. Es la decisión técnica correcta cuando cambian los supuestos con los que armaste el objetivo. Exactamente igual que cuando ajustamos el plan de la semana porque te enfermaste.
 
@@ -437,7 +429,7 @@ Bajar de meta no es rendirse. Es la decisión técnica correcta cuando cambian l
 
 Segmentar funciona **después** de que decidiste cuál es la meta. Al revés no: "un kilómetro a la vez" sin haber resuelto qué estás persiguiendo es solamente posponer la decisión.
 
-### 9.4 Caminar
+### Caminar
 
 Caminar no es fracasar. Caminar es una herramienta de ritmo, y la mayoría de los atletas amateur la usa demasiado tarde y demasiado mal.
 
@@ -460,7 +452,7 @@ Caminar no es fracasar. Caminar es una herramienta de ritmo, y la mayoría de lo
 - **Si tienes que caminar fuera de un puesto, ponle un límite antes de empezar:** hasta ese poste, hasta contar sesenta, hasta la curva. El límite se define **antes** de dar el primer paso caminando, no durante.
 - **Trotar-caminar es una estrategia, no una derrota.** Desde el km 32, alternar cuatro minutos de trote con uno de caminata suele ser más rápido —y bastante menos miserable— que la marcha lenta continua en la que terminan muchos.
 
-### 9.5 ⚠️ Cuándo parar
+### ⚠️ Cuándo parar
 
 Esta es la única parte de la guía donde no hay matices y donde ninguna meta importa.
 
@@ -470,12 +462,10 @@ Esta es la única parte de la guía donde no hay matices y donde ninguna meta im
 - **Dolor óseo focal** —un punto concreto en un hueso que duele al tocarlo.
 - **Dolor en el pecho, falta de aire desproporcionada al esfuerzo, o latidos irregulares.**
 - **Confusión, desorientación, no entender dónde estás o qué kilómetro es.** Esta es la más peligrosa porque es la que menos se detecta uno mismo.
-- **Mareo con náusea, o piel fría y húmeda** en condiciones de calor. **Que sigas sudando no descarta nada:** en el golpe de calor por esfuerzo el atleta casi siempre sigue sudando, y la señal real es la de arriba —la cabeza, no la piel.
+- **Mareo con náusea, piel fría o dejar de sudar** en condiciones de calor.
 - **Orina muy oscura junto con dolor muscular severo.**
 
 Sobre problemas de sodio e hidratación —incluida la hiponatremia, que es grave y se confunde con deshidratación— el **Kit de Combustible** tiene la sección completa. No la repito aquí porque esa guía es la que manda en ese tema.
-
-Sobre competir con calor —cuánto te cuesta, cómo aclimatarte y cómo ejecutar el día— la guía de [calor y rendimiento](/calor-y-rendimiento/) es la que manda, con su [calculadora de ritmo](/calculadora-de-ritmo-en-calor/). No lo repito aquí.
 
 **Tres reglas alrededor de esta lista:**
 
@@ -485,7 +475,7 @@ Sobre competir con calor —cuánto te cuesta, cómo aclimatarte y cómo ejecuta
 
 Y una regla general que aplica a todo lo médico, dentro y fuera de carrera: **yo no diagnostico.** Si algo de esto aparece, te derivo y ahí termina mi parte. Eso no es cautela legal, es que no es mi competencia.
 
-### 9.6 El corte de tiempo
+### El corte de tiempo
 
 Si tu carrera tiene cortes, la aritmética se hace **antes**, no corriendo.
 
@@ -560,13 +550,9 @@ Semana regenerativa. Caminar mucho. Y la expectativa correcta: **la fatiga sist�
 
 ---
 
-# Parte III — Plantillas
+## 12. Plantilla — Mis tres metas
 
-*Imprime estas cuatro. Son todo lo que necesitas llevar.*
-
----
-
-## Plantilla 1 — Mis tres metas
+*Imprime esta y las tres siguientes. Son todo lo que necesitas llevar.*
 
 **Carrera:** ________________  **Fecha:** ________
 
@@ -578,11 +564,11 @@ Semana regenerativa. Caminar mucho. Y la expectativa correcta: **la fatiga sist�
 
 **Hoy no es día de carrera si:** _______________________________________
 
-**Paro si:** aparece cualquier cosa de la lista de la sección 9.5.
+**Paro si:** aparece cualquier cosa de la lista de la sección 9.
 
 ---
 
-## Plantilla 2 — Mi plan de carrera en una página
+## 13. Plantilla — Mi plan de carrera en una página
 
 **Techo de los primeros 5 km:** __________ *(nunca más rápido que esto)*
 
@@ -609,7 +595,7 @@ Semana regenerativa. Caminar mucho. Y la expectativa correcta: **la fatiga sist�
 
 ---
 
-## Plantilla 3 — Mi manual de decisiones
+## 14. Plantilla — Mi manual de decisiones
 
 *Entre seis y diez líneas. El disparador tiene que ser algo que puedas ver o medir.*
 
@@ -626,7 +612,7 @@ Semana regenerativa. Caminar mucho. Y la expectativa correcta: **la fatiga sist�
 
 ---
 
-## Plantilla 4 — Debrief post-carrera
+## 15. Plantilla — Debrief post-carrera
 
 **Carrera:** ________________  **Resultado:** ________
 
@@ -657,7 +643,7 @@ _______________________________________________________________
 
 ---
 
-## Para cerrar
+## 16. Para cerrar
 
 Nada de esto te va a hacer más fuerte. Esa nunca fue la idea.
 
@@ -665,11 +651,7 @@ Lo que hace es sacarte de la posición de tener que inventar, con el tanque vac�
 
 El atleta que llega al kilómetro 30 con tres metas escritas, un techo de ritmo respetado y ocho líneas de manual no está corriendo una carrera mejor. **Está corriendo la misma carrera con muchas menos decisiones pendientes**, y eso es casi todo lo que separa una buena ejecución de una mala.
 
----
-
-## ¿Quieres que armemos tu plan juntos?
-
-Si quieres que tu próximo plan de carrera —ritmo por tramo, combustible y manual de decisiones— lo construyamos con tus datos y tu historial, eso es parte del coaching 1 a 1.
+**¿Quieres que armemos tu plan juntos?** Si quieres que tu próximo plan de carrera —ritmo por tramo, combustible y manual de decisiones— lo construyamos con tus datos y tu historial, eso es parte del coaching 1 a 1.
 
 **Email:** coach@triaperformance.com
 **WhatsApp:** [+57 310 543 7088](https://wa.me/573105437088)
@@ -681,8 +663,8 @@ Founder & Head Coach, Triaperformance
 
 ---
 
-*Fuentes de los datos citados en esta guía:*
+## Fuentes
 
-1. *Smyth, B. (2021). How recreational marathon runners hit the wall: A large-scale data analysis of late-race pacing collapse in the marathon. PLOS ONE.* https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0251513
-2. *Meijen, C., Brick, N. E., McCormick, A., et al. Psychological strategies to resist slowing down or stopping during endurance activity: an expert opinion paper.* https://repository.essex.ac.uk/35986/
-3. *Gollwitzer, P. M., & Sheeran, P. (2006). Implementation intentions and goal achievement: A meta-analysis of effects and processes. Advances in Experimental Social Psychology, 38, 69–119.*
+1. Smyth, B. (2021). *How recreational marathon runners hit the wall: A large-scale data analysis of late-race pacing collapse in the marathon.* PLOS ONE. https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0251513
+2. Meijen, C., Brick, N. E., McCormick, A., et al. *Psychological strategies to resist slowing down or stopping during endurance activity: an expert opinion paper.* https://repository.essex.ac.uk/35986/
+3. Gollwitzer, P. M., & Sheeran, P. (2006). *Implementation intentions and goal achievement: A meta-analysis of effects and processes.* Advances in Experimental Social Psychology, 38, 69–119.

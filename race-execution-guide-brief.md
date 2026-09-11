@@ -1,6 +1,6 @@
 # Race Execution Guide — home doc
 
-*Last updated: September 11, 2026*
+*Last updated: September 11, 2026 — ES, EN and PT written; `methodology.md` §14 landed; generators not yet cloned.*
 
 **Home doc for `race-execution-guide/guia-de-ejecucion-{es,en,pt}.md`**, the athlete-facing guide to preparing, executing and deciding a race.
 
@@ -84,7 +84,9 @@ The entire mid-race decision layer, ~30% of the guide and 0% of its predecessor:
 
 **Decision, September 11, 2026 (Iván): a narrow exception.** A printed stop list is permitted **in published athlete-facing guides only** — never in conversational coaching, never in the AI Coach. The list is sourced to Meijen et al., a sport-psychology expert paper written explicitly for coach delivery, and it prescribes one action: stop and see a doctor.
 
-⚠️ **`methodology.md` §11 needs the dated amendment recording this exception. Not yet written — it is Iván's edit, and the AI Coach system prompt consumes that file.**
+✅ **DONE, September 11, 2026.** `methodology.md` §11 carries the dated exception bullet, and a new **§14 Mental & race-execution scope** is the home for the whole boundary. ***§14 owns the scope line; the guide's `Alcance` section is a COPY.*** Move it there first, then copy it here — the nutrition track proved that a guide written without an owned scope line drifts, and the drift costs a rebuild.
+
+*Why §14 exists at all: `methodology.md` had a scope line for fuelling (§8) and none for psychology. The fuelling guide breached a boundary Iván had written; the mental guide breached one that did not exist. That is the harder failure of the two, and it is why the scope line went in before the generators ran rather than after.*
 
 The guide's own §9.5 closes with the rule unchanged: *"yo no diagnostico."*
 
@@ -104,19 +106,35 @@ Three sources, each cited for one specific claim:
 
 **Cut figure:** an earlier working assumption put the collapse window at "miles 17–22 across 110,000 finishers." No source was found for it. It is not in the guide. The defensible statement is **from ~30 km**, which is what Smyth, Meijen and `methodology.md` §9 independently agree on.
 
-## 9. Register and language
+## 9. The structure contract — the generators depend on it
+
+The three files are **structurally identical by construction**, because the cloned parser throws otherwise. Verified September 11, 2026:
+
+| | ES | EN | PT |
+|---|---|---|---|
+| H1 / H2 / H3 | 1 / 20 / 36 | 1 / 20 / 36 | 1 / 20 / 36 |
+| Tables (rows each) | 10 — `[6,5,7,6,5,5,4,3,10,6]` | identical | identical |
+| Words | 6,545 | 6,428 | 6,552 |
+
+**Shape:** H1 title → H2 strapline → `## Alcance` → `## Mensaje del coach` → **`## 1.` … `## 16.`** → `## Fuentes`. No `# Parte` H1s mid-document — the fuelling parser expects one H1 and flat numbered H2s, and the first draft had three. *Caught before the generators ran, not after.*
+
+**`MAGNET_SECTIONS = [2, 9, 14]`** — the A/B/C goal ladder, kilómetro 30, and the si/entonces template. The scope box ships with the magnet **uncut**, same rule as the fuelling magnet. Headings renumber 1..n in the magnet.
+
+## 10. Register and language
 
 ES is primary and written first. `automation/register-sweep.py` run before shipping. Tuteo, neutral Latin American vocabulary per `brand-guidelines.md` §8. No hype vocabulary, no exclamation marks, no cheerleading — §10's rule, which the old guide broke repeatedly.
 
 EN and PT are written natively from the Spanish, not translated verbatim. Race vocabulary that has to survive the crossing: *el muro / the wall / o muro*, *el corte de tiempo / the cut-off / o tempo limite*, and the framing that **caminar no es fracaso**, which is the sentence the whole §9.4 exists to support.
 
-## 10. Built for extraction
+## 11. Built for extraction
 
 Iván derives lead magnets by pulling pieces out of a finished guide. The four starred blocks (§2, §7, §9) and the four templates in Part III are written **self-contained** — no back-references — so any of them can be lifted whole.
 
-**Recommended magnet when it is built:** the A/B/C goal ladder + §9 kilometre 30 + the *si… entonces* template. That is the part nobody else gives away. Not queued; it is a separate piece of work.
+**Decided September 11, 2026:** the magnet is sections **2, 9 and 14** — the A/B/C ladder, kilometre 30, the si/entonces template. Through the same builder with `--magnet`, never a fourth document.
 
-## 11. v2 — not built, not queued
+**2-for-2 withdrawal, confirmed by Iván September 11, 2026.** This guide replaces BOTH Spanish-only mental PDFs: `guia-de-herramientas-mentales.pdf` (full) and `intervalos.pdf` (magnet). Same path the nutrition twins took: drop the cards from `site/members/guias/index.njk`, move the PDFs out of `site/assets/guias/` (rsync --delete clears them on deploy), and correct the `library.json` copy that sells them — **lines 205, 212 and 229 in the ES block, plus the EN and PT siblings.**
+
+## 12. v2 — not built, not queued
 
 - A version for **70.3 / Ironman** with the same decision layer applied per leg. The current guide covers long-course in the pacing table but the km-30 procedure is written for a running race.
 - **Sex-differentiated content.** The wall data differs (28% / 17%) and is in the guide. Nothing beyond that: `methodology.md` §11 records female-cycle-aware training as a documented exclusion — *"identified opportunity, not yet competent."* That stays true here.

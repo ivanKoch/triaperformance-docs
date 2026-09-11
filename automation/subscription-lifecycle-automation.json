@@ -1,34 +1,48 @@
 {
-  "name": "Subscription Lifecycle (New + Churn)",
+  "name": "Subscription lifecycle",
   "nodes": [
     {
-      "id": "sticky-readme",
-      "name": "READ ME BEFORE ACTIVATING",
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -260,
-        -280
-      ],
       "parameters": {
-        "width": 640,
-        "height": 340,
-        "content": "## Before you activate this workflow\n\n1. In Gmail: create a filter on `from:receipt@trainingpeaks.com` that applies a label (e.g. `TP-Subscriptions`) AND checks 'Skip the Inbox (Archive it)'. This is required -- without it, this workflow's IMAP poller and the CoachMatch workflow's poller both watch the inbox and will race on the \\Seen flag, silently dropping emails at random.\n2. Enable 'Show in IMAP' for that label under Gmail Settings -> Labels.\n3. Set the 'Email Trigger (IMAP)' node's mailbox parameter to that label's IMAP folder name (usually just the label name).\n4. Reuse the same 'IMAP account' and 'Twenty API' credentials as the other workflows.\n5. `customerType` (ALL_ACCESS/PLAN_BUYER/1_1_COACHING), `leadSource` (added WEBSITE + ALL_ACCESS_SUBSCRIPTION), and `leadStatus` are all confirmed real enum values as of July 2026 (see ai-infrastructure-documentation.md). `preferredLanguage: ENGLISH` is still NOT confirmed (only SPANISH/PORTUGUESE have been seen in a real API response) -- verify on the first real English-subscriber test and fix if Twenty rejects it.\n6. Members-area token generation/revocation is now real (Generate Member Token / Insert Token in Postgres / Revoke Token in Postgres) -- requires a 'Members Postgres' credential pointing at the 'members' database on the analytics-postgres container, and the schema in automation/members-area/schema.sql to already exist. The Postgres nodes' exact parameter shape is a best-effort guess -- reconfigure visually in the n8n UI if it doesn't match.\n7. The 'Resend Password' webhook branch (separate trigger in this same workflow) needs its own credential check too -- same Postgres + SMTP credentials as the rest of this workflow.\n8. Test with 'Listen for Test Event' before switching this Active."
-      }
+        "assignments": {
+          "assignments": [
+            {
+              "id": "60e558fa-b754-4fdc-be61-b424dcde8e91",
+              "name": "subject",
+              "value": "New subscription confirmation",
+              "type": "string"
+            },
+            {
+              "id": "6740cec3-08dc-422e-b983-bdcd145aeb2d",
+              "name": "textPlain",
+              "value": "Colombia No - Triaperformance, way to close the deal!  This email confirms the recent purchase of a subscription:  Customer Name: Colombia No (ivankochco@gmail.com)  Subscription: FULL ACCESS: All training plans and guides + Training Peaks Premium - $39.99/monthly  Startup Fee: $0.00  Duration: monthly  Amount Charged: $43.19 (including taxes)  Invoice Number: TEST-EN-0724",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4416,
+        2000
+      ],
+      "id": "f755dd60-c701-49b6-ac52-60db00b81189",
+      "name": "Edit Fields"
     },
     {
-      "id": "email-trigger",
-      "name": "Email Trigger (IMAP)",
-      "type": "n8n-nodes-base.emailReadImap",
-      "typeVersion": 2.1,
-      "position": [
-        -260,
-        120
-      ],
       "parameters": {
         "mailbox": "TP-Subscriptions",
         "options": {}
       },
+      "id": "f24d0f3f-4bfe-40ac-a588-120d9286b6de",
+      "name": "Email Trigger (IMAP)",
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.1,
+      "position": [
+        4416,
+        1776
+      ],
       "credentials": {
         "imap": {
           "id": "xG2Iu8qvkR9XVFuA",
@@ -37,21 +51,13 @@
       }
     },
     {
-      "id": "filter-is-new",
-      "name": "Filter - Is New Subscription",
-      "type": "n8n-nodes-base.filter",
-      "typeVersion": 2.2,
-      "position": [
-        0,
-        0
-      ],
       "parameters": {
         "conditions": {
           "options": {
-            "caseSensitive": false,
+            "caseSensitive": true,
             "leftValue": "",
             "typeValidation": "strict",
-            "version": 3
+            "version": 2
           },
           "conditions": [
             {
@@ -67,17 +73,17 @@
           "combinator": "and"
         },
         "options": {}
-      }
-    },
-    {
-      "id": "filter-is-churn",
-      "name": "Filter - Is Churn Confirmed",
+      },
+      "id": "cae3a72d-9992-4db6-ac1e-2201802e43db",
+      "name": "Filter - Is New Subscription",
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        0,
-        260
-      ],
+        4688,
+        1664
+      ]
+    },
+    {
       "parameters": {
         "conditions": {
           "options": {
@@ -100,46 +106,47 @@
           "combinator": "and"
         },
         "options": {}
-      }
+      },
+      "id": "e6eab2b3-67dc-46e9-8989-6b58dd3ed823",
+      "name": "Filter - Is Churn Confirmed",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        4688,
+        1920
+      ]
     },
     {
-      "id": "parse-new-sub",
+      "parameters": {
+        "jsCode": "// Parses the \"New subscription confirmation\" email from receipt@trainingpeaks.com\nconst results = [];\n\nfor (const item of $input.all()) {\n  // Collapse all whitespace/line-wraps so multi-line fields become single-line before matching\n  const flat = (item.json.textPlain || '').replace(/\\s+/g, ' ').trim();\n\n  const nameEmail = flat.match(/Customer Name:\\s*([^(]+?)\\s*\\(([^)]+)\\)/i);\n  const subMatch = flat.match(/Subscription:\\s*([\\s\\S]+?)\\s-\\s\\$/);\n  const invoiceMatch = flat.match(/Invoice Number:\\s*(\\S+)/i);\n  const amountMatch = flat.match(/Amount Charged:\\s*\\$([\\d.,]+)/i);\n\n  const fullName = nameEmail ? nameEmail[1].trim() : '';\n  // Latin naming: first non-initial token is the given name, the rest is the\n  // surname. \"Paula Maria Gonzalez\" -> \"Paula\" / \"Maria Gonzalez\". The old rule\n  // popped only the LAST token, which is right on a two-token name and wrong on\n  // the two-surname norm -- it put the whole string into firstname. Same fix as\n  // the CoachMatch lead parser, September 4, 2026.\n  const titleCase = (s) => s.replace(\n    /[\\p{L}][\\p{L}'\\u2019-]*/gu,\n    (t) => t.charAt(0).toLocaleUpperCase('es') + t.slice(1).toLocaleLowerCase('es')\n  );\n  const isInitial = (t) => /^[\\p{L}]\\.?$/u.test(t);\n  const isShouted = (s) => s === s.toLocaleUpperCase('es') && /\\p{Lu}/u.test(s);\n  const isAllLower = (s) => s === s.toLocaleLowerCase('es') && /\\p{Ll}/u.test(s);\n\n  const cleanName = (isShouted(fullName) || isAllLower(fullName)) ? titleCase(fullName) : fullName;\n  const nameParts = cleanName.split(/\\s+/).filter(Boolean);\n\n  let firstIdx = nameParts.findIndex((t) => !isInitial(t));\n  if (firstIdx === -1) firstIdx = 0;\n  const firstname = nameParts[firstIdx] || '';\n  const lastname = nameParts.slice(firstIdx + 1).join(' ');\n\n  results.push({\n    json: {\n      firstname,\n      lastname,\n      email: nameEmail ? nameEmail[2].trim() : '',\n      subscription_name: subMatch ? subMatch[1].trim() : '',\n      invoice_number: invoiceMatch ? invoiceMatch[1] : '',\n      amount_charged: amountMatch ? amountMatch[1] : '',\n      source_subject: item.json.subject,\n      source_date: item.json.date,\n    }\n  });\n}\n\nreturn results;"
+      },
+      "id": "d4adfd17-3e89-445e-9544-707b96077ccd",
       "name": "Parse New Subscription Email",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        220,
-        0
-      ],
-      "parameters": {
-        "jsCode": "// Parses the \"New subscription confirmation\" email from receipt@trainingpeaks.com\n// FIXED September 9, 2026, by the first REAL email of this shape to reach this\n// node -- Ivan Lopez, the first $149 Private athlete. It failed for the SAME\n// reason \"Parse CoachMatch Hire\" failed on August 20, 2026, and that fix was\n// applied to that one node only: this template arrives as a SINGLE text/html\n// part, so item.json.textPlain is \"\". Every hand-typed mock this branch was\n// tested against carried a textPlain key, because a person typed it.\n// All four regexes missed, every field came out '', subscription_name was ''\n// and Classify Product correctly returned UNKNOWN -- which sent a Telegram\n// alert blaming the product list. The product was fine. The body was empty.\n// A plain part is still preferred if TrainingPeaks ever sends one.\n\nconst decodeEntities = (s) => s\n  .replace(/&#(\\d+);/g, (_, d) => String.fromCharCode(Number(d)))\n  .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))\n  .replace(/&nbsp;/gi, ' ')\n  .replace(/&quot;/gi, '\"')\n  .replace(/&lt;/gi, '<')\n  .replace(/&gt;/gi, '>')\n  .replace(/&amp;/gi, '&');   // last, so a decode can't re-create another entity\n\nconst htmlToText = (html) => decodeEntities(\n  (html || '')\n    .replace(/<(style|script)[\\s\\S]*?<\\/\\1>/gi, ' ')\n    .replace(/<br\\s*\\/?>/gi, ' ')\n    .replace(/<\\/(p|div|tr|table|h[1-6])>/gi, ' ')\n    .replace(/<[^>]+>/g, ' ')\n);\n\nconst bodyText = (j) => {\n  const plain = (j.textPlain || '').trim();\n  return plain ? plain : htmlToText(j.textHtml);\n};\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  // Collapse all whitespace/line-wraps so multi-line fields become single-line before matching\n  const flat = bodyText(item.json).replace(/\\s+/g, ' ').trim();\n\n  const nameEmail = flat.match(/Customer Name:\\s*([^(]+?)\\s*\\(([^)]+)\\)/i);\n  const subMatch = flat.match(/Subscription:\\s*([\\s\\S]+?)\\s-\\s\\$/);\n  const invoiceMatch = flat.match(/Invoice Number:\\s*(\\S+)/i);\n  const amountMatch = flat.match(/Amount Charged:\\s*\\$([\\d.,]+)/i);\n\n  const fullName = nameEmail ? nameEmail[1].trim() : '';\n  // Latin naming: first non-initial token is the given name, the rest is the\n  // surname. \"Paula Maria Gonzalez\" -> \"Paula\" / \"Maria Gonzalez\". The old rule\n  // popped only the LAST token, which is right on a two-token name and wrong on\n  // the two-surname norm -- it put the whole string into firstname. Same fix as\n  // the CoachMatch lead parser, September 4, 2026.\n  const titleCase = (s) => s.replace(\n    /[\\p{L}][\\p{L}'\\u2019-]*/gu,\n    (t) => t.charAt(0).toLocaleUpperCase('es') + t.slice(1).toLocaleLowerCase('es')\n  );\n  const isInitial = (t) => /^[\\p{L}]\\.?$/u.test(t);\n  const isShouted = (s) => s === s.toLocaleUpperCase('es') && /\\p{Lu}/u.test(s);\n  const isAllLower = (s) => s === s.toLocaleLowerCase('es') && /\\p{Ll}/u.test(s);\n\n  const cleanName = (isShouted(fullName) || isAllLower(fullName)) ? titleCase(fullName) : fullName;\n  const nameParts = cleanName.split(/\\s+/).filter(Boolean);\n\n  let firstIdx = nameParts.findIndex((t) => !isInitial(t));\n  if (firstIdx === -1) firstIdx = 0;\n  const firstname = nameParts[firstIdx] || '';\n  const lastname = nameParts.slice(firstIdx + 1).join(' ');\n\n  results.push({\n    json: {\n      // parse_ok is explicit for the same reason it is on Parse CoachMatch\n      // Hire: an empty body and an unrecognised product look identical\n      // downstream unless something says which one happened. READ IT.\n      parse_ok: Boolean(nameEmail && subMatch),\n      firstname,\n      lastname,\n      email: nameEmail ? nameEmail[2].trim() : '',\n      subscription_name: subMatch ? subMatch[1].trim() : '',\n      invoice_number: invoiceMatch ? invoiceMatch[1] : '',\n      amount_charged: amountMatch ? amountMatch[1] : '',\n      source_subject: item.json.subject,\n      source_date: item.json.date,\n    }\n  });\n}\n\nreturn results;"
-      }
+        4896,
+        1664
+      ]
     },
     {
-      "id": "map-new-sub-fields",
+      "parameters": {
+        "jsCode": "// Detects which All-Access product (ES/EN/PT) this is from the confirmed real\n// product names in TP Payments (see triaperformance-pricing-and-positioning.md).\n//\n// UPDATED August 13, 2026 — the ES and EN products were renamed to align the\n// checkout title with what the site calls the product (\"All-Access\"). The old\n// matchers keyed on \"suscripci\" and \"full access\", BOTH of which vanished in the\n// rename, so every new ES and EN subscription silently became UNKNOWN: no\n// welcome email, no members token, no correct customerType. PT was untouched.\n//\n// Old strings are deliberately KEPT alongside the new ones — a renewal or a\n// retry carrying the old title must still classify. Matching costs nothing;\n// failing to match costs a paying subscriber their entire onboarding.\n//\n// Order matters: PT is checked first because \"All-Access\" now appears in both\n// the ES and EN titles, so the discriminator is the language of the body text.\n\nfunction detectLanguage(subscriptionName) {\n  const s = (subscriptionName || '').toLowerCase();\n  if (s.includes('acesso total')) return 'PORTUGUESE';\n  if (s.includes('todos los planes') || (s.includes('suscripci') && s.includes('triaperformance'))) return 'SPANISH';\n  if (s.includes('all training plans') || s.includes('full access')) return 'ENGLISH';\n  return null;\n}\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const d = item.json;\n  const preferredLanguage = detectLanguage(d.subscription_name);\n\n  results.push({\n    json: {\n      firstname: d.firstname,\n      lastname: d.lastname,\n      email: d.email,\n      subscription_name: d.subscription_name,\n      invoice_number: d.invoice_number,\n      amount_charged: d.amount_charged,\n      preferredLanguage, // null if unrecognized -- check Telegram alert if so\n      language_unrecognized: preferredLanguage === null,\n    }\n  });\n}\n\nreturn results;"
+      },
+      "id": "a87ee90a-f2fb-4677-9617-2dc81408369f",
       "name": "Map Language + Build Twenty Fields",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        440,
-        0
-      ],
-      "parameters": {
-        "jsCode": "// Detects which All-Access product (ES/EN/PT) this is from the confirmed real\n// product names in TP Payments (see triaperformance-pricing-and-positioning.md).\n//\n// UPDATED August 13, 2026 — the ES and EN products were renamed to align the\n// checkout title with what the site calls the product (\"All-Access\"). The old\n// matchers keyed on \"suscripci\" and \"full access\", BOTH of which vanished in the\n// rename, so every new ES and EN subscription silently became UNKNOWN: no\n// welcome email, no members token, no correct customerType. PT was untouched.\n//\n// Old strings are deliberately KEPT alongside the new ones — a renewal or a\n// retry carrying the old title must still classify. Matching costs nothing;\n// failing to match costs a paying subscriber their entire onboarding.\n//\n// Order matters: PT is checked first because \"All-Access\" now appears in both\n// the ES and EN titles, so the discriminator is the language of the body text.\n\nfunction detectLanguage(subscriptionName) {\n  const s = (subscriptionName || '').toLowerCase();\n  if (s.includes('acesso total')) return 'PORTUGUESE';\n  if (s.includes('todos los planes') || (s.includes('suscripci') && s.includes('triaperformance'))) return 'SPANISH';\n  if (s.includes('all training plans') || s.includes('full access')) return 'ENGLISH';\n  return null;\n}\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const d = item.json;\n  const preferredLanguage = detectLanguage(d.subscription_name);\n\n  results.push({\n    json: {\n      firstname: d.firstname,\n      lastname: d.lastname,\n      email: d.email,\n      subscription_name: d.subscription_name,\n      invoice_number: d.invoice_number,\n      amount_charged: d.amount_charged,\n      preferredLanguage, // null if unrecognized -- check Telegram alert if so\n      language_unrecognized: preferredLanguage === null,\n    }\n  });\n}\n\nreturn results;"
-      }
+        5120,
+        1664
+      ]
     },
     {
-      "id": "check-existing-new",
-      "name": "Check Existing Person (New Sub)",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        660,
-        0
-      ],
       "parameters": {
-        "method": "GET",
         "url": "http://100.70.89.17:3000/rest/people",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -149,8 +156,6 @@
             }
           ]
         },
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth",
         "options": {
           "response": {
             "response": {
@@ -159,6 +164,14 @@
           }
         }
       },
+      "id": "122a88a0-37b4-49e6-9d69-4d944fea6025",
+      "name": "Check Existing Person (New Sub)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        5808,
+        1248
+      ],
       "credentials": {
         "httpHeaderAuth": {
           "id": "JHN5QPZo087TvBnD",
@@ -167,20 +180,12 @@
       }
     },
     {
-      "id": "person-exists-new",
-      "name": "Person Exists? (New Sub)",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        880,
-        0
-      ],
       "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "loose",
+            "typeValidation": "strict",
             "version": 3
           },
           "conditions": [
@@ -197,26 +202,35 @@
           "combinator": "and"
         },
         "options": {}
-      }
+      },
+      "id": "6a8e0f22-01bb-4583-8841-cfb75be1e3df",
+      "name": "Person Exists? (New Sub)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        6032,
+        1248
+      ]
     },
     {
-      "id": "update-existing-subscriber",
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.data.people[0].id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ customerType: 'ALL_ACCESS', leadStatus: 'WON_CUSTOMER', subStartDate: new Date().toISOString().split('T')[0], preferredLanguage: $('Map Language + Build Twenty Fields').item.json.preferredLanguage, churnDate: null }) }}",
+        "options": {}
+      },
+      "id": "55ae0c7b-a518-448c-b122-f19b2194928b",
       "name": "Update Person (Existing Subscriber)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1100,
-        -100
+        6240,
+        1152
       ],
-      "parameters": {
-        "method": "PATCH",
-        "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.data.people[0].id }}",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ customerType: 'ALL_ACCESS', leadStatus: 'WON_CUSTOMER', planPurchased: $('Map Language + Build Twenty Fields').item.json.subscription_name, preferredLanguage: $('Map Language + Build Twenty Fields').item.json.preferredLanguage, churnDate: null }) }}",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth"
-      },
       "credentials": {
         "httpHeaderAuth": {
           "id": "JHN5QPZo087TvBnD",
@@ -225,23 +239,24 @@
       }
     },
     {
-      "id": "create-new-subscriber",
+      "parameters": {
+        "method": "POST",
+        "url": "http://100.70.89.17:3000/rest/people",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: { firstName: $('Map Language + Build Twenty Fields').item.json.firstname, lastName: $('Map Language + Build Twenty Fields').item.json.lastname || '-' }, emails: { primaryEmail: $('Map Language + Build Twenty Fields').item.json.email }, customerType: 'ALL_ACCESS', leadStatus: 'WON_CUSTOMER', leadSource: 'OTHER', signUpDate: new Date().toISOString().split('T')[0], subStartDate: new Date().toISOString().split('T')[0], preferredLanguage: $('Map Language + Build Twenty Fields').item.json.preferredLanguage }) }}",
+        "options": {}
+      },
+      "id": "98010893-cdf5-402e-8d7d-d39e1167ab00",
       "name": "Create Person (New Subscriber)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1100,
-        100
+        6240,
+        1344
       ],
-      "parameters": {
-        "method": "POST",
-        "url": "http://100.70.89.17:3000/rest/people",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: { firstName: $('Map Language + Build Twenty Fields').item.json.firstname, lastName: $('Map Language + Build Twenty Fields').item.json.lastname || '-' }, emails: { primaryEmail: $('Map Language + Build Twenty Fields').item.json.email }, customerType: 'ALL_ACCESS', leadStatus: 'WON_CUSTOMER', leadSource: 'OTHER', signUpDate: new Date().toISOString().split('T')[0], planPurchased: $('Map Language + Build Twenty Fields').item.json.subscription_name, preferredLanguage: $('Map Language + Build Twenty Fields').item.json.preferredLanguage }) }}",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth"
-      },
       "credentials": {
         "httpHeaderAuth": {
           "id": "JHN5QPZo087TvBnD",
@@ -250,14 +265,6 @@
       }
     },
     {
-      "id": "subscriber-upserted",
-      "name": "Subscriber Upserted",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1320,
-        0
-      ],
       "parameters": {
         "assignments": {
           "assignments": [
@@ -268,54 +275,55 @@
               "value": "={{ $json.data.updatePerson ? $json.data.updatePerson.id : $json.data.createPerson.id }}"
             }
           ]
-        }
-      }
+        },
+        "options": {}
+      },
+      "id": "59a16148-cfc3-476f-890b-efd0bac40cf1",
+      "name": "Subscriber Upserted",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6448,
+        1248
+      ]
     },
     {
-      "id": "generate-token",
+      "parameters": {
+        "jsCode": "// Generates a readable-ish random token to double as the member's \"password\".\n// Avoids ambiguous characters (0/O, 1/l/I) since it's typed into a password field.\n// Uses Math.random() rather than the crypto module -- n8n's sandboxed task runner\n// disallows Node built-in modules by default, and this doesn't need\n// cryptographic-grade randomness, just enough to not be guessable.\nconst alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';\n\nfunction genToken(length = 20) {\n  let out = '';\n  for (let i = 0; i < length; i++) {\n    out += alphabet[Math.floor(Math.random() * alphabet.length)];\n  }\n  return out;\n}\n\nreturn $input.all().map(item => ({\n  json: {\n    ...item.json,\n    member_token: genToken(),\n  }\n}));"
+      },
+      "id": "25345213-b74d-43bb-a6f3-85acf5bc8469",
       "name": "Generate Member Token",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1400,
-        -100
-      ],
-      "parameters": {
-        "jsCode": "// Generates a readable-ish random token to double as the member's \"password\".\n// Avoids ambiguous characters (0/O, 1/l/I) since it's typed into a password field.\n// Uses Math.random() rather than the crypto module -- n8n's sandboxed task runner\n// disallows Node built-in modules by default, and this doesn't need\n// cryptographic-grade randomness, just enough to not be guessable.\nconst alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';\n\nfunction genToken(length = 20) {\n  let out = '';\n  for (let i = 0; i < length; i++) {\n    out += alphabet[Math.floor(Math.random() * alphabet.length)];\n  }\n  return out;\n}\n\nreturn $input.all().map(item => ({\n  json: {\n    ...item.json,\n    member_token: genToken(),\n  }\n}));"
-      }
+        6688,
+        1248
+      ]
     },
     {
-      "id": "insert-token",
-      "name": "Insert Token in Postgres",
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2.5,
-      "position": [
-        1620,
-        -100
-      ],
       "parameters": {
         "operation": "executeQuery",
-        "query": "-- Same whitelist as the coaching insert below. This node had a bare $4,\n-- which cannot violate NOT NULL but WILL store whatever arrives verbatim --\n-- a literal 'UNKNOWN' or a leaked '=UNKNOWN' -- and app.py then silently\n-- routes that subscriber to Spanish. Corrected 2026-08-12: garbage becomes\n-- SPANISH in the column, so the stored value matches the behaviour.\nINSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)\nVALUES ($1, $2, $3, CASE WHEN $4 IN ('SPANISH', 'ENGLISH', 'PORTUGUESE') THEN $4 ELSE 'SPANISH' END, TRUE)\nON CONFLICT (token) DO NOTHING;",
+        "query": "INSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)\nVALUES ($1, $2, $3, CASE WHEN $4 IN ('SPANISH', 'ENGLISH', 'PORTUGUESE') THEN $4 ELSE 'SPANISH' END, TRUE)\nON CONFLICT (token) DO NOTHING;",
         "options": {
           "queryReplacement": "={{ $('Subscriber Upserted').item.json.personId }},{{ $('Map Language + Build Twenty Fields').item.json.email }},{{ $json.member_token }},{{ $('Map Language + Build Twenty Fields').item.json.preferredLanguage }}"
         }
       },
+      "id": "fc7d6161-239e-48c4-aacb-cb3b90c023a1",
+      "name": "Insert Token in Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        6912,
+        1248
+      ],
       "credentials": {
         "postgres": {
-          "id": "REPLACE_ME",
+          "id": "PekCFvYYTxXhKXbq",
           "name": "Members Postgres"
         }
       }
     },
     {
-      "id": "send-welcome-email",
-      "name": "Send Welcome Email",
-      "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
-      "position": [
-        1840,
-        -100
-      ],
       "parameters": {
         "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
         "toEmail": "={{ $json.to }}",
@@ -326,6 +334,15 @@
           "appendAttribution": false
         }
       },
+      "id": "2ba27bab-da81-4e44-abf3-41beec5cfb9d",
+      "name": "Send Welcome Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        7344,
+        1152
+      ],
+      "webhookId": "65b5b011-bda9-4fc9-83e6-2a5f4f74b4b2",
       "credentials": {
         "smtp": {
           "id": "et4mFjLL6HLiYOoR",
@@ -334,19 +351,20 @@
       }
     },
     {
-      "id": "telegram-notify-new",
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=🎉 Nueva suscripción All-Access\nNombre: {{ $('Map Language + Build Twenty Fields').item.json.firstname }} {{ $('Map Language + Build Twenty Fields').item.json.lastname }}\nEmail: {{ $('Map Language + Build Twenty Fields').item.json.email }}\nProducto: {{ $('Map Language + Build Twenty Fields').item.json.subscription_name }}\nIdioma detectado: {{ $('Map Language + Build Twenty Fields').item.json.preferredLanguage || 'NO RECONOCIDO -- revisar' }}",
+        "additionalFields": {}
+      },
+      "id": "8a89b45f-d22a-4a2a-8330-dbd52f00d7a6",
       "name": "Telegram Notify New Subscriber",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1540,
-        100
+        7552,
+        1152
       ],
-      "parameters": {
-        "chatId": "5952194741",
-        "text": "=🎉 Nueva suscripción All-Access\nNombre: {{ $('Map Language + Build Twenty Fields').item.json.firstname }} {{ $('Map Language + Build Twenty Fields').item.json.lastname }}\nEmail: {{ $('Map Language + Build Twenty Fields').item.json.email }}\nProducto: {{ $('Map Language + Build Twenty Fields').item.json.subscription_name }}\nIdioma detectado: {{ $('Map Language + Build Twenty Fields').item.json.preferredLanguage || 'NO RECONOCIDO -- revisar' }}\nWelcome enviado en: {{ $('Build All-Access Welcome').item.json.langUsed }}",
-        "additionalFields": {}
-      },
+      "webhookId": "947fcc6d-c566-4e0b-9dbf-0472547b1e92",
       "credentials": {
         "telegramApi": {
           "id": "dmG5jqW0zOMQXhUD",
@@ -355,30 +373,23 @@
       }
     },
     {
-      "id": "parse-churn",
+      "parameters": {
+        "jsCode": "// Parses the \"Subscription cancellation\" (confirmed, not \"scheduled\") email\nconst results = [];\n\nfor (const item of $input.all()) {\n  const flat = (item.json.textPlain || '').replace(/\\s+/g, ' ').trim();\n\n  const m = flat.match(/that\\s+(.+?)'s\\s*\\(([^)]+)\\)\\s+subscription to\\s+(.+?)\\s+has been cancelled/i);\n\n  const fullName = m ? m[1].trim() : '';\n  // Latin naming: first non-initial token is the given name, the rest is the\n  // surname. \"Paula Maria Gonzalez\" -> \"Paula\" / \"Maria Gonzalez\". The old rule\n  // popped only the LAST token, which is right on a two-token name and wrong on\n  // the two-surname norm -- it put the whole string into firstname. Same fix as\n  // the CoachMatch lead parser, September 4, 2026.\n  const titleCase = (s) => s.replace(\n    /[\\p{L}][\\p{L}'\\u2019-]*/gu,\n    (t) => t.charAt(0).toLocaleUpperCase('es') + t.slice(1).toLocaleLowerCase('es')\n  );\n  const isInitial = (t) => /^[\\p{L}]\\.?$/u.test(t);\n  const isShouted = (s) => s === s.toLocaleUpperCase('es') && /\\p{Lu}/u.test(s);\n  const isAllLower = (s) => s === s.toLocaleLowerCase('es') && /\\p{Ll}/u.test(s);\n\n  const cleanName = (isShouted(fullName) || isAllLower(fullName)) ? titleCase(fullName) : fullName;\n  const nameParts = cleanName.split(/\\s+/).filter(Boolean);\n\n  let firstIdx = nameParts.findIndex((t) => !isInitial(t));\n  if (firstIdx === -1) firstIdx = 0;\n  const firstname = nameParts[firstIdx] || '';\n  const lastname = nameParts.slice(firstIdx + 1).join(' ');\n\n  results.push({\n    json: {\n      firstname,\n      lastname,\n      email: m ? m[2].trim() : '',\n      subscription_name: m ? m[3].trim() : '',\n      source_subject: item.json.subject,\n      source_date: item.json.date,\n    }\n  });\n}\n\nreturn results;"
+      },
+      "id": "a456415b-09ba-40c7-8e14-1ee637fe1f2e",
       "name": "Parse Churn Email",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        220,
-        260
-      ],
-      "parameters": {
-        "jsCode": "// Parses the \"Subscription cancellation\" (confirmed, not \"scheduled\") email\n// FIXED September 9, 2026, by the first REAL email of this shape to reach this\n// node -- Ivan Lopez, the first $149 Private athlete. It failed for the SAME\n// reason \"Parse CoachMatch Hire\" failed on August 20, 2026, and that fix was\n// applied to that one node only: this template arrives as a SINGLE text/html\n// part, so item.json.textPlain is \"\". Every hand-typed mock this branch was\n// tested against carried a textPlain key, because a person typed it.\n// All four regexes missed, every field came out '', subscription_name was ''\n// and Classify Product correctly returned UNKNOWN -- which sent a Telegram\n// alert blaming the product list. The product was fine. The body was empty.\n// A plain part is still preferred if TrainingPeaks ever sends one.\n\nconst decodeEntities = (s) => s\n  .replace(/&#(\\d+);/g, (_, d) => String.fromCharCode(Number(d)))\n  .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))\n  .replace(/&nbsp;/gi, ' ')\n  .replace(/&quot;/gi, '\"')\n  .replace(/&lt;/gi, '<')\n  .replace(/&gt;/gi, '>')\n  .replace(/&amp;/gi, '&');   // last, so a decode can't re-create another entity\n\nconst htmlToText = (html) => decodeEntities(\n  (html || '')\n    .replace(/<(style|script)[\\s\\S]*?<\\/\\1>/gi, ' ')\n    .replace(/<br\\s*\\/?>/gi, ' ')\n    .replace(/<\\/(p|div|tr|table|h[1-6])>/gi, ' ')\n    .replace(/<[^>]+>/g, ' ')\n);\n\nconst bodyText = (j) => {\n  const plain = (j.textPlain || '').trim();\n  return plain ? plain : htmlToText(j.textHtml);\n};\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const flat = bodyText(item.json).replace(/\\s+/g, ' ').trim();\n\n  const m = flat.match(/that\\s+(.+?)'s\\s*\\(([^)]+)\\)\\s+subscription to\\s+(.+?)\\s+has been cancelled/i);\n\n  const fullName = m ? m[1].trim() : '';\n  // Latin naming: first non-initial token is the given name, the rest is the\n  // surname. \"Paula Maria Gonzalez\" -> \"Paula\" / \"Maria Gonzalez\". The old rule\n  // popped only the LAST token, which is right on a two-token name and wrong on\n  // the two-surname norm -- it put the whole string into firstname. Same fix as\n  // the CoachMatch lead parser, September 4, 2026.\n  const titleCase = (s) => s.replace(\n    /[\\p{L}][\\p{L}'\\u2019-]*/gu,\n    (t) => t.charAt(0).toLocaleUpperCase('es') + t.slice(1).toLocaleLowerCase('es')\n  );\n  const isInitial = (t) => /^[\\p{L}]\\.?$/u.test(t);\n  const isShouted = (s) => s === s.toLocaleUpperCase('es') && /\\p{Lu}/u.test(s);\n  const isAllLower = (s) => s === s.toLocaleLowerCase('es') && /\\p{Ll}/u.test(s);\n\n  const cleanName = (isShouted(fullName) || isAllLower(fullName)) ? titleCase(fullName) : fullName;\n  const nameParts = cleanName.split(/\\s+/).filter(Boolean);\n\n  let firstIdx = nameParts.findIndex((t) => !isInitial(t));\n  if (firstIdx === -1) firstIdx = 0;\n  const firstname = nameParts[firstIdx] || '';\n  const lastname = nameParts.slice(firstIdx + 1).join(' ');\n\n  results.push({\n    json: {\n      firstname,\n      lastname,\n      email: m ? m[2].trim() : '',\n      subscription_name: m ? m[3].trim() : '',\n      source_subject: item.json.subject,\n      source_date: item.json.date,\n    }\n  });\n}\n\nreturn results;"
-      }
+        4896,
+        1920
+      ]
     },
     {
-      "id": "find-person-churn",
-      "name": "Find Person by Email (Churn)",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        440,
-        260
-      ],
       "parameters": {
-        "method": "GET",
         "url": "http://100.70.89.17:3000/rest/people",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -388,8 +399,6 @@
             }
           ]
         },
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth",
         "options": {
           "response": {
             "response": {
@@ -398,6 +407,14 @@
           }
         }
       },
+      "id": "3160b720-4437-4d00-bfee-9b886acb86fc",
+      "name": "Find Person by Email (Churn)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        5120,
+        1920
+      ],
       "credentials": {
         "httpHeaderAuth": {
           "id": "JHN5QPZo087TvBnD",
@@ -406,14 +423,6 @@
       }
     },
     {
-      "id": "person-found-churn",
-      "name": "Person Found? (Churn)",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        660,
-        260
-      ],
       "parameters": {
         "conditions": {
           "options": {
@@ -436,26 +445,35 @@
           "combinator": "and"
         },
         "options": {}
-      }
+      },
+      "id": "4607a013-e60a-401f-904a-2ec1125badba",
+      "name": "Person Found? (Churn)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        5344,
+        1920
+      ]
     },
     {
-      "id": "mark-churned",
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.data.people[0].id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ churnDate: new Date().toISOString(), leadStatus: 'CHURNED_CUSTOMER' }) }}",
+        "options": {}
+      },
+      "id": "58327e48-55c0-4355-8dad-bc3035b234cc",
       "name": "Mark Churned in Twenty",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        880,
-        260
+        5568,
+        1920
       ],
-      "parameters": {
-        "method": "PATCH",
-        "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.data.people[0].id }}",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ churnDate: new Date().toISOString(), leadStatus: 'CHURNED_CUSTOMER' }) }}",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth"
-      },
       "credentials": {
         "httpHeaderAuth": {
           "id": "JHN5QPZo087TvBnD",
@@ -464,14 +482,6 @@
       }
     },
     {
-      "id": "revoke-token",
-      "name": "Revoke Token in Postgres",
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2.5,
-      "position": [
-        1000,
-        260
-      ],
       "parameters": {
         "operation": "executeQuery",
         "query": "UPDATE subscriber_tokens SET active = FALSE, revoked_at = now() WHERE email = $1 AND active = TRUE;",
@@ -479,27 +489,36 @@
           "queryReplacement": "={{ $('Parse Churn Email').item.json.email }}"
         }
       },
+      "id": "7887d594-2a67-46f6-9cc1-21ed96f717ba",
+      "name": "Revoke Token in Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        5984,
+        1920
+      ],
       "credentials": {
         "postgres": {
-          "id": "REPLACE_ME",
+          "id": "PekCFvYYTxXhKXbq",
           "name": "Members Postgres"
         }
       }
     },
     {
-      "id": "telegram-notify-churn",
-      "name": "Telegram Notify Churn",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        1100,
-        220
-      ],
       "parameters": {
         "chatId": "5952194741",
         "text": "=📉 Cancelacion confirmada\nNombre: {{ $('Parse Churn Email').item.json.firstname }} {{ $('Parse Churn Email').item.json.lastname }}\nEmail: {{ $('Parse Churn Email').item.json.email }}\nProducto: {{ $('Parse Churn Email').item.json.subscription_name }}\n\n(Recordatorio: revocar acceso al area de miembros manualmente hasta que el sistema de tokens este listo)",
         "additionalFields": {}
       },
+      "id": "cb9927e4-d064-429f-960e-c560ea6b56da",
+      "name": "Telegram Notify Churn",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        6224,
+        1920
+      ],
+      "webhookId": "eec95caa-8a79-4915-b585-5005ab47c30d",
       "credentials": {
         "telegramApi": {
           "id": "dmG5jqW0zOMQXhUD",
@@ -508,19 +527,20 @@
       }
     },
     {
-      "id": "telegram-alert-unmatched",
-      "name": "Telegram Alert - Churn Unmatched",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        880,
-        460
-      ],
       "parameters": {
         "chatId": "5952194741",
         "text": "=⚠️ Email de cancelacion recibido pero no se encontro la Person en Twenty.\nEmail: {{ $('Parse Churn Email').item.json.email }}\nNombre: {{ $('Parse Churn Email').item.json.firstname }} {{ $('Parse Churn Email').item.json.lastname }}\nRevisar manualmente.",
         "additionalFields": {}
       },
+      "id": "8b12745e-4c0b-45d7-aa47-a16ad15791b1",
+      "name": "Telegram Alert - Churn Unmatched",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        5568,
+        2128
+      ],
+      "webhookId": "1a82295c-b126-4c26-b672-ebdd79afe369",
       "credentials": {
         "telegramApi": {
           "id": "dmG5jqW0zOMQXhUD",
@@ -529,47 +549,23 @@
       }
     },
     {
-      "id": "sticky-resend",
-      "name": "RESEND PASSWORD -- separate trigger",
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -260,
-        620
-      ],
-      "parameters": {
-        "width": 620,
-        "height": 200,
-        "content": "## Resend Password branch\n\nSeparate webhook trigger, independent of the IMAP branches above -- Caddy proxies `POST /members/forgot-password` straight to this webhook (same rewrite pattern as /api/contact-form, see contact-form-pipeline-runbook.md).\n\nDeliberately does not reveal whether an email is a real subscriber (always responds the same generic message) -- standard practice for forgot-password flows.\n\nReuses the same Postgres + SMTP credentials as the rest of this workflow -- no new secrets."
-      }
-    },
-    {
-      "id": "resend-webhook",
-      "name": "Webhook - Resend Password",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [
-        0,
-        700
-      ],
-      "webhookId": "resend-password",
       "parameters": {
         "httpMethod": "POST",
         "path": "resend-password",
         "responseMode": "responseNode",
         "options": {}
-      }
+      },
+      "id": "5a3d8560-9236-4e05-9afd-11f98eeefc7e",
+      "name": "Webhook - Resend Password",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        4688,
+        624
+      ],
+      "webhookId": "resend-password"
     },
     {
-      "id": "lookup-token-resend",
-      "name": "Look Up Active Token",
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2.5,
-      "position": [
-        220,
-        700
-      ],
-      "alwaysOutputData": true,
       "parameters": {
         "operation": "executeQuery",
         "query": "SELECT token, preferred_language FROM subscriber_tokens WHERE email = $1 AND active = TRUE ORDER BY created_at DESC LIMIT 1;",
@@ -577,35 +573,36 @@
           "queryReplacement": "={{ $json.body.email }}"
         }
       },
+      "id": "ca15e483-bedb-471a-8a76-5cc7dcb3cbfd",
+      "name": "Look Up Active Token",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        4896,
+        624
+      ],
+      "alwaysOutputData": true,
       "credentials": {
         "postgres": {
-          "id": "REPLACE_ME",
+          "id": "PekCFvYYTxXhKXbq",
           "name": "Members Postgres"
         }
       }
     },
     {
-      "id": "token-found-resend",
-      "name": "Token Found?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        440,
-        700
-      ],
       "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "loose",
+            "typeValidation": "strict",
             "version": 3
           },
           "conditions": [
             {
               "id": "r1",
               "leftValue": "={{ $json.token }}",
-              "rightValue": "",
+              "rightValue": 0,
               "operator": {
                 "type": "string",
                 "operation": "notEmpty",
@@ -616,31 +613,17 @@
           "combinator": "and"
         },
         "options": {}
-      }
-    },
-    {
-      "parameters": {
-        "mode": "runOnceForAllItems",
-        "jsCode": "// Resend-password email, ES/EN/PT. Added Aug 10, 2026 (members-area i18n branch).\n//\n// Language comes from `preferred_language` on the subscriber_tokens row, NOT from\n// the `lang` the forgot-password page posts. Same reasoning as the login routing\n// in auth_service/app.py: the database knows who they are, the page only knows\n// which screen they happened to open -- someone can land on the Spanish recovery\n// page and still be a Portuguese subscriber. `Look Up Active Token` already\n// SELECTs preferred_language, so no extra lookup is needed.\n//\n// Values are SPANISH/ENGLISH/PORTUGUESE (cached from Twenty); anything\n// unrecognised falls back to Spanish, same rule as the welcome emails.\n//\n// pairedItem is set deliberately: Send Resend Email resolves the recipient with\n// $('Webhook - Resend Password').item, which needs item lineage preserved across\n// this node. Without it, inserting this node breaks that lookup.\n\nconst LOGIN_URL = {\n  SPANISH:    'https://triaperformance.com/members/login',\n  ENGLISH:    'https://triaperformance.com/members/en/login',\n  PORTUGUESE: 'https://triaperformance.com/members/pt/login',\n};\n\nconst T = {\n  SPANISH: (tok) => ({\n    subject: 'Tu contraseña del Área de Miembros - Triaperformance',\n    text: `Hola,\n\nRecibimos tu solicitud de recuperar tu contraseña del Área de Miembros.\n\nLink: ${LOGIN_URL.SPANISH}\nContraseña: ${tok}\n\nSi no fuiste tú, ignora este email — tu acceso no cambió.\n\nIván Koch - Triaperformance`,\n  }),\n  ENGLISH: (tok) => ({\n    subject: 'Your Member Area password - Triaperformance',\n    text: `Hi,\n\nWe received your request to recover your Member Area password.\n\nLink: ${LOGIN_URL.ENGLISH}\nPassword: ${tok}\n\nIf this wasn't you, ignore this email — your access hasn't changed.\n\nIván Koch - Triaperformance`,\n  }),\n  PORTUGUESE: (tok) => ({\n    subject: 'Sua senha da Área de Membros - Triaperformance',\n    text: `Olá,\n\nRecebemos seu pedido de recuperação da senha da Área de Membros.\n\nLink: ${LOGIN_URL.PORTUGUESE}\nSenha: ${tok}\n\nSe não foi você, ignore este email — seu acesso não mudou.\n\nIván Koch - Triaperformance`,\n  }),\n};\n\nreturn $input.all().map((item, i) => {\n  const tok = item.json.token;\n  if (!tok) {\n    throw new Error('Build Resend Email: no token on the item -- Token Found? should have routed this to the generic-response branch.');\n  }\n  const raw = item.json.preferred_language;\n  const lang = T[raw] ? raw : 'SPANISH';\n  return { json: { ...T[lang](tok), token: tok, langUsed: lang, langWasKnown: Boolean(T[raw]) }, pairedItem: i };\n});\n"
       },
-      "id": "build-resend-email",
-      "name": "Build Resend Email",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "id": "d7f762e5-fdbd-4657-98ab-08d4777eadad",
+      "name": "Token Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
       "position": [
-        600,
-        620
+        5120,
+        624
       ]
     },
     {
-      "id": "send-resend-email",
-      "name": "Send Resend Email",
-      "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
-      "position": [
-        820,
-        620
-      ],
       "parameters": {
         "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
         "toEmail": "={{ $('Webhook - Resend Password').item.json.body.email }}",
@@ -651,6 +634,15 @@
           "appendAttribution": false
         }
       },
+      "id": "94704235-1787-4bec-b05f-10cdebeb42b7",
+      "name": "Send Resend Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        5568,
+        512
+      ],
+      "webhookId": "4bb2cb68-9aef-438a-bca4-8e47281db00f",
       "credentials": {
         "smtp": {
           "id": "et4mFjLL6HLiYOoR",
@@ -659,57 +651,34 @@
       }
     },
     {
-      "id": "respond-resend-generic",
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, message: 'Si el email esta registrado, te enviamos la contraseña.' }) }}",
+        "options": {}
+      },
+      "id": "4ce835c9-b3f2-497b-9d17-6b56f0d599f9",
       "name": "Respond Generic Message",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        1040,
-        700
-      ],
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ JSON.stringify({ ok: true, message: 'Si el email esta registrado, te enviamos la contraseña.' }) }}"
-      }
+        5792,
+        640
+      ]
     },
     {
-      "id": "stage1-sticky",
-      "name": "STAGE 1 CLASSIFIER -- added Aug 8 2026",
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        600,
-        -560
-      ],
       "parameters": {
-        "width": 720,
-        "height": 260,
-        "content": "## Stage 1 classifier (Aug 8, 2026)\n\n`Filter - Is New Subscription` matches on SUBJECT ONLY, and All-Access and Private 1-1 coaching share that subject. Before this change, a Private signup ran the All-Access chain and got customerType ALL_ACCESS + a members token + the All-Access welcome email.\n\n**Classify Product** sets productType from two explicit allowlists. **Route by Product** sends All-Access to the existing chain, Private to a Telegram, and anything unrecognised to a Telegram that writes NOTHING.\n\nThis step classifies only. Private/CoachMatch writes to Twenty come in the next step.\n\nHome doc: `athlete-onboarding-flow.md` sections 3.1 / 3.2"
-      }
-    },
-    {
-      "id": "stage1-classify",
+        "jsCode": "// Classifies a \"New subscription confirmation\" into a product family.\n// BOTH allowlists are explicit, and anything matching neither is UNKNOWN.\n// UNKNOWN must never fall through to a default customerType -- that was the\n// August 2026 bug: this branch had no UNKNOWN case, so an unrecognised product\n// proceeded with customerType 'ALL_ACCESS' hardcoded as an implicit default.\n\nconst ALL_ACCESS_MATCHERS = [\n  // Renamed Aug 13, 2026: both the ES and EN titles now carry \"all-access\".\n  s => s.includes('all-access'),\n  s => s.includes('acesso total'),\n  // Pre-rename titles, kept so an in-flight or renewal email still classifies.\n  s => s.includes('suscripci') && s.includes('triaperformance'),\n  s => s.includes('full access'),\n];\n\n// Confirmed by Ivan, Aug 8 2026: exactly one active Private product,\n// \"Triaperformance 1-1 Coaching\" ($149/mo + $50 startup, promocode NOSTARTUP).\n// The retired \"Coaching personalizado - Un deporte (...)\" is deliberately NOT\n// listed -- if it ever reappears it should alert, not be silently accepted.\nconst PRIVATE_COACHING_MATCHERS = [\n  s => s.includes('1-1 coaching'),\n];\n\nreturn $input.all().map(item => {\n  const j = item.json;\n  const s = (j.subscription_name || '').toLowerCase();\n\n  let productType = 'UNKNOWN';\n  if (ALL_ACCESS_MATCHERS.some(fn => fn(s))) {\n    productType = 'ALL_ACCESS';\n  } else if (PRIVATE_COACHING_MATCHERS.some(fn => fn(s))) {\n    productType = 'PRIVATE_COACHING';\n  }\n\n  return { json: { ...j, productType } };\n});"
+      },
+      "id": "64e11f1a-b202-4bd4-bd14-80e10e54c63e",
       "name": "Classify Product",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        640,
-        -240
-      ],
-      "parameters": {
-        "mode": "runOnceForAllItems",
-        "jsCode": "// Classifies a \"New subscription confirmation\" into a product family.\n// BOTH allowlists are explicit, and anything matching neither is UNKNOWN.\n// UNKNOWN must never fall through to a default customerType -- that was the\n// August 2026 bug: this branch had no UNKNOWN case, so an unrecognised product\n// proceeded with customerType 'ALL_ACCESS' hardcoded as an implicit default.\n\nconst ALL_ACCESS_MATCHERS = [\n  // Renamed Aug 13, 2026: both the ES and EN titles now carry \"all-access\".\n  s => s.includes('all-access'),\n  s => s.includes('acesso total'),\n  // Pre-rename titles, kept so an in-flight or renewal email still classifies.\n  s => s.includes('suscripci') && s.includes('triaperformance'),\n  s => s.includes('full access'),\n];\n\n// Confirmed by Ivan, Aug 8 2026: exactly one active Private product,\n// \"Triaperformance 1-1 Coaching\" ($149/mo + $50 startup, promocode NOSTARTUP).\n// The retired \"Coaching personalizado - Un deporte (...)\" is deliberately NOT\n// listed -- if it ever reappears it should alert, not be silently accepted.\nconst PRIVATE_COACHING_MATCHERS = [\n  s => s.includes('1-1 coaching'),\n];\n\nreturn $input.all().map(item => {\n  const j = item.json;\n  const s = (j.subscription_name || '').toLowerCase();\n\n  let productType = 'UNKNOWN';\n  if (ALL_ACCESS_MATCHERS.some(fn => fn(s))) {\n    productType = 'ALL_ACCESS';\n  } else if (PRIVATE_COACHING_MATCHERS.some(fn => fn(s))) {\n    productType = 'PRIVATE_COACHING';\n  }\n\n  return { json: { ...j, productType } };\n});\n"
-      }
+        5344,
+        1664
+      ]
     },
     {
-      "id": "stage1-switch",
-      "name": "Route by Product",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        880,
-        -240
-      ],
       "parameters": {
         "rules": {
           "values": [
@@ -719,7 +688,7 @@
                   "caseSensitive": true,
                   "leftValue": "",
                   "typeValidation": "strict",
-                  "version": 3
+                  "version": 2
                 },
                 "conditions": [
                   {
@@ -743,7 +712,7 @@
                   "caseSensitive": true,
                   "leftValue": "",
                   "typeValidation": "strict",
-                  "version": 3
+                  "version": 2
                 },
                 "conditions": [
                   {
@@ -767,22 +736,31 @@
           "fallbackOutput": "extra",
           "renameFallbackOutput": "Unknown"
         }
-      }
+      },
+      "id": "4fa65253-d022-4b21-9ce0-86b9757db99b",
+      "name": "Route by Product",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        5568,
+        1648
+      ]
     },
     {
-      "id": "stage1-tg-unknown",
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=⚠️ PRODUCTO NO RECONOCIDO -- no se escribio nada en Twenty\nNombre: {{ $json.firstname }} {{ $json.lastname }}\nEmail: {{ $json.email }}\nProducto: {{ $json.subscription_name }}\nFactura: {{ $json.invoice_number }}\n\nProcesar a mano y agregar el producto a Classify Product.",
+        "additionalFields": {}
+      },
+      "id": "ae4b452a-bda1-4da6-b258-175fdcdc152f",
       "name": "Telegram - Unknown Product",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1140,
-        -140
+        5808,
+        1728
       ],
-      "parameters": {
-        "chatId": "5952194741",
-        "text": "={{ $json.parse_ok === false ? '🛑 PARSEO VACIO -- el email llego pero no se pudo leer el cuerpo' : '⚠️ PRODUCTO NO RECONOCIDO' }} -- no se escribio nada en Twenty\nNombre: {{ $json.firstname }} {{ $json.lastname }}\nEmail: {{ $json.email }}\nProducto: {{ $json.subscription_name }}\nFactura: {{ $json.invoice_number }}\nAsunto: {{ $json.source_subject }}\n\n{{ $json.parse_ok === false ? 'Revisar el nodo Parse New Subscription Email. NO agregar nada a Classify Product -- la lista de productos no es el problema.' : 'Procesar a mano y agregar el producto a Classify Product.' }}",
-        "additionalFields": {}
-      },
+      "webhookId": "887a28a3-ea08-467e-adaa-bdb47f2624e2",
       "credentials": {
         "telegramApi": {
           "id": "dmG5jqW0zOMQXhUD",
@@ -791,14 +769,6 @@
       }
     },
     {
-      "id": "stage1-cm-filter",
-      "name": "Filter - Is CoachMatch Hire",
-      "type": "n8n-nodes-base.filter",
-      "typeVersion": 2.2,
-      "position": [
-        0,
-        920
-      ],
       "parameters": {
         "conditions": {
           "options": {
@@ -821,118 +791,47 @@
           "combinator": "and"
         },
         "options": {}
-      }
+      },
+      "id": "96ca405f-40d2-4884-8e9c-6a6e0a1b2310",
+      "name": "Filter - Is CoachMatch Hire",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        4688,
+        2144
+      ]
     },
     {
-      "id": "stage1-cm-parse",
+      "parameters": {
+        "jsCode": "// Parses the \"Congratulations, You Have Been Hired by a New Athlete\" email.\n// Date in the body is MM/DD/YYYY -- evidenced, not assumed: the sample was sent\n// Aug 4 2026 and reads 08/05/2026. Under DD/MM that would be four months past.\n//\n// FIXED Aug 20, 2026, by the first REAL CoachMatch hire ever to reach this node.\n// It failed, and both failures came from the same place: every test payload this\n// branch was ever built and verified against was hand-authored, and hand-authored\n// payloads agree with whatever the code already assumes.\n//   (1) textPlain. This template arrives as a SINGLE text/html part -- the real\n//       message has \"textPlain\": \"\". Every August mock carried a textPlain key\n//       because a person typed it. Now falls back to stripping textHtml.\n//   (2) item.json.date is RFC-2822 (\"Thu, 20 Aug 2026 18:04:37 +0000\"), not ISO.\n//       .slice(0, 10) returned \"Thu, 20 Au\", which was headed for Twenty's\n//       signUpDate. Every mock used an ISO string, so this never showed either.\n// Both paths are kept: a plain part is still preferred if TrainingPeaks sends one.\n\nconst decodeEntities = (s) => s\n  .replace(/&#(\\d+);/g, (_, d) => String.fromCharCode(Number(d)))\n  .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))\n  .replace(/&nbsp;/gi, ' ')\n  .replace(/&quot;/gi, '\"')\n  .replace(/&lt;/gi, '<')\n  .replace(/&gt;/gi, '>')\n  .replace(/&amp;/gi, '&');   // last, so a decode can't re-create another entity\n\nconst htmlToText = (html) => decodeEntities(\n  (html || '')\n    .replace(/<(style|script)[\\s\\S]*?<\\/\\1>/gi, ' ')\n    .replace(/<br\\s*\\/?>/gi, ' ')\n    .replace(/<\\/(p|div|tr|table|h[1-6])>/gi, ' ')\n    .replace(/<[^>]+>/g, ' ')\n);\n\nconst bodyText = (j) => {\n  const plain = (j.textPlain || '').trim();\n  return plain ? plain : htmlToText(j.textHtml);\n};\n\n// RFC-2822 or ISO in, YYYY-MM-DD out, '' if unparseable. Never a truncated string:\n// a blank date fails a Twenty write loudly, \"Thu, 20 Au\" fails it silently.\nconst isoDate = (v) => {\n  const dt = new Date(v || '');\n  return isNaN(dt.getTime()) ? '' : dt.toISOString().slice(0, 10);\n};\n\nreturn $input.all().map(item => {\n  const flat = bodyText(item.json).replace(/\\s+/g, ' ').trim();\n\n  const m = flat.match(\n    /hired by\\s+(.+?)\\s*\\(([^)]+)\\)\\s+at the\\s+(.+?)\\s+package starting on\\s+(\\d{2})\\/(\\d{2})\\/(\\d{4})/i\n  );\n\n  const fullName = m ? m[1].trim() : '';\n  // Latin naming: first non-initial token is the given name, the rest is the\n  // surname. \"Paula Maria Gonzalez\" -> \"Paula\" / \"Maria Gonzalez\". The old rule\n  // popped only the LAST token, which is right on a two-token name and wrong on\n  // the two-surname norm -- it put the whole string into firstname. Same fix as\n  // the CoachMatch lead parser, September 4, 2026.\n  const titleCase = (s) => s.replace(\n    /[\\p{L}][\\p{L}'\\u2019-]*/gu,\n    (t) => t.charAt(0).toLocaleUpperCase('es') + t.slice(1).toLocaleLowerCase('es')\n  );\n  const isInitial = (t) => /^[\\p{L}]\\.?$/u.test(t);\n  const isShouted = (s) => s === s.toLocaleUpperCase('es') && /\\p{Lu}/u.test(s);\n  const isAllLower = (s) => s === s.toLocaleLowerCase('es') && /\\p{Ll}/u.test(s);\n\n  const cleanName = (isShouted(fullName) || isAllLower(fullName)) ? titleCase(fullName) : fullName;\n  const nameParts = cleanName.split(/\\s+/).filter(Boolean);\n\n  let firstIdx = nameParts.findIndex((t) => !isInitial(t));\n  if (firstIdx === -1) firstIdx = 0;\n  const firstname = nameParts[firstIdx] || '';\n  const lastname = nameParts.slice(firstIdx + 1).join(' ');\n\n  const packageName = m ? m[3].trim() : '';\n  const tierMatch = packageName.match(/Coach Match\\s+(\\w+)\\s+level/i);\n\n  return {\n    json: {\n      // parse_ok is explicit on purpose: if TrainingPeaks rewords this email the\n      // regex returns null and every field goes blank, which looks identical to\n      // a real athlete with no name unless something says so. It went unread from\n      // Aug 8 to Aug 20, 2026, and on Aug 20 a real athlete was written to Twenty\n      // with a blank name and a blank email because of it. READ IT DOWNSTREAM.\n      parse_ok: Boolean(m),\n      full_name: fullName,\n      firstname,\n      lastname,\n      email: m ? m[2].trim() : '',\n      package_name: packageName,\n      tier: tierMatch ? tierMatch[1] : '',\n      coaching_start_date: m ? `${m[6]}-${m[4]}-${m[5]}` : '',\n      sign_up_date: isoDate(item.json.date),\n      source_subject: item.json.subject,\n    }\n  };\n});"
+      },
+      "id": "20358fa5-ff6d-4d08-89d1-2c2ef755574c",
       "name": "Parse CoachMatch Hire",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        240,
-        920
-      ],
-      "parameters": {
-        "mode": "runOnceForAllItems",
-        "jsCode": "// Parses the \"Congratulations, You Have Been Hired by a New Athlete\" email.\n// Date in the body is MM/DD/YYYY -- evidenced, not assumed: the sample was sent\n// Aug 4 2026 and reads 08/05/2026. Under DD/MM that would be four months past.\n//\n// FIXED Aug 20, 2026, by the first REAL CoachMatch hire ever to reach this node.\n// It failed, and both failures came from the same place: every test payload this\n// branch was ever built and verified against was hand-authored, and hand-authored\n// payloads agree with whatever the code already assumes.\n//   (1) textPlain. This template arrives as a SINGLE text/html part -- the real\n//       message has \"textPlain\": \"\". Every August mock carried a textPlain key\n//       because a person typed it. Now falls back to stripping textHtml.\n//   (2) item.json.date is RFC-2822 (\"Thu, 20 Aug 2026 18:04:37 +0000\"), not ISO.\n//       .slice(0, 10) returned \"Thu, 20 Au\", which was headed for Twenty's\n//       signUpDate. Every mock used an ISO string, so this never showed either.\n// Both paths are kept: a plain part is still preferred if TrainingPeaks sends one.\n\nconst decodeEntities = (s) => s\n  .replace(/&#(\\d+);/g, (_, d) => String.fromCharCode(Number(d)))\n  .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))\n  .replace(/&nbsp;/gi, ' ')\n  .replace(/&quot;/gi, '\"')\n  .replace(/&lt;/gi, '<')\n  .replace(/&gt;/gi, '>')\n  .replace(/&amp;/gi, '&');   // last, so a decode can't re-create another entity\n\nconst htmlToText = (html) => decodeEntities(\n  (html || '')\n    .replace(/<(style|script)[\\s\\S]*?<\\/\\1>/gi, ' ')\n    .replace(/<br\\s*\\/?>/gi, ' ')\n    .replace(/<\\/(p|div|tr|table|h[1-6])>/gi, ' ')\n    .replace(/<[^>]+>/g, ' ')\n);\n\nconst bodyText = (j) => {\n  const plain = (j.textPlain || '').trim();\n  return plain ? plain : htmlToText(j.textHtml);\n};\n\n// RFC-2822 or ISO in, YYYY-MM-DD out, '' if unparseable. Never a truncated string:\n// a blank date fails a Twenty write loudly, \"Thu, 20 Au\" fails it silently.\nconst isoDate = (v) => {\n  const dt = new Date(v || '');\n  return isNaN(dt.getTime()) ? '' : dt.toISOString().slice(0, 10);\n};\n\nreturn $input.all().map(item => {\n  const flat = bodyText(item.json).replace(/\\s+/g, ' ').trim();\n\n  const m = flat.match(\n    /hired by\\s+(.+?)\\s*\\(([^)]+)\\)\\s+at the\\s+(.+?)\\s+package starting on\\s+(\\d{2})\\/(\\d{2})\\/(\\d{4})/i\n  );\n\n  const fullName = m ? m[1].trim() : '';\n  // Latin naming: first non-initial token is the given name, the rest is the\n  // surname. \"Paula Maria Gonzalez\" -> \"Paula\" / \"Maria Gonzalez\". The old rule\n  // popped only the LAST token, which is right on a two-token name and wrong on\n  // the two-surname norm -- it put the whole string into firstname. Same fix as\n  // the CoachMatch lead parser, September 4, 2026.\n  const titleCase = (s) => s.replace(\n    /[\\p{L}][\\p{L}'\\u2019-]*/gu,\n    (t) => t.charAt(0).toLocaleUpperCase('es') + t.slice(1).toLocaleLowerCase('es')\n  );\n  const isInitial = (t) => /^[\\p{L}]\\.?$/u.test(t);\n  const isShouted = (s) => s === s.toLocaleUpperCase('es') && /\\p{Lu}/u.test(s);\n  const isAllLower = (s) => s === s.toLocaleLowerCase('es') && /\\p{Ll}/u.test(s);\n\n  const cleanName = (isShouted(fullName) || isAllLower(fullName)) ? titleCase(fullName) : fullName;\n  const nameParts = cleanName.split(/\\s+/).filter(Boolean);\n\n  let firstIdx = nameParts.findIndex((t) => !isInitial(t));\n  if (firstIdx === -1) firstIdx = 0;\n  const firstname = nameParts[firstIdx] || '';\n  const lastname = nameParts.slice(firstIdx + 1).join(' ');\n\n  const packageName = m ? m[3].trim() : '';\n  const tierMatch = packageName.match(/Coach Match\\s+(\\w+)\\s+level/i);\n\n  return {\n    json: {\n      // parse_ok is explicit on purpose: if TrainingPeaks rewords this email the\n      // regex returns null and every field goes blank, which looks identical to\n      // a real athlete with no name unless something says so. It went unread from\n      // Aug 8 to Aug 20, 2026, and on Aug 20 a real athlete was written to Twenty\n      // with a blank name and a blank email because of it. READ IT DOWNSTREAM.\n      parse_ok: Boolean(m),\n      full_name: fullName,\n      firstname,\n      lastname,\n      email: m ? m[2].trim() : '',\n      package_name: packageName,\n      tier: tierMatch ? tierMatch[1] : '',\n      coaching_start_date: m ? `${m[6]}-${m[4]}-${m[5]}` : '',\n      sign_up_date: isoDate(item.json.date),\n      source_subject: item.json.subject,\n    }\n  };\n});\n"
-      }
+        4896,
+        2144
+      ]
     },
     {
-      "id": "s2-sticky",
-      "name": "STAGE 2+3 COACHING UPSERT -- Aug 8 2026",
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        660,
-        1000
-      ],
       "parameters": {
-        "width": 900,
-        "height": 190,
-        "content": "## Coaching athlete upsert + members access\n\nBoth coaching branches (Private via Route by Product, CoachMatch via Parse CoachMatch Hire) feed ONE normalizer, so downstream nodes have a single node name to reference.\n\n**Update path writes conversion fields ONLY** -- name, sport, leadSource, preferredLanguage, phones and athleteLevel are left alone, because a CoachMatch athlete is normally already a lead with real data in those fields.\n\nHome doc: `athlete-onboarding-flow.md` section 3.3"
-      }
-    },
-    {
-      "id": "s2-normalize",
+        "jsCode": "// ONE normalizer fed by BOTH coaching branches, so everything downstream has a\n// single node name to reference. Referencing a branch-specific node that did not\n// run in this execution throws in n8n -- this avoids that entirely.\n//\n// FIXED Aug 20, 2026 -- shape detection used to read Boolean(d.package_name),\n// which is the ONE field a failed CoachMatch parse guarantees is empty. So a\n// CoachMatch email whose regex missed did not just lose its data: it was\n// reclassified as a PRIVATE signup and written to Twenty as one, with a blank\n// name, a blank email and a blank product. Detect the branch from routing, not\n// from parsed content: productType is set by Classify Product and exists only on\n// the private path, so it survives a parse failure on either side.\n//\n// parse_ok is now carried on BOTH shapes and must be gated before Twenty.\n\nreturn $input.all().map(item => {\n  const d = item.json;\n  const isPrivate = d.productType === 'PRIVATE_COACHING';\n\n  if (!isPrivate) {\n    return { json: {\n      channel: 'COACHMATCH',\n      parse_ok: Boolean(d.parse_ok),\n      source_subject: d.source_subject || '',\n      email: (d.email || '').trim(),\n      full_name: d.full_name,\n      firstname: d.firstname,\n      lastname: d.lastname,\n      product: d.package_name,\n      signUpDate: d.sign_up_date,\n      // CoachMatch athletes CAN start in the future -- these two differ.\n      coachingStartDate: d.coaching_start_date,\n      // Set only on create; a CoachMatch athlete is normally already a lead\n      // with leadSource already COACHMATCH, and overwriting destroys attribution.\n      leadSourceOnCreate: 'COACHMATCH',\n      invoice_number: '',\n      amount_charged: '',\n    }};\n  }\n\n  // FIXED Aug 8 2026: this previously read d.source_date, which the upstream\n  // \"Map Language + Build Twenty Fields\" node does NOT pass through -- it emits\n  // only firstname/lastname/email/subscription_name/invoice_number/amount_charged\n  // /preferredLanguage. Result was an empty signUpDate and coachingStartDate on\n  // every Private signup. Using the run date instead, which is what the existing\n  // All-Access branch already does and is accurate to the minute in a live run.\n  const today = new Date().toISOString().slice(0, 10);\n\n  return { json: {\n    channel: 'PRIVATE',\n    // No parse_ok upstream on this path -- the two fields everything downstream\n    // needs are the check.\n    parse_ok: Boolean((d.email || '').trim() && d.subscription_name),\n    source_subject: d.source_subject || '',\n    email: (d.email || '').trim(),\n    full_name: [d.firstname, d.lastname].filter(Boolean).join(' '),\n    firstname: d.firstname,\n    lastname: d.lastname,\n    product: d.subscription_name,\n    signUpDate: today,\n    // No athlete-selectable start on TP Payments: payment IS the start.\n    coachingStartDate: today,\n    // The email carries NO signal about where this athlete came from.\n    // Null is honest; 'OTHER' would be a guess that looks like data.\n    leadSourceOnCreate: null,\n    invoice_number: d.invoice_number || '',\n    amount_charged: d.amount_charged || '',\n  }};\n});"
+      },
+      "id": "c62db175-e531-4433-81a9-3c13cee8a97b",
       "name": "Normalize Coaching Athlete",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        700,
-        1220
-      ],
-      "parameters": {
-        "mode": "runOnceForAllItems",
-        "jsCode": "// ONE normalizer fed by BOTH coaching branches, so everything downstream has a\n// single node name to reference. Referencing a branch-specific node that did not\n// run in this execution throws in n8n -- this avoids that entirely.\n//\n// FIXED Aug 20, 2026 -- shape detection used to read Boolean(d.package_name),\n// which is the ONE field a failed CoachMatch parse guarantees is empty. So a\n// CoachMatch email whose regex missed did not just lose its data: it was\n// reclassified as a PRIVATE signup and written to Twenty as one, with a blank\n// name, a blank email and a blank product. Detect the branch from routing, not\n// from parsed content: productType is set by Classify Product and exists only on\n// the private path, so it survives a parse failure on either side.\n//\n// parse_ok is now carried on BOTH shapes and must be gated before Twenty.\n//\n// SEPTEMBER 10, 2026 -- signUpDate is now CREATE-ONLY, on both update paths.\n// Same rule, same reason, as leadSourceOnCreate below, and it was not applied\n// here: an UPDATE fires when the person already exists, and the person already\n// exists precisely when they are RETURNING. So the one event that made the\n// original sign-up date interesting was also the event that overwrote it --\n// silently, on every returning athlete, on both the coaching and All-Access\n// branches. Found by Ivan Lopez's return (2024-08-30 -> paused 2026-07-15 ->\n// back 2026-09-09), the first return since tenure-analysis.md named this exact\n// gap as \"the one input this analysis is missing\".\n// signUpDate  = first ever, never rewritten.\n// coachingStartDate = THIS billing period, rewritten every time (it already was).\n// churnDate: null still clears on return -- that one is correct, they are active.\n\nreturn $input.all().map(item => {\n  const d = item.json;\n  const isPrivate = d.productType === 'PRIVATE_COACHING';\n\n  if (!isPrivate) {\n    return { json: {\n      channel: 'COACHMATCH',\n      parse_ok: Boolean(d.parse_ok),\n      source_subject: d.source_subject || '',\n      email: (d.email || '').trim(),\n      full_name: d.full_name,\n      firstname: d.firstname,\n      lastname: d.lastname,\n      product: d.package_name,\n      signUpDate: d.sign_up_date,\n      // CoachMatch athletes CAN start in the future -- these two differ.\n      coachingStartDate: d.coaching_start_date,\n      // Set only on create; a CoachMatch athlete is normally already a lead\n      // with leadSource already COACHMATCH, and overwriting destroys attribution.\n      leadSourceOnCreate: 'COACHMATCH',\n      invoice_number: '',\n      amount_charged: '',\n    }};\n  }\n\n  // FIXED Aug 8 2026: this previously read d.source_date, which the upstream\n  // \"Map Language + Build Twenty Fields\" node does NOT pass through -- it emits\n  // only firstname/lastname/email/subscription_name/invoice_number/amount_charged\n  // /preferredLanguage. Result was an empty signUpDate and coachingStartDate on\n  // every Private signup. Using the run date instead, which is what the existing\n  // All-Access branch already does and is accurate to the minute in a live run.\n  const today = new Date().toISOString().slice(0, 10);\n\n  return { json: {\n    channel: 'PRIVATE',\n    // No parse_ok upstream on this path -- the two fields everything downstream\n    // needs are the check.\n    parse_ok: Boolean((d.email || '').trim() && d.subscription_name),\n    source_subject: d.source_subject || '',\n    email: (d.email || '').trim(),\n    full_name: [d.firstname, d.lastname].filter(Boolean).join(' '),\n    firstname: d.firstname,\n    lastname: d.lastname,\n    product: d.subscription_name,\n    signUpDate: today,\n    // No athlete-selectable start on TP Payments: payment IS the start.\n    coachingStartDate: today,\n    // The email carries NO signal about where this athlete came from.\n    // Null is honest; 'OTHER' would be a guess that looks like data.\n    leadSourceOnCreate: null,\n    invoice_number: d.invoice_number || '',\n    amount_charged: d.amount_charged || '',\n  }};\n});\n"
-      }
+        7168,
+        2016
+      ]
     },
     {
-      "id": "s2-gate",
-      "name": "Parse OK? (Coaching)",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        860,
-        1220
-      ],
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "gate1",
-              "leftValue": "={{ $json.parse_ok && Boolean($json.email) }}",
-              "rightValue": "",
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      }
-    },
-    {
-      "id": "s2-gate-tg",
-      "name": "Telegram - Parseo Fallido",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        860,
-        1420
-      ],
-      "parameters": {
-        "chatId": "5952194741",
-        "text": "=🚨 EMAIL DE ALTA NO PARSEADO -- no se escribio nada en Twenty\nCanal: {{ $json.channel }}\nAsunto: {{ $json.source_subject }}\nEmail detectado: {{ $json.email || '(vacio)' }}\nNombre detectado: {{ $json.full_name || '(vacio)' }}\nProducto detectado: {{ $json.product || '(vacio)' }}\n\nTrainingPeaks cambio el texto del email o lo manda en otro formato.\nEl atleta pago igual: no hay alta en Twenty, ni password, ni welcome.\n\nA mano: buscar el mail, darlo de alta, y avisar para arreglar el parser.\nEjecucion: {{ $execution.id }}",
-        "additionalFields": {}
-      },
-      "credentials": {
-        "telegramApi": {
-          "id": "dmG5jqW0zOMQXhUD",
-          "name": "Hermes Bot"
-        }
-      }
-    },
-    {
-      "id": "s2-check",
-      "name": "Check Existing Person (Coaching)",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        900,
-        1220
-      ],
-      "parameters": {
-        "method": "GET",
         "url": "http://100.70.89.17:3000/rest/people",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -942,8 +841,6 @@
             }
           ]
         },
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth",
         "options": {
           "response": {
             "response": {
@@ -952,6 +849,14 @@
           }
         }
       },
+      "id": "65924143-63a0-48ec-897f-3d08dfc61c16",
+      "name": "Check Existing Person (Coaching)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        7616,
+        2016
+      ],
       "credentials": {
         "httpHeaderAuth": {
           "id": "JHN5QPZo087TvBnD",
@@ -960,14 +865,6 @@
       }
     },
     {
-      "id": "s2-if",
-      "name": "Person Exists? (Coaching)",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        1100,
-        1220
-      ],
       "parameters": {
         "conditions": {
           "options": {
@@ -990,26 +887,35 @@
           "combinator": "and"
         },
         "options": {}
-      }
+      },
+      "id": "d007e644-67f6-41d3-b81c-2cd1a0f4aa5e",
+      "name": "Person Exists? (Coaching)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        7824,
+        2016
+      ]
     },
     {
-      "id": "s2-update",
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.data.people[0].id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ customerType: 'OPT1_1_COACHING', leadStatus: 'WON_CUSTOMER', coachingStartDate: $('Normalize Coaching Athlete').item.json.coachingStartDate, churnDate: null }) }}",
+        "options": {}
+      },
+      "id": "c1679e9a-51c8-46ec-ad24-f3118fe382c7",
       "name": "Update Person (Coaching)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1300,
-        1120
+        8016,
+        1920
       ],
-      "parameters": {
-        "method": "PATCH",
-        "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.data.people[0].id }}",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ customerType: 'OPT1_1_COACHING', leadStatus: 'WON_CUSTOMER', coachingStartDate: $('Normalize Coaching Athlete').item.json.coachingStartDate, planPurchased: $('Normalize Coaching Athlete').item.json.product, churnDate: null }) }}",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth"
-      },
       "credentials": {
         "httpHeaderAuth": {
           "id": "JHN5QPZo087TvBnD",
@@ -1018,23 +924,24 @@
       }
     },
     {
-      "id": "s2-create",
+      "parameters": {
+        "method": "POST",
+        "url": "http://100.70.89.17:3000/rest/people",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify(Object.assign({ name: { firstName: $('Normalize Coaching Athlete').item.json.firstname, lastName: $('Normalize Coaching Athlete').item.json.lastname || '-' }, emails: { primaryEmail: $('Normalize Coaching Athlete').item.json.email }, customerType: 'OPT1_1_COACHING', leadStatus: 'WON_CUSTOMER', signUpDate: $('Normalize Coaching Athlete').item.json.signUpDate, coachingStartDate: $('Normalize Coaching Athlete').item.json.coachingStartDate }, $('Normalize Coaching Athlete').item.json.leadSourceOnCreate ? { leadSource: $('Normalize Coaching Athlete').item.json.leadSourceOnCreate } : {})) }}",
+        "options": {}
+      },
+      "id": "e356c7d2-4528-4c44-98ba-3c975db0963e",
       "name": "Create Person (Coaching)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1300,
-        1330
+        8016,
+        2128
       ],
-      "parameters": {
-        "method": "POST",
-        "url": "http://100.70.89.17:3000/rest/people",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify(Object.assign({ name: { firstName: $('Normalize Coaching Athlete').item.json.firstname, lastName: $('Normalize Coaching Athlete').item.json.lastname || '-' }, emails: { primaryEmail: $('Normalize Coaching Athlete').item.json.email }, customerType: 'OPT1_1_COACHING', leadStatus: 'WON_CUSTOMER', signUpDate: $('Normalize Coaching Athlete').item.json.signUpDate, coachingStartDate: $('Normalize Coaching Athlete').item.json.coachingStartDate, planPurchased: $('Normalize Coaching Athlete').item.json.product }, $('Normalize Coaching Athlete').item.json.leadSourceOnCreate ? { leadSource: $('Normalize Coaching Athlete').item.json.leadSourceOnCreate } : {})) }}",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpHeaderAuth"
-      },
       "credentials": {
         "httpHeaderAuth": {
           "id": "JHN5QPZo087TvBnD",
@@ -1044,14 +951,6 @@
       "onError": "continueErrorOutput"
     },
     {
-      "id": "s2-upserted",
-      "name": "Coaching Athlete Upserted",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1520,
-        1220
-      ],
       "parameters": {
         "assignments": {
           "assignments": [
@@ -1072,69 +971,72 @@
               "name": "preferredLanguage",
               "type": "string",
               "value": "={{ ($('Check Existing Person (Coaching)').item.json.data?.people?.[0]?.preferredLanguage) || 'UNKNOWN' }}"
-            },
-            {
-              "id": "4",
-              "name": "leadSourceExisting",
-              "type": "string",
-              "value": "={{ ($('Check Existing Person (Coaching)').item.json.data?.people?.[0]?.leadSource) || 'UNKNOWN' }}"
             }
           ]
         },
-        "includeOtherFields": true
-      }
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "b4808431-d111-4bda-b011-8eeaf7b90fcb",
+      "name": "Coaching Athlete Upserted",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        8240,
+        2016
+      ]
     },
     {
-      "id": "s2-token",
+      "parameters": {
+        "jsCode": "// Same generator as Generate Member Token: ambiguous-character-free alphabet\n// because it doubles as a human-typed password. Math.random is deliberate --\n// n8n's sandboxed task runner disallows Node built-ins, and this only needs to\n// be unguessable, not cryptographic.\nconst alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';\n\nfunction genToken(length = 20) {\n  let out = '';\n  for (let i = 0; i < length; i++) out += alphabet[Math.floor(Math.random() * alphabet.length)];\n  return out;\n}\n\nreturn $input.all().map(item => ({ json: { ...item.json, member_token: genToken() } }));\n"
+      },
+      "id": "3cdc08a8-fbc6-480f-b70b-1f823becdd1a",
       "name": "Generate Coaching Token",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1720,
-        1220
-      ],
-      "parameters": {
-        "mode": "runOnceForAllItems",
-        "jsCode": "// Same generator as Generate Member Token: ambiguous-character-free alphabet\n// because it doubles as a human-typed password. Math.random is deliberate --\n// n8n's sandboxed task runner disallows Node built-ins, and this only needs to\n// be unguessable, not cryptographic.\nconst alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';\n\nfunction genToken(length = 20) {\n  let out = '';\n  for (let i = 0; i < length; i++) out += alphabet[Math.floor(Math.random() * alphabet.length)];\n  return out;\n}\n\nreturn $input.all().map(item => ({ json: { ...item.json, member_token: genToken() } }));\n"
-      }
+        8448,
+        2016
+      ]
     },
     {
-      "id": "s2-pg",
-      "name": "Insert Coaching Token in Postgres",
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2.5,
-      "position": [
-        1920,
-        1220
-      ],
       "parameters": {
         "operation": "executeQuery",
-        "query": "-- preferred_language is NOT NULL DEFAULT 'SPANISH'. The DEFAULT does NOT\n-- rescue a NULL: a default applies only when the column is ABSENT from the\n-- INSERT, never when it is present and NULL. This used to read\n-- NULLIF($4, 'UNKNOWN'), which produces exactly that NULL and would have\n-- failed the insert -- leaving a new coaching athlete with a Twenty record\n-- and a welcome email but no members-area token. Corrected 2026-08-12.\n-- Whitelist rather than blacklist: any value that is not one of the three\n-- real enum members becomes SPANISH, which is the same fallback app.py\n-- already applies when it reads this column. NULL takes the ELSE branch too.\nINSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)\nVALUES ($1, $2, $3, CASE WHEN $4 IN ('SPANISH', 'ENGLISH', 'PORTUGUESE') THEN $4 ELSE 'SPANISH' END, TRUE)\nON CONFLICT (token) DO NOTHING;",
+        "query": "INSERT INTO subscriber_tokens (twenty_person_id, email, token, preferred_language, active)\nVALUES ($1, $2, $3, CASE WHEN $4 IN ('SPANISH', 'ENGLISH', 'PORTUGUESE') THEN $4 ELSE 'SPANISH' END, TRUE)\nON CONFLICT (token) DO NOTHING;",
         "options": {
           "queryReplacement": "={{ $('Coaching Athlete Upserted').item.json.personId }},{{ $('Normalize Coaching Athlete').item.json.email }},{{ $json.member_token }},{{ $('Coaching Athlete Upserted').item.json.preferredLanguage }}"
         }
       },
+      "id": "6a216852-faf7-4872-a5c0-66fcbd6e5f34",
+      "name": "Insert Coaching Token in Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        8640,
+        2016
+      ],
       "credentials": {
         "postgres": {
-          "id": "REPLACE_ME",
+          "id": "PekCFvYYTxXhKXbq",
           "name": "Members Postgres"
         }
       }
     },
     {
-      "id": "s2-tg",
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=🏆 NUEVO ATLETA 1:1 ({{ $('Normalize Coaching Athlete').item.json.channel }})\nNombre: {{ $('Normalize Coaching Athlete').item.json.full_name }}\nEmail: {{ $('Normalize Coaching Athlete').item.json.email }}\nProducto: {{ $('Normalize Coaching Athlete').item.json.product }}\nAlta: {{ $('Normalize Coaching Athlete').item.json.signUpDate }}\nEMPIEZA: {{ $('Normalize Coaching Athlete').item.json.coachingStartDate }}\nTwenty: {{ $('Coaching Athlete Upserted').item.json.wasExisting ? 'actualizado' : 'CREADO NUEVO' }}\nIdioma: {{ $('Coaching Athlete Upserted').item.json.preferredLanguage === 'UNKNOWN' ? 'FALTA -- ponelo en Twenty' : $('Coaching Athlete Upserted').item.json.preferredLanguage }}\nLead source: {{ $('Normalize Coaching Athlete').item.json.leadSourceOnCreate || ($('Coaching Athlete Upserted').item.json.wasExisting ? 'ya estaba' : 'FALTA -- ponelo en Twenty') }}\nPassword members: {{ $('Generate Coaching Token').item.json.member_token }}\n\nA mano: si es CREADO NUEVO revisar como quedo separado el nombre. Mandar welcome + formulario.",
+        "additionalFields": {}
+      },
+      "id": "afd71983-afff-4832-a292-a77e1b648028",
       "name": "Telegram - Nuevo Atleta 1a1",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        2120,
-        1220
+        9712,
+        2016
       ],
-      "parameters": {
-        "chatId": "5952194741",
-        "text": "=🏆 NUEVO ATLETA 1:1 ({{ $('Normalize Coaching Athlete').item.json.channel }})\nNombre: {{ $('Normalize Coaching Athlete').item.json.full_name }}\nEmail: {{ $('Normalize Coaching Athlete').item.json.email }}\nProducto: {{ $('Normalize Coaching Athlete').item.json.product }}\nAlta: {{ $('Normalize Coaching Athlete').item.json.signUpDate }}\nEMPIEZA: {{ $('Normalize Coaching Athlete').item.json.coachingStartDate }}\nTwenty: {{ $('Coaching Athlete Upserted').item.json.wasExisting ? 'actualizado' : 'CREADO NUEVO' }}\nIdioma: {{ $('Coaching Athlete Upserted').item.json.preferredLanguage === 'UNKNOWN' ? 'FALTA -- ponelo en Twenty' : $('Coaching Athlete Upserted').item.json.preferredLanguage }}\nLead source: {{ $('Normalize Coaching Athlete').item.json.leadSourceOnCreate || ($('Coaching Athlete Upserted').item.json.leadSourceExisting === 'UNKNOWN' ? 'FALTA -- ponelo en Twenty' : $('Coaching Athlete Upserted').item.json.leadSourceExisting) }}\nPassword members: {{ $('Generate Coaching Token').item.json.member_token }}\nWelcome enviado en: {{ $('Build Welcome Email').item.json.langUsed }}{{ $('Build Welcome Email').item.json.langWasKnown ? '' : ' (default, idioma desconocido)' }}\n\nA mano: si es CREADO NUEVO revisar como quedo separado el nombre. Mandar welcome + formulario.",
-        "additionalFields": {}
-      },
+      "webhookId": "a862a686-9b30-48a1-b250-387532224c02",
       "credentials": {
         "telegramApi": {
           "id": "dmG5jqW0zOMQXhUD",
@@ -1143,34 +1045,35 @@
       }
     },
     {
-      "id": "s2e-sticky",
+      "parameters": {
+        "content": "## Duplicate-on-create catch\n\n`Check Existing Person (Coaching)` dedupes by EMAIL only. Twenty's own duplicate detection also considers NAME -- so a hand-created or backfilled athlete stored under a different email (or none) passes the check and is then rejected on create.\n\nThis is an expected business case, not an exception, so it gets its own message instead of the generic error workflow.\n\nSet `Create Person (Coaching)` -> Settings -> On Error -> **Continue (using error output)**, then wire its ERROR output here.",
+        "height": 150,
+        "width": 620
+      },
+      "id": "5c1cd931-26e8-4c86-bc01-0c61a44b4039",
       "name": "CREATE ERROR CATCH -- Aug 8 2026",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1240,
-        1480
-      ],
-      "parameters": {
-        "width": 620,
-        "height": 150,
-        "content": "## Duplicate-on-create catch\n\n`Check Existing Person (Coaching)` dedupes by EMAIL only. Twenty's own duplicate detection also considers NAME -- so a hand-created or backfilled athlete stored under a different email (or none) passes the check and is then rejected on create.\n\nThis is an expected business case, not an exception, so it gets its own message instead of the generic error workflow.\n\nSet `Create Person (Coaching)` -> Settings -> On Error -> **Continue (using error output)**, then wire its ERROR output here."
-      }
+        8240,
+        2448
+      ]
     },
     {
-      "id": "s2e-tg",
-      "name": "Telegram - Alta 1a1 Fallida",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        1520,
-        1560
-      ],
       "parameters": {
         "chatId": "5952194741",
         "text": "=⚠️ NO SE PUDO DAR DE ALTA EN TWENTY\nCanal: {{ $('Normalize Coaching Athlete').item.json.channel }}\nNombre: {{ $('Normalize Coaching Athlete').item.json.full_name }}\nEmail: {{ $('Normalize Coaching Athlete').item.json.email }}\nProducto: {{ $('Normalize Coaching Athlete').item.json.product }}\nEmpieza: {{ $('Normalize Coaching Athlete').item.json.coachingStartDate }}\n\nCausa mas probable: ya existe una persona con ese NOMBRE en Twenty pero con otro email, o sin email. El chequeo busca SOLO por email, asi que no la encontro, y Twenty rechazo el alta por duplicado.\n\nA mano: buscar en Twenty por nombre -> agregarle este email como principal -> volver a correr el pago pineado.\nOJO: no se genero password ni acceso a members para este atleta.\n\nDetalle: {{ JSON.stringify($json).slice(0, 300) }}",
         "additionalFields": {}
       },
+      "id": "6f9e0e09-e99e-42f9-b2cf-9407d7f4bd6a",
+      "name": "Telegram - Alta 1a1 Fallida",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        8256,
+        2240
+      ],
+      "webhookId": "cb763dca-8c3e-4798-ad1d-6e3792405eb5",
       "credentials": {
         "telegramApi": {
           "id": "dmG5jqW0zOMQXhUD",
@@ -1179,43 +1082,34 @@
       }
     },
     {
-      "id": "s4-sticky",
+      "parameters": {
+        "content": "## 1:1 welcome email\n\n**Set FORM_URL inside `Build Welcome Email` before activating.** The node throws on purpose if you don't -- better a failed run than a paying athlete receiving a dead link.\n\nSpanish is the fallback when `preferredLanguage` is UNKNOWN (Ivan's call). EN/PT are used only when Twenty actually says so, so a known English athlete never gets a Spanish email.\n\nHome doc: `athlete-onboarding-flow.md` section 3.4",
+        "height": 308,
+        "width": 660
+      },
+      "id": "f1326e72-8c80-4502-8acf-fb32c57d4d7d",
       "name": "STAGE 4 WELCOME EMAIL -- Aug 8 2026",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1900,
-        1400
-      ],
-      "parameters": {
-        "width": 660,
-        "height": 180,
-        "content": "## 1:1 welcome email\n\n**Set FORM_URL inside `Build Welcome Email` before activating.** The node throws on purpose if you don't -- better a failed run than a paying athlete receiving a dead link.\n\nSpanish is the fallback when `preferredLanguage` is UNKNOWN (Ivan's call). EN/PT are used only when Twenty actually says so, so a known English athlete never gets a Spanish email.\n\nHome doc: `athlete-onboarding-flow.md` section 3.4"
-      }
+        9040,
+        2192
+      ]
     },
     {
-      "id": "s4-build",
+      "parameters": {
+        "jsCode": "// Builds the 1:1 welcome email. Spanish is the default when preferredLanguage\n// is UNKNOWN -- Ivan's call, Aug 8 2026. EN/PT are used only when Twenty\n// actually says so, so a known English athlete never gets a Spanish email.\n\n// >>>>>>>>>>>>>>>>  SET THIS ONCE  <<<<<<<<<<<<<<<<\nconst FORM_URL = 'https://forms.gle/PcuUBUgRJQ5v6PDB7';\n// >>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<\n\nconst LOGIN_URL = {\n  SPANISH:    'https://triaperformance.com/members/login',\n  ENGLISH:    'https://triaperformance.com/members/en/login',\n  PORTUGUESE: 'https://triaperformance.com/members/pt/login',\n};\n\n// Fail loudly rather than emailing a broken link to a paying athlete.\nif (FORM_URL.startsWith('PEGAR_AQUI')) {\n  throw new Error('Build Welcome Email: FORM_URL no esta configurado. Poner el link real del formulario antes de activar.');\n}\n\nconst T = {\n  SPANISH: (n, tok) => ({\n    subject: `${n}, arrancamos con tu entrenamiento`,\n    body:\n`Hola ${n},\n\nGracias por confiar en mi para tu entrenamiento. Ya estas dentro del equipo.\n\nPara armarte el plan necesito conocerte primero. Son dos pasos.\n\n1) Completa este formulario\n${FORM_URL}\nHistorial, carreras recientes, como vienes entrenando y tus preferencias.\nTomate el tiempo de responderlo bien: de ahi sale todo lo demas.\n\n2) Hablamos por WhatsApp\nDentro de las 24 horas de que completes el formulario nos ponemos de acuerdo\nsobre tu semana real: que dias entrenas cada deporte, cuando tienes piscina,\nque dia prefieres descansar y cuanto tiempo tienes cada manana o cada tarde.\nCon eso te dejo cargados tus primeros dias de entrenamiento.\n\nTu acceso al Area de Miembros\nLink: ${LOGIN_URL.SPANISH}\nContrasena: ${tok}\nAhi estan las calculadoras, rutinas y guias. Empieza por la calculadora de\nzonas cuando hagamos tu primer test. Guarda este correo: es tu\nunica copia de la contrasena.\n\nCualquier duda me escribes.\n\nGracias y nos hablamos,\nIvan Koch\nTriaperformance`\n  }),\n\n  ENGLISH: (n, tok) => ({\n    subject: `${n}, let's get your training started`,\n    body:\n`Hi ${n},\n\nThanks for trusting me with your training. You're on the team.\n\nBefore I can build your plan I need to know you. Two steps.\n\n1) Fill in this form\n${FORM_URL}\nBackground, recent races, how you've been training, and your preferences.\nTake your time with it: everything else is built from these answers.\n\n2) We talk on WhatsApp\nWithin 24 hours of you submitting the form we'll go through your real week:\nwhich days you train each sport, when you have pool access, which day you\nprefer to rest, and how much time you have each morning or evening.\nThen I load your first days of training.\n\nYour Members Area access\nLink: ${LOGIN_URL.ENGLISH}\nPassword: ${tok}\nThat's where the calculators, routines and guides live. Start with the\nzones calculator once we do your first test. Keep this email: it's\nyour only copy of the password.\n\nAny questions, just write to me.\n\nThanks, and talk soon,\nIvan Koch\nTriaperformance`\n  }),\n\n  PORTUGUESE: (n, tok) => ({\n    subject: `${n}, vamos comecar o seu treino`,\n    body:\n`Ola ${n},\n\nObrigado por confiar em mim para o seu treino. Voce ja esta no time.\n\nPara montar o seu plano preciso te conhecer primeiro. Sao dois passos.\n\n1) Preencha este formulario\n${FORM_URL}\nHistorico, provas recentes, como voce vem treinando e suas preferencias.\nResponda com calma: e daqui que sai todo o resto.\n\n2) Conversamos pelo WhatsApp\nAte 24 horas depois de voce enviar o formulario combinamos a sua semana real:\nquais dias voce treina cada esporte, quando tem piscina, qual dia prefere\ndescansar e quanto tempo tem cada manha ou cada tarde.\nCom isso eu carrego os seus primeiros dias de treino.\n\nSeu acesso a Area de Membros\nLink: ${LOGIN_URL.PORTUGUESE}\nSenha: ${tok}\nE la que estao as calculadoras, rotinas e guias. Comece pela calculadora de\nzonas quando fizermos o seu primeiro teste. Guarde este email: e a\nsua unica copia da senha.\n\nQualquer duvida e so me escrever.\n\nObrigado, ate ja,\nIvan Koch\nTriaperformance`\n  }),\n};\n\nreturn $input.all().map(() => {\n  const norm = $('Normalize Coaching Athlete').item.json;\n  const ups  = $('Coaching Athlete Upserted').item.json;\n  const tok  = $('Generate Coaching Token').item.json.member_token;\n\n  const lang = T[ups.preferredLanguage] ? ups.preferredLanguage : 'SPANISH';\n  const first = (norm.firstname || '').split(/\\s+/)[0] || norm.full_name || '';\n\n  const built = T[lang](first, tok);\n\n  return { json: {\n    to: norm.email,\n    langUsed: lang,\n    langWasKnown: Boolean(T[ups.preferredLanguage]),\n    subject: built.subject,\n    body: built.body,\n  }};\n});\n"
+      },
+      "id": "fd59f9be-1ef4-4ddf-b9d4-bafa68fd8570",
       "name": "Build Welcome Email",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2120,
-        1220
-      ],
-      "parameters": {
-        "mode": "runOnceForAllItems",
-        "jsCode": "// Builds the 1:1 welcome email. Spanish is the default when preferredLanguage\n// is UNKNOWN -- Ivan's call, Aug 8 2026. EN/PT are used only when Twenty\n// actually says so, so a known English athlete never gets a Spanish email.\n\n// >>>>>>>>>>>>>>>>  SET THIS ONCE  <<<<<<<<<<<<<<<<\nconst FORM_URL = 'https://forms.gle/PcuUBUgRJQ5v6PDB7';   // mirrored from the live node Aug 20, 2026 -- the repo copy carried the placeholder for 12 days while live was correct\n// >>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<\n\nconst LOGIN_URL = {\n  SPANISH:    'https://triaperformance.com/members/login',\n  ENGLISH:    'https://triaperformance.com/members/en/login',\n  PORTUGUESE: 'https://triaperformance.com/members/pt/login',\n};\n\n// Fail loudly rather than emailing a broken link to a paying athlete.\nif (FORM_URL.startsWith('PEGAR_AQUI')) {\n  throw new Error('Build Welcome Email: FORM_URL no esta configurado. Poner el link real del formulario antes de activar.');\n}\n\nconst T = {\n  SPANISH: (n, tok) => ({\n    subject: `${n}, arrancamos con tu entrenamiento`,\n    body:\n`Hola ${n},\n\nGracias por confiar en mi para tu entrenamiento. Ya estas dentro del equipo.\n\nPara armarte el plan necesito conocerte primero. Son dos pasos.\n\n1) Completa este formulario\n${FORM_URL}\nHistorial, carreras recientes, como vienes entrenando y tus preferencias.\nTomate el tiempo de responderlo bien: de ahi sale todo lo demas.\n\n2) Hablamos por WhatsApp\nDentro de las 24 horas de que completes el formulario nos ponemos de acuerdo\nsobre tu semana real: que dias entrenas cada deporte, cuando tienes piscina,\nque dia prefieres descansar y cuanto tiempo tienes cada manana o cada tarde.\nCon eso te dejo cargados tus primeros dias de entrenamiento.\n\nTu acceso al Area de Miembros\nLink: ${LOGIN_URL.SPANISH}\nContrasena: ${tok}\nAhi estan las calculadoras, rutinas y guias. Empieza por la calculadora de\nzonas cuando hagamos tu primer test. Guarda este correo: es tu\nunica copia de la contrasena.\n\nCualquier duda me escribes.\n\nGracias y nos hablamos,\nIvan Koch\nTriaperformance`\n  }),\n\n  ENGLISH: (n, tok) => ({\n    subject: `${n}, let's get your training started`,\n    body:\n`Hi ${n},\n\nThanks for trusting me with your training. You're on the team.\n\nBefore I can build your plan I need to know you. Two steps.\n\n1) Fill in this form\n${FORM_URL}\nBackground, recent races, how you've been training, and your preferences.\nTake your time with it: everything else is built from these answers.\n\n2) We talk on WhatsApp\nWithin 24 hours of you submitting the form we'll go through your real week:\nwhich days you train each sport, when you have pool access, which day you\nprefer to rest, and how much time you have each morning or evening.\nThen I load your first days of training.\n\nYour Members Area access\nLink: ${LOGIN_URL.ENGLISH}\nPassword: ${tok}\nThat's where the calculators, routines and guides live. Start with the\nzones calculator once we do your first test. Keep this email: it's\nyour only copy of the password.\n\nAny questions, just write to me.\n\nThanks, and talk soon,\nIvan Koch\nTriaperformance`\n  }),\n\n  PORTUGUESE: (n, tok) => ({\n    subject: `${n}, vamos comecar o seu treino`,\n    body:\n`Ola ${n},\n\nObrigado por confiar em mim para o seu treino. Voce ja esta no time.\n\nPara montar o seu plano preciso te conhecer primeiro. Sao dois passos.\n\n1) Preencha este formulario\n${FORM_URL}\nHistorico, provas recentes, como voce vem treinando e suas preferencias.\nResponda com calma: e daqui que sai todo o resto.\n\n2) Conversamos pelo WhatsApp\nAte 24 horas depois de voce enviar o formulario combinamos a sua semana real:\nquais dias voce treina cada esporte, quando tem piscina, qual dia prefere\ndescansar e quanto tempo tem cada manha ou cada tarde.\nCom isso eu carrego os seus primeiros dias de treino.\n\nSeu acesso a Area de Membros\nLink: ${LOGIN_URL.PORTUGUESE}\nSenha: ${tok}\nE la que estao as calculadoras, rotinas e guias. Comece pela calculadora de\nzonas quando fizermos o seu primeiro teste. Guarde este email: e a\nsua unica copia da senha.\n\nQualquer duvida e so me escrever.\n\nObrigado, ate ja,\nIvan Koch\nTriaperformance`\n  }),\n};\n\nreturn $input.all().map(() => {\n  const norm = $('Normalize Coaching Athlete').item.json;\n  const ups  = $('Coaching Athlete Upserted').item.json;\n  const tok  = $('Generate Coaching Token').item.json.member_token;\n\n  const lang = T[ups.preferredLanguage] ? ups.preferredLanguage : 'SPANISH';\n  const first = (norm.firstname || '').split(/\\s+/)[0] || norm.full_name || '';\n\n  const built = T[lang](first, tok);\n\n  return { json: {\n    to: norm.email,\n    langUsed: lang,\n    langWasKnown: Boolean(T[ups.preferredLanguage]),\n    subject: built.subject,\n    body: built.body,\n  }};\n});\n"
-      }
+        9264,
+        2016
+      ]
     },
     {
-      "id": "s4-send",
-      "name": "Send Coaching Welcome Email",
-      "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
-      "position": [
-        2320,
-        1220
-      ],
       "parameters": {
         "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
         "toEmail": "={{ $json.to }}",
@@ -1226,6 +1120,15 @@
           "appendAttribution": false
         }
       },
+      "id": "5f007caa-73f7-4633-ac4e-040e9ab5c637",
+      "name": "Send Coaching Welcome Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        9472,
+        2016
+      ],
+      "webhookId": "f041a287-cc5f-4c7c-b2bf-edd2a6d7469f",
       "credentials": {
         "smtp": {
           "id": "et4mFjLL6HLiYOoR",
@@ -1234,37 +1137,473 @@
       }
     },
     {
-      "id": "aa-sticky",
+      "parameters": {
+        "content": "## Baja de CoachMatch\n\n**Dos trampas reales en estos emails.**\n\n1. TrainingPeaks manda DOS: `...Cancellation Request - Athlete X` (aviso, con fecha futura) y `...Cancellation - Athlete X` (confirmada). **La primera CONTIENE a la segunda como substring**, igual que `Subscription cancellation` vs `...cancellation scheduled` en la seccion 12. El filtro usa `Cancellation - Athlete` exacto para no agarrar las dos.\n\n2. **El email confirmado NO trae la direccion de mail** — dice `Nelson Carrion ()`, parentesis vacios. El de aviso SI la trae. Por eso esta rama es la unica que matchea por NOMBRE contra Twenty.\n\nDetalle: `athlete-onboarding-flow.md` seccion 3.8",
+        "height": 230,
+        "width": 760
+      },
+      "id": "55a49955-9f70-4f15-9ead-bcf4cc9d9b3e",
+      "name": "COACHMATCH CANCELLATION -- Aug 9 2026",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4336,
+        2528
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cx1",
+              "leftValue": "={{ $json.subject }}",
+              "rightValue": "Coaching Service Cancellation - Athlete",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "36ca5cf0-f9b1-40aa-8b56-1d3740b6c6e2",
+      "name": "Filter - Is CoachMatch Cancellation",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        4640,
+        2736
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parses the CoachMatch \"cancellation CONFIRMED\" email.\n// NOT the \"cancellation request\" one -- see the filter for why they are easy to confuse.\n//\n// Real body (whitespace-flattened):\n//   \"Coach Match Cancellation Confirmation ... This is a confirmation that\n//    Nelson Carrion () has cancelled their Coach Match Bronze level coaching\n//    service subscription.\"\n//\n// Note the EMPTY parentheses. TrainingPeaks does not include the athlete's email\n// on this template -- it does on the \"request\" one, but not here. So this branch\n// cannot join on email like every other branch in this workflow does.\n\nreturn $input.all().map(item => {\n  const flat = (item.json.textPlain || '').replace(/\\s+/g, ' ').trim();\n  const subject = item.json.subject || '';\n\n  const m = flat.match(\n    /confirmation that\\s+(.+?)\\s*\\(([^)]*)\\)\\s+has cancelled their Coach Match\\s+(\\w+)\\s+level/i\n  );\n\n  // The athlete's name appears in the subject too. Two independent sources for the\n  // one field everything downstream depends on, so a template change shows up as a\n  // mismatch instead of a silent wrong match.\n  const s = subject.match(/Cancellation\\s*-\\s*Athlete\\s+(.+)$/i);\n\n  const nameFromBody = m ? m[1].trim() : '';\n  const nameFromSubject = s ? s[1].trim() : '';\n\n  return { json: {\n    parse_ok: Boolean(m || s),\n    athlete_name: nameFromBody || nameFromSubject,\n    name_from_body: nameFromBody,\n    name_from_subject: nameFromSubject,\n    name_mismatch: Boolean(nameFromBody && nameFromSubject &&\n                           nameFromBody.toLowerCase() !== nameFromSubject.toLowerCase()),\n    email_in_email: m ? m[2].trim() : '',   // expected empty; captured in case TP fixes it\n    tier: m ? m[3] : '',\n    cancelled_on: (item.json.date || '').slice(0, 10),\n  }};\n});\n"
+      },
+      "id": "51d6c62c-7ec0-4223-a879-1b16ef0024bf",
+      "name": "Parse CoachMatch Cancellation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4848,
+        2736
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://100.70.89.17:3000/rest/people",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "filter",
+              "value": "customerType[eq]:OPT1_1_COACHING"
+            },
+            {
+              "name": "limit",
+              "value": "200"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "a1ce4b22-3c58-4752-adb6-82eebe824961",
+      "name": "Fetch Coaching Athletes",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        5072,
+        2736
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Matches the cancelled athlete to a Twenty record BY NAME, because the CoachMatch\n// cancellation email carries no email address.\n//\n// Strategy: fetch only 1:1 coaching athletes (a few dozen), then match in code.\n// Twenty's API name filters are brittle against how a name was split on the way in --\n// \"Rafael A Giraldo R\" could be stored several ways -- so the comparison is done here,\n// on a normalized token set, where accents, case, punctuation and word order stop mattering.\n\nfunction norm(s) {\n  return String(s || '')\n    .normalize('NFD').replace(/[̀-ͯ]/g, '')   // strip accents\n    .toLowerCase()\n    .replace(/[^a-z0-9 ]/g, ' ')\n    .split(/\\s+/).filter(Boolean).sort().join(' ');\n}\n\nconst wanted = norm($('Parse CoachMatch Cancellation').item.json.athlete_name);\nconst people = $json?.data?.people || [];\n\nconst scored = people.map(p => {\n  const full = [p?.name?.firstName, p?.name?.lastName].filter(Boolean).join(' ');\n  return { id: p.id, full, email: p?.emails?.primaryEmail || '',\n           lang: p?.preferredLanguage || '', key: norm(full) };\n});\n\nlet hits = scored.filter(p => p.key === wanted);\n\n// Fallback: same surname set, one name written more fully than the other\n// (\"Nelson Carrion\" vs \"Nelson Andres Carrion\"). Only used when the exact pass finds\n// nothing, and still requires a unique winner.\nif (hits.length === 0) {\n  const wt = wanted.split(' ');\n  hits = scored.filter(p => {\n    const pt = p.key.split(' ');\n    const shared = wt.filter(t => pt.includes(t));\n    return shared.length >= 2 && (shared.length === wt.length || shared.length === pt.length);\n  });\n}\n\nreturn [{ json: {\n  match_count: hits.length,\n  candidates_searched: scored.length,\n  person_id: hits.length === 1 ? hits[0].id : '',\n  email: hits.length === 1 ? hits[0].email : '',\n  full_name: hits.length === 1 ? hits[0].full : $('Parse CoachMatch Cancellation').item.json.athlete_name,\n  preferredLanguage: hits.length === 1 ? (hits[0].lang || 'UNKNOWN') : 'UNKNOWN',\n  near_misses: hits.length > 1 ? hits.map(h => h.full + ' <' + h.email + '>').join(' | ') : '',\n}}];\n"
+      },
+      "id": "6b98f454-3c55-46c1-b9de-26d29ea6db82",
+      "name": "Match Athlete by Name",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5296,
+        2736
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cx2",
+              "leftValue": "={{ $json.match_count }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "8eafe033-baf8-4be5-993d-47573959e93e",
+      "name": "Match Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        5520,
+        2736
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'http://100.70.89.17:3000/rest/people/' + $json.person_id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ leadStatus: 'CHURNED_CUSTOMER', churnDate: new Date().toISOString() }) }}",
+        "options": {}
+      },
+      "id": "5e10e2cc-a4d7-47f7-9e47-9488ed9fd59b",
+      "name": "Mark Churned (CoachMatch)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        5760,
+        2640
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JHN5QPZo087TvBnD",
+          "name": "Twenty API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE subscriber_tokens SET active = FALSE, revoked_at = now() WHERE email = $1 AND active = TRUE;",
+        "options": {
+          "queryReplacement": "={{ $('Match Athlete by Name').item.json.email }}"
+        }
+      },
+      "id": "6c6d94c7-251f-49d5-9152-7583e29ff55d",
+      "name": "Revoke Token (CoachMatch)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        5968,
+        2640
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "PekCFvYYTxXhKXbq",
+          "name": "Members Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "email",
+              "type": "string",
+              "value": "={{ $('Match Athlete by Name').item.json.email }}"
+            },
+            {
+              "id": "2",
+              "name": "full_name",
+              "type": "string",
+              "value": "={{ $('Match Athlete by Name').item.json.full_name }}"
+            },
+            {
+              "id": "3",
+              "name": "preferredLanguage",
+              "type": "string",
+              "value": "={{ $('Match Athlete by Name').item.json.preferredLanguage }}"
+            },
+            {
+              "id": "4",
+              "name": "channel",
+              "type": "string",
+              "value": "COACHMATCH"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "46d7ffe8-a6d5-4471-9646-81e03daf3793",
+      "name": "Churned Athlete (CoachMatch)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6192,
+        2640
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=⚠️ BAJA DE COACHMATCH SIN MATCH EN TWENTY\nNombre en el email: {{ $('Parse CoachMatch Cancellation').item.json.athlete_name }}\nCoincidencias encontradas: {{ $json.match_count }} sobre {{ $json.candidates_searched }} atletas 1:1\n{{ $json.near_misses ? 'Parecidos: ' + $json.near_misses : '' }}\n\nNO se escribio nada. Dar de baja a mano en Twenty y revocar el token.\nRecorda: este email de TP no trae la direccion de mail, solo el nombre.",
+        "additionalFields": {}
+      },
+      "id": "392f3d52-9769-4baf-8c95-3577e2de47ac",
+      "name": "Telegram - Baja Sin Match",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        5760,
+        2864
+      ],
+      "webhookId": "b2d8a083-ac70-4eff-a0aa-1dfae32c474c",
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "email",
+              "type": "string",
+              "value": "={{ $('Parse Churn Email').item.json.email }}"
+            },
+            {
+              "id": "2",
+              "name": "full_name",
+              "type": "string",
+              "value": "={{ $('Parse Churn Email').item.json.firstname }} {{ $('Parse Churn Email').item.json.lastname }}"
+            },
+            {
+              "id": "3",
+              "name": "preferredLanguage",
+              "type": "string",
+              "value": "={{ ($('Find Person by Email (Churn)').item.json.data?.people?.[0]?.preferredLanguage) || 'UNKNOWN' }}"
+            },
+            {
+              "id": "4",
+              "name": "channel",
+              "type": "string",
+              "value": "SUBSCRIPTION"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f94e3a6f-0994-4249-9c30-474244fb7132",
+      "name": "Churned Athlete (Subscription)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6192,
+        2304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Goodbye email. Fed by BOTH churn branches, so it reads only $json and never\n// references an upstream node by name -- a node that did not run in this execution\n// throws when referenced.\n//\n// Deliberately NOT included: an exit survey, a \"why are you leaving?\", or a discount.\n// methodology.md section 2 documents the real practice -- exit is soft-framed, cordial,\n// and ends cleanly at the billing boundary with no post-cancellation analysis.\n// Automating a retention pitch here would contradict how Ivan actually coaches.\n\nconst T = {\n  SPANISH: (n) => ({\n    subject: `${n}, confirmación de baja`,\n    body:\n`Hola ${n},\n\nTe confirmo que tu suscripción quedó cancelada y no se va a cobrar nada más.\n\nTu acceso al Área de Miembros también quedó dado de baja.\n\nGracias por el tiempo que entrenamos juntos. Si en algún momento quieres volver,\nla puerta queda abierta: escríbeme y lo retomamos\n\nÉxitos con lo que venga,\nIván Koch\nTriaperformance`\n  }),\n  ENGLISH: (n) => ({\n    subject: `${n}, your subscription has been cancelled`,\n    body:\n`Hi ${n},\n\nConfirming that your subscription has been cancelled and nothing further will be charged.\n\nYour Members Area access has been closed as well.\n\nThanks for the time we trained together. If you ever want to come back, the door is\nopen — just write to me and we pick it up again.\n\nAll the best,\nIvan Koch\nTriaperformance`\n  }),\n  PORTUGUESE: (n) => ({\n    subject: `${n}, confirmação de cancelamento`,\n    body:\n`Olá ${n},\n\nConfirmo que a sua assinatura foi cancelada e nada mais será cobrado.\n\nO seu acesso à Área de Membros também foi encerrado.\n\nObrigado pelo tempo que treinamos juntos. Se em algum momento quiser voltar,\na porta fica aberta — é só me escrever e retomamos.\n\nSucesso no que vier,\nIvan Koch\nTriaperformance`\n  }),\n};\n\nreturn $input.all().map(item => {\n  const d = item.json;\n  const lang = T[d.preferredLanguage] ? d.preferredLanguage : 'SPANISH';\n  const first = String(d.full_name || '').trim().split(/\\s+/)[0] || '';\n  const built = T[lang](first);\n  return { json: { ...d, to: d.email, langUsed: lang,\n                   subject: built.subject, body: built.body,\n                   can_send: Boolean(d.email) } };\n});\n"
+      },
+      "id": "9b0e8de9-1d09-4d7b-8e1d-4bc952c7b8f2",
+      "name": "Build Goodbye Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6432,
+        2736
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "Coach Iván - Triaperformance <coach@triaperformance.com>",
+        "toEmail": "={{ $json.to }}",
+        "subject": "={{ $json.subject }}",
+        "emailFormat": "text",
+        "text": "={{ $json.body }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "5bf42c75-e00c-4513-918f-726339aa19ad",
+      "name": "Send Goodbye Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        6656,
+        2736
+      ],
+      "webhookId": "60252098-939a-4f15-acb9-d53f6d2dc61a",
+      "credentials": {
+        "smtp": {
+          "id": "et4mFjLL6HLiYOoR",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=👋 Baja procesada ({{ $('Build Goodbye Email').item.json.channel }})\nAtleta: {{ $('Build Goodbye Email').item.json.full_name }}\nEmail: {{ $('Build Goodbye Email').item.json.email }}\nTwenty: CHURNED_CUSTOMER + churnDate\nAcceso a members: revocado\nMail de despedida: enviado en {{ $('Build Goodbye Email').item.json.langUsed }}",
+        "additionalFields": {}
+      },
+      "id": "c8abbdde-21ed-4dbe-a4d0-637ad22ff1d1",
+      "name": "Telegram - Baja Procesada",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        6880,
+        2736
+      ],
+      "webhookId": "8ab9dcf6-12c7-4d69-834a-fd0088ce4801",
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Welcome All-Access en 3 idiomas\n\nReemplaza copy que era español fijo Y que empezaba con la línea literal *\"NOTE: placeholder copy -- rewrite once...\"* — se enviaba al suscriptor. Nunca le llegó a nadie: no hubo altas de All-Access desde que el workflow salió, el 24/7/2026.\n\nSin número de planes a propósito: el catálogo se movió cuatro veces en cinco días.\n\nDetalle: `athlete-onboarding-flow.md` §8",
+        "height": 180,
+        "width": 640
+      },
+      "id": "b5de703f-a09f-426f-ae87-8e0c32ac2726",
       "name": "ALL-ACCESS WELCOME ES/EN/PT -- Aug 10 2026",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1780,
-        -360
-      ],
-      "parameters": {
-        "width": 640,
-        "height": 180,
-        "content": "## Welcome All-Access en 3 idiomas\n\nReemplaza copy que era español fijo Y que empezaba con la línea literal *\"NOTE: placeholder copy -- rewrite once...\"* — se enviaba al suscriptor. Nunca le llegó a nadie: no hubo altas de All-Access desde que el workflow salió, el 24/7/2026.\n\nSin número de planes a propósito: el catálogo se movió cuatro veces en cinco días.\n\nDetalle: `athlete-onboarding-flow.md` §8"
-      }
+        6880,
+        896
+      ]
     },
     {
-      "id": "aa-build",
+      "parameters": {
+        "jsCode": "// All-Access welcome email, ES/EN/PT.\n//\n// Replaces copy that was hardcoded Spanish AND began with the literal line\n// \"NOTE: placeholder copy -- rewrite once the plan-application instructions and\n// guide links are finalized\" -- which rendered as the first line of the email to\n// the subscriber. Never delivered to anyone: no All-Access signup had come in\n// since this workflow went live July 24 2026.\n//\n// No plan count anywhere on purpose. The catalogue number moved four times in\n// five days (open-loops.md). \"All the plans in your language\" is always true.\n\n// >>> One line you may want to sharpen: the exact TrainingPeaks steps to apply a\n// >>> plan. The default below is true regardless of TP's current UI wording.\nconst PLAN_HOWTO = {\n  SPANISH:    'Los aplicas desde tu cuenta de TrainingPeaks, y puedes cambiar de plan cuando quieras.',\n  ENGLISH:    'You apply them from your TrainingPeaks account, and you can switch plans whenever you want.',\n  PORTUGUESE: 'Você aplica pela sua conta do TrainingPeaks e pode trocar de plano quando quiser.',\n};\n\nconst LOGIN_URL = {\n  SPANISH:    'https://triaperformance.com/members/login',\n  ENGLISH:    'https://triaperformance.com/members/en/login',\n  PORTUGUESE: 'https://triaperformance.com/members/pt/login',\n};\n\nconst T = {\n  SPANISH: (n, tok) => ({\n    subject: `${n}, tu acceso a All-Access`,\n    body:\n`Hola ${n},\n\nYa tienes All-Access activo. Esto es lo que incluye.\n\nTODOS LOS PLANES\nTienes acceso a todo el catálogo en español, y puedes cambiar de plan las veces\nque quieras, sin costo extra.\n${PLAN_HOWTO.SPANISH}\n\nTRAININGPEAKS PREMIUM\nIncluido mientras tengas la suscripción activa.\n\nÁREA DE MIEMBROS\nLink: ${LOGIN_URL.SPANISH}\nContraseña: ${tok}\nAhí están las calculadoras, las rutinas y las guías, y subo herramientas\nnuevas todas las semanas.\nSi no sabes por dónde empezar: empieza por la calculadora de zonas. Todo\nlo demás se apoya en tener bien tus zonas.\n\nGuarda este correo: es tu única copia de la contraseña.\n\nIván Koch\nTriaperformance`\n  }),\n\n  ENGLISH: (n, tok) => ({\n    subject: `${n}, your All-Access is live`,\n    body:\n`Hi ${n},\n\nYour All-Access subscription is active. Here's what it includes.\n\nEVERY TRAINING PLAN\nYou have the full catalogue in English, and you can switch plans as many times\nas you want at no extra cost.\n${PLAN_HOWTO.ENGLISH}\n\nTRAININGPEAKS PREMIUM\nIncluded for as long as your subscription is active.\n\nMEMBERS AREA\nLink: ${LOGIN_URL.ENGLISH}\nPassword: ${tok}\nThat's where the calculators, routines and guides live, and I add new\ntools every week.\nIf you don't know where to start: start with the zones calculator.\nEverything else rests on having your zones right.\n\nKeep this email: it's your only copy of the password.\n\nIvan Koch\nTriaperformance`\n  }),\n\n  PORTUGUESE: (n, tok) => ({\n    subject: `${n}, seu All-Access está ativo`,\n    body:\n`Olá ${n},\n\nSua assinatura All-Access está ativa. Isto é o que ela inclui.\n\nTODOS OS PLANOS\nVocê tem acesso a todo o catálogo em português e pode trocar de plano quantas\nvezes quiser, sem custo adicional.\n${PLAN_HOWTO.PORTUGUESE}\n\nTRAININGPEAKS PREMIUM\nIncluído enquanto a sua assinatura estiver ativa.\n\nÁREA DE MEMBROS\nLink: ${LOGIN_URL.PORTUGUESE}\nSenha: ${tok}\nÉ lá que ficam as calculadoras, as rotinas e os guias, e eu subo\nferramentas novas toda semana.\nSe não souber por onde começar: comece pela calculadora de zonas. Todo\no resto se apoia em ter as suas zonas certas.\n\nGuarde este email: é a sua única cópia da senha.\n\nIvan Koch\nTriaperformance`\n  }),\n};\n\nreturn $input.all().map(() => {\n  const d = $('Map Language + Build Twenty Fields').item.json;\n  const tok = $('Generate Member Token').item.json.member_token;\n\n  // detectLanguage upstream returns null only when the product name matches none\n  // of the three All-Access products -- which now cannot reach here at all, since\n  // Classify Product routes unknown products to an alert. Spanish stays as a\n  // last-resort fallback rather than an assumption.\n  const lang = T[d.preferredLanguage] ? d.preferredLanguage : 'SPANISH';\n  const first = String(d.firstname || '').trim().split(/\\s+/)[0] || '';\n  const built = T[lang](first, tok);\n\n  return { json: {\n    to: d.email,\n    langUsed: lang,\n    langWasKnown: Boolean(T[d.preferredLanguage]),\n    subject: built.subject,\n    body: built.body,\n  }};\n});\n"
+      },
+      "id": "c83a1893-c02c-4f3d-acd9-7f69f6b06e25",
       "name": "Build All-Access Welcome",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1840,
-        -100
-      ],
+        7136,
+        1152
+      ]
+    },
+    {
       "parameters": {
-        "mode": "runOnceForAllItems",
-        "jsCode": "// All-Access welcome email, ES/EN/PT.\n//\n// Replaces copy that was hardcoded Spanish AND began with the literal line\n// \"NOTE: placeholder copy -- rewrite once the plan-application instructions and\n// guide links are finalized\" -- which rendered as the first line of the email to\n// the subscriber. Never delivered to anyone: no All-Access signup had come in\n// since this workflow went live July 24 2026.\n//\n// No plan count anywhere on purpose. The catalogue number moved four times in\n// five days (open-loops.md). \"All the plans in your language\" is always true.\n\n// >>> One line you may want to sharpen: the exact TrainingPeaks steps to apply a\n// >>> plan. The default below is true regardless of TP's current UI wording.\nconst PLAN_HOWTO = {\n  SPANISH:    'Los aplicas desde tu cuenta de TrainingPeaks, y puedes cambiar de plan cuando quieras.',\n  ENGLISH:    'You apply them from your TrainingPeaks account, and you can switch plans whenever you want.',\n  PORTUGUESE: 'Você aplica pela sua conta do TrainingPeaks e pode trocar de plano quando quiser.',\n};\n\nconst LOGIN_URL = {\n  SPANISH:    'https://triaperformance.com/members/login',\n  ENGLISH:    'https://triaperformance.com/members/en/login',\n  PORTUGUESE: 'https://triaperformance.com/members/pt/login',\n};\n\nconst T = {\n  SPANISH: (n, tok) => ({\n    subject: `${n}, tu acceso a All-Access`,\n    body:\n`Hola ${n},\n\nYa tienes All-Access activo. Esto es lo que incluye.\n\nTODOS LOS PLANES\nTienes acceso a todo el catálogo en español, y puedes cambiar de plan las veces\nque quieras, sin costo extra.\n${PLAN_HOWTO.SPANISH}\n\nTRAININGPEAKS PREMIUM\nIncluido mientras tengas la suscripción activa.\n\nÁREA DE MIEMBROS\nLink: ${LOGIN_URL.SPANISH}\nContraseña: ${tok}\nAhí están las calculadoras, las rutinas y las guías, y subo herramientas\nnuevas todas las semanas.\nSi no sabes por dónde empezar: empieza por la calculadora de zonas. Todo\nlo demás se apoya en tener bien tus zonas.\n\nGuarda este correo: es tu única copia de la contraseña.\n\nIván Koch\nTriaperformance`\n  }),\n\n  ENGLISH: (n, tok) => ({\n    subject: `${n}, your All-Access is live`,\n    body:\n`Hi ${n},\n\nYour All-Access subscription is active. Here's what it includes.\n\nEVERY TRAINING PLAN\nYou have the full catalogue in English, and you can switch plans as many times\nas you want at no extra cost.\n${PLAN_HOWTO.ENGLISH}\n\nTRAININGPEAKS PREMIUM\nIncluded for as long as your subscription is active.\n\nMEMBERS AREA\nLink: ${LOGIN_URL.ENGLISH}\nPassword: ${tok}\nThat's where the calculators, routines and guides live, and I add new\ntools every week.\nIf you don't know where to start: start with the zones calculator.\nEverything else rests on having your zones right.\n\nKeep this email: it's your only copy of the password.\n\nIvan Koch\nTriaperformance`\n  }),\n\n  PORTUGUESE: (n, tok) => ({\n    subject: `${n}, seu All-Access está ativo`,\n    body:\n`Olá ${n},\n\nSua assinatura All-Access está ativa. Isto é o que ela inclui.\n\nTODOS OS PLANOS\nVocê tem acesso a todo o catálogo em português e pode trocar de plano quantas\nvezes quiser, sem custo adicional.\n${PLAN_HOWTO.PORTUGUESE}\n\nTRAININGPEAKS PREMIUM\nIncluído enquanto a sua assinatura estiver ativa.\n\nÁREA DE MEMBROS\nLink: ${LOGIN_URL.PORTUGUESE}\nSenha: ${tok}\nÉ lá que ficam as calculadoras, as rotinas e os guias, e eu subo\nferramentas novas toda semana.\nSe não souber por onde começar: comece pela calculadora de zonas. Todo\no resto se apoia em ter as suas zonas certas.\n\nGuarde este email: é a sua única cópia da senha.\n\nIvan Koch\nTriaperformance`\n  }),\n};\n\nreturn $input.all().map(() => {\n  const d = $('Map Language + Build Twenty Fields').item.json;\n  const tok = $('Generate Member Token').item.json.member_token;\n\n  // detectLanguage upstream returns null only when the product name matches none\n  // of the three All-Access products -- which now cannot reach here at all, since\n  // Classify Product routes unknown products to an alert. Spanish stays as a\n  // last-resort fallback rather than an assumption.\n  const lang = T[d.preferredLanguage] ? d.preferredLanguage : 'SPANISH';\n  const first = String(d.firstname || '').trim().split(/\\s+/)[0] || '';\n  const built = T[lang](first, tok);\n\n  return { json: {\n    to: d.email,\n    langUsed: lang,\n    langWasKnown: Boolean(T[d.preferredLanguage]),\n    subject: built.subject,\n    body: built.body,\n  }};\n});\n"
+        "jsCode": "// Resend-password email, ES/EN/PT. Added Aug 10, 2026.\n//\n// Language comes from `preferred_language` on the subscriber_tokens row, NOT from\n// the `lang` the forgot-password page posts. The DB knows who they are; the page\n// only knows which screen they opened. Values are SPANISH/ENGLISH/PORTUGUESE\n// (cached from Twenty); anything unrecognised falls back to Spanish.\n//\n// pairedItem is set deliberately: Send Resend Email resolves the recipient with\n// $('Webhook - Resend Password').item, which needs the item lineage preserved\n// across this node.\n\nconst LOGIN_URL = {\n  SPANISH:    'https://triaperformance.com/members/login',\n  ENGLISH:    'https://triaperformance.com/members/en/login',\n  PORTUGUESE: 'https://triaperformance.com/members/pt/login',\n};\n\nconst T = {\n  SPANISH: (tok) => ({\n    subject: 'Tu contraseña del Área de Miembros - Triaperformance',\n    text: `Hola,\n\nRecibimos tu solicitud de recuperar tu contraseña del Área de Miembros.\n\nLink: ${LOGIN_URL.SPANISH}\nContraseña: ${tok}\n\nSi no fuiste tú, ignora este email.\n\nIván Koch - Triaperformance`,\n  }),\n  ENGLISH: (tok) => ({\n    subject: 'Your Member Area password - Triaperformance',\n    text: `Hi,\n\nWe received your request to recover your Member Area password.\n\nLink: ${LOGIN_URL.ENGLISH}\nPassword: ${tok}\n\nIf this wasn't you, ignore this email — your access hasn't changed.\n\nIván Koch - Triaperformance`,\n  }),\n  PORTUGUESE: (tok) => ({\n    subject: 'Sua senha da Área de Membros - Triaperformance',\n    text: `Olá,\n\nRecebemos seu pedido de recuperação da senha da Área de Membros.\n\nLink: ${LOGIN_URL.PORTUGUESE}\nSenha: ${tok}\n\nSe não foi você, ignore este email — seu acesso não mudou.\n\nIván Koch - Triaperformance`,\n  }),\n};\n\nreturn $input.all().map((item, i) => {\n  const tok = item.json.token;\n  if (!tok) {\n    throw new Error('Build Resend Email: no token on the item — Token Found? should have routed this to the generic-response branch.');\n  }\n  const raw = item.json.preferred_language;\n  const lang = T[raw] ? raw : 'SPANISH';\n  return { json: { ...T[lang](tok), token: tok, langUsed: lang, langWasKnown: Boolean(T[raw]) }, pairedItem: i };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5344,
+        512
+      ],
+      "id": "a73c3167-d7ab-40bf-8df7-261521c68362",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a9e7d457-7206-428f-ac1b-bbc746a7d401",
+              "leftValue": "={{ $json.parse_ok && Boolean($json.email) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        7392,
+        2016
+      ],
+      "id": "3d060e1d-6660-4e3e-aa81-fd60be1ca6cd",
+      "name": "Parse OK? (Coaching)"
+    },
+    {
+      "parameters": {
+        "chatId": "5952194741",
+        "text": "=🚨 EMAIL DE ALTA NO PARSEADO -- no se escribio nada en Twenty\nCanal: {{ $json.channel }}\nAsunto: {{ $json.source_subject }}\nEmail detectado: {{ $json.email || '(vacio)' }}\nNombre detectado: {{ $json.full_name || '(vacio)' }}\nProducto detectado: {{ $json.product || '(vacio)' }}\n\nTrainingPeaks cambio el texto del email o lo manda en otro formato.\nEl atleta pago igual: no hay alta en Twenty, ni password, ni welcome.\n\nA mano: buscar el mail, darlo de alta, y avisar para arreglar el parser.\nEjecucion: {{ $execution.id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        7632,
+        2272
+      ],
+      "id": "2bf051f7-0f6a-4109-b25c-59884ea12a46",
+      "name": "Telegram - Parseo Fallido",
+      "webhookId": "57081860-fb0a-44f8-a1f7-010e5bf2446b",
+      "credentials": {
+        "telegramApi": {
+          "id": "dmG5jqW0zOMQXhUD",
+          "name": "Hermes Bot"
+        }
       }
     }
   ],
   "pinData": {},
   "connections": {
+    "Edit Fields": {
+      "main": [
+        []
+      ]
+    },
     "Email Trigger (IMAP)": {
       "main": [
         [
@@ -1280,6 +1619,11 @@
           },
           {
             "node": "Filter - Is CoachMatch Hire",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter - Is CoachMatch Cancellation",
             "type": "main",
             "index": 0
           }
@@ -1472,6 +1816,11 @@
             "node": "Telegram Notify Churn",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Churned Athlete (Subscription)",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -1502,7 +1851,7 @@
       "main": [
         [
           {
-            "node": "Build Resend Email",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
@@ -1709,6 +2058,134 @@
         ]
       ]
     },
+    "Filter - Is CoachMatch Cancellation": {
+      "main": [
+        [
+          {
+            "node": "Parse CoachMatch Cancellation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse CoachMatch Cancellation": {
+      "main": [
+        [
+          {
+            "node": "Fetch Coaching Athletes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Coaching Athletes": {
+      "main": [
+        [
+          {
+            "node": "Match Athlete by Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Match Athlete by Name": {
+      "main": [
+        [
+          {
+            "node": "Match Found?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Match Found?": {
+      "main": [
+        [
+          {
+            "node": "Mark Churned (CoachMatch)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram - Baja Sin Match",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Churned (CoachMatch)": {
+      "main": [
+        [
+          {
+            "node": "Revoke Token (CoachMatch)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Revoke Token (CoachMatch)": {
+      "main": [
+        [
+          {
+            "node": "Churned Athlete (CoachMatch)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Churned Athlete (CoachMatch)": {
+      "main": [
+        [
+          {
+            "node": "Build Goodbye Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Churned Athlete (Subscription)": {
+      "main": [
+        [
+          {
+            "node": "Build Goodbye Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Goodbye Email": {
+      "main": [
+        [
+          {
+            "node": "Send Goodbye Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Goodbye Email": {
+      "main": [
+        [
+          {
+            "node": "Telegram - Baja Procesada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Build All-Access Welcome": {
       "main": [
         [
@@ -1731,7 +2208,7 @@
         ]
       ]
     },
-    "Build Resend Email": {
+    "Code in JavaScript": {
       "main": [
         [
           {
@@ -1761,12 +2238,21 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "GWBWznYoPiHdbmVt",
+    "callerPolicy": "workflowsFromSameOwner"
   },
+  "versionId": "96e47b69-6317-4305-a9b9-6ff68c3e3f17",
   "meta": {
-    "templateCredsSetupCompleted": true
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8e076cafb52cccf2e8bbadb4d0f2ec8c146f30578d107bdefeabccfda2ab75a9"
   },
+  "nodeGroups": [],
+  "id": "3EvhEnZfQJVkDl5f",
   "tags": []
 }
