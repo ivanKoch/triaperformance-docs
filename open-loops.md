@@ -88,7 +88,6 @@ Home doc: `referral-program-brief.md`. Definition of done: one referral attribut
 
 ### Catalogue data
 
-- [ ] **`is_published` audit — what remains.** `--audit` keeps value only for TRUE-but-404 (a real dead link); it structurally cannot find unpublished-but-live plans, so do not re-run it for that. `data/plan_publish_audit.json` is stale — regenerate rather than read. Method: `training-plans-analysis.md` §11. Close at the next pass unless Iván wants the crawl kept.
 - [ ] **Win-back sequence for churned customers.** `CHURNED_CUSTOMER` is now set automatically, so the audience is queryable; nothing targets it. Trigger: after the NEXT #3 blast has taught what re-activation copy does.
 
 ### Infrastructure follow-ups (Gemini migration and Hermes)

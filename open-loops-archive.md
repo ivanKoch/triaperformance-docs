@@ -10,6 +10,17 @@
 
 ## Closed — September 11, 2026
 
+### `is_published` audit, TrainingPeaks crawl — run, and it closes the item rather than the flag
+
+**Closing note, September 11, 2026.** Ran the crawl `training-plans-analysis.md` §11 said the ambiguous plans "need... not this one." Both the cloud container and the local device shell get a 403 from their egress proxy on `trainingpeaks.com` — neither can reach TrainingPeaks at all — so the check ran as same-origin `fetch()` calls from a real browser tab instead, against all 328 rows in `training_plans_inventory.csv`.
+
+⚠️ **`check-plan-links.py`'s HTTP-status method does not work against this site, and this is worth fixing before the script is trusted again.** A fabricated plan ID (`tp-99999999`) and two IDs confirmed dead in July (`443810`, `491765`) all returned **HTTP 200**. TrainingPeaks's plan pages are client-rendered — the transport-level response is 200 whether or not the plan exists. The signal that actually distinguishes them is the page's `<title>`: a missing plan renders `Training Plan Not Found | TrainingPeaks`; a real one renders its own name. This crawl checked that, not the status code, for all 328 rows. Not fixed here — flagged for whoever next touches the script — since it also runs unattended on the VPS via cron.
+
+**Result: zero dead links.** All 328 published plans rendered their own title. Nothing to flip in `is_published`, nothing dead to pull. `data/plan_publish_audit.json` is regenerated with this run's numbers and method, replacing the stale one from August 12.
+
+**The other direction of the audit — FALSE flagged as live — had no population to test, and that's the actual finding.** `training_plans_inventory.csv` currently carries **zero `is_published=FALSE` rows.** Commit `cf07066` (August 12, same day §11 was written) deleted all 54 remaining FALSE rows outright — 55 lines removed, 1 inserted — rather than resolving them one at a time. That batch included the **21 "genuinely ambiguous" unpublished plans** §11 explicitly said "need the link check, not this one": they were deleted before that check ever happened, so whether any of them were unpublished-but-live was never actually determined. They're not in the inventory to re-check now. 🔑 **A CSV row deleted is not a question answered** — it just stops the question from being asked again.
+
+
 ### The `cta_type` enum migration — run and verified
 
 **Closing note, September 11, 2026.** `ALTER TYPE cta_type ADD VALUE IF NOT EXISTS 'tool';` run by Iván against the `content` database in `analytics-postgres`, and **verified rather than assumed**: seven enum rows returned, `tool` last. The content engine can now emit the free-tool CTA that `research_agent.py` learned to propose the same day.
