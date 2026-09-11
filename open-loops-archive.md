@@ -10,6 +10,12 @@
 
 ## Closed — September 11, 2026
 
+### The `cta_type` enum migration — run and verified
+
+**Closing note, September 11, 2026.** `ALTER TYPE cta_type ADD VALUE IF NOT EXISTS 'tool';` run by Iván against the `content` database in `analytics-postgres`, and **verified rather than assumed**: seven enum rows returned, `tool` last. The content engine can now emit the free-tool CTA that `research_agent.py` learned to propose the same day.
+
+⚠️ **The command as first written into `open-loops.md` and `ai-infrastructure-documentation.md` was wrong** — it named a `content-postgres` container and `$PGUSER`/`$PGDATABASE`, none of which exist. The content DB is the `content` database inside `analytics-postgres`, owned by `analytics`, exactly as `automation/content-engine/SETUP.md` had said all along. *Caught by reading SETUP.md before handing it over, and corrected in both docs.* 🔑 **A copy-pasteable command that has never been run is a guess wearing a monospace font** — the pattern it was written from was right about the shape and wrong about every name in it.
+
 ### EN and PT of the heat calculator and guide — shipped natively, and the extraction was checked before the prose was written
 
 **Closing note, September 11, 2026.** Six pages live: the calculator and the guide in Spanish, English and Portuguese, on native slugs in each language.

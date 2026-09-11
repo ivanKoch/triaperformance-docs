@@ -41,19 +41,7 @@
 
 ## NOW
 
-🔸 **SECOND BIG BRANCH, opened September 11, 2026 on Iván's explicit call — the heat guide + calculator.** Home doc: **`heat-guide-brief.md`**. ⚠️ ***Recorded as a second branch rather than dressed up as a small slot:*** *the WIP limit is 1, the storefront rebuild holds it, and the "+1 small slot" was removed September 2 for exactly this kind of accounting. Iván was shown the conflict and chose to open it anyway; that is a decision, not an oversight, and it is written down as one.*
-
-**Both surfaces are live in ES, EN and PT and render clean at 390 / 768 / 1280.** `site/calculadora-de-ritmo-en-calor/` and `site/calor-y-rendimiento/`, plus `heat-calculator.css`, `heat-calc.js` and `partials/heat-calculator.njk`. *Decisions: the calculator leads and the guide is its capture; race weather is owned by a data file; EN/PT written natively per `brand-guidelines.md` §10.* **Not committed — Iván's tree also holds unrelated work from the storefront and CoachMatch branches; these files must not be swept into one commit.**
-
-- [ ] 🆕 **IVÁN — one SQL statement, and it must run BEFORE the next deploy.** *(Opened September 11, 2026.)* The content engine's `cta_type` is a live Postgres enum and the ideas agent can now emit `tool`. **`save_ideas()` inserts a whole batch under one cursor, so an absent enum value aborts the transaction — the failure costs the run, not one idea.**
-
-  ```
-  docker exec -i analytics-postgres psql -U analytics -d content \
-    -c "ALTER TYPE cta_type ADD VALUE IF NOT EXISTS 'tool';"
-  ```
-  *Same shape as the `TOOL_LEAD` enum step in `tool-lead-runbook.md`. Detail: `ai-infrastructure-documentation.md` §52.* ⚠️ **The command first written here named a `content-postgres` container and `$PGUSER`/`$PGDATABASE` — neither exists.** *The content DB is the `content` database inside `analytics-postgres`, owned by `analytics`, as `automation/content-engine/SETUP.md` has always said. Corrected before it was run.*
-
-🚨 ***A real error was caught before shipping, and the class of error is the lesson:*** **the guide's Ciudad de México row mixed a point-in-time temperature with a DAILY-MEAN dew point** *(15,0 °C / 11,1 °C / WBGT 17,6)*. `mexico-marathon.json` had the verified race morning all along — **14,6 °C, 97% humidity, wet bulb 14,2 °C** — giving **WBGT 18,6**. *Corrected in both surfaces the same day.* 🔑 **The defect was not the number, it was reading two different time resolutions off one weather table and averaging them into a row.** *Six of the other seven races reproduced exactly, which is what made the outlier visible.*
+✅ **CLOSED September 11, 2026 — the heat guide + calculator, opened and closed the same day.** *Six pages live in ES, EN and PT: the WBGT→ritmo calculator and the guide behind it. Home doc: `heat-guide-brief.md`.* **It was opened as a knowing SECOND branch against a WIP limit of 1** — *that was written down as a decision rather than disguised, and it closes before the storefront did the accounting any harm.* ⚠️ ***The `ALTER TYPE cta_type ADD VALUE 'tool'` was run and verified by Iván the same day (seven enum rows, `tool` last), so the content engine can emit the new CTA.*** *Full closing notes — the four rendering defects, the Río decisions, the accent gate, the race-table column, and the three-language build — are in `open-loops-archive.md`, September 11.*
 
 ✅ **CLOSED September 11, 2026 — the storefront rebuild.** *Opened September 9 and closed on its own definition of done: a stranger reaches a plan from `/planes/` in two clicks, sees the members product before paying, and reads the story on `/sobre-ivan/` — and only then do race pages send traffic into it.* **All four phases shipped**, phase 4 being the race landing pages (19 races / 26 pages, three generated guide hubs). **`storefront-rebuild-brief.md` is retired**, per its own «retire when phase 4 closes». *Full record, moved intact rather than summarised: `open-loops-archive.md`.*
 
