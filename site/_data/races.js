@@ -79,6 +79,25 @@ function startByDates(iso, weeks, today) {
   return Object.keys(out).length ? out : null;
 }
 
+/** The edition year a page should claim, for a race that happens every year.
+ *
+ *  While the published date is ahead, that date's year. ONCE IT PASSES, the
+ *  next anniversary — because for an annual race the next edition is certainly
+ *  next year even when the organiser has not named the day. The year is a far
+ *  safer inference than the date: whether Valencia 2027 falls on 5 or 12
+ *  December is unknown, that there IS a Valencia 2027 is not. It matters
+ *  because "maratón valencia 2027" is what people type from 7 December onward,
+ *  and a page still saying 2026 that morning is answering last year's question.
+ *
+ *  Loops rather than adding one, so a date two editions stale still resolves. */
+function editionYear(iso, today) {
+  if (!iso) return null;
+  let y = Number(iso.slice(0, 4));
+  const md = iso.slice(4);
+  while (`${y}${md}` < today) y += 1;
+  return y;
+}
+
 /** Whole weeks from today to race day. Null when the organiser has not
  *  published a date — which is the case the plan row must still handle. */
 function weeksUntil(iso, today) {
@@ -222,6 +241,9 @@ module.exports = function () {
       continue;
     }
 
+    const futureDate =
+      raw.next_edition_date && raw.next_edition_date >= TODAY ? raw.next_edition_date : null;
+
     for (const lang of raw.language_market || []) {
       if (!byLanguage[lang]) continue;
       const slug = pick(raw.slug, lang) || id;
@@ -242,14 +264,20 @@ module.exports = function () {
         typicalWindow: pick(raw.typical_window, lang),
         startTime: pick(raw.start_time, lang),
 
-        // The edition year, and ONLY when the organiser has published a date.
-        // It goes in the <title> because the event is annual and "maratón X
-        // 2027" is a real query shape; it stays out of the slug so next year's
-        // edition is an update to this URL rather than a new one. A race with
-        // no confirmed date gets no year rather than a guessed one.
-        year: raw.next_edition_date ? Number(raw.next_edition_date.slice(0, 4)) : null,
-        startBy: startByDates(raw.next_edition_date, LADDER_WEEKS[raw.distance] || [], TODAY),
-        weeksToRace: weeksUntil(raw.next_edition_date, TODAY),
+        // 🚨 THE DATE DEMOTES ITSELF. Once the published date is behind us it is
+        // treated as absent everywhere — no countdown, no start-by arithmetic,
+        // no SportsEvent — and the page falls back to `typical_window`, which
+        // is the undated shape the template already renders. Tested against a
+        // clone dated three weeks back: before this, the page said "Próxima
+        // edición: 30 de agosto" and "Faltan -2 semanas", and told Google the
+        // event was still ahead. Nothing caught it, because nothing was
+        // looking. The year still rolls (see editionYear) — the day is unknown,
+        // the year is not.
+        nextEditionDate: futureDate,
+        datePassed: Boolean(raw.next_edition_date) && !futureDate,
+        year: editionYear(raw.next_edition_date, TODAY),
+        startBy: startByDates(futureDate, LADDER_WEEKS[raw.distance] || [], TODAY),
+        weeksToRace: weeksUntil(futureDate, TODAY),
         // Which of four situations the reader is in, decided once here so the
         // template switches instead of re-deriving the arithmetic three times:
         //   undated — organiser has published no date
@@ -257,7 +285,7 @@ module.exports = function () {
         //   band    — between the shortest and longest; BOTH are real answers
         //   ample   — more time than the longest block needs
         ladderPhase: (() => {
-          const w = weeksUntil(raw.next_edition_date, TODAY);
+          const w = weeksUntil(futureDate, TODAY);
           const all = LADDER_WEEKS[raw.distance] || [];
           if (w === null || !all.length) return "undated";
           const lo = Math.min(...all), hi = Math.max(...all);

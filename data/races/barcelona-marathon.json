@@ -1,0 +1,69 @@
+{
+  "race_id": "barcelona-marathon",
+  "city": "Barcelona",
+  "country": "España",
+  "distance": "42k",
+  "language_market": ["es"],
+
+  "name": { "es": "Maratón de Barcelona" },
+  "official_name": "Zurich Marató Barcelona",
+  "official_url": "https://zurichmaratobarcelona.es/",
+  "slug": { "es": "maraton-barcelona" },
+
+  "next_edition_date": "2027-03-14",
+  "last_verified": "2026-09-05",
+  "typical_window": { "es": "Segundo domingo de marzo" },
+  "start_time": { "es": "8:30, en Passeig de Gràcia. Cajones por color de dorsal." },
+
+  "hook": { "es": "No tiene una sola cuesta con nombre, y eso es justo lo que la hace difícil: treinta y nueve giros y un Eixample llano que invita a un ritmo que después, pasado Paral·lel, no se sostiene." },
+
+  "course_profile": { "es": "Vuelta urbana con salida en Passeig de Gràcia y llegada en el Arc de Triomf. Entre 132 y 178 m de desnivel acumulado según la fuente, repartidos sin ninguna subida destacable. Treinta y nueve giros." },
+  "elevation_gain_m": null,
+  "elevation_note": { "es": "El reglamento no publica desnivel. La Vanguardia, con datos de la organización, da 132 m — 76 en la primera mitad y 56 en la segunda. La ruta oficial medida en Strava da 178 m. No promediamos: son 132 según el medio más cercano a la organización, 178 en GPS, y está pendiente de confirmar con la organización." },
+
+  "course_notes": { "es": "Salida en Passeig de Gràcia, llegada en el Arc de Triomf. El trazado se ha rediseñado en los últimos años, y el reglamento se reserva ajustes municipales de última hora.\n\n**km 3-15. El Eixample.** La parte fácil, y la trampa. Calles anchas, cuadrícula, y una recta larga por la calle València entre el 5 y el 10 donde el ritmo se va solo.\n\n**km 15-18. Sagrada Família.** El tramo más fotografiado y donde más público hay.\n\n**km 18-27. La zona sin nombre.** Aquí no hay ningún accidente del terreno que justifique la fatiga, y sin embargo es donde empieza. Pasado Paral·lel es donde las crónicas sitúan el bajón.\n\n**km 27-35. El mar.** El tramo más rápido del circuito según la prensa local. Si has administrado bien, se recupera aquí.\n\n**Treinta y nueve giros.** Repartidos por todo el recorrido. Ninguno es duro; sumados son una cantidad de aceleraciones y frenadas que no aparece en ninguna altimetría." },
+
+  "where_they_struggle": { "es": "La frase que mejor describe esta carrera es el título de una crónica de 2025: *un día duro*. No por el terreno — por lo que el terreno esconde.\n\n**Barcelona se rompe sin un motivo visible.** No hay una cuesta a la que echarle la culpa, así que el bajón llega como sorpresa en un sitio donde el perfil dice que no debería pasar nada: pasado Paral·lel, entre el 18 y el 27. Lo que lo provoca ocurrió veinte kilómetros antes, en la cuadrícula del Eixample, donde ir cómodo y ir rápido se parecen demasiado.\n\n**Y el desgaste real está en los giros.** Treinta y nueve cambios de dirección son treinta y nueve microaceleraciones. Cada una cuesta poco; la suma es una carga que no se registra en el reloj y sí en las piernas del kilómetro 30.\n\nEl contraste con los números lo confirma: en 2026 bajó de tres horas el 9,65% del campo. En Sevilla, el mismo año, fue el 16,66%. La diferencia no está en las piernas de quien corre cada una." },
+
+  "typical_weather": { "es": "Marzo mediterráneo, salida a las 8:30: templado y estable en la mayoría de las ediciones. No hay registro oficial de estación publicado para la mañana de carrera." },
+
+  "cut_off": {
+    "year": 2027,
+    "es": "**6 horas desde que sale el último participante.** Superarlo significa quedar fuera de carrera y de las clasificaciones oficiales.\n\nNo hay cortes intermedios por kilómetro en el reglamento de 2027.\n\n⚠️ **El reglamento no dice lo mismo en los tres idiomas**: la versión en español y la catalana cierran la carrera *aproximadamente* a las 16:15, la inglesa dice 16:00. El límite de seis horas es idéntico en las tres. Si tu plan depende de esos quince minutos, pregúntalo a la organización antes de contar con ellos."
+  },
+
+  "field": {
+    "year": 2026,
+    "finishers_low": 24943,
+    "sub3_pct": 9.65,
+    "sub3_count_low": 2407,
+    "note": { "es": "Casi 25.000 finishers, y el reparto publicado por Soy Corredor: 2.407 por debajo de 3h (9,65%), 7.487 por debajo de 3:30 (30,01%) y 14.540 por debajo de 4h (58,29%). Nadie publica el tiempo mediano contado, así que esta página no lo estima. Es un campo grande y menos rápido que el de Sevilla — útil si vas a buscar marca acompañado, y también si vas a tu primera maratón." }
+  },
+
+  "registration_window": { "es": "Inscripción por RockTheSport durante el año. El reglamento no fija un tope numérico único; la organización puede cerrarla por tamaño." },
+  "registration_model": { "es": "Inscripción general por orden, sin sorteo" },
+  "sell_out_note": { "es": "La edición 2026 terminó con unos 25.000 finishers. Sin sorteo y sin cupo publicado como cifra única, entrar es cuestión de no dejarlo para el final." },
+  "qualifying": { "es": "Circuito marcado según los criterios de World Athletics. Marca válida para clasificar a Boston." },
+  "corral_policy": { "es": "Cajones por color, impresos en el dorsal, y se pueden cambiar hasta el 1 de febrero de 2027. El cajón sub-élite pide por debajo de 1:05 en media o 2:20 en maratón para hombres, y 1:15 o 2:35 para mujeres, de los dos últimos años. El chip va en la zapatilla y hay que devolverlo: si no, son 5 €." },
+
+  "how_to_train": { "es": "El circuito no pide fuerza de subida. Pide dos cosas más aburridas y más difíciles de entrenar.\n\n**Ritmo constante en terreno que no te obliga a nada.** En una carrera con cuestas, el terreno te frena por ti. Aquí no: diez kilómetros rectos por el Eixample sin ningún accidente que te devuelva al plan. La sesión que prepara esto es la tirada larga con la segunda mitad a ritmo objetivo, no la que empieza fuerte y aguanta — porque el error que vas a cometer es de disciplina, no de capacidad.\n\n**Cambios de ritmo y de dirección, repetidos.** Treinta y nueve giros piden una musculatura que sepa acelerar y frenar muchas veces sin acumular daño. Se entrena metiendo rodajes con curvas cerradas y cambios cortos de ritmo dentro del rodaje largo, en vez de correr siempre en línea recta.\n\n**Y ten un plan para el kilómetro 20, no para el 35.** El bajón de Barcelona llega antes de lo que la gente espera y sin señal previa. Saber con qué ritmo y con qué avituallamiento vas a pasar del 18 al 27 es lo que separa un mal tramo de un mal día." },
+
+  "target_queries": {
+    "es": ["plan entrenamiento maraton barcelona", "maraton barcelona tiempo limite", "maraton barcelona desnivel", "maraton barcelona cajones", "maraton barcelona inscripciones 2027"]
+  },
+
+  "sources": [
+    "https://zurichmaratobarcelona.es/",
+    "https://zurichmaratobarcelona.es/es/soy-corredor-a/reglamento/",
+    "https://zurichmaratobarcelona.es/es/soy-corredor-a/preguntas-frecuentes/",
+    "https://www.soycorredor.es/atletismo/cuanto-se-corrio-en-maraton-barcelona-2026-que-porcentaje-finishers-bajo-3h_324342_102.html"
+  ],
+  "confidence_flags": [
+    "The reglamento says the race ends at 16:15 in Spanish and Catalan and 16:00 in English. The 6-hour limit is identical in all three. Flagged on the page; confirm with the organiser.",
+    "Elevation is 132 m (La Vanguardia, organiser-adjacent) versus 178 m (GPS on the official Strava route). Not averaged, not resolved.",
+    "An older PDF still online says a runner may continue after 6h under the traffic code; the live 2027 Spanish text says out of the race and out of the classifications. The live text is what the page follows.",
+    "No counted median is published for 2026 — only the sub-3/3:30/4:00 buckets. No median tile is rendered."
+  ],
+
+  "coach_hook": { "es": "Una carrera sin una sola cuesta a la que culpar, donde el error se comete en el kilómetro 8 y se cobra en el 22." }
+}

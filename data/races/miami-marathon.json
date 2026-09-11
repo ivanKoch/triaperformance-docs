@@ -1,0 +1,114 @@
+{
+  "race_id": "miami-marathon",
+  "city": "Miami",
+  "country": "Estados Unidos",
+  "distance": "42k",
+  "language_market": ["es", "en"],
+
+  "name": { "es": "Maratón de Miami", "en": "Miami Marathon" },
+  "official_name": "Life Time Miami Marathon",
+  "official_url": "https://www.themiamimarathon.com",
+  "slug": { "es": "maraton-miami", "en": "miami-marathon" },
+
+  "next_edition_date": "2027-01-31",
+  "last_verified": "2026-09-05",
+  "typical_window": { "es": "Último domingo de enero", "en": "Last Sunday in January" },
+  "start_time": {
+    "es": "6:00 de la mañana, y nadie sale después de las 7:00. Los cajones abren a las 5:00 y salen escalonados hasta las 6:45.",
+    "en": "6:00 a.m., and nobody starts after 7:00. Corrals open at 5:00 and go off in blocks through 6:45."
+  },
+
+  "hook": {
+    "es": "Las únicas cuestas son puentes, y aun así la mediana es 4:40: lo que decide esta carrera no es el perfil, es una humedad media del 80% que te alcanza justo en el puente sin sombra de la milla 16.",
+    "en": "The only hills are bridges, and the median is still 4:40: what decides this race is not the profile, it is 80% average humidity arriving exactly at the shadeless bridge at mile 16."
+  },
+
+  "course_profile": {
+    "es": "Circuito a nivel del mar con salida y meta en Biscayne Boulevard. Sin desnivel real salvo los puentes: MacArthur, Venetian y el de ida y vuelta por Rickenbacker.",
+    "en": "Sea-level loop starting and finishing on Biscayne Boulevard. No real elevation except the bridges: MacArthur, Venetian and the Rickenbacker out-and-back."
+  },
+  "elevation_gain_m": null,
+  "elevation_note": {
+    "es": "Las fuentes no se parecen: RunReady mide 129 m en 2026, RunDida da 77, Garmin unos 55, y la organización se limita a decir que no hay cambios apreciables salvo los puentes. No promediamos cuatro números que miden cosas distintas.",
+    "en": "The sources do not resemble each other: RunReady measures 129 m in 2026, RunDida gives 77, Garmin about 55, and the organiser simply says there are no noticeable changes except the bridges. We do not average four numbers that are measuring different things."
+  },
+
+  "course_notes": {
+    "es": "Salida en el 601 de Biscayne Boulevard, junto al Kaseya Center; meta en Bayfront Park. Comparte 20,8 km con la media maratón.\n\n**km 0,4. MacArthur Causeway.** El primer puente llega casi de inmediato, a oscuras: medio kilómetro al 3,3% y después una bajada al 5,2%. La subida más empinada del día está en el primer kilómetro.\n\n**km 4. Entrada a Miami Beach.** Rampa más suave.\n\n**km 13-18. Venetian Causeway.** Repecho pequeño en la parte final, y vuelta al continente.\n\n**km 24-28. Rickenbacker, ida y vuelta.** La segunda cuesta de verdad, y la única sin una sola sombra.\n\n**km 21 y 41. Puente de South Miami Avenue.** Cortos los dos.",
+    "en": "Start at 601 Biscayne Boulevard beside the Kaseya Center; finish in Bayfront Park. It shares 20.8 km with the half.\n\n**km 0.4. MacArthur Causeway.** The first bridge arrives almost immediately, in the dark: half a kilometre at 3.3%, then a 5.2% descent. The steepest climb of the day is in the first kilometre.\n\n**km 4. Onto Miami Beach.** A gentler ramp.\n\n**km 13-18. Venetian Causeway.** A small rise in the closing portion, then back to the mainland.\n\n**km 24-28. The Rickenbacker out-and-back.** The second real climb, and the one with no shade at all.\n\n**km 21 and 41. The South Miami Avenue bridge.** Short both times."
+  },
+
+  "where_they_struggle": {
+    "es": "Prácticamente todos los relatos de esta carrera nombran el mismo sitio y la misma causa: **el Rickenbacker, entre el kilómetro 26 y el 29, y la humedad**.\n\nUn corredor de 2025, en su primera maratón: *\"volviendo del Rickenbacker Causeway (IYKYK) en la milla 17\"* — calambres y caminando la segunda mitad. Otro de 2026: *\"reventé en la ida y vuelta, sobre la 18\"*. Un tercero, en 2024, lo sitúa igual: *\"en la milla 16 entramos en un puente donde no había ninguna sombra\"*, con 29 grados y 95% de humedad. Un entrenador que vive allí lo dice sin metáfora: tu cuesta más grande van a ser las millas 15 y 16, cruzando el Rickenbacker.\n\n**La humedad no es una anécdota del año malo: es la constante.** La media de humedad en la salida a lo largo de cuatro años es del **80%**, lo que coloca a Miami entre las diez maratones más húmedas de Estados Unidos. La salida a las 6:00 es de noche y agradable; la segunda mitad se corre con el sol ya arriba y sobre puentes abiertos.\n\nY los números del campo lo confirman: aquí la mediana es **4:40** y bajan de tres horas seis de cada mil. No es un circuito lento. Es un clima lento.",
+    "en": "Almost every account of this race names the same place and the same cause: **the Rickenbacker, between km 26 and 29, and the humidity**.\n\nA 2025 first-timer: *\"coming back off the Rickenbacker Causeway (IYKYK) at mile 17\"* — cramping, walking the back half. Another in 2026: *\"blew up on the out and back around 18\"*. A third, in 2024, puts it in the same place: *\"at mile 16 we entered a bridge where there was no shade\"*, at 29 °C and 95% humidity. A coach who lives there says it without metaphor: your biggest hill will be miles 15 and 16, out over the Rickenbacker.\n\n**The humidity is not a bad-year anecdote, it is the constant.** The four-year average humidity at the start is **80%**, which puts Miami among the ten most humid marathons in the United States. The 6:00 a.m. start is dark and pleasant; the second half is run with the sun up and on open bridges.\n\nThe field numbers confirm it: the median here is **4:40** and six runners in a thousand break three hours. This is not a slow course. It is a slow climate."
+  },
+
+  "typical_weather": {
+    "es": "Enero en Miami, salida a las 6:00 a oscuras. Humedad media de salida del 80% medida sobre cuatro años; en 2026 se corrió con temperaturas por encima de 21 grados y relatos de 94% de humedad. El amanecer llega sobre el MacArthur y la segunda mitad va al sol.",
+    "en": "January in Miami, a 6:00 a.m. start in the dark. Four-year average start humidity of 80%; 2026 was run above 21 °C with accounts of 94% humidity. Sunrise arrives over the MacArthur and the second half is in full sun."
+  },
+
+  "cut_off": {
+    "year": 2026,
+    "es": "Dos cortes, y el primero es el que sorprende a la gente.\n\n**Milla 12,8 (km 20,6) en 3 horas y media.** Quien no llega es desviado al recorrido de la media maratón. No es una retirada: es que tu carrera pasa a ser otra.\n\n**7 horas desde la última ola** para el maratón completo, unos 10:00 por kilómetro, con la meta abierta hasta las 14:00. Se cuenta por chip, no por disparo. Pasadas las siete horas se retira el apoyo y el vehículo de cierre termina tu carrera; medalla y tiempo oficial solo dentro de ese margen.",
+    "en": "Two gates, and the first one is the one that surprises people.\n\n**Mile 12.8 (km 20.6) in 3 hours 30.** Miss it and you are diverted onto the half-marathon course. It is not a withdrawal — your race simply becomes a different race.\n\n**7 hours from the last wave** for the full, about 10:00 per kilometre, with the finish open until 14:00. Chip time, not gun. After seven hours support is pulled and the sweep vehicle ends your race; medals and official times only inside that window."
+  },
+
+  "field": {
+    "year": 2026,
+    "finishers_low": 3250,
+    "median": "4:40:34",
+    "sub3_pct": 0.65,
+    "sub3_count_low": 21,
+    "note": {
+      "es": "Un campo pequeño y lento, y es útil saberlo antes de inscribirse: 3.250 finishers en 2026, mediana **4:40:34**, y **21 personas bajo tres horas — un 0,65%**. En 2025 fueron 2.935 finishers, mediana 4:44 y once sub-3. Para comparar: en Sevilla baja de tres horas uno de cada seis. Si buscas marca, esta no es la carrera; si buscas terminar tu primera con margen de tiempo generoso, sí lo es. El fin de semana entero mueve 18.000 corredores, pero el maratón es la parte chica.",
+      "en": "A small, slow field, and worth knowing before you enter: 3,250 finishers in 2026, a **4:40:34** median, and **21 people under three hours — 0.65%**. 2025 had 2,935 finishers, a 4:44 median and eleven sub-3. For comparison, one in six breaks three hours at Seville. If you are chasing a time, this is not the race; if you are finishing a first marathon with a generous clock, it is. The weekend moves 18,000 runners, but the marathon is the small part of it."
+    }
+  },
+
+  "registration_window": {
+    "es": "Inscripción general desde el 1 de agosto del año anterior. No hay sorteo ni marca mínima: es por orden, con un cupo conjunto de 18.000 entre maratón y media.",
+    "en": "General registration opens 1 August of the preceding year. No lottery, no qualifying time: first come, with a combined 18,000 cap across the marathon and the half."
+  },
+  "registration_model": { "es": "Por orden de inscripción, hasta agotar cupo", "en": "First come, until the cap is reached" },
+  "sell_out_note": {
+    "es": "El cupo se agota rápido: en 2026 abrió el 1 de agosto de 2025 y el maratón se cerró alrededor del 11 al 15 de agosto — menos de dos semanas. Hay transferencia y aplazamiento con coste; no hay reembolsos.",
+    "en": "The cap goes fast: 2026 opened on 1 August 2025 and the marathon closed somewhere between 11 and 15 August — under two weeks. Transfers and deferrals exist for a fee; there are no refunds."
+  },
+  "qualifying": { "es": "Circuito homologado por USATF. Marca válida para clasificar a Boston.", "en": "USATF-certified. A Boston-qualifying course." },
+  "corral_policy": {
+    "es": "Cajones preasignados por dorsal, sin acreditar marca. Abren a las 5:00 y salen por bloques: ABCD a las 6:00, EFG a las 6:15, HI a las 6:30, KL a las 6:45. La bolsa se deja tres manzanas al sur, pasado Bayside.",
+    "en": "Corrals are preassigned by bib, with no time to accredit. They open at 5:00 and go off in blocks: ABCD at 6:00, EFG at 6:15, HI at 6:30, KL at 6:45. Gear check is three blocks south, past Bayside."
+  },
+
+  "how_to_train": {
+    "es": "Si entrenas en el hemisferio sur o en el trópico, Miami te pide poco que no estés haciendo ya. Si entrenas un invierno, te pide casi todo.\n\n**Aclimatación al calor húmedo, y es lo único que de verdad importa.** El limitante aquí no es el umbral ni el volumen: es la capacidad de disipar calor con el aire saturado. Se entrena con entre diez y catorce sesiones en condiciones calurosas en las tres semanas previas — sobreabrigado si hace falta — porque la adaptación llega rápido y también se pierde rápido.\n\n**Un plan de hidratación ensayado a ritmo de carrera, no en rodaje suave.** Con un 80% de humedad el sudor no evapora y la sensación de sed miente. Eso se resuelve antes, midiendo cuánto pierdes en una tirada larga con calor, no improvisando en el kilómetro 25.\n\n**Y ensaya bajar puentes.** Las cuestas de Miami son cortas, pero el MacArthur baja al 5,2% en el primer kilómetro, a oscuras y con las piernas frías. Mete algún tramo de bajada corta al principio de una tirada larga para que el gesto no sea nuevo.\n\n**Sobre el corte de las 3:30 en la milla 12,8:** si tu objetivo realista está cerca de las cinco horas, ese ritmo mínimo es la referencia con la que se arma el plan, y da margen — pero conviene saber que existe antes de la salida, no al llegar al desvío.",
+    "en": "If you train in the southern hemisphere or the tropics, Miami asks for little you are not already doing. If you train through a winter, it asks for almost everything.\n\n**Humid-heat acclimatisation, and it is the only thing that really matters.** The limiter here is not threshold or volume, it is the ability to shed heat into saturated air. It takes ten to fourteen sessions in hot conditions across the three weeks beforehand — overdressed if necessary — because the adaptation comes quickly and is lost just as quickly.\n\n**A fluid plan rehearsed at race pace, not on easy runs.** At 80% humidity sweat does not evaporate and thirst lies. You settle this in advance by measuring what you lose on a long run in heat, not by improvising at km 25.\n\n**And practise running down bridges.** Miami's climbs are short, but the MacArthur descends at 5.2% inside the first kilometre, in the dark, on cold legs. Put a short descent early in a long run so the movement is not new.\n\n**On the 3:30 gate at mile 12.8:** if your realistic target is near five hours, that minimum pace is the number the plan is built around, and it leaves room — but it is worth knowing before the start rather than at the diversion."
+  },
+
+  "target_queries": {
+    "es": ["plan entrenamiento maraton miami", "maraton miami humedad", "maraton miami tiempo limite", "maraton miami inscripciones 2027", "maraton miami rickenbacker"],
+    "en": ["miami marathon training plan", "miami marathon humidity", "miami marathon cut off time", "miami marathon rickenbacker causeway", "miami marathon registration 2027"]
+  },
+
+  "sources": [
+    "https://www.themiamimarathon.com/marathon-course/",
+    "https://www.themiamimarathon.com/faqs/",
+    "https://www.marathonview.net/race/144360",
+    "https://marathonguide.com/races/run/miami-marathon-23/2025/results/",
+    "https://www.outsideonline.com/health/training-performance/running-humid-weather-tips/",
+    "https://runtothefinish.com/miami-marathon-tips/"
+  ],
+  "confidence_flags": [
+    "Elevation is unresolved across four sources (129 m / 77 m / ~55 m / organiser says none). Presented as a disagreement, not averaged.",
+    "The 80% start humidity is a four-year average via FindMyMarathon, not a race-morning station log. No per-year weather series was located.",
+    "2027 registration price is dynamic on the event site and was not captured; the 1 August 2026 opening date is from a secondary source.",
+    "No sub-3:30 / 4:00 / 5:00 distribution and no official DNF rate are published.",
+    "Spanish and Portuguese forum discussion was not located, but the travelling field is real — Rio was the 7th and Bogotá the 8th most represented origin in 2025, which is the evidence behind publishing this one in Spanish."
+  ],
+
+  "coach_hook": {
+    "es": "Ochenta por ciento de humedad media y un puente sin sombra en la milla 16: dos cosas que un plan de calendario no puede ver y que deciden tu carrera.",
+    "en": "Eighty per cent average humidity and a shadeless bridge at mile 16: two things a calendar plan cannot see, and they decide your race."
+  }
+}

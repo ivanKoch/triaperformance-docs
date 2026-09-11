@@ -1,0 +1,70 @@
+{
+  "race_id": "sevilla-marathon",
+  "city": "Sevilla",
+  "country": "España",
+  "distance": "42k",
+  "language_market": ["es"],
+
+  "name": { "es": "Maratón de Sevilla" },
+  "official_name": "Zurich Maratón de Sevilla",
+  "official_url": "https://www.zurichmaratonsevilla.es/",
+  "slug": { "es": "maraton-sevilla" },
+
+  "next_edition_date": "2027-02-21",
+  "last_verified": "2026-09-05",
+  "typical_window": { "es": "Tercer domingo de febrero" },
+  "start_time": { "es": "8:30 (silla 8:29), en oleadas. En 2026 fueron cinco: 8:30, 8:34, 8:40, 8:47 y 8:52." },
+
+  "hook": { "es": "Es tan llano que el pelotón entero sale demasiado rápido, y la cuenta llega en la última hora, cuando el sol ya está sobre el Parque de María Luisa." },
+
+  "course_profile": { "es": "Vuelta urbana única, homologada por World Athletics, RFEA y AIMS. Llana de principio a fin." },
+  "elevation_gain_m": null,
+  "elevation_note": { "es": "El reglamento no publica cifra de desnivel. Finishers.com da 76 m; es una fuente secundaria y la dejamos como tal en lugar de convertirla en el dato oficial." },
+
+  "course_notes": { "es": "Salida en la Avenida de María Luisa, junto al Casino de la Exposición. Meta en el Paseo de las Delicias, en la Glorieta de Buenos Aires. El reglamento publica la lista de calles y es la autoridad sobre el trazado.\n\n**Primera mitad.** María Luisa, Cid, Menéndez Pelayo, Capuchinos, Torneo. Ciudad cerrada, calles anchas y nada que frene el ritmo.\n\n**Cruces del río.** San Telmo hacia Triana, Isla Mágica y la Barqueta. Es la parte más reconocible del recorrido y la que más público concentra.\n\n**Kansas City y Andalucía.** El tramo más expuesto y el más solitario: avenidas largas, poca sombra, pocos espectadores.\n\n**Últimos diez.** La Palmera, Plaza de España, Constitución y Plaza Nueva antes de volver a Delicias. Sobre el papel es el desfile final; en la práctica es la hora en que el sol ya pega." },
+
+  "where_they_struggle": { "es": "Sevilla no rompe a nadie con el perfil. Rompe con dos cosas que no se ven en la altimetría.\n\n**La primera es la velocidad del pelotón.** Un circuito rápido arrastra: sales rodeado de gente que va a ritmo de marca personal y el primer parcial se te va sin que te des cuenta. El título de una crónica de 2025 lo resume mejor que cualquier análisis: *acaba en MMP*.\n\n**La segunda es la temperatura, y es cuestión de hora, no de mes.** Febrero en la cuenca del Guadalquivir amanece frío y calienta rápido. Dos crónicas de la edición 2026 lo cuentan igual desde dentro: salida entre 7 y 8 grados, llegada entre 18 y 20. Uno de los corredores lo dice sin rodeos — *\"empezó a hacer demasiado calor hacia el final\"*.\n\nEsas dos cosas se juntan en el mismo sitio: los últimos diez kilómetros, por María Luisa y Delicias, con el sol ya alto y el depósito vacío." },
+
+  "typical_weather": { "es": "Febrero en el valle del Guadalquivir: salida fría, entre 7 y 8 grados, y llegada entre 18 y 20 los años cálidos. No hay registro oficial de estación publicado por año, así que esto viene de crónicas de corredores, no de una tabla." },
+
+  "cut_off": {
+    "year": 2027,
+    "es": "**6 horas desde que sale el último corredor**, y esa última palabra es la que importa: la meta cierra a las **15:00**, no a las 14:30.\n\nLa salida es a las 8:30 y en 2026 hubo cinco oleadas hasta las 8:52. Las seis horas empiezan a contar con la última, y ese desfase es exactamente lo que explica el cierre a las 15:00. No hay cortes intermedios por kilómetro en el reglamento de 2027."
+  },
+
+  "field": {
+    "year": 2026,
+    "finishers_low": 12430,
+    "median": "3:36:33",
+    "sub3_pct": 16.66,
+    "sub3_count_low": 2071,
+    "note": { "es": "Una de cada seis personas que terminó en 2026 bajó de tres horas. Para comparar: eso es más del doble de la proporción de Barcelona el mismo año. Un equipo local, CAPIS, contó los mismos resultados por tiempo neto y publicó 2.257 por debajo de 3h, 5.428 por debajo de 3:30 y 8.962 por debajo de 4h — es un recuento secundario y lo damos como tal." }
+  },
+
+  "registration_window": { "es": "Ventana de fidelidad en abril para quienes corrieron la edición anterior, lista de espera los días siguientes, y después inscripción general hasta el 15 de febrero o hasta llegar a 20.000 dorsales. No hay sorteo." },
+  "registration_model": { "es": "Fidelidad + inscripción general por orden" },
+  "sell_out_note": { "es": "Sin sorteo y con tope de 20.000: el límite es el cupo o la fecha, lo que llegue antes. Es de las grandes españolas en las que todavía se entra decidiéndolo con tiempo." },
+  "qualifying": { "es": "Homologado por World Athletics, RFEA y AIMS. Marca válida para clasificar a Boston." },
+  "corral_policy": { "es": "Nueve cajones: World Elite, Sub Elite y luego por debajo de 2:45, 3:00, 3:15, 3:30, 3:45, 4:00 y más de 4h. Se acredita con una marca de maratón o media de los dos últimos años, y el tiempo se puede corregir hasta el 18 de enero de 2027 — en la Expo ya no." },
+
+  "how_to_train": { "es": "Todo lo que este circuito te va a exigir ocurre después del kilómetro 30, y nada de eso se entrena corriendo más rápido.\n\n**Ensaya el ritmo objetivo rodeado de gente que va más rápido.** El error de Sevilla no es de planificación, es de los primeros cinco kilómetros. La forma de inmunizarte es haber hecho tiradas largas que empiezan por debajo del ritmo objetivo tantas veces que salir lento sea lo que el cuerpo hace solo cuando el ambiente empuja.\n\n**Entrena la segunda hora con calor, aunque entrenes en invierno.** Si tu bloque cae entre noviembre y febrero, vas a llegar a Sevilla sin haber corrido nunca a 18 grados. No hace falta mudarse: basta con hacer alguna tirada larga sobreabrigado, o a mediodía, para que el sistema de termorregulación y el plan de hidratación no se estrenen el día de la carrera.\n\n**Y planifica el objetivo con margen, no con optimismo.** Un circuito que produce un 16% de sub-3 es un circuito donde mucha gente termina cerca de lo que buscaba. También es donde se nota más haber apurado: aquí no hay una cuesta que te obligue a frenar a tiempo." },
+
+  "target_queries": {
+    "es": ["plan entrenamiento maraton sevilla", "maraton sevilla tiempo limite", "maraton sevilla cajones de salida", "maraton sevilla inscripciones 2027", "maraton sevilla es rapido"]
+  },
+
+  "sources": [
+    "https://www.zurichmaratonsevilla.es/",
+    "https://www.zurichmaratonsevilla.es/zms-preguntas-frecuentes",
+    "https://www.marathonview.net/race/144535",
+    "https://capisrunningteam.es/la-carrera-perfecta-para-la-elite-subelite-y-los-mejores-populares/"
+  ],
+  "confidence_flags": [
+    "No official elevation figure exists in the reglamento. Finishers.com's 76 m is secondary and is presented as such, not adopted.",
+    "The five-wave start offsets are the 2026 sheet, not the 2027 reglamento. They are what make the 15:00 finish closure arithmetic work — confirm with the organiser whether 2027 keeps them.",
+    "Field figures are the XLI (2026) edition from MarathonView. The CAPIS net-time counts are a named secondary source counted from the same results, not an independent dataset.",
+    "The English reglamento mentions a sweep vehicle; the matching Spanish sentence was not located in this pass."
+  ],
+
+  "coach_hook": { "es": "Un circuito que arrastra a todo el mundo a salir rápido, y una última hora que ya no perdona el error de los primeros cinco kilómetros." }
+}

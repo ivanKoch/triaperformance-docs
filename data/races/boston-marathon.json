@@ -1,0 +1,115 @@
+{
+  "race_id": "boston-marathon",
+  "city": "Boston",
+  "country": "Estados Unidos",
+  "distance": "42k",
+  "language_market": ["es", "en"],
+
+  "name": { "es": "Maratón de Boston", "en": "Boston Marathon" },
+  "official_name": "Bank of America Boston Marathon",
+  "official_url": "https://www.baa.org/races/boston-marathon",
+  "slug": { "es": "maraton-boston", "en": "boston-marathon" },
+
+  "next_edition_date": "2027-04-19",
+  "last_verified": "2026-09-05",
+  "typical_window": { "es": "Patriots' Day, tercer lunes de abril", "en": "Patriots' Day, the third Monday in April" },
+  "start_time": {
+    "es": "Élite masculina 9:37, femenina 9:47, primera ola 10:00. En 2026 hubo seis olas y la última salió a las 11:21 — casi dos horas después de la primera.",
+    "en": "Professional men 9:37 a.m., women 9:47, Wave 1 at 10:00. 2026 ran six waves with the last starting at 11:21 — nearly two hours after the first."
+  },
+
+  "hook": {
+    "es": "Boston baja 137 metros netos desde Hopkinton, y esa bajada es la trampa: el kilómetro más lento de todo el campo, año tras año, está en la milla 20, cuando los cuádriceps ya se gastaron cuesta abajo.",
+    "en": "Boston drops 137 metres net from Hopkinton, and that drop is the trap: the slowest mile in the entire field, year after year, is mile 20 — by which point the downhill has already spent the quads."
+  },
+
+  "course_profile": {
+    "es": "Punto a punto, de Hopkinton a Boylston Street. Caída neta de unos 137 m, casi toda en la primera mitad, y cuatro repechos en Newton entre las millas 16 y 21.",
+    "en": "Point to point, Hopkinton to Boylston Street. Net drop of about 137 m, almost all of it in the first half, and four Newton climbs between miles 16 and 21."
+  },
+  "elevation_gain_m": null,
+  "elevation_note": {
+    "es": "La cifra que importa aquí no es el desnivel positivo sino el negativo: Hopkinton está a unos 150 m y la meta a 3. Las primeras cuatro millas solas bajan unos 81 m.",
+    "en": "The number that matters here is the drop, not the gain: Hopkinton sits at about 150 m and the finish at 3. The first four miles alone lose roughly 81 m."
+  },
+
+  "course_notes": {
+    "es": "**km 0-16.** Cuesta abajo saliendo de Hopkinton, por Framingham y Natick. Aquí se corre rápido sin esfuerzo aparente, y aquí es donde se hace el daño que se paga después.\n\n**km 21. El Scream Tunnel de Wellesley.** El medio maratón, y el tramo con más ruido de cualquier maratón del mundo.\n\n**km 27 / milla 17,5.** Giro a la derecha en el parque de bomberos de Newton, hacia Commonwealth Avenue. Empiezan las cuatro subidas.\n\n**Millas 16-21. Las cuatro de Newton.** Firehouse, Cemetery, la que llaman \"the Ghost\" y por último **Heartbreak Hill**, justo pasada la milla 20: unos 27 m en menos de un kilómetro, entre el 3,3% y el 4,5%.\n\n**Después de la cima.** Bajada de Boston College, Brookline, el cartel de Citgo, derecha en Hereford, izquierda en Boylston.",
+    "en": "**km 0-16.** Downhill out of Hopkinton through Framingham and Natick. You run fast here without feeling like you are working, and this is where the damage gets done that gets paid for later.\n\n**km 21. The Wellesley Scream Tunnel.** The halfway point, and the loudest stretch in any marathon anywhere.\n\n**km 27 / mile 17.5.** Right at the Newton firehouse onto Commonwealth Avenue. The four climbs begin.\n\n**Miles 16-21. The Newton hills.** Firehouse, Cemetery, the one they call the Ghost, and finally **Heartbreak Hill** just past mile 20: about 27 m in under a kilometre, at 3.3% to 4.5%.\n\n**After the crest.** The Boston College descent, Brookline, the Citgo sign, right on Hereford, left on Boylston."
+  },
+
+  "where_they_struggle": {
+    "es": "Esta es la carrera con la mejor evidencia pública de dónde se rompe la gente, y el resultado contradice lo que todo el mundo repite.\n\n**No es Heartbreak Hill. Es la milla 20, y lo es todos los años.** Un análisis de **110.013 finishers entre 2022 y 2025** encuentra que la milla 20 es la más lenta del recorrido en las cuatro ediciones, independientemente del clima: el **68%** de los corredores registra ahí su milla más lenta, solo el **18%** sigue en ritmo objetivo, y la media pierde 31 segundos por milla respecto al plan.\n\n**La ventana de colapso son las millas 17 a 22** — es decir, empieza antes de Heartbreak y termina después. La subida no es la causa; es donde se hace visible un daño muscular que se acumuló cuesta abajo, treinta kilómetros antes.\n\nLa frase que resume el archivo: quien trata Hopkinton como viento a favor, paga en Newton.",
+    "en": "This is the race with the best public evidence of where people come apart, and the answer contradicts what everyone repeats.\n\n**It is not Heartbreak Hill. It is mile 20, and it is mile 20 every year.** An analysis of **110,013 finishers from 2022 to 2025** finds mile 20 is the slowest mile on the course in all four editions, regardless of weather: **68%** of runners record their slowest mile there, only **18%** are still on goal pace, and the average gives up 31 seconds per mile against plan.\n\n**The collapse window is miles 17 to 22** — it starts before Heartbreak and ends after it. The climb is not the cause; it is where muscle damage accumulated thirty kilometres earlier, going downhill, finally becomes visible.\n\nThe sentence that matches the data: treat Hopkinton like a tailwind and you pay in Newton."
+  },
+
+  "typical_weather": {
+    "es": "Mediados de abril en Nueva Inglaterra, con salidas entre las 9:37 y las 11:21. El rango realista va de 4 a 18 grados, y tanto una tormenta del noreste como un día de 21 han ocurrido. Si sales en la última ola corres casi dos horas más tarde que la primera, con lo que eso implica.",
+    "en": "Mid-April in New England, with starts spread from 9:37 to 11:21. The realistic range is 4 to 18 °C, and both a nor'easter and a 21 °C day have happened. Starting in the last wave means running almost two hours later than the first, with everything that implies."
+  },
+
+  "cut_off": {
+    "year": 2026,
+    "es": "**Hay que cruzar Boylston antes de las 17:00.** El cronometraje se apaga a esa hora, pase lo que pase.\n\nEl formulario de inscripción pide declarar que puedes terminar en **menos de seis horas netas**, y el control de tráfico se retira aproximadamente seis horas después del último que sale. No hay cortes intermedios publicados por kilómetro: el apoyo se va retirando de forma progresiva.",
+    "en": "**You have to cross Boylston by 5:30 p.m.** Timing stops then, whatever else is happening.\n\nThe entry waiver asks you to state you can finish in **under six hours net**, and traffic control comes down roughly six hours after the last official starter. There are no published intermediate gates — support is withdrawn progressively."
+  },
+
+  "field": {
+    "year": 2026,
+    "finishers_low": 29000,
+    "median_m": "3:16:58",
+    "median_f": "3:39:20",
+    "note": {
+      "es": "Esto no es un campo de sorteo, es un campo clasificado, y los números lo dicen: mediana de 3:16:58 en hombres y 3:39:20 en mujeres, y **15.835 de unos 29.000 finishers hicieron marca de clasificación para el año siguiente en la propia carrera**. Nadie publica un porcentaje de sub-3 fiable para 2026, así que esta página no lo estima.",
+      "en": "This is not a lottery field, it is a qualified one, and the numbers say so: a 3:16:58 median for men and 3:39:20 for women, and **15,835 of roughly 29,000 finishers ran a qualifying time for the following year in the race itself**. No reliable sub-3 percentage is published for 2026, so this page does not estimate one."
+    }
+  },
+
+  "registration_window": {
+    "es": "La ventana de solicitud es en septiembre del año anterior — para 2027 fue del 14 al 18 de septiembre de 2026. No es por orden de llegada: se solicita durante esos días y después se publica el corte.",
+    "en": "The application window is in September of the preceding year — for 2027 it ran 14 to 18 September 2026. It is not first-come: you apply during those days and the cutoff is published afterwards."
+  },
+  "registration_model": { "es": "Marca de clasificación + corte por margen", "en": "Qualifying time, then a cutoff by buffer" },
+  "sell_out_note": {
+    "es": "**Tener la marca no es tener el dorsal.** La organización ordena a los solicitantes por cuánto le bajaron a su propio estándar y corta donde se acaban las plazas. En 2026 el corte fue **4:34 por debajo del estándar** y **8.887 personas con marca válida se quedaron fuera**; en 2025 el corte fue de 6:51. Novedad para 2027: unas **1.000 plazas por sorteo** entre quienes cumplieron el estándar y no entraron por el corte.",
+    "en": "**Having the time is not having the bib.** The B.A.A. ranks applicants by how far under their own standard they ran and cuts where the places run out. In 2026 the cutoff was **4:34 under the standard** and **8,887 people with a valid qualifier were turned away**; in 2025 it was 6:51. New for 2027: roughly **1,000 places drawn at random** among those who met the standard but missed the cutoff."
+  },
+  "qualifying": {
+    "es": "Estándares 2027 por edad el día de la carrera — 18-34: 2:55 hombres / 3:25 mujeres. 35-39: 3:00 / 3:30. 40-44: 3:05 / 3:35. 45-49: 3:15 / 3:45. 50-54: 3:20 / 3:50. 55-59: 3:30 / 4:00. 60-64: 3:50 / 4:20. 65-69: 4:05 / 4:35. 70-74: 4:20 / 4:50. 75-79: 4:35 / 5:05. 80+: 4:50 / 5:20. Cuenta el tiempo de chip, en un circuito homologado (World Athletics, AIMS, USATF o el equivalente nacional), y la edad que tendrás el día de Boston, no el día que corriste.",
+    "en": "2027 standards, by your age on race day — 18-34: 2:55 men / 3:25 women. 35-39: 3:00 / 3:30. 40-44: 3:05 / 3:35. 45-49: 3:15 / 3:45. 50-54: 3:20 / 3:50. 55-59: 3:30 / 4:00. 60-64: 3:50 / 4:20. 65-69: 4:05 / 4:35. 70-74: 4:20 / 4:50. 75-79: 4:35 / 5:05. 80+: 4:50 / 5:20. Chip time counts, on a certified course (World Athletics, AIMS, USATF or the national equivalent), at the age you will be on Patriots' Day rather than the day you ran."
+  },
+  "corral_policy": {
+    "es": "Olas y cajones se asignan por la marca de clasificación. En 2026 fueron seis olas de entre 3.200 y 7.100 personas. Al inicio se llega en autobús desde Boston hasta el Athletes' Village de Hopkinton: no hay forma práctica de llegar en coche, y la bolsa se deja en Boston, no en la salida.",
+    "en": "Waves and corrals are assigned by qualifying time. 2026 ran six waves of between 3,200 and 7,100. You reach the start by bus from Boston to the Hopkinton Athletes' Village — there is no practical way to drive in — and gear check is in Boston, not at the start."
+  },
+
+  "how_to_train": {
+    "es": "Boston es la única maratón grande donde el entrenamiento específico es, sobre todo, preparar las bajadas.\n\n**Bajada, con las piernas ya cargadas.** Los 137 m netos de caída son contracción excéntrica repetida durante treinta kilómetros. Eso se entrena metiendo tramos en bajada **al final** de las tiradas largas, no al principio, y con trabajo de fuerza excéntrica de cuádriceps en el gimnasio durante todo el bloque. Si llegas a Newton sin haber hecho eso, la milla 20 te va a pasar a ti también.\n\n**Las cuatro de Newton se entrenan como una sola sesión, no como cuestas sueltas.** Lo que las hace duras no es la pendiente, es el orden: cuatro repechos separados por llano, entre la milla 16 y la 21. La sesión que se parece es hacer cuatro repeticiones de dos a cuatro minutos en subida suave, con recuperación corriendo, al final de una tirada de más de 28 km.\n\n**Y el plan de ritmo se hace al revés que en cualquier otra.** Aquí salir \"cómodo\" ya es salir rápido, porque el terreno regala. La referencia no es el reloj de los primeros 10 km: es el esfuerzo. Si el primer parcial te sale muy por debajo del objetivo sin notarlo, no es buen día — es la trampa funcionando.",
+    "en": "Boston is the one big marathon where the specific work is mostly about the descents.\n\n**Downhill running on tired legs.** That 137 m net drop is repeated eccentric loading over thirty kilometres. It gets trained by putting downhill stretches at the **end** of long runs rather than the beginning, and by carrying eccentric quad work in the gym through the whole block. Arrive in Newton without that and mile 20 happens to you too.\n\n**The four Newton climbs train as one session, not as hill reps.** What makes them hard is not the gradient, it is the sequence: four rises separated by flat, between miles 16 and 21. The session that resembles it is four repetitions of two to four minutes on a gentle climb, jogging the recovery, at the end of a run over 28 km.\n\n**And the pacing plan is built backwards compared with anywhere else.** Here, going out comfortable already means going out fast, because the terrain gives it to you. The reference is not the watch over the first 10 km, it is effort. If your opening split comes in well under target without feeling like anything, that is not a good day — that is the trap working."
+  },
+
+  "target_queries": {
+    "es": ["como clasificar al maraton de boston", "marca clasificatoria boston 2027", "maraton boston corte de clasificacion", "plan entrenamiento maraton boston", "heartbreak hill maraton boston"],
+    "en": ["boston marathon training plan", "boston marathon qualifying times 2027", "boston marathon cutoff", "heartbreak hill boston marathon", "boston marathon downhill training"]
+  },
+
+  "sources": [
+    "https://www.baa.org/races/boston-marathon",
+    "https://www.baa.org/races/boston-marathon/qualify/",
+    "https://marathonhandbook.com/boston-mile-by-mile-pace-breakdown/",
+    "https://baa.my.site.com/baahelpcenter/s/article/Finish-Time-Requirements",
+    "https://www.bostonglobe.com/2026/07/22/sports/boston-marathon-qualifying-2027/",
+    "https://www.strava.com/segments/3003495"
+  ],
+  "confidence_flags": [
+    "2026 medians come from a single source (Outside, B.A.A.-derived) with no independent cross-check located this pass. No sub-3 percentage is published and none is estimated.",
+    "The 2027 downhill-index penalty (+5:00 for a 1,500–2,999 ft net drop, +10:00 for 3,000–5,999 ft, not accepted at 6,000 ft or more) applies to the QUALIFYING course, not to Boston itself. Boston's own net drop is below the threshold. Latin American city marathons are mostly outside the penalty band — Medellín is net up — but the specific course profile has to be checked, not assumed.",
+    "The 2027 application window (14–18 September 2026) has already closed. Confirm the 2028 window dates before this page implies one is open.",
+    "No published intermediate cut-off table exists; support withdrawal is progressive and the 5:30 p.m. timing stop is the hard figure."
+  ],
+
+  "coach_hook": {
+    "es": "Una bajada de treinta kilómetros que no se siente como esfuerzo mientras la corres, y cuatro subidas colocadas justo donde el daño ya está hecho.",
+    "en": "Thirty kilometres of descent that does not feel like work while you are running it, and four climbs placed exactly where the damage is already done."
+  }
+}

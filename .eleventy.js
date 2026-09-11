@@ -545,6 +545,18 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
     }).format(d);
   });
 
+  /** A percentage in the page's language. Spanish and Portuguese use a comma
+   *  decimal separator, so the raw JSON number rendered "16.66%" on a Spanish
+   *  page — a small thing that reads as a page translated by machine. */
+  eleventyConfig.addFilter("pct", function (n, lang) {
+    if (n === null || n === undefined || n === "") return "";
+    const num = typeof n === "number" ? n : parseFloat(n);
+    if (isNaN(num)) return n;
+    return new Intl.NumberFormat(RACE_LOCALE[lang] || "en-GB", {
+      minimumFractionDigits: 0, maximumFractionDigits: 2,
+    }).format(num) + "%";
+  });
+
   eleventyConfig.addFilter("thousands", function (n, lang) {
     if (n === null || n === undefined || n === "") return "";
     const num = typeof n === "number" ? n : parseFloat(String(n).replace(/[^0-9.]/g, ""));

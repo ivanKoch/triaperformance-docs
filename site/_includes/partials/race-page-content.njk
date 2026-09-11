@@ -65,6 +65,10 @@
   <div class="wrap">
     <h2>{{ r.verdictTitle }}</h2>
     <div class="race-stats">
+      {#- A combined median gets one tile with the split underneath. A race that
+          publishes only per-sex medians (Boston) gets two tiles rather than
+          none — dropping both because the combined figure is missing threw away
+          the best numbers on the page. -#}
       {%- if race.field and race.field.median %}
       <div class="race-stat">
         <span class="race-stat-n">{{ race.field.median }}</span>
@@ -73,10 +77,21 @@
         <span class="race-stat-sub">{{ r.statMedianM }} {{ race.field.median_m }} · {{ r.statMedianF }} {{ race.field.median_f }}</span>
         {%- endif %}
       </div>
+      {%- elif race.field and race.field.median_m %}
+      <div class="race-stat">
+        <span class="race-stat-n">{{ race.field.median_m }}</span>
+        <span class="race-stat-l">{{ r.statMedian }} · {{ r.statMedianM }}</span>
+      </div>
+      {%- if race.field.median_f %}
+      <div class="race-stat">
+        <span class="race-stat-n">{{ race.field.median_f }}</span>
+        <span class="race-stat-l">{{ r.statMedian }} · {{ r.statMedianF }}</span>
+      </div>
+      {%- endif %}
       {%- endif %}
       {%- if race.field and race.field.sub3_pct %}
       <div class="race-stat">
-        <span class="race-stat-n">{{ race.field.sub3_pct }}%</span>
+        <span class="race-stat-n">{{ race.field.sub3_pct | pct(lang) }}</span>
         <span class="race-stat-l">{{ r.statSub3 }}</span>
         {%- if race.field.sub3_count_low %}
         <span class="race-stat-sub">{{ race.field.sub3_count_low | thousands(lang) }}{% if race.field.sub3_count_high and race.field.sub3_count_high != race.field.sub3_count_low %}–{{ race.field.sub3_count_high | thousands(lang) }}{% endif %}</span>

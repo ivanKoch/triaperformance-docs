@@ -144,6 +144,16 @@ for (const page of races.all) {
     fail(label, "SportsEvent emitted without a confirmed date");
   }
 
+  // 5b. A published date that has passed. The page itself degrades safely now
+  //     — it falls back to the typical window and stops emitting SportsEvent —
+  //     but degraded is not correct, and the ONLY thing that turns a silent
+  //     rollover into a job someone does is this line. Nineteen races is one
+  //     small edit each per year; nineteen things to remember is the failure
+  //     this repo keeps writing down.
+  if (page.datePassed) {
+    fail(label, `next_edition_date has passed — confirm the ${page.year} date and update data/races/${page.id}.json`);
+  }
+
   // 6. Hero image files referenced must exist in the build.
   for (const m of html.matchAll(/\/assets\/images\/races\/([^"?\s]+)/g)) {
     if (!fs.existsSync(path.join(SITE, "assets", "images", "races", m[1]))) {
@@ -188,6 +198,15 @@ for (const lang of langsWithRaces) {
       }
     }
   }
+}
+
+// 8. Verification age. A note, deliberately not a failure — the stamp being old
+//    is a prompt to look, not a reason to stop a deploy.
+const STALE_DAYS = 365;
+for (const page of races.all) {
+  if (!page.lastVerified) { notes.push(`${page.url}: no last_verified stamp`); continue; }
+  const age = Math.round((Date.now() - new Date(page.lastVerified + "T12:00:00Z")) / 86400000);
+  if (age > STALE_DAYS) notes.push(`${page.url}: entry/conditions last verified ${age} days ago (${page.lastVerified})`);
 }
 
 // --- report
