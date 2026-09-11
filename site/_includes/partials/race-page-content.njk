@@ -225,6 +225,10 @@
           window, which is false, and render "Faltan 1 semanas". -#}
       {%- set daysTxt = r.daysOne if race.daysToRace == 1 else (r.daysMany | replace("{n}", race.daysToRace)) -%}
       <p>{{ r.startByImminent | replace("{weeks}", daysTxt) }}</p>
+      {%- elif race.ladderPhase == "late" %}
+      {#- The shortest block has already started. Saying "you are inside the
+          12-week window" here is the page contradicting its own arithmetic. -#}
+      <p>{{ r.startByLate | replace("{weeks}", race.weeksToRace) }}</p>
       {%- elif race.ladderPhase == "tight" %}
       <p>{{ r.startByTight | replace("{weeks}", race.weeksToRace) }}</p>
       {%- elif race.ladderPhase == "undated" %}
@@ -303,6 +307,9 @@
     </div>
     {%- endfor %}
     <p class="race-plans-note">{{ r.plansNote }}</p>
+    {#- The catalogue is billed by TrainingPeaks in USD in every market. On a
+        Portuguese or Spanish page "US$ 24.00" reads like a typo without this. -#}
+    <p class="race-plans-price-note">{{ r.priceNote }}</p>
     {%- if race.planNote %}<p class="race-plans-caveat">{{ race.planNote }}</p>{% endif %}
 
     {%- if plan %}

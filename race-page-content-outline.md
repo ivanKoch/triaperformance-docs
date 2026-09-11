@@ -130,9 +130,25 @@ Hero image per race: **2:1 at 960 / 1600 / 2560, `.webp` + `.jpg`**, at `/assets
 
 **18. A race whose organiser publishes no entry window gets no entry-state block.** `registration_state` is not required, and Lisboa and Porto leave it empty rather than guessing between "open" and "closed". A missing block is honest; a wrong label next to the plan cards is a claim. *And `window` is the right value far more often than `sold_out` — `sold_out` means the places existed and went, `window` means the window is shut.*
 
+### The fifth ladder phase — `late` *(Iván's call, September 11, 2026)*
+
+The bands were split at the wrong end. `imminent` was added for races days away, and everything from three weeks to twelve kept the same sentence: *"ya estás dentro de la ventana del bloque de 12."* At eleven weeks that is true. **At four weeks — Lisboa, live — it is the page contradicting its own arithmetic in its own voice.**
+
+**Five phases now:** `undated` · `imminent` (<3 weeks) · **`late` (3 to 8)** · `tight` (8 to the shortest block) · `band` · `ample`.
+
+**The threshold is eight weeks and it is a coaching position, not a number someone picked.** Above it, a runner already training can compress the opening weeks of a twelve-week block and arrive at the specific work intact. Below it, compression stops being compression and becomes a different plan. `LATE_WEEKS` in `site/_data/races.js` is the single place it lives.
+
+**What a `late` page does — and what it does NOT do.** It keeps the cards and changes the sentence: the block already started, you come in late by compressing the lightest early weeks and preserving the last ones, and starting from zero today is the thing that does not work. *It does not demote the ladder, hide it, or promote 1:1 above it.* The alternative — lead with coaching, label the cards "entras tarde" — was considered and not taken: it trades plan revenue for coaching leads in precisely the window where search demand for that race peaks, and the honest sentence already tells the reader what they need.
+
+⚠️ **This is live on a page nobody flagged.** New York is seven weeks out, so the largest English page in the set now says the twelve-week block should already have started. That is correct and it is the point — but check it before assuming the change only touched the two Portuguese races.
+
+*Two things fixed alongside it, both the same defect in miniature:* the plans intro claimed **"tres niveles y dos duraciones"** on every page including the ones that render one duration — the cards carry the duration in 22px, so the intro no longer claims it. And every price on the site is billed by TrainingPeaks in US dollars, which reads like a typo as "US$ 24.00" on a Portuguese page; there is now one line saying so, in all three languages rather than only Portuguese, because the ambiguity is identical in Bogotá and Santiago.
+
 ### Taken on review and closed — do not re-open
 
-- **Cap the ladder at three cards.** Rejected. The 3 × 2 matrix *is* the product structure, and the facet buttons exist to navigate it. A cap would hide inventory that is already built and already sells.
+- **Cap the ladder at three cards.** Rejected — **asked and refused three times now (Aug review, Sept 11 morning, Sept 11 evening).** The 3 × 2 matrix *is* the product structure, and the facet buttons exist to navigate it. A cap would hide inventory that is already built and already sells.
+- **Hide the ladder on a race with no published date.** Rejected. It contradicts the standing decision in §Dates with the coaching argument behind it: nobody starts an eighteen-week block from zero on a start date, so a missing date is not a reason to hide the offer. Santiago shows the full ladder and says to count back from the window.
+- **Align the Portuguese prices with the Spanish ones, or stop cross-linking the language siblings.** Rejected. Price is a purchasing-power lever (`triaperformance-pricing-and-positioning.md`) and hreflang exists to connect differently-priced markets, not identical ones.
 - **Split Spanish into es-ES and es-419.** Rejected — it contradicts the one-Spanish standing rule in `brand-guidelines.md` §8 and would fork every ES surface on the site to serve six race pages.
 - **Strip the figures out of body prose.** Rejected. The figures are the anti-clone differentiator; removing them is the fastest way to turn nineteen pages into a doorway set.
 - **Map the volume band to a goal time on the card.** Rejected. "90-110 km/week ⇒ sub-3:15" is a coaching claim the inventory does not support and the methodology does not make. The card prints the number; the athlete and the coach do the mapping.

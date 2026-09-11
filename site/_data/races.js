@@ -134,6 +134,12 @@ const LADDER_WEEKS = { "42k": [12, 18], "21k": [12, 16] };
  * length, breadcrumb depth.
  * ------------------------------------------------------------------------- */
 
+/** Below this many weeks to race day, the shortest block has already started
+ *  and the page says so instead of pretending the reader is on time. Iván's
+ *  call, September 11, 2026: eight. Above it, compression is a real answer for
+ *  someone already running; below it, it is a different plan. */
+const LATE_WEEKS = 8;
+
 /** Fields without which a race page is scaffolding with a city name in it. */
 const REQUIRED = [
   ["hook", "the one sentence under the race name"],
@@ -288,6 +294,7 @@ module.exports = function () {
         // template switches instead of re-deriving the arithmetic three times:
         //   undated  — organiser has published no date
         //   imminent — days away; this page is about the next edition
+        //   late     — the shortest block has already started
         //   tight   — closer than the shortest block; only that block is offered
         //   band    — between the shortest and longest; BOTH are real answers
         //   ample   — more time than the longest block needs
@@ -301,6 +308,13 @@ module.exports = function () {
           // string reads "Faltan 1 semanas" into the bargain. A race this close
           // is a page about the NEXT edition, and it says so.
           if (w < 3) return "imminent";
+          // late — inside the shortest block's window on paper, but the block
+          // has already started. Iván's threshold, September 11, 2026: eight
+          // weeks. Above it, a runner already training can compress the opening
+          // weeks and the "you are inside the window" line is true. Below it,
+          // that line is the page calling itself a liar — Lisbon shipped four
+          // weeks out saying exactly that.
+          if (w < LATE_WEEKS) return "late";
           return w < lo ? "tight" : w <= hi ? "band" : "ample";
         })(),
         coachHook: pick(raw.coach_hook, lang),

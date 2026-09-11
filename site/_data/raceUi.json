@@ -32,7 +32,7 @@
     "corralLabel": "Cajones",
     "trainingTitle": "Cómo se entrena para esta carrera",
     "plansTitle": "Planes de entrenamiento",
-    "plansIntro": "Tres niveles y dos duraciones. Elige por el volumen que puedes sostener, no por el que te gustaría hacer.",
+    "plansIntro": "Tres niveles, por frecuencia cardíaca. Elige por el volumen que puedes sostener, no por el que te gustaría hacer.",
     "plansNote": "No hace falta que falten exactamente 12 o 18 semanas para la carrera. Un bloque específico no se empieza desde cero: se llega a él ya activo, y estos planes son la parte final del camino.",
     "sourcesTitle": "Fuentes",
     "weeksLabel": "semanas",
@@ -77,7 +77,9 @@
     "facetHintNoGym": "El plan es el mismo bloque: cambia con qué mides la intensidad.",
     "startByImminent": "La carrera es dentro de {weeks}. Estos bloques ya no entran en esta edición: sirven para la siguiente, y para llegar a ella con base hecha en vez de empezar de cero.",
     "daysOne": "un día",
-    "daysMany": "{n} días"
+    "daysMany": "{n} días",
+    "startByLate": "Faltan {weeks} semanas, así que el bloque de 12 ya debería haber empezado. No es un problema si vienes corriendo: se entra tarde comprimiendo las primeras semanas —las de menos carga— y respetando las últimas, que son las específicas. Lo que no funciona es empezar de cero hoy.",
+    "priceNote": "Los precios los cobra TrainingPeaks en dólares estadounidenses."
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -111,7 +113,7 @@
     "corralLabel": "Corrals",
     "trainingTitle": "How you train for this one",
     "plansTitle": "Training plans",
-    "plansIntro": "Three levels, two durations, heart-rate based. Choose by the volume you can sustain, not the volume you would like to run.",
+    "plansIntro": "Three levels, heart-rate based. Choose by the volume you can sustain, not the one you would like to.",
     "plansNote": "You do not need to be exactly 12 or 18 weeks out. A specific block is not started from zero — you arrive at it already active, and these plans are the last part of that road.",
     "sourcesTitle": "Sources",
     "weeksLabel": "weeks",
@@ -156,7 +158,9 @@
     "facetHintNoGym": "Same block either way: what changes is how you measure intensity.",
     "startByImminent": "The race is {weeks} away. These blocks no longer fit this edition — they are for the next one, and for arriving at it with the base already built rather than starting from zero.",
     "daysOne": "one day",
-    "daysMany": "{n} days"
+    "daysMany": "{n} days",
+    "startByLate": "{weeks} weeks out, which means the 12-week block should already have started. That is not a problem if you are already running: you come in late by compressing the opening weeks — the lightest ones — and keeping the last ones intact, because those are the specific work. What does not work is starting from zero today.",
+    "priceNote": "Prices are charged by TrainingPeaks in US dollars."
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -190,7 +194,7 @@
     "corralLabel": "Caixas de largada",
     "trainingTitle": "Como se treina para esta prova",
     "plansTitle": "Planos de treinamento",
-    "plansIntro": "Três níveis, duas durações, por frequência cardíaca. Escolha pelo volume que você consegue sustentar, não pelo que gostaria de fazer.",
+    "plansIntro": "Três níveis, por frequência cardíaca. Escolha pelo volume que você consegue sustentar, não pelo que gostaria de fazer.",
     "plansNote": "Não precisa faltar exatamente 12 ou 18 semanas para a prova. Um bloco específico não começa do zero: você chega nele já ativo, e estes planos são a parte final do caminho.",
     "sourcesTitle": "Fontes",
     "weeksLabel": "semanas",
@@ -235,6 +239,8 @@
     "facetHintNoGym": "O bloco é o mesmo: muda com o que você mede a intensidade.",
     "startByImminent": "A prova é daqui a {weeks}. Estes blocos já não cabem nesta edição: servem para a próxima, e para chegar nela com base feita em vez de começar do zero.",
     "daysOne": "um dia",
-    "daysMany": "{n} dias"
+    "daysMany": "{n} dias",
+    "startByLate": "Faltam {weeks} semanas, então o bloco de 12 já deveria ter começado. Não é um problema se você já vem correndo: entra-se tarde comprimindo as primeiras semanas — as de menor carga — e preservando as últimas, que são as específicas. O que não funciona é começar do zero hoje.",
+    "priceNote": "Os preços são cobrados pela TrainingPeaks em dólares americanos."
   }
 }

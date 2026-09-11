@@ -377,6 +377,7 @@
   max-width: 68ch;
   margin: 24px 0 0;
 }
+.race-plans-price-note { font-size: 13px; color: var(--slate); margin: 6px 0 0; }
 
 .race-capture {
   background: var(--white);
