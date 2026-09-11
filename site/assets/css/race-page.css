@@ -132,6 +132,18 @@
 
 .race-prose p { margin: 0 0 16px; max-width: 68ch; line-height: 1.65; }
 .race-prose p:last-child { margin-bottom: 0; }
+
+/* Lists and tables inside authored race prose. Added September 11, 2026 — the
+   markdown was being written before anything rendered it. */
+.race-prose .race-list { margin: 0 0 16px; padding-left: 20px; max-width: 68ch; }
+.race-prose .race-list li { margin: 0 0 6px; line-height: 1.6; }
+.race-prose .race-list li:last-child { margin-bottom: 0; }
+.race-prose .race-table-wrap { margin: 0 0 16px; overflow-x: auto; max-width: 100%; }
+.race-prose .race-table { border-collapse: collapse; font-size: 15px; min-width: 320px; }
+.race-prose .race-table th,
+.race-prose .race-table td { padding: 8px 14px 8px 0; text-align: left; border-bottom: 1px solid var(--mist); white-space: nowrap; }
+.race-prose .race-table th { font-size: 13px; letter-spacing: .02em; text-transform: uppercase; color: var(--slate); font-weight: 600; }
+.race-prose .race-table td:first-child { white-space: normal; }
 .race-note { font-size: 14px; color: var(--slate); max-width: 68ch; }
 .race-note p { margin: 0 0 10px; }
 .race-note p:last-child { margin-bottom: 0; }

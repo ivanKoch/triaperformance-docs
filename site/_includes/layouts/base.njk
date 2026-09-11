@@ -20,8 +20,13 @@
 {%- for code in site.langOrder %}{% if alts[code] %}
 <link rel="alternate" hreflang="{{ code }}" href="{{ alts[code] | absoluteUrl }}">
 {%- endif %}{% endfor %}
-{%- if alts.es %}
-<link rel="alternate" hreflang="x-default" href="{{ alts.es | absoluteUrl }}">
+{#- x-default is the fallback for a reader whose language matches none of the
+    alternates, so it has to exist even when Spanish does not. Before September
+    11, 2026 it was emitted ONLY when a Spanish sibling existed, which meant
+    every Portuguese-only and English-only page shipped without one. -#}
+{%- set xdefault = alts.es or alts.en or alts.pt %}
+{%- if xdefault %}
+<link rel="alternate" hreflang="x-default" href="{{ xdefault | absoluteUrl }}">
 {%- endif %}
 {%- endif %}
 {#- Open Graph + Twitter card (added Aug 6, 2026). Every page had none, so a

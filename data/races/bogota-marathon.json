@@ -1,0 +1,114 @@
+{
+ "race_id": "bogota-marathon",
+ "city": "Bogotá",
+ "country": "Colombia",
+ "distance": "42k",
+ "language_market": [
+  "es"
+ ],
+ "name": {
+  "es": "Maratón de Bogotá"
+ },
+ "official_name": "VCHALLENGES 42K Bogotá",
+ "official_url": "https://www.vchallenges.co/2026/challenge/details/vchallenges42k",
+ "slug": {
+  "es": "maraton-bogota"
+ },
+ "next_edition_date": "2026-11-29",
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "es": "Último domingo de noviembre"
+ },
+ "start_time": {
+  "es": "6:30 de la mañana, un solo disparo, en el Parque Obelisco (Avenida Esperanza con Carrera 57). La organización no publica un esquema de cajones para 2026."
+ },
+ "hook": {
+  "es": "Ochenta y un metros de desnivel en todo el recorrido y un límite de cinco horas y media: sobre el papel, la maratón más fácil de Colombia. A 2.600 metros de altura, el papel miente."
+ },
+ "course_profile": {
+  "es": "Circuito urbano por el occidente y el norte de la ciudad — Calle 26, Carrera 50 y 60, Calle 53, la NQS y la Avenida Esperanza. La organización anuncia 81 metros de desnivel acumulado. La ciudad está entre 2.550 y 2.650 metros sobre el nivel del mar, y eso es todo lo que hay que saber del perfil. Certificado por World Athletics y clasificatorio para Boston."
+ },
+ "elevation_gain_m": 81,
+ "altitude_m": null,
+ "elevation_note": {
+  "es": "Los 81 metros son la cifra de la página oficial de 2026. El mismo organizador dio 88 metros a El Tiempo en 2025, y la diferencia no cambia ninguna decisión de entrenamiento.\n\nLo que sí cambiaría una decisión, y no está publicado, es la altitud de la salida: la organización no imprime una cifra. Bogotá está entre 2.550 y 2.650 metros según el punto de la ciudad, y esta página no elige un número dentro de esa banda."
+ },
+ "course_notes": {
+  "es": "**Salida, Parque Obelisco.** Avenida Esperanza con Carrera 57, a las 6:30 de la mañana, en el occidente de la ciudad.\n\n**El cuerpo del recorrido: Calle 26, Carrera 50 y 60, Calle 53 y la NQS.** Avenidas anchas del occidente y el centro-norte, con el trazado publicitado como plano y rápido — y para el desnivel lo es.\n\n**Kilómetro 29, corredor de la NQS entre la Calle 134 y la Calle 63.** Primer corte de tiempo. La vía se devuelve al tránsito vehicular a las 10:25.\n\n**Kilómetro 34, Calle 53 entre Carreras 28 y 60.** Segundo corte, a las 11:15.\n\n**Últimos kilómetros y meta**, de vuelta al occidente.\n\nLa organización enlaza la ruta en Strava desde su propia página; no publica una tabla kilómetro a kilómetro con altimetría, y esta página no la reconstruye."
+ },
+ "where_they_struggle": {
+  "es": "Lo que rompe esta carrera no aparece en el perfil, porque el perfil es honesto: con 81 metros de desnivel, no hay una cuesta que culpar.\n\n**Es la altura, y la marca de los ganadores lo dice mejor que cualquier análisis.** En 2025 se ganó en 2:28:43 en hombres y 2:48:10 en mujeres. Para un recorrido que se vende como plano y rápido, esos son tiempos lentos — y no es que el nivel sea bajo: es que a 2.600 metros hay aproximadamente un 25% menos de oxígeno disponible en cada respiración. Ese descuento se aplica a todo el pelotón, en proporción.\n\n**Y hay un segundo problema, que es de reglamento y no de fisiología.** Los cortes del kilómetro 29 y el 34 no te sacan de la carrera: te mandan a la acera y, sobre todo, **te quitan la hidratación y la atención médica**. Quien va justo de tiempo se queda solo en la última hora, que a esta altura es exactamente la hora en la que más se necesita beber. El relato que quedó del 2025, de una corredora que sí terminó, lo resume: *«si no me hubiera fundido en los últimos 10 km y si no se me hubiese quedado mi propio hidratante y sales»*."
+ },
+ "typical_weather": {
+  "es": "Finales de noviembre en Bogotá es el final de la temporada de lluvias y el comienzo de los meses más secos. No encontramos un registro de estación de ninguna mañana de carrera y no lo estimamos; la prensa de 2025 describió el día como «clima agradable», sin números.\n\nLo que no cambia de un año a otro es la combinación que importa: 6:30 de la mañana, a 2.600 metros, con el sol subiendo durante toda la carrera. El aire de la sabana es seco, y con aire seco se pierde mucha más agua por la respiración de la que el termómetro sugiere."
+ },
+ "cut_off": {
+  "year": 2026,
+  "es": "**5 horas y 30 minutos.** La organización lo escribe también como ritmo: **7 minutos y 52 segundos por kilómetro**, sostenidos toda la carrera. La medalla se entrega solo a quien termina dentro del límite.\n\nDos cortes, con hora de reloj:\n\n- **Kilómetro 29** (corredor de la NQS, de la Calle 134 a la Calle 63): la vía se abre al tránsito a las **10:25**. A partir de esa hora hay que pasar a la zona peatonal, y **se deshabilitan todos los servicios de soporte: hidratación y salud**.\n- **Kilómetro 34** (Calle 53 entre Carreras 28 y 60): lo mismo, a las **11:15**.\n\nDos advertencias. La prensa de 2025 publicó un ritmo máximo de 7:15 a 7:30 por kilómetro: **la cifra oficial de 2026 es 7:52**, y es la que hay que usar. Y el texto oficial no dice si las 5h30 se cuentan desde el disparo o desde tu chip; con un solo disparo la diferencia es pequeña, pero no está resuelta."
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 1722,
+  "median": "4:21:29",
+  "sub3_pct": 1.34,
+  "sub3_count_low": 23,
+  "note": {
+   "es": "Un pelotón pequeño con una mediana lenta para un recorrido plano — la firma de la altitud, otra vez. El dato que la organización sí destaca va en la otra dirección: 172 corredores clasificaron a Boston aquí en 2025. Ambas cosas son ciertas y describen a dos poblaciones distintas. No hay reparto por franjas ni tasa de abandono publicados."
+  }
+ },
+ "registration_window": {
+  "es": "Inscripciones por fases hasta agotar el cupo de 4.000. En 2026: Fase I hasta el 1 de octubre, Fase II del 2 de octubre al 5 de noviembre, Fase III del 6 al 26 de noviembre."
+ },
+ "registration_model": {
+  "es": "Por orden de inscripción y por fases de precio, sin sorteo ni marca mínima"
+ },
+ "registration_state": "open",
+ "registration_when": {
+  "es": "Fase I hasta el 1 de octubre de 2026"
+ },
+ "sell_out_note": {
+  "es": "Precios de 2026, en pesos colombianos: 195.000 en Fase I, 220.000 en Fase II y 250.000 en Fase III. El cupo total es de 4.000 corredores y no se ha reportado un agotamiento rápido."
+ },
+ "qualifying": {
+  "es": "No hay marca mínima para entrar. El recorrido está certificado por World Athletics y es clasificatorio para Boston — la organización reporta 172 clasificados en 2025 y Running Colombia contó 169 en 2024, lo que convierte a esta carrera en la principal puerta colombiana al maratón de Boston."
+ },
+ "corral_policy": {
+  "es": "La organización no publica un esquema de cajones para 2026: hay una sola salida a las 6:30."
+ },
+ "how_to_train": {
+  "es": "Esta es la carrera de este conjunto donde el bloque se diseña alrededor de una cifra concreta: **7:52 por kilómetro**.\n\n**Primero, decide si ese ritmo es tuyo, y decídelo pronto.** No es un límite de meta: es el promedio que hay que sostener desde el primer kilómetro, y con dos cortes intermedios que se aplican con hora de reloj. Si tu ritmo de maratón en llano y a nivel del mar ya ronda los 7:00, la altura se come ese margen. La tirada larga del bloque deja de ser «tres horas y media suaves» y pasa a ser el ensayo de un ritmo mínimo obligatorio, en altura y con el sol arriba.\n\n**Segundo, la altura no se compensa corriendo más.** A 2.600 metros el mismo esfuerzo da un ritmo más lento, siempre. Si vives en Bogotá, esa conversión ya está en tus piernas y no hay nada que ajustar. Si vienes de nivel del mar, entrena y corre por frecuencia cardíaca — el ritmo aquí es un resultado, no un objetivo — y recuerda que la ventana de llegada es o dos semanas antes, o lo más pegado posible a la carrera; los cuatro o cinco días previos son la peor de las tres opciones.\n\n**Tercero, la hidratación es un problema de logística, no solo de fisiología.** El aire seco de la sabana a 2.600 metros te saca agua por la respiración además del sudor, y si te retrasas más allá de un corte los puestos dejan de existir. Lleva tus propias sales y tu propio recipiente si vas ajustado de tiempo, y ensáyalo en el bloque en vez de estrenarlo el domingo.\n\n**Y una cosa que sí es física:** un recorrido de 81 metros de desnivel es 42 kilómetros con la misma zancada y sin una sola pausa involuntaria. Las tiradas largas deberían hacerse en terreno igual de llano, con cambios de cadencia dentro de la sesión para romper el patrón."
+ },
+ "plan_note": {
+  "es": "Una advertencia sobre el bloque de volumen más bajo: en la mayoría de los maratones es el plan de «terminar como se pueda». Aquí ese objetivo choca con un límite de 5h30 y dos cortes intermedios. Si tu ritmo realista en altura está por encima de 7:52 por kilómetro, el problema no lo resuelve el plan — lo resuelve elegir otra carrera para debutar y volver a Bogotá con más base."
+ },
+ "coach_hook": {
+  "es": "Pasar el kilómetro 29 después de las 10:25 no te descalifica: te deja en la acera, sin agua y sin asistencia, en la hora en que más las necesitas."
+ },
+ "target_queries": {
+  "es": [
+   "plan entrenamiento maraton de bogota",
+   "maraton de bogota 42k tiempo limite",
+   "maraton bogota altura como entrenar",
+   "maraton de bogota clasificatoria boston",
+   "vchallenges 42k bogota inscripciones",
+   "maraton de bogota cortes de tiempo"
+  ]
+ },
+ "sources": [
+  "https://www.vchallenges.co/2026/challenge/details/vchallenges42k",
+  "https://www.eltiempo.com/deportes/maraton-de-bogota-una-carrera-pensada-para-romper-records-y-clasificar-a-la-justa-de-boston-estrena-categorias-21k-y-32k-esto-es-lo-que-debe-saber-3512637",
+  "https://www.strava.com/routes/3342163403514414454",
+  "https://marathonview.net/race/143867",
+  "https://www.instagram.com/p/DR7HWGvEbEO/"
+ ],
+ "confidence_flags": [
+  "Esta NO es la Media Maratón de Bogotá (mmB). Es el 42K de VCHALLENGES / Ergofitness, otra carrera y otro organizador.",
+  "Abierto con la organización: 81 m (página 2026) frente a 88 m (el mismo organizador citado por El Tiempo en 2025). Se usa la cifra oficial de 2026.",
+  "La organización no publica la altitud de la salida. La página da la banda de la ciudad (2.550-2.650 m) y no elige un número dentro de ella, por eso altitude_m queda vacío.",
+  "Abierto con la organización: el texto no dice si las 5h30 se cuentan desde el disparo o desde el chip.",
+  "El ritmo máximo de 7:15-7:30 que publicó la prensa en 2025 contradice la cifra oficial de 2026 (7:52). Se usa la oficial.",
+  "No hay registro meteorológico publicado de ninguna mañana de carrera.",
+  "No existe tabla de altimetría por kilómetro publicada; la ruta oficial se enlaza como recorrido de Strava.",
+  "Precios y fases son los de 2026."
+ ]
+}

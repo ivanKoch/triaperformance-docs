@@ -1,0 +1,114 @@
+{
+ "race_id": "santiago-de-chile-marathon",
+ "city": "Santiago",
+ "country": "Chile",
+ "distance": "42k",
+ "language_market": [
+  "es"
+ ],
+ "name": {
+  "es": "Maratón de Santiago"
+ },
+ "official_name": "Maratón de Santiago Itaú",
+ "official_url": "https://maratondesantiago.cl",
+ "slug": {
+  "es": "maraton-santiago"
+ },
+ "next_edition_date": null,
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "es": "Entre finales de abril y mediados de mayo — la fecha se mueve de un año a otro"
+ },
+ "start_time": {
+  "es": "7:30 de la mañana en partidas diferidas, frente al Palacio de La Moneda, según las bases oficiales de 2026. Parte de la prensa de ese año publicó 7:40; manda el documento oficial, pero conviene confirmar el listado de largadas antes de viajar."
+ },
+ "hook": {
+  "es": "El punto más alto del recorrido llega después del kilómetro 35. Todo lo que se sube en esta carrera se sube cuando ya no queda con qué."
+ },
+ "course_profile": {
+  "es": "Circuito urbano con salida y meta en la Plaza de la Ciudadanía, frente a La Moneda. El valle está entre 530 y 670 metros sobre el nivel del mar y el recorrido acumula unos 172 metros de desnivel positivo — pero no repartidos: el punto más bajo está cerca del kilómetro 2 y el más alto después del 35."
+ },
+ "elevation_gain_m": 172,
+ "altitude_m": null,
+ "elevation_note": {
+  "es": "Los 172 metros de subida y 163 de bajada, con mínimo de 530 m cerca del kilómetro 2 y máximo de 670 m después del 35, son las cifras que la organización entrega a la prensa y que aparecen idénticas en varias fuentes desde 2024.\n\nDos cifras que circulan y que **no** hay que usar: Marathon-Index publica 480 metros de desnivel, casi el triple; y una guía local dio 915 metros de altitud en el kilómetro 21, lo que contradice el propio gráfico oficial, cuyo eje vertical termina en 700. Ninguna de las dos sobrevive al contraste con el perfil que publica la organización."
+ },
+ "course_notes": {
+  "es": "**Kilómetro 0 al 4, la Alameda hacia el poniente y la Avenida España.** Salida frente a La Moneda, con una bajada suave hasta el punto más bajo del recorrido, unos 530 metros, alrededor del kilómetro 2. La calzada de España es el problema práctico del arranque: baldosas y baches, con el pelotón todavía apretado y en bajada.\n\n**Kilómetro 4 al 21, hacia el sur y el oriente.** Blanco Encalada, Beauchef, Rondizzoni, Viel, Matta y Grecia, entrando a Ñuñoa y Macul. Es la parte larga y monótona: el terreno sube poco a poco y de forma continua, sin nada que lo señale.\n\n**Kilómetro 21 al 35, Vespucio Sur y Vespucio Norte.** La subida no se interrumpe. Buena parte del pelotón pasa la media maratón creyendo que el recorrido es llano porque nada se siente como una cuesta.\n\n**Kilómetro 35 al 38, el punto más alto y la bajada.** Alrededor de los 670 metros, del lado de Vitacura, y desde ahí el descenso más marcado del día.\n\n**Kilómetro 38 a meta, Costanera Andrés Bello, Providencia, Plaza Baquedano y la Alameda.** Una última subida pequeña de vuelta a los 550 metros para terminar donde se empezó.\n\nLa organización publica el perfil como una imagen sin marcas de kilómetro; no existe una tabla kilómetro a kilómetro, y esta página no la fabrica."
+ },
+ "where_they_struggle": {
+  "es": "Santiago no tiene una cuesta con nombre, y ese es exactamente el problema.\n\n**El recorrido sube durante treinta y cinco kilómetros sin avisar.** Desde el punto más bajo, cerca del kilómetro 2, hasta el más alto, después del 35, hay unos 140 metros de ganancia repartidos tan finamente que ningún kilómetro se siente como una subida. Lo que se siente es que el ritmo cuesta un poco más de lo que debería, y la explicación cómoda —«hoy no estoy fino»— es la equivocada.\n\n**Y el techo llega en el peor lugar posible.** No después del 10, donde uno todavía tiene margen para corregir; después del 35, donde ya no. Quien corrió la primera mitad por ritmo y no por esfuerzo, llega ahí con la carrera hipotecada.\n\n**El tercer factor está en el reglamento, no en el terreno.** Las bases exigen pasar el kilómetro 21 en menos de 3 horas y el 32 en menos de 4 horas y 35 minutos, y ambos se aplican pidiendo al corredor que abandone. Son ritmos razonables, pero se cumplen en la parte del recorrido que sube.\n\nNo hay un relato público de gente reventada en un kilómetro concreto — no porque no ocurra, sino porque aquí no hay un punto al que culpar."
+ },
+ "typical_weather": {
+  "es": "Otoño en Santiago, entre finales de abril y mediados de mayo. No encontramos un registro de estación de ninguna mañana de carrera y no lo estimamos; la referencia climática del período ronda los 18 °C con 65% de humedad y poca probabilidad de lluvia, pero eso es una media, no el registro de un domingo.\n\nHay una variable que sí es propia de esta ciudad y que la organización no publica: la calidad del aire. Santiago está en un valle cerrado y los episodios de mala ventilación son habituales en otoño. No hay un dato de calidad del aire en día de carrera que podamos citar, pero si eres asmático o sensible, es la pregunta que conviene hacerle a la organización antes de inscribirte."
+ },
+ "cut_off": {
+  "year": 2026,
+  "es": "**6 horas**, según el Artículo 3 de las bases oficiales de 2026. Al cumplirse, se cierra la llegada, se levantan los puntos de control y de avituallamiento y el circuito vuelve al tránsito.\n\nDos cortes intermedios, en el Artículo 10:\n\n- **Kilómetro 21 en un máximo de 3 horas**\n- **Kilómetro 32 en un máximo de 4 horas y 35 minutos**\n\nA quien los exceda «se le solicitará abandonar la competencia», y hay un vehículo de cierre que recoge a quien lo necesite.\n\nDos detalles que sí cambian la cuenta. El tiempo oficial es de disparo para la primera largada de cada distancia y de chip para las siguientes, así que si sales en una partida diferida tu reloj y el de la organización no son el mismo. Y las preguntas frecuentes del sitio no repiten ninguno de estos números: el documento que manda son las bases."
+ },
+ "field": {
+  "year": 2026,
+  "finishers_low": 6285,
+  "median": "4:06:24",
+  "median_m": "4:01:06",
+  "median_f": "4:22:22",
+  "sub3_pct": 3.95,
+  "sub3_count_low": 248,
+  "note": {
+   "es": "De 4.935 varones y 1.350 mujeres, en una edición que creció desde los 5.048 llegados de 2025. Una mediana justo por encima de las cuatro horas es rápida para un recorrido que sube durante treinta y cinco kilómetros. Cuidado con las cifras de 30.000 o 35.000 corredores que aparecen en prensa: son el fin de semana completo con todas las distancias, no el maratón. No hay reparto por franjas ni tasa de abandono publicados."
+  }
+ },
+ "registration_window": {
+  "es": "Las inscripciones abren en octubre, con unos seis meses de anticipación, y se cierran unas semanas antes de la carrera o al agotar el cupo. El precio sube por fases."
+ },
+ "registration_model": {
+  "es": "Por orden de inscripción y por fases de precio, sin sorteo ni marca mínima"
+ },
+ "registration_state": "window",
+ "registration_when": {
+  "es": "la de 2026 abrió el 14 de octubre de 2025 y cerró el 5 de abril; la de 2027 todavía no tiene fecha publicada y el ciclo anterior abrió en octubre"
+ },
+ "sell_out_note": {
+  "es": "Precios de 2026: 40.000 pesos chilenos en la primera fase y 53.000 en la tercera para residentes, y 120 dólares para corredores extranjeros desde el primer día. Hubo opción de reembolso hasta veinte días antes de la carrera."
+ },
+ "qualifying": {
+  "es": "No hay marca mínima para entrar. El recorrido está certificado y la organización destaca su puntuación para el circuito de mayores de 40 años."
+ },
+ "corral_policy": {
+  "es": "Las bases hablan de partidas diferidas para el maratón, pero la organización no publica una tabla de cajones por franja de tiempo para los 42K como sí la hay para los 21K. Conviene confirmar el listado de largadas antes de viajar, porque de ello depende si tu tiempo oficial es de disparo o de chip."
+ },
+ "how_to_train": {
+  "es": "Este bloque se entrena contra una ilusión: la de que el recorrido es plano.\n\n**Lo primero es correr la primera mitad por esfuerzo, y entrenarlo así.** Ciento cuarenta metros repartidos en treinta y cinco kilómetros no se sienten como cuesta; se sienten como un día regular. Si el plan es «sostener el ritmo objetivo hasta el 30», aquí ese plan se rompe sin que nadie se dé cuenta de dónde. La herramienta es la frecuencia cardíaca o la percepción de esfuerzo en la primera mitad, con el ritmo como consecuencia.\n\n**Lo segundo es entrenar subidas largas y suaves, que es lo que casi nadie hace.** El trabajo típico de cuestas son repeticiones cortas y empinadas. Lo que pide Santiago es lo contrario: bloques de veinte a cuarenta minutos en pendiente de medio punto porcentual, a esfuerzo de maratón, para aprender cuánto cuesta realmente esa pendiente invisible. En cinta se reproduce exacto; en la calle, cualquier avenida con salida lenta de un valle sirve.\n\n**Lo tercero es la subida del kilómetro 35 y la bajada que le sigue.** Las últimas tres tiradas largas del bloque deberían terminar con una subida y después una bajada rápida, en ese orden. La bajada del 35 al 38 es donde se recupera tiempo si quedan cuádriceps, y donde se pierde si no quedan.\n\n**Y una nota sobre la altura, para descartarla:** entre 530 y 670 metros no hay efecto fisiológico relevante. Si vienes de nivel del mar, este no es un factor y no hay que planificar la llegada por él."
+ },
+ "coach_hook": {
+  "es": "Treinta y cinco kilómetros de subida que nunca se siente como subida, y después el punto más alto del recorrido — un plan cerrado no te avisa de eso en el kilómetro 12, que es cuando importa."
+ },
+ "target_queries": {
+  "es": [
+   "plan entrenamiento maraton de santiago",
+   "maraton de santiago altimetria recorrido",
+   "maraton de santiago tiempo limite cortes",
+   "maraton de santiago 2027 inscripciones",
+   "maraton de santiago es dificil",
+   "como entrenar maraton de santiago chile"
+  ]
+ },
+ "sources": [
+  "https://maratondesantiago.cl",
+  "https://maratondesantiago.cl/wp-content/uploads/2025/10/BASES-MARATON-DE-SANTIAGO-2026-VF1.pdf",
+  "https://maratondesantiago.cl/wp-content/uploads/2026/04/Altimetria-42K-Web.png",
+  "https://rutarunning.com/noticias/recorridos-oficiales-del-maraton-de-santiago-2025-altimetria-y-detalles-clave/",
+  "https://runchile.cl/recorrido-del-maraton-de-santiago-2025-la-carrera-se-tomara-las-principales-calles-de-la-capital/",
+  "https://marathonview.net/race/146754",
+  "https://www.tvn.cl/deportes/maraton-de-santiago/maraton-de-santiago-2026-revisa-los-recorridos-de-10k-21k-y-42k"
+ ],
+ "confidence_flags": [
+  "Sin fecha confirmada para 2027. La fecha se ha movido entre abril y mayo en los últimos años, así que la ventana es deliberadamente amplia.",
+  "Abierto con la organización: las bases 2026 fijan la salida a las 7:30 y parte de la prensa publicó 7:40. Manda el documento oficial.",
+  "Marathon-Index publica 480 m de desnivel y una guía local dio 915 m de altitud en el km 21. Ambas contradicen el perfil oficial y se descartan explícitamente.",
+  "No existe tabla de altimetría por kilómetro: la organización publica el perfil como una imagen sin marcas de kilómetro. La descripción del recorrido combina esa imagen con la lista de calles que entrega el organizador.",
+  "No hay registro meteorológico publicado de ninguna mañana de carrera, ni dato de calidad del aire en día de carrera.",
+  "La organización no publica cajones por franja de tiempo para los 42K.",
+  "Precios y fases son los de 2026."
+ ]
+}

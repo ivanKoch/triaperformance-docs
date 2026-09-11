@@ -1,0 +1,107 @@
+{
+ "race_id": "sao-paulo-2-marathon",
+ "city": "São Paulo",
+ "country": "Brasil",
+ "distance": "42k",
+ "language_market": [
+  "pt"
+ ],
+ "name": {
+  "pt": "SP City Marathon"
+ },
+ "official_name": "Nike SP City Marathon (Iguana Sports)",
+ "official_url": "https://iguanasports.com.br",
+ "slug": {
+  "pt": "sp-city-marathon"
+ },
+ "next_edition_date": null,
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "pt": "Último domingo de julho"
+ },
+ "start_time": {
+  "pt": "5h10 para os cadeirantes, 5h15 para a elite e os pelotões A a F entre 5h20 e 6h40, na Praça Charles Miller, no Pacaembu. O tempo limite de 6h30 é contado **a partir da última largada, às 6h35** — ou seja, o relógio é o mesmo para todo mundo."
+ },
+ "hook": {
+  "pt": "A outra maratona de São Paulo: julho, do Pacaembu ao Jockey, com dois quilômetros de subida contínua na 23 de Maio e o muro esperando dentro da USP."
+ },
+ "course_profile": {
+  "pt": "Ponto a ponto atravessando 18 bairros, da Praça Charles Miller até o Jockey Club. Tem cerca de 305 metros de desnível acumulado — de longe o percurso mais duro das duas maratonas paulistanas — a cerca de 750 metros de altitude. Chancela WA e CBAt Gold, e válido para classificar a Boston."
+ },
+ "elevation_gain_m": 305,
+ "elevation_note": {
+  "pt": "Os 305 metros vêm de uma análise da edição de 2025 e é a cifra mais confiável que existe para este percurso. Cuidado com o número de 280 metros que aparece no Marathon-Index: pode estar descrevendo a **outra** maratona de São Paulo, que é em abril e tem outro traçado.\n\nE cuidado com material de 2025 em geral: o percurso mudou em 2026 e parte das análises publicadas ainda descreve o trecho antigo enquanto a seção de rota já descreve o novo — inclusive dentro do mesmo artigo."
+ },
+ "course_notes": {
+  "pt": "**Largada, Praça Charles Miller, Pacaembu.** A Avenida Pacaembu começa em descida, no escuro, com o pelotão inteiro junto.\n\n**Primeiros quilômetros, o trecho refeito em 2026.** Dr. Abraão Ribeiro, Memorial da América Latina, Norma Pieruccini Giannotti, Rudge e Rio Branco. **O Minhocão saiu do percurso nesta edição** — qualquer relato que descreva o elevado é de 2025 ou anterior.\n\n**Centro.** Theatro Municipal, Viaduto do Chá e Avenida Ipiranga.\n\n**Avenida 23 de Maio: cerca de dois quilômetros de subida contínua.** É o trecho que, nas palavras de quem cobre a prova, separa quem administrou o ritmo de quem não administrou.\n\n**Ibirapuera, JK e o Túnel Sebastião Camargo.**\n\n**Lineu de Paula Machado e o trecho subterrâneo, por volta do quilômetro 21.** É aqui que a meia maratona se separa e segue para o Jockey.\n\n**Villa-Lobos, ida e volta.**\n\n**Dentro da USP: Escola Politécnica e o retorno pela própria USP.** O quilômetro 30 acontece aqui, e é o ponto que os corredores chamam de muro.\n\n**Últimos dois quilômetros até o Jockey Club**, onde é a chegada."
+ },
+ "where_they_struggle": {
+  "pt": "Duas coisas, e a primeira é de manual.\n\n**A 23 de Maio.** Dois quilômetros de subida contínua no meio da prova, numa avenida larga e sem sombra. Não é íngreme o suficiente para obrigar ninguém a caminhar, e é longa o suficiente para custar caro a quem sobe no ritmo em que vinha. É o divisor da prova.\n\n**O muro, dentro da USP, por volta do quilômetro 30.** Sem nome oficial, sem placa, e mesmo assim é o trecho que aparece em todo relato de prova. Chega depois da ida e volta do Villa-Lobos, quando a conta da 23 de Maio vence.\n\n**E há um detalhe de 2026 que muda a leitura de tudo que você vai ler sobre esta prova:** o Minhocão, que era o primeiro ponto de quebra das edições anteriores, **saiu do percurso**. Relatos de 2025 e anteriores descrevem um começo que já não existe — e boa parte do material publicado mistura os dois, descrevendo a rota nova e a altimetria velha no mesmo texto.\n\nJulho em São Paulo joga a favor: é a manhã mais fria do calendário paulistano, e é uma vantagem real sobre a outra maratona da cidade, que corre em abril."
+ },
+ "typical_weather": {
+  "pt": "Julho é inverno em São Paulo e a largada é às 5h15, a cerca de 750 metros de altitude. Não encontramos registro de estação de nenhuma manhã de prova e não o estimamos — e desconfie de bases climáticas automáticas para esta prova, porque várias delas parecem estar misturando julho com a maratona de abril.\n\nO que é estrutural: você larga no escuro e no frio, com o pelotão inteiro vestido para os primeiros vinte minutos e não para as três horas seguintes. O que sobra de roupa vira peso na 23 de Maio."
+ },
+ "cut_off": {
+  "year": 2026,
+  "pt": "**6h30 de duração máxima, contadas a partir da última largada, às 6h35.** O pórtico de chegada fica aberto até as **13h05**.\n\nTrês pontos com hora de relógio, e **eles não são todos a mesma coisa**:\n\n| Ponto | km | Hora | O que acontece |\n|---|---|---|---|\n| Ponto de Corte 1, Praça Panamericana | 25,4 | **10h15** | volta direto para a chegada |\n| Ponto de Corte 2, Portão 2 da USP | 32,8 | **11h20** | volta direto para a chegada |\n| Portão 1 da USP | 39,0 | **11h30** | aguarda a orientação do fiscal para atravessar a Rua Alvarenga |\n\nA diferença entre os dois primeiros e o terceiro é importante: os dois primeiros encerram a sua prova no percurso original; o do quilômetro 39 é uma retenção de trânsito, não um fim de prova.\n\nNão há outra cláusula de corte no regulamento, e não há veículo vassoura descrito."
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 5386,
+  "note": {
+   "pt": "4.293 homens e 1.093 mulheres na maratona. A organização não publica mediana: o que existe é a média, 4h12min55s entre os homens e 4h37min34s entre as mulheres — média não é mediana, então leia isso como uma descrição grosseira. A edição de 2026 cresceu para 8.300 números na maratona e esgotou ainda na pré-venda."
+  }
+ },
+ "registration_window": {
+  "pt": "Inscrições abertas de uma vez, com pré-venda, e sem sorteio. A edição de 2026 esgotou na própria pré-venda."
+ },
+ "registration_model": {
+  "pt": "Por ordem de inscrição, com pré-venda, sem sorteio nem marca mínima"
+ },
+ "registration_state": "window",
+ "registration_when": {
+  "pt": "a edição de 2026 esgotou na pré-venda e a organização ainda não anunciou quando abrem as inscrições de 2027"
+ },
+ "sell_out_note": {
+  "pt": "Esta é a prova mais disputada das duas de São Paulo: 8.300 números na maratona em 2026, dentro de um fim de semana de 32.300 vagas, e esgotou na pré-venda. Quem quer correr precisa estar atento à abertura, não ao prazo final."
+ },
+ "qualifying": {
+  "pt": "Não há marca mínima para entrar. O percurso tem chancela World Athletics e CBAt Gold, e é válido para classificar a Boston."
+ },
+ "corral_policy": {
+  "pt": "Pelotões A a F por ritmo declarado — do A, até 4:30 por quilômetro, ao F, acima de 7:01 — largando entre 5h20 e 6h40. Como as 6h30 são contadas a partir da última largada, o pelotão não muda o seu tempo limite; muda quanto tempo de relógio você tem até cada um dos três pontos de corte."
+ },
+ "how_to_train": {
+  "pt": "Esta é a mais dura das duas maratonas de São Paulo, e o bloco tem que refletir isso.\n\n**A 23 de Maio treina-se como subida longa, não como ladeira.** Dois quilômetros contínuos em ritmo de maratona é um esforço de oito a doze minutos. Tiros curtos de ladeira não preparam para isso. O que prepara é um bloco de subida contínua de dez minutos colocado **no meio do longão**, com prova pela frente, repetido ao longo do bloco — o objetivo é aprender a passar sem acelerar e sem estourar, não sofrer.\n\n**O muro do quilômetro 30 se treina no fim.** Os três últimos longões do bloco devem ter os quilômetros finais em ritmo de maratona, não em ritmo fácil. É a única forma de saber o que sobra depois de 305 metros de desnível acumulado.\n\n**A descida dos primeiros quilômetros é uma armadilha, não um presente.** A Avenida Pacaembu desce, você está fresco e o pelotão está junto. Correr em descida no ritmo que a gravidade oferece é trabalho excêntrico puro, e a conta vence exatamente na USP. Coloque descidas controladas dentro dos longões, a partir da metade do bloco.\n\n**E aproveite julho.** É a manhã mais fria do calendário paulistano e a melhor janela climática que a cidade oferece para uma maratona — o que significa que o seu limitante aqui vai ser o percurso e o seu ritmo, não a temperatura. Isso é raro e é um argumento para escolher esta prova em vez da de abril se a sua meta é marca."
+ },
+ "coach_hook": {
+  "pt": "Dois quilômetros de subida na 23 de Maio no meio da prova, e o muro esperando na USP quinze quilômetros depois — a conta da primeira vence no segundo."
+ },
+ "target_queries": {
+  "pt": [
+   "plano de treino sp city marathon",
+   "sp city marathon percurso altimetria 23 de maio",
+   "sp city marathon tempo de corte usp",
+   "qual das duas maratonas de sao paulo eu corro",
+   "sp city marathon 2027 inscricoes",
+   "sp city marathon e dificil"
+  ]
+ },
+ "sources": [
+  "https://iguanasports.com.br",
+  "https://iguanasports.com.br/cdn/shop/files/REGULAMENTO_SP_City_Marathon_2026.pdf",
+  "https://corrida360.com.br/blog/nike-sp-city-marathon-2026-guia-completo-10a-edicao",
+  "https://casacor.abril.com.br/pt-BR/noticias/cidades/sp-city-veja-o-trajeto-da-corrida-que-leva-aos-pontos-mais-iconicos-da-cidade",
+  "https://www.youtube.com/watch?v=hkHm1sY7OWc",
+  "https://openresults.run/evento/2025-spcity-marathon-2025/"
+ ],
+ "confidence_flags": [
+  "São Paulo tem DUAS maratonas. Esta é a SP City, da Iguana, em julho, do Pacaembu ao Jockey. A outra é a Internacional, da Yescom, em abril, no Ibirapuera. Quase todo material em português confunde as duas.",
+  "Sem data confirmada para 2027. A página mostra a janela habitual (último domingo de julho).",
+  "O percurso mudou em 2026: o Minhocão saiu. Material de 2025 e anterior descreve um começo que já não existe, e pelo menos uma análise publicada mistura a rota nova com a altimetria antiga no mesmo texto.",
+  "Os 305 m são de uma análise da edição de 2025. Os 280 m do Marathon-Index podem se referir à outra maratona de São Paulo.",
+  "Os números de pelotão de 2025 são médias, não medianas — a organização não publica mediana e esta página não a estima.",
+  "Não há registro meteorológico publicado de nenhuma manhã de prova, e bases climáticas automáticas parecem estar misturando esta prova (julho) com a de abril.",
+  "As três linhas de corte são as do regulamento de 2026. Versões anteriores desta pesquisa listavam apenas duas delas."
+ ]
+}

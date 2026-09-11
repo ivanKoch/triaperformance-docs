@@ -1,0 +1,101 @@
+{
+ "race_id": "porto-marathon",
+ "city": "Porto",
+ "country": "Portugal",
+ "distance": "42k",
+ "language_market": [
+  "pt"
+ ],
+ "name": {
+  "pt": "Maratona do Porto"
+ },
+ "official_name": "EDP Maratona do Porto",
+ "official_url": "https://www.maratonadoporto.com",
+ "slug": {
+  "pt": "maratona-do-porto"
+ },
+ "next_edition_date": "2026-11-08",
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "pt": "Um domingo de novembro"
+ },
+ "start_time": {
+  "pt": "8h00 da manhã, junto ao SEALIFE, em Matosinhos. A chegada é no Queimódromo, no Parque da Cidade — os dois pontos ficam a poucos quilômetros um do outro, mas não são o mesmo lugar."
+ },
+ "hook": {
+  "pt": "A segunda maratona de Portugal atravessa a Ponte Dom Luís I duas vezes e passa pela Ribeira — e o regulamento nunca usa a palavra calçada."
+ },
+ "course_profile": {
+  "pt": "Ponto a ponto curto, entre Matosinhos e o Parque da Cidade, com uma longa incursão pelo centro histórico e por Gaia pelo meio. É descrito como plano e rápido por fontes secundárias, e a organização publica a altimetria como um ficheiro para descarregar, não como um número."
+ },
+ "elevation_gain_m": null,
+ "elevation_note": {
+  "pt": "A organização disponibiliza a altimetria como um documento para descarregar e não imprime um valor de desnível acumulado em lugar nenhum. As fontes secundárias limitam-se a dizer «plano e rápido», o que é linguagem de marketing e não um dado. Por isso esta página não avança um número.\n\nO que muda o seu plano não é o desnível: é o piso. Veja a seção seguinte."
+ },
+ "course_notes": {
+  "pt": "**Largada, SEALIFE, Matosinhos.** 8h00, junto ao mar.\n\n**Primeiro terço, a frente atlântica e a Boavista.** Castelo do Queijo, Avenida da Boavista e Circunvalação — avenidas largas, asfalto, e o vento do Atlântico como única companhia.\n\n**O centro histórico e a travessia para Gaia.** Avenida Dom Afonso Henriques com uma ida e volta, e depois a **Ponte Dom Luís I** para Vila Nova de Gaia.\n\n**A marginal de Gaia até à Afurada**, e o regresso outra vez pela Dom Luís I.\n\n**O Douro até ao Infante** e a subida de volta em direção ao Queijo.\n\n**Último troço, Circunvalação até ao Queimódromo**, no Parque da Cidade, onde é a meta.\n\n*Nota sobre o percurso: esta descrição segue o traçado publicado para 2025 — confirme o mapa de 2026 antes de decidir o plano de prova.*"
+ },
+ "where_they_struggle": {
+  "pt": "O regulamento desta prova **nunca** usa a palavra calçada, e mesmo assim é a primeira coisa que um corredor devia saber.\n\n**Olhe para as ruas em vez do regulamento.** O percurso atravessa a Ribeira, a Ponte Dom Luís I e a marginal de Gaia. São ruas de calçada portuguesa no núcleo histórico — pedra irregular, escorregadia com humidade, e com uma superfície que obriga a passada a ajustar-se a cada apoio. O resto do traçado, na frente atlântica, na Boavista e na Circunvalação, é asfalto normal. Ninguém vai avisar você disso: é uma inferência das ruas por onde se passa, não uma cláusula publicada, e é por isso que está aqui.\n\n**Isto não é a fama de Lisboa aplicada ao Porto.** Lisboa é a mais empedrada das duas maratonas portuguesas; a do Porto tem troços, não um percurso inteiro. Mas os troços caem no meio da prova e são a única parte em que o piso decide alguma coisa.\n\n**Depois há o vento.** Os quilômetros atlânticos, no início e no fim, são completamente expostos — e o fim é quando já não há como negociar com ele.\n\n**Não encontrámos nenhuma subida com nome próprio**, nem nenhum relato consistente de um quilômetro onde as pessoas rebentam. Se existe, não está escrito."
+ },
+ "typical_weather": {
+  "pt": "Novembro no Porto, com largada às 8h00 e mar ao lado durante grande parte do percurso. Não encontrámos registo de estação de nenhuma manhã de prova e não o estimamos; a edição de 2025 foi descrita como amena, sem números.\n\nO que é previsível é a combinação: manhã de novembro no litoral norte significa humidade alta e vento, e humidade alta sobre calçada significa pedra escorregadia. É outra razão para não estrear tênis aqui."
+ },
+ "cut_off": {
+  "year": 2026,
+  "pt": "**6 horas** de duração máxima para a maratona, segundo o regulamento de 2026. A meia tem 3 horas e os 10 km têm 2. O chip é obrigatório e intransmissível.\n\n**Não há cortes intermédios** — nem um único km com hora de relógio no regulamento.\n\nExiste uma tabela de «último corredor» na página dos percursos, com passagens de 5 em 5 quilômetros (quilômetro 30 às 12h27, quilômetro 40 às 13h42, chegada às 14h00). **É uma projeção das 6 horas, não uma cláusula de exclusão**: nenhum documento diz que sais da prova se passar depois dessas horas. Serve para planear, não para temer."
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 4763,
+  "note": {
+   "pt": "4.763 chegados para cerca de 7.500 inscritos — e essa diferença é sobretudo gente que não chegou a largar, não uma taxa de desistência, porque a organização não publica uma. Uma contagem de terceiros aponta mais de 250 corredores abaixo das 3 horas e mais de 2.500 abaixo das 4, o que descreve um pelotão razoavelmente rápido. Não há mediana oficial publicada e esta página não a estima."
+  }
+ },
+ "registration_window": {
+  "pt": "Inscrições pelo site oficial e na Loja do Corredor, abertas com meses de antecedência. A organização não publica uma grelha de preços por fases."
+ },
+ "registration_model": {
+  "pt": "Por ordem de inscrição, sem sorteio nem marca mínima"
+ },
+ "sell_out_note": {
+  "pt": "Não encontrámos grelha de preços nem indicação de esgotamento para 2026. Um detalhe operacional que é mesmo uma regra: o levantamento do dorsal é **só** no Centro de Congressos da Alfândega, sexta e sábado, sem exceções."
+ },
+ "qualifying": {
+  "pt": "Não há marca mínima para entrar. Há, isso sim, marca para sair à frente: o grupo Sub-E exige comprovativo de menos de 3h00 nos homens e menos de 3h15 nas mulheres."
+ },
+ "corral_policy": {
+  "pt": "Grupos por marca declarada, segundo a informação de 2025: Elite; Sub-E, com comprovativo de menos de 3h00 (homens) ou 3h15 (mulheres); A abaixo de 3h15; B entre 3h15 e 3h45; C acima de 3h45. Confirme a tabela de 2026 antes de declarar o seu tempo."
+ },
+ "how_to_train": {
+  "pt": "Há uma coisa a treinar aqui que não se treina em mais nenhuma prova deste conjunto: **correr sobre pedra irregular, cansado**.\n\n**A calçada não é mais dura, é mais instável.** Cada apoio cai numa inclinação ligeiramente diferente, e quem paga por isso são o tornozelo, o tendão de Aquiles e o pé. Coloque no bloco, a partir de meio, trinta a quarenta minutos de corrida em piso irregular — empedrado, trilho técnico, o que tiver — **no fim da tirada longa e não no início**, porque é cansado que a estabilidade do tornozelo falha. Trabalho de pé e tornozelo (apoio unipodal, elevações de gêmeo com o joelho fletido e estendido) deixa de ser complementar e passa a ser específico.\n\n**Não estreie tênis.** Calçada com humidade de novembro não é lugar para descobrir que a sua sola nova tem pouca aderência, nem para experimentar uma placa rígida que reduz a adaptação do pé ao piso. Use o modelo que já correu pelo menos duas tiradas longas.\n\n**O vento atlântico está no início e no fim.** O fim é o que interessa: os últimos quilômetros até ao Queimódromo são expostos e chegam quando já não há resposta. A gestão é conservar margem até lá, e isso decide-se no primeiro terço, na Boavista, que é exatamente onde apetece acelerar.\n\n**E aproveite a ausência de cortes intermédios**, que é rara. Aqui só há um relógio, o das 6 horas. Isso significa que você pode construir o plano de prova em função do piso e do vento, sem ter de cumprir uma hora num ponto intermédio — uma liberdade que a maioria das maratonas deste tamanho não dá a você."
+ },
+ "coach_hook": {
+  "pt": "Ninguém te vai dizer que atravessas a Ribeira e a Ponte Dom Luís I em calçada portuguesa, porque o regulamento não usa essa palavra — e é a única parte do percurso que decide alguma coisa."
+ },
+ "target_queries": {
+  "pt": [
+   "plano de treino maratona do porto",
+   "maratona do porto percurso calcada",
+   "maratona do porto tempo limite",
+   "maratona do porto inscricoes",
+   "maratona do porto e plana",
+   "maratona do porto ponte dom luis"
+  ]
+ },
+ "sources": [
+  "https://www.maratonadoporto.com",
+  "https://www.maratonadoporto.com/en/rules-2026",
+  "https://www.maratonadoporto.com/pt/percursos-2025",
+  "https://www.sub3-marathon.com/"
+ ],
+ "confidence_flags": [
+  "O regulamento nunca usa a palavra calçada. A observação sobre o piso é uma inferência a partir das ruas nomeadas no percurso (Ribeira, Dom Luís I, marginal de Gaia) e está apresentada como tal.",
+  "A descrição do percurso segue o traçado publicado para 2025; o mapa de 2026 não foi verificado.",
+  "A organização publica a altimetria como ficheiro para descarregar e não imprime valor de desnível. Por isso elevation_gain_m fica vazio.",
+  "Não há mediana oficial publicada. Os números abaixo de 3h00 e de 4h00 são de uma contagem de terceiros, não de um dump oficial, e estão rotulados como tal.",
+  "Os grupos de partida são os de 2025; confirmar a grelha de 2026.",
+  "Não há registo meteorológico publicado de nenhuma manhã de prova.",
+  "Não encontrámos grelha de preços de 2026 nem calendário de inscrições com datas, por isso esta página não indica um estado de inscrição."
+ ]
+}

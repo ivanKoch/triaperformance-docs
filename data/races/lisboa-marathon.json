@@ -1,0 +1,105 @@
+{
+ "race_id": "lisboa-marathon",
+ "city": "Lisboa",
+ "country": "Portugal",
+ "distance": "42k",
+ "language_market": [
+  "pt"
+ ],
+ "name": {
+  "pt": "Maratona de Lisboa"
+ },
+ "official_name": "EDP Maratona de Lisboa",
+ "official_url": "https://maratonaclubedeportugal.com",
+ "slug": {
+  "pt": "maratona-de-lisboa"
+ },
+ "next_edition_date": "2026-10-10",
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "pt": "Um sábado de outubro"
+ },
+ "start_time": {
+  "pt": "8h00 da manhã, em Carcavelos, na N6-7 em frente à Nova SBE. As largadas são escalonadas: 8h00, 8h06, 8h12, 8h18 e 8h24 na edição de 2025 — confirme o seu horário para 2026, porque o tempo limite é contado a partir da última partida e não da sua.\n\nE repare na véspera: **esta maratona é no sábado**, não ao domingo."
+ },
+ "hook": {
+  "pt": "Quarenta e dois quilômetros à beira-mar, com a chegada na Praça do Comércio — e um corte ao quilômetro 30 cuja hora os dois documentos oficiais não dizem igual."
+ },
+ "course_profile": {
+  "pt": "Ponto a ponto, sempre ao lado da água: começa em Carcavelos e termina na Praça do Comércio, passando por Estoril, Oeiras, Algés e Belém. Fica entre os 5 e os 35 metros de altitude do princípio ao fim, com a única subida sustentada entre os quilômetros 5 e 12."
+ },
+ "elevation_gain_m": null,
+ "elevation_note": {
+  "pt": "A organização não publica um valor de desnível acumulado e não adotamos nenhum dos que circulam em traçados de terceiros. O que esses traçados concordam em mostrar é a forma do percurso: uma faixa estreita entre os 5 e os 35 metros, com a única subida digna desse nome na perna para poente, entre os quilômetros 5 e 12, e praticamente nada depois do 22."
+ },
+ "course_notes": {
+  "pt": "**Largada, Carcavelos.** Na N6-7, em frente à Nova SBE, a cerca de 20 km da meta. Quem chega de carro chega ao lugar errado do percurso — a partida e a chegada não são o mesmo lugar.\n\n**Quilómetro 0 ao 12, a perna para poente pela Marginal.** É aqui que está a única subida sustentada do dia, entre o 5 e o 12, e é também o troço mais exposto ao vento do Atlântico.\n\n**Quilómetro 12 ao 22, Estoril, Oeiras e Algés.** Volta para nascente pela Marginal, com o Tejo do lado direito e o terreno a assentar.\n\n**Quilómetro 22 ao 34, o corredor do Tejo.** Praticamente plano até ao fim. É um troço bonito e absolutamente monótono: a mesma vista, a mesma inclinação, a mesma passada, durante mais de uma hora.\n\n**Quilómetro 34 ao 36, Belém.** Torre de Belém por volta do 34,8 e os Jerónimos por volta do 35,7.\n\n**Últimos quilômetros, até à Praça do Comércio.** Beira-rio até à chegada, no Terreiro do Paço."
+ },
+ "where_they_struggle": {
+  "pt": "Três coisas, e nenhuma é uma subida.\n\n**O vento da Marginal.** O percurso corre colado ao mar do primeiro ao último quilômetro, sem um único edifício a servir de abrigo. Num dia de nortada o troço para poente é contra o vento e o regresso é a favor, o que soa a compensação e não é: gasta-se na ida a carreira que se queria correr na volta.\n\n**O calor de outubro, que ninguém espera.** A própria previsão do percurso oficial de 2025 avisa para «o calor e a instabilidade» de outubro em Lisboa. Uma largada às 8h da manhã em Portugal em outubro pode acabar com sol alto e sem sombra nenhuma no corredor do Tejo.\n\n**E o relógio do quilômetro 30, que é o verdadeiro problema desta prova** — não por ser apertado, mas por não estar claro. O regulamento de 2026 marca-o às 12h40; o PDF de perguntas frequentes de 2025, que continua a circular, marca-o às 12h10. Meia hora de diferença é exatamente a margem de quem está a correr para acabar em cinco horas e meia. Os *pacers* oficiais vão até às 5h00, o que dá uma pista de para quem esta prova está pensada."
+ },
+ "typical_weather": {
+  "pt": "Outubro em Lisboa, entre o Atlântico e o Tejo. Não encontrámos registo de estação de nenhuma manhã de prova e não o estimamos.\n\nO que o próprio percurso oficial avisa é o mais útil que há: outubro aqui é instável e pode estar quente. Com largada às 8h00 e um tempo limite que se estende até às 14h30, quem corre acima das quatro horas vai pegar a parte mais quente do dia num corredor sem sombra."
+ },
+ "cut_off": {
+  "year": 2026,
+  "pt": "**6h00, contadas a partir da última partida**, com a prova a terminar às **14h30**. Está no Artigo 2.º do regulamento de 2026, e a formulação importa: o relógio não é o seu, é o da última onda.\n\nQuem exceder o limite deve se desviar para as calçadas ou entrar no ônibus da organização, que deixa de se responsabilizar pelo que aconteça depois disso.\n\n⚠️ **E há um corte ao quilômetro 30 cuja hora os documentos oficiais não dizem igual:**\n\n- **Regulamento de 2026, Artigo 2.º/3: 12h40.**\n- **PDF de perguntas frequentes de 2025, ainda em circulação: 12h10.**\n- A página de perguntas frequentes online repete as 6h00 e não imprime hora nenhuma para o quilômetro 30.\n\nNão escolhemos por você. **Planeje pela mais apertada das duas e confirme com a organização antes de viajar.**"
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 9170,
+  "median": "4:08:51",
+  "sub3_pct": 2.54,
+  "sub3_count_low": 233,
+  "note": {
+   "pt": "Uma mediana acima das quatro horas num percurso praticamente plano diz o que o perfil não diz: isto é uma prova de vento e de calendário, não de terreno. A organização não publica distribuição por escalões nem taxa de desistência, e os abandonos que aparecem nos resultados oficiais são apenas do pelotão de elite convidado."
+  }
+ },
+ "registration_window": {
+  "pt": "Inscrições pelo site do Maratona Clube de Portugal, abertas com meses de antecedência e até esgotar. A organização não publica um calendário de fases com datas."
+ },
+ "registration_model": {
+  "pt": "Por ordem de inscrição, sem sorteio nem marca mínima"
+ },
+ "sell_out_note": {
+  "pt": "A edição de 2025 foi anunciada com cerca de 15.000 participantes. A organização não publica bandas de preço nem velocidade de esgotamento, e não há levantamento de dorsal no dia da prova — se você chega na véspera, tem de contar com isso."
+ },
+ "qualifying": {
+  "pt": "Não há marca mínima para entrar."
+ },
+ "corral_policy": {
+  "pt": "Cinco partidas escalonadas de 8h00 a 8h24 na edição de 2025. Como o tempo limite de 6h00 é contado a partir da **última** partida, sair numa onda mais cedo dá margem extra e sair na última não tira nenhuma — mas o corte do quilômetro 30 é uma hora de relógio, e essa não se ajusta a ninguém."
+ },
+ "how_to_train": {
+  "pt": "Um percurso plano e à beira-mar treina-se ao contrário do que parece.\n\n**Primeiro, o vento não se compensa, gere-se.** Doze quilômetros iniciais possivelmente contra a nortada, e depois o regresso a favor. A decisão é correr a ida a esforço constante e deixar o ritmo cair, sabendo que volta. Quem tenta segurar o ritmo objetivo contra o vento gasta ali a prova. Isso treina-se: faça pelo menos duas tiradas longas do bloco em dia de vento forte, de propósito, na direção mais desagradável na primeira metade.\n\n**Segundo, o plano é o mesmo desde o quilômetro 22.** São vinte quilômetros de passada idêntica, terreno idêntico e paisagem idêntica. É desgaste de repetição, não de intensidade, e trabalha-se com tiradas longas em terreno verdadeiramente plano — não em circuitos ondulados, que dão micro-pausas involuntárias que aqui você não vai ter — com mudanças de cadência lá dentro para partir o padrão.\n\n**Terceiro, ensaie o calor.** Outubro em Lisboa pode dar-te 22 graus ao quilômetro 30. Parte das tiradas longas das últimas seis semanas deve ser a meio da manhã, para saber qual é o seu ritmo real com sol e para escrever um plano de líquidos em vez de improvisar no primeiro abastecimento.\n\n**E há uma decisão de véspera que é de treino:** a prova é ao **sábado** e a partida fica a 20 km da chegada. O dia anterior não é o dia anterior habitual, e o transporte para Carcavelos tem de estar resolvido antes — não é logística, é o que decide a que horas você levanta e quando come."
+ },
+ "coach_hook": {
+  "pt": "Dois documentos oficiais dão horas diferentes para o mesmo corte ao quilômetro 30, e a diferença entre eles é exatamente a margem de quem corre para acabar em cinco horas e meia."
+ },
+ "target_queries": {
+  "pt": [
+   "plano de treino maratona de lisboa",
+   "maratona de lisboa tempo limite corte km 30",
+   "maratona de lisboa percurso altimetria",
+   "maratona de lisboa inscricoes 2027",
+   "maratona de lisboa e plana",
+   "maratona de lisboa carcavelos partida"
+  ]
+ },
+ "sources": [
+  "https://maratonaclubedeportugal.com",
+  "https://maratonaclubedeportugal.com/wp-content/uploads/Regulamento_EDP_Maratona_Lisboa_OUT2026_PT-2.pdf",
+  "https://maratonaclubedeportugal.com/faqs-edp-ml/",
+  "https://www.youtube.com/watch?v=TH7lGZTmSF8",
+  "https://marathonview.net/race/142497"
+ ],
+ "confidence_flags": [
+  "Esta é a MARATONA (42 km) de outubro, em Carcavelos. Não confundir com a Luso Meia Maratona sobre a Ponte Vasco da Gama nem com a EDP Mini.",
+  "⚠️ Contradição entre documentos oficiais da própria organização sobre o corte ao km 30: 12h40 no regulamento de 2026 e 12h10 no PDF de perguntas frequentes de 2025. A página reporta as duas e não escolhe.",
+  "A organização não publica valor de desnível acumulado, por isso elevation_gain_m fica vazio.",
+  "As cinco partidas escalonadas são as de 2025; confirmar os horários de 2026.",
+  "Não há registo meteorológico publicado de nenhuma manhã de prova.",
+  "A organização não publica calendário de inscrições com datas, por isso esta página não indica um estado de inscrição.",
+  "A prova é ao sábado, o que é invulgar e é fácil de assumir ao contrário."
+ ]
+}

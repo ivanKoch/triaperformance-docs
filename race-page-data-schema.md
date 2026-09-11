@@ -85,6 +85,8 @@ The race card prints the **duration** (22 px, above the name) and the **volume b
 
 ~~🚨 `automation/register-sweep.py` scans `.njk` and does not scan `data/races/*.json`.~~ **Closed September 11, 2026.** *The sweep's default targets were `site` and `automation`; `data/races` is now the third.* The gap was real and it had already cost something — voseo reached a shipped race page through it (`Elegí`, `podés`, `medís`, `sumás`) and was caught by reading rather than by the gate. **The fix was one line, and the reason it took a month is the instructive part: the sweep already handled `.json` files perfectly well. Nothing was broken. The directory simply was not in the list, and a gap that is a missing entry rather than a missing capability does not announce itself.** Run it before shipping Spanish race copy; the second batch turned up five `acá` that the eye had passed over twice.
 
+**Every prose field here is markdown, and that includes lists and tables.** `raceProse` renders three block shapes — a `- ` bullet list, a `| pipe | table |`, and a paragraph — plus `**bold**` inline. Until September 11, 2026 it rendered only the third, so a list of cut-off gates printed as one run-on line with hyphens in it. Write the content in the shape the content is: São Paulo's six CET lines are a table, Bogotá's two gates are a list, everything else is prose.
+
 **Every prose field here is markdown, and the template has to render it.** Bold and paragraph breaks are normal in `course_notes`, `where_they_struggle` and `how_to_train`; they are equally normal in `typical_weather`, `start_time`, `qualifying` and `registration_window`, and those four printed their own asterisks on live pages until September 11, 2026. `automation/race-page-check.js` now fails the build on any `**…**` that survives into the HTML, so this cannot ship again — but when adding a NEW field, wire it through `raceProse` (or `plainProse` where it feeds a FAQ or schema answer) at the same time you add it.
 
 Three more that the first six earned:
@@ -113,4 +115,6 @@ Three more that the first six earned:
 
 ## Open
 
-**The two São Paulo races need distinct ids.** `sp-city-marathon` (Iguana, July, Pacaembu → Jockey) and the Yescom Maratona Internacional (April, Ibirapuera) are different events in the same city, dossiered separately in batches 1 and 4. One hero image currently exists under `sao-paulo-marathon`; the second race needs its own id and its own photo before either page ships.
+~~**The two São Paulo races need distinct ids.**~~ **Resolved September 11, 2026, by Iván:** `sao-paulo-marathon` is the **Yescom Maratona Internacional** (April, Ibirapuera, start and finish at the Obelisco) and `sao-paulo-2-marathon` is **SP City** (Iguana, July, Pacaembu → Jockey). Both pages are built. *The ambiguity was never about the data — both races were fully dossiered — it was about which of two uploaded photos belonged to which event, and only the person who uploaded them could say.*
+
+**Nothing else is open on the 42 km set.** Nineteen races, twenty-six pages. Of the twenty hero images in the repo, one is unused: `london-marathon`, which has a photo and no research.

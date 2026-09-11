@@ -604,12 +604,41 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
     const esc = (t) => t
       .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
+    const inline = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+
+    // Blocks separated by a blank line. Three shapes, because race content is
+    // authored as markdown and two of them kept arriving:
+    //   - bullet list   (cut-off gates, one per line)
+    //   | pipe table |  (São Paulo's six CET lines are a table, not a sentence)
+    //   anything else   -> a paragraph
+    // Before September 11, 2026 only the third existed, so a list rendered as
+    // one run-on line with stray hyphens in it and a table as a wall of pipes.
     return String(text)
       .split(/\n\s*\n/)
-      .map((para) => esc(para.trim()).replace(/\n/g, " ")
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>"))
+      .map((block) => block.trim())
       .filter(Boolean)
-      .map((para) => `<p>${para}</p>`)
+      .map((block) => {
+        const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
+
+        if (lines.length && lines.every((l) => /^[-*]\s+/.test(l))) {
+          const items = lines.map((l) => `<li>${inline(l.replace(/^[-*]\s+/, ""))}</li>`);
+          return `<ul class="race-list">${items.join("")}</ul>`;
+        }
+
+        const isRow = (l) => l.startsWith("|") && l.endsWith("|");
+        const isRule = (l) => /^\|[\s:|-]+\|$/.test(l);
+        if (lines.length >= 2 && lines.every(isRow)) {
+          const cells = (l) => l.slice(1, -1).split("|").map((c) => c.trim());
+          const body = lines.filter((l) => !isRule(l));
+          const head = cells(body[0]).map((c) => `<th>${inline(c)}</th>`).join("");
+          const rows = body.slice(1)
+            .map((l) => `<tr>${cells(l).map((c) => `<td>${inline(c)}</td>`).join("")}</tr>`)
+            .join("");
+          return `<div class="race-table-wrap"><table class="race-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
+        }
+
+        return `<p>${inline(block).replace(/\n/g, " ")}</p>`;
+      })
       .join("\n");
   });
 

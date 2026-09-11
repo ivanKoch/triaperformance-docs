@@ -1,0 +1,107 @@
+{
+ "race_id": "porto-alegre-marathon",
+ "city": "Porto Alegre",
+ "country": "Brasil",
+ "distance": "42k",
+ "language_market": [
+  "pt"
+ ],
+ "name": {
+  "pt": "Maratona de Porto Alegre"
+ },
+ "official_name": "Maratona Internacional de Porto Alegre Olympikus",
+ "official_url": "https://maratonadeportoalegre.com.br/",
+ "slug": {
+  "pt": "maratona-de-porto-alegre"
+ },
+ "next_edition_date": "2027-06-06",
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "pt": "Primeiro fim de semana de junho — a meia no sábado, a maratona no domingo"
+ },
+ "start_time": {
+  "pt": "6h da manhã no domingo, com os cadeirantes às 5h55. A largada fica aberta por cinco minutos e a organização pede que você chegue uma hora e meia antes."
+ },
+ "hook": {
+  "pt": "Catorze metros de altimetria acumulada no percurso inteiro. Não é um percurso rápido: é um percurso onde não existe nenhuma desculpa pronta."
+ },
+ "course_profile": {
+  "pt": "Circuito urbano pela orla do Guaíba, pelo Centro e pelo Beira-Rio, com duas passagens pelo Centro. O percurso foi refeito em 2026 para cortar a Zona Sul e ficar ainda mais plano: a organização anuncia **14 metros** de altimetria acumulada, e um dos organizadores resumiu assim — «é um tapete»."
+ },
+ "elevation_gain_m": 14,
+ "elevation_note": {
+  "pt": "Os 14 metros são a cifra da organização, repetida na imprensa gaúcha e nacional quando o percurso foi refeito em 2026. O Marathon-Index publica 180 metros para esta prova: é leitura de GPS sobre um percurso plano, o tipo de ruído que aparece sempre que não há desnível real para medir. Fique com os 14.\n\nO que ainda não está confirmado é se o traçado de 2027 é o mesmo de 2026 — a página de 2027 ainda é uma contagem regressiva e o mapa oficial não saiu."
+ },
+ "course_notes": {
+  "pt": "**Largada e primeiro trecho, a orla do Guaíba.** Avenida larga, água de um lado, sem nada que quebre o ritmo — e sem nada que segure o vento.\n\n**As duas passagens pelo Centro.** O percurso refeito em 2026 passa duas vezes pela região central, perto do Mercado Público. Foi essa mudança que tirou a Zona Sul do trajeto.\n\n**O Beira-Rio e o retorno pela orla.** O resto da prova é a mesma paisagem em sentidos alternados.\n\n**Não há uma subida com nome próprio neste percurso**, e não é por falta de procura: a organização refez o traçado justamente para que não houvesse. A descrição acima segue o percurso de 2026; o mapa oficial de 2027 ainda não foi publicado."
+ },
+ "where_they_struggle": {
+  "pt": "Num percurso de catorze metros, o que quebra a prova é o que você faz com ela.\n\n**O erro clássico daqui é de largada.** A prova é vendida — com razão — como a mais plana do Brasil, e foi aqui que se correu a maratona mais rápida em solo brasileiro, 2h10min21s em 2026. Isso muda a cabeça de quem larga: sem subidas para regular o esforço e sem curvas fechadas para lembrar onde você está, o ritmo dos primeiros dez quilômetros sai naturalmente acima do planejado. Não existe um quilômetro para se recuperar porque não existe um quilômetro diferente dos outros.\n\n**E existe o vento do Guaíba.** É o único fator externo real desta prova. A orla é completamente exposta, e num percurso de ida e volta pela mesma margem, o vento é contra em metade da prova por definição.\n\n**O terceiro ponto é de regulamento e é duro:** quem passar das 6 horas não é apenas convidado a sair — é **desclassificado**, com essa palavra, no texto oficial."
+ },
+ "typical_weather": {
+  "pt": "Fim de outono no Sul, que é a razão de a prova ser em junho. A manhã de prova de 2026 foi descrita pela imprensa com temperatura média de **15 °C**, e junho de 2027 deve ficar na mesma faixa. Chuva é possível e faz parte do cálculo.\n\nNão encontramos um registro de estação com hora e dia e não o estimamos. Mas a combinação que importa é simples: 6h da manhã, 15 graus e uma orla aberta significam que você vai largar com frio e correr as últimas duas horas com o sol já nas costas. A roupa que resolve o quilômetro 1 costuma ser a que atrapalha no 30."
+ },
+ "cut_off": {
+  "year": 2026,
+  "pt": "**6 horas** de duração máxima para a maratona — e o regulamento é explícito sobre a consequência: quem exceder esse tempo «será convidado a se retirar da prova e será **desclassificado**». A meia maratona tem 3h30.\n\n**Não há cortes intermediários publicados.**\n\nA largada fica aberta por cinco minutos, o que na prática significa que o seu relógio e o da organização são quase o mesmo. O regulamento de 2027 ainda não foi publicado; estes números são os de 2026."
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 5700,
+  "median": "3:51:21",
+  "sub3_pct": 6.91,
+  "sub3_count_low": 394,
+  "note": {
+   "pt": "Uma mediana abaixo das quatro horas e quase 7% do pelotão abaixo das três: é o pelotão mais rápido de todas as maratonas brasileiras deste conjunto, e o percurso explica boa parte disso — quem busca marca vem para cá. A edição de 2026 bateu o recorde de participação com 7.484 chegados na maratona. Não há distribuição por faixas nem taxa de desistência publicadas."
+  }
+ },
+ "registration_window": {
+  "pt": "Inscrições pela Ticket Sports. Para 2027 a organização ainda diz apenas «em breve»."
+ },
+ "registration_model": {
+  "pt": "Por ordem de inscrição, sem sorteio nem marca mínima"
+ },
+ "registration_state": "window",
+ "registration_when": {
+  "pt": "as inscrições de 2027 ainda não abriram — a organização diz «em breve» e a página da prova é uma contagem regressiva"
+ },
+ "sell_out_note": {
+  "pt": "A organização fala em 30 mil vagas para o fim de semana inteiro, e não só para a maratona. Não há indicação de esgotamento rápido nem grade de preços publicada para 2027."
+ },
+ "qualifying": {
+  "pt": "Não há marca mínima para entrar. Há marcas de elite divulgadas para a edição de 2027 — 2h22 na maratona, 1h07min30s na meia ou 30min35s nos 10 km entre os homens; 2h55, 1h23 e 37min entre as mulheres."
+ },
+ "corral_policy": {
+  "pt": "A largada é única e fica aberta por cinco minutos. A organização pede chegada com uma hora e meia de antecedência."
+ },
+ "how_to_train": {
+  "pt": "Um percurso de catorze metros não pede um bloco mais fácil. Pede um bloco construído em torno de uma única habilidade: **segurar um número exato durante três, quatro ou cinco horas, sem ajuda nenhuma do terreno.**\n\n**O trabalho de qualidade aqui é longo e contínuo, não curto e intenso.** Blocos de 20 a 40 minutos em ritmo de maratona dentro do longão, repetidos semana após semana, valem mais do que tiros de mil metros. O que você está treinando não é a velocidade — é a capacidade de manter um ritmo que não muda quando nada à sua volta muda.\n\n**Treine em terreno realmente plano.** Circuito com ondulação dá micro-pausas involuntárias: cada subidinha muda o recrutamento muscular e cada descida devolve um pouco. Aqui nada disso existe, e um longão feito num parque ondulado prepara você para uma prova que não é esta.\n\n**Escreva o plano de ritmo para o vento, não apesar dele.** Numa orla exposta, com ida e volta pela mesma margem, metade da prova é contra. A decisão é correr por esforço constante e aceitar que o ritmo caia num dos sentidos, sabendo que volta no outro. Quem tenta segurar o número contra o vento paga na metade seguinte.\n\n**E cuide dos primeiros dez quilômetros como se fossem a prova toda**, porque em termos de decisão são. Foi o que a organização tirou do percurso — as subidas — que deixou esse erro sem antídoto. Uma boa prática do bloco: os três últimos longões começam deliberadamente 10 a 15 segundos por quilômetro mais devagar do que o ritmo-alvo, para você aprender como é sair devagar quando o corpo pede o contrário."
+ },
+ "coach_hook": {
+  "pt": "Num percurso sem uma única subida para regular o seu esforço, a prova inteira se decide nos dez primeiros quilômetros — e é exatamente aí que um plano fechado não está olhando."
+ },
+ "target_queries": {
+  "pt": [
+   "plano de treino maratona de porto alegre",
+   "maratona de porto alegre percurso plano altimetria",
+   "maratona de porto alegre tempo de corte",
+   "maratona de porto alegre 2027 inscricoes",
+   "maratona mais plana do brasil",
+   "maratona de porto alegre e rapida"
+  ]
+ },
+ "sources": [
+  "https://maratonadeportoalegre.com.br/",
+  "https://gauchazh.clicrbs.com.br/esportes/noticia/2026/05/o-que-torna-a-maratona-de-porto-alegre-a-mais-plana-do-brasil-cmppr7mru01n2014z0pfkx4qd.html",
+  "https://www.estadao.com.br/amp/esportes/corrida-para-todos/maratona-de-porto-alegre-2026-tera-novo-percurso-ainda-mais-plano/",
+  "https://marathonview.net/race/140743"
+ ],
+ "confidence_flags": [
+  "Esta é a Maratona Internacional de Porto Alegre, organizada pela CORPA. Não confundir com a Maratona do Porto, em Portugal, nem com a NB 42K da Yescom.",
+  "Em aberto com a organização: os 14 m de altimetria referem-se ao percurso de 2026. O traçado e o mapa oficial de 2027 ainda não foram publicados.",
+  "O Marathon-Index publica 180 m de desnível, incompatível com a cifra da organização; é ruído de GPS e está descartado explicitamente.",
+  "O regulamento citado é o de 2026; o de 2027 ainda não saiu.",
+  "Os dados de pelotão são de 2025. A edição de 2026 teve 7.484 chegados na maratona, mas mediana e distribuição não foram publicadas.",
+  "Não há registro meteorológico de estação para nenhuma manhã de prova; a temperatura média de 15 °C vem da cobertura de imprensa de 2026."
+ ]
+}

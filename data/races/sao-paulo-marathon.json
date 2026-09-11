@@ -1,0 +1,108 @@
+{
+ "race_id": "sao-paulo-marathon",
+ "city": "São Paulo",
+ "country": "Brasil",
+ "distance": "42k",
+ "language_market": [
+  "pt"
+ ],
+ "name": {
+  "pt": "Maratona Internacional de SP"
+ },
+ "official_name": "Maratona Internacional de São Paulo (Yescom)",
+ "official_url": "https://www.yescom.com.br/maratonasp/2027/index.asp",
+ "slug": {
+  "pt": "maratona-internacional-de-sao-paulo"
+ },
+ "next_edition_date": "2027-04-04",
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "pt": "Um domingo de abril"
+ },
+ "start_time": {
+  "pt": "5h44 para os cadeirantes e 5h45 para a elite e o primeiro pelotão. Os pelotões saem por tempo declarado, e o quarto — de quem declara mais de 4h41 — larga às 6h15. **Trinta minutos depois do primeiro**, com as linhas de corte marcadas em hora de relógio para todo mundo."
+ },
+ "hook": {
+  "pt": "São Paulo tem duas maratonas e elas não são a mesma prova. Esta é a de abril, no Ibirapuera, a mais antiga da cidade — e a que tem seis linhas de corte em vez de duas."
+ },
+ "course_profile": {
+  "pt": "Circuito com largada e chegada no Obelisco do Ibirapuera, na Avenida Pedro Álvares Cabral. Passa pela República do Líbano, JK, Cidade Jardim, Alvarenga e pela USP, e volta pelos túneis Zerbini e Jânio Quadros. A cidade está a cerca de 750 metros de altitude."
+ },
+ "elevation_gain_m": null,
+ "elevation_note": {
+  "pt": "A organização não publica desnível acumulado. Um traçado de terceiros aponta cerca de 172 metros, valor de GPS e não de medição — e a leitura que interessa não é essa: o percurso divide o setor da USP e da Alvarenga com a outra maratona de São Paulo, mas em outro mês, com outra largada e com cortes diferentes. Não importe a altimetria de uma para a outra."
+ },
+ "course_notes": {
+  "pt": "**Largada, Obelisco do Ibirapuera.** Avenida Pedro Álvares Cabral, ainda escuro.\n\n**República do Líbano e JK.** Os primeiros quilômetros saem do parque em direção ao eixo da Juscelino Kubitschek — e é aqui que cai a primeira linha de corte, no quilômetro 6,7.\n\n**Cidade Jardim e Lineu de Paula Machado.** O corredor que leva à zona oeste.\n\n**Alvarenga, ida e volta.** O cruzamento da Alvarenga com a Teixeira Soares aparece duas vezes no percurso — no quilômetro 16,2 e de novo no 23,2 — e as duas passagens têm hora marcada.\n\n**A USP.** Melo Moraes, Escola Politécnica e Almeida Prado. A saída do Portão 1, no quilômetro 33,8, é a última linha de corte do dia.\n\n**Afrânio Peixoto e os túneis Zerbini e Jânio Quadros.** Os túneis caem tarde na prova, quando a cabeça já está cansada e o ar muda.\n\n**Volta ao Ibirapuera pela Ibrahim Nobre**, até a chegada no mesmo lugar da largada."
+ },
+ "where_they_struggle": {
+  "pt": "Esta prova não tem um muro com nome. Tem uma tabela.\n\n**São seis linhas de corte da CET, todas em hora de relógio**, começando no quilômetro 6,7 — antes de a maioria das maratonas ter sequer aberto uma. Quem perde uma delas não é desviado nem segue pela calçada: **não pode continuar no percurso original e volta para a área de largada.**\n\n**E é aqui que o pelotão de largada deixa de ser um detalhe.** As linhas são as mesmas para todo mundo, mas a hora em que você larga não é. Quem sai no primeiro pelotão, às 5h45, tem 1h33 para chegar ao quilômetro 6,7 — folga enorme. Quem declara mais de 4h41 e larga no quarto pelotão, às 6h15, tem 1h03 para o mesmo ponto. **A mesma linha, meia hora a menos.** Declarar um tempo mais lento do que o real para «não atrapalhar» é, nesta prova, uma decisão com consequência.\n\n**O terceiro fator é o calendário.** Abril em São Paulo é mais quente do que julho, e julho é quando a outra maratona da cidade acontece. Quem corre as duas percebe a diferença na segunda metade."
+ },
+ "typical_weather": {
+  "pt": "Abril em São Paulo, a cerca de 750 metros de altitude, com largada às 5h45. Não encontramos registro de estação de nenhuma manhã de prova e não o estimamos.\n\nO que é estrutural: abril é o fim do verão paulistano, não o inverno. A prova começa no escuro e fresco, e as últimas duas horas acontecem com o sol alto sobre asfalto de cidade. Se a sua referência é a outra maratona de São Paulo, que corre em julho, o plano de líquidos não é transferível."
+ },
+ "cut_off": {
+  "year": 2027,
+  "pt": "Não há uma frase de «6 horas» nesta prova. O limite **é a tabela de linhas de corte da CET**, em hora de relógio, mais a coluna do último atleta na chegada, às **12h29**.\n\n| Ponto | km | Hora |\n|---|---|---|\n| Alça da Praça Ibrahim Nobre | 6,7 | **7h18** |\n| JK × João Cachoeira | 9,9 | **7h45** |\n| JK × Prof. Geral Ataliba | 10,9 | **7h53** |\n| Alvarenga × Teixeira Soares | 16,2 | **8h37** |\n| Alvarenga × Teixeira Soares | 23,2 | **9h38** |\n| Saída do Portão 1 da USP | 33,8 | **11h10** |\n\nQuem chega depois da hora em qualquer um desses pontos **não pode seguir no percurso original e deve retornar à área de largada**.\n\nDuas coisas para calcular antes de se inscrever: as horas são as mesmas para todos os pelotões, e o seu pelotão depende do tempo que você declara."
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 4852,
+  "note": {
+   "pt": "4.824 corredores da prova geral mais 28 da elite. A organização não publica mediana: o que existe é a média, 4h15min54s entre 4.065 homens e 4h36min56s entre 759 mulheres — e média não é mediana, então trate os dois números como uma descrição grosseira do pelotão. A edição de 2026 teve 6.360 inscritos na maratona, mas esse é o número de inscritos, não de chegados."
+  }
+ },
+ "registration_window": {
+  "pt": "Inscrições por lotes pelo site da Yescom, abertas com quase um ano de antecedência: o lote inicial de 2027 abriu na primeira semana de junho de 2026."
+ },
+ "registration_model": {
+  "pt": "Por lotes, sem sorteio nem marca mínima"
+ },
+ "registration_state": "open",
+ "registration_when": {
+  "pt": "as inscrições para 2027 estão abertas desde junho de 2026, por lotes"
+ },
+ "sell_out_note": {
+  "pt": "Não é uma prova que esgote: em junho de 2026 o lote estava em R$ 150 mais taxa, cerca de R$ 168. Não há sorteio nem lista de espera."
+ },
+ "qualifying": {
+  "pt": "Não há marca mínima para entrar."
+ },
+ "corral_policy": {
+  "pt": "Quatro pelotões por tempo declarado: até 3h40, de 3h41 a 4h10, de 4h11 a 4h40 e acima de 4h41. **Com linhas de corte em hora de relógio, o pelotão que você escolhe muda quanto tempo você realmente tem** — declarar devagar por precaução custa meia hora de margem no primeiro corte."
+ },
+ "how_to_train": {
+  "pt": "O bloco desta prova se planeja de trás para frente, e o «trás» não é a chegada: é a linha do quilômetro 6,7.\n\n**Primeiro, decida o pelotão antes de decidir o plano.** O tempo que você declara na inscrição determina a que horas você larga, e as linhas de corte não se movem. Se você está entre dois pelotões, o mais rápido dá margem real. Isso é uma decisão de inscrição que muda o treino: se você vai largar às 5h45 com folga, pode construir a prova de forma conservadora; se vai largar às 6h15, os primeiros dez quilômetros têm um piso de ritmo obrigatório.\n\n**Segundo, treine o começo rápido — e essa é a instrução ao contrário do normal.** Em quase toda maratona, o conselho é sair devagar. Aqui, sair muito devagar no pelotão da 6h15 coloca a linha do 6,7 em jogo. A forma de resolver isso não é acelerar no dia: é chegar com uma base que torne o ritmo mínimo confortável, o que significa fazer os longões do bloco com os primeiros dez quilômetros no ritmo-alvo e não abaixo dele.\n\n**Terceiro, o calor de abril.** As últimas duas horas de prova acontecem com o sol alto. Parte dos longões das seis semanas finais deve ser no meio da manhã, e o plano de líquidos se escreve para a segunda metade.\n\n**E quarto, a ida e volta da Alvarenga.** Você passa pelo mesmo cruzamento duas vezes, no 16,2 e no 23,2, com sete quilômetros de diferença. É um trecho psicologicamente duro e treina-se de um jeito só: longões em circuito repetido, em vez de percursos sempre novos."
+ },
+ "plan_note": {
+  "pt": "Uma observação sobre o bloco de volume mais baixo: na maioria das maratonas ele é o plano de «terminar do jeito que der». Aqui isso depende do pelotão em que você larga. Saindo às 5h45 há folga de sobra para as seis linhas de corte; saindo às 6h15, o mesmo bloco precisa entregar um ritmo mínimo desde o primeiro quilômetro. Decida o pelotão primeiro."
+ },
+ "coach_hook": {
+  "pt": "A primeira linha de corte está no quilômetro 6,7 e a hora é a mesma para todos os pelotões — mas quem larga meia hora depois tem meia hora a menos para chegar lá."
+ },
+ "target_queries": {
+  "pt": [
+   "plano de treino maratona internacional de sao paulo",
+   "qual das duas maratonas de sao paulo eu corro",
+   "maratona internacional de sao paulo linhas de corte cet",
+   "maratona de sao paulo abril ibirapuera percurso",
+   "maratona internacional de sao paulo 2027 inscricoes",
+   "maratona de sao paulo pelotoes tempo declarado"
+  ]
+ },
+ "sources": [
+  "https://www.yescom.com.br/maratonasp/2027/index.asp",
+  "https://openresults.run/evento/2025-29-maratona-internacional-de-sao-paulo/",
+  "https://esportividade.com.br/evento/31a-maratona-internacional-de-sao-paulo-2027/"
+ ],
+ "confidence_flags": [
+  "São Paulo tem DUAS maratonas. Esta é a Internacional, da Yescom, em abril, com largada e chegada no Ibirapuera. A outra é a SP City, da Iguana, em julho, do Pacaembu ao Jockey. Quase todo material em português confunde as duas.",
+  "A organização não publica desnível acumulado; o valor de terceiros (~172 m) é leitura de GPS e fica fora do campo numérico.",
+  "Não existe uma frase de tempo limite total no material extraído: o limite é a tabela de linhas de corte da CET mais a coluna do último atleta (12h29).",
+  "Os números de pelotão de 2025 são médias, não medianas — a organização não publica mediana e esta página não a estima.",
+  "O número de 2026 (6.360) é de inscritos na maratona, não de chegados; a apuração ainda não estava fechada quando foi consultada.",
+  "Não há registro meteorológico publicado de nenhuma manhã de prova.",
+  "Preço e lote são os de junho de 2026.",
+  "O nome curto da página é «Maratona Internacional de SP» porque o nome completo não cabe no título de 60 caracteres com o ano. O nome oficial completo está em official_name e aparece na página."
+ ]
+}

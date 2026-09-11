@@ -1,6 +1,6 @@
 # Race Page — Content Outline
 
-**Rewritten September 5, 2026 (Iván).** *Updated September 11, 2026 — §Corrections the first six pages earned, added after two review rounds, then extended the same day with what the second six added (19 pages, three languages).* Home doc for what a race page contains and in what order. Data fields: `race-page-data-schema.md`. Voice and visual rules: `brand-guidelines.md`. Plan ladder: `race-landing-pages-longlist.md` §1.
+**Rewritten September 5, 2026 (Iván).** *Updated September 11, 2026 — §Corrections the first six pages earned, added after two review rounds, then extended the same day with what the second six added and what the last seven added — the 42 km set closed at 19 races / 26 pages.* Home doc for what a race page contains and in what order. Data fields: `race-page-data-schema.md`. Voice and visual rules: `brand-guidelines.md`. Plan ladder: `race-landing-pages-longlist.md` §1.
 
 ## The test every block has to pass
 
@@ -117,6 +117,18 @@ Hero image per race: **2:1 at 960 / 1600 / 2560, `.webp` + `.jpg`**, at `/assets
 **13. The coach banner is not the hero in different words.** New York shipped a first draft where both sentences were about the Queensboro emptying onto First Avenue. They are the two sentences a reader actually remembers, they sit three screens apart, and they must carry two different ideas — the banner's job is *what a fixed plan cannot do*, not *what this race is*.
 
 **14. `name` is the short market name, and the 60-character title clamp decides how short.** "Maratón de la Ciudad de México" does not fit with the year appended; the page is "Maratón de la CDMX" and the full name lives in `official_name`. The gate catches this, but it is cheaper to pick the short name when writing the file than to find out at build time.
+
+### What the last seven added
+
+*September 11, 2026, closing the 42 km set at 19 races and 26 pages (es 14 / en 5 / pt 7): Bogotá and Santiago in ES; Lisboa, Porto, Porto Alegre and the two São Paulos in PT. Three of these are the same class of defect as rule 10 — a feature nobody had exercised.*
+
+**15. Authored prose is markdown, and that includes lists and tables.** `raceProse` rendered paragraphs and bold and nothing else, so a bullet list of cut-off gates came out as one run-on line with stray hyphens in it, and a table came out as a wall of pipes. Medellín and Berlin had been shipping that for a day. `raceProse` now renders three block shapes — bullet list, pipe table, paragraph — which is what the content was always written in. **São Paulo's six CET cut-off lines are a table because they are a table**; writing them as a sentence would have been a worse page to keep the renderer simple.
+
+**16. `x-default` has to exist on pages with no Spanish sibling.** The hreflang block emitted it only when `alts.es` existed, so every Portuguese-only and English-only page on the whole site shipped without one — invisible until five PT-only races arrived at once. It now falls back es → en → pt. *This was never a race-page bug; race pages were just the first surface with enough single-language pages to expose it.*
+
+**17. The Portuguese pages are Brazilian Portuguese, including the Portuguese races.** Lisboa and Porto were drafted in European Portuguese, which is more natural for their local audience and wrong for this site: the plans are Brazilian, the nav is Brazilian, `raceUi.json` says *você*. A page in one variant framed by furniture in the other is worse than either variant used consistently. **Mixed variants on one page are the defect; the choice between them is a judgement call and the site already made it.** (`brand-guidelines.md` §8 owns voice and does not yet carry this line for Portuguese the way it does for Spanish.)
+
+**18. A race whose organiser publishes no entry window gets no entry-state block.** `registration_state` is not required, and Lisboa and Porto leave it empty rather than guessing between "open" and "closed". A missing block is honest; a wrong label next to the plan cards is a claim. *And `window` is the right value far more often than `sold_out` — `sold_out` means the places existed and went, `window` means the window is shut.*
 
 ### Taken on review and closed — do not re-open
 
