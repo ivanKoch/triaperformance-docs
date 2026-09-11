@@ -84,6 +84,5 @@ Research base: a 13-section evidence brief (Sept 6) cross-checked against indepe
 ## 6. Not done
 
 - **EN and PT, written natively** per decision C. Structure, CSS and JS are language-agnostic and done; what is missing is the copy and the `transKey` siblings. *`heat-calc.js` formats with a Spanish decimal comma and needs a per-language separator.*
-- **The four missing race JSONs** — Cartagena, Barranquilla, San Andrés, Cozumel. The four that matter most to this market.
-- **Structured numeric weather fields in `data/races/*.json`, so §12 renders instead of being typed.** *Until that exists the guide's table is a hand-typed copy of data another file owns, which is the drift this repo keeps writing notes about — and it is how the Ciudad de México row went wrong.*
+~~- **The four missing race JSONs.** — **Structured numeric weather fields in `data/races/*.json`.**~~ **Both CLOSED September 11, 2026 — decided against, on evidence.** *The four are triathlon and the race-page set is marathons; the structured fields would have stored the CDMX error perfectly rather than caught it. The real finding was that the table's `Hora` column promised a start time for races that start in waves — renamed to* **Hora de la lectura**. **Full reasoning: `open-loops-archive.md`, September 11.**
 - **Nothing is committed.** Iván's tree also holds unrelated work from the storefront and CoachMatch branches; these files must not be swept into one commit.

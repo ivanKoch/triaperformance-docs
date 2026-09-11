@@ -10,6 +10,18 @@
 
 ## Closed — September 11, 2026
 
+### The guide's race table stays typed — the item was answered by checking it, and the answer was no
+
+**Closing note, September 11, 2026.** Two items close together: *"four of the seven guide races have no JSON file"* and the brief's *"structured numeric weather fields in `data/races/*.json`, so §12 renders instead of being typed."*
+
+**The cross-link half was already built, and better than proposed.** The race-pages branch added `heat_tool`, a **manual boolean** now on eight races, with the template linking the calculator in Spanish only (guarded on `r.heatToolUrl`, absent in EN/PT, which is correct while the calculator is ES-only). 🚨 ***This session had argued for deriving it from a WBGT threshold and was wrong.*** `race-page-data-schema.md` says why: *"a judgement, not a figure, which is why it is explicit rather than derived."* **Berlin carries `heat_tool: true` at 12 °C typical** — because a hot September Berlin is the tail risk that ruins a goal race. 🔑 **The flag means "heat could decide your day here", not "this race is hot", and a threshold would have silently excluded exactly the cases worth flagging.**
+
+**The structured-fields half died on its own justification.** It was opened because the Ciudad de México row had been wrong. **But that error was reading a daily-mean dew point against a point-in-time temperature — a `dew_point_c` column would have stored it perfectly.** A check of the three races the guide and the JSONs share found no data disagreement: CDMX matches exactly, Miami agrees on the hour. *Rendering 3 of 7 rows from data and typing the other 4 underneath is a half-rendered table nobody can see the seam in, for seven hand-verified rows that change once a year.*
+
+🔑 **What the check DID find is that the column's model was wrong, not its contents.** The table promised *"condiciones observadas en la hora de largada"* and printed one scalar per race — but **Río starts in three waves (5:25 / 5:30 / 5:35) and Ciudad de México in five staggered tandas from 5:45.** No numeric schema fixes that; the column was answering a question these races do not have a single answer to. *Renamed to* **Hora de la lectura**, *the intro reworded, and the note now says plainly that an athlete starting before that hour gets cooler conditions than the row.* ✅ **The Río special-case sentence added earlier the same day was deleted: it existed only to apologise for a column that overclaimed, and once the column is honest it has nothing to say.**
+
+**The four missing races stay out.** Cartagena 70.3, Barranquilla 70.3, San Andrés and Cozumel are **triathlon**; the race-page set is marathons. Giving them JSONs means extending that initiative into tri, or standing up a parallel weather file to serve four typed rows — *which is the second-inventory defect this repo keeps writing notes about.* **Not a gap. A boundary.**
+
 ### `gate_accented`'s allow-list — closed, and the item had the cause wrong
 
 **Closing note, September 11, 2026.**
