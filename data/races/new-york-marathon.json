@@ -1,0 +1,138 @@
+{
+ "race_id": "new-york-marathon",
+ "city": "Nueva York",
+ "country": "Estados Unidos",
+ "distance": "42k",
+ "language_market": [
+  "es",
+  "en"
+ ],
+ "name": {
+  "es": "Maratón de Nueva York",
+  "en": "New York City Marathon"
+ },
+ "official_name": "TCS New York City Marathon",
+ "official_url": "https://www.nyrr.org/tcsnycmarathon",
+ "slug": {
+  "es": "maraton-nueva-york",
+  "en": "new-york-city-marathon"
+ },
+ "next_edition_date": "2026-11-01",
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "es": "Primer domingo de noviembre",
+  "en": "First Sunday in November"
+ },
+ "start_time": {
+  "es": "Cinco oleadas, de las 9:10 a las 11:30 de la mañana. Si te toca la última, vas a estar corriendo a las tres de la tarde.\n\n**Y una advertencia de reloj para 2026:** el 1 de noviembre es el domingo en que Estados Unidos termina el horario de verano. Confirma con la organización a qué hora sale tu oleada en hora local, y no ajustes mentalmente la diferencia con tu país sin verificarla.",
+  "en": "Five waves, from 9:10 a.m. to 11:30 a.m. Drawn into the last one and you are still running at three in the afternoon.\n\n**One clock warning for 2026:** 1 November is the Sunday the US ends daylight saving time. Confirm your wave's local start time with the organiser, and do not do the time-zone arithmetic from home without checking it."
+ },
+ "hook": {
+  "es": "Cinco puentes, ninguna cuesta con nombre propio y un perfil que parece modesto — hasta que el Queensboro te deja en la Primera Avenida sin público y con los cuádriceps ya gastados.",
+  "en": "Five bridges, no climb anyone bothers to name, and a profile that looks modest right up to the moment the Queensboro empties you onto First Avenue with the crowd gone and your quads already spent."
+ },
+ "course_profile": {
+  "es": "Punto a punto por los cinco distritos, de Staten Island a Central Park. Unos 166 pies (51 m) de desnivel positivo y una caída neta de 88 pies (27 m), según la lectura GPS del recorrido. Certificado y válido para clasificar a Boston.",
+  "en": "Point to point through the five boroughs, Staten Island to Central Park. Roughly 166 ft (51 m) of climbing and a net drop of 88 ft (27 m) on a GPS reading of the course. Certified and Boston-qualifying."
+ },
+ "elevation_gain_m": null,
+ "elevation_note": {
+  "es": "Los 166 pies (51 m) salen de un archivo GPS, no de una medición topográfica, y ese tipo de lectura suele subestimar los puentes. La cifra importa menos que su reparto: casi todo el desnivel está en cinco puentes y en los últimos siete kilómetros de Central Park, y no hay un solo tramo largo de subida sostenida.",
+  "en": "The 166 ft (51 m) comes from a GPS file rather than a survey, and that kind of reading tends to flatten bridges. The number matters less than its distribution: nearly all of the climbing sits in five bridges and in the last four miles through Central Park, and there is no single sustained ascent anywhere."
+ },
+ "course_notes": {
+  "es": "**Millas 0 a 2 / km 0 a 3, puente Verrazzano-Narrows.** Sube y después baja: es el descenso más pronunciado del día y llega cuando estás fresco y rodeado de gente, que es la peor combinación posible.\n\n**Millas 2 a 13 / km 3 a 21, Brooklyn.** Fourth Avenue y después Bedford: largo, ancho, casi llano y con el público más ruidoso de la primera mitad.\n\n**Millas 13 a 15 / km 21 a 24, puente Pulaski y Queens.** El Pulaski marca la media maratón y el paso a Queens.\n\n**Millas 15 a 16 / km 24 a 26, puente Queensboro.** La subida más larga del recorrido, en calzada de acero, sin espectadores y en semipenumbra.\n\n**Millas 16 a 20 / km 26 a 32, Primera Avenida.** Sales del puente a la avenida más ancha y más ruidosa de la carrera. Aquí se decide el día.\n\n**Millas 20 a 21 / km 32 a 34, puente Willis Avenue y el Bronx.** El cuarto puente, en el peor kilómetro posible.\n\n**Millas 22 a 26,2 / km 35 a 42, Quinta Avenida y Central Park.** La larga subida de la Quinta hacia el parque, y dentro de él las dos lomas que sí tienen nombre: Cat Hill y Harlem Hill, entre las millas 23 y 24 (km 37 a 39). Meta en West 67th, junto a Tavern on the Green.",
+  "en": "**Miles 0-2 / km 0-3, Verrazzano-Narrows Bridge.** Up, then down: the sharpest descent of the day, arriving while you are fresh and boxed in by people, which is the worst possible combination.\n\n**Miles 2-13 / km 3-21, Brooklyn.** Fourth Avenue and then Bedford: long, wide, nearly flat, and the loudest crowd of the first half.\n\n**Miles 13-15 / km 21-24, Pulaski Bridge and Queens.** The Pulaski marks halfway and the handover into Queens.\n\n**Miles 15-16 / km 24-26, Queensboro Bridge.** The longest climb on the course, on steel roadway, with no spectators and in half-light.\n\n**Miles 16-20 / km 26-32, First Avenue.** You come off the bridge onto the widest, loudest avenue of the race. This is where the day is decided.\n\n**Miles 20-21 / km 32-34, Willis Avenue Bridge and the Bronx.** The fourth bridge, arriving at the worst possible mile.\n\n**Miles 22-26.2 / km 35-42, Fifth Avenue and Central Park.** The long pull up Fifth into the park, and inside it the two rises that do have names: Cat Hill and Harlem Hill, between miles 23 and 24 (km 37-39). Finish at West 67th, by Tavern on the Green."
+ },
+ "where_they_struggle": {
+  "es": "Las dos millas que rompen esta carrera son la 15 y la 16, y se rompen de maneras opuestas.\n\n**El Queensboro es una subida silenciosa.** Llevas veinticuatro kilómetros de público continuo y de golpe entras en un puente cerrado, sin espectadores, con el ruido de las zapatillas sobre el acero. Es la subida más larga del recorrido y llega justo después del medio maratón, cuando el cuerpo empieza a pedir explicaciones.\n\n**La Primera Avenida es lo contrario, y es peor.** Sales del puente a una avenida enorme con miles de personas gritando, y prácticamente todo el mundo acelera. El tópico local es que «la carrera empieza en la Primera Avenida»; lo que empieza de verdad, para mucha gente, es el error que se paga en el Bronx y en Central Park.\n\n**Y el final no perdona.** Los últimos siete kilómetros son la subida de la Quinta Avenida y las lomas del parque, con más de treinta y cinco kilómetros en las piernas. El tiempo medio de llegada ronda las 4:32 sobre un pelotón de casi sesenta mil personas: para lo rápido que es el recorrido en el papel, esta no es una carrera donde la gente baje su marca."
+ },
+ "typical_weather": {
+  "es": "Noviembre en Nueva York: salida habitual entre 8 y 12 °C, con viento en los puentes, que es donde más se nota porque no hay nada que lo corte. No encontramos un registro de estación de la mañana de carrera de 2025 y no lo estimamos.\n\nEl dato que sí cambia la preparación no es la temperatura, es la espera. Entre la salida de tu oleada y la hora a la que tienes que estar en Staten Island hay varias horas, buena parte de ellas sentado al aire libre. Con 8 °C eso no es una molestia: es una decisión de ropa y de comida.",
+  "en": "November in New York: a typical start between 8 and 12 °C, with wind on the bridges, which is where it is felt because nothing blocks it. We found no station log for the 2025 race morning and do not estimate one.\n\nThe number that changes your preparation is not the temperature, it is the wait. Several hours sit between the time you have to be on Staten Island and the time your wave goes, most of them outdoors and sitting down. At 8 °C that is not an inconvenience; it is a clothing and fuelling decision."
+ },
+ "cut_off": {
+  "year": 2026,
+  "es": "No hay un límite único. Desde la quinta oleada hay que sostener **16 minutos por milla (unos 9:56 por kilómetro)** para conservar la calle cerrada y el avituallamiento completo; por detrás de ese ritmo se sigue por la acera o en el autobús escoba.\n\nEl otro reloj es absoluto: **la organización registra llegadas oficiales hasta las 22:00**, salgas en la oleada que salgas. Quien cruza después no figura como finisher.\n\nNo hay tabla de cortes intermedios publicada.",
+  "en": "There is no single limit. From wave 5 you need to hold **16 min/mile (about 9:56/km)** to keep closed roads and full aid; behind that pace it is sidewalks or the sweep bus.\n\nThe other clock is absolute: **official finishes are recorded until 10:00 p.m.**, whichever wave you started in. Cross after that and you are not in the results.\n\nNo intermediate cut-off table is published."
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 59125,
+  "median": "4:24:17",
+  "median_m": "4:10:19",
+  "median_f": "4:39:29",
+  "sub3_pct": 3.53,
+  "sub3_count_low": 2085,
+  "note": {
+   "es": "Es el maratón más grande del mundo por número de llegados y también uno de los más internacionales: un 31% de los corredores vino de fuera de Estados Unidos, con 132 países representados, y Brasil entró por primera vez en el top 10 de países. La organización no publica el reparto por franjas ni la tasa de abandono.",
+   "en": "The largest marathon in the world by finishers, and one of the most international: 31% of the field came from outside the United States, 132 countries were represented, and Brazil cracked the top ten countries for the first time. No bucket table or DNF rate is published."
+  }
+ },
+ "registration_window": {
+  "es": "El sorteo se abre en invierno, con casi un año de antelación. Fuera del sorteo hay cuatro caminos: el programa 9+1 de NYRR, la marca clasificatoria, las plazas solidarias y las agencias de viaje acreditadas.",
+  "en": "The drawing opens in winter, nearly a year ahead. Outside it there are four routes: NYRR's 9+1 programme, the time qualifier, charity places, and accredited tour operators."
+ },
+ "registration_model": {
+  "es": "Sorteo, con marca clasificatoria, 9+1, solidario y agencias como alternativas",
+  "en": "Lottery, with time qualifier, 9+1, charity and tour entries as alternatives"
+ },
+ "registration_state": "window",
+ "registration_when": {
+  "es": "el sorteo de la edición 2026 ya se resolvió en la ventana habitual de invierno; el de 2027 se abre en los primeros meses del año",
+  "en": "the 2026 drawing already ran in the usual winter window; the 2027 one opens early in the year"
+ },
+ "sell_out_note": {
+  "es": "No se agota: se sortea. El número de solicitudes supera con mucho al de plazas, y la organización no publica una tasa de éxito comparable año a año.",
+  "en": "It does not sell out, it is drawn. Applications vastly exceed places, and no year-on-year success rate is published in comparable form."
+ },
+ "qualifying": {
+  "es": "La marca clasificatoria existe y es la vía más fiable si corres rápido, con una condición que sorprende a mucha gente: **solo cuenta un maratón**, en recorrido certificado, y para quien no es socio de NYRR tiene que ser del año calendario anterior. Ni media maratón ni 10K sirven aquí.\n\nEl recorrido, por su parte, es válido para clasificar a Boston.",
+  "en": "The time qualifier is the most reliable route if you run fast, with one condition that catches people out: **only a marathon counts**, on a certified course, and for non-NYRR members it has to be from the previous calendar year. A half or a 10K will not do it here.\n\nThe course itself is Boston-qualifying."
+ },
+ "corral_policy": {
+  "es": "Cinco oleadas, tres colores y seis cajones, asignados por tu tiempo estimado. **Se puede bajar a una oleada más lenta, nunca subir a una más rápida.** El tiempo oficial es el neto.",
+  "en": "Five waves, three colours, six corrals, assigned on your estimated finish. **You can move back to a slower wave, never up to a faster one.** Official time is net."
+ },
+ "how_to_train": {
+  "es": "Nueva York no se prepara como un maratón llano, aunque el perfil diga que casi lo es.\n\n**Los puentes son las cuestas.** No hay una subida larga, hay cinco rampas cortas de hormigón y acero, con peralte y sin público, y la peor de ellas llega en el kilómetro 24. En el bloque eso se traduce en trabajo de cuestas de tres a cinco minutos a esfuerzo de maratón, metido **dentro** de la tirada larga y después del kilómetro 20 — no en una sesión de cuestas aparte con las piernas frescas, que es justo la situación que no vas a tener.\n\n**El Verrazzano es el otro extremo del mismo problema.** Las dos primeras millas incluyen el descenso más fuerte del día, con adrenalina y con gente empujando. Correr cuesta abajo a ritmo rápido es trabajo excéntrico puro, y el daño no se siente hasta la milla 20. Se previene con bajadas controladas dentro del bloque, no evitándolas.\n\n**Central Park hay que entrenarlo al final.** Las dos lomas con nombre están en las millas 23 y 24, es decir después del kilómetro 37. Las últimas tres tiradas largas del bloque deberían terminar subiendo, aunque sea una rampa modesta.\n\n**Y la espera es parte de la carrera.** Entre que llegas a Staten Island y que sale tu oleada pueden pasar cuatro horas. Ensaya al menos dos tiradas largas con el mismo esquema: despertarte, desayunar, esperar tres o cuatro horas comiendo poco, y recién entonces salir a correr. Es el único ensayo que importa y casi nadie lo hace.",
+  "en": "New York is not trained like a flat marathon, whatever the profile says.\n\n**The bridges are the hills.** There is no long climb; there are five short concrete-and-steel ramps, cambered and crowd-free, and the worst of them lands at km 24 (mile 15). In the block that means three-to-five-minute hill efforts at marathon effort, placed **inside** the long run and after km 20 — not in a separate hill session on fresh legs, which is precisely the situation you will not be in.\n\n**The Verrazzano is the same problem from the other end.** The first two miles carry the steepest descent of the day, with adrenaline and people pushing. Running downhill at pace is pure eccentric work, and the damage does not announce itself until mile 20. You prevent it with controlled descents in the block, not by avoiding them.\n\n**Central Park has to be trained at the end.** The two named rises sit at miles 23 and 24 — after km 37. The last three long runs of the block should finish uphill, even on a modest ramp.\n\n**And the wait is part of the race.** Four hours can pass between arriving on Staten Island and your wave going. Rehearse at least two long runs on the same schedule: wake, eat, wait three or four hours eating very little, and only then run. It is the one rehearsal that matters and almost nobody does it."
+ },
+ "coach_hook": {
+  "es": "Cuatro horas sentado en Staten Island antes de empezar a correr no aparecen en ningún plan de doce semanas, y son la parte del día que más gente improvisa.",
+  "en": "Four hours sitting on Staten Island before you start running appear in no twelve-week plan, and they are the part of the day most people improvise."
+ },
+ "target_queries": {
+  "es": [
+   "plan entrenamiento maraton nueva york",
+   "maraton nueva york recorrido puentes",
+   "como entrar al maraton de nueva york sorteo",
+   "maraton nueva york tiempo limite",
+   "maraton nueva york marca clasificatoria",
+   "queensboro bridge maraton nueva york"
+  ],
+  "en": [
+   "new york city marathon training plan",
+   "nyc marathon course bridges guide",
+   "nyc marathon time qualifier standards",
+   "nyc marathon cut off time",
+   "how hard is the nyc marathon course",
+   "queensboro bridge nyc marathon"
+  ]
+ },
+ "sources": [
+  "https://www.nyrr.org/tcsnycmarathon",
+  "https://www.nyrr.org/tcsnycmarathon/race-day/the-course",
+  "https://www.nyrr.org/tcsnycmarathon/race-day/the-start",
+  "https://www.nyrr.org/run/guidelines-and-procedures/time-qualifiers-for-nyrr-marquee-races",
+  "https://marathonview.net/race/142666",
+  "https://marathonhandbook.com/2025-nyc-marathon-data-analysis/"
+ ],
+ "confidence_flags": [
+  "El desnivel de 166 pies procede de un archivo GPS de terceros, no de una medición oficial. Por eso elevation_gain_m queda vacío y la cifra se cita en la nota.",
+  "Sin registro meteorológico de estación de la mañana de carrera 2025. La sección de condiciones da la banda habitual y lo dice.",
+  "El 1 de noviembre de 2026 coincide con el fin del horario de verano en Estados Unidos. La página avisa y remite al horario oficial en lugar de resolver la hora.",
+  "La ventana del sorteo 2027 es la habitual de invierno; la organización no había publicado la fecha exacta al verificar.",
+  "No hay tabla de cortes intermedios: el único ritmo publicado es el de 16 min/milla desde la quinta oleada."
+ ]
+}

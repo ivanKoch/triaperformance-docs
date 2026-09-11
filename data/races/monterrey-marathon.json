@@ -1,103 +1,103 @@
 {
-  "race_id": "monterrey-marathon",
-  "city": "Monterrey",
-  "country": "México",
-  "distance": "42k",
-  "language_market": [
-    "es"
-  ],
-  "name": {
-    "es": "Maratón de Monterrey"
-  },
-  "official_name": "Maratón Powerade Monterrey",
-  "official_url": "https://maratonmonterrey.mx/",
-  "slug": {
-    "es": "maraton-monterrey"
-  },
-  "next_edition_date": "2026-12-13",
-  "last_verified": "2026-09-05",
-  "typical_window": {
-    "es": "Segundo domingo de diciembre"
-  },
-  "start_time": {
-    "es": "6:45 de la mañana, un solo disparo. Cuatro cajones por tiempo estimado; quien no declara marca sale en el último."
-  },
-  "hook": {
-    "es": "La segunda mitad es cuesta abajo y ahí se hacen las marcas. El problema es llegar a ella, porque entre el 15 y el 27 hay doce kilómetros de subida y los dos cortes de tiempo están puestos justo encima."
-  },
-  "course_profile": {
-    "es": "Circuito con salida y meta en el Parque Fundidora. Unos 245 m de desnivel positivo, concentrados en un solo bloque. Ciudad a ~540 m."
-  },
-  "elevation_gain_m": 245,
-  "elevation_note": {
-    "es": "Olympics.com da ~245 m positivos y 248 m negativos para la edición 2025. Statathon publica 363 m: es una fuente de terceros y no la preferimos sobre la cifra del recorrido oficial. El gráfico oficial está en el PDF de la guía del atleta."
-  },
-  "course_notes": {
-    "es": "Salida y meta en el Parque Fundidora. El circuito sale por Washington y Zaragoza, baja por Morones Prieto y Revolución, toma Garza Sada y Lázaro Cárdenas, pasa el medio maratón alrededor del 21, entra a San Pedro por Vasconcelos y Calzada del Valle, sube por Humberto Lobo y vuelve por Morones Prieto.\n\n**km 0-15.** Salida en plano desde Fundidora hacia el sur de la ciudad. Es la parte rápida y es donde se decide la carrera, aunque no lo parezca.\n\n**km 15-27. La subida a San Pedro.** Doce kilómetros prácticamente en ascenso, unos 110 m acumulados. No es una pared: es una pendiente sostenida que no termina, que para el ritmo es peor, porque no da el descanso que da una cuesta corta. *Dónde termina exactamente es lo único que las fuentes no responden igual:* el recorrido en GPS la cierra cerca del 27, y el director de la carrera dice que desde el 25 ya es \"río abajo\". Cuenta con que el último kilómetro o dos de este tramo ya están aflojando.\n\n**km 27-42.** Vuelta por Morones Prieto hacia Fundidora con el desnivel a favor todo el camino. Quince kilómetros de bajada con la subida ya en las piernas — que es exactamente donde esta carrera cobra."
-  },
-  "where_they_struggle": {
-    "es": "Aquí no se rompe la gente por el calor ni por el kilómetro 30 clásico: se rompe en la subida, y se rompe contra el reloj.\n\n**Los dos cortes están puestos exactamente encima de la parte dura.** El del kilómetro 21.1 cae a las 3:15 del disparo, justo cuando empieza el tramo largo de ascenso; el del 30, a las 5:00, cuando lo acabas de terminar. Un corredor que venía cómodo en plano puede perder el margen entero en esos doce kilómetros y encontrarse fuera de carrera en un punto donde el desnivel ya estaba a punto de devolvérselo.\n\n**Y la bajada larga cobra después.** Quince kilómetros con el desnivel a favor, con la subida ya en las piernas, es un castigo excéntrico sobre el cuádriceps que no se nota mientras pasa y sí en el kilómetro 38.\n\nEl propio director de la carrera resume la contradicción: es la ruta con el porcentaje más alto de clasificados a Boston del país, y a la vez \"una ruta difícil\"."
-  },
-  "typical_weather": {
-    "es": "Diciembre en el noreste semiárido: mañana fresca a las 6:45 y sol franco a media carrera. No hay registro de estación meteorológica publicado para la salida, así que esto es el patrón de la fecha, no una medición."
-  },
-  "cut_off": {
-    "year": 2026,
-    "es": "**6 horas y 30 minutos contados desde el disparo**, no desde tu chip.\n\nDos cortes parciales, ambos también sobre el reloj de salida: **kilómetro 21.1 a las 3:15** y **kilómetro 30 a las 5:00**. Quien no llega a tiempo abandona la competencia y la organización le ofrece transporte.\n\nOjo con la diferencia entre tiempos: los premios se resuelven por tiempo de disparo y la marca válida para Boston es la de chip."
-  },
-  "field": {
-    "year": 2025,
-    "entrants": 8300,
-    "note": {
-      "es": "De la edición 2025: más de 8300 inscritos, alrededor de un 38% mujeres, la mitad de fuera de Monterrey y un 30% debutantes en la distancia, sobre un cupo total de 10.000. La organización no publica tiempos medianos ni distribución de llegadas, y esta página no los estima."
-    }
-  },
-  "registration_window": {
-    "es": "Inscripciones abiertas durante el año hasta agotar el cupo de 10.000, con ventana de cambio de nombre en octubre."
-  },
-  "registration_model": {
-    "es": "Por orden de inscripción, hasta agotar cupo"
-  },
-  "sell_out_note": {
-    "es": "La edición 2026 está agotada. Cuando hay lugares, la cuota para corredores extranjeros es de 100 USD. No hay reembolsos; sí hubo descuentos para mujeres de 60+ y hombres de 65+ antes del sold out."
-  },
-  "qualifying": {
-    "es": "Clasificatoria para Boston con el tiempo de chip. Según la organización, es la ruta mexicana con el porcentaje más alto de clasificados del país — coherente con una segunda mitad en bajada."
-  },
-  "corral_policy": {
-    "es": "Cuatro cajones por tiempo estimado y un único disparo. Quien no declara una marca al inscribirse queda en el último cajón, lo que con cortes medidos desde el disparo es una diferencia real, no un detalle."
-  },
-  "how_to_train": {
-    "es": "El circuito pide dos cosas concretas, y ninguna es la del maratón plano típico.\n\n**Subida sostenida, no repeticiones de cuesta.** Doce kilómetros al 1% largo no se entrenan con series de 400 en pendiente: se entrenan metiendo tramos continuos de 20 a 40 minutos en subida suave a ritmo de maratón, para que el cuerpo aprenda a sostener esfuerzo con la zancada acortada sin subir pulsaciones.\n\n**Bajada larga con las piernas ya cargadas.** Los quince kilómetros finales son excéntricos y llegan después de la subida. La preparación es correr en bajada *al final* de los rodajes largos, no al principio, y sumar trabajo de fuerza excéntrica de cuádriceps. Sin eso, el desnivel a favor se convierte en el motivo por el que no pudiste aprovecharlo.\n\n**Y el ritmo se planifica contra los cortes, no contra la meta.** Pasar el 21.1 antes de las 3:15 desde el disparo obliga a un ritmo mínimo real, y si sales en el último cajón, ese margen es más chico de lo que parece en el papel. Ese es el número con el que se arma el plan."
-  },
-  "target_queries": {
-    "es": [
-      "plan entrenamiento maraton monterrey",
-      "maraton monterrey tiempo limite",
-      "maraton monterrey cortes de tiempo",
-      "maraton monterrey clasificatoria boston",
-      "maraton monterrey recorrido subida san pedro"
-    ]
-  },
-  "sources": [
-    "https://maratonmonterrey.mx/",
-    "https://maratonmonterrey.mx/convocatoria/",
-    "https://maratonmonterrey.mx/reglamento/",
-    "https://maratonmonterrey.mx/guia-del-atleta/",
-    "https://www.olympics.com/es/noticias"
-  ],
-  "confidence_flags": [
-    "Cut-off clocks agree across the reglamento, the convocatoria and the guía del atleta. What does NOT agree is the destination of the courtesy transport: the 2026 convocatoria says to the finish, the guía (whose text is still labelled 2024) says back to the start. Confirm with the organiser before the page says either.",
-    "The guía del atleta page still carries a 2024 heading on the cut-off section — the clocks match 2026, the label does not.",
-    "Elevation: 245 m from Olympics.com 2025; Statathon publishes 363 m. Third-party, not preferred. No official certified figure located.",
-    "No finisher count, median or sub-3 distribution is published. The entrants figure is REGISTRATIONS, not finishers, and is labelled as such on the page.",
-    "2026 edition is sold out — verify before any copy implies places are available."
-  ],
-  "coach_hook": {
-    "es": "Dos cortes medidos desde el disparo, encima de una subida de doce kilómetros, y un cajón de salida que te puede quitar minutos antes de empezar a correr."
-  },
-  "registration_state": "sold_out",
-  "registration_when": {
-    "es": "2026"
+ "race_id": "monterrey-marathon",
+ "city": "Monterrey",
+ "country": "México",
+ "distance": "42k",
+ "language_market": [
+  "es"
+ ],
+ "name": {
+  "es": "Maratón de Monterrey"
+ },
+ "official_name": "Maratón Powerade Monterrey",
+ "official_url": "https://maratonmonterrey.mx/",
+ "slug": {
+  "es": "maraton-monterrey"
+ },
+ "next_edition_date": "2026-12-13",
+ "last_verified": "2026-09-05",
+ "typical_window": {
+  "es": "Segundo domingo de diciembre"
+ },
+ "start_time": {
+  "es": "6:45 de la mañana, un solo disparo. Cuatro cajones por tiempo estimado; quien no declara marca sale en el último."
+ },
+ "hook": {
+  "es": "La segunda mitad es cuesta abajo y ahí se hacen las marcas. El problema es llegar a ella, porque entre el 15 y el 27 hay doce kilómetros de subida y los dos cortes de tiempo están puestos justo encima."
+ },
+ "course_profile": {
+  "es": "Circuito con salida y meta en el Parque Fundidora. Unos 245 m de desnivel positivo, concentrados en un solo bloque. Ciudad a ~540 m."
+ },
+ "elevation_gain_m": 245,
+ "elevation_note": {
+  "es": "Olympics.com da ~245 m positivos y 248 m negativos para la edición 2025. Statathon publica 363 m: es una fuente de terceros y no la preferimos sobre la cifra del recorrido oficial. El gráfico oficial está en el PDF de la guía del atleta."
+ },
+ "course_notes": {
+  "es": "Salida y meta en el Parque Fundidora. El circuito sale por Washington y Zaragoza, baja por Morones Prieto y Revolución, toma Garza Sada y Lázaro Cárdenas, pasa el medio maratón alrededor del 21, entra a San Pedro por Vasconcelos y Calzada del Valle, sube por Humberto Lobo y vuelve por Morones Prieto.\n\n**km 0-15.** Salida en plano desde Fundidora hacia el sur de la ciudad. Es la parte rápida y es donde se decide la carrera, aunque no lo parezca.\n\n**km 15-27. La subida a San Pedro.** Doce kilómetros prácticamente en ascenso, unos 110 m acumulados. No es una pared: es una pendiente sostenida que no termina, que para el ritmo es peor, porque no da el descanso que da una cuesta corta. *Dónde termina exactamente es lo único que las fuentes no responden igual:* el recorrido en GPS la cierra cerca del 27, y el director de la carrera dice que desde el 25 ya es \"río abajo\". Cuenta con que el último kilómetro o dos de este tramo ya están aflojando.\n\n**km 27-42.** Vuelta por Morones Prieto hacia Fundidora con el desnivel a favor todo el camino. Quince kilómetros de bajada con la subida ya en las piernas — que es exactamente donde esta carrera cobra."
+ },
+ "where_they_struggle": {
+  "es": "Aquí no se rompe la gente por el calor ni por el kilómetro 30 clásico: se rompe en la subida, y se rompe contra el reloj.\n\n**Los dos cortes están puestos exactamente encima de la parte dura.** El del kilómetro 21.1 cae a las 3:15 del disparo, justo cuando empieza el tramo largo de ascenso; el del 30, a las 5:00, cuando lo acabas de terminar. Un corredor que venía cómodo en plano puede perder el margen entero en esos doce kilómetros y encontrarse fuera de carrera en un punto donde el desnivel ya estaba a punto de devolvérselo.\n\n**Y la bajada larga cobra después.** Quince kilómetros con el desnivel a favor, con la subida ya en las piernas, es un castigo excéntrico sobre el cuádriceps que no se nota mientras pasa y sí en el kilómetro 38.\n\nEl propio director de la carrera resume la contradicción: es la ruta con el porcentaje más alto de clasificados a Boston del país, y a la vez \"una ruta difícil\"."
+ },
+ "typical_weather": {
+  "es": "Diciembre en el noreste semiárido: mañana fresca a las 6:45 y sol franco a media carrera. No hay registro de estación meteorológica publicado para la salida, así que esto es el patrón de la fecha, no una medición."
+ },
+ "cut_off": {
+  "year": 2026,
+  "es": "**6 horas y 30 minutos contados desde el disparo**, no desde tu chip.\n\nDos cortes parciales, ambos también sobre el reloj de salida: **kilómetro 21.1 a las 3:15** y **kilómetro 30 a las 5:00**. Quien no llega a tiempo abandona la competencia y la organización le ofrece transporte.\n\nOjo con la diferencia entre tiempos: los premios se resuelven por tiempo de disparo y la marca válida para Boston es la de chip."
+ },
+ "field": {
+  "year": 2025,
+  "entrants": 8300,
+  "note": {
+   "es": "Más de 8.300 inscritos sobre un cupo de 10.000, alrededor de un 38% mujeres, la mitad de fuera de Monterrey y un 30% debutantes en la distancia. La organización no publica tiempos medianos ni distribución de llegadas, y esta página no los estima."
   }
+ },
+ "registration_window": {
+  "es": "Inscripciones abiertas durante el año hasta agotar el cupo de 10.000, con ventana de cambio de nombre en octubre."
+ },
+ "registration_model": {
+  "es": "Por orden de inscripción, hasta agotar cupo"
+ },
+ "sell_out_note": {
+  "es": "La edición 2026 está agotada. Cuando hay lugares, la cuota para corredores extranjeros es de 100 USD. No hay reembolsos; sí hubo descuentos para mujeres de 60+ y hombres de 65+ antes del sold out."
+ },
+ "qualifying": {
+  "es": "Clasificatoria para Boston con el tiempo de chip. Según la organización, es la ruta mexicana con el porcentaje más alto de clasificados del país — coherente con una segunda mitad en bajada."
+ },
+ "corral_policy": {
+  "es": "Cuatro cajones por tiempo estimado y un único disparo. Quien no declara una marca al inscribirse queda en el último cajón, lo que con cortes medidos desde el disparo es una diferencia real, no un detalle."
+ },
+ "how_to_train": {
+  "es": "El circuito pide dos cosas concretas, y ninguna es la del maratón plano típico.\n\n**Subida sostenida, no repeticiones de cuesta.** Doce kilómetros al 1% largo no se entrenan con series de 400 en pendiente: se entrenan metiendo tramos continuos de 20 a 40 minutos en subida suave a ritmo de maratón, para que el cuerpo aprenda a sostener esfuerzo con la zancada acortada sin subir pulsaciones.\n\n**Bajada larga con las piernas ya cargadas.** Los quince kilómetros finales son excéntricos y llegan después de la subida. La preparación es correr en bajada *al final* de los rodajes largos, no al principio, y sumar trabajo de fuerza excéntrica de cuádriceps. Sin eso, el desnivel a favor se convierte en el motivo por el que no pudiste aprovecharlo.\n\n**Y el ritmo se planifica contra los cortes, no contra la meta.** Pasar el 21.1 antes de las 3:15 desde el disparo obliga a un ritmo mínimo real, y si sales en el último cajón, ese margen es más chico de lo que parece en el papel. Ese es el número con el que se arma el plan."
+ },
+ "target_queries": {
+  "es": [
+   "plan entrenamiento maraton monterrey",
+   "maraton monterrey tiempo limite",
+   "maraton monterrey cortes de tiempo",
+   "maraton monterrey clasificatoria boston",
+   "maraton monterrey recorrido subida san pedro"
+  ]
+ },
+ "sources": [
+  "https://maratonmonterrey.mx/",
+  "https://maratonmonterrey.mx/convocatoria/",
+  "https://maratonmonterrey.mx/reglamento/",
+  "https://maratonmonterrey.mx/guia-del-atleta/",
+  "https://www.olympics.com/es/noticias"
+ ],
+ "confidence_flags": [
+  "Cut-off clocks agree across the reglamento, the convocatoria and the guía del atleta. What does NOT agree is the destination of the courtesy transport: the 2026 convocatoria says to the finish, the guía (whose text is still labelled 2024) says back to the start. Confirm with the organiser before the page says either.",
+  "The guía del atleta page still carries a 2024 heading on the cut-off section — the clocks match 2026, the label does not.",
+  "Elevation: 245 m from Olympics.com 2025; Statathon publishes 363 m. Third-party, not preferred. No official certified figure located.",
+  "No finisher count, median or sub-3 distribution is published. The entrants figure is REGISTRATIONS, not finishers, and is labelled as such on the page.",
+  "2026 edition is sold out — verify before any copy implies places are available."
+ ],
+ "coach_hook": {
+  "es": "Dos cortes medidos desde el disparo, encima de una subida de doce kilómetros, y un cajón de salida que te puede quitar minutos antes de empezar a correr."
+ },
+ "registration_state": "sold_out",
+ "registration_when": {
+  "es": "2026"
+ }
 }

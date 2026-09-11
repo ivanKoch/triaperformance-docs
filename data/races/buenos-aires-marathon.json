@@ -1,0 +1,113 @@
+{
+ "race_id": "buenos-aires-marathon",
+ "city": "Buenos Aires",
+ "country": "Argentina",
+ "distance": "42k",
+ "language_market": [
+  "es"
+ ],
+ "name": {
+  "es": "Maratón de Buenos Aires"
+ },
+ "official_name": "Maratón Internacional de Buenos Aires Ñandú",
+ "official_url": "https://www.maratondebuenosaires.com/",
+ "slug": {
+  "es": "maraton-buenos-aires"
+ },
+ "next_edition_date": "2026-09-20",
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "es": "Tercer domingo de septiembre"
+ },
+ "start_time": {
+  "es": "7:00 de la mañana, en Figueroa Alcorta y Dorrego. Las largadas se escalonan por tiempo declarado: 6:57 atletas con discapacidad, 7:00 élite, 7:02 quienes anotan menos de 3:00, y después cada uno o dos minutos hasta las 7:11 para los que declaran más de 5:00."
+ },
+ "hook": {
+  "es": "En el papel es de los maratones más planos del continente. En la práctica se corre contra el viento del Río de la Plata y contra una humedad que a las siete de la mañana ronda el 95%."
+ },
+ "course_profile": {
+  "es": "Circuito urbano con salida y meta en Palermo, con etiqueta de World Athletics. Entre 5 y 45 metros sobre el nivel del mar: la altitud no es un factor y el desnivel se concentra en seis kilómetros del medio."
+ },
+ "elevation_gain_m": null,
+ "elevation_note": {
+  "es": "Las dos cifras públicas no coinciden y no las promediamos: sumando la columna de ascenso de la tabla kilómetro a kilómetro de GoAndRace dan unos 118 m, mientras que Marathon-Index publica 85 m. La primera es una lectura de GPS, no una medición topográfica. Lo que sí es consistente entre ambas es dónde está el relieve: entre el kilómetro 12 y el 22, y en ningún otro lado."
+ },
+ "course_notes": {
+  "es": "**Kilómetro 0 al 12, Palermo y Figueroa Alcorta.** Entre 7 y 15 metros de altura, con pendientes de 0 a −0,4%. Avenida ancha, sin embudos y sin nada que frene el ritmo.\n\n**Kilómetro 12 al 18, el único relieve del día.** Baja 8 metros hasta el 13, sube 13 metros al 1,3% entre el 13 y el 14, vuelve a bajar 12 metros entre el 15 y el 16, y sube otros 14 metros al 1,4% entre el 17 y el 18. Ese último es el kilómetro más empinado del recorrido.\n\n**Kilómetro 18 al 22, el punto más alto.** De 33 a 43 metros. El techo del maratón está aquí, alrededor del 21.\n\n**Kilómetro 22 al 27, bajada larga hacia La Boca.** De 43 metros a 9. Es el tramo donde más fácil resulta correr por encima de lo previsto sin darte cuenta.\n\n**Kilómetro 27 a meta, Puerto Madero y el regreso.** Entre 6 y 12 metros, con pendientes que no pasan del 0,4%. Quince kilómetros literalmente planos para terminar.\n\nEl trazado se rehízo en 2019 y en esa reforma desaparecieron los pasos elevados de autopista que la gente temía. Los relatos de carrera anteriores a ese año describen otro recorrido."
+ },
+ "where_they_struggle": {
+  "es": "Aquí no hay una cuesta que rompa la carrera. Hay dos cosas que no se ven en el perfil.\n\n**La humedad.** El 21 de septiembre de 2025 se largó con 14 °C y **95% de humedad relativa**. Esa combinación no se siente como calor — se siente perfecta en el kilómetro 5 — pero el sudor no se evapora, y lo que no se evapora no te enfría. La temperatura baja hace que casi nadie beba lo suficiente en la primera hora.\n\n**El viento del río.** En 2025 Meteored midió ráfagas del sudsudoeste de 35 a 45 km/h, especialmente entre el kilómetro 6 y el 27, con la cara al viento en buena parte de la ida; después de La Boca el viento pasa a favor. Los récords del circuito, de 2019 y 2023, quedaron intactos ese año, y la carrera masculina se definió recién con un ataque en el kilómetro 35.\n\nLos repechos del 13 al 18 son lo único que rompe la monotonía y, a diferencia de otras carreras, no generaron un relato de gente reventada ahí. El daño aquí se acumula, no se dispara en un punto."
+ },
+ "typical_weather": {
+  "es": "Septiembre en Buenos Aires, con datos del Observatorio: media mensual de 15,5 °C, máxima media de 20,0 y mínima media de 11,0, con 64,4 mm de lluvia repartidos en seis días. La mañana de carrera de 2025 estuvo en 14 °C con 95% de humedad, y la banda pronosticada era de 13 a 17 °C con la humedad bajando al 70% recién cerca del mediodía — es decir, después de que la mayoría del pelotón ya terminó.\n\nA nivel del mar y con esa temperatura, el problema nunca es el golpe de calor. Es la deshidratación silenciosa de tres o cuatro horas sudando sin enfriarte."
+ },
+ "cut_off": {
+  "year": 2026,
+  "es": "**6 horas de reloj**, de 7:00 a 13:00. El reglamento 2026 lo escribe como un horario de cierre —«sin que en ningún caso pueda exceder»—, no como un tiempo desde tu chip. El chip se usa para la clasificación.\n\nNo hay cortes parciales publicados en el reglamento de 2026, ni una cláusula de vehículo escoba con nombre. Y ojo con un error frecuente: los cortes de 3 horas en el 21 y 6 en el 42 que circulan en foros son de Mar del Plata, que es otra carrera."
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 12757,
+  "median": "4:02:36",
+  "median_m": "3:55:54",
+  "median_f": "4:18:42",
+  "sub3_pct": 4.37,
+  "sub3_count_low": 558,
+  "note": {
+   "es": "La mediana apenas por encima de las cuatro horas dice algo concreto: cerca de la mitad del pelotón baja de 4:00, un reparto más rápido que el de la mayoría de los maratones de ciudad de la región. La organización no publica el reparto por franjas ni la tasa de abandono, y esta página no los estima."
+  }
+ },
+ "registration_window": {
+  "es": "Las inscripciones se abren por Ticketear a comienzos de año y se cierran un mes antes de la carrera o al agotar el cupo. En 2026 cerraron el 20 de agosto."
+ },
+ "registration_model": {
+  "es": "Por orden de inscripción, sin sorteo ni marca mínima"
+ },
+ "registration_state": "window",
+ "registration_when": {
+  "es": "la inscripción de 2026 cerró el 20 de agosto y la organización todavía no publicó cuándo abre la de 2027"
+ },
+ "sell_out_note": {
+  "es": "No se agota en horas: en 2026 seguía vendiendo hasta bien entrado agosto. Los precios publicados fueron 120.000 pesos para residentes y 120 dólares para extranjeros — el valor en pesos se mueve, conviene verificarlo en vivo."
+ },
+ "qualifying": {
+  "es": "No hay marca mínima para entrar. El circuito está certificado y tiene etiqueta de World Athletics."
+ },
+ "corral_policy": {
+  "es": "Los cajones se arman por tiempo declarado al inscribirte, y cada uno larga a su hora. Declarar de más te pone atrás de gente más lenta durante varios kilómetros; declarar de menos te pone delante de gente más rápida, que es peor."
+ },
+ "how_to_train": {
+  "es": "Un circuito plano no significa un bloque fácil. Significa un bloque distinto.\n\n**Lo primero es la humedad, y no se resuelve en la semana de la carrera.** Correr con 95% de humedad sube la frecuencia cardíaca a un ritmo dado y baja el ritmo a un pulso dado. Eso se entrena exponiéndose: tiradas largas a media mañana en los meses húmedos, no siempre al amanecer con el aire más seco. Y se planifica midiendo cuánto sudas realmente —pesarte antes y después de una tirada larga es el método más barato que existe— para llegar con un plan de líquidos escrito, no improvisado en el primer puesto de hidratación.\n\n**Lo segundo es el viento.** Entre el kilómetro 6 y el 27 lo vas a tener de frente buena parte del tiempo. La decisión táctica es no pelearlo: ir a esfuerzo constante y aceptar que el ritmo caiga en esa franja, sabiendo que después de La Boca vuelve a favor. Quien intenta sostener el ritmo objetivo contra el viento del río gasta ahí la carrera que quería correr en los últimos diez kilómetros.\n\n**Lo tercero es lo que hace plana a una carrera plana.** Cuarenta y dos kilómetros sin cambio de pendiente son cuarenta y dos kilómetros con el mismo gesto, los mismos músculos y la misma zancada. Eso se entrena con tiradas largas en terreno realmente llano, no en circuitos con lomas que te dan micropausas involuntarias, y se complementa con cambios de cadencia dentro de la tirada para romper el patrón.\n\n**Y una sola cosa del perfil:** los seis kilómetros de repechos caen entre el 12 y el 18, es decir, cuando todavía te sientes bien. Mete algún bloque de ondulaciones a esfuerzo de maratón en la mitad de una tirada larga, no al final: el objetivo es aprender a pasarlos sin acelerar, no a sufrirlos cansado."
+ },
+ "coach_hook": {
+  "es": "Una mañana con 95% de humedad no se compensa en la última semana: se planifica desde el primer día del bloque, y un plan cerrado no sabe cuánto sudas ni con qué viento te tocó la ida."
+ },
+ "target_queries": {
+  "es": [
+   "plan entrenamiento maraton buenos aires",
+   "maraton de buenos aires recorrido altimetria",
+   "maraton buenos aires tiempo limite",
+   "como entrenar maraton buenos aires humedad",
+   "maraton buenos aires 2027 inscripciones",
+   "maraton de buenos aires es rapido"
+  ]
+ },
+ "sources": [
+  "https://www.maratondebuenosaires.com/",
+  "https://ticketear.com.ar/uploads/bases/bases_17_1766422083.pdf",
+  "https://www.goandrace.com/en/map/2025/buenos-aires-international-marathon-2025-buenos-aires-course-map-1.php",
+  "https://marathon-index.com/races/buenos-aires-marathon/course/",
+  "https://www.marathonview.net/race/141865",
+  "https://www.meteored.com.ar/noticias/prediccion/maraton-de-buenos-aires-2025-el-clima-la-gran-incognita-y-desafio-para-los-corredores.html",
+  "https://soymaratonista.com/resultados-maraton-de-buenos-aires-2025/",
+  "https://www.lanacion.com.ar/sociedad/el-etiope-habtamu-birlew-gano-la-maraton-de-buenos-aires-nid21092025/",
+  "https://meteomanz.com/sy3?cou=0&ind=87585&y1=2025&m1=01&y2=2025&m2=12&fm=00&so=005"
+ ],
+ "confidence_flags": [
+  "El desnivel positivo no tiene cifra fiable: 118 m sumando la tabla de GoAndRace (GPS) frente a 85 m de Marathon-Index. Por eso elevation_gain_m queda vacío.",
+  "El mapa oficial 2026 en PDF no se encontró; el recorrido se describe desde la tabla kilómetro a kilómetro de 2025 y la lista oficial de cortes de calles de 2026.",
+  "El reglamento 2026 no especifica cortes parciales ni cláusula de vehículo escoba. La página no los inventa.",
+  "El precio en pesos es el publicado en 2026 y se mueve con la inflación.",
+  "Sin fecha confirmada para 2027."
+ ]
+}

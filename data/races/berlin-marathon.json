@@ -1,0 +1,146 @@
+{
+ "race_id": "berlin-marathon",
+ "city": "Berlín",
+ "country": "Alemania",
+ "distance": "42k",
+ "language_market": [
+  "es",
+  "en"
+ ],
+ "name": {
+  "es": "Maratón de Berlín",
+  "en": "Berlin Marathon"
+ },
+ "official_name": "BMW BERLIN-MARATHON",
+ "official_url": "https://www.bmw-berlin-marathon.com",
+ "slug": {
+  "es": "maraton-berlin",
+  "en": "berlin-marathon"
+ },
+ "next_edition_date": "2026-09-27",
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "es": "Último domingo de septiembre",
+  "en": "Last Sunday in September"
+ },
+ "start_time": {
+  "es": "Seis salidas escalonadas en 2026, sujetas a cambios: bloques A a C a las 8:45, D y E a las 9:05, F y G a las 9:33, H a las 10:02, J a las 10:12 y K a las 10:27. Hora y media separa al primer bloque del último, y en un septiembre caluroso esa hora y media es la diferencia entre correr con 18 °C y correr con 26.",
+  "en": "Six staggered starts in 2026, subject to change: blocks A-C at 8:45, D-E at 9:05, F-G at 9:33, H at 10:02, J at 10:12 and K at 10:27. An hour and a half separates the first block from the last, and in a warm September that hour and a half is the difference between running at 18 °C and running at 26 °C."
+ },
+ "hook": {
+  "es": "El circuito de masas más rápido del mundo, corrido en 2025 con 27,6 °C: la edición más calurosa de su historia. El recorrido no cambió; lo que hay que cambiar es la suposición con la que se llega a él.",
+  "en": "The fastest mass marathon course in the world, run in 2025 at 27.6 °C — the hottest edition on record. The course did not change; what has to change is the assumption people bring to it."
+ },
+ "course_profile": {
+  "es": "Circuito urbano con salida y meta junto a la Puerta de Brandeburgo, en el Tiergarten. Es el recorrido donde se han batido la mayoría de los récords del mundo recientes, y su rasgo definitorio es la ausencia de rasgos: ancho, recto, sin una sola cuesta con nombre. Certificado y válido para clasificar a Boston.",
+  "en": "City loop starting and finishing by the Brandenburg Gate, in the Tiergarten. This is where most recent world records have been set, and its defining feature is the absence of features: wide, straight, without a single named climb. Certified and Boston-qualifying."
+ },
+ "elevation_gain_m": null,
+ "elevation_note": {
+  "es": "La organización no publica una cifra oficial de desnivel positivo y no adoptamos ninguna de las que circulan. Para lo que importa —cómo planificar el ritmo— la respuesta es la misma en todas: no hay ningún tramo que obligue a cambiar de marcha. Eso no hace la carrera más fácil, hace que el error de ritmo no tenga dónde esconderse.",
+  "en": "The organiser publishes no official elevation figure and we adopt none of the ones in circulation. For the thing that matters — how to plan pace — every version says the same: nothing on this course forces a gear change. That does not make the race easier; it means a pacing error has nowhere to hide."
+ },
+ "course_notes": {
+  "es": "Aquí no hay una descripción kilómetro a kilómetro que valga la pena, y eso es un hecho sobre la carrera, no una laguna de esta página.\n\n**Salida y meta, Puerta de Brandeburgo y Tiergarten.** El punto más reconocible del maratón y, en la práctica, un largo pasillo recto de entrada a meta.\n\n**El resto es un circuito por la ciudad**, por avenidas anchas, con pocos giros y sin ningún tramo que la prensa especializada trate como el punto crítico — el equivalente berlinés de una Heartbreak Hill no existe.\n\n**Lo que sí hay que mirar es el reloj de tu bloque.** Con seis salidas repartidas entre las 8:45 y las 10:27, dos corredores del mismo nivel pueden correr la misma carrera con ocho grados de diferencia. El recorrido es idéntico para todos; el día no.\n\nLa organización no publica una tabla de altimetría por kilómetro y esta página no la reconstruye a partir de archivos GPS de terceros.",
+  "en": "There is no kilometre-by-kilometre description here worth writing, and that is a fact about the race rather than a gap in this page.\n\n**Start and finish, Brandenburg Gate and Tiergarten.** The most recognisable point of the marathon and, in practice, a long straight corridor into the finish.\n\n**The rest is a city loop**, on wide avenues, with few turns and no stretch that the specialist press treats as the decisive one — there is no Berlin equivalent of Heartbreak Hill.\n\n**What you do have to read is your block's clock.** With six starts spread between 8:45 and 10:27, two runners of the same standard can run the same race eight degrees apart. The course is identical for everyone; the day is not.\n\nThe organiser publishes no per-kilometre elevation table and this page does not reconstruct one from third-party GPS files."
+ },
+ "where_they_struggle": {
+  "es": "Berlín se rompe por calor, no por perfil, y el ejemplo está reciente.\n\n**En 2025 la salida marcó 27,6 °C, la edición más calurosa desde que hay registro** — el máximo anterior eran 25,0 °C en 2009. Arriba, Sawe ganó igual en 2:02:16; detrás, la media de los diez primeros se fue a 2:07:36 frente a 2:04:37 el año anterior. Es decir: la élite perdió tres minutos. Quien va a cinco horas no pierde tres minutos, pierde media hora.\n\n**El modo de fallo está documentado y tiene nombre propio.** Llegar con un plan construido sobre «Berlín es plano, así que voy fuerte desde el principio» y encontrarse un día por encima de los 25 °C. El recorrido invita exactamente a eso: no hay una cuesta que te obligue a bajar el ritmo en el kilómetro 10, ni un giro cerrado que te recuerde dónde estás. Todo lo que hay es una avenida recta y una decisión tuya cada kilómetro.\n\n**Y el bloque de salida multiplica el problema.** Si te toca la salida de las 10:27, los últimos quince kilómetros caen en la parte más calurosa del día.",
+  "en": "Berlin breaks on heat, not on profile, and the example is recent.\n\n**2025 started at 27.6 °C, the hottest edition on record** — the previous high was 25.0 °C in 2009. At the front, Sawe still won in 2:02:16; behind him, the top-ten average went to 2:07:36 against 2:04:37 the year before. The elite lost three minutes. A five-hour runner does not lose three minutes; they lose half an hour.\n\n**The failure mode is documented and it has a name.** Arriving with a plan built on \"Berlin is flat, so I go hard early\" and meeting a day above 25 °C. The course invites exactly that: there is no climb to force you down at km 10, no tight corner to remind you where you are. There is a straight avenue and a decision of yours, every kilometre.\n\n**And the start block multiplies it.** Drawn into the 10:27 start, your last fifteen kilometres land in the hottest part of the day."
+ },
+ "typical_weather": {
+  "es": "Finales de septiembre en Berlín es normalmente el clima ideal para correr rápido, y por eso los años calurosos sorprenden tanto. La referencia reciente que hay que tener en la cabeza es 2025: **27,6 °C**, récord histórico de la prueba.\n\nNo es el promedio y no lo presentamos como tal. Es la prueba de que el margen existe, y de que un plan de ritmo que solo funciona con 12 °C es un plan a medias.",
+  "en": "Late September in Berlin is usually ideal weather for running fast, which is why the warm years land so hard. The recent reference to carry is 2025: **27.6 °C**, the race's all-time high.\n\nThat is not the average and we do not present it as one. It is the proof that the margin exists, and that a pacing plan which only works at 12 °C is half a plan."
+ },
+ "cut_off": {
+  "year": 2026,
+  "es": "**6 horas y 15 minutos desde tu alfombra de salida.** Eso es lo único en lo que los textos oficiales coinciden.\n\nLos cortes intermedios **no coinciden entre sí**, y los reproducimos los tres en lugar de elegir uno:\n\n- Las preguntas frecuentes en inglés: **km 33 antes de las 15:50** y **km 38 antes de las 16:35**.\n- La página de día de carrera en inglés para 2026: **km 33 antes de las 15:40**, meta cerrada a las **17:00**.\n- La misma página en alemán: **km 33 a las 15:40** y cierre a las **17:00**.\n\nQuien queda por detrás sube al autobús escoba; la organización no contempla continuar por fuera de la carrera. **Planifica con el más estricto de los tres** y confirma con la organización antes de viajar.",
+  "en": "**6 hours 15 minutes from your own start mat.** That is the only thing the official texts agree on.\n\nThe intermediate cut-offs **do not agree**, and we print all three rather than pick one:\n\n- English FAQ: **km 33 by 3:50 p.m.** and **km 38 by 4:35 p.m.**\n- English race-day page for 2026: **km 33 by 3:40 p.m.**, finish closed at **5:00 p.m.**\n- The same page in German: **km 33 at 15:40**, close at **17:00**.\n\nAnyone behind is put on the broom bus; there is no provision for continuing outside the race. **Plan against the strictest of the three** and confirm with the organiser before you travel."
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 48351,
+  "median": "4:20:14",
+  "median_m": "4:09:50",
+  "median_f": "4:37:11",
+  "sub3_pct": 4.22,
+  "sub3_count_low": 2039,
+  "note": {
+   "es": "Conviene leer estos números como un año duro y no como uno normal: 2025 fue la edición con récord de calor. Un recuento de terceros (Runify) añade además 7.797 corredores por debajo de 3:30 y 17.394 por debajo de 4:00, más 2.384 por debajo de 3:00 — una cifra algo distinta de la del cronometraje oficial. Son fuentes distintas y no las mezclamos.",
+   "en": "Read these as a hard year rather than a normal one: 2025 was the heat-record edition. A third-party count (Runify) additionally gives 7,797 runners under 3:30 and 17,394 under 4:00, plus 2,384 under 3:00 — slightly different from the official timing figure. Different sources, not merged."
+  }
+ },
+ "registration_window": {
+  "es": "Sorteo público, que se abre a finales de septiembre o comienzos de octubre — es decir, en las semanas siguientes a la carrera del año en curso — y se resuelve a finales de noviembre.",
+  "en": "Public lottery, opening in late September or early October — that is, in the weeks after the current year's race — with results at the end of November."
+ },
+ "registration_model": {
+  "es": "Sorteo público, con vía rápida por marca, plazas solidarias, agencias y cupos de club",
+  "en": "Public lottery, with a fast-runner route, charity places, tour operators and club quotas"
+ },
+ "registration_state": "window",
+ "registration_when": {
+  "es": "el sorteo de 2026 se cerró en noviembre de 2025; el de 2027 se abre en las semanas posteriores a la carrera de este septiembre",
+  "en": "the 2026 lottery closed in November 2025; the 2027 draw opens in the weeks after this September's race"
+ },
+ "sell_out_note": {
+  "es": "La tasa de éxito del sorteo ronda el 20% según la propia organizadora, que no publica el número de solicitudes. La cuota se cobra solo si sales sorteado: unos 205 € en la edición 2026.",
+  "en": "The lottery success rate is around 20% according to the organiser, who does not publish applicant numbers. The fee is charged only if you are drawn: around €205 for 2026."
+ },
+ "qualifying": {
+  "es": "No hace falta marca para entrar al sorteo, pero sí existe una vía rápida por tiempo que evita el sorteo para corredores rápidos — las tablas exactas se publican cuando abre cada edición.\n\nY hay una exigencia que pilla a mucha gente: **para salir en los bloques de delante hay que acreditar documentalmente cualquier marca declarada por debajo de 3:15.**",
+  "en": "No qualifying time is needed to enter the lottery, but a fast-runner route does exist that bypasses it — the exact tables are published when each edition opens.\n\nAnd one requirement catches people out: **any claimed time under 3:15 has to be documented to start in the front blocks.**"
+ },
+ "corral_policy": {
+  "es": "El bloque se asigna por tu mejor marca o tu tiempo previsto, y se puede modificar desde tu cuenta hasta el 27 de agosto a las 23:59. Puedes salir en un bloque más lento que el asignado, nunca en uno más rápido.",
+  "en": "Your block comes from your best or expected time, and can be changed in your account until 27 August, 23:59. You may start in a slower block than the one assigned, never a faster one."
+ },
+ "how_to_train": {
+  "es": "Hay una sola pregunta que decide este bloque: ¿tu plan de ritmo sobrevive a un día de 25 °C?\n\n**Entrena el calor, aunque corras Berlín por su fama de frío.** Una parte de las tiradas largas de las últimas seis semanas debería hacerse a media mañana y no al amanecer. No busques sufrir: busca conocer tu ritmo real con calor, porque ese es el número con el que vas a tener que decidir en el kilómetro 5 si el plan de hoy es el plan que escribiste.\n\n**Escribe dos planes de ritmo, no uno.** Uno para el día perfecto y otro, entre diez y veinte segundos por kilómetro más lento, para el día caluroso. La decisión se toma en los primeros cinco kilómetros y no se revisa después. Esto es específicamente lo que falló en 2025 en el pelotón popular.\n\n**Un circuito sin accidentes exige disciplina de ritmo, no fuerza.** No hay cuestas que te regulen ni giros que te frenen, así que el trabajo de calidad del bloque tiene que ser largo y continuo: bloques de ritmo de maratón de 20 a 30 minutos dentro de la tirada larga, no series cortas. La habilidad que se entrena es mantener un número exacto durante horas sin referencias externas.\n\n**Y mira tu bloque de salida antes de escribir nada.** Si te toca salir a las 10:27, tu carrera tiene un perfil térmico distinto al de quien sale a las 8:45, y el plan de líquidos y el ritmo objetivo se calculan sobre tu hora, no sobre la de la retransmisión.",
+  "en": "One question decides this block: does your pacing plan survive a 25 °C day?\n\n**Train the heat, even though you are running Berlin for its reputation for cold.** Part of the long runs in the last six weeks should be done mid-morning rather than at dawn. The point is not to suffer; it is to know your real pace in heat, because that is the number you will use at km 5 to decide whether today's plan is the plan you wrote.\n\n**Write two pacing plans, not one.** One for the perfect day and one ten to twenty seconds per kilometre slower for the warm day. The choice is made in the first five kilometres and not revisited. This is specifically what failed across the mass field in 2025.\n\n**A featureless course demands pacing discipline, not strength.** No climbs regulate you and no corners slow you, so the block's quality work has to be long and continuous: 20-to-30-minute marathon-effort blocks inside the long run, not short intervals. The skill you are training is holding an exact number for hours with no external reference.\n\n**And check your start block before you write anything.** A 10:27 start has a different thermal profile from an 8:45 one, and the fluid plan and target pace are calculated on your clock, not the broadcast's."
+ },
+ "plan_note": {
+  "es": "Sobre el orden de las cosas aquí: el sorteo de la edición siguiente abre pocas semanas después de cada carrera y se resuelve en noviembre, así que casi nadie entrena Berlín sabiendo que va a correrlo. Estos bloques sirven para llegar al sorteo ya en forma — que es la única parte de la ecuación que depende de ti.",
+  "en": "On the order of things here: the following year's lottery opens a few weeks after each race and is drawn in November, so almost nobody trains for Berlin already knowing they are running it. These blocks are for arriving at the draw already fit — the one part of the equation that is up to you."
+ },
+ "coach_hook": {
+  "es": "En un circuito sin una sola cuesta que te obligue a bajar el ritmo, la única cosa que regula tu carrera eres tú, cada kilómetro, durante tres o cuatro horas.",
+  "en": "On a course with no climb anywhere to force you down, the only thing regulating your race is you, every kilometre, for three or four hours."
+ },
+ "target_queries": {
+  "es": [
+   "plan entrenamiento maraton berlin",
+   "maraton de berlin sorteo como entrar",
+   "maraton berlin tiempo limite corte km 33",
+   "maraton berlin calor 2025",
+   "maraton berlin es el mas rapido del mundo",
+   "maraton berlin bloques de salida"
+  ],
+  "en": [
+   "berlin marathon training plan",
+   "berlin marathon lottery odds how to enter",
+   "berlin marathon cut off km 33",
+   "berlin marathon heat 2025",
+   "is berlin the fastest marathon course",
+   "berlin marathon start blocks proof of time"
+  ]
+ },
+ "sources": [
+  "https://www.bmw-berlin-marathon.com",
+  "https://www.bmw-berlin-marathon.com/en/preparation/event-faq",
+  "https://www.bmw-berlin-marathon.com/en/your-race/race-day-for-runners",
+  "https://marathonview.net/race/141862",
+  "https://www.marathons.com/en/save-the-date/berlin-marathon-2025-the-key-numbers-behind-a-historic-edition/",
+  "https://www.runifyapp.com/blog/berlin-marathon-statistics",
+  "https://www.marathonballot.com/news/berlin-marathon-lottery-odds"
+ ],
+ "confidence_flags": [
+  "Los textos oficiales de la propia organización se contradicen sobre el corte del km 33 (15:50 en las FAQ, 15:40 en la página de día de carrera). La página reporta las tres versiones y no elige.",
+  "No hay cifra oficial de desnivel positivo. Por eso elevation_gain_m queda vacío.",
+  "No existe tabla de altimetría por kilómetro publicada por la organización, y no se reconstruye desde archivos de terceros.",
+  "Los datos de campo son de 2025, año con récord de calor. Se etiqueta como tal en lugar de presentarse como una edición típica.",
+  "Los recuentos de franjas por debajo de 3:30 y 4:00 son de un tercero (Runify) y difieren algo del cronometraje oficial; se citan como tales.",
+  "Los horarios de bloques de 2026 son los publicados por la organización y están sujetos a cambios.",
+  "La tabla de marcas de la vía rápida por tiempo se publica al abrir cada edición; la página no reproduce cifras de ediciones anteriores."
+ ]
+}

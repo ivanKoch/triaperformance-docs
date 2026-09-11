@@ -1,6 +1,6 @@
 # Race Page — Content Outline
 
-**Rewritten September 5, 2026 (Iván).** *Updated September 11, 2026 — §Corrections the first six pages earned, added after two review rounds on the six shipped pages.* Home doc for what a race page contains and in what order. Data fields: `race-page-data-schema.md`. Voice and visual rules: `brand-guidelines.md`. Plan ladder: `race-landing-pages-longlist.md` §1.
+**Rewritten September 5, 2026 (Iván).** *Updated September 11, 2026 — §Corrections the first six pages earned, added after two review rounds, then extended the same day with what the second six added (19 pages, three languages).* Home doc for what a race page contains and in what order. Data fields: `race-page-data-schema.md`. Voice and visual rules: `brand-guidelines.md`. Plan ladder: `race-landing-pages-longlist.md` §1.
 
 ## The test every block has to pass
 
@@ -103,6 +103,20 @@ Hero image per race: **2:1 at 960 / 1600 / 2560, `.webp` + `.jpg`**, at `/assets
 **8. Beyond 18 weeks out, the page says what to do now.** A start-by date alone, twenty-six weeks out, reads as "come back in eight weeks" — and the athlete who reads that leaves. The ample phase states the start-by date *and* what the eight weeks before it are for. The four phases are `undated` / `tight` (<12w) / `band` (12-18w) / `ample` (>18w), computed, never written per race.
 
 **9. The hero does not restate block 1.** Sevilla's hero repeated the flatness the verdict block states with numbers one screen down; it became the 11 °C swing between gun and finish — a fact block 1 does not carry. The hero earns its place by saying something the rest of the page does not.
+
+### What the second six added
+
+*September 11, 2026, after Ciudad de México, Buenos Aires, Medellín, Nueva York, Berlín and Río — 19 pages across three languages. Four of these are template defects the first six never surfaced because nobody had authored the field that breaks.*
+
+**10. Every prose field is markdown, and the template has to render it — this is now gated.** Six fields were printed raw: course profile, elevation note, weather, start time, registration window and model, qualifying, corral policy. They looked fine for six races because nobody had written `**bold**` in them. The moment a race needed emphasis in its weather line, the page showed its own asterisks. **The rule is now mechanical: a prose field renders through `raceProse`, a field that feeds a schema or FAQ answer through `plainProse`**, and `automation/race-page-check.js` fails the build on any `**…**` that reaches the HTML. *The general shape of this bug is worth the sentence: a field that is never exercised is not a field that works, it is a field nobody has tested.*
+
+**11. A race that is days away gets its own phase, and the whole ladder.** `imminent` (under three weeks) was added beside `undated` / `tight` / `band` / `ample`. Without it, Buenos Aires — nine days out — would have rendered "Faltan 1 semanas: ya estás dentro de la ventana del bloque de 12", which is both ungrammatical and false. **And an imminent page shows both durations, not just the 12-week one**: the page has just told the reader these blocks are for next year, so cutting the ladder to the block that fits *this* year answers a question the page itself retired.
+
+**12. The field note must not open by restating the year stamp.** The template already prints "Datos de la edición 2025." above it. Four notes then began "De la edición 2025…". The note's first sentence is the one piece of interpretation on the whole stats block — spend it on what the numbers mean, the way Valencia's does ("un 2:59:59 fue aproximadamente el puesto 5.450 de unos 30.500").
+
+**13. The coach banner is not the hero in different words.** New York shipped a first draft where both sentences were about the Queensboro emptying onto First Avenue. They are the two sentences a reader actually remembers, they sit three screens apart, and they must carry two different ideas — the banner's job is *what a fixed plan cannot do*, not *what this race is*.
+
+**14. `name` is the short market name, and the 60-character title clamp decides how short.** "Maratón de la Ciudad de México" does not fit with the year appended; the page is "Maratón de la CDMX" and the full name lives in `official_name`. The gate catches this, but it is cheaper to pick the short name when writing the file than to find out at build time.
 
 ### Taken on review and closed — do not re-open
 

@@ -74,7 +74,10 @@
     "regSoldOut": "Edición agotada",
     "regSoldOutNote": "La edición de {year} está agotada. Estos bloques siguen sirviendo si ya tienes dorsal, y si apuntas a la siguiente edición.",
     "regWindowNote": "La inscripción no está abierta ahora mismo: {when}. Estos bloques sirven igual si ya tienes plaza o si estás preparando la clasificación.",
-    "facetHintNoGym": "El plan es el mismo bloque: cambia con qué mides la intensidad."
+    "facetHintNoGym": "El plan es el mismo bloque: cambia con qué mides la intensidad.",
+    "startByImminent": "La carrera es dentro de {weeks}. Estos bloques ya no entran en esta edición: sirven para la siguiente, y para llegar a ella con base hecha en vez de empezar de cero.",
+    "daysOne": "un día",
+    "daysMany": "{n} días"
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -91,7 +94,7 @@
     "statSub3": "Under 3 hours",
     "statFinishers": "Finishers",
     "statCutOff": "Time limit",
-    "fieldYearPrefix": "Figures from the",
+    "fieldYearPrefix": "Figures from",
     "courseTitle": "The course",
     "profileLabel": "Profile",
     "elevationLabel": "Elevation gain",
@@ -150,7 +153,10 @@
     "regSoldOut": "Sold out",
     "regSoldOutNote": "The {year} edition is sold out. These blocks still apply if you already have a bib, and if you are aiming at the next edition.",
     "regWindowNote": "Entries are not open right now: {when}. These blocks still apply if you already have a place, or if you are chasing the qualifier.",
-    "facetHintNoGym": "Same block either way: what changes is how you measure intensity."
+    "facetHintNoGym": "Same block either way: what changes is how you measure intensity.",
+    "startByImminent": "The race is {weeks} away. These blocks no longer fit this edition — they are for the next one, and for arriving at it with the base already built rather than starting from zero.",
+    "daysOne": "one day",
+    "daysMany": "{n} days"
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -226,6 +232,9 @@
     "regSoldOut": "Edição esgotada",
     "regSoldOutNote": "A edição de {year} está esgotada. Estes blocos continuam valendo se você já tem número, e se está mirando a próxima edição.",
     "regWindowNote": "As inscrições não estão abertas agora: {when}. Estes blocos valem igual se você já tem vaga ou está buscando a classificação.",
-    "facetHintNoGym": "O bloco é o mesmo: muda com o que você mede a intensidade."
+    "facetHintNoGym": "O bloco é o mesmo: muda com o que você mede a intensidade.",
+    "startByImminent": "A prova é daqui a {weeks}. Estes blocos já não cabem nesta edição: servem para a próxima, e para chegar nela com base feita em vez de começar do zero.",
+    "daysOne": "um dia",
+    "daysMany": "{n} dias"
   }
 }

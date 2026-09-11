@@ -72,6 +72,7 @@ Organisers publish on wildly different horizons: Boston has 2027 and 2028; Mexic
 
 ### The ladder, where this race changes what a rung means
 
+- `registration_state` note: a race whose entries are simply *closed until the next cycle* is `window`, not `sold_out`. `sold_out` means the places existed and went; `window` means the window is shut. Nine of the twelve races are `window`, which is what a page built out of season looks like and is not a defect.
 - `plan_note` — optional, per-language object. **The one exception to "no plan fields", and it is not one:** it stores no plan id, no duration and no matching rule. It is prose explaining what a rung means *on this race* — Boston's sub-90 km block is the beginner rung everywhere else and here only fits someone who already holds a qualifying bib and wants to finish. Fill it wherever a qualifying standard, an altitude or a cut-off changes what a rung is for. Leave it empty otherwise; most races need none.
 
 ## What the card prints, and what a plan name must not repeat
@@ -82,12 +83,14 @@ The race card prints the **duration** (22 px, above the name) and the **volume b
 
 ## Writing Spanish into these files
 
-🚨 **`automation/register-sweep.py` scans `.njk` and does not scan `data/races/*.json`.** Voseo reached a shipped race page through exactly this gap (`Elegí`, `podés`, `medís`, `sumás`), and was caught by reading, not by the gate. Until the sweep is extended, **Spanish prose written into a race JSON is hand-checked against `brand-guidelines.md` §8** — tuteo verbs *and* neutral LatAm vocabulary, both axes.
+~~🚨 `automation/register-sweep.py` scans `.njk` and does not scan `data/races/*.json`.~~ **Closed September 11, 2026.** *The sweep's default targets were `site` and `automation`; `data/races` is now the third.* The gap was real and it had already cost something — voseo reached a shipped race page through it (`Elegí`, `podés`, `medís`, `sumás`) and was caught by reading rather than by the gate. **The fix was one line, and the reason it took a month is the instructive part: the sweep already handled `.json` files perfectly well. Nothing was broken. The directory simply was not in the list, and a gap that is a missing entry rather than a missing capability does not announce itself.** Run it before shipping Spanish race copy; the second batch turned up five `acá` that the eye had passed over twice.
+
+**Every prose field here is markdown, and the template has to render it.** Bold and paragraph breaks are normal in `course_notes`, `where_they_struggle` and `how_to_train`; they are equally normal in `typical_weather`, `start_time`, `qualifying` and `registration_window`, and those four printed their own asterisks on live pages until September 11, 2026. `automation/race-page-check.js` now fails the build on any `**…**` that survives into the HTML, so this cannot ship again — but when adding a NEW field, wire it through `raceProse` (or `plainProse` where it feeds a FAQ or schema answer) at the same time you add it.
 
 Three more that the first six earned:
 
 - **Percentages go through the `pct` filter.** A dot decimal in a Spanish or Portuguese percentage is wrong in both languages, and JSON gives you one by default.
-- **`name` must survive the 60-character title clamp with the year appended.** Boston and Monterrey were caught by the gate, not by eye: the sponsor belongs in `official_name`, the short form in `name` (*"Maratón de Boston"*, not the sponsor's full event title).
+- **`name` must survive the 60-character title clamp with the year appended.** Boston, Monterrey and Ciudad de México were all caught by the gate rather than by eye: the sponsor — or the full civic name — belongs in `official_name`, and the short market name in `name` (*"Maratón de Boston"*, *"Maratón de la CDMX"*).
 - **A race with no combined median finish gets the two-tile fallback,** not an empty block. Boston publishes medians by gender and no overall figure; the block renders both rather than nothing.
 
 ## Not in this schema, deliberately

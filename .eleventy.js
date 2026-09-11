@@ -770,6 +770,11 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
     const asc = [...allWeeks].sort((a, b) => a - b);
     if (weeksToRace === null || weeksToRace === undefined) return asc.slice().reverse();
     const shortest = asc[0], longest = asc[asc.length - 1];
+    // Days away, not weeks. The page already tells the reader these blocks are
+    // for the NEXT edition, so the honest ladder is the whole ladder — cutting
+    // it to the 12-week block would be answering a question about this year on
+    // a page that just said this year is gone.
+    if (weeksToRace < 3) return asc.slice().reverse();
     if (weeksToRace < shortest) return [shortest];
     if (weeksToRace <= longest) return asc;
     return asc.slice().reverse();

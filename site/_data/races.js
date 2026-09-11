@@ -105,6 +105,11 @@ function weeksUntil(iso, today) {
   const ms = new Date(iso + "T12:00:00Z") - new Date(today + "T12:00:00Z");
   return Math.floor(ms / (7 * 24 * 3600 * 1000));
 }
+function daysUntil(iso, today) {
+  if (!iso) return null;
+  const ms = new Date(iso + "T12:00:00Z") - new Date(today + "T12:00:00Z");
+  return Math.round(ms / (24 * 3600 * 1000));
+}
 
 /** Durations the ladder offers for a distance. Kept here rather than imported
  *  from the raceLadder filter because this file must not depend on the plan
@@ -278,9 +283,11 @@ module.exports = function () {
         year: editionYear(raw.next_edition_date, TODAY),
         startBy: startByDates(futureDate, LADDER_WEEKS[raw.distance] || [], TODAY),
         weeksToRace: weeksUntil(futureDate, TODAY),
+        daysToRace: daysUntil(futureDate, TODAY),
         // Which of four situations the reader is in, decided once here so the
         // template switches instead of re-deriving the arithmetic three times:
-        //   undated — organiser has published no date
+        //   undated  — organiser has published no date
+        //   imminent — days away; this page is about the next edition
         //   tight   — closer than the shortest block; only that block is offered
         //   band    — between the shortest and longest; BOTH are real answers
         //   ample   — more time than the longest block needs
@@ -289,6 +296,11 @@ module.exports = function () {
           const all = LADDER_WEEKS[raw.distance] || [];
           if (w === null || !all.length) return "undated";
           const lo = Math.min(...all), hi = Math.max(...all);
+          // imminent — the race is days away. "tight" tells the reader they are
+          // inside the 12-week window, which is false at two weeks out, and the
+          // string reads "Faltan 1 semanas" into the bargain. A race this close
+          // is a page about the NEXT edition, and it says so.
+          if (w < 3) return "imminent";
           return w < lo ? "tight" : w <= hi ? "band" : "ample";
         })(),
         coachHook: pick(raw.coach_hook, lang),

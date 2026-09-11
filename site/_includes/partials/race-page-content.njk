@@ -133,11 +133,11 @@
   <div class="wrap">
     <h2>{{ r.courseTitle }}</h2>
     <dl class="race-facts">
-      {%- if race.courseProfile %}<dt>{{ r.profileLabel }}</dt><dd>{{ race.courseProfile }}</dd>{% endif %}
+      {%- if race.courseProfile %}<dt>{{ r.profileLabel }}</dt><dd>{{ race.courseProfile | raceProse | safe }}</dd>{% endif %}
       {%- if race.elevationGainM %}<dt>{{ r.elevationLabel }}</dt><dd>{{ race.elevationGainM }} m</dd>{% endif %}
       {%- if race.altitudeM %}<dt>{{ r.altitudeLabel }}</dt><dd>{{ race.altitudeM | thousands(lang) }} m</dd>{% endif %}
     </dl>
-    {%- if race.elevationNote %}<p class="race-note">{{ race.elevationNote }}</p>{% endif %}
+    {%- if race.elevationNote %}<div class="race-note">{{ race.elevationNote | raceProse | safe }}</div>{% endif %}
     {%- if race.courseNotes %}<div class="race-prose">{{ race.courseNotes | raceProse | safe }}</div>{% endif %}
     {%- if race.whereTheyStruggle %}
     <h3>{{ r.struggleTitle }}</h3>
@@ -153,8 +153,11 @@
   <div class="wrap">
     <h2>{{ r.conditionsTitle }}</h2>
     <dl class="race-facts">
-      {%- if race.typicalWeather %}<dt>{{ r.weatherLabel }}</dt><dd>{{ race.typicalWeather }}</dd>{% endif %}
-      {%- if race.startTime %}<dt>{{ r.startLabel }}</dt><dd>{{ race.startTime }}</dd>{% endif %}
+      {#- Both of these carry authored prose, not a single value: bold, and more
+          than one paragraph. Rendered raw they printed their own asterisks on
+          a live page. -#}
+      {%- if race.typicalWeather %}<dt>{{ r.weatherLabel }}</dt><dd>{{ race.typicalWeather | raceProse | safe }}</dd>{% endif %}
+      {%- if race.startTime %}<dt>{{ r.startLabel }}</dt><dd>{{ race.startTime | raceProse | safe }}</dd>{% endif %}
     </dl>
   </div>
 </section>
@@ -168,10 +171,10 @@
   <div class="wrap">
     <h2>{{ r.entryTitle }}</h2>
     <dl class="race-facts">
-      <dt>{{ r.regWindowLabel }}</dt><dd>{{ race.registrationWindow }}</dd>
-      {%- if race.registrationModel %}<dt>{{ r.regModelLabel }}</dt><dd>{{ race.registrationModel }}</dd>{% endif %}
-      {%- if race.qualifying %}<dt>{{ r.qualifyingLabel }}</dt><dd>{{ race.qualifying }}</dd>{% endif %}
-      {%- if race.corralPolicy %}<dt>{{ r.corralLabel }}</dt><dd>{{ race.corralPolicy }}</dd>{% endif %}
+      <dt>{{ r.regWindowLabel }}</dt><dd>{{ race.registrationWindow | raceProse | safe }}</dd>
+      {%- if race.registrationModel %}<dt>{{ r.regModelLabel }}</dt><dd>{{ race.registrationModel | raceProse | safe }}</dd>{% endif %}
+      {%- if race.qualifying %}<dt>{{ r.qualifyingLabel }}</dt><dd>{{ race.qualifying | raceProse | safe }}</dd>{% endif %}
+      {%- if race.corralPolicy %}<dt>{{ r.corralLabel }}</dt><dd>{{ race.corralPolicy | raceProse | safe }}</dd>{% endif %}
     </dl>
     {%- if race.sellOutNote %}<div class="race-prose">{{ race.sellOutNote | raceProse | safe }}</div>{% endif %}
     {%- if race.officialUrl %}<p class="race-note"><a href="{{ race.officialUrl }}" rel="nofollow noopener" target="_blank">{{ r.officialSite }} →</a></p>{% endif %}
@@ -217,6 +220,11 @@
       {%- endif %}{% endfor %}
       {%- elif race.ladderPhase == "band" %}
       <p>{{ r.startByBand | replace("{weeks}", race.weeksToRace) }}</p>
+      {%- elif race.ladderPhase == "imminent" %}
+      {#- Days away. "tight" would tell the reader they are inside the 12-week
+          window, which is false, and render "Faltan 1 semanas". -#}
+      {%- set daysTxt = r.daysOne if race.daysToRace == 1 else (r.daysMany | replace("{n}", race.daysToRace)) -%}
+      <p>{{ r.startByImminent | replace("{weeks}", daysTxt) }}</p>
       {%- elif race.ladderPhase == "tight" %}
       <p>{{ r.startByTight | replace("{weeks}", race.weeksToRace) }}</p>
       {%- elif race.ladderPhase == "undated" %}
@@ -352,7 +360,7 @@
 {%- if race.nextEditionDate -%}
   {%- set faq = (faq.push({
       q: r.faqWhen | replace("{race}", race.name) | replace("{year}", race.year),
-      a: (race.nextEditionDate | raceDate(lang)) + (". " + race.startTime if race.startTime else ".")
+      a: (race.nextEditionDate | raceDate(lang)) + (". " + (race.startTime | plainProse) if race.startTime else ".")
     }), faq) -%}
 {%- else -%}
   {%- set faq = (faq.push({
@@ -384,7 +392,7 @@
 {%- if race.registrationWindow -%}
   {%- set faq = (faq.push({
       q: r.faqEntry | replace("{race}", race.name),
-      a: race.registrationWindow + (" " + (race.sellOutNote | plainProse(1)) if race.sellOutNote else "")
+      a: (race.registrationWindow | plainProse(2)) + (" " + (race.sellOutNote | plainProse(1)) if race.sellOutNote else "")
     }), faq) -%}
 {%- endif -%}
 

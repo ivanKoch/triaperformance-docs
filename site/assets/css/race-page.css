@@ -133,6 +133,8 @@
 .race-prose p { margin: 0 0 16px; max-width: 68ch; line-height: 1.65; }
 .race-prose p:last-child { margin-bottom: 0; }
 .race-note { font-size: 14px; color: var(--slate); max-width: 68ch; }
+.race-note p { margin: 0 0 10px; }
+.race-note p:last-child { margin-bottom: 0; }
 
 /* ── Stat row ───────────────────────────────────────────────────────────────
    Tabular figures so the numbers align down the row rather than dancing on
@@ -212,6 +214,9 @@
   padding-top: 2px;
 }
 .race-facts dd { margin: 0; line-height: 1.6; }
+/* These two dds carry authored prose, so they can hold more than one <p>. */
+.race-facts dd p { margin: 0 0 10px; }
+.race-facts dd p:last-child { margin-bottom: 0; }
 @media (max-width: 560px) {
   .race-facts { grid-template-columns: 1fr; gap: 4px 0; }
   .race-facts dd { margin-bottom: 14px; }

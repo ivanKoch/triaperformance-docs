@@ -1,0 +1,118 @@
+{
+ "race_id": "mexico-marathon",
+ "city": "Ciudad de México",
+ "country": "México",
+ "distance": "42k",
+ "language_market": [
+  "es"
+ ],
+ "name": {
+  "es": "Maratón de la CDMX"
+ },
+ "official_name": "Maratón de la Ciudad de México Telcel",
+ "official_url": "https://www.maraton.cdmx.gob.mx",
+ "slug": {
+  "es": "maraton-ciudad-de-mexico"
+ },
+ "next_edition_date": null,
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "es": "Último domingo de agosto"
+ },
+ "start_time": {
+  "es": "Cinco salidas escalonadas en 2026: silla de ruedas y débiles visuales 5:45, élite femenina 5:50, élite masculina y bloque A 6:00, bloque B 6:15, bloque C 6:30. En 2025 hubo más bloques y el último salió hasta las 7:00, así que no mezcles los horarios de un año con los de otro."
+ },
+ "hook": {
+  "es": "Una carrera que pierde 57 metros de altura entre la salida y la meta y aun así no cuenta para récords del mundo, corrida entera por encima de los 2.200 metros: el perfil te regala velocidad y el aire te la cobra."
+ },
+ "course_profile": {
+  "es": "Punto a punto de sur a norte, de Ciudad Universitaria al Zócalo. Salida a 2.288 m y meta a 2.231 m, con 43 curvas y tres retornos en U. La caída neta de 57 m supera el metro por kilómetro que World Athletics admite, así que aquí no se homologan récords del mundo."
+ },
+ "elevation_gain_m": null,
+ "altitude_m": 2288,
+ "elevation_note": {
+  "es": "El desnivel positivo publicado no es fiable y no lo promediamos: MarathonRoutes da 116 m de subida y 120 m de bajada, y las cuatro fuentes que publican los extremos del recorrido no coinciden entre sí (2.288 → 2.231 m según Olympics para 2026; 2.297 → 2.238 m según RunMX). Lo que sí está claro, y es lo que cambia el entrenamiento, es la banda: el recorrido no baja de los 2.200 m en ningún punto."
+ },
+ "course_notes": {
+  "es": "**Kilómetro 0 al 10, Insurgentes Sur.** Bajada recta desde Ciudad Universitaria, por San Ángel, Mixcoac y la Roma, de 2.288 m a 2.232 m a la altura de Insurgentes y Colima. Es la parte más rápida y la más peligrosa del día.\n\n**Kilómetro 10 al 17, Glorieta de Insurgentes y entrada a Chapultepec.** La primera subida con nombre está en la glorieta. A partir de ahí el terreno ondula y el asfalto se mezcla con tramos de adoquín.\n\n**Kilómetro 17 al 20, los dientes de sierra.** Aquí empiezan los repechos cortos y repetidos que ya no te sueltan hasta Polanco.\n\n**Kilómetro 20 al 27, Polanco.** Hasta 17 curvas entre Campos Elíseos, Masaryk, Ejército Nacional y Molière. Es también el punto más alto sostenido del recorrido: unos 2.275 m hasta el Museo Soumaya.\n\n**Kilómetro 27 al 31, bajada del Soumaya y Puente de Ejército Nacional.** De 2.275 m a 2.243 m, y justo después del 30 el columpio más grande del día: 20 metros.\n\n**Kilómetro 32 a meta, Gandhi y Reforma.** Desde la Estela de Luz el trazo es plano hasta el Centro, con la meta en 20 de Noviembre, junto al Antiguo Palacio del Ayuntamiento. Hasta 2025 la meta estaba frente a Palacio Nacional; en 2026 se movió unos 160 metros atrás."
+ },
+ "where_they_struggle": {
+  "es": "El problema de esta carrera no es una cuesta, es que los primeros diez kilómetros son gratis y los siguientes trece te pasan la factura.\n\nInsurgentes baja en línea recta y en los primeros compases el ritmo sale solo. RunMX lo dice sin rodeos: si sales demasiado rápido ahí, lo vas a pagar. Y el lugar donde se paga tiene nombre y kilometraje — los dientes de sierra desde el 17 y las diecisiete curvas de Polanco, que un artículo local describe como un laberinto psicológico. No es que haya una cuesta dura; es que no hay un solo kilómetro para recuperar y el aire tiene un 25% menos de oxígeno que a nivel del mar.\n\nEl tercer golpe está después del kilómetro 30, en el puente de Ejército Nacional: veinte metros de subida con treinta kilómetros de altitud ya en las piernas.\n\nEl resultado se ve en las llegadas. De los 22.558 corredores que pasaron por los ocho puntos de control en 2025, el 62% terminó por encima de 4:30 — una distribución mucho más lenta que la de cualquier maratón de ciudad a nivel del mar con un perfil parecido. La organización no publica el reparto por franjas y esta página no lo estima."
+ },
+ "typical_weather": {
+  "es": "Agosto es temporada de lluvias, pero las mañanas suelen estar más despejadas que las tardes. La mañana del 31 de agosto de 2025, con salida a esa misma hora: **14,6 °C, 97% de humedad**, bulbo húmedo 14,2 °C, viento del norte a 5,8 km/h y niebla. La normal climática de agosto ronda los 20 °C y el 65% de humedad, pero eso es una media del mes, no el registro de una mañana de carrera.\n\nLa humedad alta con temperatura baja no es un problema de calor: es un problema de que la sudoración enfría poco. A 2.250 m además respiras más, y por ahí se va agua que no estás contando."
+ },
+ "cut_off": {
+  "year": 2026,
+  "es": "**6 horas**, escritas como ritmo mínimo en ruta: **8:30 min/km**. Quien va más lento sube a la barredora, lo llevan a la meta y queda descalificado, fuera de resultados.\n\nNo hay cortes parciales publicados con hora de reloj. El control real son ocho alfombras repartidas en el recorrido: si te falta una, quedas descalificado aunque hayas terminado. En 2017 hubo hasta un 36% de corredores con alfombras faltantes y 5.806 descalificados; desde entonces la organización dejó de publicar ese conteo."
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 23363,
+  "median": "4:47:33",
+  "median_m": "4:40:53",
+  "median_f": "5:00:25",
+  "sub3_pct": 0.66,
+  "sub3_count_low": 154,
+  "note": {
+   "es": "Uno de cada ciento cincuenta llegados bajó de tres horas: 154 sobre 23.363, en un recorrido que además pierde altura entre la salida y la meta. Es el número que mejor resume lo que la altitud le hace a un maratón de ciudad. La organización no publica el reparto por franjas de 3:30, 4:00 o 5:00, ni una tasa de abandono, y esta página no los estima."
+  }
+ },
+ "registration_window": {
+  "es": "La convocatoria se publica a mediados de febrero y las inscripciones se cierran a finales de agosto o al llegar al cupo de 30.000 dorsales, lo que ocurra primero."
+ },
+ "registration_model": {
+  "es": "Por orden de inscripción, sin sorteo ni marca mínima"
+ },
+ "registration_state": "window",
+ "registration_when": {
+  "es": "la convocatoria de 2026 salió el 14 de febrero y la organización todavía no ha dado fecha para 2027"
+ },
+ "sell_out_note": {
+  "es": "No es una carrera que se agote en horas: en 2026 se podía inscribir en línea hasta el 26 de agosto, y en la Expo hasta el sábado 29 a las 16:00. Precios de 2026: 870 pesos para nacionales, 125 dólares para extranjeros, 1.200 pesos si te inscribías en la Expo. El dorsal salía personalizado si te inscribías antes del 30 de junio."
+ },
+ "qualifying": {
+  "es": "No hay marca mínima para entrar. Sí hay convocatoria élite por invitación, con un máximo de 100 corredores por rama: menos de 3:00 en mujeres y menos de 2:25 en hombres."
+ },
+ "corral_policy": {
+  "es": "Los bloques se asignan por tiempo estimado y van impresos en el dorsal. No hace falta acreditar una marca anterior."
+ },
+ "how_to_train": {
+  "es": "Tres cosas de esta carrera cambian el bloque, y ninguna se arregla corriendo más kilómetros.\n\n**La primera es que tu ritmo de llano no sirve aquí.** A 2.250 metros el mismo esfuerzo produce un ritmo más lento, y la cifra exacta depende de ti, no de una tabla. El planteamiento honesto es entrenar y correr por esfuerzo — frecuencia cardíaca o percepción — y dejar que el ritmo sea la consecuencia. Si vives al nivel del mar y vas a correr aquí, esa conversión no la vas a poder ensayar en casa: lo que sí puedes ensayar es la disciplina de mirar el pulso y no el reloj de ritmo.\n\n**La segunda es la bajada de los primeros diez kilómetros.** Correr cuesta abajo a ritmo de carrera es un gesto excéntrico que destruye cuádriceps, y el daño no se siente hasta mucho después. Mete en el bloque tiradas largas con descenso continuo a ritmo controlado, no solo cuestas arriba. Es el mismo trabajo que protege el kilómetro 30 en cualquier maratón con caída neta.\n\n**La tercera son las curvas.** 43 curvas y tres retornos significan frenar y volver a acelerar decenas de veces. Se entrena con cambios de ritmo cortos dentro de la tirada larga, no con series en pista, que es justo la superficie sin curvas.\n\n**Y una decisión de calendario, no de entrenamiento:** si no vives en altura, o llegas con dos semanas o más de antelación, o llegas lo más pegado posible a la carrera. La ventana intermedia — llegar cuatro o cinco días antes — es la peor de las tres, porque te agarra en plena respuesta aguda a la altitud y sin ninguna de las adaptaciones."
+ },
+ "plan_note": {
+  "es": "Una nota sobre qué plan elegir aquí: los bloques por ritmo están calculados con ritmos de nivel del mar, y a 2.250 metros esos números no describen tu esfuerzo. Si vas a correr esta carrera, el bloque por frecuencia cardíaca es el que se traduce solo."
+ },
+ "coach_hook": {
+  "es": "Los diez kilómetros de bajada de Insurgentes te dan un ritmo que el aire de 2.250 metros te va a cobrar veinte kilómetros después, y un plan cerrado no sabe si llegaste a la ciudad hace dos semanas o anoche."
+ },
+ "target_queries": {
+  "es": [
+   "plan entrenamiento maraton cdmx",
+   "como entrenar maraton ciudad de mexico altura",
+   "maraton cdmx tiempo limite",
+   "maraton cdmx altimetria recorrido",
+   "maraton cdmx 2027 inscripciones",
+   "maraton ciudad de mexico dificultad"
+  ]
+ },
+ "sources": [
+  "https://www.maraton.cdmx.gob.mx",
+  "https://www.olympics.com/es/noticias/maraton-cdmx-2026-altimetria",
+  "https://runmx.com/ruta-del-maraton-cdmx-2026-de-cu-al-zocalo-asi-es-el-recorrido-oficial/",
+  "https://revistaclubdecorredores.com/eventos/ruta-maraton-de-la-ciudad-de-mexico/",
+  "https://marathonroutes.com/marathons/north-america/mx/mexico_city_marathon/",
+  "https://www.marathonview.net/race/141609",
+  "https://elpais.com/mexico/2026-08-30/el-maraton-de-ciudad-de-mexico-entre-la-moda-y-el-riesgo-de-la-multitud.html",
+  "https://vdoto2.com/race/maraton-cdmx/results/man",
+  "https://www.emociondeportiva.com/detalle-evento/XLIII-Marat%C3%B3n-de-la-Ciudad-de-M%C3%A9xico-TELCEL-2026/Ciudad-de-M%C3%A9xico"
+ ],
+ "confidence_flags": [
+  "Sin fecha confirmada para 2027. La página muestra la ventana habitual (último domingo de agosto) y no inventa un día.",
+  "El desnivel positivo no tiene una cifra fiable: solo MarathonRoutes publica una (116 m) y esa misma ficha clasifica mal el recorrido como circuito cerrado. Por eso elevation_gain_m queda vacío.",
+  "Abierto con la organización: la caída neta de 57 m supera el límite de 1 m/km de World Athletics para récords. El mismo límite es el que la BAA aplica a los recorridos válidos para clasificar a Boston, pero no encontramos una declaración de la organización ni de la BAA sobre este recorrido, así que la página no afirma ni niega que sea clasificatoria.",
+  "Los horarios de salida son los de 2026. En 2025 hubo bloques adicionales hasta las 7:00; no mezclar años.",
+  "Precios y cupo son los de la convocatoria 2026.",
+  "El nombre corto de la página es «Maratón de la CDMX» porque el nombre completo no entra en el título de 60 caracteres con el año. El nombre oficial completo está en official_name y aparece en la página."
+ ]
+}

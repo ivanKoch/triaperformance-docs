@@ -1,0 +1,140 @@
+{
+ "race_id": "rio-de-janeiro-marathon",
+ "city": "Rio de Janeiro",
+ "country": "Brasil",
+ "distance": "42k",
+ "language_market": [
+  "pt",
+  "es"
+ ],
+ "name": {
+  "pt": "Maratona do Rio",
+  "es": "Maratón de Río de Janeiro"
+ },
+ "official_name": "Maratona da Cidade do Rio de Janeiro",
+ "official_url": "https://www.maratonadorio.com.br",
+ "slug": {
+  "pt": "maratona-do-rio",
+  "es": "maraton-rio-de-janeiro"
+ },
+ "next_edition_date": null,
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "pt": "Domingo da semana de Corpus Christi, normalmente em junho",
+  "es": "Domingo de la semana de Corpus Christi, normalmente en junio"
+ },
+ "start_time": {
+  "pt": "5h30 da manhã, no escuro. Em 2026 as largadas foram: PCD às 5h25, elite às 5h30 e o pelotão a partir das 5h35, em ondas por cor de número. As duas primeiras horas de prova são antes do sol nascer.",
+  "es": "5:30 de la mañana, de noche. En 2026 las salidas fueron: atletas con discapacidad a las 5:25, élite a las 5:30 y el pelotón desde las 5:35, en oleadas por color de dorsal. Las dos primeras horas de carrera son antes de que salga el sol."
+ },
+ "hook": {
+  "pt": "A prova mudou em 2026: voltou ao ponto a ponto pela orla, e com ela voltou a única subida de verdade do Rio — que não é a que aparece no seu Strava.",
+  "es": "La carrera cambió en 2026: volvió al punto a punto por la costa, y con ella volvió la única subida de verdad de Río — que no es la que aparece en tu Strava."
+ },
+ "course_profile": {
+  "pt": "Ponto a ponto de oeste para leste pela orla, da Praia da Reserva ao Aterro do Flamengo, com 21 curvas. Nível do mar em quase toda a extensão, com todo o desnível concentrado entre os quilômetros 15 e 24.",
+  "es": "Punto a punto de oeste a este por la costa, de la Praia da Reserva al Aterro do Flamengo, con 21 curvas. A nivel del mar en casi todo el recorrido, con todo el desnivel concentrado entre los kilómetros 15 y 24."
+ },
+ "elevation_gain_m": null,
+ "elevation_note": {
+  "pt": "As fontes não combinam e não fazemos média: Marathons.com dá 110 m, Soy Maratonista 206 m, Marathon-Index 280 m. Parte da confusão tem uma causa conhecida — **os perfis de GPS \"sobem o morro\" nos túneis do Joá, da Princesa Isabel e de Botafogo, e você passa por dentro deles, não por cima.** A leitura honesta é: poucas centenas de metros no total, concentradas no Joá e na Niemeyer.",
+  "es": "Las fuentes no coinciden y no promediamos: Marathons.com da 110 m, Soy Maratonista 206 m, Marathon-Index 280 m. Parte de la confusión tiene una causa conocida — **los perfiles de GPS «suben el cerro» en los túneles de Joá, Princesa Isabel y Botafogo, y por ahí se pasa por dentro, no por encima.** La lectura honesta es: unos pocos cientos de metros en total, concentrados en Joá y Niemeyer."
+ },
+ "course_notes": {
+  "pt": "**Largada, Praia da Reserva, no Recreio.** Cinco e meia da manhã, escuro, orla aberta.\n\n**Quilômetro 0 ao 15, orla da Barra.** Plano, reto e fácil demais para confiar. É o trecho mais rápido do dia e o que mais gente corre acima do previsto.\n\n**Quilômetro 15 ao 18, Elevado do Joá.** A primeira subida forte, e a primeira vez no dia em que a prova pede alguma coisa.\n\n**Quilômetro 19 ao 24, Avenida Niemeyer.** Quase dois quilômetros de subida — o que os corredores locais chamam de desgaste silencioso, porque não é íngreme o bastante para você parar e é longa o bastante para custar caro.\n\n**Quilômetro 24 ao 35, São Conrado, Leblon, Ipanema e Copacabana.** A orla clássica, agora com o sol já nascido e de frente, porque a prova corre para leste.\n\n**Quilômetro 35 ao 39, Botafogo.** Ondulações pequenas que a esta altura deixam de ser físicas e passam a ser mentais.\n\n**Quilômetro 39 à chegada, Aterro do Flamengo.** Plano, aberto e sem sombra. É o trecho que expõe cada exagero cometido na orla da Barra.\n\n**Sobre os túneis:** Joá, Princesa Isabel e Botafogo se atravessam por dentro. Qualquer perfil que mostre um pico ali está lendo GPS, não o percurso.",
+  "es": "**Salida, Praia da Reserva, en Recreio.** Cinco y media de la mañana, oscuro, costa abierta.\n\n**Kilómetro 0 al 15, costa de Barra.** Plano, recto y demasiado fácil como para confiarse. Es el tramo más rápido del día y donde más gente corre por encima de lo previsto.\n\n**Kilómetro 15 al 18, Elevado do Joá.** La primera subida fuerte, y la primera vez en el día en que la carrera pide algo.\n\n**Kilómetro 19 al 24, Avenida Niemeyer.** Casi dos kilómetros de subida — lo que los corredores locales llaman desgaste silencioso, porque no es lo bastante empinada como para obligarte a parar y sí lo bastante larga como para salir cara.\n\n**Kilómetro 24 al 35, São Conrado, Leblon, Ipanema y Copacabana.** La costa clásica, ya con el sol arriba y de frente, porque la carrera corre hacia el este.\n\n**Kilómetro 35 al 39, Botafogo.** Ondulaciones pequeñas que a esa altura dejan de ser físicas y pasan a ser mentales.\n\n**Kilómetro 39 a meta, Aterro do Flamengo.** Plano, abierto y sin sombra. Es el tramo que expone cada exceso cometido en la costa de Barra.\n\n**Sobre los túneles:** Joá, Princesa Isabel y Botafogo se atraviesan por dentro. Cualquier perfil que muestre un pico ahí está leyendo GPS, no el recorrido."
+ },
+ "where_they_struggle": {
+  "pt": "O erro daqui tem lugar e hora: acontece antes do quilômetro 15 e aparece depois do 30.\n\n**Os primeiros quatorze quilômetros são fáceis demais.** Escuro, fresco, plano, orla aberta, ritmo saindo sozinho. É exatamente a situação em que ninguém sente que está errando.\n\n**A conta chega no Joá e na Niemeyer.** Os especialistas brasileiros só avisam sobre esse trecho, e a descrição que circula entre corredores é direta: a Niemeyer não é uma subidinha, sobe bem, e vira festa da caminhada. Quem martelou a orla da Barra chega aqui sem margem.\n\n**A segunda conta chega na descida.** Sair da Niemeyer para São Conrado é descer com o quadríceps já castigado, e é a partir do quilômetro 30 que joelho e coxa cobram o que foi gasto lá atrás.\n\n**E o Aterro fecha.** Os últimos três quilômetros são planos, abertos e sem sombra, com o sol já alto: o lugar menos indicado do mundo para descobrir que você saiu rápido demais.",
+  "es": "El error de esta carrera tiene lugar y hora: se comete antes del kilómetro 15 y aparece después del 30.\n\n**Los primeros catorce kilómetros son demasiado fáciles.** Oscuro, fresco, plano, costa abierta, el ritmo sale solo. Es exactamente la situación en la que nadie siente que se está equivocando.\n\n**La cuenta llega en Joá y en Niemeyer.** Los especialistas brasileños solo avisan sobre ese tramo, y la descripción que circula entre corredores es directa: la Niemeyer no es una subidita, sube de verdad, y se convierte en una fiesta de gente caminando. Quien machacó la costa de Barra llega aquí sin margen.\n\n**La segunda cuenta llega en la bajada.** Salir de Niemeyer hacia São Conrado es bajar con el cuádriceps ya castigado, y es a partir del kilómetro 30 cuando rodilla y muslo cobran lo que se gastó atrás.\n\n**Y el Aterro cierra.** Los últimos tres kilómetros son planos, abiertos y sin sombra, con el sol ya alto: el peor lugar del mundo para descubrir que saliste demasiado rápido."
+ },
+ "typical_weather": {
+  "pt": "Não encontramos um registro de estação da manhã de prova de 2025 nem de 2026, e não estimamos um. O que existe: a organização e os guias locais trabalham com **18 a 24 °C pela manhã**, e a normal climática da época fica perto de 24 °C com 75% de umidade — média do período, não leitura de um dia.\n\nO que muda o planejamento não é o número, é a direção. A prova corre de oeste para leste com largada às 5h30: você começa no escuro e, de Ipanema em diante, corre de frente para o sol nascente, em orla sem sombra nenhuma.",
+  "es": "No encontramos un registro de estación de la mañana de carrera de 2025 ni de 2026, y no lo estimamos. Lo que hay: la organización y las guías locales trabajan con **18 a 24 °C por la mañana**, y la normal climática de la época ronda los 24 °C con 75% de humedad — media del período, no lectura de un día.\n\nLo que cambia la preparación no es el número, es la dirección. La carrera va de oeste a este con salida a las 5:30: empiezas de noche y, de Ipanema en adelante, corres de frente al sol naciente, en una costa sin una sola sombra."
+ },
+ "cut_off": {
+  "year": 2026,
+  "pt": "**6 horas** para a maratona, e idade mínima de 20 anos. O tempo oficial é de pistola só para os 30 primeiros da elite; para todo mundo é chip.\n\nNão há cortes intermediários publicados no regulamento de 2026.\n\n**Uma pergunta que a organização ainda não respondeu por escrito**, e que os próprios corredores fazem: as 6 horas contam a partir da largada do seu pelotão ou da primeira largada? Quem sai nos últimos pelotões tem interesse direto na resposta, e o regulamento não a dá. Vale perguntar antes de montar o plano de ritmo em cima do limite.\n\nDetalhe prático: os ônibus do guarda-volumes saem uma hora depois do limite de cada distância.",
+  "es": "**6 horas** para la maratón, y edad mínima de 20 años. El tiempo oficial es de pistola solo para los 30 primeros de la élite; para el resto es de chip.\n\nNo hay cortes intermedios publicados en el reglamento de 2026.\n\n**Una pregunta que la organización todavía no respondió por escrito**, y que hacen los propios corredores: ¿las 6 horas cuentan desde la salida de tu oleada o desde la primera? Quien sale en las últimas tiene interés directo en la respuesta, y el reglamento no la da. Conviene preguntarlo antes de montar el plan de ritmo pegado al límite.\n\nDetalle práctico: los autobuses del guardarropa salen una hora después del límite de cada distancia."
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 12951,
+  "median": "4:10:26",
+  "sub3_pct": 0.35,
+  "sub3_count_low": 45,
+  "note": {
+   "pt": "⚠️ Estes números são de 2025, **em outro percurso**: até 2025 a maratona corria em voltas pelo Aterro, e em 2026 voltou ao ponto a ponto pela orla. Servem para ler o tipo de pelotão — recreativo, com uma ponta de elite muito fina — e não para prever tempos no percurso atual. A organização não publica distribuição por faixas nem taxa de abandono, e a lista completa dos resultados não é extraível.",
+   "es": "⚠️ Estos números son de 2025, **en otro recorrido**: hasta 2025 la maratón se corría en vueltas por el Aterro, y en 2026 volvió al punto a punto por la costa. Sirven para leer el tipo de pelotón — recreativo, con una punta de élite muy fina — y no para predecir tiempos en el recorrido actual. La organización no publica distribución por franjas ni tasa de abandono, y la lista completa de resultados no es extraíble."
+  }
+ },
+ "registration_window": {
+  "pt": "Sorteio em novembro, mais as vagas do programa GoDream. **Corredores de fora do Brasil entram apenas por agências credenciadas.**",
+  "es": "Sorteo en noviembre, más las plazas del programa GoDream. **Los corredores de fuera de Brasil entran únicamente por agencias acreditadas.**"
+ },
+ "registration_model": {
+  "pt": "Sorteio, com vagas GoDream e agências credenciadas",
+  "es": "Sorteo, con plazas GoDream y agencias acreditadas"
+ },
+ "registration_state": "window",
+ "registration_when": {
+  "pt": "a inscrição de 2026 já passou e a organização só diz «em breve» sobre 2027; o sorteio costuma abrir em novembro",
+  "es": "la inscripción de 2026 ya pasó y la organización solo dice «en breve» sobre 2027; el sorteo suele abrir en noviembre"
+ },
+ "sell_out_note": {
+  "pt": "A prova cresceu: 2026 abriu mais 5.000 vagas na maratona e o limite do fim de semana passou de 15.000 para 20.000. A organização não publica faixas de preço nem velocidade de esgotamento.",
+  "es": "La carrera creció: en 2026 se abrieron 5.000 plazas más en la maratón y el cupo del fin de semana pasó de 15.000 a 20.000. La organización no publica bandas de precio ni velocidad de agotamiento."
+ },
+ "qualifying": {
+  "pt": "Não há marca mínima para entrar.",
+  "es": "No hay marca mínima para entrar."
+ },
+ "corral_policy": {
+  "pt": "Pelotões por cor do número, com largadas escalonadas a partir das 5h35. Como o texto oficial não diz de onde contam as 6 horas, o pelotão em que você sai pode não ser um detalhe.",
+  "es": "Oleadas por color de dorsal, con salidas escalonadas desde las 5:35. Como el texto oficial no aclara desde dónde cuentan las 6 horas, la oleada en la que sales puede no ser un detalle."
+ },
+ "how_to_train": {
+  "pt": "O percurso concentra tudo o que é difícil entre os quilômetros 15 e 24, e isso reorganiza o bloco inteiro.\n\n**Subida no meio do longão, não no fim.** O Joá e a Niemeyer chegam quando você ainda se sente bem e ainda faltam dezoito quilômetros. Treinar subida cansado é útil para outras provas; aqui o que você precisa é aprender a **passar uma subida de dois quilômetros sem acelerar e sem estourar**, com prova pela frente. Na prática: um bloco de subida contínua de oito a doze minutos no meio do longão, em ritmo de maratona, e não tiros curtos de ladeira.\n\n**Descida treinada é o que salva o quilômetro 30.** A conta do Joá e da Niemeyer não é cobrada na subida, é cobrada quando o quadríceps já castigado encontra onze quilômetros de orla plana. Descidas controladas dentro do longão, a partir da metade do bloco.\n\n**Largada às 5h30 é um treino de café da manhã.** Comer às 3h30 não é intuitivo e não se improvisa. Dois ou três longões do bloco começando de madrugada, com a mesma comida e o mesmo horário.\n\n**E o sol de frente a partir de Ipanema.** As duas primeiras horas são no escuro e as últimas não. O plano de líquidos precisa ser feito para a segunda metade, não para a sensação da primeira.\n\n**Uma coisa de logística que é planejamento:** largada no Recreio e chegada na Glória — não dá para ir a pé de uma à outra, e o transporte precisa estar resolvido antes, não na véspera.",
+  "es": "El recorrido concentra todo lo difícil entre los kilómetros 15 y 24, y eso reorganiza el bloque entero.\n\n**Subida en el medio de la tirada larga, no al final.** Joá y Niemeyer llegan cuando todavía te sientes bien y todavía faltan dieciocho kilómetros. Entrenar cuestas cansado sirve para otras carreras; aquí lo que necesitas es aprender a **pasar una subida de dos kilómetros sin acelerar y sin reventar**, con carrera por delante. En la práctica: un bloque de subida continua de ocho a doce minutos en el medio de la tirada larga, a ritmo de maratón, y no series cortas de cuesta.\n\n**La bajada entrenada es lo que salva el kilómetro 30.** La cuenta de Joá y Niemeyer no se paga en la subida, se paga cuando el cuádriceps ya castigado se encuentra con once kilómetros de costa plana. Bajadas controladas dentro de la tirada larga, desde la mitad del bloque.\n\n**Salir a las 5:30 es un entrenamiento de desayuno.** Comer a las 3:30 no es intuitivo y no se improvisa. Dos o tres tiradas largas del bloque empezando de madrugada, con la misma comida y el mismo horario.\n\n**Y el sol de frente desde Ipanema.** Las dos primeras horas son de noche y las últimas no. El plan de líquidos hay que hacerlo para la segunda mitad, no para la sensación de la primera.\n\n**Una cosa de logística que es planificación:** salida en Recreio y meta en Glória — no se puede ir a pie de una a otra, y el transporte tiene que estar resuelto antes, no la víspera."
+ },
+ "coach_hook": {
+  "pt": "Quinze quilômetros de orla plana no escuro convencem qualquer um de que o dia vai ser fácil, e nenhum plano fechado consegue te segurar durante essa hora e meia.",
+  "es": "Quince kilómetros de costa plana en la oscuridad convencen a cualquiera de que el día va a ser fácil, y ningún plan cerrado puede sujetarte durante esa hora y media."
+ },
+ "target_queries": {
+  "pt": [
+   "plano de treino maratona do rio",
+   "maratona do rio percurso altimetria niemeyer",
+   "maratona do rio tempo de corte",
+   "maratona do rio 2027 inscricoes sorteio",
+   "maratona do rio e dificil",
+   "elevado do joa maratona do rio"
+  ],
+  "es": [
+   "plan entrenamiento maraton rio de janeiro",
+   "maraton de rio recorrido altimetria",
+   "maraton de rio tiempo limite",
+   "maraton rio de janeiro 2027 inscripciones",
+   "como entrenar maraton de rio",
+   "avenida niemeyer maraton rio"
+  ]
+ },
+ "sources": [
+  "https://www.maratonadorio.com.br",
+  "https://www.maratonadorio.com.br/corrida/42k-2026",
+  "https://www.maratonadorio.com.br/upload/Regulamento-Maratona-do-Rio-2026-vers%C3%A3o-07112025.pdf",
+  "https://www.jornalcorrida.com.br/post/altimetria-da-maratona-do-rio-2025",
+  "https://www.youtube.com/watch?v=BJ5sXCU9svY",
+  "https://www.estadao.com.br/esportes/corrida-para-todos/maratona-do-rio-abre-mais-5-mil-vagas/",
+  "https://marathonview.net/race/140928",
+  "https://www.marathons.com/en/save-the-date/how-to-register-for-the-rio-marathon_k2nw"
+ ],
+ "confidence_flags": [
+  "Sem data confirmada para 2027: a organização diz apenas «em breve». A página mostra a janela habitual (semana de Corpus Christi).",
+  "O percurso mudou em 2026, voltando ao ponto a ponto pela orla depois de anos em voltas no Aterro. Relatos e perfis de 2019 a 2025 descrevem outro trajeto.",
+  "Os dados de pelotão são de 2025, no percurso antigo. Estão rotulados como tal e não são usados para prever tempos no percurso atual.",
+  "Não há cifra confiável de desnível: 110, 206 e 280 m em três fontes, com os túneis inflando leituras de GPS. Por isso elevation_gain_m fica vazio.",
+  "Em aberto com a organização: o regulamento de 2026 não diz se as 6 horas contam a partir da largada do pelotão de cada corredor.",
+  "Não há registro meteorológico de manhã de prova publicado. A seção de condições diz isso em vez de estimar."
+ ]
+}

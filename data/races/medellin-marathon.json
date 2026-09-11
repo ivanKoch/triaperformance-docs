@@ -1,0 +1,115 @@
+{
+ "race_id": "medellin-marathon",
+ "city": "Medellín",
+ "country": "Colombia",
+ "distance": "42k",
+ "language_market": [
+  "es"
+ ],
+ "name": {
+  "es": "Maratón de Medellín"
+ },
+ "official_name": "Maratón Medellín Sistecrédito",
+ "official_url": "https://maratonmedellin.com",
+ "slug": {
+  "es": "maraton-medellin"
+ },
+ "next_edition_date": null,
+ "last_verified": "2026-09-11",
+ "typical_window": {
+  "es": "Primer domingo de septiembre"
+ },
+ "start_time": {
+  "es": "5:00 de la mañana, de noche, en el Parque de las Luces. Los cajones abren a las 4:00 y se cierran a las 4:45: quien llega después larga desde el último. Son solo dos para el 42K — menos de 3:50 y más de 3:50."
+ },
+ "hook": {
+  "es": "Mil cuatrocientos metros de altura, doscientos treinta de desnivel y un trazado de ida y vuelta que te cruza de frente con los que van adelante justo cuando empiezas a dudar."
+ },
+ "course_profile": {
+  "es": "Ida y vuelta urbano hacia el sur, por Envigado y Sabaneta, con salida en el Parque de las Luces y meta en el Parque de los Pies Descalzos. La ciudad está a 1.405 m y el recorrido se mueve aproximadamente entre 1.400 y 1.600 m, con unos 230 m de desnivel positivo. Medido por World Athletics."
+ },
+ "elevation_gain_m": 230,
+ "altitude_m": 1405,
+ "elevation_note": {
+  "es": "Los 230 m salen del perfil publicado en la guía del corredor de 2025, que es la única fuente estática que existe. El mapa interactivo de 2026 tiene pendiente por kilómetro, pero es una aplicación: los números hay que leerlos del GPX, no de una página. No hay una tabla kilómetro a kilómetro publicada como texto, y esta página no la inventa."
+ },
+ "course_notes": {
+  "es": "**Salida, Parque de las Luces.** Arranca sobre la avenida San Juan, en el centro, todavía de noche.\n\n**Primer tercio, hacia el sur por el río.** Ferrocarril, la 33, Industriales y Las Vegas, entrando a Envigado. Son avenidas anchas de ciudad, con el relieve suave y continuo que tiene todo el valle.\n\n**Kilómetro 28,5, Retorno Sabaneta.** El punto más al sur del recorrido y el primero de los dos cortes de tiempo. Aquí das la vuelta.\n\n**Vuelta hacia el norte, kilómetro 28,5 al 35,7.** El mismo eje en sentido contrario, con el cansancio de la ida y el sol ya arriba.\n\n**Kilómetro 35,7, Aguacatala.** Segundo corte de tiempo, y el punto donde la carrera deja de ser una cuestión de piernas para volverse una de reloj.\n\n**Últimos seis kilómetros, hasta los Pies Descalzos.** De vuelta al centro, con la meta en el parque junto a EPM."
+ },
+ "where_they_struggle": {
+  "es": "Esta carrera tiene dos relojes y la mayoría de la gente solo mira uno.\n\nEl que todos conocen es el límite de **6 horas**. El que decide quién termina es otro: **el kilómetro 28,5 hay que pasarlo antes de las 9:00 de la mañana**. Con salida a las 5:00, eso son cuatro horas para veintiocho kilómetros y medio, es decir un promedio cercano a **8:25 por kilómetro** sostenido desde el disparo. El segundo corte, Aguacatala en el 35,7 antes de las 10:00, deja cinco horas para 35,7 km — unos 8:24 por kilómetro. No son cortes decorativos: son la carrera.\n\nY después está la altura, que es la parte que nadie ve en el perfil. Todo el recorrido está entre 1.400 y 1.600 metros. No es la altura de Ciudad de México, pero tampoco es nivel del mar: en 2025 el ganador hizo 2:16:21 y la ganadora 2:36:21, marcas de seis a diez minutos más lentas de lo que corredores de ese nivel firman al nivel del mar. Ese descuento no es solo para la élite: se aplica a todos, en proporción.\n\nLa propia organización lo admite de la forma más directa posible en sus preguntas frecuentes, al advertir a quien busque clasificar a Boston que apunte de tres a cinco minutos por debajo del estándar."
+ },
+ "typical_weather": {
+  "es": "La organización no publica un registro meteorológico de la mañana de carrera, y esta página no lo estima.\n\nLo que sí cambia el planteamiento: se larga a las 5:00, de noche, en un valle estrecho orientado de norte a sur. Las primeras dos horas se corren en oscuridad y con el aire más fresco del día; a partir del retorno de Sabaneta, la vuelta hacia el norte coincide con el sol saliendo sobre el valle. La diferencia entre el kilómetro 10 y el kilómetro 35 no es solo cansancio."
+ },
+ "cut_off": {
+  "year": 2026,
+  "es": "**6 horas** para el 42K, según el reglamento y las preguntas frecuentes de 2026.\n\nDos cortes intermedios, escritos como hora de reloj y no como tiempo de chip:\n\n- **Kilómetro 28,5, Retorno Sabaneta: máximo 9:00 a.m.**\n- **Kilómetro 35,7, Aguacatala: máximo 10:00 a.m.**\n\nQuien supera un corte debe abandonar o continuar por la acera bajo su propio riesgo. El texto oficial no dice descalificación: dice que dejas de tener carrera. La única descalificación por reloj que menciona el reglamento es salir quince minutos o más después de la hora oficial de tu distancia.\n\nDos advertencias. La primera: el reglamento viejo que todavía se sirve en otra dirección de la misma web habla de 5:30 horas y de un corte en Sabaneta a las 9:30 — es de otro año. La segunda: el texto de 2026 no aclara si las 6 horas se cuentan desde el disparo de las 5:00 o desde tu propio chip, y no vamos a resolverlo por deducción."
+ },
+ "field": {
+  "year": 2025,
+  "finishers_low": 4505,
+  "median": "4:03:43",
+  "sub3_pct": 2.84,
+  "sub3_count_low": 128,
+  "note": {
+   "es": "Cuidado con las cifras que circulan. Se lee a menudo 5.787 llegados, sin una fuente que lo sostenga, y también 27.000 o 30.000 corredores, que son el fin de semana completo con todas las distancias. El cronometraje oficial del 42K da 4.505 en 2025, con 3.565 varones y 940 mujeres. La organización no publica reparto por franjas ni tasa de abandono."
+  }
+ },
+ "registration_window": {
+  "es": "La inscripción abre a mediados de diciembre, casi un año antes, y se agota antes de la carrera. También hay ventana para aplazar el dorsal al año siguiente, que en 2026 cerró el 21 de agosto."
+ },
+ "registration_model": {
+  "es": "Por orden de inscripción, sin sorteo ni marca mínima"
+ },
+ "registration_state": "window",
+ "registration_when": {
+  "es": "el 42K de 2026 se agotó y la organización todavía no publicó cuándo abre el de 2027; en los dos ciclos anteriores abrió a mediados de diciembre"
+ },
+ "sell_out_note": {
+  "es": "El 42K de 2026 se agotó. Los precios publicados fueron de 260.000 y 290.000 pesos colombianos según la fase, y 90 dólares para corredores extranjeros. No hay reembolsos; sí hay cambio de titular y aplazamiento, ambos con costo."
+ },
+ "qualifying": {
+  "es": "No hay marca mínima para entrar, y el recorrido es clasificatorio para Boston: la marca se registra ante la BAA. La propia organización recomienda correr entre tres y cinco minutos por debajo del estándar, que es la manera educada de decir que la altura se cobra su parte."
+ },
+ "corral_policy": {
+  "es": "Dos cajones para el 42K, por tiempo estimado: menos de 3:50 y más de 3:50. Abren a las 4:00 y cierran a las 4:45; después de esa hora sales desde el último, y con cortes medidos en hora de reloj eso no es un detalle menor."
+ },
+ "how_to_train": {
+  "es": "Aquí el bloque se diseña desde el final hacia atrás, y el final no es la meta: es Sabaneta.\n\n**Lo primero es que el corte fija un piso de ritmo que no depende de tu objetivo.** Da igual si apuntas a 4 horas o a 5:45: hay que llegar al kilómetro 28,5 antes de las 9:00. Eso significa que el bloque tiene que producir un ritmo cercano a 8:25 por kilómetro sostenible **en un mal día, en altura y con el sol saliendo**, no en tu mejor tirada larga. Si tu marca objetivo está cerca del límite, la tirada larga del bloque deja de ser «tres horas suaves» y pasa a ser un ensayo con ritmo mínimo obligatorio.\n\n**Lo segundo es la altura, y es una buena noticia comparada con otras.** 1.400 a 1.600 metros es altura moderada: penaliza, pero no obliga a rehacer el entrenamiento. Si vives en Medellín o en cualquier ciudad andina a altura parecida, ya estás entrenando en las condiciones de carrera. Si vienes del nivel del mar, la conversión honesta es entrenar por esfuerzo y no por ritmo, y aceptar que tu ritmo de maratón de llano aquí es otro número.\n\n**Lo tercero es el trazado de ida y vuelta.** Vas a cruzarte de frente con los corredores que van adelante durante varios kilómetros, en el tramo en el que empiezas a dudar. Es un factor mental real y se entrena de una sola manera: haciendo tiradas largas en circuitos repetidos en lugar de recorridos siempre nuevos.\n\n**Y una cosa de logística que es entrenamiento.** Con salida a las 5:00 y cajones cerrando a las 4:45, el desayuno pasa a ser a las 3:00 de la mañana. Eso se ensaya: dos o tres tiradas largas del bloque arrancando de madrugada, con la misma comida y el mismo horario que vas a usar el día de la carrera."
+ },
+ "plan_note": {
+  "es": "Una advertencia sobre el bloque de volumen más bajo: en la mayoría de los maratones es el plan de «terminar con lo que tengas». Aquí no alcanza con eso, porque el kilómetro 28,5 cierra a las 9:00 pase lo que pase. Si tu objetivo está cerca de las seis horas, este bloque hay que correrlo con el ritmo mínimo en la cabeza desde la primera semana."
+ },
+ "coach_hook": {
+  "es": "Dos relojes distintos deciden tu carrera aquí, y el que importa se cierra a las nueve de la mañana en Sabaneta, con catorce kilómetros todavía por delante."
+ },
+ "target_queries": {
+  "es": [
+   "plan entrenamiento maraton medellin",
+   "maraton medellin cortes de tiempo sabaneta",
+   "maraton medellin altura",
+   "maraton medellin clasificatoria boston",
+   "maraton medellin 2027 inscripciones",
+   "como entrenar maraton medellin"
+  ]
+ },
+ "sources": [
+  "https://maratonmedellin.com",
+  "https://maratonmedellin.com/pages/reglamento-2026",
+  "https://maratonmedellin.com/pages/preguntas-frecuentes-2026",
+  "https://maratonmedellin.com/recorridos",
+  "https://cdn.shopify.com/s/files/1/0412/5255/2863/files/Guia_del_Corredor_-_MM2025_-_Sep2025-compressed.pdf",
+  "https://marathonview.net/race/141673",
+  "https://rutarunning.com/noticias/maraton-de-medellin-2025-resultados-oficiales-de-los-42k-21k-y-10k/",
+  "https://caracol.com.co/2025/09/05/27-mil-corredores-disfrutaran-de-la-maraton-medellin-este-fin-de-semana/"
+ ],
+ "confidence_flags": [
+  "Sin fecha confirmada para 2027. La página muestra la ventana habitual (primer domingo de septiembre).",
+  "Abierto con la organización: el reglamento 2026 no dice si las 6 horas se cuentan desde el disparo de las 5:00 o desde el chip de cada corredor. La página reporta el texto tal cual y no lo resuelve.",
+  "No existe tabla kilómetro a kilómetro publicada como texto: el desnivel de 230 m viene del perfil gráfico de la guía 2025 y el detalle por kilómetro solo está en el GPX del mapa interactivo 2026.",
+  "No hay registro meteorológico publicado de ninguna mañana de carrera. La sección de condiciones lo dice en lugar de estimar.",
+  "La cifra de 5.787 llegados que circula en prensa no tiene fuente verificable; se usa la de MarathonView (4.505), derivada del cronometraje oficial.",
+  "Precios y ventanas de aplazamiento son los de la edición 2026."
+ ]
+}

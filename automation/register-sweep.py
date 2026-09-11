@@ -598,7 +598,10 @@ def main():
     write = "--write" in sys.argv
     wide  = "--wide" in sys.argv
     show = "--diff" in sys.argv or write
-    targets = args or ["site", "automation"]
+    # data/races carries page PROSE in JSON, three languages, and was invisible
+    # to this sweep until September 11, 2026 — voseo reached a shipped race page
+    # through exactly that gap. The rest of data/ is machine tables and stays out.
+    targets = args or ["site", "automation", "data/races"]
     dirty = 0
     for f in walk(targets):
         rel = os.path.relpath(f, ROOT)

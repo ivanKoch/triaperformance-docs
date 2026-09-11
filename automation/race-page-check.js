@@ -162,6 +162,20 @@ for (const page of races.all) {
       fail(label, `hero image ${m[1]} is referenced but not in the build`);
     }
   }
+
+  // 6b. Authored markdown that reached the page as literal asterisks.
+  //
+  // Race content is authored in markdown inside data/races/*.json, and every
+  // field that carries prose has to be rendered through `raceProse` (or through
+  // `plainProse` where it feeds a schema answer). Six fields were NOT — profile,
+  // elevation note, weather, start time, registration window and model,
+  // qualifying, corral policy — and printed their own `**bold**` on live pages
+  // for as long as nobody authored markdown in them. This is that class of bug
+  // made loud: the template either renders the field or the build stops.
+  const rawMd = [...html.matchAll(/\*\*[^*\n]{2,80}\*\*/g)].map((m) => m[0]);
+  if (rawMd.length) {
+    fail(label, `unrendered markdown on the page (${rawMd.length}): ${rawMd[0]} — that field needs raceProse`);
+  }
 }
 
 // 7. Ladder SHAPE across languages — not price.
