@@ -8,6 +8,22 @@
 
 ---
 
+## Closed — September 11, 2026
+
+### Fuelling guide v1 — ES/EN/PT, scoped back to `methodology.md` §8
+
+**Shipped September 11, 2026:** `fueling-guide/kit-de-combustible-{es,en,pt}.md`, 620 lines each, written natively per language. Home doc: `fueling-guide-brief.md`.
+
+**Closing note.** The predecessor — *Kit de Herramientas Nutricionales*, ~40 pages ES — was reviewed independently by two models on September 6 and both returned "unpublishable as written." The merged audit ran to **43 findings, 26 found by both.** Iván's own read of that outcome was the correct one, and it was a scope diagnosis rather than an editorial one: *"better prose does not fix a document that says things a coach isn't qualified to say."*
+
+**Option (a), the narrow version, was chosen over (b), the dietitian-signed full version.** The deciding argument was not risk appetite: **the out-of-scope material already had a home and an author.** `open-loops.md` LATER carries the weight-loss nutrition guide, written by Iván and signed off by his sister (nutritionist, Universidad de Buenos Aires), *"because weight-loss nutrition advice edges toward medical territory and should not go out under a coach's name alone."* There was never an (a)-vs-(b) choice — one initiative had been contaminated with another initiative's content, and the fix was to give each its own document.
+
+⚠️ **Recorded because it will be re-litigated:** the audit surfaced a live disagreement on the carbohydrate ceiling — 90 g/h vs 90–120 g/h — with real sources on both sides, and **one reviewer's own first citation contradicted its own claim.** The guide sidesteps the argument by using §8's answer, which splits the number by modality (bike to 120, run to 60) and gates it on gut training. *Neither reviewer thought to split by modality. Iván's documented method was more sophisticated than either critique of it.*
+
+*The lesson about §8 going unread is live work, not history — it sits in `open-loops.md` Backlog with the v2 item.*
+
+---
+
 ## Closed — September 10, 2026 (six items closed on Iván's word)
 
 ### Decide whether the knee routine is the session you mean to prescribe
