@@ -188,16 +188,28 @@
         "memberDesc": "Tres adaptaciones distintas y tres protocolos distintos, más cómo ordenarlas en el año sin que el gimnasio te arruine el bloque de resistencia."
       },
       {
+        "tag": "Guía",
+        "name": "Kit de Combustible",
+        "desc": "Cómo alimentar tus sesiones y tus carreras — gramos por hora, entrenamiento del intestino y una plantilla por distancia.",
+        "key": "fueling",
+        "url": "/all-access/#biblioteca",
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/combustible/",
+        "memberCta": "Ver guía →",
+        "memberDesc": "La fórmula del pre-entreno, cuántos gramos por hora según duración y disciplina, el bloque de 6 semanas para entrenar el intestino, y una plantilla de carrera por distancia."
+      },
+      {
         "tag": "Descargas",
         "name": "Guías en PDF",
-        "desc": "Las guías completas de nutrición y de preparación mental, en PDF, para descargar cuando quieras.",
+        "desc": "La guía completa de preparación mental, más las guías de zonas, sesiones y fuerza, en PDF, para descargar cuando quieras.",
         "key": "downloads",
         "url": "/all-access/#biblioteca",
         "gated": true,
         "category": "numbers",
         "memberUrl": "/members/guias/",
         "memberCta": "Ver descargas →",
-        "memberDesc": "Todas las guías en PDF: zonas, sesiones por zona, nutrición y preparación mental."
+        "memberDesc": "Todas las guías en PDF: combustible, zonas, sesiones por zona, fuerza del corredor y preparación mental."
       }
     ],
     "soon": [
@@ -426,6 +438,18 @@
         "memberUrl": "/members/en/strength/",
         "memberCta": "Read the guide →",
         "memberDesc": "Three different adaptations and three different protocols, plus how to order them across the year without the gym wrecking your endurance block."
+      },
+      {
+        "tag": "Guide",
+        "name": "The Fuel Kit",
+        "desc": "How to fuel your sessions and your races — grams per hour, gut training, and a template per distance.",
+        "key": "fueling",
+        "url": "/en/all-access/#biblioteca",
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/en/fueling/",
+        "memberCta": "See guide →",
+        "memberDesc": "The pre-session formula, how many grams per hour by duration and discipline, the 6-week gut-training block, and a race template per distance."
       },
       {
         "tag": "Downloads",
@@ -666,6 +690,18 @@
         "memberUrl": "/members/pt/forca/",
         "memberCta": "Ler o guia →",
         "memberDesc": "Três adaptações diferentes e três protocolos diferentes, mais como organizá-las ao longo do ano sem que a academia estrague o seu bloco de resistência."
+      },
+      {
+        "tag": "Guia",
+        "name": "Kit de Combustível",
+        "desc": "Como alimentar suas sessões e suas provas — gramas por hora, treino do intestino e um modelo por distância.",
+        "key": "fueling",
+        "url": "/pt/all-access/#biblioteca",
+        "gated": true,
+        "category": "numbers",
+        "memberUrl": "/members/pt/combustivel/",
+        "memberCta": "Ver guia →",
+        "memberDesc": "A fórmula do pré-treino, quantos gramas por hora conforme duração e modalidade, o bloco de 6 semanas para treinar o intestino, e um modelo de prova por distância."
       },
       {
         "tag": "Downloads",

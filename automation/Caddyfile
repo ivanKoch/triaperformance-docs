@@ -388,7 +388,6 @@ triaperformance.com {
 	redir @esPrefix /{re.esprefix.1} permanent
 
 	redir /guias/zonas-de-entrenamiento.pdf /assets/guias/zonas-de-entrenamiento.pdf permanent
-	redir /guias/pre-entreno.pdf /assets/guias/pre-entreno.pdf permanent
 	redir /guias/intervalos.pdf /assets/guias/intervalos.pdf permanent
 
 	file_server

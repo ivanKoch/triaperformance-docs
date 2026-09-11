@@ -1,0 +1,74 @@
+/* members-combustible.css — extra rules for the fuelling guide, on top of
+   site.css + members.css, with members-dark.css layered over both.
+
+   Renamed September 11, 2026 from `members-nutricion.css`, which had been in
+   the repo unreferenced by any page — a stylesheet for nutrition content that
+   no longer existed. Its `.calc`, `.btn-primary` and `.result-table` rules went
+   with it: they styled a calculator this guide does not have. What survived is
+   `table.tp-table` and the callout base, which is what the guide needs.
+
+   ⚠️ Two conventions are inherited deliberately rather than invented here:
+
+   1. `.callout--warn` with TWO dashes. The orphaned file used one, and
+      members-dark.css only styles the two-dash form — so a single-dash callout
+      renders with a hardcoded light background in dark mode. The dark theme is
+      the arbiter of the class name, not this file.
+
+   2. `.tp-table--stack` with `data-label` on every cell. Copied from
+      members-carga.css, where it was written against a real bug on Aug 13, 2026
+      (a table rendering 399px wide inside a 342px column, scrolling the whole
+      page sideways). Almost every table in this guide holds a sentence per
+      cell, which is the case that CANNOT be rescued by a smaller font — so all
+      of them stack. Duplicated rather than shared for the same reason the PDF
+      builders duplicate their CSS tokens: extracting a common stylesheet means
+      touching a live page, which is a separate job. */
+
+ol, ul { margin: 0 0 16px 20px; max-width: 65ch; }
+li { margin-bottom: 8px; }
+
+/* --- tables --------------------------------------------------------------- */
+
+table.tp-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px; }
+table.tp-table th, table.tp-table td { border: 1px solid var(--mist); padding: 12px 16px; text-align: left; vertical-align: top; }
+table.tp-table th { background: var(--wash); font-weight: 700; }
+
+/* --- callouts ------------------------------------------------------------- */
+
+.callout { background: var(--wash); border-radius: 8px; padding: 24px 28px; margin: 24px 0; }
+.callout p:last-child, .callout ul:last-child, .callout ol:last-child { margin-bottom: 0; }
+.callout-title { margin-top: 0; }
+.callout--warn { border-left: 3px solid var(--blue); background: #f4f8fd; }
+
+/* --- the in-page contents list -------------------------------------------- */
+
+ol.toc { margin-bottom: 16px; }
+ol.toc li { margin-bottom: 6px; }
+
+/* --- sources -------------------------------------------------------------- */
+
+.fineprint { color: var(--slate); font-size: 14px; }
+.fineprint li { margin-bottom: 10px; }
+
+/* --- mobile: every table stacks ------------------------------------------- */
+
+@media (max-width: 640px) {
+  table.tp-table { font-size: 14px; }
+  table.tp-table th, table.tp-table td { padding: 10px 12px; }
+
+  table.tp-table--stack, .tp-table--stack tbody, .tp-table--stack tr, .tp-table--stack td {
+    display: block; width: 100%;
+  }
+  .tp-table--stack thead { display: none; }
+  .tp-table--stack tr {
+    border: 1px solid var(--mist); border-radius: 8px; margin-bottom: 14px; overflow: hidden;
+  }
+  .tp-table--stack td { border: none; padding: 0 16px 14px; }
+  .tp-table--stack td:first-child {
+    background: var(--wash); padding: 12px 16px; margin-bottom: 14px; font-weight: 700;
+  }
+  .tp-table--stack td[data-label]:not(:first-child)::before {
+    content: attr(data-label);
+    display: block; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .06em; color: var(--slate); margin-bottom: 4px;
+  }
+}
