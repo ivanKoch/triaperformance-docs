@@ -1,0 +1,42 @@
+---
+transKey: heat-calculator
+title: "Calculadora de ritmo no calor — WBGT, humidade e quanto te vai custar"
+description: "Coloca a temperatura e a humidade da tua prova e devolve o WBGT, quanto mais lento vais correr e o ritmo a que deves sair. Sete provas já carregadas. Grátis."
+ogTitle: "Calculadora de ritmo no calor"
+---
+<section class="hc-intro">
+  <div class="wrap">
+    <span class="label">Calor e ritmo</span>
+    <h1>Quanto mais lento vais correr com este calor?</h1>
+    <p class="hc-lede">Coloca as condições da tua prova e o teu objetivo. Devolve o WBGT estimado, quanto te vai custar e o ritmo a que deves sair.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    {% include "partials/heat-calculator.njk" %}
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="hc-col">
+      <span class="label">Como funciona</span>
+      <h2>De onde sai cada número</h2>
+      <p><strong>O WBGT</strong> é estimado com o modelo do Bureau of Meteorology australiano: <span class="hc-num">WBGT = 0,567 × T<sub>ar</sub> + 0,393 × e + 3,94</span>, onde <span class="hc-num">e</span> é a pressão de vapor derivada do ponto de orvalho. <strong>Não inclui radiação solar nem vento</strong>, por isso aproxima um valor à sombra: ao sol o WBGT real é mais alto. Trata-o como piso, não como valor central.</p>
+      <p><strong>A penalização</strong> aplica o coeficiente publicado de <span class="hc-num">0,3–0,4%</span> por cada grau de WBGT acima de <span class="hc-num">15 °C</span>, medido em <span class="hc-num">1.258</span> provas e <span class="hc-num">7.867</span> atletas. Para o meio do pelotão multiplica por 2 a 3, segundo os dados de maratonas grandes onde o 300.º lugar perdeu <span class="hc-num">7,9%</span> e o 25.º lugar perdeu <span class="hc-num">2,6%</span>.</p>
+      <p><strong>O desconto por aclimatação</strong> é o mais frouxo dos três: assume que um bloco completo comprime a penalização entre <span class="hc-num">30</span> e <span class="hc-num">50%</span>. Está dentro do intervalo publicado, mas é uma estimativa, não um coeficiente medido.</p>
+      <p class="hc-small">A combinação dos três é derivada, não medida. Não existe nenhuma tabela publicada e validada de WBGT para ritmo. Esta calculadora é a aritmética explícita de coeficientes reais — o que é diferente de um número saído do nada, e diferente de um resultado garantido.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="hc-col">
+      <h2>O número é metade do trabalho</h2>
+      <p>Já sabes quanto te vai custar. O que a calculadora não te consegue dizer é o que fazer com as semanas que te restam, como te arrefeceres durante a prova, ou em que momento o calor deixa de ser um problema de ritmo e passa a ser um problema de segurança.</p>
+      <p><a href="/pt/calor-e-desempenho/">Lê o guia completo de calor e desempenho</a> — doze secções, com o plano conforme o tempo que tiveres.</p>
+    </div>
+  </div>
+</section>

@@ -81,8 +81,20 @@ Research base: a 13-section evidence brief (Sept 6) cross-checked against indepe
 
 **Bogotá is deliberately excluded** even though it is an obvious "hot country" candidate: its problem is dry air at 2.600 m, which is fluid loss, and §4 says this model is a shaded-WBGT floor with no altitude, solar or wind term. *Linking it there would answer a question that race is not asking and imply precision the model does not have.*
 
+## 5d. Three languages — September 11, 2026
+
+**Both surfaces are live in ES, EN and PT.** `/calculadora-de-ritmo-en-calor/` · `/en/heat-pace-calculator/` · `/pt/calculadora-de-ritmo-no-calor/`, and `/calor-y-rendimiento/` · `/en/heat-and-performance/` · `/pt/calor-e-desempenho/`. Slugs are native in each language, for the reason the zones calculator already records: *an English page on a Spanish URL competes badly for its own head term.*
+
+**Written natively per `brand-guidelines.md` §10, not translated.** *"Ten times the heat stroke rate of a marathon" is not a rendering of "diez veces más golpes de calor" — both are renderings of the same Falmouth finding.*
+
+🔑 **Every reader-facing string moved to `site/_data/heatUi.json` FIRST, and the Spanish was regression-checked before a word of English was written.** A script pulled all 30 visible strings out of the previous `heat-calculator.njk` and `heat-calc.js` at `HEAD` and asserted each still rendered on the Spanish page. *One came back changed and it was the one deliberately changed — the preset note, reworded that morning alongside the §12 column fix. Zero unintended losses.* **The extraction is the risky half of an i18n pass, and it is the half that can be checked mechanically; the prose cannot.**
+
+**`U.dec` carries the decimal separator** — `,` in ES and PT, `.` in EN — and `n()` routes every figure through it, *so no number is written out in any language file either.* **The English block also carries `paceUnitNote`, which no other language has:** a US runner thinks in min/mile and this tool is metric, so it points at `/en/pace-converter/` rather than growing a unit switch nobody asked for. *An absent key renders nothing, which is what makes a per-language extra safe.*
+
+⚠️ **The seven race presets are identical in all three languages, carrying the same observations — only the names are localised.** *Iván's call. They are the races with a verified race-morning station reading, not a set tuned per market, and the athlete can edit every field anyway. Do not add a chip without an observation: a plausible figure in a preset is how the Ciudad de México row went wrong.*
+
+**Two register-sweep entries this needed, both in established patterns.** `editá`, `treiná` and `podes` are correct Portuguese living inside a trilingual `_data` file, which the sweep's `SKIP_DIRS` cannot help with — `en` and `pt` are skipped as *directories*, and `heatUi.json` is one file holding all three. The first two went to `ALLOW`'s existing Portuguese section; `podes` went to `UNACC_AMBIG`, because unaccented Spanish voseo (`podés` → `podes`) and Portuguese `tu` present tense are the same eight characters.
+
 ## 6. Not done
 
-- **EN and PT, written natively** per decision C. Structure, CSS and JS are language-agnostic and done; what is missing is the copy and the `transKey` siblings. *`heat-calc.js` formats with a Spanish decimal comma and needs a per-language separator.*
 ~~- **The four missing race JSONs.** — **Structured numeric weather fields in `data/races/*.json`.**~~ **Both CLOSED September 11, 2026 — decided against, on evidence.** *The four are triathlon and the race-page set is marathons; the structured fields would have stored the CDMX error perfectly rather than caught it. The real finding was that the table's `Hora` column promised a start time for races that start in waves — renamed to* **Hora de la lectura**. **Full reasoning: `open-loops-archive.md`, September 11.**
-- **Nothing is committed.** Iván's tree also holds unrelated work from the storefront and CoachMatch branches; these files must not be swept into one commit.

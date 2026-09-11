@@ -263,6 +263,7 @@ cómo dónde cuándo porqués ademá
 olá até pés trás você vocé nahí josué fechá sequenciá organizá-las
 # Portuguese function words in the trilingual data files — not Spanish, not voseo
 já dá vá há lá aí cá pé né dás vás hás daí aí mostrá separá deixá prescrevê
+editá treiná podes
 # Spanish weekday abbreviations in table headers — "mié" is miércoles, not a verb
 mié
 # Proper nouns and place names that end in an accent. These are the races and
@@ -347,6 +348,12 @@ alternate alternates
 
 # Unaccented forms that are also ordinary words — reported only with context, never trusted.
 UNACC_AMBIG = set("""
+# Portuguese `tu` present tense in the trilingual _data files. `podes` is correct
+# European Portuguese and is also exactly what unaccented Spanish voseo looks
+# like (`podés` → `podes`), so this gate cannot tell them apart and the language
+# subtree skip cannot help: site/_data/*Ui.json is ONE file holding all three.
+# Same fix, same reason, as the Portuguese section in ALLOW above.
+podes
 hace sale vale corre come trae mete cree lee para toma deja busca lleva baja pasa saca junta
 gira tira dobla rota carga toca cruza camina estira termina respira separa apoya empuja
 suelta cuenta prueba muestra cuelga encuentra recuerda acuerda sienta aprieta despierta

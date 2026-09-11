@@ -10,6 +10,20 @@
 
 ## Closed — September 11, 2026
 
+### EN and PT of the heat calculator and guide — shipped natively, and the extraction was checked before the prose was written
+
+**Closing note, September 11, 2026.** Six pages live: the calculator and the guide in Spanish, English and Portuguese, on native slugs in each language.
+
+🔑 **The order was the whole method.** Every reader-facing string moved out of `heat-calculator.njk` and `heat-calc.js` into `site/_data/heatUi.json` **first**, and the Spanish page was regression-checked **before a word of English existed**: a script pulled all 30 visible strings from `HEAD` and asserted each still rendered. *One came back changed, and it was the one deliberately changed that morning.* **Extraction is the risky half of an i18n pass and the only half a machine can check; the prose cannot be, so it is worth spending the check where it lands.**
+
+**Measured before starting, which changed how it was scoped.** The calculator is ~980 words per language and the guide ~4,960 — so the entry point, the thing eight race pages link to through `heat_tool`, was 16% of the work. *Iván chose to do both in one run anyway, with the storefront branch closing the same day and the WIP limit free.*
+
+**`U.dec` carries the decimal separator** (`,` ES/PT, `.` EN) and every figure routes through it, so no number is typed in any language file. ⚠️ *The English block alone carries `paceUnitNote`, pointing at `/en/pace-converter/` — a US runner thinks in min/mile and this tool is metric. An absent key renders nothing, which is what makes a per-language extra safe rather than a fork.*
+
+**The seven race presets stayed identical across all three languages, names aside** — Iván's call, and the right one: they are the races with a verified race-morning station reading, not a set tuned per market, and every field is editable. *Curating per language would have meant researching new observations, and a plausible figure in a preset is exactly how the Ciudad de México row went wrong.*
+
+*Two register-sweep additions, both into patterns the file already had: `editá`/`treiná` to `ALLOW`'s Portuguese section and `podes` to `UNACC_AMBIG`.* **The sweep skips `en` and `pt` as directories and `heatUi.json` is one file holding all three languages** — so a trilingual data file is the one place that skip cannot protect.
+
 ### The guide's race table stays typed — the item was answered by checking it, and the answer was no
 
 **Closing note, September 11, 2026.** Two items close together: *"four of the seven guide races have no JSON file"* and the brief's *"structured numeric weather fields in `data/races/*.json`, so §12 renders instead of being typed."*

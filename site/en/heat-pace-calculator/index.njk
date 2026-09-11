@@ -1,0 +1,42 @@
+---
+transKey: heat-calculator
+title: "Heat Pace Calculator — WBGT, humidity and what the heat will cost you"
+description: "Put in your race's temperature and humidity and it returns the WBGT, how much slower you will run, and the pace you should start at. Seven races preloaded. Free."
+ogTitle: "Heat Pace Calculator"
+---
+<section class="hc-intro">
+  <div class="wrap">
+    <span class="label">Heat and pace</span>
+    <h1>How much slower will you run in this heat?</h1>
+    <p class="hc-lede">Put in your race conditions and your goal. It returns the estimated WBGT, what the heat will cost you, and the pace you should start at.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    {% include "partials/heat-calculator.njk" %}
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="hc-col">
+      <span class="label">How it works</span>
+      <h2>Where each number comes from</h2>
+      <p><strong>The WBGT</strong> is estimated with the Australian Bureau of Meteorology model: <span class="hc-num">WBGT = 0.567 × T<sub>air</sub> + 0.393 × e + 3.94</span>, where <span class="hc-num">e</span> is the vapour pressure derived from the dew point. <strong>It carries no solar radiation and no wind term</strong>, so it approximates a shaded value: in direct sun the real WBGT is higher. Treat it as a floor, not a central estimate.</p>
+      <p><strong>The penalty</strong> applies the published coefficient of <span class="hc-num">0.3–0.4%</span> per degree of WBGT above <span class="hc-num">15 °C</span>, measured across <span class="hc-num">1,258</span> races and <span class="hc-num">7,867</span> athletes. For mid-pack it multiplies by 2 to 3, from large-marathon data where 300th place lost <span class="hc-num">7.9%</span> while 25th place lost <span class="hc-num">2.6%</span>.</p>
+      <p><strong>The acclimation discount</strong> is the softest of the three: it assumes a complete block compresses the penalty by <span class="hc-num">30</span> to <span class="hc-num">50%</span>. That sits inside the published range, but it is an estimate, not a measured coefficient.</p>
+      <p class="hc-small">The combination of the three is derived, not measured. No validated WBGT-to-pace table has ever been published. This calculator is the explicit arithmetic of real coefficients — which is different from a number out of nowhere, and different from a guaranteed result.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="hc-col">
+      <h2>The number is half the work</h2>
+      <p>You now know what it will cost. What the calculator cannot tell you is what to do with the weeks you have left, how to cool yourself during the race, or the point at which heat stops being a pacing problem and becomes a safety one.</p>
+      <p><a href="/en/heat-and-performance/">Read the full guide to heat and performance</a> — twelve sections, with the plan sorted by how long you have.</p>
+    </div>
+  </div>
+</section>

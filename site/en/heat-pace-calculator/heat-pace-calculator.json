@@ -1,0 +1,8 @@
+{
+  "_comment": "Directory data for the English heat-pace calculator — mirror of site/calculadora-de-ritmo-en-calor/. Localised slug for the same reason the zones calculator and pace converter have one: 'heat pace calculator' is an English search and an English page on a Spanish URL competes badly for it. transKey matches its ES and PT siblings exactly, which is what wires hreflang and the language switcher. Public and indexable.",
+
+  "layout": "layouts/base.njk",
+  "lang": "en",
+  "pageCss": "heat-calculator.css",
+  "pageJs": "heat-calc.js"
+}

@@ -1,27 +1,39 @@
-{#- heat-calculator.njk — the WBGT → ritmo tool.
+{#- heat-calculator.njk — the WBGT → ritmo tool, three languages.
     Model and its limits: heat-guide-brief.md §4. Styles: heat-calculator.css.
-    Logic: assets/js/heat-calc.js, which bails unless #hc is on the page. -#}
+    Logic: assets/js/heat-calc.js, which bails unless #hc is on the page.
+
+    Every reader-facing string lives in site/_data/heatUi.json, keyed by
+    language. Nothing here is typed twice and nothing is typed in the JS: the
+    script reads window.HEAT_UI, the same shape the activation and strength
+    engines already use. -#}
+{%- set hui = heatUi[lang or "es"] -%}
+<script>window.HEAT_UI = {{ hui | dump | safe }};</script>
 <div id="hc">
-  <div class="hc-presets" role="group" aria-label="Carreras con datos cargados">
-    <button class="hc-chip" type="button" data-ta="26.1" data-td="25.0">Cartagena 70.3</button>
-    <button class="hc-chip" type="button" data-ta="26.1" data-td="25.0">Barranquilla 70.3</button>
-    <button class="hc-chip" type="button" data-ta="25.0" data-td="23.9">San Andrés</button>
-    <button class="hc-chip" type="button" data-ta="25.0" data-td="21.1" aria-pressed="true">Ironman Cozumel</button>
-    <button class="hc-chip" type="button" data-ta="22.8" data-td="20.6">Maratón de Miami</button>
-    <button class="hc-chip" type="button" data-ta="17.8" data-td="17.5">Maratón de Río</button>
-    <button class="hc-chip" type="button" data-ta="14.6" data-td="14.2">Maratón CDMX</button>
+  {#- The seven observations are identical in every language and only the NAMES
+      are localised — these are the races with a verified race-morning station
+      reading, not a set tuned per market. Adding a chip without an observation
+      is how the Ciudad de México row went wrong. -#}
+  {%- set obs = [
+    ["26.1", "25.0"], ["26.1", "25.0"], ["25.0", "23.9"], ["25.0", "21.1"],
+    ["22.8", "20.6"], ["17.8", "17.5"], ["14.6", "14.2"]
+  ] -%}
+  <div class="hc-presets" role="group" aria-label="{{ hui.presetsLabel }}">
+    {%- for name in hui.races %}
+    <button class="hc-chip" type="button" data-ta="{{ obs[loop.index0][0] }}" data-td="{{ obs[loop.index0][1] }}"{% if loop.index0 == 3 %} aria-pressed="true"{% endif %}>{{ name }}</button>
+    {%- endfor %}
   </div>
-  <p class="hc-small" style="margin-top:10px;max-width:65ch">Valores observados en la hora de largada en estaciones de aeropuerto. Puedes editarlos a mano para el pronóstico de tu día.</p>
-  {#- Three of the seven preloaded races have a guide of their own. The ids are
+  <p class="hc-small" style="margin-top:10px;max-width:65ch">{{ hui.presetsNote }}</p>
+  {#- Three of the seven preloaded races have a page of their own. The ids are
       resolved against the race data rather than typed as URLs — the Portuguese
-      race pages moved once already, two days after they were built. A race
-      without a Spanish page simply does not appear here. -#}
+      race pages moved once already, two days after they were built. A race with
+      no page in THIS language simply does not appear, which is why the loop
+      reads races.byLanguage[lang] and not a hardcoded .es. -#}
   {%- set heatRaces = [] -%}
   {%- for id in ["miami-marathon", "rio-de-janeiro-marathon", "mexico-marathon"] -%}
-    {%- for p in races.byLanguage.es %}{% if p.id == id %}{% set heatRaces = (heatRaces.push(p), heatRaces) %}{% endif %}{% endfor -%}
+    {%- for p in races.byLanguage[lang or "es"] %}{% if p.id == id %}{% set heatRaces = (heatRaces.push(p), heatRaces) %}{% endif %}{% endfor -%}
   {%- endfor -%}
   {%- if heatRaces | length %}
-  <p class="hc-small hc-race-links" style="margin-top:6px;max-width:65ch">Guía de carrera, con el perfil, los cortes y cómo entrenarla:
+  <p class="hc-small hc-race-links" style="margin-top:6px;max-width:65ch">{{ hui.raceLinksIntro }}
     {%- for p in heatRaces %} <a href="{{ p.url }}">{{ p.name }}</a>{% if not loop.last %} ·{% endif %}{% endfor %}.
   </p>
   {%- endif %}
@@ -29,39 +41,39 @@
   <div class="hc-tool">
     <form class="hc-panel" autocomplete="off" onsubmit="return false">
       <fieldset>
-        <legend>Condiciones</legend>
+        <legend>{{ hui.legendConditions }}</legend>
         <div class="hc-row2">
-          <div><label for="hcTa">Temperatura del aire</label><input type="number" id="hcTa" step="0.1" value="25.0" min="-10" max="55"></div>
-          <div><label for="hcHum" id="hcHumLab">Punto de rocío</label><input type="number" id="hcHum" step="0.1" value="21.1" min="-20" max="40"></div>
+          <div><label for="hcTa">{{ hui.airTemp }}</label><input type="number" id="hcTa" step="0.1" value="25.0" min="-10" max="55"></div>
+          <div><label for="hcHum" id="hcHumLab">{{ hui.dewLabel }}</label><input type="number" id="hcHum" step="0.1" value="21.1" min="-20" max="40"></div>
         </div>
-        <div class="hc-seg" role="group" aria-label="Tipo de dato de humedad">
-          <button type="button" id="hcDew" aria-pressed="true">Punto de rocío (°C)</button>
-          <button type="button" id="hcRh" aria-pressed="false">Humedad relativa (%)</button>
+        <div class="hc-seg" role="group" aria-label="{{ hui.humidityGroup }}">
+          <button type="button" id="hcDew" aria-pressed="true">{{ hui.dewButton }}</button>
+          <button type="button" id="hcRh" aria-pressed="false">{{ hui.rhButton }}</button>
         </div>
       </fieldset>
       <fieldset>
-        <legend>Tu carrera</legend>
-        <div><label for="hcDist">Distancia</label>
+        <legend>{{ hui.legendRace }}</legend>
+        <div><label for="hcDist">{{ hui.distance }}</label>
           <select id="hcDist">
-            <option value="5">5 km</option>
-            <option value="10">10 km</option>
-            <option value="21.0975">Media maratón</option>
-            <option value="42.195" selected>Maratón</option>
+            <option value="5">{{ hui.distances[0] }}</option>
+            <option value="10">{{ hui.distances[1] }}</option>
+            <option value="21.0975">{{ hui.distances[2] }}</option>
+            <option value="42.195" selected>{{ hui.distances[3] }}</option>
           </select>
         </div>
         <div class="hc-row2">
-          <div><label for="hcGh">Objetivo — horas</label><input type="number" id="hcGh" value="3" min="0" max="20"></div>
-          <div><label for="hcGm">Minutos</label><input type="number" id="hcGm" value="30" min="0" max="59"></div>
+          <div><label for="hcGh">{{ hui.goalHours }}</label><input type="number" id="hcGh" value="3" min="0" max="20"></div>
+          <div><label for="hcGm">{{ hui.goalMinutes }}</label><input type="number" id="hcGm" value="30" min="0" max="59"></div>
         </div>
       </fieldset>
       <fieldset>
-        <legend>Tú</legend>
-        <div class="hc-seg" role="group" aria-label="Nivel">
-          <button type="button" id="hcLvlA" aria-pressed="true">Atleta entrenado</button>
-          <button type="button" id="hcLvlB" aria-pressed="false">Medio pelotón</button>
+        <legend>{{ hui.legendYou }}</legend>
+        <div class="hc-seg" role="group" aria-label="{{ hui.levelGroup }}">
+          <button type="button" id="hcLvlA" aria-pressed="true">{{ hui.levelA }}</button>
+          <button type="button" id="hcLvlB" aria-pressed="false">{{ hui.levelB }}</button>
         </div>
-        <label class="hc-check"><input type="checkbox" id="hcAcc"><span>Hice un bloque de aclimatación al calor</span></label>
-        <label class="hc-check"><input type="checkbox" id="hcTri"><span>Es el trote de un triatlón</span></label>
+        <label class="hc-check"><input type="checkbox" id="hcAcc"><span>{{ hui.checkAcc }}</span></label>
+        <label class="hc-check"><input type="checkbox" id="hcTri"><span>{{ hui.checkTri }}</span></label>
       </fieldset>
     </form>
     <div class="hc-out" id="hcOut" aria-live="polite"></div>

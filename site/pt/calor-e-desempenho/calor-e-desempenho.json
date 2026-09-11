@@ -1,0 +1,7 @@
+{
+  "_comment": "Directory data for the Portuguese heat guide — mirror of site/calor-y-rendimiento/. Written natively per brand-guidelines.md §10, not translated. transKey matches its ES and EN siblings, which is what wires hreflang and the language switcher. Public and indexable; it is the artifact that continues the job /pt/calculadora-de-ritmo-no-calor/ starts.",
+
+  "layout": "layouts/base.njk",
+  "lang": "pt",
+  "pageCss": "heat-calculator.css"
+}
