@@ -95,5 +95,9 @@
   ],
   "coach_hook": {
     "es": "Dos cortes medidos desde el disparo, encima de una subida de doce kilómetros, y un cajón de salida que te puede quitar minutos antes de empezar a correr."
+  },
+  "registration_state": "sold_out",
+  "registration_when": {
+    "es": "2026"
   }
 }

@@ -1,6 +1,6 @@
 # Race Page — Data Schema
 
-**Rewritten September 10, 2026.** Backs `data/races/<race_id>.json` — **one JSON file per race, not a CSV row.**
+**Rewritten September 10, 2026.** *Updated September 11, 2026 — `registration_state`, `registration_when`, `coach_hook`, `plan_note`, plus the name-strip and Spanish-register rules the first six pages earned.* Backs `data/races/<race_id>.json` — **one JSON file per race, not a CSV row.**
 
 > **Why the container changed, decided while building the first page.** Every other dataset in `data/` is a table because something outside this repo produces it as one: `training_plans_inventory.csv` is a TrainingPeaks export. Race data is the opposite — most of a race is multi-paragraph prose in three languages, and a CSV cell is the wrong container for a paragraph. The July `races.csv` already carried 900-character quoted fields with embedded commas and was unreadable in every tool that opens a CSV. One file per race gives one commit per race and a diff that shows which paragraph changed. `data/races.csv` is superseded; its 13 rows are the old research set and do not match the 19 dossiers. Page structure and the test every field has to pass: `race-page-content-outline.md`. Plan ladder: `race-landing-pages-longlist.md` §1.
 
@@ -34,6 +34,8 @@ Organisers publish on wildly different horizons: Boston has 2027 and 2028; Mexic
 
 - `last_verified` — ISO date, **always filled**. When the entry and conditions facts were last checked against the organiser. Rendered under that block as a stamp. This is the block that rots every season; a date and a link to the organiser is what can actually be maintained across nineteen races, and it is cheaper than pretending it will be.
 - `registration_window` — **always filled**, prose. "Lottery opens late January." "Loyalty window the week after race day, general ballot mid-December."
+- `registration_state` — **always filled**, one of `open` / `window` / `sold_out`. Drives the one-line entry state rendered *beside the plan ladder*, not only inside block 4. Added September 11, 2026: a page that sells a 12-week block to someone who cannot get a bib for eleven months is selling the wrong thing quietly.
+- `registration_when` — optional, **per-language object** (`{es, en, pt}`). The prose that goes with the state: *"la ventana de solicitud fue del 14 al 18 de septiembre de 2026"*. Kept separate from `registration_window` because that one is the evergreen rhythm and this one is the current edition's specifics.
 - `registration_model` — lottery / ballot+loyalty / direct / qualifying-time. Optional.
 - `sell_out_note` — optional. "First 10,000 bibs gone in two hours." "67-minute sell-out."
 - `qualifying` — optional. BQ standards, WMM status, World Athletics label, the Boston downhill index. Where it applies it is often the strongest block on the page; where it does not, it is empty and renders nothing.
@@ -64,9 +66,33 @@ Organisers publish on wildly different horizons: Boston has 2027 and 2028; Mexic
 - `sources` — URLs actually used, semicolon-separated.
 - `confidence_flags` — anything unverified. **Treat as a pre-publish checklist, not decoration.** Standing rule: an organiser's reglamento or FAQ wins over any derived reading, and where ours conflicts with theirs that is a question for the organiser, never a claim on a page.
 
+### Voice — always filled
+
+- `coach_hook` — **always filled**, per-language object, **one sentence**, race-specific. It is the carbon banner's only line and the one place on the page that has to sound like a coach who has watched this race. A hook reused across cities is worse than no hook; the publish gate's similarity check treats it the same as `hook` and `where_they_struggle`.
+
+### The ladder, where this race changes what a rung means
+
+- `plan_note` — optional, per-language object. **The one exception to "no plan fields", and it is not one:** it stores no plan id, no duration and no matching rule. It is prose explaining what a rung means *on this race* — Boston's sub-90 km block is the beginner rung everywhere else and here only fits someone who already holds a qualifying bib and wants to finish. Fill it wherever a qualifying standard, an altitude or a cut-off changes what a rung is for. Leave it empty otherwise; most races need none.
+
+## What the card prints, and what a plan name must not repeat
+
+The race card prints the **duration** (22 px, above the name) and the **volume band** (its own chip) as their own elements. The plan name is therefore stripped of both, by `stripDuration` in `.eleventy.js`.
+
+⚠️ **That strip is a segment pass, not one regex per naming convention, and the reason is a defect.** The first version anchored a regex per catalogue and missed the Portuguese shape — `Maratona - 12 semanas - Entre 110 e 135 km por semana - Ritmo` — so every PT card printed its duration twice, in two different type sizes, for as long as it shipped. Names in all three catalogues are separator-delimited (`A | B | C` or `A - B - C`); a segment that is *only* a duration or *only* a volume band is dropped wherever it sits, and a volume band living inside a parenthetical beside the difficulty (`(Beginner <90km)`) keeps the difficulty and loses the band. **The naming conventions differ per language and per catalogue vintage; the meaning of a segment does not.** When a new catalogue shape appears, extend the segment test — never add a fourth anchored regex.
+
+## Writing Spanish into these files
+
+🚨 **`automation/register-sweep.py` scans `.njk` and does not scan `data/races/*.json`.** Voseo reached a shipped race page through exactly this gap (`Elegí`, `podés`, `medís`, `sumás`), and was caught by reading, not by the gate. Until the sweep is extended, **Spanish prose written into a race JSON is hand-checked against `brand-guidelines.md` §8** — tuteo verbs *and* neutral LatAm vocabulary, both axes.
+
+Three more that the first six earned:
+
+- **Percentages go through the `pct` filter.** A dot decimal in a Spanish or Portuguese percentage is wrong in both languages, and JSON gives you one by default.
+- **`name` must survive the 60-character title clamp with the year appended.** Boston and Monterrey were caught by the gate, not by eye: the sponsor belongs in `official_name`, the short form in `name` (*"Maratón de Boston"*, not the sponsor's full event title).
+- **A race with no combined median finish gets the two-tile fallback,** not an empty block. Boston publishes medians by gender and no overall figure; the block renders both rather than nothing.
+
 ## Not in this schema, deliberately
 
-- **No plan fields of any kind** — no `plan_id`, no `plan_duration_weeks_available`, no `plan_matching_rule`. The ladder is a constant. Storing plan IDs per race would recreate the race-year-stamped-plan problem this initiative was built to kill.
+- **No plan fields of any kind** — no `plan_id`, no `plan_duration_weeks_available`, no `plan_matching_rule`. (`plan_note` is prose about what a rung means on this race, not a plan field — see above.) The ladder is a constant. Storing plan IDs per race would recreate the race-year-stamped-plan problem this initiative was built to kill.
 - **No hero-image field** — the filename is `race_id` by convention.
 - **No price** — prices live on plan rows.
 - **No testimonial** — sourced from `social-proof-and-reviews.md`'s quote bank at render time.

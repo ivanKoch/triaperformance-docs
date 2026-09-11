@@ -400,6 +400,56 @@
 .plan-capture-status.success { color: #1a7a3c; }
 .plan-capture-status.error { color: var(--slate); }
 
+/* ── Entry state, beside the cards ──────────────────────────────────────────
+   Not decoration: the difference between "you can buy this and enter" and "you
+   can buy this but entries closed in August" is the most commercially relevant
+   sentence in the section, and it used to live four sections further up. */
+.race-reg-state {
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 70ch;
+  margin: 0 0 20px;
+  padding-left: 12px;
+  border-left: 3px solid var(--mist);
+  color: var(--slate);
+}
+.race-reg-state span {
+  display: block;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 3px;
+}
+.race-reg-open { border-left-color: var(--green); }
+.race-reg-open span { color: var(--green); }
+.race-reg-closed { border-left-color: var(--heat-graphic); }
+.race-reg-closed span { color: var(--heat); }
+
+/* The weekly volume, promoted out of the tail of the catalogue title. The
+   intro tells the reader to choose on this number, so it should not require
+   finishing a 60-character product name to find it. */
+.race-plan-vol {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--ink);
+  background: var(--wash);
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.race-plans-caveat {
+  font-size: 14px;
+  color: var(--slate);
+  max-width: 70ch;
+  margin: 14px 0 0;
+  padding-left: 12px;
+  border-left: 3px solid var(--mist);
+}
+
 /* ── Start-by dates ─────────────────────────────────────────────────────────
    Boxed rather than run into the prose above it: it is the one line on the page
    a reader is likely to come back for, and it is a different kind of statement

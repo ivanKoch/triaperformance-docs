@@ -207,7 +207,15 @@
         {%- endfor %}
       </ul>
       {%- endif %}
-      {%- if race.ladderPhase == "band" %}
+      {%- if race.ladderPhase == "ample" and race.startBy %}
+      {#- Far out, the start date alone reads as a delay rather than a plan.
+          Saying what the weeks before it are FOR is the difference between a
+          page that sells a block you start in three months and one that tells
+          you what to do until then. -#}
+      {%- for w, d in race.startBy %}{% if loop.last %}
+      <p>{{ r.startByAmple | replace("{weeks}", w + " " + r.weeksLabel) | replace("{date}", d | raceDate(lang)) }}</p>
+      {%- endif %}{% endfor %}
+      {%- elif race.ladderPhase == "band" %}
       <p>{{ r.startByBand | replace("{weeks}", race.weeksToRace) }}</p>
       {%- elif race.ladderPhase == "tight" %}
       <p>{{ r.startByTight | replace("{weeks}", race.weeksToRace) }}</p>
@@ -226,6 +234,16 @@
   <div class="wrap">
     <h2>{{ r.plansTitle }}</h2>
     <p class="race-plans-intro">{{ r.plansIntro }}</p>
+    {#- The entry state, HERE and not only in "cómo entrar". A page that sells an
+        18-week block for a sold-out race, with the sold-out line four sections
+        further up, is the defect Monterrey shipped with. -#}
+    {%- if race.registrationState == "sold_out" %}
+    <p class="race-reg-state race-reg-closed"><span>{{ r.regSoldOut }}</span> {{ r.regSoldOutNote | replace("{year}", race.year) }}</p>
+    {%- elif race.registrationState == "window" and race.registrationWhen %}
+    <p class="race-reg-state race-reg-closed"><span>{{ r.regWindow }}</span> {{ r.regWindowNote | replace("{when}", race.registrationWhen) }}</p>
+    {%- elif race.registrationState == "open" %}
+    <p class="race-reg-state race-reg-open"><span>{{ r.regOpen }}</span></p>
+    {%- endif %}
 
     {%- if showFacets %}
     {#- Server-rendered: every variant's grid is in the HTML and the buttons
@@ -250,7 +268,11 @@
         </div>
       </div>
     </div>
-    <p class="race-facet-hint">{{ r.facetHint }}</p>
+    {#- Only claim the gym dimension when a gym ladder exists in this language.
+        On the default heart-rate view the gym toggle is disabled, so promising
+        it unconditionally described a greyed-out option. -#}
+    {%- set hasGym = false %}{% for v in variants %}{% if v.gym %}{% set hasGym = true %}{% endif %}{% endfor %}
+    <p class="race-facet-hint">{{ r.facetHint if hasGym else r.facetHintNoGym }}</p>
     <p class="race-facet-note" data-facet-note hidden></p>
     {%- endif %}
 
@@ -264,6 +286,8 @@
       <a class="race-plan-card" href="{{ p.pageUrl }}">
         <span class="race-plan-level">{{ u.difficulty[p.difficulty] }}</span>
         <span class="race-plan-weeks">{{ p.weeks }} {{ r.weeksLabel }}</span>
+        {%- set vol = p.displayName | volumeBand %}
+        {%- if vol %}<span class="race-plan-vol">{{ r.volumeLabel }} {{ vol }}</span>{% endif %}
         <span class="race-plan-name">{{ p.displayName | stripDuration }}</span>
         <span class="race-plan-price">US$ {{ p.price }}</span>
       </a>
@@ -271,6 +295,7 @@
     </div>
     {%- endfor %}
     <p class="race-plans-note">{{ r.plansNote }}</p>
+    {%- if race.planNote %}<p class="race-plans-caveat">{{ race.planNote }}</p>{% endif %}
 
     {%- if plan %}
     <div class="race-capture">

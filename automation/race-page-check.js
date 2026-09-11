@@ -27,7 +27,9 @@ const fs = require("fs");
 const path = require("path");
 
 const REPO = path.dirname(__dirname);
-const SITE = path.join(REPO, "_site");
+// SITE_DIR lets the checker run against a build written somewhere other than
+// ./_site (an out-of-tree build, a CI artifact). Default is unchanged.
+const SITE = process.env.SITE_DIR || path.join(REPO, "_site");
 const QUIET = process.argv.includes("--quiet");
 
 const failures = [];
@@ -57,7 +59,7 @@ function ldBlocks(html) {
 
 // --- locate the built race pages from the data, not by globbing, so a page that
 // --- failed to build at all is a failure rather than an absence nobody noticed.
-const races = require(path.join(SITE, "..", "site", "_data", "races.js"))();
+const races = require(path.join(REPO, "site", "_data", "races.js"))();
 if (!races.all.length) {
   console.log("No race pages in the build. Nothing to check.");
   process.exit(0);

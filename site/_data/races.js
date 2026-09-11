@@ -313,6 +313,14 @@ module.exports = function () {
           : null,
 
         registrationWindow: pick(raw.registration_window, lang),
+        // The state, surfaced next to the plan cards rather than only in the
+        // entry block further up. open | window | sold_out.
+        registrationState: raw.registration_state || null,
+        // An optional caveat printed under the plan row — for races where a
+        // ladder rung does not mean what it means everywhere else (Boston's
+        // low-volume block, on a race you cannot enter without a qualifier).
+        planNote: pick(raw.plan_note, lang),
+        registrationWhen: pick(raw.registration_when, lang),
         registrationModel: pick(raw.registration_model, lang),
         sellOutNote: pick(raw.sell_out_note, lang),
         qualifying: pick(raw.qualifying, lang),

@@ -66,7 +66,15 @@
     "coachHeading": "¿Y si el plan cerrado no alcanza?",
     "coachBodyGeneric": "Un plan de calendario no sabe en qué cajón saliste, cómo te fue el mes pasado ni qué hacer cuando la semana se cae. Si lo que acabas de leer sobre esta carrera te cambia el planteamiento, esa es una conversación, no un PDF.",
     "coachCta": "Cuéntame tu objetivo",
-    "coachAlt": "Iván Koch, coach de Triaperformance"
+    "coachAlt": "Iván Koch, coach de Triaperformance",
+    "startByAmple": "Todavía sobran semanas: el bloque de {weeks} empieza el {date}. Hasta entonces el trabajo es base — volumen fácil y consistencia — no este plan.",
+    "volumeLabel": "Volumen",
+    "regOpen": "Inscripción abierta",
+    "regWindow": "Inscripción cerrada",
+    "regSoldOut": "Edición agotada",
+    "regSoldOutNote": "La edición de {year} está agotada. Estos bloques siguen sirviendo si ya tienes dorsal, y si apuntas a la siguiente edición.",
+    "regWindowNote": "La inscripción no está abierta ahora mismo: {when}. Estos bloques sirven igual si ya tienes plaza o si estás preparando la clasificación.",
+    "facetHintNoGym": "El plan es el mismo bloque: cambia con qué mides la intensidad."
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -134,7 +142,15 @@
     "coachHeading": "And if a fixed plan is not enough?",
     "coachBodyGeneric": "A calendar plan does not know which corral you drew, how last month went, or what to do when the week falls apart. If what you have just read about this race changes your approach, that is a conversation, not a PDF.",
     "coachCta": "Tell me your goal",
-    "coachAlt": "Iván Koch, Triaperformance coach"
+    "coachAlt": "Iván Koch, Triaperformance coach",
+    "startByAmple": "There is still room: the {weeks} block starts on {date}. Until then the work is base — easy volume and consistency — not this plan.",
+    "volumeLabel": "Volume",
+    "regOpen": "Entries open",
+    "regWindow": "Entries closed",
+    "regSoldOut": "Sold out",
+    "regSoldOutNote": "The {year} edition is sold out. These blocks still apply if you already have a bib, and if you are aiming at the next edition.",
+    "regWindowNote": "Entries are not open right now: {when}. These blocks still apply if you already have a place, or if you are chasing the qualifier.",
+    "facetHintNoGym": "Same block either way: what changes is how you measure intensity."
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -202,6 +218,14 @@
     "coachHeading": "E se o plano fechado não der conta?",
     "coachBodyGeneric": "Um plano de calendário não sabe em que caixa você largou, como foi o seu último mês, nem o que fazer quando a semana desanda. Se o que você acabou de ler sobre esta prova muda o seu planejamento, isso é uma conversa, não um PDF.",
     "coachCta": "Conte o seu objetivo",
-    "coachAlt": "Iván Koch, coach da Triaperformance"
+    "coachAlt": "Iván Koch, coach da Triaperformance",
+    "startByAmple": "Ainda sobram semanas: o bloco de {weeks} começa em {date}. Até lá o trabalho é base — volume fácil e consistência — não este plano.",
+    "volumeLabel": "Volume",
+    "regOpen": "Inscrições abertas",
+    "regWindow": "Inscrições fechadas",
+    "regSoldOut": "Edição esgotada",
+    "regSoldOutNote": "A edição de {year} está esgotada. Estes blocos continuam valendo se você já tem número, e se está mirando a próxima edição.",
+    "regWindowNote": "As inscrições não estão abertas agora: {when}. Estes blocos valem igual se você já tem vaga ou está buscando a classificação.",
+    "facetHintNoGym": "O bloco é o mesmo: muda com o que você mede a intensidade."
   }
 }

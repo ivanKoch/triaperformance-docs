@@ -635,18 +635,86 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
   };
   const RACE_DIFFICULTY_ORDER = ["Beginner", "Intermediate", "Advanced"];
 
+  /** The weekly-volume band out of a plan name, in whatever shape that
+   *  language writes it: "(Vol. <90km)", "(Beginner Vol: <90km)", "Entre 90 e
+   *  110 km por semana". Returned as a bare range — "<90 km", "90-110 km".
+   *
+   *  WHY ONLY THE NUMBER. The race page's own intro tells the reader to choose
+   *  by the volume they can sustain, and then buries that volume at the end of
+   *  a catalogue title nobody finishes reading. This surfaces it.
+   *
+   *  It deliberately does NOT map volume to a goal ("<90 = just finish"). That
+   *  was proposed and refused: plenty of people run a good time off 80 km a
+   *  week, and a card that tells them otherwise is a coaching claim the data
+   *  does not support. The number is a fact; the inference is not ours to print.
+   */
+  eleventyConfig.addFilter("volumeBand", function (name) {
+    if (!name) return "";
+    const t = String(name);
+    // Four shapes across three languages, and the "110km+" suffix form is the
+    // one the first draft silently dropped the ">" from — it rendered Advanced
+    // as "110 km", which reads as a ceiling rather than a floor.
+    let m;
+    if ((m = t.match(/(\d+)\s*km\s*\+/i)))            return ">" + m[1] + " km";   // 110km+
+    if ((m = t.match(/Entre\s+(\d+)\s*e\s*(\d+)\s*km/i))) return m[1] + "-" + m[2] + " km";
+    if ((m = t.match(/At[ée]\s+(\d+)\s*km/i)))          return "<" + m[1] + " km";
+    if ((m = t.match(/([<>])\s*(\d+)\s*km/i)))          return m[1] + m[2] + " km";
+    if ((m = t.match(/(\d+)\s*[-–]\s*(\d+)\s*km/i)))   return m[1] + "-" + m[2] + " km";
+    return "";
+  });
+
   /** Strip a plan name's leading duration, which the race card already states
    *  in 22px directly above it: "Plan 12 Semanas: Maratón Base" -> "Maratón
    *  Base", "16 Week Half Marathon Prep" -> "Half Marathon Prep". Deliberately
    *  anchored and conservative — a name that does not match is left alone. */
   eleventyConfig.addFilter("stripDuration", function (name) {
     if (!name) return "";
-    return String(name)
-      .replace(/^Plan\s+\d{1,2}\s+Semanas\s*[:\-–]\s*/i, "")
-      .replace(/^Plano?\s+de\s+\d{1,2}\s+Semanas\s*[:\-–]\s*/i, "")
+    let t = String(name)
+      .replace(/^Plano?\s+(de\s+)?\d{1,2}\s+Semanas\s*[:\-–]\s*/i, "")
       .replace(/^\d{1,2}\s+Week\s+/i, "")
-      .replace(/^\d{1,2}\s+Semanas?\s*[:|\-–]\s*/i, "")
-      .replace(/^(Maratona|Meia Maratona)\s*\(\d+k\)\s*\|\s*\d{1,2}\s+Semanas\s*\|\s*/i, "")
+      .replace(/^\d{1,2}\s+Semanas?\s*[:|\-–]\s*/i, "");
+
+    // 🚨 SEGMENT PASS, not one anchored regex per naming convention.
+    // Names in all three catalogues are separator-delimited ("A | B | C" or
+    // "A - B - C"), and two kinds of segment are now printed by the race card
+    // itself: the DURATION (22px, directly above the name) and the VOLUME BAND
+    // (its own chip). Those segments are dropped wherever they sit. The earlier
+    // version anchored one regex per convention and missed the Portuguese one
+    // ("Maratona - 12 semanas - Entre 110 e 135 km por semana - Ritmo ..."),
+    // which printed the duration twice on every PT card. The conventions differ
+    // per language and per catalogue vintage; the meaning of a segment does not.
+    const SEP = t.includes("|") ? "|" : (/\s[-–]\s/.test(t) ? "-" : null);
+    if (SEP) {
+      const parts = t.split(SEP === "|" ? /\s*\|\s*/ : /\s+[-–]\s+/);
+      const isDuration = (s) =>
+        /^(plano?\s+(de\s+)?)?\d{1,2}\s*(semanas?|weeks?|sem)\b[.:]?$/i.test(s.trim());
+      const isVolume = (s) => {
+        const x = s.trim();
+        if (!/\d/.test(x) || !/km/i.test(x)) return false;
+        return /\bvol(\.|umen|ume)?\b/i.test(x)
+          || /(por\s+semana|\/\s*semana|per\s+week)/i.test(x)
+          || /^(entre|at[ée]|de|hasta|up\s+to)\b/i.test(x);
+      };
+      if (parts.length > 1) {
+        const kept = parts.filter((p) => p.trim() && !isDuration(p) && !isVolume(p));
+        if (kept.length) t = kept.join(SEP === "|" ? " | " : " - ");
+      }
+    }
+
+    // A volume band that lives INSIDE a parenthetical beside the difficulty
+    // ("(Beginner <90km)", "(Intermediate 90-110km)", "(Advanced 110km+)",
+    // "(Beginner 55 to 88 km / week)"): keep the difficulty, drop the band,
+    // which the card now prints as its own chip two lines up.
+    t = t.replace(/\(([^)]*)\)/g, (m, inner) => {
+      if (!/km/i.test(inner)) return m;
+      const kept = inner.replace(/\s*(?:[<>]\s*)?\d[^)]*km[^)]*$/i, "").trim();
+      return kept ? "(" + kept + ")" : "";
+    });
+
+    return t
+      .replace(/\s*[(（][^)）]*Vol[.:]?\s*[^)）]*[)）]/i, "")
+      .replace(/\s{2,}/g, " ")
+      .replace(/\s*[-–|:]\s*$/, "")
       .trim();
   });
 

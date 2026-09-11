@@ -1,6 +1,6 @@
 # Race Page — Content Outline
 
-**Rewritten September 5, 2026 (Iván).** Home doc for what a race page contains and in what order. Data fields: `race-page-data-schema.md`. Voice and visual rules: `brand-guidelines.md`. Plan ladder: `race-landing-pages-longlist.md` §1.
+**Rewritten September 5, 2026 (Iván).** *Updated September 11, 2026 — §Corrections the first six pages earned, added after two review rounds on the six shipped pages.* Home doc for what a race page contains and in what order. Data fields: `race-page-data-schema.md`. Voice and visual rules: `brand-guidelines.md`. Plan ladder: `race-landing-pages-longlist.md` §1.
 
 ## The test every block has to pass
 
@@ -81,6 +81,35 @@ Race pages are children of the sport hub, not a new top-level section:
 Hero image per race: **2:1 at 960 / 1600 / 2560, `.webp` + `.jpg`**, at `/assets/images/races/<race-slug>-<width>.<ext>`. Widths match the breakpoints `site.css` already uses for the homepage hero. Built by `automation/resize-blog-images.py` from `_incoming/races/<race-slug>.jpg` (races mode added September 10, 2026).
 
 **The race hero is an `<img>`, not a CSS background.** The homepage hero hardcodes its widths per breakpoint in `site.css` and carries an inline LQIP data URI — correct for one image shared by three homepages, unusable for a per-page image that has to come from data. An `<img>` carries `fetchpriority="high"` on its own, so it needs neither the LQIP nor the `hero: true` preload flag. The scrim becomes an overlay element rather than `::before` on a background. This is `design-refresh-brief.md` item 33 (split hero, carbon tokens) applied to a new page type — the hero and the final CTA are two of the four public surfaces §3.3 of the guidelines permits on carbon.
+
+## Corrections the first six pages earned
+
+*Added September 11, 2026, after Valencia, Monterrey, Sevilla, Barcelona, Boston and Miami shipped and went through two review rounds. **Every rule below is a defect found on a built page, not a preference.** Read this before writing race #7 — it is cheaper than the review that produced it.*
+
+**1. The entry state is stated beside the plan ladder, not only in block 4.** A page that sells a 12-week block to someone who cannot get a bib for eleven months is selling the wrong thing quietly. `registration_state` (`open` / `window` / `sold_out`) renders a one-line state next to the cards, and `registration_when` carries the prose. Valencia and Monterrey are `sold_out`, Boston and Miami are `window`, Sevilla and Barcelona are `open` — and the plans still show in full on all six, because the block is trained before the bib exists, not after.
+
+**2. Course segments are disjoint, and named by place rather than by kilometre range alone.** Barcelona shipped with "km 18-27" in one sentence and a second segment overlapping it; a reader cannot tell whether that is two problems or one described twice. It became "Paral·lel, Poble-sec y Montjuïc por la base." **A kilometre range is a coordinate, not a name** — an athlete recognises a place on the course, and two named places cannot silently overlap the way two ranges can.
+
+**3. Where a race is discussed in miles, print both units every time.** Boston: `milla 20 (km 32)`, `Millas 16-21 / km 26-34`. The Spanish-speaking athlete running Boston reads mile markers for one morning and kilometre splits for every other day of the block; choosing one unit makes the page wrong for one of those two readers. Applies to any US race — Chicago, New York, Miami.
+
+**4. A race page never cites another race's numbers.** Miami's heat section originally compared itself to Sevilla's temperatures. Two costs, and the second is the expensive one: it creates a maintenance edge between two files that no rule owns, **and it is a literal shared string between two pages, which is precisely the signal the clone detector in `races.js` exists to catch.** Compare to a generic reference ("a typical European winter marathon") instead. The comparison survives; the coupling does not.
+
+**5. A label never restates the sentence below it.** Boston's entry-state label carried the full sentence the body then repeated underneath. Labels are three or four words (`Inscripción cerrada`); the sentence lives once.
+
+**6. The coach hook is per-race and mandatory.** `coach_hook` is one sentence, race-specific, in the carbon banner — *"treinta kilómetros de bajada que no se siente como esfuerzo mientras la corres, y cuatro subidas colocadas justo donde el daño ya está hecho."* A generic hook is worse than none: it is the one line on the page that has to sound like a coach who has watched this race, and a template sentence reused across six cities reads as a template sentence reused across six cities.
+
+**7. A ladder rung that does not mean what it normally means gets a `plan_note`.** Boston's sub-90 km block is the beginner rung everywhere else and is not one here: nobody reaches Boston without a qualifying time, so that rung only makes sense for someone who already holds a bib and wants to finish. The note says so, next to the cards. **The ladder stays constant; the note explains what it means on this race.** Same rule wherever a qualifying standard, an altitude or a cut-off changes what a rung is for.
+
+**8. Beyond 18 weeks out, the page says what to do now.** A start-by date alone, twenty-six weeks out, reads as "come back in eight weeks" — and the athlete who reads that leaves. The ample phase states the start-by date *and* what the eight weeks before it are for. The four phases are `undated` / `tight` (<12w) / `band` (12-18w) / `ample` (>18w), computed, never written per race.
+
+**9. The hero does not restate block 1.** Sevilla's hero repeated the flatness the verdict block states with numbers one screen down; it became the 11 °C swing between gun and finish — a fact block 1 does not carry. The hero earns its place by saying something the rest of the page does not.
+
+### Taken on review and closed — do not re-open
+
+- **Cap the ladder at three cards.** Rejected. The 3 × 2 matrix *is* the product structure, and the facet buttons exist to navigate it. A cap would hide inventory that is already built and already sells.
+- **Split Spanish into es-ES and es-419.** Rejected — it contradicts the one-Spanish standing rule in `brand-guidelines.md` §8 and would fork every ES surface on the site to serve six race pages.
+- **Strip the figures out of body prose.** Rejected. The figures are the anti-clone differentiator; removing them is the fastest way to turn nineteen pages into a doorway set.
+- **Map the volume band to a goal time on the card.** Rejected. "90-110 km/week ⇒ sub-3:15" is a coaching claim the inventory does not support and the methodology does not make. The card prints the number; the athlete and the coach do the mapping.
 
 ## Deliberately not here
 
