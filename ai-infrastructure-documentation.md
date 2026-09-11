@@ -2537,9 +2537,13 @@ The activation loop shipped as `muted autoplay loop playsinline preload="metadat
 ⚠️ **The enum is a live Postgres type, so the code cannot ship first.** `save_ideas()` inserts a whole batch under one cursor, and an absent enum value aborts the transaction — the failure would not cost one idea, it would cost the run. Order is: run the `ALTER`, then deploy.
 
 ```
-docker exec -i content-postgres psql -U "$PGUSER" -d "$PGDATABASE" <<'SQL'
-ALTER TYPE cta_type ADD VALUE IF NOT EXISTS 'tool';
-SQL
+docker exec -i analytics-postgres psql -U analytics -d content \
+  -c "ALTER TYPE cta_type ADD VALUE IF NOT EXISTS 'tool';"
+```
+
+⚠️ *The first version of this command written here named a `content-postgres` container and `$PGUSER`/`$PGDATABASE`, which do not exist — the content DB is the `content` database inside `analytics-postgres`, owned by `analytics`, exactly as `automation/content-engine/SETUP.md` has said since it was written. **A copy-pasteable command that was never run is a guess wearing a monospace font.** Corrected before it was run, by reading SETUP.md rather than the pattern.*
+
+```
 ```
 
 🚨 **And a pre-existing defect found while adding a key to that dict: the assets block was `json.dumps(assets, indent=1)[:6000]` against a real payload of ~13.5 KB.** A hard slice at 6000 cuts **in the middle of a string**, so the model was receiving a JSON document that does not close. Two live consequences for however long the payload had been that size:

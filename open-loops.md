@@ -48,11 +48,10 @@
 - [ ] 🆕 **IVÁN — one SQL statement, and it must run BEFORE the next deploy.** *(Opened September 11, 2026.)* The content engine's `cta_type` is a live Postgres enum and the ideas agent can now emit `tool`. **`save_ideas()` inserts a whole batch under one cursor, so an absent enum value aborts the transaction — the failure costs the run, not one idea.**
 
   ```
-  docker exec -i content-postgres psql -U "$PGUSER" -d "$PGDATABASE" <<'SQL'
-  ALTER TYPE cta_type ADD VALUE IF NOT EXISTS 'tool';
-  SQL
+  docker exec -i analytics-postgres psql -U analytics -d content \
+    -c "ALTER TYPE cta_type ADD VALUE IF NOT EXISTS 'tool';"
   ```
-  *Same shape as the `TOOL_LEAD` enum step in `tool-lead-runbook.md`. Detail: `ai-infrastructure-documentation.md` §52.*
+  *Same shape as the `TOOL_LEAD` enum step in `tool-lead-runbook.md`. Detail: `ai-infrastructure-documentation.md` §52.* ⚠️ **The command first written here named a `content-postgres` container and `$PGUSER`/`$PGDATABASE` — neither exists.** *The content DB is the `content` database inside `analytics-postgres`, owned by `analytics`, as `automation/content-engine/SETUP.md` has always said. Corrected before it was run.*
 - [ ] 🆕 **EN and PT versions of both surfaces.** *(Opened September 11, 2026.)* **Written natively per `brand-guidelines.md` §10, not translated** — decision C. Structure, CSS and JS are done and language-agnostic; what is missing is the copy and the `transKey` siblings. *`heat-calc.js` formats decimals with a Spanish comma and will need a per-language separator.*
 - [ ] 🆕 **Four of the seven guide races have no JSON file:** Cartagena, Barranquilla, San Andrés, Cozumel. *(Opened September 11, 2026.)* **They are the four that matter most to this market**, and until they exist the guide's §12 table is the only home for their conditions — which is the drift this repo keeps writing notes about.
 
