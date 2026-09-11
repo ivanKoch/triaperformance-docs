@@ -83,8 +83,11 @@ set -a; . /root/.analytics/.env; set +a       # PG_USER lives here; never retype
 docker exec analytics-postgres pg_dumpall -U "$PG_USER" --clean --if-exists | gzip -6 > "$WORK/analytics.pg_dumpall.sql.gz"
 min_bytes "$WORK/analytics.pg_dumpall.sql.gz" 20000
 # Sanity: the four databases this box is known to hold must all be in the dump.
+# grep -c, not grep -q: -q exits on the first match and breaks zcat's pipe, which
+# pipefail then reports as a failure — i.e. the check failed precisely when it matched.
 for db in analytics storefront content members; do
-  zcat "$WORK/analytics.pg_dumpall.sql.gz" | grep -q "CREATE DATABASE $db " || { echo "database $db missing from analytics dump"; exit 1; }
+  n="$(zcat "$WORK/analytics.pg_dumpall.sql.gz" | grep -c "CREATE DATABASE $db " || true)"
+  [ "$n" -gt 0 ] || { echo "database $db missing from analytics dump"; exit 1; }
 done
 
 # -------------------------------------------------------------------- 3. n8n
