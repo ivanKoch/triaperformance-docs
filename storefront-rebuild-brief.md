@@ -1,5 +1,14 @@
 # Storefront rebuild — branch home doc
 
+> 🛑 **RETIRED September 11, 2026 — this file is history, not current work.**
+>
+> **Phase 4 closed** (race landing pages: 19 races, 26 pages, three generated guide hubs), which is the condition this file set for its own retirement in §Scope. All four phases shipped and the branch's definition of done is met.
+>
+> **Where its live pieces went:** the seven follow-ups that did not close with the branch are in `open-loops.md` under *Carried forward from the storefront branch* — including `/planes/duatlon/` and `/planes/fuerza/`, the reason Phase 1's criterion 4 is recorded as half met. Race-page decisions are owned by `race-page-content-outline.md` and `race-page-data-schema.md`; catalogue and pricing decisions by their own home docs, as this file always said.
+>
+> **Do not quote this file as current.** *It is left in place because the reasoning behind each phase is the record — the same reason the storefront brief that preceded it was retired rather than kept: that one went on serving a 407-row catalogue and a retracted figure for three weeks after it was done.*
+
+
 **Opened September 9, 2026. Iván's call, taken ahead of race landing pages.** *"I am committed to building a site that I am proud of."*
 
 **What this doc owns:** the branch — its four phases, each phase's definition of done, the acceptance criteria that stop a phase being "finished" by restyling, and the decisions taken along the way.
@@ -319,9 +328,11 @@
 
 ---
 
-## Phase 4 — Race landing pages
+## Phase 4 — Race landing pages ✅ CLOSED September 11, 2026
 
-**This is `open-loops.md` NEXT #1, unchanged and not re-scoped here.** Everything it needs is already done: the longlist, the tiering, `data/races.csv`, the per-race schema and the content outline. *It moves into this branch only so the order is written down once.*
+~~**This is `open-loops.md` NEXT #1, unchanged and not re-scoped here.**~~ **Shipped: 19 races, 26 pages (es 14 / en 5 / pt 7), plus a generated guide hub per language.** *Everything it needed was already done when this phase was written — the longlist, the tiering, the per-race schema and the content outline — and the build confirmed that: no research was commissioned for the 42 km set beyond the dossiers that already existed.*
+
+**Closing this phase closes the branch**, per §Scope's own instruction. Decisions are owned by `race-page-content-outline.md` (what a page contains, and the 21 rules the three build rounds earned) and `race-page-data-schema.md` (the fields). *The 21 km set is a new branch, not a continuation of this phase — it opens on a ladder-shape decision that does not exist in the 42 km data.*
 
 ---
 
