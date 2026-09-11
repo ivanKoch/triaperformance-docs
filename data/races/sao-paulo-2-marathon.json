@@ -1,7 +1,11 @@
 {
  "race_id": "sao-paulo-2-marathon",
- "city": "São Paulo",
- "country": "Brasil",
+ "city": {
+  "pt": "São Paulo"
+ },
+ "country": {
+  "pt": "Brasil"
+ },
  "distance": "42k",
  "language_market": [
   "pt"
@@ -103,5 +107,9 @@
   "Os números de pelotão de 2025 são médias, não medianas — a organização não publica mediana e esta página não a estima.",
   "Não há registro meteorológico publicado de nenhuma manhã de prova, e bases climáticas automáticas parecem estar misturando esta prova (julho) com a de abril.",
   "As três linhas de corte são as do regulamento de 2026. Versões anteriores desta pesquisa listavam apenas duas delas."
+ ],
+ "siblings": [
+  "sao-paulo-marathon",
+  "rio-de-janeiro-marathon"
  ]
 }

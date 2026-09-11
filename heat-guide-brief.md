@@ -71,6 +71,14 @@ Research base: a 13-section evidence brief (Sept 6) cross-checked against indepe
 
 *Verified by building to a scratch output and rendering both pages headless at three widths; zero overflow, zero carbon tokens remaining.* **The only elements still crossing the viewport edge are the site's own off-canvas nav drawer, which is pre-existing and by design.**
 
+## 5d. Cross-linked with the race pages — September 11, 2026
+
+**Race → calculator** on the six Spanish race pages where heat is a real variable: Berlin, Valencia, Miami, Río, Buenos Aires, CDMX. Inline prose at the end of the Conditions block, where the reader has just finished a temperature and a humidity — not a card, because a race page already carries three asks and a fourth boxed CTA splits attention on the coaching banner rather than adding a path. Two more races are flagged and silent (Lisboa, São Paulo Internacional): the flag lives on the race, the *rendering* depends on whether `raceUi` has a calculator URL in that language, so they light up the day the PT calculator ships with no second pass over the data.
+
+**Calculator → race** under the preset chips: Miami, Río and CDMX, resolved from the race data by id rather than typed as URLs. **That is the direction that matters commercially** — it moves traffic from this asset into the plan funnel, where race → calculator moves a buyer sideways to a free tool.
+
+**Bogotá is deliberately excluded** even though it is an obvious "hot country" candidate: its problem is dry air at 2.600 m, which is fluid loss, and §4 says this model is a shaded-WBGT floor with no altitude, solar or wind term. *Linking it there would answer a question that race is not asking and imply precision the model does not have.*
+
 ## 6. Not done
 
 - **EN and PT, written natively** per decision C. Structure, CSS and JS are language-agnostic and done; what is missing is the copy and the `transKey` siblings. *`heat-calc.js` formats with a Spanish decimal comma and needs a per-language separator.*

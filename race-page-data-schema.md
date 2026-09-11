@@ -19,7 +19,9 @@ One file per race. The template reads the row and renders the six blocks. **Noth
 - `race_id` — slug, and the join key for everything. **It is also the hero-image filename**, so `valencia-marathon` resolves to `/assets/images/races/valencia-marathon-{960,1600,2560}.{webp,jpg}` with no field required. One naming system, not two.
 - `race_name_es` / `race_name_en` / `race_name_pt` — display name per language; empty where the race has no page in that language.
 - `slug_es` / `slug_en` / `slug_pt` — the URL segment per language, so a Spanish page can be `maraton-de-valencia` rather than carrying an English slug for SEO. **Falls back to `race_id` when empty**, which is the right answer for most races.
-- `city`, `country`.
+- `city`, `country` — **per-language objects, and required to be, on any race that publishes in more than one.** They were plain strings until September 11, 2026, which put `"addressCountry": "Estados Unidos"` inside the `SportsEvent` schema of an English page. `races.js` drops a multi-language race that gives either one as a bare string; there is no equivalent check against the built HTML, because a wrong place name and a right one are the same shape once rendered.
+- `siblings` — optional, a list of two or three race ids. **Editorial: the races a reader is actually choosing between**, not a rule over country or distance. Resolved per language at render time, so an id with no page in that language simply does not appear.
+- `heat_tool` — optional boolean. "Is heat a real variable on this race" — a judgement, not a figure, which is why it is explicit rather than derived. Whether the link renders is answered separately by whether `raceUi` has a calculator URL in that language, so a Portuguese race can be flagged today and light up when the PT tool ships. *Deliberately absent on Bogotá: dry air at 2.600 m is a fluid-loss problem and the calculator's model has no altitude, solar or wind term (`heat-guide-brief.md` §4).*
 - `language_market` — comma-separated (`ES`, `ES,EN,PT`). Drives which pages get built and which `transKey` siblings exist. `transKey` is `race_id`.
 - `distance` — `42k` / `21k`.
 

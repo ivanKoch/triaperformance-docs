@@ -1,7 +1,11 @@
 {
  "race_id": "bogota-marathon",
- "city": "Bogotá",
- "country": "Colombia",
+ "city": {
+  "es": "Bogotá"
+ },
+ "country": {
+  "es": "Colombia"
+ },
  "distance": "42k",
  "language_market": [
   "es"
@@ -110,5 +114,9 @@
   "No hay registro meteorológico publicado de ninguna mañana de carrera.",
   "No existe tabla de altimetría por kilómetro publicada; la ruta oficial se enlaza como recorrido de Strava.",
   "Precios y fases son los de 2026."
+ ],
+ "siblings": [
+  "medellin-marathon",
+  "mexico-marathon"
  ]
 }

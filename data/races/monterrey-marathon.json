@@ -1,7 +1,11 @@
 {
  "race_id": "monterrey-marathon",
- "city": "Monterrey",
- "country": "México",
+ "city": {
+  "es": "Monterrey"
+ },
+ "country": {
+  "es": "México"
+ },
  "distance": "42k",
  "language_market": [
   "es"
@@ -99,5 +103,8 @@
  "registration_state": "sold_out",
  "registration_when": {
   "es": "2026"
- }
+ },
+ "siblings": [
+  "mexico-marathon"
+ ]
 }

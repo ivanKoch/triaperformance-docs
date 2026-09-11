@@ -1,7 +1,11 @@
 {
  "race_id": "lisboa-marathon",
- "city": "Lisboa",
- "country": "Portugal",
+ "city": {
+  "pt": "Lisboa"
+ },
+ "country": {
+  "pt": "Portugal"
+ },
  "distance": "42k",
  "language_market": [
   "pt"
@@ -101,5 +105,9 @@
   "Não há registo meteorológico publicado de nenhuma manhã de prova.",
   "A organização não publica calendário de inscrições com datas, por isso esta página não indica um estado de inscrição.",
   "A prova é ao sábado, o que é invulgar e é fácil de assumir ao contrário."
+ ],
+ "heat_tool": true,
+ "siblings": [
+  "porto-marathon"
  ]
 }

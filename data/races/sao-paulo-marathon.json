@@ -1,7 +1,11 @@
 {
  "race_id": "sao-paulo-marathon",
- "city": "São Paulo",
- "country": "Brasil",
+ "city": {
+  "pt": "São Paulo"
+ },
+ "country": {
+  "pt": "Brasil"
+ },
  "distance": "42k",
  "language_market": [
   "pt"
@@ -104,5 +108,10 @@
   "Não há registro meteorológico publicado de nenhuma manhã de prova.",
   "Preço e lote são os de junho de 2026.",
   "O nome curto da página é «Maratona Internacional de SP» porque o nome completo não cabe no título de 60 caracteres com o ano. O nome oficial completo está em official_name e aparece na página."
+ ],
+ "heat_tool": true,
+ "siblings": [
+  "sao-paulo-2-marathon",
+  "rio-de-janeiro-marathon"
  ]
 }

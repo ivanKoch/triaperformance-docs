@@ -211,6 +211,26 @@ module.exports = function () {
 
     // ── Gate, per race. Anything appended to `fails` drops this race.
     const fails = [];
+    // A race that publishes in more than one language must give city and
+    // country per language. No post-build check can catch the failure this
+    // replaces — a wrong-but-well-formed place name is indistinguishable from
+    // a right one once it is rendered — so the defence has to be the shape of
+    // the data, not an assertion about the output.
+    for (const field of ["city", "country"]) {
+      const v = raw[field];
+      if (raw.language_market.length > 1) {
+        if (!v || typeof v !== "object" || Array.isArray(v)) {
+          fails.push(`${field} must be per-language on a race that publishes in more than one`);
+        } else {
+          for (const lang of raw.language_market) {
+            if (!v[lang]) fails.push(`${field} has no "${lang}" value`);
+          }
+        }
+      } else if (!v) {
+        fails.push(`missing ${field}`);
+      }
+    }
+
     for (const [field, why] of REQUIRED) {
       const v = raw[field];
       const empty = !v || (typeof v === "object" && !Object.values(v).some((x) => String(x || "").trim()));
@@ -262,8 +282,18 @@ module.exports = function () {
         id,
         lang,
         transKey: id,
-        city: raw.city,
-        country: raw.country,
+        // 🚨 PER LANGUAGE, and this was a real defect. These two were plain
+        // strings, so an English page said "Race guide · Nueva York", alt text
+        // "Nueva York, Estados Unidos", and — the part that mattered — carried
+        // "Estados Unidos" inside its SportsEvent JSON-LD. Six of twelve
+        // non-Spanish pages were wrong; the other six were right only because
+        // "Portugal" and "Brasil" happen to be the same word in both languages,
+        // which is exactly why nobody caught it.
+        city: pick(raw.city, lang),
+        country: pick(raw.country, lang),
+        // US races get US date order in English. Derived from the country
+        // rather than a flag, now that the country knows what language it is in.
+        usDates: !!(raw.country && raw.country.en === "United States"),
         distance: raw.distance,
         name: pick(raw.name, lang),
         officialName: raw.official_name || null,
@@ -332,6 +362,20 @@ module.exports = function () {
         courseNotes: pick(raw.course_notes, lang),
         whereTheyStruggle: pick(raw.where_they_struggle, lang),
         typicalWeather: pick(raw.typical_weather, lang),
+        // Editorial, not derived: "is heat a real variable on this race". It is
+        // a judgement and not a figure, so an explicit field is the right shape.
+        // Whether the link RENDERS is a separate question, answered by whether
+        // raceUi has a calculator URL in this language — so a Portuguese race
+        // can be flagged today and light up the day the PT tool ships, with no
+        // second pass over the data.
+        heatTool: raw.heat_tool === true,
+        // Editorial, two or three each. Derived pairing (same country, same
+        // distance) produces junk neighbours; a human picking "the reader
+        // choosing between these two" does not. Ids only — the template
+        // resolves name and URL in its own language and silently drops a
+        // sibling that has no page there, which is why a Spanish-only race can
+        // sit in a Portuguese race's list without breaking anything.
+        siblings: Array.isArray(raw.siblings) ? raw.siblings : [],
 
         cutOff: raw.cut_off ? { year: raw.cut_off.year || null, text: pick(raw.cut_off, lang) } : null,
         field: raw.field

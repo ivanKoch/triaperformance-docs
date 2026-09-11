@@ -1,0 +1,58 @@
+{#- The race-guide hub. One per language, same body.
+
+    Generated from `races.byLanguage`, so a new race appears here the moment its
+    JSON file exists — nobody edits this page to add a city. That is the whole
+    point: a hand-maintained index of 26 links is a list that goes stale the
+    first busy week.
+
+    Ordered by race day, soonest first, with the undated races last. A reader on
+    this page is choosing a race, and "when is it" is the first filter they
+    apply. The undated ones are not failures — the organiser has not published,
+    and the page says so instead of guessing. -#}
+{%- set r = raceUi[lang] -%}
+{%- set home = site.languages[lang].home -%}
+{%- set plansUrl = { es: "/planes/", en: "/en/plans/", pt: "/pt/planos/" }[lang] -%}
+{%- set hubUrl = { es: "/planes/running/", en: "/en/plans/running/", pt: "/pt/planos/running/" }[lang] -%}
+
+{%- set dated = [] -%}
+{%- set undated = [] -%}
+{%- for p in races.byLanguage[lang] -%}
+  {%- if p.nextEditionDate %}{% set dated = (dated.push(p), dated) %}
+  {%- else %}{% set undated = (undated.push(p), undated) %}{% endif -%}
+{%- endfor -%}
+
+<section class="intro-hero">
+  <div class="wrap">
+    <p class="breadcrumb"><a href="{{ home }}">{{ r.breadcrumbHome }}</a> / <a href="{{ plansUrl }}">{{ r.breadcrumbPlans }}</a> / <a href="{{ hubUrl }}">{{ r.breadcrumbHub }}</a> / <span>{{ r.hubTitle }}</span></p>
+    <span class="label">{{ r.hubTitle }}</span>
+    <h1>{{ r.hubH1 }}</h1>
+    <p>{{ r.hubIntro }}</p>
+  </div>
+</section>
+
+<section class="rg-list">
+  <div class="wrap">
+    <ul class="rg-grid">
+      {%- for p in (dated | sort(false, false, "nextEditionDate")) %}
+      <li class="rg-item">
+        <a href="{{ p.url }}">
+          <span class="rg-when">{{ p.nextEditionDate | raceDate(lang, p.usDates) }}</span>
+          <span class="rg-name">{{ p.name }}</span>
+          <span class="rg-where">{{ p.city }}, {{ p.country }}</span>
+          {%- if p.hook %}<span class="rg-hook">{{ p.hook }}</span>{% endif %}
+        </a>
+      </li>
+      {%- endfor %}
+      {%- for p in undated %}
+      <li class="rg-item rg-undated">
+        <a href="{{ p.url }}">
+          <span class="rg-when">{{ r.hubUndated }} · {{ p.typicalWindow }}</span>
+          <span class="rg-name">{{ p.name }}</span>
+          <span class="rg-where">{{ p.city }}, {{ p.country }}</span>
+          {%- if p.hook %}<span class="rg-hook">{{ p.hook }}</span>{% endif %}
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>

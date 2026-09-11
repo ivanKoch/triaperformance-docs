@@ -12,6 +12,19 @@
     <button class="hc-chip" type="button" data-ta="14.6" data-td="14.2">Maratón CDMX</button>
   </div>
   <p class="hc-small" style="margin-top:10px;max-width:65ch">Valores observados en la hora de largada en estaciones de aeropuerto. Puedes editarlos a mano para el pronóstico de tu día.</p>
+  {#- Three of the seven preloaded races have a guide of their own. The ids are
+      resolved against the race data rather than typed as URLs — the Portuguese
+      race pages moved once already, two days after they were built. A race
+      without a Spanish page simply does not appear here. -#}
+  {%- set heatRaces = [] -%}
+  {%- for id in ["miami-marathon", "rio-de-janeiro-marathon", "mexico-marathon"] -%}
+    {%- for p in races.byLanguage.es %}{% if p.id == id %}{% set heatRaces = (heatRaces.push(p), heatRaces) %}{% endif %}{% endfor -%}
+  {%- endfor -%}
+  {%- if heatRaces | length %}
+  <p class="hc-small hc-race-links" style="margin-top:6px;max-width:65ch">Guía de carrera, con el perfil, los cortes y cómo entrenarla:
+    {%- for p in heatRaces %} <a href="{{ p.url }}">{{ p.name }}</a>{% if not loop.last %} ·{% endif %}{% endfor %}.
+  </p>
+  {%- endif %}
 
   <div class="hc-tool">
     <form class="hc-panel" autocomplete="off" onsubmit="return false">

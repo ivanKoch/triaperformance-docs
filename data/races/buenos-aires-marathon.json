@@ -1,7 +1,11 @@
 {
  "race_id": "buenos-aires-marathon",
- "city": "Buenos Aires",
- "country": "Argentina",
+ "city": {
+  "es": "Buenos Aires"
+ },
+ "country": {
+  "es": "Argentina"
+ },
  "distance": "42k",
  "language_market": [
   "es"
@@ -109,5 +113,10 @@
   "El reglamento 2026 no especifica cortes parciales ni cláusula de vehículo escoba. La página no los inventa.",
   "El precio en pesos es el publicado en 2026 y se mueve con la inflación.",
   "Sin fecha confirmada para 2027."
+ ],
+ "heat_tool": true,
+ "siblings": [
+  "santiago-de-chile-marathon",
+  "medellin-marathon"
  ]
 }

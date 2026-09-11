@@ -1,7 +1,13 @@
 {
  "race_id": "rio-de-janeiro-marathon",
- "city": "Rio de Janeiro",
- "country": "Brasil",
+ "city": {
+  "es": "Río de Janeiro",
+  "pt": "Rio de Janeiro"
+ },
+ "country": {
+  "es": "Brasil",
+  "pt": "Brasil"
+ },
  "distance": "42k",
  "language_market": [
   "pt",
@@ -136,5 +142,10 @@
   "Não há cifra confiável de desnível: 110, 206 e 280 m em três fontes, com os túneis inflando leituras de GPS. Por isso elevation_gain_m fica vazio.",
   "Em aberto com a organização: o regulamento de 2026 não diz se as 6 horas contam a partir da largada do pelotão de cada corredor.",
   "Não há registro meteorológico de manhã de prova publicado. A seção de condições diz isso em vez de estimar."
+ ],
+ "heat_tool": true,
+ "siblings": [
+  "sao-paulo-2-marathon",
+  "porto-alegre-marathon"
  ]
 }

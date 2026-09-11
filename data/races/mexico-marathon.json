@@ -1,7 +1,11 @@
 {
  "race_id": "mexico-marathon",
- "city": "Ciudad de México",
- "country": "México",
+ "city": {
+  "es": "Ciudad de México"
+ },
+ "country": {
+  "es": "México"
+ },
  "distance": "42k",
  "language_market": [
   "es"
@@ -114,5 +118,10 @@
   "Los horarios de salida son los de 2026. En 2025 hubo bloques adicionales hasta las 7:00; no mezclar años.",
   "Precios y cupo son los de la convocatoria 2026.",
   "El nombre corto de la página es «Maratón de la CDMX» porque el nombre completo no entra en el título de 60 caracteres con el año. El nombre oficial completo está en official_name y aparece en la página."
+ ],
+ "heat_tool": true,
+ "siblings": [
+  "monterrey-marathon",
+  "bogota-marathon"
  ]
 }

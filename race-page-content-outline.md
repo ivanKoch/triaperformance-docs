@@ -144,11 +144,30 @@ The bands were split at the wrong end. `imminent` was added for races days away,
 
 *Two things fixed alongside it, both the same defect in miniature:* the plans intro claimed **"tres niveles y dos duraciones"** on every page including the ones that render one duration — the cards carry the duration in 22px, so the intro no longer claims it. And every price on the site is billed by TrainingPeaks in US dollars, which reads like a typo as "US$ 24.00" on a Portuguese page; there is now one line saying so, in all three languages rather than only Portuguese, because the ambiguity is identical in Bogotá and Santiago.
 
+### Provenance, place names and the cluster *(September 11, 2026, from an external audit)*
+
+**19. City and country are per-language, and no post-build check can defend this one.** They were plain strings, so an English page said *"Race guide · Nueva York"*, carried `alt="Nueva York, Estados Unidos"`, and put **`"addressCountry": "Estados Unidos"` inside its `SportsEvent` JSON-LD**. Six of the twelve non-Spanish pages were wrong. ⚠️ **The other six were correct only because "Portugal" and "Brasil" are the same word in both languages** — the bug was invisible on exactly the pages that would have caught it.
+
+*The defence is the shape of the data, not an assertion about the output, and that is the general lesson:* a wrong-but-well-formed place name is indistinguishable from a right one once rendered, so `races.js` now **drops a race that publishes in more than one language without a per-language `city` and `country`**. There is no way to write the same check against the built HTML, and pretending otherwise would have been worse than no check.
+
+**20. The page says who wrote it.** A byline under the hook, and `Article` JSON-LD carrying an `author`. `FAQPage` says what the page answers and `SportsEvent` says what the race is; neither says who stands behind it, which was the half of E-E-A-T these pages lacked. **The author is a reference, not a copy** — name, URL and `sameAs` only, resolving to the About page where the full `Person` with every credential lives. Copying `hasCredential` onto 26 pages would put one claim in 27 places, and `person-schema.njk`'s own rule is that structured data cannot be recalled once indexed.
+
+**21. US races get US dates in English.** *April 19, 2027*, not *19 April 2027*, on Boston, New York and Miami — and day-first everywhere else, including Berlin and Valencia in English. Derived from `country.en`, which only became possible once the country knew what language it was in.
+
+## The cluster: a hub and sibling links
+
+Twenty-six guides with nothing linking to them is a topical cluster with no centre, and it was the strongest point in the audit. Two pieces:
+
+**The hub**, one per language — `/planes/running/guias-de-carrera/`, `/en/plans/running/race-guides/`, `/pt/planos/running/guias-de-prova/`, `transKey: race-guides-hub`. **Generated from `races.byLanguage`, so a new race appears the moment its JSON file exists** and nobody edits the hub to add a city. Ordered by race day with the undated races last, because a reader here is choosing a race and "when is it" is the first filter they apply. Linked from all three running hubs.
+
+**Sibling links**, two or three per race, at the bottom of the page — after the questions, before the sources, because a reader who did not choose this race is choosing another. **Editorial, not derived.** Pairing by rule (same country, same distance) produces junk neighbours; a human picking *the two races a reader is actually deciding between* does not. Ids only, resolved per language, and a sibling with no page in that language silently drops — which is what lets a Spanish-only race sit in the list of a race that also publishes in Portuguese.
+
 ### Taken on review and closed — do not re-open
 
 - **Cap the ladder at three cards.** Rejected — **asked and refused three times now (Aug review, Sept 11 morning, Sept 11 evening).** The 3 × 2 matrix *is* the product structure, and the facet buttons exist to navigate it. A cap would hide inventory that is already built and already sells.
 - **Hide the ladder on a race with no published date.** Rejected. It contradicts the standing decision in §Dates with the coaching argument behind it: nobody starts an eighteen-week block from zero on a start date, so a missing date is not a reason to hide the offer. Santiago shows the full ladder and says to count back from the window.
 - **Align the Portuguese prices with the Spanish ones, or stop cross-linking the language siblings.** Rejected. Price is a purchasing-power lever (`triaperformance-pricing-and-positioning.md`) and hreflang exists to connect differently-priced markets, not identical ones.
+- **Split Portuguese into PT-PT and PT-BR.** Rejected, and for the same reason as the Spanish one below: the catalogue, the navigation and `raceUi.json` are Brazilian, and a page in one variant inside furniture in the other is worse than either used consistently. *Revisit only if Portugal becomes a target market rather than a place some Brazilians fly to.*
 - **Split Spanish into es-ES and es-419.** Rejected — it contradicts the one-Spanish standing rule in `brand-guidelines.md` §8 and would fork every ES surface on the site to serve six race pages.
 - **Strip the figures out of body prose.** Rejected. The figures are the anti-clone differentiator; removing them is the fastest way to turn nineteen pages into a doorway set.
 - **Map the volume band to a goal time on the card.** Rejected. "90-110 km/week ⇒ sub-3:15" is a coaching claim the inventory does not support and the methodology does not make. The card prints the number; the athlete and the coach do the mapping.

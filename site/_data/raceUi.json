@@ -79,7 +79,18 @@
     "daysOne": "un día",
     "daysMany": "{n} días",
     "startByLate": "Faltan {weeks} semanas, así que el bloque de 12 ya debería haber empezado. No es un problema si vienes corriendo: se entra tarde comprimiendo las primeras semanas —las de menos carga— y respetando las últimas, que son las específicas. Lo que no funciona es empezar de cero hoy.",
-    "priceNote": "Los precios los cobra TrainingPeaks en dólares estadounidenses."
+    "priceNote": "Los precios los cobra TrainingPeaks en dólares estadounidenses.",
+    "heatToolUrl": "/calculadora-de-ritmo-en-calor/",
+    "heatToolText": "Si el calor entra en la ecuación de tu día, la calculadora de ritmo en calor te dice cuánto te va a costar y a qué ritmo salir, con siete carreras ya cargadas.",
+    "heatToolLink": "calculadora de ritmo en calor",
+    "byline": "Guía escrita por {author}, {cred}.",
+    "siblingsTitle": "Otras guías de carrera",
+    "hubTitle": "Guías de carrera",
+    "hubH1": "Guías de carrera: perfil, cortes y cómo entrenar cada maratón",
+    "hubIntro": "Una guía por maratón, con el perfil real del recorrido, los tiempos de corte tal como los publica la organización, el clima con números y qué cambia en el entrenamiento por correr esa carrera y no otra. Se actualizan cuando la organización mueve algo.",
+    "hubUndated": "Sin fecha confirmada",
+    "hubLinkLabel": "Guías de carrera",
+    "hubLinkText": "Guías por maratón: perfil, cortes, clima y cómo entrenar cada una"
   },
   "en": {
     "breadcrumbHome": "Home",
@@ -160,7 +171,15 @@
     "daysOne": "one day",
     "daysMany": "{n} days",
     "startByLate": "{weeks} weeks out, which means the 12-week block should already have started. That is not a problem if you are already running: you come in late by compressing the opening weeks — the lightest ones — and keeping the last ones intact, because those are the specific work. What does not work is starting from zero today.",
-    "priceNote": "Prices are charged by TrainingPeaks in US dollars."
+    "priceNote": "Prices are charged by TrainingPeaks in US dollars.",
+    "byline": "Guide written by {author}, {cred}.",
+    "siblingsTitle": "Other race guides",
+    "hubTitle": "Race guides",
+    "hubH1": "Race guides: profile, cut-offs and how to train each marathon",
+    "hubIntro": "One guide per marathon: the real shape of the course, the cut-offs exactly as the organiser publishes them, the weather with numbers, and what changes in training because you are running this race and not another. Updated when the organiser moves something.",
+    "hubUndated": "No confirmed date",
+    "hubLinkLabel": "Race guides",
+    "hubLinkText": "Guides by marathon: profile, cut-offs, weather and how to train each one"
   },
   "pt": {
     "breadcrumbHome": "Início",
@@ -241,6 +260,14 @@
     "daysOne": "um dia",
     "daysMany": "{n} dias",
     "startByLate": "Faltam {weeks} semanas, então o bloco de 12 já deveria ter começado. Não é um problema se você já vem correndo: entra-se tarde comprimindo as primeiras semanas — as de menor carga — e preservando as últimas, que são as específicas. O que não funciona é começar do zero hoje.",
-    "priceNote": "Os preços são cobrados pela TrainingPeaks em dólares americanos."
+    "priceNote": "Os preços são cobrados pela TrainingPeaks em dólares americanos.",
+    "byline": "Guia escrito por {author}, {cred}.",
+    "siblingsTitle": "Outros guias de prova",
+    "hubTitle": "Guias de prova",
+    "hubH1": "Guias de prova: perfil, cortes e como treinar cada maratona",
+    "hubIntro": "Um guia por maratona, com o perfil real do percurso, os tempos de corte exatamente como a organização publica, o clima com números e o que muda no treino por você correr esta prova e não outra. Atualizados quando a organização mexe em alguma coisa.",
+    "hubUndated": "Sem data confirmada",
+    "hubLinkLabel": "Guias de prova",
+    "hubLinkText": "Guias por maratona: perfil, cortes, clima e como treinar cada uma"
   }
 }

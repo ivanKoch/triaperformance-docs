@@ -1,7 +1,11 @@
 {
  "race_id": "porto-marathon",
- "city": "Porto",
- "country": "Portugal",
+ "city": {
+  "pt": "Porto"
+ },
+ "country": {
+  "pt": "Portugal"
+ },
  "distance": "42k",
  "language_market": [
   "pt"
@@ -97,5 +101,8 @@
   "Os grupos de partida são os de 2025; confirmar a grelha de 2026.",
   "Não há registo meteorológico publicado de nenhuma manhã de prova.",
   "Não encontrámos grelha de preços de 2026 nem calendário de inscrições com datas, por isso esta página não indica um estado de inscrição."
+ ],
+ "siblings": [
+  "lisboa-marathon"
  ]
 }

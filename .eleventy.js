@@ -536,11 +536,15 @@ ${copy.caption ? `<p class="datanote">${copy.caption}</p>` : ""}`;
   // ---------------------------------------------------------------------------
   const RACE_LOCALE = { es: "es-ES", en: "en-GB", pt: "pt-BR" };
 
-  eleventyConfig.addFilter("raceDate", function (iso, lang) {
+  eleventyConfig.addFilter("raceDate", function (iso, lang, us) {
     if (!iso) return "";
     const d = new Date(iso + "T12:00:00Z");
     if (isNaN(d)) return iso;
-    return new Intl.DateTimeFormat(RACE_LOCALE[lang] || "en-GB", {
+    // An English page about a US race reads "April 19, 2027", not "19 April
+    // 2027". Everywhere else keeps day-first, which is what Spanish, Portuguese
+    // and a European race in English all use.
+    const locale = us && lang === "en" ? "en-US" : (RACE_LOCALE[lang] || "en-GB");
+    return new Intl.DateTimeFormat(locale, {
       day: "numeric", month: "long", year: "numeric", timeZone: "UTC",
     }).format(d);
   });

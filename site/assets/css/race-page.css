@@ -103,6 +103,8 @@
   max-width: 54ch;
   margin: 0;
 }
+.race-byline { margin: 14px 0 0; font-size: 14px; opacity: .72; }
+.race-byline a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 @media (max-width: 640px) {
   .race-hero-body { padding: 112px 0 32px; }
   .race-hero h1 { font-size: 32px; max-width: none; }
@@ -145,6 +147,7 @@
 .race-prose .race-table th { font-size: 13px; letter-spacing: .02em; text-transform: uppercase; color: var(--slate); font-weight: 600; }
 .race-prose .race-table td:first-child { white-space: normal; }
 .race-note { font-size: 14px; color: var(--slate); max-width: 68ch; }
+.race-heat-link { margin: 18px 0 0; max-width: 68ch; font-size: 15px; line-height: 1.6; color: var(--slate); }
 .race-note p { margin: 0 0 10px; }
 .race-note p:last-child { margin-bottom: 0; }
 
@@ -610,3 +613,20 @@
 .race-sources ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
 .race-sources a { font-size: 13px; color: var(--slate); }
 .race-sources a:hover { color: var(--blue); }
+
+
+/* Sibling race guides. Navigation, so it sits after the questions and before
+   the sources — the reader who did not choose this race is choosing another. */
+.race-siblings { padding: 40px 0 8px; }
+.race-siblings h2 { font-size: 20px; margin: 0 0 16px; }
+.race-sibling-list { list-style: none; margin: 0 0 14px; padding: 0;
+                     display: grid; gap: 10px;
+                     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.race-sibling-list a { display: flex; flex-direction: column; gap: 3px;
+                       padding: 14px 16px; border: 1px solid var(--mist);
+                       border-radius: 10px; text-decoration: none; color: inherit; }
+.race-sibling-list a:hover { border-color: var(--ink, #14181d); }
+.race-sibling-name { font-weight: 600; }
+.race-sibling-when { font-size: 13px; color: var(--slate); }
+.race-sibling-all a { font-size: 15px; }
+@media (max-width: 600px) { .race-sibling-list { grid-template-columns: 1fr; } }

@@ -1,7 +1,11 @@
 {
  "race_id": "porto-alegre-marathon",
- "city": "Porto Alegre",
- "country": "Brasil",
+ "city": {
+  "pt": "Porto Alegre"
+ },
+ "country": {
+  "pt": "Brasil"
+ },
  "distance": "42k",
  "language_market": [
   "pt"
@@ -103,5 +107,9 @@
   "O regulamento citado é o de 2026; o de 2027 ainda não saiu.",
   "Os dados de pelotão são de 2025. A edição de 2026 teve 7.484 chegados na maratona, mas mediana e distribuição não foram publicadas.",
   "Não há registro meteorológico de estação para nenhuma manhã de prova; a temperatura média de 15 °C vem da cobertura de imprensa de 2026."
+ ],
+ "siblings": [
+  "rio-de-janeiro-marathon",
+  "sao-paulo-2-marathon"
  ]
 }

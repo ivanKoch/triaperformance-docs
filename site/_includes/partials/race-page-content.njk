@@ -13,6 +13,7 @@
 {%- set home = site.languages[lang].home -%}
 {%- set plansUrl = { es: "/planes/", en: "/en/plans/", pt: "/pt/planos/" }[lang] -%}
 {%- set hubUrl = { es: "/planes/running/", en: "/en/plans/running/", pt: "/pt/planos/running/" }[lang] -%}
+{%- set guidesUrl = { es: "/planes/running/guias-de-carrera/", en: "/en/plans/running/race-guides/", pt: "/pt/planos/running/guias-de-prova/" }[lang] -%}
 {#- Every (intensity x gym) ladder the catalogue actually holds for this
     language. Variant 1 is heart-rate / no-gym everywhere; Spanish is currently
     the only catalogue with more than one populated variant at 42 km, so it is
@@ -50,10 +51,18 @@
       <span class="label">{{ r.eyebrow }} · {{ race.city }}</span>
       <h1>{{ race.name }}</h1>
       <p class="race-date">
-        {%- if race.nextEditionDate %}{{ r.nextEdition }}: <strong>{{ race.nextEditionDate | raceDate(lang) }}</strong>
+        {%- if race.nextEditionDate %}{{ r.nextEdition }}: <strong>{{ race.nextEditionDate | raceDate(lang, race.usDates) }}</strong>
         {%- else %}{{ r.typicalWindow }}: <strong>{{ race.typicalWindow }}</strong>{% endif %}
       </p>
       {%- if race.hook %}<p class="race-hook">{{ race.hook }}</p>{% endif %}
+      {#- The byline. Name and credential are NOT typed here: they come from
+          credentials.json, which is the one home for both, and the link resolves
+          to that language's About page. The full Person schema with every
+          credential lives there; this page carries only the reference. -#}
+      {%- set cr = credentials[lang] %}
+      <p class="race-byline">{{ r.byline
+           | replace("{author}", '<a href="' + cr.aboutHref + '">Iván Koch</a>')
+           | replace("{cred}", cr.items[0].name) | safe }}</p>
     </div>
   </div>
 </section>
@@ -159,6 +168,15 @@
       {%- if race.typicalWeather %}<dt>{{ r.weatherLabel }}</dt><dd>{{ race.typicalWeather | raceProse | safe }}</dd>{% endif %}
       {%- if race.startTime %}<dt>{{ r.startLabel }}</dt><dd>{{ race.startTime | raceProse | safe }}</dd>{% endif %}
     </dl>
+    {#- The heat tool, for the races where heat is a real variable. Inline prose
+        and not a card: the page already carries three asks (the ladder, the
+        capture, the coaching banner) and a fourth boxed CTA would split the
+        attention on the last one rather than add a path. It renders only where
+        a calculator exists in this language — `heatToolUrl` is absent in EN and
+        PT until those are written. -#}
+    {%- if race.heatTool and r.heatToolUrl %}
+    <p class="race-heat-link">{{ r.heatToolText | replace(r.heatToolLink, '<a href="' + r.heatToolUrl + '">' + r.heatToolLink + '</a>') | safe }}</p>
+    {%- endif %}
   </div>
 </section>
 {%- endif %}
@@ -182,7 +200,7 @@
         this block is the one that rots; saying when it was last checked and
         pointing at the organiser is what we can actually maintain across
         nineteen races. -#}
-    {%- if race.lastVerified %}<p class="race-verified">{{ r.verifiedOn | replace("{date}", race.lastVerified | raceDate(lang)) }}</p>{% endif %}
+    {%- if race.lastVerified %}<p class="race-verified">{{ r.verifiedOn | replace("{date}", race.lastVerified | raceDate(lang, race.usDates)) }}</p>{% endif %}
   </div>
 </section>
 {%- endif %}
@@ -206,7 +224,7 @@
       {%- if race.startBy %}
       <ul class="race-startby-list">
         {%- for w, d in race.startBy %}
-        <li><strong>{{ w }} {{ r.weeksLabel }}</strong> — {{ r.startByItem | replace("{date}", d | raceDate(lang)) }}</li>
+        <li><strong>{{ w }} {{ r.weeksLabel }}</strong> — {{ r.startByItem | replace("{date}", d | raceDate(lang, race.usDates)) }}</li>
         {%- endfor %}
       </ul>
       {%- endif %}
@@ -216,7 +234,7 @@
           page that sells a block you start in three months and one that tells
           you what to do until then. -#}
       {%- for w, d in race.startBy %}{% if loop.last %}
-      <p>{{ r.startByAmple | replace("{weeks}", w + " " + r.weeksLabel) | replace("{date}", d | raceDate(lang)) }}</p>
+      <p>{{ r.startByAmple | replace("{weeks}", w + " " + r.weeksLabel) | replace("{date}", d | raceDate(lang, race.usDates)) }}</p>
       {%- endif %}{% endfor %}
       {%- elif race.ladderPhase == "band" %}
       <p>{{ r.startByBand | replace("{weeks}", race.weeksToRace) }}</p>
@@ -367,7 +385,7 @@
 {%- if race.nextEditionDate -%}
   {%- set faq = (faq.push({
       q: r.faqWhen | replace("{race}", race.name) | replace("{year}", race.year),
-      a: (race.nextEditionDate | raceDate(lang)) + (". " + (race.startTime | plainProse) if race.startTime else ".")
+      a: (race.nextEditionDate | raceDate(lang, race.usDates)) + (". " + (race.startTime | plainProse) if race.startTime else ".")
     }), faq) -%}
 {%- else -%}
   {%- set faq = (faq.push({
@@ -391,9 +409,9 @@
   {%- set faq = (faq.push({
       q: r.faqWeeks,
       a: r.startByLine
-           | replace("{date}", race.nextEditionDate | raceDate(lang))
-           | replace("{d18}", race.startBy["18"] | raceDate(lang))
-           | replace("{d12}", race.startBy["12"] | raceDate(lang))
+           | replace("{date}", race.nextEditionDate | raceDate(lang, race.usDates))
+           | replace("{d18}", race.startBy["18"] | raceDate(lang, race.usDates))
+           | replace("{d12}", race.startBy["12"] | raceDate(lang, race.usDates))
     }), faq) -%}
 {%- endif -%}
 {%- if race.registrationWindow -%}
@@ -432,6 +450,40 @@
 </script>
 {%- endif %}
 
+{#- Article, with a named author. FAQPage says what the page answers and
+    SportsEvent says what the race is; neither says who wrote this or when it
+    was last checked, which is the half of E-E-A-T these pages were missing.
+
+    The author is a REFERENCE, not a copy: name, url and sameAs only. Every
+    credential lives in the Person schema on the About page, which `url` and
+    `sameAs` resolve to. Duplicating hasCredential onto 26 pages would put the
+    same claim in 27 places and guarantee that one of them goes stale — and
+    the rule in person-schema.njk is that structured data cannot be recalled
+    once indexed, so it gets one home. -#}
+{%- set cr = credentials[lang] %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ (race.name + (" " + race.year if race.year else "")) | dump | safe }},
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ page.url | absoluteUrl }}" },
+  "inLanguage": "{{ lang }}",
+  "about": {{ race.name | dump | safe }},
+  "author": {
+    "@type": "Person",
+    "name": "Iván Koch",
+    "url": "{{ cr.aboutHref | absoluteUrl }}",
+    "sameAs": {{ credentials.sameAs | dump | safe }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Triaperformance",
+    "url": "https://triaperformance.com/"
+  }{% if race.lastVerified %},
+  "dateModified": "{{ race.lastVerified }}"{% endif %}
+}
+</script>
+
 {#- SportsEvent, emitted only where the organiser has published a date. An
     event without a startDate is not an event Google can place on a calendar,
     and guessing one to satisfy the validator is the exact thing the two-field
@@ -459,6 +511,32 @@
   "organizer": { "@type": "Organization", "url": "{{ race.officialUrl }}" }{% endif %}
 }
 </script>
+{%- endif %}
+
+{#- ── Sibling guides. Editorial pairs, resolved by id in this page's own
+    language — a sibling with no page here simply does not render, which is what
+    lets a Spanish-only race sit in the list of a race that also publishes in
+    Portuguese. Ids, never typed URLs: the Portuguese race pages moved once
+    already, two days after they were built. -#}
+{%- set sibs = [] -%}
+{%- for id in race.siblings -%}
+  {%- for p in races.byLanguage[lang] %}{% if p.id == id %}{% set sibs = (sibs.push(p), sibs) %}{% endif %}{% endfor -%}
+{%- endfor -%}
+{%- if sibs | length %}
+<section class="race-siblings">
+  <div class="wrap">
+    <h2>{{ r.siblingsTitle }}</h2>
+    <ul class="race-sibling-list">
+      {%- for p in sibs %}
+      <li><a href="{{ p.url }}">
+        <span class="race-sibling-name">{{ p.name }}</span>
+        <span class="race-sibling-when">{%- if p.nextEditionDate %}{{ p.nextEditionDate | raceDate(lang, p.usDates) }}{% else %}{{ p.typicalWindow }}{% endif %}</span>
+      </a></li>
+      {%- endfor %}
+    </ul>
+    <p class="race-sibling-all"><a href="{{ guidesUrl }}">{{ r.hubTitle }} →</a></p>
+  </div>
+</section>
 {%- endif %}
 
 {#- ── Sources. Not decoration: the standing rule is that an organiser's own

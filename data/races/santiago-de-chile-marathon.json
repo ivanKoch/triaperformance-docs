@@ -1,7 +1,11 @@
 {
  "race_id": "santiago-de-chile-marathon",
- "city": "Santiago",
- "country": "Chile",
+ "city": {
+  "es": "Santiago"
+ },
+ "country": {
+  "es": "Chile"
+ },
  "distance": "42k",
  "language_market": [
   "es"
@@ -110,5 +114,9 @@
   "No hay registro meteorológico publicado de ninguna mañana de carrera, ni dato de calidad del aire en día de carrera.",
   "La organización no publica cajones por franja de tiempo para los 42K.",
   "Precios y fases son los de 2026."
+ ],
+ "siblings": [
+  "buenos-aires-marathon",
+  "medellin-marathon"
  ]
 }

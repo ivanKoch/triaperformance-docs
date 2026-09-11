@@ -1,7 +1,13 @@
 {
  "race_id": "berlin-marathon",
- "city": "Berlín",
- "country": "Alemania",
+ "city": {
+  "es": "Berlín",
+  "en": "Berlin"
+ },
+ "country": {
+  "es": "Alemania",
+  "en": "Germany"
+ },
  "distance": "42k",
  "language_market": [
   "es",
@@ -142,5 +148,10 @@
   "Los recuentos de franjas por debajo de 3:30 y 4:00 son de un tercero (Runify) y difieren algo del cronometraje oficial; se citan como tales.",
   "Los horarios de bloques de 2026 son los publicados por la organización y están sujetos a cambios.",
   "La tabla de marcas de la vía rápida por tiempo se publica al abrir cada edición; la página no reproduce cifras de ediciones anteriores."
+ ],
+ "heat_tool": true,
+ "siblings": [
+  "valencia-marathon",
+  "new-york-marathon"
  ]
 }

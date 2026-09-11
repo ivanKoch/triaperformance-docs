@@ -1,7 +1,13 @@
 {
  "race_id": "new-york-marathon",
- "city": "Nueva York",
- "country": "Estados Unidos",
+ "city": {
+  "es": "Nueva York",
+  "en": "New York"
+ },
+ "country": {
+  "es": "Estados Unidos",
+  "en": "United States"
+ },
  "distance": "42k",
  "language_market": [
   "es",
@@ -134,5 +140,9 @@
   "El 1 de noviembre de 2026 coincide con el fin del horario de verano en Estados Unidos. La página avisa y remite al horario oficial en lugar de resolver la hora.",
   "La ventana del sorteo 2027 es la habitual de invierno; la organización no había publicado la fecha exacta al verificar.",
   "No hay tabla de cortes intermedios: el único ritmo publicado es el de 16 min/milla desde la quinta oleada."
+ ],
+ "siblings": [
+  "boston-marathon",
+  "berlin-marathon"
  ]
 }
