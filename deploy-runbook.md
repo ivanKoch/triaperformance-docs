@@ -104,3 +104,58 @@ Content lives in `site/` (Eleventy source). `website/` holds only `hubfs/`, the 
 - Caddy needs port 80 reachable for the Let's Encrypt HTTP challenge — that's why `ufw allow 80/tcp` matters even though the site serves over HTTPS.
 - Webroot is intentionally outside `~/.hermes` — a Caddy misconfiguration can't expose Hermes's `.env` or session data.
 - Full build/incident detail: `website-build-cutover-runbook.md` and `ai-infrastructure-documentation.md` §15–17.
+
+## 5. Backups — `automation/backup-vps.sh` (added September 11, 2026)
+
+One encrypted archive a night, off-site. Covers Twenty (pg_dumpall), `analytics-postgres` (pg_dumpall: analytics, storefront, content, members), `/root/.n8n` (workflows, executions and the encryption key), Hermes config, and the run configuration of every container. The script refuses to finish if any dump is suspiciously small, if the archive does not decrypt and list, or if the off-site copy's size differs from the local one. Failures alert on Telegram if the bot token is configured; success is silent.
+
+Off-site target: Google Drive through rclone, under the Workspace account (already paid for, and nothing else on the VPS depends on it). Retention: 14 days local, 60 days remote.
+
+**Setup, once (on the VPS as root):**
+
+```bash
+apt-get install -y gnupg rclone sqlite3
+mkdir -p /root/.backup && chmod 700 /root/.backup
+openssl rand -base64 48 > /root/.backup/passphrase && chmod 600 /root/.backup/passphrase
+cat /root/.backup/passphrase        # paste this into Bitwarden NOW — without it every archive is noise
+cat > /root/.backup/.env <<'ENV'
+BACKUP_PASSPHRASE_FILE=/root/.backup/passphrase
+RCLONE_REMOTE=gdrive:triaperformance-backups
+KEEP_DAYS_LOCAL=14
+KEEP_DAYS_REMOTE=60
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
+ENV
+chmod 600 /root/.backup/.env
+rclone config      # n) new remote → name: gdrive → storage: drive → scope: drive.file → headless auth: follow the prompt on your Mac
+rclone mkdir gdrive:triaperformance-backups && rclone lsd gdrive:
+```
+
+**First run, by hand, and read the output:**
+
+```bash
+cd /root/.hermes/triaperformance-docs && git pull && chmod +x automation/backup-vps.sh && automation/backup-vps.sh
+```
+
+**Cron (03:15, after the 02:00 analytics syncs and before the 06:00 deploy):**
+
+```bash
+(crontab -l 2>/dev/null; echo '15 3 * * * cd /root/.hermes/triaperformance-docs && git pull -q && automation/backup-vps.sh >> /root/.backup/logs/backup.log 2>&1') | crontab -
+```
+
+**Restore test — do it once after the first run, and again at each quarterly close.** A backup nobody has restored is a hope.
+
+```bash
+mkdir -p /tmp/restore && cd /tmp/restore
+F=$(ls -t /root/.backup/archives/*.gpg | head -1)
+gpg --batch --passphrase-file /root/.backup/passphrase --decrypt "$F" | tar -xz
+ls -la . n8n runconfig
+zcat twenty.pg_dumpall.sql.gz | grep -c 'CREATE TABLE'          # should be well over 100
+zcat analytics.pg_dumpall.sql.gz | grep 'CREATE DATABASE'        # four databases
+sqlite3 n8n/database.sqlite 'select count(*) from workflow_entity;'   # your workflow count
+rm -rf /tmp/restore
+```
+
+**Restoring for real** (a rebuilt VPS): recreate the containers from `runconfig/inspect-*.json` and the compose files in `runconfig/*.tar.gz`; `docker exec -i <twenty-pg> psql -U postgres < twenty.pg_dumpall.sql`; same for `analytics-postgres` with `$PG_USER`; stop n8n, copy `n8n/database.sqlite` and `n8n/config` into `/root/.n8n/`, start n8n; copy `hermes/` into `/root/.hermes/`; Caddyfile from the repo. The order matters only for n8n: the `config` file must be in place before the container starts, or n8n generates a new key and every credential becomes unreadable.
+
+Weekly hygiene pass: `tail -3 /root/.backup/logs/backup.log` and `rclone ls gdrive:triaperformance-backups | tail -3` — a date older than two days is a failure that did not alert.
