@@ -55,6 +55,8 @@ Research base: a 13-section evidence brief (Sept 6) cross-checked against indepe
 
 ⚠️ **They will be re-flagged on every future run.** The gate's allow-list is built from the *conversion* maps (PRESENT, IMPER, CLITIC, LEXICON, BARE), and a word that needs no conversion has no home in them. **Giving `gate_accented` its own allow-list is a real improvement to a shared script and should be its own deliberate edit, not a tail-end change made during a content session.** Logged as a small item rather than done badly.
 
+**Closed September 11, 2026 — and the item filed here had the cause wrong.** `ALLOW` was a standalone set all along; the words were simply not in it. *The fix that mattered was a rule rather than a list: `-á` stays deny-by-default because that is where voseo lives, while a bare `-é`/`-í` is reported with its line as a probable first-person preterite. Repo-wide UNCLASSIFIED went 58 → 3.* **Full note: `open-loops-archive.md`, September 11.**
+
 ## 5c. The port, and the four rendering defects it produced — September 11, 2026
 
 **Both surfaces are in `site/` and render clean at 390 / 768 / 1280.** `site/calculadora-de-ritmo-en-calor/`, `site/calor-y-rendimiento/`, `site/assets/css/heat-calculator.css`, `site/assets/js/heat-calc.js`, `site/_includes/partials/heat-calculator.njk`.

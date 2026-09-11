@@ -265,6 +265,16 @@ olá até pés trás você vocé nahí josué fechá sequenciá organizá-las
 já dá vá há lá aí cá pé né dás vás hás daí aí mostrá separá deixá prescrevê
 # Spanish weekday abbreviations in table headers — "mié" is miércoles, not a verb
 mié
+# Proper nouns and place names that end in an accent. These are the races and
+# cities this business writes about — a bounded set, unlike the preterites above.
+andrés josé tomé valparaíso joá luís avilés algés
+# Demonyms in -és. `francés`, `inglés` and `portugués` were already here; this is
+# the same pattern, not a new list.
+berlinés
+# Portuguese nouns in the trilingual files
+chá
+# irregular future whose stem is not the infinitive, same class as verás/harás
+provendrá
 # irregular futures: the stem is not the infinitive, so the generic rule misses them
 verás veré verá harás haré hará irás iré irá dirás diré dirá podrás podré podrá
 pondrás pondré pondrá tendrás tendré tendrá saldrás saldrá vendrás vendrá
@@ -475,6 +485,30 @@ def gate_accented(text):
         w = m.group(0).lower()
         if len(w) < 2 or w in ALLOW or w in WORD:
             continue
+        # Words the HOMOGRAPH gate owns are reported by that gate, with the line
+        # and the context a human needs to judge them. They were landing in both
+        # lists: IMPER_REVIEW keys are popped out of WORD (so they are never
+        # auto-converted), which also stopped this gate skipping them. The result
+        # was that `escribí` printed as UNCLASSIFIED *and* as HOMOGRAPH on the
+        # same run — which made the unclassified list look like it held unanswered
+        # questions when the answer was three lines below it.
+        # Two lists, two meanings: UNCLASSIFIED = genuinely unknown,
+        # HOMOGRAPH = known to be ambiguous, decide from context.
+        if w in IMPER_REVIEW:
+            continue
+        # SPLIT BY ENDING (September 11, 2026). `-á` is where real voseo lives —
+        # every -ar verb, which is most of Spanish — so it stays deny-by-default.
+        # A bare `-é` or `-í` is different: it collides head-on with the FIRST-
+        # PERSON PRETERITE, which is Iván's own narrative voice ("escribí esta
+        # guía", "crucé la meta"). Measured across 394 files, 16 of the 16 `-é`
+        # words flagged were preterites and none was voseo.
+        # So these are reported with their line by gate_preterite() instead of
+        # accumulating in a list of words to hand-approve — a list that grows a
+        # few entries every time a new Spanish document is written and therefore
+        # never converges. `-ás/-és/-ís` are NOT affected: those are voseo PRESENT
+        # tense (contás, comés, vivís) and remain real defects.
+        if w[-1] in "éí":
+            continue
         stem = w[:-2] if w[-2:] in ("ás", "és", "ís") else w[:-1]
         if stem.endswith(("ar", "er", "ir")) and len(stem) > 3:
             continue          # future tense: already tuteo
@@ -506,6 +540,28 @@ def gate_clitic(text, wide=False):
             continue
         bad[w] += 1
     return bad
+
+PRETERITE_PAT = re.compile(r"\b[a-zñáéíóú]+[éí]\b", re.I | re.U)
+
+def gate_preterite(text):
+    """Bare -é/-í words this script does not recognise. Almost certainly a
+    first-person preterite; reported with its line so it can be read, never
+    collected into a list to approve.
+
+    Deliberately does NOT block --write. A true homograph does, because the word
+    is in IMPER and a human has to choose. These are in no map at all, so
+    convert() would not touch them whatever the answer is — blocking the write
+    would buy nothing and would stop every file containing "pensé" from ever
+    being written.
+    """
+    out = []
+    for i, line in enumerate(text.split("\n"), 1):
+        for m in PRETERITE_PAT.finditer(line):
+            w = m.group(0).lower()
+            if w in ALLOW or w in WORD or w in IMPER_REVIEW or len(w) < 4:
+                continue
+            out.append((m.group(0), i, line.strip()[:160]))
+    return out
 
 REVIEW_PAT = re.compile(r"\b(?:" + "|".join(sorted(IMPER_REVIEW, key=len, reverse=True)) + r")\b", re.I | re.U)
 
@@ -614,11 +670,12 @@ def main():
         hits = (gate_accented(prose) + gate_clitic(prose, wide)
                 + gate_unaccented(prose) + gate_accented_clitic(prose))
         review = gate_homograph(prose)
+        pret = gate_preterite(prose)
         cites = gate_citation(new) if md else []
         preps = gate_prep(new)
         changed = [(i + 1, a, b) for i, (a, b) in
                    enumerate(zip(src.split("\n"), new.split("\n"))) if a != b]
-        if changed or hits or review or cites or preps:
+        if changed or hits or review or cites or preps or pret:
             dirty += 1
             print("\n##### %s  (%d lines would change)" % (rel, len(changed)))
             if show:
@@ -633,6 +690,9 @@ def main():
             for ln, q in cites:
                 print("   CITATION   line %-5d %s" % (ln, q))
                 print("              ^ a record of corrected copy (leave), or a stale copy of copy already fixed (correct it)?")
+            for form, ln, line in pret:
+                print("   PRETERITE? %-10s line %-5d %s" % (form, ln, line))
+                print("              ^ reads as first person ('yo'). Voseo would be -á/-ás here. No action unless the line is addressing the reader.")
             for form, ln, line in review:
                 print("   HOMOGRAPH  %-10s line %-5d %s" % (form, ln, line))
                 print("              ^ voseo imperative, or Iván's own first-person preterite? Decide, edit by hand.")
