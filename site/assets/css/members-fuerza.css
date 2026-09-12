@@ -60,15 +60,26 @@
 }
 
 /* --- the red-flag box on the setup screen ------------------------------- */
-/* Deliberately the only warm-coloured element in the whole members area. It is
-   the one place a tool says "this might not be for you" and it should not read
-   as another instruction card. */
+/* The one place a tool says "this might not be for you" — nine prehab pages in
+   three languages, carrying "ve a una guardia hoy" and "necesitas que te vea un
+   profesional". It should not read as another instruction card.
+   It was amber, and was described here as the only warm element in the members
+   area. That stopped being true on September 11, 2026, when the guides' safety
+   callouts became the Stop pair: this box says the same thing as the race
+   guide's stop list, so it uses the same colour. Two shades of caution is a
+   distinction no reader makes correctly.
+   `.warn-box` below is deliberately NOT this — it is a dosing note, and quiet
+   brand blue is the right register for it.
+   CARBON half of the pair (--warn / --warn-dim), not the light half: this
+   sheet is dark-only — it uses --white and --blue-bright throughout and the
+   page never loads members-dark.css. Same values members-dark.css gives
+   .callout--warn, so this box and the race guide's stop list match. */
 .setup-warn {
-  border: 1px solid #6b4a1f; background: rgba(180, 120, 40, 0.12);
+  border: 1px solid var(--warn); background: var(--warn-dim);
   border-radius: 8px; padding: 16px 18px; margin-top: 24px;
   font-size: 14px; line-height: 1.6; color: var(--text);
 }
-.setup-warn strong { color: #e8b96a; }
+.setup-warn strong { color: var(--warn); }
 
 /* Same box on the tool's home tab, where it is a dosing note rather than a
    safety one — quieter, brand blue. */
