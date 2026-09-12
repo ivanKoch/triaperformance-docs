@@ -1,0 +1,67 @@
+athlete_id,churn_reason,secondary_reason,announced,intent_to_return,coach_goodbye,pause_offered,goal_race,last8w_pattern,read_on
+A0601c670,left_injury,none,no,none,n.a.,no,upcoming,engaged weekly to the end; Achilles flare-up in the final week,2026-09-12
+A0723dd11,left_not_training,left_life,yes,explicit,yes,no,none_stated,"2 unanswered Mondays after vacation, then coach noticed cancellation",2026-09-12
+A0a8709b4,left_life,left_not_training,yes,none,yes,no,completed_before_churn,"engaged weekly, low compliance; announced Aug 29, still raced 70.3 ~Sept 28",2026-09-12
+A0ac928fe,left_life,left_not_training,yes,explicit,no,no,none_stated,"6 Mondays, 2 brief replies, no coach acknowledgement",2026-09-12
+A0e683769,goal_completed,none,yes,explicit,yes,no,completed_before_churn,"engaged weekly to the end, finished Ironman Aug 2, announced Aug 10",2026-09-12
+A1196f3c7,unknown,none,no,none,n.a.,no,unknown,email channel; thin extract,2026-09-12
+A143186dc,goal_completed,left_life,no,none,n.a.,no,completed_before_churn,"sparse all tenure; wrote around race week, silent after Mar 16 thanks",2026-09-12
+A25a6ee8c,paused_then_left,left_life,yes,explicit,yes,no,none_stated,"engaged weekly to the end, announced Jul 15",2026-09-12
+A28d455d6,left_injury,none,yes,none,yes,no,none_stated,"intermittent (stomach virus, medical checks), announced Apr 16",2026-09-12
+A3033ff59,left_life,none,yes,none,yes,no,unknown,"email channel (Ramadan, per Iván)",2026-09-12
+A315679f6,left_service,none,no,none,n.a.,no,upcoming,"engaged weekly; voiced frustration Jun 30, cancelled next day",2026-09-12
+A31cd0d4f,left_life,none,yes,none,yes,no,upcoming,"1 unanswered Monday, then announced work relocation",2026-09-12
+A377e1957,left_injury,none,yes,none,yes,no,none_stated,"calf overload, flu, 1 unanswered Monday, then announced",2026-09-12
+A42278b70,left_unresponsive,left_not_training,no,none,n.a.,no,none_stated,"3 unanswered Mondays after brief return, no announcement",2026-09-12
+A4368962f,left_life,none,yes,none,yes,no,completed_before_churn,"engaged weekly to the end, racing (podium Jun 28), announced ~Jul 6-13",2026-09-12
+A4731fe85,paused_then_left,left_life,yes,explicit,yes,no,completed_before_churn,"asked to suspend Dec 22, trained 2 weeks, cancelled Jan 17",2026-09-12
+A509c2587,left_unresponsive,left_life,no,none,n.a.,no,none_stated,"home project, ~5h/wk instead of 9-11, 2 unanswered Mondays",2026-09-12
+A54e37b97,left_not_training,left_price,yes,explicit,yes,no,upcoming,"2 unanswered Mondays, then audio: no point paying while not training",2026-09-12
+A54e8039e,left_money,paused_then_left,yes,explicit,yes,yes,none_stated,"engaged weekly for 84 weeks, asked 1-month pause, silent after",2026-09-12
+A59eaf2ba,unknown,left_money,yes,none,no,no,upcoming,4 weeks; card declined repeatedly; cancelled 3 days after scheduling first FTP test,2026-09-12
+A5d218979,paused_then_left,left_life,yes,explicit,no,no,upcoming,engaged weekly to the end; announced 3 days before churn,2026-09-12
+A5f937a9f,left_injury,paused_then_left,yes,explicit,yes,no,none_stated,"monthly-contact tier; announced pregnancy, asked for stand-by",2026-09-12
+A63ad2c88,left_injury,paused_then_left,no,explicit,n.a.,no,none_stated,5-week tenure; ill 3 of 5 weeks,2026-09-12
+A6b941785,goal_completed,left_price,yes,explicit,yes,no,completed_before_churn,"engaged weekly to the end; Italy trip done, asked to pause",2026-09-12
+A6bc48540,left_life,paused_then_left,yes,explicit,yes,no,upcoming,"thesis crunch, 3 coach-only weeks, announced",2026-09-12
+A6df6a90a,left_injury,paused_then_left,yes,explicit,yes,yes,completed_before_churn,"engaged weekly to the end; surgery, announced pause",2026-09-12
+A705d783f,coach_ended,none,no,none,n.a.,no,upcoming,engaged weekly; coach announced May 26 it was the last month,2026-09-12
+A73027f5d,left_life,none,yes,none,yes,no,upcoming,"1 unanswered Monday early, then engaged; announced 11 days before churn",2026-09-12
+A77aac54c,downgraded_all_access,none,yes,none,n.a.,no,unknown,disappearing messages; nothing readable,2026-09-12
+A77d82fae,left_other_coach,none,yes,none,yes,no,none_stated,engaged weekly; cancelled 3 weeks before churn,2026-09-12
+A7877e4ca,left_not_training,left_life,yes,explicit,yes,no,upcoming,"2 unanswered Mondays, low-motivation confession, announced pause",2026-09-12
+A7bee0639,left_injury,left_life,yes,none,no,no,upcoming,engaged weekly; chest infection then swollen knee; announced 3 days before churn,2026-09-12
+A7d01b2ab,goal_completed,paused_then_left,yes,explicit,yes,no,completed_before_churn,"engaged weekly to the end; 70.3 PR, announced 2 weeks before churn",2026-09-12
+A7d51f372,left_unresponsive,left_life,no,none,n.a.,no,upcoming,"2 unanswered Mondays, pet loss, cancelled via TP with no message",2026-09-12
+A7e7dc155,left_not_training,left_life,yes,explicit,yes,no,none_stated,"~20 coach-only weeks since March, announced Aug 20",2026-09-12
+A8f92571e,left_money,left_injury,no,none,n.a.,no,none_stated,engaged weekly to the end; two failed-payment notices,2026-09-12
+A92502fe6,left_injury,left_unresponsive,no,none,n.a.,no,none_stated,"knee/hip rehab, then 6 unanswered Mondays, cancelled via TP",2026-09-12
+A93503497,paused_then_left,left_life,yes,explicit,yes,yes,none_stated,"sporadic replies, ""estancado"", paused repeatedly",2026-09-12
+A9b1757f9,goal_completed,left_life,no,none,n.a.,no,completed_before_churn,"engaged daily through sprint tri, then vacation, no announcement",2026-09-12
+A9bdecdb4,left_injury,left_life,yes,none,yes,no,none_stated,"engaged weekly; calf injury + illness, announced",2026-09-12
+A9e152b26,goal_completed,none,yes,none,yes,no,completed_before_churn,engaged weekly through IM WC Nice; agreed end of block,2026-09-12
+A9e84ecb9,left_injury,goal_completed,yes,none,yes,no,completed_before_churn,"engaged weekly; health complications, raced Mar 22, announced Mar 24",2026-09-12
+Aa2b2d91c,paused_then_left,left_not_training,no,none,n.a.,no,none_stated,"returned from a pause, one check-in, then silent",2026-09-12
+Aac7a6076,left_life,goal_completed,yes,none,yes,no,completed_before_churn,"engaged weekly; first marathon (4h18), announced Jun 10",2026-09-12
+Aacee1187,left_injury,none,yes,none,yes,no,upcoming,"engaged weekly to the end; hip overload, announced Jul 30",2026-09-12
+Ab0f35a6e,left_injury,none,yes,none,no,no,upcoming,"never completed a week: periostitis, rest ordered, refund request",2026-09-12
+Ab5ce3bfd,paused_then_left,left_life,yes,explicit,yes,yes,none_stated,"engaged daily; vacations, asked hold, cancelled",2026-09-12
+Ab9254214,left_not_training,left_price,yes,explicit,no,no,none_stated,"3 unanswered Mondays, low trainer tolerance, travel, announced Mar 21",2026-09-12
+Abe3cd49e,paused_then_left,left_not_training,yes,explicit,yes,no,upcoming,engaged but travelling; announced pause Feb 16,2026-09-12
+Ac0d7d870,left_life,goal_completed,no,none,n.a.,no,completed_before_churn,replied late; 3 weeks barely trained; cancelled silently,2026-09-12
+Ac341dcd1,not_a_churn,none,no,none,n.a.,no,upcoming,"engaged weekly to the end; PayPal link Dec 22, told to drop TP sub",2026-09-12
+Acc52ffe4,paused_then_left,left_money,yes,explicit,yes,no,completed_before_churn,"engaged weekly to the end; 70.3 Nov 30, announced Dec 23",2026-09-12
+Acd571435,left_injury,left_life,yes,explicit,yes,yes,none_stated,"2 unanswered Mondays, father died, knee, announced Apr 19",2026-09-12
+Ad118ec29,goal_completed,left_unresponsive,no,none,n.a.,no,completed_before_churn,"race Mar 22, then 3 unanswered Mondays",2026-09-12
+Ad2468ed6,goal_completed,none,no,none,n.a.,no,completed_before_churn,engaged weekly through the Ironman on the churn date,2026-09-12
+Add8dd9c9,left_unresponsive,none,no,none,n.a.,no,unknown,8 unanswered Mondays; silent since ~May 2026,2026-09-12
+Ae33df90a,left_other_coach,goal_completed,yes,none,yes,no,completed_before_churn,"engaged weekly to the end; 21k May 18, announced May 19",2026-09-12
+Ae6ab8164,left_injury,none,no,none,n.a.,no,none_stated,"0-day tenure; injured immediately, refund",2026-09-12
+Aea4bb192,left_service,none,no,none,n.a.,no,upcoming,engaged daily; cancelled the day the coach pushed back on a same-day follow-up,2026-09-12
+Aee82f2d7,left_life,left_injury,yes,explicit,yes,no,none_stated,"2 unanswered Mondays, late replies, announced Dec 8 after coach's ""última vez""",2026-09-12
+Af024602c,left_unresponsive,none,no,none,n.a.,no,unknown,silent whole window; cancelled without a word,2026-09-12
+Af50a06eb,paused_then_left,left_life,yes,explicit,yes,no,completed_before_churn,"engaged weekly to the end; 21k PR Aug 23, announced pause Sep 2",2026-09-12
+Af96913f2,goal_completed,none,yes,none,yes,no,completed_before_churn,"engaged weekly to the end; 70.3 Manta Jul 20, farewell Jul 28",2026-09-12
+Afb65b38e,left_injury,paused_then_left,yes,explicit,yes,yes,none_stated,"no training; pause requested Apr 29, cancelled May 11, refund Jun",2026-09-12
+Afc284ab9,left_unresponsive,left_not_training,no,none,n.a.,no,upcoming,"last athlete message Jul 14, then 7 unanswered Mondays",2026-09-12
+Affecc7e0,paused_then_left,left_service,yes,explicit,yes,no,none_stated,Jul 6 friction over written feedback; Afib alert Aug 10; announced break Aug 24,2026-09-12

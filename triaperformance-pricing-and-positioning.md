@@ -13,6 +13,10 @@ The real model: one consistent service definition, priced differently depending 
 
 That's the whole offer. There is no formal "pay more, get more calls" structure today — variation in how much an athlete uses is about the athlete's own engagement, not a tier they bought into.
 
+## A tier that was tried and dropped (recorded September 12, 2026)
+
+Between late 2025 and early 2026 Iván sold a $75 monthly-contact option next to the $99 weekly one — same plan, one check-in a month instead of weekly. Three athletes took it; two have churned. It is not offered and the retention data treats those three separately (`tenure-analysis.md` §7). If a lower price is ever needed, it is set by market and athlete, not by thinning the weekly loop.
+
 ## Why price varies
 Latin America's coaching market is anchored around $60–100/month for what feels like unlimited access — that's the competitive baseline in Colombia, Panama, Mexico, Argentina, and Chile. Triaperformance started there and moved up gradually: 50% discount off the $149 nominal price, then 40%, then 30%, then flat $99, and now testing $149 outright.
 

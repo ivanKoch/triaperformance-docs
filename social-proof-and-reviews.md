@@ -2,11 +2,11 @@
 
 *What the reviews prove, where they're deployed, and where the gaps are. Update when new reviews land or get deployed.*
 
-## Live metrics — **August 14, 2026** *(previously August 2, 2026)*
+## Live metrics — **September 12, 2026** *(previously August 14, 2026)*
 
 | Metric | Value |
 |---|---|
-| Total GBP reviews | **46** (all 5 stars, zero negatives) |
+| Total GBP reviews | **47** · Google average **5,0** · zero negatives (46 five-star + the first four-star, September 2026) |
 | Repurposed to Instagram | **38** |
 | Unused | **8** |
 
@@ -17,7 +17,7 @@
 
 ## The asset
 
-**46 Google Business Profile reviews, all 5 stars, zero negatives.** 38 with written text, 5 star-only as of the July 2026 export (43); the 3 added since have not been categorized. Dated span: Sep 2024 – Aug 2026. **38 of 46 have been repurposed to Instagram; 8 have not.**
+**47 Google Business Profile reviews, Google average 5,0, zero negatives.** 46 are five-star and one is the first four-star, which landed the week of September 8, 2026. The site no longer claims "all five-star" anywhere; it cites the Google average and links the listing. 38 with written text, 5 star-only as of the July 2026 export (43); the reviews added since have not been categorized. Dated span: Sep 2024 – Aug 2026. **38 of 46 have been repurposed to Instagram; 8 have not.**
 
 The "under-distributed asset" framing from July is out of date — the drip is running at ~1 testimonial post/week and has worked through most of the backlog. Remaining unused inventory is ~9 weeks, but this is not a real constraint: previously-posted reviews are recyclable after roughly a year (nobody is auditing the profile for repeats), ~22 active athletes have never been asked, and ~14 of those are due an ask in the next cycle. Iván's standing rule is to ask at the 3–4 month athlete mark.
 
@@ -40,7 +40,7 @@ The "under-distributed asset" framing from July is out of date — the drip is r
 | Injury/illness adaptation, zero injuries | 3 | Risk-reversal proof |
 | Remote coaching works ("la distancia nunca es un impedimento") | 3 | Removes the main objection for international leads |
 
-**Key validation:** the reviews describe exactly the uniform service defined in `pricing-and-positioning.md` — weekly check-in, on-request adjustments, WhatsApp — and athletes rate that service 5 stars at every price point. Nobody asks for more calls or tiers. The one-service model is confirmed by the customer's own words.
+**Key validation:** the reviews describe exactly the uniform service defined in `pricing-and-positioning.md` — weekly check-in, on-request adjustments, WhatsApp — and athletes rate that service at the top of the scale at every price point. Nobody asks for more calls or tiers. The one-service model is confirmed by the customer's own words.
 
 ## Geography and language — the strategic gap
 

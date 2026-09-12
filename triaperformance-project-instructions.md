@@ -50,6 +50,7 @@ Full detail in `triaperformance-growth-roadmap.md`. In short:
 - `referral-program-brief.md` — the referral program: offer, motions, attribution, payout. No prices, no message texts.
 - `sales-playbook.md` — the 1:1 pre-sale and onboarding message library (the words). No prices, no protocols.
 - `methodology.md` — coaching methodology: tests, zones, periodization, weekly loop, fuelling (§8), race execution, AI Coach red lines. **Read §8 before any fuelling content.**
+- `coaching-process-review.md` — the September 12, 2026 read of every transcript: strengths, weaknesses, and the eight service rules (silence, promise log, race protocol, exit script, red flags, onboarding gate, channel, separation). Read before changing the weekly loop, the Monday script or the exit flow. Named version with quotes stays outside the repo.
 - `athlete-onboarding-flow.md` — 1:1 onboarding decisions; `athlete-onboarding-build-log.md` — its build record (history only).
 - `linkedin-positioning.md` — how Iván presents himself to the corporate market; `/ai-systems/` showcase page.
 - `content-engine-brief.md` — the content pipeline design: agents, data model, cadence, gates.
@@ -85,7 +86,7 @@ Full detail in `triaperformance-growth-roadmap.md`. In short:
 - `gbp-posts-2026-08.md` — current GBP post set. `interview-narrative.md`, `interview-prep-blend360.md` — Iván's job-search prep, not business docs.
 
 **Data and code**
-- `data/` — `zones.csv` (every zone percentage), `training_plans_inventory.csv` (the catalogue), `plan_sales.csv`, `plan_performance.csv`, `athlete_tenure.csv`, `revenue_history.csv`, `testimonials.csv`, `races.csv` + `races/*.json`, `members_exercises*.csv`, `monthly_close/`. **Customer names and emails never enter the repo.**
+- `data/` — `zones.csv` (every zone percentage), `training_plans_inventory.csv` (the catalogue), `plan_sales.csv`, `plan_performance.csv`, `athlete_tenure.csv`, `athlete_engagement.csv`, `churn_reading.csv`, `athlete_risk.csv` (per-athlete WhatsApp engagement features, churn reasons and active-book risk, built by `automation/analytics/transcript_features.py` plus a transcript read; exports and every file with names stay outside the repo in `~/Downloads/chats/`), `revenue_history.csv`, `testimonials.csv`, `races.csv` + `races/*.json`, `members_exercises*.csv`, `monthly_close/`. **Customer names and emails never enter the repo.**
 - `automation/` — every VPS/cron script, n8n workflow reference JSON (documentation, not the live source — get a fresh export before quoting copy), `Caddyfile`, `deploy-website.sh`, Apps Script. Edit the repo copy, paste it live, never the reverse.
 - `site/` — the Eleventy source. `website/` — only the permanent `hubfs` redirect route.
 

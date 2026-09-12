@@ -1,7 +1,7 @@
 # Open Loops — the single list of what is in flight
 
 **Last updated:** September 11, 2026 (cleanup pass — every item cut to four lines or fewer; the pre-cleanup file is `open-loops-archive.md` §Snapshot — September 11, 2026).
-**Branch (WIP limit 1):** referral program — build complete August 26, waiting on the calendar (first possible payout October 6). The storefront rebuild and the heat guide both closed September 11; nothing else is open as a branch.
+**Branch (WIP limit 1): acquisition and retention — opened September 12, 2026, Iván's call.** Scope, in his words: retention diagnosis at athlete level (transcript pass done September 12, `tenure-analysis.md` §7 and `data/athlete_engagement.csv`; the tenure file still lacks rate, sport and channel — he builds the joined dataset next); plan buyers get a touch (NEXT #5); ex-athletes get something (newsletter, site-launch announcement or an offer — undecided); paid ads start the week of September 14 (NEXT item; prerequisite is the named GA4 conversion events). The referral program keeps its entry below but not the slot — it waits on the calendar.
 **Focus this month (Iván, Sept 1):** Private, referrals, All-Access worth sharing; acquisition and retention over new build.
 **Closed items and every past session's narrative:** `open-loops-archive.md`.
 
@@ -70,6 +70,7 @@ Home doc: `referral-program-brief.md`. Definition of done: one referral attribut
 
 ### Content
 
+- [ ] **Athlete stories — a content series from the coaching record** (Iván, Sept 12). One athlete, one arc, numbers and their own words; consent first, and the ask doubles as a warm touch for those who left well. First: Ronald G. (from first athlete to sub-3 marathon, sub-5 70.3, the 70.3 Worlds, and a sub-10 Ironman as the next chapter). Nominations and the rule for choosing: `coaching-process-review.md` §Athlete stories.
 - [ ] **Decoupling has a home doc (`/blog/desacople-aerobico-interpretar-pa-hr/`); eight other places still explain it inline.** Pointer per file, not a rewrite — two use it as a retest trigger, one as a pacing rule, and those are different claims. Read each passage before touching it.
 - [ ] **Rewrite the members FAQ in ES, EN and PT** (Iván, Sept 12 — parked; the current EN/PT copy stays as is until then). Then build the athlete-facing help articles reactively: nothing goes on the page until a real athlete has asked it; the Monday check-in is the collection point. Pre-sale objections stay in `sales-playbook.md`.
 - [ ] **Improve the Portuguese offering.** ~73 impressions/month of exact purchase intent (`plano de treino maratona` and variants) with the marathon hub on page six; `planos de maratona` at 18.4 is within reach. The Ironman hub ranks for distance queries, not plan queries — leave it. PT has 53 plans vs ES 164. No trigger, no owner; written down to come back to. Query: `automation/analytics/queries/pt-hub-queries.sql`.
@@ -80,7 +81,11 @@ Home doc: `referral-program-brief.md`. Definition of done: one referral attribut
 
 ### Catalogue data
 
-- [ ] **Win-back sequence for churned customers.** `CHURNED_CUSTOMER` is now set automatically, so the audience is queryable; nothing targets it. Trigger: after the NEXT #3 blast has taught what re-activation copy does.
+- [ ] **Win-back for the 26 who said they would be back.** Audience, reason and the date each one gave: `~/Downloads/chats/churn_reading_full.csv` (names, outside the repo); codes in `data/churn_reading.csv`. One personal message each, not a sequence; two of them (Luis M., Celestino) need a repair first (`tenure-analysis.md` §7). Iván's.
+- [ ] **Eight service rules from the full transcript review** (`coaching-process-review.md`). Iván decides which ship first; the silence rule and the race protocol are the two with the most churn behind them. The rules that are words go in `sales-playbook.md`; the rules that are triggers go in the Monday check-in script.
+- [ ] **Three retention motions from the transcript read** (`tenure-analysis.md` §7 §What this settles): the *pausa* script with the TrainingPeaks pause offered first; the race-week debrief + next goal; the three-unanswered-Mondays-and-no-goal trigger that offers All-Access. Words go in `sales-playbook.md`; the trigger is a query on `athlete_engagement.csv` until the Monday check-in script carries it.
+- [ ] **Four high-risk actives this week** (`data/athlete_risk.csv`, names in `~/Downloads/chats/actives_risk_full.csv`): Aki, Said, Rafael G., Luis L. Personal message each; the ask is a goal race or a pause/All-Access, not another Monday template.
+- [ ] **Two rows in `athlete_tenure.csv` are probably not churns.** Julián (TP → PayPal in December, trained to his March race: needs a `Private` second period) and Maria Guadalupe (36 messages after the churn date, two failed-payment notices). Iván confirms; then the §3 tables move by one or two.
 
 ### Infrastructure follow-ups (Gemini migration and Hermes)
 
@@ -112,6 +117,7 @@ Models are settled (Sept 4): Hermes and research on `gemini-3.8-flash`; writer, 
 - [ ] **#9 · Affiliate program applications** (Amazon first). Trigger: first gear article scheduled — the 180-day/3-sale clock starts at approval.
 - [ ] **#11 · The TSS / CTL / ATL / TSB explainer — one long-form video plus written definitions.** The Loom already sent to a lead is the outline; do not re-record from nothing. Written definitions carry ES/EN/PT; video Spanish-only to start. Home: a `/recursos/` page. Any time — writing and recording, not build.
 - [ ] **#15 · Canonical exercise library (`site/_data/exercises.json`) — every decision made, nothing built.** Parked by Iván (D5). Names and all cues are already harmonised in three languages (September 8); this branch inherits them. Must include a movement-level lookup step in `artifact-publish-runbook.md` so the next artifact consults the library. Home doc: `exercise-library-decisions.md`. Trigger: WIP slot free.
+- [ ] **#18 · The athlete card and the Monday brief — the tool that remembers.** Per-athlete record in Postgres (goal race and date, constraints, zones history, preferred channel, medical flags, open promises with due dates, pause return date), fed by Telegram commands and forwarded audio, read by Hermes into a Monday brief per athlete (pending promises, silence streak, race inside 14 days, last week's flags, one suggested personal line). Race-protocol and silence triggers come from the same table. Design: `coaching-process-review.md` §The tool. Trigger: Iván picks it over the other NEXT items; it is the build that makes the eight rules run without his memory.
 - [ ] **#17 · Mirror the rewritten CoachMatch ES sequence into `automation/`.** Emails rewritten September 9 (price out of email 1, every email asks a question). Trigger: Iván imports the new copy into n8n. With the price out of the emails, "no response" and "price" stop overlapping — the first honest read on $149 arrives six weeks later.
 
 ---

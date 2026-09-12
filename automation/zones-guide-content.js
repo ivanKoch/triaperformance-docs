@@ -228,7 +228,7 @@ const es = {
       "Triaperformance es el proyecto de coaching de <strong>Iván Koch</strong>: triatlón y running construidos sobre datos, no sobre plantillas. Un solo servicio, la misma metodología para todos — la que acabas de leer — y atletas en toda América y Europa, del primer 10k al Ironman.",
     ],
     stats: [
-      ["46", "reseñas · todas 5 estrellas"],
+      ["47", "reseñas en Google · 5,0"],
       ["328", "planes publicados"],
       ["3", "idiomas"],
     ],
@@ -526,7 +526,7 @@ const en = {
     body: [
       "Triaperformance is <strong>Iván Koch’s</strong> coaching practice: triathlon and running training built on data, not on templates. One service, the same methodology for everyone — the one you have just read — and athletes across the Americas and Europe, from a first 10k to Ironman.",
     ],
-    stats: [["46", "reviews · all 5 stars"], ["328", "published plans"], ["3", "languages"]],
+    stats: [["47", "Google reviews · 5.0"], ["328", "published plans"], ["3", "languages"]],
   },
 
   quotes: [
@@ -816,7 +816,7 @@ const pt = {
     body: [
       "Triaperformance é o projeto de coaching do <strong>Iván Koch</strong>: triatlo e corrida construídos sobre dados, não sobre modelos prontos. Um único serviço, a mesma metodologia para todos — a que você acabou de ler — e atletas em toda a América e na Europa, do primeiro 10k ao Ironman.",
     ],
-    stats: [["46", "avaliações · todas 5 estrelas"], ["328", "planos publicados"], ["3", "idiomas"]],
+    stats: [["47", "avaliações no Google · 5,0"], ["328", "planos publicados"], ["3", "idiomas"]],
   },
 
   /* Translated from the original Spanish reviews. The shipped PT sessions guide

@@ -1,6 +1,6 @@
 # Athlete Tenure & Retention
 
-**Created August 12, 2026.** Home doc for **every retention, tenure and churn figure** about the 1:1 coaching book. Source: `data/athlete_tenure.csv` — 98 rows, May 2024 → Aug 2026, de-identified.
+**Created August 12, 2026; §7 (transcript read, churn reasons, active-book risk) September 12, 2026.** Home doc for **every retention, tenure and churn figure** about the 1:1 coaching book. Source: `data/athlete_tenure.csv` — 98 rows, May 2024 → Aug 2026, de-identified.
 
 *Standing rule, same as `training-plans-analysis.md`: any tenure or churn figure quoted anywhere must be reproducible from that file. If it can't be, it doesn't get quoted.*
 
@@ -10,7 +10,7 @@
 
 ## 1. The data, and what it isn't
 
-`data/athlete_tenure.csv` — `athlete_id, source, signup_date, churn_date`. Blank churn = active as of the export.
+`data/athlete_tenure.csv` — `athlete_id, source, signup_date, churn_date, churn_reason`. Blank churn = active as of the export; `churn_reason` added September 12, 2026 (§7 for the vocabulary).
 
 **`athlete_id` is derived from the athlete's name**, not assigned: `'A' + sha256(normalised_name)[:8]`, where normalising means lowercased, accents stripped, whitespace collapsed. **This is deliberate and it matters — a future export produces the same id for the same person**, so a refreshed file reconciles against this one without a name ever entering the repo, and a returning athlete's second period lands on the same id as their first. *(The ids are stable, not secret: anyone with the name list can recompute them. They exist to keep names out of the repo, which is the standing rule, not to anonymise against someone who already has the data.)*
 
@@ -74,14 +74,14 @@ Early churn is low: **2% leave inside the first month, 9% inside two, 13% inside
 |---|---|---|---|---|
 | 2026-01 | 7 | 3 | +4 | 48 |
 | 2026-02 | 9 | 4 | +5 | **53** |
-| 2026-03 | 0 | 3 | −3 | 50 |
-| 2026-04 | 5 | **10** | −5 | 45 |
-| 2026-05 | 2 | 5 | −3 | 42 |
-| 2026-06 | 3 | 5 | −2 | 40 |
-| 2026-07 | 2 | 6 | −4 | 36 |
+| 2026-03 | 0 | 4 | −4 | 49 |
+| 2026-04 | 5 | **10** | −5 | 44 |
+| 2026-05 | 2 | 5 | −3 | 41 |
+| 2026-06 | 3 | 5 | −2 | 39 |
+| 2026-07 | 2 | 5 | −3 | 36 |
 | 2026-08 (to 12th) | 1 | 0 | +1 | 37 |
 
-**26 churns since April 1 against 13 signups.**
+**25 churns since April 1 against 13 signups.** *(One churn date corrected September 12, 2026 from July 30 to March 25 after reading the transcript; the tables above reflect it.)*
 
 **And retention by cohort is degrading, which is the part that isn't explained by slower acquisition:**
 
@@ -89,7 +89,7 @@ Early churn is low: **2% leave inside the first month, 9% inside two, 13% inside
 |---|---|---|---|---|---|
 | 2024-H2 | 15 | 100% | 87% | 73% | **73%** |
 | 2025-H1 | 27 | 74% | 59% | 41% | 30% |
-| 2025-H2 | 25 | 88% | 60% | 41% | **17%** |
+| 2025-H2 | 25 | 88% | 56% | 35% | **17%** |
 | 2026-H1 | 26 | 86% | 55% | — | — |
 
 *Measured at fixed horizons among athletes old enough to have reached them, so a young cohort isn't penalised for being young.*
@@ -179,3 +179,29 @@ Three columns, ideally on the monthly close file from §5 rather than as a one-o
 1. **`monthly_rate`.** **Promoted to first** *(Aug 12, 2026)* — the cause question it was meant to settle has been answered by Iván, but §3's entire revenue view is currently a model built from a price ladder and two transcript-confirmed cutover dates. It reproduces the July book closely, which is reassuring and is not the same as being right. **This is the single column that converts the most important table in this doc from an estimate into a measurement.**
 2. **Every billing period as its own row.** The name-derived `athlete_id` handles it with no extra work — a second period lands on the same id automatically. **Still the gap that biases both headline numbers**: tenure understated, churn overstated, because a paused-and-returned athlete is counted as a loss and never as a return.
 3. **A churn reason, even three values:** `goal_completed`, `paused`, `left`. **Iván's point that some churn is success is exactly right and this data cannot see it** — an athlete who finishes their race and rests is a different event from one who quits mid-block, and today they are the same row. *This matters more now than it did this morning, because the headline retention number looks bad and some unknown share of it is the service working.*
+
+---
+
+## 7. What the transcripts say about churn (September 12, 2026)
+
+Sources: `data/athlete_engagement.csv` (per-athlete message features, 97 athletes), `data/churn_reading.csv` (one row per churned athlete: reason code, secondary reason, whether they announced, intent to return, whether the coach said goodbye, whether a pause was offered, goal-race status), `data/athlete_risk.csv` (actives, risk and pattern as of the date in `as_of`). All three are keyed by the name-derived `athlete_id`. Built by `automation/analytics/transcript_features.py` plus a full read of every transcript's last 60 days (churned) or 90 days (active). The exports, the id-to-name mapping and the versions of these files that carry names, quotes and notes live outside the repo in `~/Downloads/chats/` (`churn_reading_full.csv`, `actives_risk_full.csv`). The vocabulary for `churn_reason`: `goal_completed`, `paused_then_left`, `downgraded_all_access`, `left_life`, `left_injury`, `left_money`, `left_price`, `left_not_training`, `left_unresponsive`, `left_service`, `left_other_coach`, `coach_ended`, `not_a_churn`, `unknown`. `data/athlete_tenure.csv` carries the primary code in `churn_reason`.
+
+Corrections made while reading, all in `data/athlete_tenure.csv`: five churn dates (Hernan March 25, Mauricio December 24 2025, Miguel M. April 29 to November 29 2025, Joaquín November 30 2025, Juan Pablo July 20 2025). Three athletes whose feedback ran over email (Rashed, Marlon, John R.) and one with disappearing messages (Miguel M.) are marked in `transcript_coverage` and excluded from anything that counts messages. Three athletes were on the dropped $75 monthly-contact tier (`triaperformance-pricing-and-positioning.md`) and are excluded from the who-went-quiet reading.
+
+**The reasons, 66 churners.** Injury, surgery, illness or pregnancy 15. Asked for a pause and never came back 10. Life — work, travel, relocation, family 10. Finished the goal race and stopped 9. Stopped replying and cancelled without a word 6. Paying but not training, and said so 5. Money 2. Dissatisfied with the coaching 2. Went to another coach 2. One coach-ended engagement (Andrea, referred on), one move to All-Access (Miguel M.), one that is not a churn (Julián: switched from TrainingPeaks billing to PayPal in December and trained with Iván to his March race — the row needs a `Private` second period, not a churn date), two unreadable (email channel). Grouped: something in the athlete's life changed in 37 of 66; the service ended because the goal was reached in 9; the athlete drifted out (unresponsive or not training) in 11; four left over the service, price or another coach.
+
+**Forty-four of 66 told Iván they were leaving, and 26 said they would be back.** The word is *pausa*. Of those 26, three have returned (Alexander, Fernando Alva, Leonardo, each counted as a second period or a re-pause) and the rest were never written to again with a date in hand. Several named the date: Ivan L. when his travel ends in November, Mauricio "by January", Cesar "May or June", Aldana "two or three weeks after the move", Diego "after September 7". The coach replied to 37 of the 43 announcements and left the door open in most; a TrainingPeaks pause was offered 6 times in 66, and only Paul, Geraldina, Leonardo, Diego, Pablo Ll. and Eduardo H. heard of it. Joaquín is the one case where the pause worked as designed (paused October, re-billed November).
+
+**The goal-race exit is the biggest single avoidable bucket.** Nineteen churners finished a goal race within the window; nine are coded `goal_completed` and none of the nine had a next-goal conversation before the exit (Antonio's Ironman, Jonah's Ironman, Ronald H.'s world championship, Alexander's and Luis Eduardo's 70.3s, Cesar's 70.3 PR, Astrid's sprint, Lina's race, Sergio T.'s half). Ronald H. is the model: Iván pre-framed the end of the block and the athlete left a warm review. The rest simply ended. A debrief plus a next-race proposal in race week is the retention motion that costs nothing and has no automation yet.
+
+**Payment failures precede churn more often than price does.** Card declines or failed-payment emails appear in six exits (Paul, Geraldina, Diego, Fabricio, Maria Guadalupe, Pablo V.) against two exits about price (Carlos Peña, whose return price doubled off the legacy rate; Hernan, per Iván). Maria Guadalupe exchanged 36 messages after her churn date — hers may be a billing lapse rather than a decision, like Julián's.
+
+**Three service exits, all readable.** Adriana (not feeling progress, long runs too long; the reply was theory, not a plan change; cancelled next day). Luis Muñoz (five-star review February 9; cancelled March 10 the same day Iván wrote "no estoy todo el día atrás del WhatsApp"). Celestino (prefers voice; felt pushed away by the demand for written feedback; left warmly in August). Two of the three are about tone under load, not the plan. Any win-back to these two starts with a repair, not an offer.
+
+**Iván does not go quiet first.** On the 60 churners with a full WhatsApp record and weekly contact: 35 engaged to the end, 14 athlete quiet first, 11 both quiet in the same week, 0 coach quiet first. Among actives with twelve or more paid weeks, 0% of the last twelve weeks lack a coach message. The "both quiet" cases are the goodbye gap: the athlete announces, the last paid fortnight has no Monday message and no farewell. Amanda (September 7: cancellation noticed, feedback asked the same day) is the template.
+
+**Chronic low responsiveness does not predict churn by itself.** 48 of 65 churners and 20 of 31 actives reply to 90% or more of the weeks Iván writes; the actives have the higher share of sub-70% responders, and one has paid 21 months answering half the time. What predicted an exit in the transcripts was the combination: three or more unanswered Mondays and no goal race, or an injury with no dated return plan.
+
+**Active book, September 12, 2026 — 31 athletes.** High risk 4 (Aki, Said, Rafael G., Luis L. — all `not_training_no_goal`; 7, 4, 0 and 1 unanswered Mondays; Rafael is 38 days in and said "Hola no" when asked if he trained). Medium 12: Francisco (post-surgery pause, 2 unanswered, no goal, answers one Monday in eight and pays), Roberto P., Sergio B., Joan and José M. (life disruption; Joan asked for a call twice and it was missed), Liby, Sylmarie and Bedia (injury with a race close), Eliezer (goal just completed, no next race, family loss), Jimmy (674 days, no fixed endpoint), Ruben (low responder, race just won), Christian (asked TrainingPeaks to cancel on September 3 while "evaluating plans"; still writing). Low 15. The per-athlete action list is in `actives_risk_full.csv` outside the repo; the pattern across the medium group is the same as the churn record: no dated goal race, or an injury without a dated return.
+
+**What this settles.** Three motions, none of which add hours to the week: (1) a scripted answer to *pausa* — offer the TrainingPeaks pause first, take the return date, write it down, and write to them on it; (2) a race-week debrief and next-goal proposal for every athlete with a goal race in the calendar, because nine exits happened at the finish line; (3) a three-unanswered-Mondays-and-no-goal trigger that sends a personal message and, if there is still no goal, offers All-Access instead of waiting for the athlete to say "no tiene sentido pagar". The win-back audience is the 26 who said they would return, keyed by email, with the reason and the date they gave. `churn_reason` also settles §6 item 3.
