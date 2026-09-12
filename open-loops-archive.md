@@ -2937,3 +2937,11 @@ Also this session: the 42 km race set (19 races / 26 pages) went live; the 21 km
 Closed by withdrawal, not by translation. Two independent model reviews found the full guide unpublishable: it named CBT and ACT, delivered their worksheets, and carried a section headed "Depresión Post-Carrera" under a coach's byline, with no referral path and no stop rule. The root cause was that `methodology.md` had a scope line for fuelling (§8) and none for psychology, so the guide breached a boundary that did not exist. §14 now exists.
 
 Both PDFs are in `_to_delete/mental-guides-2026-09-11/`. The replacement is the race execution guide — three members pages and six PDFs, ES/EN/PT, built the same day from one markdown source. `/guias/intervalos.pdf` is repointed at the new magnet rather than deleted, because that URL is in already-sent email sequences. Home doc: `race-execution-guide-brief.md`.
+
+### Closed September 12, 2026 — the race execution magnet's host page
+
+- [x] **The race execution magnet has no public page to sit on.**
+
+Closed by shipping the page rather than by re-siting the magnet. `site/blog/tiempo-de-corte-maraton.njk` carries `toolCapture: raceexec`, built on the `cut_off` field of `data/races/*.json` — eight races cited, every figure traceable to the repo. `capture.json` and the n8n Magnet registry both carry `raceexec`, tested end to end in ES, EN and PT, including the second identical request returning `suppressed:true`.
+
+Race pages were considered and rejected: they already carry a plan-selection capture, and `race-page-content.njk` records a standing decision against a fourth boxed CTA. The inline prose line under the `cut_off` callout, in the shape the heat tool already uses, stays available and is not queued — it waits on whether the article converts.

@@ -133,12 +133,12 @@ and read list 1. In practice it is almost always check 2 (a `coach+` alias) or
 check 3 (`customerType` still `PLAN_BUYER` or empty on a freshly created
 Person).
 
-**`SHORT READ: --expect 290, fetched 293`**
-`--expect` is an optional second guard on top of the `totalCount` check that
-always runs. It is a hardcoded number and it goes stale **the next time you add
-anyone to Twenty**. Either drop the flag or update it to the count the script
-prints on its first line. Do not lower it to make the error go away — a short
-read here once named three active athletes as holding stale access.
+**`SHORT READ: --expect-min 290, fetched 250`**
+`--expect-min` is an optional second guard on top of the `totalCount` check that
+always runs: it fails only if fewer than N people were fetched, so it stays valid
+as the CRM grows. Set it to a number you know is below the real count (the count
+the script printed last week is fine). Do not lower it to make the error go away
+— a short read here once named three active athletes as holding stale access.
 
 #### After it applies
 
@@ -177,6 +177,19 @@ Two fields carry the weight:
 
 `twenty_person_id` is `NOT NULL`, so it needs *something*; `QA-FIXTURE` is the
 right something for anything that is not a real Twenty Person.
+
+**The one-command form of this section**, for a person rather than a QA row (a
+friend, family, a tester who should get the login email):
+
+```bash
+python3 /root/quick_grant.py someone@example.com --name "Vale" --language SPANISH
+```
+
+`automation/members-area/quick_grant.py` (repo copy; `/root/quick_grant.py` is a
+dispatcher). It inserts under `QA-FIXTURE` with `excluded_from_metrics = TRUE`
+and sends the login email in the chosen language. `--count-in-metrics` is the
+only flag, for the rare real person who is not in Twenty — do not use it for
+family or testers. Moved into the repo September 12, 2026.
 
 ---
 

@@ -32,7 +32,7 @@ The runner-core tool ends and the athlete's real next question is **"how often, 
 | The traffic light and the red flags | `knee-strength-brief.md`, `achilles-brief.md` |
 | "No soy médico y no diagnostico" | `methodology.md` §7, §11 |
 
-⚠️ ***THE EXCEPTION, and it is the one thing in this build that needs Iván's eye: the week grid on page 4.*** *The four placement rules above it are his. The grid is what those rules produce for a five-run week — Mon rest · Tue quality + gym after · Wed easy + core · Thu quality + gym after · Fri easy + core · Sat rest · Sun long.* **He has not signed that specific week off anywhere, and it is the most concrete, most copyable thing in the document.** *It is derived, not invented, and derived is not the same as approved.*
+**The week grid on page 4 was approved by Iván on September 12, 2026.** The four placement rules above it are his (`methodology.md` §13.1); the grid is what they produce for a five-run week, and it is now signed off as a week, not only as a derivation.
 
 ## The honesty that makes it worth an email
 

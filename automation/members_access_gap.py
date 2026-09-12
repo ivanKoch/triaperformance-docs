@@ -238,8 +238,8 @@ def fetch_people(page_size, expect=None):
     if total is not None and len(out) != total:
         sys.exit(f"SHORT READ: Twenty reports totalCount={total}, fetched {len(out)}. "
                  f"Refusing to report a gap from an incomplete list.")
-    if expect is not None and len(out) != expect:
-        sys.exit(f"SHORT READ: --expect {expect}, fetched {len(out)}.")
+    if expect is not None and len(out) < expect:
+        sys.exit(f"SHORT READ: --expect-min {expect}, fetched {len(out)}.")
     if total is None:
         print("  (note: no totalCount available -- cross-check the people count "
               "against backfill_person_names.py, which prints its own.)", file=sys.stderr)
@@ -460,8 +460,9 @@ def main():
                     help="file of member emails, one per line (skips docker)")
     ap.add_argument("--page-size", type=int, default=PAGE_SIZE,
                     help=f"GraphQL page size (default {PAGE_SIZE})")
-    ap.add_argument("--expect", type=int, default=None,
-                    help="fail unless exactly N people are fetched -- a second, independent gate on top of totalCount")
+    ap.add_argument("--expect-min", dest="expect", type=int, default=None,
+                    help="fail if fewer than N people are fetched -- a second gate independent of totalCount that "
+                         "does not go stale as the CRM grows (was --expect, exact-equality, until September 12, 2026)")
     ap.add_argument("--roster", action="store_true",
                     help="print the active-token roster with names from Twenty "
                          "(never tokens), then exit")
