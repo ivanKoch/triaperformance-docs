@@ -460,10 +460,12 @@ Esta es la única parte de la guía donde no hay matices y donde ninguna meta im
 - **Dolor óseo focal** —un punto concreto en un hueso que duele al tocarlo.
 - **Dolor en el pecho, falta de aire desproporcionada al esfuerzo, o latidos irregulares.**
 - **Confusión, desorientación, no entender dónde estás o qué kilómetro es.** Esta es la más peligrosa porque es la que menos se detecta uno mismo.
-- **Mareo con náusea, piel fría o dejar de sudar** en condiciones de calor.
+- **Mareo con náusea, o piel fría y húmeda** en condiciones de calor. La piel mojada no descarta nada: en el golpe de calor por esfuerzo el atleta viene sudando hasta minutos antes de caer.
 - **Orina muy oscura junto con dolor muscular severo.**
 
 Sobre problemas de sodio e hidratación —incluida la hiponatremia, que es grave y se confunde con deshidratación— el **Kit de Combustible** tiene la sección completa. No la repito aquí porque esa guía es la que manda en ese tema.
+
+Sobre el calor —lo que cuesta en ritmo, cómo aclimatarse y cómo ejecutar un día caluroso— la guía de calor y su calculadora de ritmo tienen el tema completo. Tampoco lo repito aquí.
 
 **Tres reglas alrededor de esta lista:**
 

@@ -142,6 +142,14 @@ Expect `200 {"ok":true}`. Then check, in this order:
 5. **Twenty has the Person** with `leadSource: TOOL_LEAD` and the magnet named in `leadNotes`.
 6. Clean up: delete the suppression row, the token rows and the test Person.
 
+### Every body function returns an ARRAY
+
+`emailBody` is built as `(m.body[lang] || m.body.es)(m, lang).join('\n')`. A body function that returns a pre-joined string makes that line call `String.prototype.join`, which does not exist, and the node throws on every request for that magnet.
+
+This happened on September 11, 2026: the comma-mangling fix was applied twice, once inside `runner_week`'s three body functions and once on the `emailBody` line, and `runner_week` stopped sending entirely. The mirror at `HEAD` was correct and the working copy was not, so the window was the same day. Both failure modes have the same cause — the join belongs in exactly one place, and it is the `emailBody` line.
+
+Adding a magnet: copy the shape of `fueling` or `raceexec`, both of which return arrays.
+
 ### Step 5 — an unknown magnet must fail loudly
 
 ```bash

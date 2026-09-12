@@ -189,14 +189,13 @@ const HTML = `<!doctype html>
                   max-width:158mm}
 
   /* ---------- tables ---------- */
-  /* ⚠️ 176mm, not 100%. The page box is 180mm wide (A4 less 15mm margins) but
-     @page margin and Playwright's own margin option BOTH apply, so a 100%-wide
-     table's right border lands in the clipped zone and prints with no right
-     edge. Found by opening the PDF, September 11, 2026 — every assertion in
-     this repo passed while it was happening, because it is a format defect and
-     the checks assert values. build-fueling-guide-pdf.js has the same line and
-     the same defect, live. */
-  table{width:100%;max-width:176mm;border-collapse:collapse;margin:4mm 0 5mm;font-size:9pt;page-break-inside:avoid}
+  /* width:100%, which is the full 180mm content box. A capped 176mm was tried
+     on September 11, 2026 to fix a right border that looked missing in the
+     rendered page image; it was not missing. Measured with pdfplumber, the
+     table grid draws to x1=553.5pt against a content edge of 553.4 — the
+     border sits exactly on the margin and renders faint at screen resolution.
+     Do not cap it again without measuring first. */
+  table{width:100%;border-collapse:collapse;margin:4mm 0 5mm;font-size:9pt;page-break-inside:avoid}
   thead{display:table-header-group}
   th,td{border:1px solid var(--mist);padding:2.2mm 2.6mm;text-align:left;vertical-align:top;line-height:1.42}
   th{background:var(--wash);font-weight:700;color:var(--blue-deep)}

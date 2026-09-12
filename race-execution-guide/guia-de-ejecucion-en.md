@@ -460,10 +460,12 @@ This is the only part of the guide with no nuance, and where no goal matters.
 - **Focal bone pain** — a specific point on a bone that hurts when you press it.
 - **Chest pain, shortness of breath disproportionate to the effort, or irregular heartbeats.**
 - **Confusion, disorientation, not understanding where you are or which kilometre it is.** This is the most dangerous one because it's the hardest to detect in yourself.
-- **Dizziness with nausea, cold skin, or you've stopped sweating** in hot conditions.
+- **Dizziness with nausea, or cold clammy skin** in hot conditions. Wet skin rules nothing out: in exertional heat stroke the athlete is still sweating until minutes before they go down.
 - **Very dark urine together with severe muscle pain.**
 
 On sodium and hydration problems — including hyponatraemia, which is serious and gets confused with dehydration — **The Fuel Kit** has the full section. I'm not repeating it here because that guide is the one that governs that topic.
+
+On heat — what it costs in pace, how to acclimatise, and how to execute a hot day — the heat guide and its pace calculator have the full topic. I'm not repeating that here either.
 
 **Three rules around this list:**
 
