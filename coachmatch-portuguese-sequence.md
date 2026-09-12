@@ -223,3 +223,5 @@ inglês. Se você preferir tudo em português, tenho o All-Access por US$ 29,99
 ***The number that reframes the whole item:*** *34 records across Twenty's ~2-month life is roughly* **15–17 Portuguese leads a month**. **The sequence shipped September 5 will touch more Portuguese leads by early November than this entire backlog holds.** *Do the backlog — it is an afternoon at near-zero marginal cost — but the automation is the asset, and the backlog's result is not the verdict on the idea.*
 
 **Read the send at the monthly closes.** Record in `monthly-close/2026-09.md`: how many of the 30 subscribed, against a channel whose all-time Portuguese conversion count is zero.
+
+**Follow-up decision, September 12, 2026 (Iván): no second email to the backlog.** The September 6 message closed with a promise not to write again about it, and the arithmetic argument already reaches every new Portuguese lead through email 3 of the live sequence. The backlog is read once, at the September close.
